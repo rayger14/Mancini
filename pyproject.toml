@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "mancini"
+version = "0.1.0"
+description = "Mancini Method: ES Futures Long-Only Day Trading Strategy"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24,<2.0",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "pandas-ta>=0.3.14b",
+    "databento>=0.39",
+    "pyarrow>=12.0",
+    "mplfinance>=0.12.10b0",
+    "plotly>=5.15",
+    "pytz>=2023.3",
+    "loguru>=0.7",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+backtest = ["vectorbtpro>=0.9"]
+nautilus = ["nautilus_trader>=1.207"]
+live = ["nautilus_trader>=1.207"]
+dev = ["pytest>=7.4", "pytest-cov>=4.1"]
+
+[tool.setuptools.packages.find]
+include = ["config*", "core*", "strategy*", "backtest*", "live*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"

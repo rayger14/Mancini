@@ -1,0 +1,31 @@
+# Core
+numpy>=1.24,<2.0
+pandas>=2.0
+scipy>=1.10
+
+# Indicators
+pandas-ta>=0.3.14b
+
+# Backtesting
+vectorbtpro>=0.9; python_version>="3.9"
+
+# Data
+databento>=0.39
+pyarrow>=12.0
+
+# Visualization
+mplfinance>=0.12.10b0
+plotly>=5.15
+kaleido>=0.2.1
+
+# NautilusTrader backtesting + live trading (optional)
+# nautilus_trader>=1.207
+
+# Testing
+pytest>=7.4
+pytest-cov>=4.1
+
+# Utilities
+pytz>=2023.3
+loguru>=0.7
+pydantic>=2.0
