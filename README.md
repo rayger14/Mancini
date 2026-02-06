@@ -1,0 +1,2 @@
+# Mancini
+Mancini method trading
