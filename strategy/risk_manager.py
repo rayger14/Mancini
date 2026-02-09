@@ -148,7 +148,7 @@ class RiskManager:
     def _check_stop_distance(self, signal: Signal) -> RiskCheck:
         if signal.risk_pts <= 0:
             return RiskCheck(False, "Invalid stop distance")
-        if signal.risk_pts > 15.0:
+        if signal.risk_pts > 10.0:
             return RiskCheck(
                 False,
                 f"Stop too wide: {signal.risk_pts:.1f} pts",

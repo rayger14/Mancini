@@ -64,15 +64,23 @@ class PriceLevelDetector:
         return store
 
     def detect_incremental(
-        self, store: LevelStore, df: pd.DataFrame, bar_idx: int
+        self, store: LevelStore, df: pd.DataFrame, bar_idx: int,
+        hr_sr_interval: int = 10,
     ) -> list[Level]:
         """Detect new levels based on bars up to bar_idx (lookahead-safe).
+
+        Parameters
+        ----------
+        hr_sr_interval : int
+            Only run horizontal S/R and cluster detection every N bars
+            (they change slowly, and the O(n) scan per call makes the
+            overall day O(n²) if run every bar).
 
         Returns newly added levels.
         """
         new_levels: list[Level] = []
 
-        # Check for newly confirmed swing lows
+        # Check for newly confirmed swing lows (cheap: single candidate check)
         order = self.params.swing_low_order
         if bar_idx >= order * 2:
             candidate_idx = bar_idx - order  # the potential low was `order` bars ago
@@ -110,6 +118,11 @@ class PriceLevelDetector:
                 store.add(level)
                 new_levels.append(level)
 
+        # Run cluster and H/SR detection at reduced frequency (performance).
+        # These scans are O(bar_idx) so running every bar makes the day O(n²).
+        if bar_idx % hr_sr_interval != 0:
+            return new_levels
+
         # Check for cluster formation in recent bars
         lookback = min(bar_idx + 1, 120)  # last 2 hours
         recent_lows = df["low"].values[max(0, bar_idx + 1 - lookback) : bar_idx + 1]
@@ -125,6 +138,31 @@ class PriceLevelDetector:
                 )
                 store.add(level)
                 new_levels.append(level)
+
+        # Check for horizontal S/R levels in bars seen so far
+        if bar_idx >= self.params.level_reclaim_min_touches - 1:
+            highs = df["high"].values[: bar_idx + 1]
+            lows = df["low"].values[: bar_idx + 1]
+            all_levels = np.concatenate([highs, lows])
+            rounded = np.round(all_levels * 2) / 2
+            unique, counts = np.unique(rounded, return_counts=True)
+
+            for price, count in zip(unique, counts):
+                if count >= self.params.level_reclaim_min_touches:
+                    high_touches = np.abs(highs - price) <= 0.5
+                    low_touches = np.abs(lows - price) <= 0.5
+                    all_touches = high_touches | low_touches
+                    if all_touches.any():
+                        last_idx = np.where(all_touches)[0][-1]
+                        level = Level(
+                            price=float(price),
+                            level_type=LevelType.HORIZONTAL_SR,
+                            created_at=df.index[last_idx],
+                            confirmed_at=df.index[last_idx],
+                            touch_count=int(count),
+                        )
+                        store.add(level)
+                        new_levels.append(level)
 
         return new_levels
 

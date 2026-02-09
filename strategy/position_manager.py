@@ -7,8 +7,13 @@ from datetime import datetime
 from enum import Enum, auto
 from typing import Optional
 
+from typing import TYPE_CHECKING
+
 from config.settings import RiskParams, DEFAULT_RISK
 from strategy.exit_manager import TradePosition, ExitPhase
+
+if TYPE_CHECKING:
+    from core.signals import Signal
 
 
 class SessionState(Enum):
@@ -32,6 +37,22 @@ class TradeRecord:
     pnl_dollars: float
     pattern_type: str
     exit_reason: str
+    # Diagnostic fields (populated from Signal/PatternSignal)
+    stop_price: float = 0.0
+    target_1: float = 0.0
+    target_2: float = 0.0
+    rr_ratio_t1: float = 0.0
+    risk_pts: float = 0.0
+    reward_t1_pts: float = 0.0
+    confirmation_type: str = ""  # "acceptance" or "non_acceptance"
+    level_type: str = ""  # PRIOR_DAY_LOW, MULTI_HOUR_LOW, etc.
+    level_price: float = 0.0
+    sweep_depth_pts: float = 0.0
+    elevator_peak_velocity: float = 0.0
+    elevator_levels_broken: int = 0
+    elevator_total_drop_pts: float = 0.0
+    entry_bar_idx: int = 0
+    exit_bar_idx: int = 0
 
 
 @dataclass
@@ -118,6 +139,9 @@ class PositionManager:
         timestamp: datetime,
         exit_reason: str,
         pattern_type: str = "",
+        signal: Optional['Signal'] = None,
+        entry_bar_idx: int = 0,
+        exit_bar_idx: int = 0,
     ) -> Optional[TradeRecord]:
         """Record a closed trade and update session state.
 
@@ -144,7 +168,27 @@ class PositionManager:
             pnl_dollars=pnl_dollars,
             pattern_type=pattern_type,
             exit_reason=exit_reason,
+            entry_bar_idx=entry_bar_idx,
+            exit_bar_idx=exit_bar_idx,
         )
+
+        # Populate diagnostic fields from signal
+        if signal is not None:
+            record.stop_price = signal.stop_price
+            record.target_1 = signal.target_1
+            record.target_2 = signal.target_2
+            record.rr_ratio_t1 = signal.rr_ratio_t1
+            record.risk_pts = signal.risk_pts
+            record.reward_t1_pts = signal.reward_t1_pts
+            record.confirmation_type = signal.pattern.confirmation.name.lower()
+            record.level_type = signal.pattern.level.level_type.name
+            record.level_price = signal.pattern.level.price
+            record.sweep_depth_pts = signal.pattern.sweep_depth_pts
+            if signal.pattern.elevator_event is not None:
+                ev = signal.pattern.elevator_event
+                record.elevator_peak_velocity = ev.peak_velocity
+                record.elevator_levels_broken = ev.levels_broken
+                record.elevator_total_drop_pts = ev.total_drop_pts
 
         self.session.trades.append(record)
         self.session.daily_pnl_pts += pnl_pts

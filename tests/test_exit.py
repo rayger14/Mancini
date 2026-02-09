@@ -44,46 +44,31 @@ class TestExitManager:
         assert action.new_phase == ExitPhase.CLOSED
         assert not sample_position.is_open
 
-    def test_t1_exits_75_percent(self, exit_manager, sample_position):
-        """Target 1 hit → exit 75% (3 contracts), move stop to breakeven."""
+    def test_t1_exits_full_position(self, exit_manager, sample_position):
+        """Target 1 hit → exit 100% (all contracts) with t1_exit_fraction=1.0."""
         action = exit_manager.update(
             sample_position,
             high=5031.0, low=5028.0, close=5030.5
         )
         assert action is not None
-        assert action.contracts_to_close == 3  # 75% of 4
-        assert sample_position.remaining_contracts == 1
+        assert action.contracts_to_close == 4  # 100% of 4
+        assert sample_position.remaining_contracts == 0
         assert sample_position.phase == ExitPhase.AFTER_T1
-        # Stop should be at breakeven + 1 tick
-        expected_stop = 5020.0 + 0.25
-        assert sample_position.stop_price == expected_stop
 
-    def test_t2_then_runner(self, exit_manager, sample_position):
-        """After T1, hitting T2 should leave runner with trailing stop."""
-        # First hit T1
+    def test_t1_closes_position_fully(self, exit_manager, sample_position):
+        """With t1_exit_fraction=1.0, T1 hit closes the full position."""
         exit_manager.update(
             sample_position,
             high=5031.0, low=5028.0, close=5030.5
         )
-        assert sample_position.phase == ExitPhase.AFTER_T1
-        assert sample_position.remaining_contracts == 1
-
-        # Now hit T2 — only 1 contract left, so it becomes runner
-        action = exit_manager.update(
-            sample_position,
-            high=5041.0, low=5038.0, close=5040.5
-        )
-        # With 1 contract remaining and runner_fraction wanting 1, no exit
-        # It should transition to AFTER_T2
-        assert sample_position.phase == ExitPhase.AFTER_T2
+        # With 100% exit at T1, position should be fully closed
+        assert sample_position.remaining_contracts == 0
+        assert not sample_position.is_open
 
     def test_trailing_stop_tightens(self, exit_manager, sample_position):
-        """Trailing stop should tighten as profit grows."""
-        # Skip to runner phase
-        exit_manager.update(
-            sample_position,
-            high=5031.0, low=5028.0, close=5030.5  # T1
-        )
+        """Trailing stop should tighten as profit grows (for runner scenarios)."""
+        # Manually set up a runner scenario (with partial exit fraction < 1.0)
+        sample_position.remaining_contracts = 1
         sample_position.phase = ExitPhase.AFTER_T2
         sample_position.stop_price = 5027.0
 
@@ -98,13 +83,13 @@ class TestExitManager:
 
     def test_pnl_tracking(self, exit_manager, sample_position):
         """Realized P&L should accumulate across exits."""
-        # T1: exit 3 contracts at 5030 (10 pts profit each)
+        # T1: exit 4 contracts at 5030 (10 pts profit each) with 100% T1 exit
         exit_manager.update(
             sample_position,
             high=5031.0, low=5028.0, close=5030.5
         )
-        # 3 contracts * 10 pts = 30 pts realized
-        assert sample_position.realized_pnl_pts == pytest.approx(30.0, abs=1.0)
+        # 4 contracts * 10 pts = 40 pts realized
+        assert sample_position.realized_pnl_pts == pytest.approx(40.0, abs=1.0)
 
     def test_no_action_when_closed(self, exit_manager, sample_position):
         """No action if position is already closed."""

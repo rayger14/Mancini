@@ -1,0 +1,131 @@
+{
+  "folds": [
+    {
+      "fold": 1,
+      "train_days": 200,
+      "test_days": 77,
+      "test_start": "2024-11-15",
+      "test_end": "2025-03-07",
+      "trades": 13,
+      "win_rate": 0.6923076923076923,
+      "profit_factor": 3.9539473684210527,
+      "total_pnl": 449.0,
+      "sharpe": 3.932109942093381,
+      "max_drawdown": 40.0,
+      "elapsed_s": 11.3
+    },
+    {
+      "fold": 2,
+      "train_days": 277,
+      "test_days": 77,
+      "test_start": "2025-03-10",
+      "test_end": "2025-06-27",
+      "trades": 5,
+      "win_rate": 0.6,
+      "profit_factor": 2.8212962962963704,
+      "total_pnl": 131.13333333333867,
+      "sharpe": 1.8432942008447037,
+      "max_drawdown": 72.0,
+      "elapsed_s": 10.2
+    },
+    {
+      "fold": 3,
+      "train_days": 354,
+      "test_days": 77,
+      "test_start": "2025-06-30",
+      "test_end": "2025-10-15",
+      "trades": 9,
+      "win_rate": 0.6666666666666666,
+      "profit_factor": 4.105102040816358,
+      "total_pnl": 289.80952380952294,
+      "sharpe": 3.076207780659686,
+      "max_drawdown": 93.33333333333212,
+      "elapsed_s": 8.4
+    },
+    {
+      "fold": 4,
+      "train_days": 431,
+      "test_days": 77,
+      "test_start": "2025-10-16",
+      "test_end": "2026-02-04",
+      "trades": 11,
+      "win_rate": 0.2727272727272727,
+      "profit_factor": 0.8466689678978271,
+      "total_pnl": -37.016666666666424,
+      "sharpe": -0.4944249753346765,
+      "max_drawdown": 120.75,
+      "elapsed_s": 9.1
+    }
+  ],
+  "permutation": {
+    "observed_pnl": 1018.1985714285765,
+    "null_mean": -6.5137785714285705,
+    "null_std": 435.0198201600767,
+    "p_value": 0.0094,
+    "significant_5pct": "True",
+    "significant_10pct": "True"
+  },
+  "bootstrap_sharpe": {
+    "sharpe_mean": 1.6160533949810654,
+    "sharpe_median": 1.6321481978821644,
+    "ci_low": 0.31204176509888165,
+    "ci_high": 2.78745881735393,
+    "prob_positive": 99.24
+  },
+  "deflated_sharpe": {
+    "observed_sharpe": 1.6479217625325082,
+    "expected_max_sharpe_null": 2.530597349979355,
+    "se_sharpe": 0.06819485754143703,
+    "z_score": -12.943433262698868,
+    "p_value": 1.2796564905603077e-38,
+    "passes": false
+  },
+  "monte_carlo": {
+    "total_pnl_mean": 1018.1985714285764,
+    "total_pnl_5th": 1018.1985714285765,
+    "total_pnl_95th": 1018.1985714285765,
+    "max_dd_mean": 219.1882496190475,
+    "max_dd_95th": 339.51000000000255,
+    "prob_profitable": 100.0
+  },
+  "checks": {
+    "Walk-forward profitable (3+ of 4 folds)": true,
+    "Permutation test (p < 0.10)": "True",
+    "Bootstrap Sharpe CI lower > 0": true,
+    "Deflated Sharpe passes": false,
+    "Monte Carlo P(profit) > 70%": true,
+    "Avg OOS win rate > 30%": "True"
+  },
+  "score": "5/6",
+  "full_summary": {
+    "sharpe": 1.6479217625325082,
+    "total_pnl": 1018.1985714285765,
+    "total_trades": 75,
+    "win_rate": 0.4666666666666667,
+    "profit_factor": 1.7995627157394327,
+    "max_drawdown": 199.0142857142855,
+    "avg_win": 65.47551020408179,
+    "avg_loss": -31.836107142857145
+  },
+  "params": {
+    "acceptance_max_dip_pts": 3.0,
+    "acceptance_min_hold_bars": 7,
+    "acceptance_min_hold_bars_deep": 8,
+    "chop_end_hour": 15,
+    "chop_start_hour": 12,
+    "fb_stop_buffer": 5.5,
+    "higher_low_lookback": 4,
+    "level_reclaim_min_touches": 4,
+    "lr_stop_buffer": 5.0,
+    "max_trades_per_day": 4,
+    "min_levels_broken": 2,
+    "min_rr_ratio": 1.0,
+    "min_velocity": 0.75,
+    "multi_hour_rally_min_pts": 22.5,
+    "non_acceptance_min_recovery_pts": 5.0,
+    "swing_low_order": 15,
+    "t1_exit_fraction": 1.0,
+    "trailing_stop_pts": 7.0,
+    "true_breakdown_abort_bars": 12
+  }
+}

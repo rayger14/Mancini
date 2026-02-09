@@ -259,7 +259,7 @@ class FailedBreakdown:
         assert self._target_level is not None
         level_price = self._target_level.price
 
-        # Check if price dips too far below level
+        # Check if price dips too far below level — abort
         dip = level_price - low
         if dip > self.params.acceptance_max_dip_pts:
             self.reset()
@@ -350,7 +350,12 @@ class FailedBreakdown:
         """Create and return the pattern signal, then reset."""
         assert self._target_level is not None
         sweep_depth = self._target_level.price - self._sweep_low
-        stop_buffer = 5.0  # points below sweep low
+        # Stop below the sweep low (where shorts are trapped) per Mancini
+        # Use sweep_low - 1 tick as primary, level-based buffer as fallback
+        tick = 0.25
+        stop_from_sweep = self._sweep_low - tick
+        stop_from_level = self._target_level.price - self.params.fb_stop_buffer_pts
+        stop_price = min(stop_from_sweep, stop_from_level)
         signal = PatternSignal(
             pattern_type="failed_breakdown",
             confirmation=confirmation,
@@ -358,7 +363,7 @@ class FailedBreakdown:
             sweep_low=self._sweep_low,
             sweep_depth_pts=sweep_depth,
             entry_price=entry_price,
-            stop_price=self._sweep_low - stop_buffer,
+            stop_price=stop_price,
             bar_idx=bar_idx,
             timestamp=timestamp,
             elevator_event=self._elevator_event,
@@ -513,7 +518,6 @@ class LevelReclaim:
         entry_price: float, confirmation: ConfirmationType,
     ) -> PatternSignal:
         assert self._target_level is not None
-        stop_buffer = 5.0
         signal = PatternSignal(
             pattern_type="level_reclaim",
             confirmation=confirmation,
@@ -521,7 +525,7 @@ class LevelReclaim:
             sweep_low=self._target_level.price,
             sweep_depth_pts=0.0,
             entry_price=entry_price,
-            stop_price=self._target_level.price - stop_buffer,
+            stop_price=self._target_level.price - self.params.lr_stop_buffer_pts,
             bar_idx=bar_idx,
             timestamp=timestamp,
         )

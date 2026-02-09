@@ -88,6 +88,11 @@ class SignalAggregator:
         self.level_store = LevelStore()
         self.signals: list[Signal] = []
         self._last_elevator: Optional[ElevatorEvent] = None
+        # Volume tracking for confirmation
+        self._volume_history: list[float] = []
+        self._volume_lookback: int = 20
+        self._volume_spike_threshold: float = 1.5  # 1.5x avg = spike
+        self.require_volume_confirmation: bool = False  # opt-in
 
     def reset(self) -> None:
         """Reset all state for a new session."""
@@ -97,18 +102,22 @@ class SignalAggregator:
         self.level_store.clear()
         self.signals.clear()
         self._last_elevator = None
+        self._volume_history.clear()
 
     def initialize_levels(
         self,
         df: pd.DataFrame,
         prior_day_df: Optional[pd.DataFrame] = None,
     ) -> None:
-        """Pre-compute levels from historical data (called before bar-by-bar)."""
+        """Initialize levels from prior-day data only (no current-day look-ahead).
+
+        Current-day levels are discovered incrementally via detect_incremental
+        during the bar-by-bar loop.
+        """
+        store = LevelStore()
         if prior_day_df is not None:
-            store = self.price_level_detector.detect_all(df, prior_day_df)
-            self.level_store = store
-        else:
-            self.level_store = self.price_level_detector.detect_all(df)
+            self.price_level_detector._add_prior_day_levels(store, prior_day_df)
+        self.level_store = store
 
     def update(
         self,
@@ -138,6 +147,9 @@ class SignalAggregator:
         -------
         Signal or None
         """
+        # Track volume for confirmation checks
+        self._volume_history.append(volume)
+
         # 1. Incremental level detection
         if df is not None:
             self.price_level_detector.detect_incremental(
@@ -175,20 +187,25 @@ class SignalAggregator:
                 self.signals.append(signal)
                 return signal
 
-        # 4. Level Reclaim detection
-        lr_signal = self.level_reclaim.update(
-            bar_idx=bar_idx,
-            timestamp=timestamp,
-            high=high,
-            low=low,
-            close=close,
-            level_store=self.level_store,
-        )
-        if lr_signal is not None:
-            signal = self._qualify_signal(lr_signal, SignalType.LEVEL_RECLAIM)
-            if signal is not None:
-                self.signals.append(signal)
-                return signal
+        # 4. Level Reclaim detection (deferred if FB is actively tracking)
+        # FB is the primary Mancini setup; LR should not steal position slots
+        from core.patterns import PatternState
+        fb_active = self.failed_breakdown.state != PatternState.IDLE
+
+        if not fb_active:
+            lr_signal = self.level_reclaim.update(
+                bar_idx=bar_idx,
+                timestamp=timestamp,
+                high=high,
+                low=low,
+                close=close,
+                level_store=self.level_store,
+            )
+            if lr_signal is not None:
+                signal = self._qualify_signal(lr_signal, SignalType.LEVEL_RECLAIM)
+                if signal is not None:
+                    self.signals.append(signal)
+                    return signal
 
         return None
 
@@ -238,10 +255,25 @@ class SignalAggregator:
     # Private
     # ------------------------------------------------------------------
 
+    def _has_volume_confirmation(self) -> bool:
+        """Check if recent bars had above-average volume (Mancini volume spike)."""
+        if len(self._volume_history) < self._volume_lookback:
+            return True  # not enough history, allow signal
+        recent = self._volume_history[-self._volume_lookback:]
+        avg_vol = sum(recent) / len(recent)
+        if avg_vol <= 0:
+            return True
+        # Check if any of the last 5 bars had a volume spike
+        last_5 = self._volume_history[-5:]
+        return any(v >= avg_vol * self._volume_spike_threshold for v in last_5)
+
     def _qualify_signal(
         self, pattern: PatternSignal, signal_type: SignalType
     ) -> Optional[Signal]:
         """Calculate targets, R:R, and filter."""
+        # Volume confirmation check (opt-in)
+        if self.require_volume_confirmation and not self._has_volume_confirmation():
+            return None
         entry = pattern.entry_price
         stop = pattern.stop_price
         risk = entry - stop

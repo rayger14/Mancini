@@ -42,9 +42,9 @@ class SessionTimes:
     afternoon_window_end: time = field(default_factory=lambda: time(15, 55))
     # EOD flatten
     eod_flatten_time: time = field(default_factory=lambda: time(15, 55))
-    # Dead zone (avoid)
-    chop_zone_start: time = field(default_factory=lambda: time(11, 0))
-    chop_zone_end: time = field(default_factory=lambda: time(14, 0))
+    # Dead zone (avoid) - only trade morning (9:30-11) and close (15:00-15:55)
+    chop_zone_start: time = field(default_factory=lambda: time(13, 0))
+    chop_zone_end: time = field(default_factory=lambda: time(15, 0))
 
     def in_preferred_window(self, t: time) -> bool:
         """Check if time is within a preferred trading window."""
@@ -69,11 +69,11 @@ class SessionTimes:
 class ElevatorParams:
     """Parameters for Elevator Down detection."""
 
-    min_velocity_pts_per_min: float = 2.0
+    min_velocity_pts_per_min: float = 0.75  # catch broader selloffs
     velocity_window_bars: int = 5  # 5-bar rolling window (1-min bars = 5 min)
-    min_levels_broken: int = 2
+    min_levels_broken: int = 2  # require breaking 2 support levels
     completion_velocity_ratio: float = 0.5  # velocity must drop to this fraction
-    higher_low_lookback: int = 3  # bars to confirm higher low
+    higher_low_lookback: int = 4  # bars to confirm higher low
 
 
 @dataclass(frozen=True)
@@ -81,12 +81,12 @@ class ExitParams:
     """Exit management parameters (75/15/10 split)."""
 
     default_contracts: int = 4
-    t1_exit_fraction: float = 0.75  # 75% at first target
-    t2_exit_fraction: float = 0.15  # 15% at second target (of original)
-    runner_fraction: float = 0.10  # 10% runner
-    initial_stop_buffer_pts: float = 5.0  # below sweep low
+    t1_exit_fraction: float = 1.0  # 100% at first target (no runner)
+    t2_exit_fraction: float = 0.0  # not used with 100% T1 exit
+    runner_fraction: float = 0.0  # no runner
+    initial_stop_buffer_pts: float = 4.5  # matches fb_stop_buffer_pts
     breakeven_buffer_ticks: int = 1  # 1 tick above breakeven after T1
-    trailing_stop_pts: float = 4.0  # initial runner trail
+    trailing_stop_pts: float = 7.0  # wider trailing for any remaining contracts
     trailing_tighten_thresholds: list[tuple[float, float]] = field(
         default_factory=lambda: [
             (10.0, 3.0),  # after 10 pts profit, trail to 3 pts
@@ -100,10 +100,10 @@ class StrategyParams:
     """Core strategy parameters."""
 
     # Significant low detection
-    swing_low_order: int = 60  # argrelextrema order (60 bars = 1 hour on 1-min)
+    swing_low_order: int = 30  # argrelextrema order (30 bars = 30 min on 1-min)
     cluster_proximity_pts: float = 1.0  # points within which lows form a cluster
     cluster_min_touches: int = 3  # minimum touches for a cluster
-    multi_hour_rally_min_pts: float = 20.0  # min rally from low to qualify
+    multi_hour_rally_min_pts: float = 25.0  # min rally from low to qualify (only significant levels)
 
     # Failed breakdown
     sweep_min_ticks: int = 1  # minimum ticks below level (1 tick = 0.25 pts)
@@ -111,7 +111,7 @@ class StrategyParams:
     # Acceptance confirmation
     acceptance_max_dip_pts: float = 3.0  # max dip below level during backtest
     acceptance_min_hold_seconds: int = 60  # hold above level
-    acceptance_min_hold_bars: int = 5  # approximation for 1-min bars
+    acceptance_min_hold_bars: int = 7  # strong confirmation (7 min above level)
 
     # Non-acceptance (fast market) confirmation
     non_acceptance_min_recovery_pts: float = 5.0
@@ -122,22 +122,26 @@ class StrategyParams:
     shallow_flush_threshold_pts: float = 20.0  # < 20 pts = shallow, >= 20 = deep
 
     # Deep flush uses longer hold/timeout
-    acceptance_min_hold_bars_deep: int = 15
+    acceptance_min_hold_bars_deep: int = 4
     acceptance_timeout_bars_shallow: int = 15
     acceptance_timeout_bars_deep: int = 60
 
     # True breakdown abort: consecutive bars closing below level
-    true_breakdown_abort_bars: int = 5
+    true_breakdown_abort_bars: int = 12
+
+    # Stop buffer: how far below the level to place the stop
+    fb_stop_buffer_pts: float = 4.5  # FB stop at level - this value
+    lr_stop_buffer_pts: float = 4.5  # LR stop at level - this value
 
     # Level reclaim
-    level_reclaim_min_touches: int = 3  # S/R line touches required
+    level_reclaim_min_touches: int = 4  # S/R line touches required
 
 
 @dataclass(frozen=True)
 class RiskParams:
     """Risk management parameters."""
 
-    max_trades_per_day: int = 2
+    max_trades_per_day: int = 3
     max_daily_loss_pts: float = 20.0  # per-contract loss limit in points
     max_position_contracts: int = 4
     never_let_green_go_red: bool = True

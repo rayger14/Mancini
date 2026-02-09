@@ -98,6 +98,8 @@ class ManciniLongStrategy:
         # State
         self._current_position: Optional[TradePosition] = None
         self._current_pattern_type: str = ""
+        self._current_signal: Optional[Signal] = None
+        self._entry_bar_idx: int = 0
         self._results: list[BarResult] = []
 
     def reset(self) -> None:
@@ -105,6 +107,8 @@ class ManciniLongStrategy:
         self.signal_aggregator.reset()
         self._current_position = None
         self._current_pattern_type = ""
+        self._current_signal = None
+        self._entry_bar_idx = 0
         self._results.clear()
 
     # ------------------------------------------------------------------
@@ -146,18 +150,31 @@ class ManciniLongStrategy:
         enriched = enrich_dataframe(df)
         velocity = enriched["velocity_5"]
 
+        # Pre-extract arrays for fast per-bar access (avoid pandas iat overhead)
+        timestamps = df.index.to_pydatetime()
+        opens = df["open"].values
+        highs = df["high"].values
+        lows = df["low"].values
+        closes = df["close"].values
+        volumes = df["volume"].values
+        vels = velocity.values
+        n = len(df)
+
         results: list[BarResult] = []
 
-        for i in range(len(df)):
+        for i in range(n):
+            vel = float(vels[i])
+            if vel != vel:  # fast NaN check
+                vel = 0.0
             result = self._process_bar(
                 bar_idx=i,
-                timestamp=df.index[i].to_pydatetime(),
-                open_=float(df["open"].iat[i]),
-                high=float(df["high"].iat[i]),
-                low=float(df["low"].iat[i]),
-                close=float(df["close"].iat[i]),
-                volume=float(df["volume"].iat[i]),
-                velocity=float(velocity.iat[i]) if not np.isnan(velocity.iat[i]) else 0.0,
+                timestamp=timestamps[i],
+                open_=float(opens[i]),
+                high=float(highs[i]),
+                low=float(lows[i]),
+                close=float(closes[i]),
+                volume=float(volumes[i]),
+                velocity=vel,
                 df=df,
             )
             results.append(result)
@@ -200,6 +217,9 @@ class ManciniLongStrategy:
                         timestamp=timestamp,
                         exit_reason=exit_action.reason,
                         pattern_type=self._current_pattern_type,
+                        signal=self._current_signal,
+                        entry_bar_idx=self._entry_bar_idx,
+                        exit_bar_idx=bar_idx,
                     )
                     if record is not None:
                         result.trade_record = record
@@ -208,6 +228,7 @@ class ManciniLongStrategy:
                             f"({record.exit_reason})"
                         )
                     self._current_position = None
+                    self._current_signal = None
 
         # Step 2: Don't look for new signals if we already have a position
         if self._current_position is not None and self._current_position.is_open:
@@ -271,6 +292,8 @@ class ManciniLongStrategy:
                 if accepted:
                     self._current_position = position
                     self._current_pattern_type = signal.pattern.pattern_type
+                    self._current_signal = signal
+                    self._entry_bar_idx = bar_idx
                     logger.info(
                         f"ENTRY: {entry.contracts} contracts @ {entry.entry_price:.2f} "
                         f"stop={entry.stop_price:.2f} T1={signal.target_1:.2f} T2={signal.target_2:.2f}"

@@ -78,18 +78,18 @@ class TestRiskManager:
         assert check.passed
 
     def test_blocks_chop_zone(self, risk_manager, position_manager, sample_signal):
-        """Should reject trades in the 11AM-2PM chop zone."""
+        """Should reject trades in the 1PM-3PM chop zone."""
         check = risk_manager.validate_entry(
-            sample_signal, time(12, 0), position_manager
+            sample_signal, time(13, 30), position_manager
         )
         assert not check.passed
         assert "chop zone" in check.reason.lower()
 
     def test_blocks_after_max_trades(self, risk_manager, position_manager, sample_signal):
         """Should reject after max trades per day."""
-        # Simulate 2 completed trades
+        # Simulate max_trades_per_day completed trades (default=3)
         exit_mgr = ExitManager()
-        for _ in range(2):
+        for i in range(risk_manager.risk_params.max_trades_per_day):
             pos = exit_mgr.create_position(5020, 5015, 5030, 5040, 4)
             position_manager.open_position(pos, datetime(2024, 1, 15, 9, 30), "test")
             pos.remaining_contracts = 0
@@ -118,7 +118,7 @@ class TestRiskManager:
         assert not check.passed
 
     def test_blocks_wide_stop(self, risk_manager, position_manager):
-        """Should reject if stop is too wide (>15 pts)."""
+        """Should reject if stop is too wide (>10 pts)."""
         base_time = datetime(2024, 1, 15, 9, 0)
         pattern = PatternSignal(
             pattern_type="failed_breakdown",
@@ -201,7 +201,7 @@ class TestEntryManager:
     def test_rejects_in_chop_zone(self, entry_manager, sample_signal):
         decision = entry_manager.evaluate(
             sample_signal,
-            current_time=time(12, 30),
+            current_time=time(13, 30),
             trades_today=0,
             is_in_profit_protection=False,
             daily_pnl_pts=0.0,
