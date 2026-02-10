@@ -6,30 +6,19 @@ All tests are skipped if nautilus_trader is not installed.
 from __future__ import annotations
 
 from dataclasses import asdict
-from datetime import date, datetime, timedelta
-from typing import Optional
+from datetime import date, datetime
 
 import numpy as np
 import pandas as pd
 import pytest
 
 from config.settings import (
-    DEFAULT_EXIT,
-    DEFAULT_RISK,
-    DEFAULT_STRATEGY,
-    DEFAULT_ELEVATOR,
-    DEFAULT_CONTRACT,
     ExitParams,
-    RiskParams,
 )
-from strategy.position_manager import TradeRecord
 
 try:
-    import nautilus_trader
     from backtest.nautilus_strategy import (
-        ManciniNautilusStrategy,
         ManciniNautilusConfig,
-        _Phase,
     )
     from backtest.nautilus_runner import (
         NautilusBacktestRunner,

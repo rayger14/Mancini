@@ -8,13 +8,12 @@ After optimization, runs full_validation() from walk_forward.py on the best para
 import sys
 import json
 import time
-from datetime import date, time as dtime
+from datetime import time as dtime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import numpy as np
-import pandas as pd
 import optuna
 from loguru import logger
 

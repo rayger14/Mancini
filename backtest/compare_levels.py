@@ -13,8 +13,7 @@ improves trade outcomes.
 import json
 import re
 import sys
-from collections import defaultdict
-from datetime import date, datetime, timedelta, time as dtime
+from datetime import date, datetime
 from pathlib import Path
 from typing import Optional
 
@@ -28,10 +27,10 @@ logger.add(sys.stderr, level="WARNING")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from backtest.runner import BacktestRunner, DayResult, BacktestResult
-from config.levels import Level, LevelStore, LevelType
+from backtest.runner import DayResult, BacktestResult
+from config.levels import Level, LevelType
 from config.settings import (
-    StrategyParams, ElevatorParams, ExitParams, RiskParams, SessionTimes,
+    StrategyParams, ElevatorParams, ExitParams,
     DEFAULT_STRATEGY, DEFAULT_ELEVATOR, DEFAULT_EXIT, DEFAULT_RISK,
 )
 from strategy.mancini_long import ManciniLongStrategy, enrich_dataframe

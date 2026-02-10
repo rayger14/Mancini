@@ -11,13 +11,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import numpy as np
-import pandas as pd
 from loguru import logger
 
 logger.remove()
 
-from backtest.runner import BacktestRunner, BacktestResult
-from backtest.run_optuna import load_daily_dfs, run_backtest
+from backtest.runner import BacktestRunner
+from backtest.walk_forward import load_daily_dfs
 from config.settings import (
     StrategyParams, ElevatorParams, ExitParams,
     RiskParams, SessionTimes,

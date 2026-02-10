@@ -6,7 +6,6 @@ from dataclasses import dataclass, field, replace
 from datetime import date
 from itertools import product
 
-import numpy as np
 import pandas as pd
 from loguru import logger
 

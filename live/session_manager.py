@@ -8,7 +8,6 @@ from datetime import datetime, time
 from typing import Optional
 
 import numpy as np
-import pandas as pd
 from loguru import logger
 
 from config.settings import (
@@ -36,7 +35,7 @@ from live.order_executor import (
     OrderType,
     Fill,
 )
-from strategy.entry_manager import EntryManager, EntryDecision
+from strategy.entry_manager import EntryManager
 from strategy.exit_manager import ExitManager, ExitAction, TradePosition
 from strategy.mancini_long import ManciniLongStrategy
 from strategy.position_manager import PositionManager
@@ -221,7 +220,7 @@ class LiveSessionManager:
             order_type=OrderType.MARKET,
             tag=f"entry_{signal.signal_type.name}",
         )
-        fill = self.executor.submit_order(order)
+        self.executor.submit_order(order)
 
         logger.info(
             f"LIVE ENTRY: {entry.contracts} contracts @ {entry.entry_price:.2f} "
@@ -236,7 +235,7 @@ class LiveSessionManager:
             order_type=OrderType.MARKET,
             tag=action.reason,
         )
-        fill = self.executor.submit_order(order)
+        self.executor.submit_order(order)
 
         logger.info(
             f"LIVE EXIT: {action.contracts_to_close} contracts - {action.reason}"

@@ -17,14 +17,12 @@ import re
 import sys
 import numpy as np
 import pandas as pd
-from datetime import datetime, timedelta
-from typing import List, Tuple, Dict, Optional
-from collections import defaultdict
+from typing import List, Dict
 from pathlib import Path
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from strategy.level_generator import generate_levels, LevelSet, PriceLevel
+from strategy.level_generator import generate_levels, PriceLevel
 
 
 # ── Parse Mancini Levels from Newsletter ──────────────────────

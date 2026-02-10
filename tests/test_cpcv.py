@@ -7,9 +7,8 @@ from datetime import date, datetime, timedelta
 
 import numpy as np
 import pandas as pd
-import pytest
 
-from backtest.cpcv.splitter import CPCVSplitter, CPCVConfig, CPCVSplit
+from backtest.cpcv.splitter import CPCVSplitter, CPCVConfig
 from backtest.cpcv.data_pipeline import split_into_daily_dfs
 from backtest.cpcv.determinism import verify_determinism
 

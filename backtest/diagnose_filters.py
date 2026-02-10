@@ -4,28 +4,23 @@ For each filter/gate in the pipeline, count how many signals it blocks
 and what quality those blocked signals would have been.
 """
 import sys
-from datetime import date, time as dtime
+from datetime import time as dtime
 from pathlib import Path
-from collections import Counter, defaultdict
+from collections import Counter
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import numpy as np
 import pandas as pd
 from loguru import logger
 logger.remove()
 
-from backtest.runner import BacktestRunner, BacktestResult
+from backtest.runner import BacktestRunner
 from config.settings import (
     StrategyParams, ElevatorParams, ExitParams,
-    RiskParams, SessionTimes, ESContractSpec,
+    RiskParams, SessionTimes,
 )
-from core.signals import SignalAggregator, Signal
-from core.indicators import compute_velocity, enrich_dataframe
-from strategy.mancini_long import ManciniLongStrategy
-from strategy.entry_manager import EntryManager
-from strategy.risk_manager import RiskManager
-from strategy.position_manager import PositionManager
+from core.signals import SignalAggregator
+from core.indicators import enrich_dataframe
 
 PRODUCTION_PARAMS = {
     "acceptance_max_dip_pts": 3.0,
@@ -360,7 +355,7 @@ def main():
 
     total_elevators = 0
     elevators_with_enough_levels = 0
-    elevators_with_sweep = 0
+    _elevators_with_sweep = 0  # noqa: F841
 
     dates = sorted(filtered.keys())
     prior_day_df = None

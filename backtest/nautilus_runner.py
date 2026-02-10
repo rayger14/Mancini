@@ -8,10 +8,9 @@ Produces BacktestResult compatible with compute_metrics().
 from __future__ import annotations
 
 from dataclasses import dataclass, field, asdict
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from typing import Optional
 
-import numpy as np
 import pandas as pd
 from loguru import logger
 
@@ -24,13 +23,11 @@ from nautilus_trader.model.enums import (
     AccountType,
     OmsType,
     AssetClass,
-    BarAggregation,
-    PriceType,
     AggregationSource,
 )
 from nautilus_trader.model.identifiers import InstrumentId, Symbol, Venue
 from nautilus_trader.model.instruments import FuturesContract
-from nautilus_trader.model.objects import Money, Price, Quantity, Currency
+from nautilus_trader.model.objects import Money, Price, Quantity
 from nautilus_trader.persistence.wranglers import BarDataWrangler
 
 from backtest.nautilus_strategy import ManciniNautilusStrategy, ManciniNautilusConfig
@@ -44,9 +41,7 @@ from config.settings import (
     DEFAULT_ELEVATOR,
     DEFAULT_EXIT,
     DEFAULT_RISK,
-    DEFAULT_CONTRACT,
 )
-from strategy.position_manager import TradeRecord
 
 
 @dataclass
@@ -79,8 +74,6 @@ class NautilusBacktestRunner:
 
     def _create_es_instrument(self) -> FuturesContract:
         """Create an ES futures contract instrument."""
-        from nautilus_trader.test_kit.providers import TestInstrumentProvider
-
         instrument_id = InstrumentId(Symbol("ES"), Venue("GLBX"))
 
         return FuturesContract(

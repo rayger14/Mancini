@@ -249,7 +249,7 @@ def expanding_walk_forward(daily_dfs, params, n_folds=4, min_train_days=200):
         train_dates = dates[:oos_start]
         test_dates = dates[oos_start:oos_end]
 
-        train_dfs = {d: daily_dfs[d] for d in train_dates}
+        # train_dfs not needed here; only test_dfs used for OOS evaluation
         test_dfs = {d: daily_dfs[d] for d in test_dates}
 
         print(f"\n  Fold {i+1}/{n_folds}: Train={len(train_dates)}d "

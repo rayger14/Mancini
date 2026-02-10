@@ -10,7 +10,7 @@ from typing import Optional
 from typing import TYPE_CHECKING
 
 from config.settings import RiskParams, DEFAULT_RISK
-from strategy.exit_manager import TradePosition, ExitPhase
+from strategy.exit_manager import TradePosition
 
 if TYPE_CHECKING:
     from core.signals import Signal

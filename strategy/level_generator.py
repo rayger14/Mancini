@@ -567,8 +567,6 @@ def format_levels(level_set: LevelSet) -> str:
 
 
 if __name__ == "__main__":
-    import sys
-    
     # Load data
     data_path = "data/ES_1m_2024-02-05_2026-02-05.parquet"
     df = pd.read_parquet(data_path)

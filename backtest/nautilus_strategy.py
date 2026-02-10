@@ -8,22 +8,17 @@ fills, slippage, and commissions.
 from __future__ import annotations
 
 from collections import deque
-from dataclasses import asdict
 from datetime import datetime
 from enum import Enum, auto
 from typing import Optional
 
-import numpy as np
 import pandas as pd
 
 from nautilus_trader.config import StrategyConfig
-from nautilus_trader.core.data import Data
 from nautilus_trader.model.enums import OrderSide, TimeInForce, TriggerType
-from nautilus_trader.model.events import OrderFilled, PositionClosed
+from nautilus_trader.model.events import OrderFilled
 from nautilus_trader.model.identifiers import InstrumentId, ClientOrderId
-from nautilus_trader.model.instruments import FuturesContract
-from nautilus_trader.model.objects import Price, Quantity, Money
-from nautilus_trader.model.orders import MarketOrder, LimitOrder, StopMarketOrder
+from nautilus_trader.model.objects import Price, Quantity
 from nautilus_trader.trading.strategy import Strategy
 
 from config.settings import (
@@ -31,8 +26,6 @@ from config.settings import (
     ElevatorParams,
     ExitParams,
     RiskParams,
-    SessionTimes,
-    ESContractSpec,
     DEFAULT_STRATEGY,
     DEFAULT_ELEVATOR,
     DEFAULT_EXIT,
@@ -40,7 +33,7 @@ from config.settings import (
     DEFAULT_SESSION,
     DEFAULT_CONTRACT,
 )
-from core.signals import Signal, SignalAggregator
+from core.signals import SignalAggregator
 from strategy.entry_manager import EntryManager
 from strategy.position_manager import PositionManager, TradeRecord
 from strategy.risk_manager import RiskManager
@@ -473,14 +466,14 @@ class ManciniNautilusStrategy(Strategy):
 
         # Compute PnL (simple: avg_exit computed from actual fills via Nautilus)
         # For simplicity, use the position manager's realized_pnl approach
-        pnl_pts = exit_price - self._entry_price  # approximate for the remaining
-        total_pnl_pts = (exit_price - self._entry_price) * self._total_contracts
+        _pnl_pts = exit_price - self._entry_price  # noqa: F841 approximate for the remaining
+        _total_pnl_pts = (exit_price - self._entry_price) * self._total_contracts  # noqa: F841
 
         # Better approach: let Nautilus position track PnL
         # We approximate from the fills we have
         # The stop fill closes whatever remains; earlier fills at T1/T2 are profits
         # Use position manager to record
-        from strategy.exit_manager import TradePosition, ExitPhase
+        from strategy.exit_manager import ExitPhase
 
         # Build a synthetic position to pass to PositionManager.close_position()
         if self._pos_mgr.session and self._pos_mgr.session.active_position is not None:
@@ -489,9 +482,9 @@ class ManciniNautilusStrategy(Strategy):
             # T1 fills at target_1, T2 fills at target_2, stop at exit_price
             t1_qty = round(self._total_contracts * self._exit_params.t1_exit_fraction)
             t2_qty = round(self._total_contracts * self._exit_params.t2_exit_fraction)
-            runner_qty = self._total_contracts - t1_qty - t2_qty
+            _runner_qty = self._total_contracts - t1_qty - t2_qty  # noqa: F841
 
-            realized = 0.0
+            _realized = 0.0  # noqa: F841
             if self._phase == _Phase.CLOSED or self._remaining_contracts <= 0:
                 # Stop was the final exit
                 # Determine which targets were hit before the stop

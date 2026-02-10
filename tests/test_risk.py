@@ -6,12 +6,12 @@ from datetime import datetime, time
 
 import pytest
 
-from config.settings import RiskParams, SessionTimes
+from config.settings import SessionTimes
 from core.signals import Signal, SignalType
 from core.patterns import PatternSignal, ConfirmationType
 from config.levels import Level, LevelType
 from strategy.entry_manager import EntryManager
-from strategy.exit_manager import ExitManager, TradePosition, ExitPhase
+from strategy.exit_manager import ExitManager, ExitPhase
 from strategy.position_manager import PositionManager, SessionState
 from strategy.risk_manager import RiskManager
 

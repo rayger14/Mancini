@@ -3,8 +3,7 @@
 Answers: Is the bottleneck capital or trade frequency?
 """
 import sys
-import json
-from datetime import date, time as dtime
+from datetime import time as dtime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -226,7 +225,7 @@ def main():
         if breached_dd and (not hit_target or breach_trade <= hit_target_trade):
             status = f"FAIL — breached $2,500 DD at trade #{breach_trade} (DD=${max_dd:,.0f})"
         elif hit_target:
-            days_est = hit_target_trade / (len(trades) / 508) * hit_target_trade / len(trades)
+            # days_est superseded by trades_per_day calculation below
             # Better estimate: trade frequency
             trades_per_day = len(trades) / 403  # 403 non-Monday days
             days_to_pass = hit_target_trade / trades_per_day

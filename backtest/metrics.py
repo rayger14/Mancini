@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Optional
+from dataclasses import dataclass
 
 import numpy as np
-import pandas as pd
 
 from backtest.runner import BacktestResult
 from strategy.position_manager import TradeRecord

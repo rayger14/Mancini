@@ -8,8 +8,7 @@ users with vectorbtpro installed.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta
-from pathlib import Path
+from datetime import date, timedelta
 from typing import Optional
 
 import numpy as np

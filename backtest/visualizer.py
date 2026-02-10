@@ -49,7 +49,6 @@ def _plot_mplfinance(
     """Matplotlib/mplfinance candlestick chart."""
     try:
         import mplfinance as mpf
-        import matplotlib.pyplot as plt
     except ImportError:
         raise ImportError("mplfinance required: pip install mplfinance")
 

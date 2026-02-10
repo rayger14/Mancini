@@ -7,8 +7,8 @@ Dual-mode execution:
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, time
+from dataclasses import dataclass
+from datetime import datetime
 from typing import Optional
 
 import numpy as np
@@ -29,10 +29,10 @@ from config.settings import (
     DEFAULT_SESSION,
     DEFAULT_CONTRACT,
 )
-from core.indicators import compute_velocity, enrich_dataframe
+from core.indicators import enrich_dataframe
 from core.signals import Signal, SignalAggregator
 from strategy.entry_manager import EntryManager, EntryDecision
-from strategy.exit_manager import ExitManager, ExitAction, TradePosition, ExitPhase
+from strategy.exit_manager import ExitManager, ExitAction, TradePosition
 from strategy.position_manager import PositionManager, TradeRecord
 from strategy.risk_manager import RiskManager
 

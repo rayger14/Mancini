@@ -13,10 +13,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import numpy as np
 import pandas as pd
 
-from backtest.walk_forward import load_daily_dfs, full_validation, run_backtest
+from backtest.walk_forward import load_daily_dfs, full_validation
 
 # ── Locked Production Params (5/6 STRONG validated) ──────────────────
 

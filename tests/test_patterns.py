@@ -9,14 +9,13 @@ import pandas as pd
 import pytest
 
 from config.levels import Level, LevelStore, LevelType
-from config.settings import StrategyParams, ElevatorParams, DEFAULT_STRATEGY
-from core.elevator_down import ElevatorDownDetector, ElevatorState
+from config.settings import StrategyParams
+from core.elevator_down import ElevatorDownDetector
 from core.indicators import compute_velocity
 from core.patterns import (
     FailedBreakdown,
     LevelReclaim,
     PatternState,
-    ConfirmationType,
 )
 from core.signals import SignalAggregator, SignalType
 from tests.conftest import make_bars, make_selloff_then_recovery
@@ -457,7 +456,7 @@ class TestTrueBreakdownAbort:
         assert fb.state == PatternState.SWEEP_DETECTED
 
         # Close above level → counter resets, state transitions to recovery
-        result = fb.update(
+        fb.update(
             bar_idx=14,
             timestamp=datetime(2024, 1, 15, 9, 34),
             high=5025.0, low=5018.0, close=5022.0,
@@ -944,7 +943,6 @@ class TestNoLookAheadBias:
         """Swing lows detected by argrelextrema must have confirmed_at
         at least `order` bars after the swing low bar."""
         from core.price_levels import PriceLevelDetector
-        from config.settings import StrategyParams
 
         params = StrategyParams(swing_low_order=10)  # smaller order for test
         detector = PriceLevelDetector(params)

@@ -133,7 +133,6 @@ def analyze(trades, label="DEFAULT PARAMS"):
         print(f"\n  {'─'*50}")
         print(f"  TIME-TO-EXIT (bars from entry to exit)")
         print(f"  {'─'*50}")
-        bars_to_exit = [t.exit_bar_idx - t.entry_bar_idx for t in has_bars]
         stopped = [t for t in has_bars if "Stop" in t.exit_reason or "stop" in t.exit_reason]
         if stopped:
             stop_bars = [t.exit_bar_idx - t.entry_bar_idx for t in stopped]

@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from config.settings import ExitParams, ESContractSpec
-from strategy.exit_manager import ExitManager, ExitPhase, TradePosition
+from strategy.exit_manager import ExitManager, ExitPhase
 
 
 @pytest.fixture

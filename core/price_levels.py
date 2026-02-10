@@ -10,7 +10,6 @@ Plus horizontal S/R detection from multiple touches.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
 from typing import Optional
 
 import numpy as np
