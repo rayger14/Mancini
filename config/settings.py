@@ -151,6 +151,15 @@ class RiskParams:
 
 # Default instances for easy import
 DEFAULT_CONTRACT = ESContractSpec()
+MES_CONTRACT = ESContractSpec(
+    symbol="MES",
+    tick_size=0.25,
+    tick_value=1.25,
+    point_value=5.0,
+    margin_initial=1_265.0,
+    margin_maintenance=1_150.0,
+    exchange="CME",
+)
 DEFAULT_SESSION = SessionTimes()
 DEFAULT_ELEVATOR = ElevatorParams()
 DEFAULT_EXIT = ExitParams()

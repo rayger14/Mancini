@@ -48,18 +48,18 @@ class LevelSet:
 
 LOOKBACK_DAYS = 10          # Days of daily data to consider
 SWING_LOOKBACK_DAYS = 5     # Days of intraday data for swing detection
-SWING_ORDER = 6             # Bars on each side for swing detection (5-min)
-MIN_SWING_MOVE = 10.0       # Minimum swing significance in points
-MERGE_TOLERANCE = 3.0       # Merge levels within this many points
-TARGET_SPACING = 6.0        # Target spacing between minor levels
-MAX_GAP = 12.0              # Fill gaps larger than this
-SUPPORT_RANGE = 60.0        # Points below current for supports
-RESISTANCE_RANGE = 80.0     # Points above current for resistances
-TARGET_SUPPORTS = 12        # Max support levels
-TARGET_RESISTANCES = 15     # Max resistance levels
-MAJOR_PCT = 0.35            # Top N% by score are marked major
+SWING_ORDER = 3             # Bars on each side for swing detection (5-min) — lower = more swings
+MIN_SWING_MOVE = 3.0        # Minimum swing significance in points — very low = catch all
+MERGE_TOLERANCE = 2.0       # Merge levels within this many points — tighter clustering
+TARGET_SPACING = 5.0        # Target spacing between minor levels — Mancini ~5-7 pt gaps
+MAX_GAP = 6.0               # Fill gaps larger than this — aggressive fill like Mancini
+SUPPORT_RANGE = 150.0       # Points below current — Mancini covers wide range
+RESISTANCE_RANGE = 200.0    # Points above current — Mancini covers wide range
+TARGET_SUPPORTS = 50        # Max support levels — Mancini avg ~43
+TARGET_RESISTANCES = 50     # Max resistance levels — Mancini avg ~42
+MAJOR_PCT = 0.18            # Top N% by score are marked major
 SHELF_TOLERANCE = 2.0       # Points tolerance for shelf detection
-MIN_SHELF_TOUCHES = 15       # Minimum touches to qualify as shelf
+MIN_SHELF_TOUCHES = 8       # Minimum touches to qualify as shelf — lower = more shelves
 
 
 def find_swing_points(
@@ -283,48 +283,54 @@ def generate_levels(
     swing_lookback_days: int = SWING_LOOKBACK_DAYS,
 ) -> LevelSet:
     """Generate Mancini-style support/resistance levels.
-    
+
     Args:
-        bars_1min: DataFrame with 1-min OHLCV data (RTH), indexed by datetime
+        bars_1min: DataFrame with 1-min OHLCV data, indexed by datetime.
+                   Can include overnight/globex bars — swing detection uses
+                   RTH only while daily OHLC uses the full session.
         current_price: Current price (defaults to last close)
         lookback_days: Days of daily data to consider
         swing_lookback_days: Days of intraday data for swing detection
-    
+
     Returns:
         LevelSet with supports, resistances, and bull/bear line
     """
     if current_price is None:
         current_price = bars_1min["close"].iloc[-1]
-    
+
     # Build daily OHLC
     daily = bars_1min.groupby(bars_1min.index.date).agg({
         "open": "first", "high": "max", "low": "min", "close": "last"
     })
     daily.index = pd.to_datetime(daily.index)
-    
+
     if len(daily) < 2:
         logger.warning("Not enough daily data for level generation")
         return LevelSet(current_price=current_price)
-    
+
     # Limit to lookback
     daily = daily.iloc[-lookback_days:]
     today = daily.index[-1]
-    
+
     # ── Step 1: Find intraday swing points (5-min) ──
-    
+
     swing_start = daily.index[-min(swing_lookback_days, len(daily))]
     intra_mask = bars_1min.index >= pd.Timestamp(swing_start)
     intra_bars = bars_1min[intra_mask]
-    
+
     # Resample to 5-min
     bars_5min = intra_bars.resample("5min").agg({
         "open": "first", "high": "max", "low": "min", "close": "last"
     }).dropna()
-    
+
     swings = find_swing_points(bars_5min)
-    
+
+    # Also find swings on 1-min chart (finer levels)
+    swings_1min = find_swing_points(intra_bars, order=10)
+    swings.extend(swings_1min)
+
     # ── Step 2: Find shelves ──
-    
+
     shelves = find_shelves(intra_bars)
     
     # ── Step 3: Collect all candidate levels ──
@@ -438,10 +444,73 @@ def generate_levels(
     supports = supports[:TARGET_SUPPORTS]
     resistances = resistances[:TARGET_RESISTANCES]
     
-    # ── Step 8: Fill gaps ──
-    
+    # ── Step 8: Fill gaps + ensure full range coverage ──
+
     supports = fill_gaps(sorted(supports, key=lambda l: l.price))
     resistances = fill_gaps(sorted(resistances, key=lambda l: l.price))
+
+    # Ensure we cover the full range — Mancini always fills ~5-7 pt intervals
+    # across his entire support/resistance range
+    def ensure_range_coverage(levels, range_start, range_end, spacing=TARGET_SPACING):
+        """Fill the full range with minor levels at regular spacing."""
+        existing = {round(l.price) for l in levels}
+        fills = []
+        price = round(range_start)
+        while price <= round(range_end):
+            # Only add if no existing level within spacing/2
+            too_close = any(abs(price - e) < spacing * 0.6 for e in existing)
+            if not too_close:
+                fills.append(PriceLevel(
+                    price=float(price),
+                    is_major=False,
+                    score=0.0,
+                    source="fill",
+                    description="range fill",
+                ))
+                existing.add(price)
+            price += int(spacing)
+        return fills
+
+    sup_fills = ensure_range_coverage(
+        supports,
+        current_price - SUPPORT_RANGE,
+        current_price - 3,  # don't fill right at current price
+    )
+    res_fills = ensure_range_coverage(
+        resistances,
+        current_price + 3,
+        current_price + RESISTANCE_RANGE,
+    )
+
+    supports = sorted(supports + sup_fills, key=lambda l: l.price)
+    resistances = sorted(resistances + res_fills, key=lambda l: l.price)
+
+    # Re-trim to target count (keep highest-scored when trimming)
+    if len(supports) > TARGET_SUPPORTS:
+        # Keep all structural levels, trim fills first
+        structural = [l for l in supports if l.source != "fill"]
+        fills = [l for l in supports if l.source == "fill"]
+        if len(structural) <= TARGET_SUPPORTS:
+            # Evenly sample fills to reach target
+            n_fills_needed = TARGET_SUPPORTS - len(structural)
+            step = max(1, len(fills) // max(1, n_fills_needed))
+            sampled_fills = fills[::step][:n_fills_needed]
+            supports = sorted(structural + sampled_fills, key=lambda l: l.price)
+        else:
+            supports = sorted(structural, key=lambda l: -l.score)[:TARGET_SUPPORTS]
+            supports = sorted(supports, key=lambda l: l.price)
+
+    if len(resistances) > TARGET_RESISTANCES:
+        structural = [l for l in resistances if l.source != "fill"]
+        fills = [l for l in resistances if l.source == "fill"]
+        if len(structural) <= TARGET_RESISTANCES:
+            n_fills_needed = TARGET_RESISTANCES - len(structural)
+            step = max(1, len(fills) // max(1, n_fills_needed))
+            sampled_fills = fills[::step][:n_fills_needed]
+            resistances = sorted(structural + sampled_fills, key=lambda l: l.price)
+        else:
+            resistances = sorted(structural, key=lambda l: -l.score)[:TARGET_RESISTANCES]
+            resistances = sorted(resistances, key=lambda l: l.price)
     
     # ── Step 9: Identify bull/bear line ──
     
