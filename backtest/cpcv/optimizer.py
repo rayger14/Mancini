@@ -28,25 +28,31 @@ from config.settings import (
 class ParamSet:
     """A single point in the parameter grid."""
 
-    min_rr_ratio: float = 1.5
-    elevator_min_velocity: float = 2.0
-    t1_exit_fraction: float = 0.75
-    initial_stop_buffer_pts: float = 2.0
+    acceptance_max_dip_pts: float = 3.0
+    acceptance_min_hold_bars: int = 7
+    true_breakdown_abort_bars: int = 12
+    fb_stop_buffer_pts: float = 5.5
+    swing_low_order: int = 15
+    min_rr_ratio: float = 1.0
 
     def to_dict(self) -> dict[str, float]:
         return {
+            "acceptance_max_dip_pts": self.acceptance_max_dip_pts,
+            "acceptance_min_hold_bars": self.acceptance_min_hold_bars,
+            "true_breakdown_abort_bars": self.true_breakdown_abort_bars,
+            "fb_stop_buffer_pts": self.fb_stop_buffer_pts,
+            "swing_low_order": self.swing_low_order,
             "min_rr_ratio": self.min_rr_ratio,
-            "elevator_min_velocity": self.elevator_min_velocity,
-            "t1_exit_fraction": self.t1_exit_fraction,
-            "initial_stop_buffer_pts": self.initial_stop_buffer_pts,
         }
 
 
 DEFAULT_PARAM_GRID = {
-    "min_rr_ratio": [1.0, 1.5, 2.0, 2.5],
-    "elevator_min_velocity": [1.5, 2.0, 2.5, 3.0],
-    "t1_exit_fraction": [0.50, 0.75, 1.0],
-    "initial_stop_buffer_pts": [1.0, 2.0, 3.0],
+    "acceptance_max_dip_pts": [3.0, 4.0, 5.0],
+    "acceptance_min_hold_bars": [5, 7, 9],
+    "true_breakdown_abort_bars": [12, 20, 30],
+    "fb_stop_buffer_pts": [4.5, 5.5, 6.5],
+    "swing_low_order": [10, 15, 20],
+    "min_rr_ratio": [0.8, 1.0, 1.5],
 }
 
 
@@ -189,20 +195,18 @@ class CPCVOptimizer:
     def _run_with_params(
         self, fold_dfs: dict[date, pd.DataFrame], params: ParamSet
     ) -> BacktestResult:
-        sp = replace(self.base_strategy_params)
-        ep = replace(
-            self.base_elevator_params,
-            min_velocity_pts_per_min=params.elevator_min_velocity,
-        )
-        xp = replace(
-            self.base_exit_params,
-            t1_exit_fraction=params.t1_exit_fraction,
-            initial_stop_buffer_pts=params.initial_stop_buffer_pts,
+        sp = replace(
+            self.base_strategy_params,
+            acceptance_max_dip_pts=params.acceptance_max_dip_pts,
+            acceptance_min_hold_bars=params.acceptance_min_hold_bars,
+            true_breakdown_abort_bars=params.true_breakdown_abort_bars,
+            fb_stop_buffer_pts=params.fb_stop_buffer_pts,
+            swing_low_order=params.swing_low_order,
         )
         runner = BacktestRunner(
             strategy_params=sp,
-            elevator_params=ep,
-            exit_params=xp,
+            elevator_params=self.base_elevator_params,
+            exit_params=self.base_exit_params,
             risk_params=self.base_risk_params,
             min_rr_ratio=params.min_rr_ratio,
         )

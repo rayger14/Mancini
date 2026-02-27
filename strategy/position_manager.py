@@ -53,6 +53,7 @@ class TradeRecord:
     elevator_total_drop_pts: float = 0.0
     entry_bar_idx: int = 0
     exit_bar_idx: int = 0
+    direction: str = "long"  # "long" or "short"
 
 
 @dataclass
@@ -62,7 +63,9 @@ class DaySession:
     date: datetime
     state: SessionState = SessionState.ACTIVE
     trades: list[TradeRecord] = field(default_factory=list)
-    active_position: Optional[TradePosition] = None
+    active_position: Optional[TradePosition] = None  # legacy: last opened
+    active_long: Optional[TradePosition] = None
+    active_short: Optional[TradePosition] = None
     daily_pnl_pts: float = 0.0
     daily_pnl_dollars: float = 0.0
     peak_pnl_pts: float = 0.0
@@ -81,7 +84,16 @@ class DaySession:
 
     @property
     def has_active_position(self) -> bool:
-        return self.active_position is not None and self.active_position.is_open
+        """True if ANY direction has an open position."""
+        long_open = self.active_long is not None and self.active_long.is_open
+        short_open = self.active_short is not None and self.active_short.is_open
+        return long_open or short_open
+
+    def has_active_in_direction(self, direction: str) -> bool:
+        """True if a position in the given direction is open."""
+        if direction == "long":
+            return self.active_long is not None and self.active_long.is_open
+        return self.active_short is not None and self.active_short.is_open
 
 
 class PositionManager:
@@ -110,7 +122,7 @@ class PositionManager:
         timestamp: datetime,
         pattern_type: str,
     ) -> bool:
-        """Register a new position.
+        """Register a new position (direction-aware for concurrent long+short).
 
         Returns
         -------
@@ -123,14 +135,22 @@ class PositionManager:
         if self.session.state == SessionState.DONE_FOR_DAY:
             return False
 
-        if self.session.has_active_position:
+        direction = getattr(position, "direction", "long")
+
+        # Block duplicate in same direction (but allow concurrent opposite)
+        if self.session.has_active_in_direction(direction):
             return False
 
         if self.session.trade_count >= self.risk_params.max_trades_per_day:
             self.session.state = SessionState.DONE_FOR_DAY
             return False
 
-        self.session.active_position = position
+        # Track by direction
+        if direction == "long":
+            self.session.active_long = position
+        else:
+            self.session.active_short = position
+        self.session.active_position = position  # legacy compat
         return True
 
     def close_position(
@@ -188,7 +208,9 @@ class PositionManager:
                 ev = signal.pattern.elevator_event
                 record.elevator_peak_velocity = ev.peak_velocity
                 record.elevator_levels_broken = ev.levels_broken
-                record.elevator_total_drop_pts = ev.total_drop_pts
+                record.elevator_total_drop_pts = getattr(
+                    ev, "total_drop_pts", getattr(ev, "total_rally_pts", 0.0)
+                )
 
         self.session.trades.append(record)
         self.session.daily_pnl_pts += pnl_pts
@@ -196,6 +218,12 @@ class PositionManager:
         self.session.peak_pnl_pts = max(
             self.session.peak_pnl_pts, self.session.daily_pnl_pts
         )
+        # Clear the right direction slot
+        direction = getattr(pos, "direction", "long")
+        if direction == "long":
+            self.session.active_long = None
+        else:
+            self.session.active_short = None
         self.session.active_position = None
 
         # Update session state

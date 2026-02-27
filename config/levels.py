@@ -14,8 +14,11 @@ class LevelType(Enum):
     PRIOR_DAY_LOW = auto()
     PRIOR_DAY_HIGH = auto()
     MULTI_HOUR_LOW = auto()  # produced a 20+ pt rally
+    MULTI_HOUR_HIGH = auto()  # produced a 20+ pt selloff
     CLUSTER_LOW = auto()  # 3+ touches within 1 pt
+    CLUSTER_HIGH = auto()  # 3+ touches within 1 pt (resistance)
     SWING_LOW = auto()  # argrelextrema-detected
+    SWING_HIGH = auto()  # argrelextrema-detected (resistance)
     HORIZONTAL_SR = auto()  # horizontal S/R with multiple touches
     VWAP = auto()
     CUSTOM = auto()

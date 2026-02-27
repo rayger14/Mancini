@@ -13,7 +13,7 @@ from config.settings import (
     DEFAULT_SESSION,
     DEFAULT_CONTRACT,
 )
-from core.signals import Signal
+from core.signals import Signal, SignalType
 from strategy.position_manager import PositionManager
 
 
@@ -37,6 +37,7 @@ class RiskManager:
         self.risk_params = risk_params
         self.session = session
         self.contract = contract
+        self._prior_day_range: float = 0.0  # set by strategy at session start
 
     def validate_entry(
         self,
@@ -66,7 +67,11 @@ class RiskManager:
             self._check_trade_count(position_manager),
             self._check_risk_reward(signal),
             self._check_stop_distance(signal),
-            self._check_not_chop_zone(current_time),
+            self._check_not_chop_zone(current_time, signal),
+            self._check_not_euro_dead_zone(current_time),
+            self._check_not_evening_block(current_time),
+            self._check_fb_blocked_hours(signal, current_time),
+            self._check_min_volatility(),
         ]
 
         for check in checks:
@@ -147,14 +152,80 @@ class RiskManager:
     def _check_stop_distance(self, signal: Signal) -> RiskCheck:
         if signal.risk_pts <= 0:
             return RiskCheck(False, "Invalid stop distance")
-        if signal.risk_pts > 10.0:
+        if signal.risk_pts > self.risk_params.max_stop_distance_pts:
             return RiskCheck(
                 False,
-                f"Stop too wide: {signal.risk_pts:.1f} pts",
+                f"Stop too wide: {signal.risk_pts:.1f} pts "
+                f"(max {self.risk_params.max_stop_distance_pts:.1f})",
             )
         return RiskCheck(True, f"Stop distance: {signal.risk_pts:.1f} pts")
 
-    def _check_not_chop_zone(self, current_time: time) -> RiskCheck:
+    def _check_not_chop_zone(self, current_time: time, signal: Signal | None = None) -> RiskCheck:
+        """Block entries during chop zone, but exempt BD SHORT.
+
+        BD SHORT breakdowns can trigger during afternoon consolidation
+        and the 2:12 PM ET winner on the Feb 5 sim was in the chop zone.
+        """
         if self.session.in_chop_zone(current_time):
-            return RiskCheck(False, "In chop zone (11AM-2PM)")
+            if signal is not None and signal.signal_type == SignalType.BREAKDOWN_SHORT:
+                return RiskCheck(True, "BD SHORT exempt from chop zone")
+            return RiskCheck(False, "In chop zone (1PM-3PM)")
         return RiskCheck(True, "Outside chop zone")
+
+    def _check_not_euro_dead_zone(self, current_time: time) -> RiskCheck:
+        """Block entries during European open (02:00-06:00 ET).
+
+        Backtest: PF=0.40, -291 pts over 19 trades. Avoid.
+        """
+        if time(2, 0) <= current_time <= time(6, 0):
+            return RiskCheck(False, "European dead zone (2AM-6AM ET)")
+        return RiskCheck(True, "Outside European dead zone")
+
+    def _check_not_evening_block(self, current_time: time) -> RiskCheck:
+        """Block entries during evening session (17:00-22:00 ET).
+
+        Backtest audit: 21 phantom trades at -298 pts total. These also
+        consume position slots and max_trades_per_day, blocking later
+        late night entries that are profitable.
+        """
+        if time(17, 0) <= current_time < time(22, 0):
+            return RiskCheck(False, "Evening block (17:00-22:00 ET)")
+        return RiskCheck(True, "Outside evening block")
+
+    # FB-specific blocked hours: {12, 23} = noon and 11pm.
+    # Autopsy: 0% WR, -565 pts combined on 16 trades.
+    _FB_BLOCKED_HOURS = frozenset({12, 23})
+
+    def _check_fb_blocked_hours(self, signal: Signal, current_time: time) -> RiskCheck:
+        """Block FB entries during poison hours (12, 23).
+
+        These hours have 0% win rate for Failed Breakdown trades.
+        Other pattern types (LR, FR, LJ) are not affected.
+        """
+        if signal.signal_type == SignalType.FAILED_BREAKDOWN:
+            if current_time.hour in self._FB_BLOCKED_HOURS:
+                return RiskCheck(False, f"FB blocked hour ({current_time.hour}:00)")
+        return RiskCheck(True, "FB hour OK")
+
+    def set_prior_day_range(self, range_pts: float) -> None:
+        """Set the prior day's high-low range for volatility filtering."""
+        self._prior_day_range = range_pts
+
+    def _check_min_volatility(self) -> RiskCheck:
+        """Block entries on low-volatility days (prior day range too small).
+
+        Low-range days produce choppy price action that whipsaws both FB
+        and LR entries. 2021 Q1(low vol, avg 18 pts) = 28% WR, -175 pts.
+        """
+        min_range = self.risk_params.min_prior_day_range_pts
+        if min_range <= 0:
+            return RiskCheck(True, "Volatility filter disabled")
+        if self._prior_day_range <= 0:
+            return RiskCheck(True, "No prior day range available")
+        if self._prior_day_range < min_range:
+            return RiskCheck(
+                False,
+                f"Low volatility: prior day range {self._prior_day_range:.1f} pts "
+                f"(min {min_range:.1f})",
+            )
+        return RiskCheck(True, f"Prior day range: {self._prior_day_range:.1f} pts")

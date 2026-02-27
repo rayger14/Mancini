@@ -58,6 +58,9 @@ def run_backtest(daily_dfs, params):
         fb_stop_buffer_pts=params["fb_stop_buffer"],
         lr_stop_buffer_pts=params["lr_stop_buffer"],
         non_acceptance_min_recovery_pts=params["non_acceptance_min_recovery_pts"],
+        allow_level_sweep_fb=params.get("allow_level_sweep_fb", True),
+        level_sweep_min_bars_below=params.get("level_sweep_min_bars_below", 3),
+        level_sweep_min_depth_pts=params.get("level_sweep_min_depth_pts", 1.0),
     )
     elevator = ElevatorParams(
         min_velocity_pts_per_min=params["min_velocity"],

@@ -1,9 +1,18 @@
-"""Prop firm simulation: real dollar P&L at various account sizes.
+"""Prop firm funding simulation + compounding backtest over past year.
 
-Answers: Is the bottleneck capital or trade frequency?
+Models:
+1. What prop firm accounts $10K can buy
+2. Full-year backtest with compounding (scale up contracts as equity grows)
+3. Prop firm profit split and drawdown rules
+
+Usage:
+    python3 backtest/prop_firm_sim.py
 """
+
+from __future__ import annotations
+
 import sys
-from datetime import time as dtime
+from datetime import date, time as dtime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -11,35 +20,35 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pandas as pd
 from loguru import logger
+
 logger.remove()
 
 from backtest.runner import BacktestRunner
 from config.settings import (
     StrategyParams, ElevatorParams, ExitParams,
-    RiskParams, SessionTimes,
+    RiskParams, SessionTimes, ESContractSpec,
 )
 
-PRODUCTION_PARAMS = {
-    "acceptance_max_dip_pts": 3.0,
-    "acceptance_min_hold_bars": 7,
-    "acceptance_min_hold_bars_deep": 8,
-    "chop_end_hour": 15,
-    "chop_start_hour": 13,
-    "fb_stop_buffer": 5.5,
-    "higher_low_lookback": 4,
-    "level_reclaim_min_touches": 4,
-    "lr_stop_buffer": 5.0,
-    "max_trades_per_day": 4,
-    "min_levels_broken": 2,
-    "min_rr_ratio": 1.0,
-    "min_velocity": 0.75,
-    "multi_hour_rally_min_pts": 22.5,
-    "non_acceptance_min_recovery_pts": 5.0,
-    "swing_low_order": 15,
-    "t1_exit_fraction": 1.0,
-    "trailing_stop_pts": 7.0,
-    "true_breakdown_abort_bars": 12,
-}
+PRODUCTION_STRATEGY = StrategyParams(
+    swing_low_order=15, multi_hour_rally_min_pts=22.5,
+    level_reclaim_min_touches=4, acceptance_min_hold_bars=7,
+    acceptance_min_hold_bars_deep=8, acceptance_max_dip_pts=3.0,
+    true_breakdown_abort_bars=12, fb_stop_buffer_pts=5.5,
+    lr_stop_buffer_pts=5.0, non_acceptance_min_recovery_pts=5.0,
+)
+PRODUCTION_ELEVATOR = ElevatorParams(
+    min_velocity_pts_per_min=0.75, min_levels_broken=2, higher_low_lookback=4,
+)
+PRODUCTION_EXIT = ExitParams(t1_exit_fraction=1.0, trailing_stop_pts=7.0)
+PRODUCTION_RISK = RiskParams(max_trades_per_day=4)
+PRODUCTION_SESSION = SessionTimes(
+    chop_zone_start=dtime(13, 0), chop_zone_end=dtime(15, 0),
+)
+
+POINT_VALUE = 5.0
+COMMISSION_RT = 1.24
+SLIPPAGE_PTS = 0.50
+MARGIN_PER_CONTRACT = 1_265.0
 
 
 def load_daily_dfs(parquet_path):
@@ -54,254 +63,243 @@ def load_daily_dfs(parquet_path):
     return daily
 
 
-def run_backtest(daily_dfs, params):
-    p = params
-    strategy = StrategyParams(
-        swing_low_order=p["swing_low_order"],
-        multi_hour_rally_min_pts=p["multi_hour_rally_min_pts"],
-        level_reclaim_min_touches=p["level_reclaim_min_touches"],
-        acceptance_min_hold_bars=p["acceptance_min_hold_bars"],
-        acceptance_min_hold_bars_deep=p["acceptance_min_hold_bars_deep"],
-        acceptance_max_dip_pts=p["acceptance_max_dip_pts"],
-        true_breakdown_abort_bars=p["true_breakdown_abort_bars"],
-        fb_stop_buffer_pts=p["fb_stop_buffer"],
-        lr_stop_buffer_pts=p["lr_stop_buffer"],
-        non_acceptance_min_recovery_pts=p["non_acceptance_min_recovery_pts"],
-    )
-    elevator = ElevatorParams(
-        min_velocity_pts_per_min=p["min_velocity"],
-        min_levels_broken=p["min_levels_broken"],
-        higher_low_lookback=p["higher_low_lookback"],
-    )
-    exit_params = ExitParams(
-        t1_exit_fraction=p["t1_exit_fraction"],
-        trailing_stop_pts=p["trailing_stop_pts"],
-        default_contracts=p.get("contracts", 4),
-    )
-    risk = RiskParams(max_trades_per_day=p["max_trades_per_day"])
-    session = SessionTimes(
-        chop_zone_start=dtime(p["chop_start_hour"], 0),
-        chop_zone_end=dtime(p["chop_end_hour"], 0),
+def run_backtest(daily_dfs):
+    contract = ESContractSpec(
+        symbol="MES", tick_size=0.25, tick_value=1.25, point_value=5.0,
+        margin_initial=1_265.0, margin_maintenance=1_150.0, exchange="CME",
     )
     runner = BacktestRunner(
-        strategy_params=strategy,
-        elevator_params=elevator,
-        exit_params=exit_params,
-        risk_params=risk,
-        session_times=session,
-        min_rr_ratio=p["min_rr_ratio"],
+        strategy_params=PRODUCTION_STRATEGY,
+        elevator_params=PRODUCTION_ELEVATOR,
+        exit_params=PRODUCTION_EXIT,
+        risk_params=PRODUCTION_RISK,
+        session_times=PRODUCTION_SESSION,
+        contract=contract,
+        min_rr_ratio=1.0,
     )
     return runner.run_multi_day(daily_dfs=daily_dfs)
 
 
+def compound_sim(trades, starting_equity, max_contracts=None,
+                 profit_split=1.0, max_dd_dollars=None, label=""):
+    equity = starting_equity
+    peak_equity = equity
+    max_dd = 0
+    blown = False
+    log = []
+    daily_pnl = {}
+
+    for t in trades:
+        if blown:
+            break
+
+        affordable = int(equity / (MARGIN_PER_CONTRACT * 1.4))
+        contracts = max(1, affordable)
+        if max_contracts:
+            contracts = min(contracts, max_contracts)
+
+        trade_date = t.entry_time.date()
+
+        gross_pts = t.pnl_pts
+        slippage = SLIPPAGE_PTS * POINT_VALUE * contracts
+        commission = COMMISSION_RT * contracts
+        gross_dollars = gross_pts * POINT_VALUE * contracts
+        net_dollars = gross_dollars - slippage - commission
+
+        # Apply profit split only on profits
+        if net_dollars > 0:
+            net_dollars *= profit_split
+
+        equity += net_dollars
+        peak_equity = max(peak_equity, equity)
+        dd = peak_equity - equity
+        max_dd = max(max_dd, dd)
+
+        daily_pnl[trade_date] = daily_pnl.get(trade_date, 0) + net_dollars
+
+        if max_dd_dollars and dd > max_dd_dollars:
+            blown = True
+
+        log.append({
+            "date": trade_date,
+            "time": t.entry_time.strftime("%H:%M"),
+            "pattern": t.pattern_type[:4].upper(),
+            "contracts": contracts,
+            "gross_pts": gross_pts,
+            "gross_$": gross_dollars,
+            "costs": slippage + commission,
+            "net_$": net_dollars,
+            "equity": equity,
+            "dd": dd,
+            "peak": peak_equity,
+        })
+
+    return log, equity, max_dd, blown
+
+
+def print_trade_log(log, max_rows=None):
+    print(f"\n  {'#':>3s}  {'Date':>10s}  {'Time':>5s}  {'Type':>4s}  {'Ctrs':>4s}  "
+          f"{'Gross':>8s}  {'Costs':>6s}  {'Net':>8s}  {'Equity':>10s}  {'DD':>6s}")
+    print(f"  {'─'*80}")
+    rows = log[:max_rows] if max_rows else log
+    for i, r in enumerate(rows, 1):
+        print(f"  {i:>3d}  {r['date']}  {r['time']:>5s}  {r['pattern']:>4s}  "
+              f"{r['contracts']:>4d}  {r['gross_$']:>+8,.0f}  {r['costs']:>6,.0f}  "
+              f"{r['net_$']:>+8,.0f}  ${r['equity']:>9,.0f}  ${r['dd']:>5,.0f}")
+    if max_rows and len(log) > max_rows:
+        print(f"  ... ({len(log) - max_rows} more trades)")
+
+
 def main():
-    data_path = Path(__file__).parent.parent / "data" / "ES_1m_2024-02-05_2026-02-05.parquet"
+    DATA_PATH = "data/ES_1m_2024-02-05_2026-02-05.parquet"
+
     print("Loading data...")
-    daily_dfs = load_daily_dfs(str(data_path))
+    all_daily = load_daily_dfs(DATA_PATH)
 
-    # Apply Monday filter
-    filtered = {d: df for d, df in daily_dfs.items() if d.weekday() != 0}
-    print(f"Loaded {len(daily_dfs)} days, after Monday filter: {len(filtered)} days")
+    # Last 12 months, skip Mondays
+    cutoff = date(2025, 2, 5)
+    daily_dfs = {d: v for d, v in all_daily.items()
+                 if d >= cutoff and d.weekday() != 0}
+    dates = sorted(daily_dfs.keys())
+    print(f"Past 12 months: {len(dates)} trading days ({dates[0]} to {dates[-1]})")
 
-    print("\nRunning backtest with production params + Monday filter...")
-    result = run_backtest(filtered, PRODUCTION_PARAMS)
+    result = run_backtest(daily_dfs)
     trades = result.all_trades
+    print(f"Trades: {len(trades)}, WR: {result.win_rate:.0%}, "
+          f"PF: {result.profit_factor:.2f}, Raw PnL: {result.total_pnl_pts:+.1f} pts\n")
 
-    print(f"\nTotal trades: {len(trades)}")
-    print(f"Win rate: {result.win_rate:.0%}")
-    print(f"Profit factor: {result.profit_factor:.2f}")
+    # ══════════════════════════════════════════════════════════════════
+    print("=" * 75)
+    print("  PROP FIRM OPTIONS WITH $10K BUDGET")
+    print("=" * 75)
+    print("""
+  Popular futures prop firms and what $10K buys you:
 
-    # ── Per-contract P&L (the backtest uses 4 contracts) ──────────
-    # pnl_pts already includes 4-contract multiplier
-    # Per-contract pnl = pnl_pts / contracts
-    print("\n" + "=" * 80)
-    print("TRADE-BY-TRADE BREAKDOWN")
-    print("=" * 80)
+  APEX TRADER FUNDING (most popular for futures)
+  ───────────────────────────────────────────────
+  Account    Eval Fee   Max Contracts   Trailing DD   Profit Target
+  $50K       $167/mo    10 MES          $2,500        $3,000
+  $100K      $207/mo    20 MES          $3,000        $6,000
+  $150K      $297/mo    25 MES          $5,000        $9,000
 
-    print(f"\n{'#':>3} {'Date':<12} {'Type':<8} {'Entry':>8} {'Exit':>8} "
-          f"{'Ctrs':>4} {'PnL Pts':>9} {'Per-Ctr':>8} {'Result':<6}")
-    print("-" * 80)
+  Profit split: 100% of first $25,000, then 90/10
+  Payout: bi-weekly after 10 trading days
 
-    per_contract_pnls = []
-    for i, t in enumerate(trades):
-        per_ctr = t.pnl_pts / t.contracts if t.contracts > 0 else 0
-        per_contract_pnls.append(per_ctr)
-        w = "WIN" if t.pnl_pts > 0 else "LOSS"
-        print(f"{i+1:3d} {str(t.entry_time.date()):<12} "
-              f"{t.pattern_type[:7]:<8} {t.entry_price:>8.2f} {t.avg_exit_price:>8.2f} "
-              f"{t.contracts:>4} {t.pnl_pts:>+9.2f} {per_ctr:>+8.2f} {w:<6}")
+  With $10K you could run 2-3 eval accounts simultaneously
+  and keep the rest as buffer for resets (~$80 each).
 
-    total_per_contract = sum(per_contract_pnls)
-    avg_win_pc = np.mean([p for p in per_contract_pnls if p > 0]) if any(p > 0 for p in per_contract_pnls) else 0
-    avg_loss_pc = np.mean([p for p in per_contract_pnls if p <= 0]) if any(p <= 0 for p in per_contract_pnls) else 0
+  TOPSTEP
+  ───────
+  $50K       $165/mo    5 ES (=50 MES)  $2,000        $3,000
+  $100K      $325/mo    10 ES           $3,000        $6,000
+  Profit split: 100% first $10K, then 90/10
+""")
 
-    print("-" * 80)
-    print(f"Total per-contract points: {total_per_contract:+.2f}")
-    print(f"Avg winning trade (per contract): {avg_win_pc:+.2f} pts")
-    print(f"Avg losing trade (per contract): {avg_loss_pc:+.2f} pts")
+    # ══════════════════════════════════════════════════════════════════
+    print("=" * 75)
+    print("  SCENARIO 1: PERSONAL ACCOUNT — $10K COMPOUNDING")
+    print("  Scale MES contracts as equity grows, reinvest everything")
+    print("=" * 75)
 
-    # ── Equity curves at different sizes ──────────────────────────
-    print("\n" + "=" * 80)
-    print("DOLLAR P&L BY ACCOUNT SIZE (508 days, Monday filter applied)")
-    print("=" * 80)
+    log1, end1, dd1, _ = compound_sim(trades, 10_000, max_contracts=20)
+    print_trade_log(log1)
 
-    scenarios = [
-        # (name, contracts, instrument, $/pt, starting_capital)
-        ("Personal: 4 MES ($10K)", 4, "MES", 5.0, 10_000),
-        ("Personal: 1 ES ($10K)", 1, "ES", 50.0, 10_000),
-        ("Prop 50K: 4 MES", 4, "MES", 5.0, 50_000),
-        ("Prop 50K: 10 MES", 10, "MES", 5.0, 50_000),
-        ("Prop 50K: 2 ES", 2, "ES", 50.0, 50_000),
-        ("Prop 100K: 4 ES", 4, "ES", 50.0, 100_000),
-        ("Prop 100K: 20 MES", 20, "MES", 5.0, 100_000),
-        ("Prop 150K: 6 ES", 6, "ES", 50.0, 150_000),
-        ("Prop 150K: 10 ES", 10, "ES", 50.0, 150_000),
-    ]
+    profit1 = end1 - 10_000
+    print(f"\n  $10,000 -> ${end1:,.0f} ({profit1/10_000*100:+,.1f}% return)")
+    print(f"  Max drawdown: ${dd1:,.0f}")
+    print(f"  Contracts grew from {log1[0]['contracts']} to {log1[-1]['contracts']}")
 
-    print(f"\n{'Scenario':<28} {'$/pt':>6} {'Gross P&L':>12} {'Max DD':>10} "
-          f"{'DD %':>7} {'ROI':>8} {'$/trade':>9} {'$/month':>9}")
-    print("-" * 100)
+    # ══════════════════════════════════════════════════════════════════
+    print(f"\n{'='*75}")
+    print("  SCENARIO 2: APEX $50K FUNDED — 10 MES max, $2,500 trailing DD")
+    print("=" * 75)
 
-    for name, ctrs, instr, pt_val, capital in scenarios:
-        # Scale from backtest's 4-contract basis to target contracts
-        # Per-contract pnls × target contracts × $/pt
-        scale = ctrs  # number of contracts
-        dollar_pnls = [p * scale * pt_val for p in per_contract_pnls]
-        gross = sum(dollar_pnls)
+    log50, end50, dd50, blown50 = compound_sim(
+        trades, 50_000, max_contracts=10, profit_split=1.0,
+        max_dd_dollars=2_500,
+    )
+    print_trade_log(log50)
 
-        # Equity curve
-        equity = np.cumsum(dollar_pnls)
-        peak = np.maximum.accumulate(equity)
-        drawdowns = peak - equity
-        max_dd = float(np.max(drawdowns)) if len(drawdowns) > 0 else 0
+    if blown50:
+        blown_at = len(log50)
+        print(f"\n  ACCOUNT BLOWN after trade #{blown_at} — DD exceeded $2,500")
+        print(f"  Cost: ~$167 eval + $80 reset = $247 to try again")
+    else:
+        profit50 = end50 - 50_000
+        payout50 = min(profit50, 25_000) + max(0, (profit50 - 25_000) * 0.9)
+        eval_cost = 167 * 12
+        print(f"\n  Prop firm equity: $50,000 -> ${end50:,.0f}")
+        print(f"  Gross profit:  ${profit50:,.0f}")
+        print(f"  Your payout:   ${payout50:,.0f} (100% first $25K, 90% after)")
+        print(f"  Eval cost:     ${eval_cost:,.0f}/year")
+        print(f"  Net to you:    ${payout50 - eval_cost:,.0f}")
+        print(f"  Max DD:        ${dd50:,.0f} / $2,500 limit ({dd50/2500*100:.0f}% used)")
+        print(f"  ROI on $10K:   {(payout50 - eval_cost)/10_000*100:+,.0f}%")
 
-        dd_pct = (max_dd / capital * 100) if capital > 0 else 0
-        roi = (gross / capital * 100) if capital > 0 else 0
-        per_trade = gross / len(trades) if trades else 0
-        months = 508 / 21  # ~24.2 trading months
-        per_month = gross / months
+    # ══════════════════════════════════════════════════════════════════
+    print(f"\n{'='*75}")
+    print("  SCENARIO 3: APEX $150K FUNDED — 25 MES max, $5,000 trailing DD")
+    print("=" * 75)
 
-        print(f"{name:<28} {pt_val*ctrs:>6.0f} {gross:>+12,.0f} {max_dd:>10,.0f} "
-              f"{dd_pct:>6.1f}% {roi:>+7.1f}% {per_trade:>+9,.0f} {per_month:>+9,.0f}")
+    log150, end150, dd150, blown150 = compound_sim(
+        trades, 150_000, max_contracts=25, profit_split=1.0,
+        max_dd_dollars=5_000,
+    )
+    print_trade_log(log150)
 
-    # ── Prop firm evaluation analysis ─────────────────────────────
-    print("\n" + "=" * 80)
-    print("PROP FIRM EVALUATION FEASIBILITY")
-    print("=" * 80)
+    if blown150:
+        blown_at = len(log150)
+        print(f"\n  ACCOUNT BLOWN after trade #{blown_at} — DD exceeded $5,000")
+    else:
+        profit150 = end150 - 150_000
+        payout150 = min(profit150, 25_000) + max(0, (profit150 - 25_000) * 0.9)
+        eval_cost150 = 297 * 12
+        print(f"\n  Prop firm equity: $150,000 -> ${end150:,.0f}")
+        print(f"  Gross profit:  ${profit150:,.0f}")
+        print(f"  Your payout:   ${payout150:,.0f}")
+        print(f"  Eval cost:     ${eval_cost150:,.0f}/year")
+        print(f"  Net to you:    ${payout150 - eval_cost150:,.0f}")
+        print(f"  Max DD:        ${dd150:,.0f} / $5,000 limit ({dd150/5000*100:.0f}% used)")
+        print(f"  ROI on $10K:   {(payout150 - eval_cost150)/10_000*100:+,.0f}%")
 
-    print("\nCan we pass a $3,000 profit target with $2,500 max drawdown?")
-    print("(Simulating with different contract sizes)\n")
+    # ══════════════════════════════════════════════════════════════════
+    print(f"\n{'='*75}")
+    print("  SIDE-BY-SIDE COMPARISON (PAST 12 MONTHS)")
+    print("=" * 75)
 
-    for ctrs, instr, pt_val in [(2, "MES", 5.0), (4, "MES", 5.0), (10, "MES", 5.0),
-                                  (1, "ES", 50.0), (2, "ES", 50.0)]:
-        dollar_pnls = [p * ctrs * pt_val for p in per_contract_pnls]
+    print(f"\n  {'Scenario':<35s}  {'Your $':>10s}  {'Net Profit':>10s}  "
+          f"{'ROI':>8s}  {'Max DD':>8s}  {'Blown?':>6s}")
+    print(f"  {'─'*85}")
 
-        # Walk through trades to see when we hit $3K and if we breach $2.5K DD
-        equity = 0
-        peak_equity = 0
-        max_dd = 0
-        hit_target = False
-        hit_target_trade = 0
-        breached_dd = False
-        breach_trade = 0
+    # Personal
+    print(f"  {'Personal $10K (compound MES)':<35s}  ${'10,000':>9s}  ${profit1:>9,.0f}  "
+          f"{profit1/10_000*100:>+7.0f}%  ${dd1:>7,.0f}  {'No':>6s}")
 
-        for i, pnl in enumerate(dollar_pnls):
-            equity += pnl
-            if equity > peak_equity:
-                peak_equity = equity
-            dd = peak_equity - equity
-            if dd > max_dd:
-                max_dd = dd
+    # $50K
+    if not blown50:
+        net50 = payout50 - eval_cost
+        print(f"  {'Apex $50K funded (10 MES)':<35s}  ${'10,000':>9s}  ${net50:>9,.0f}  "
+              f"{net50/10_000*100:>+7.0f}%  ${dd50:>7,.0f}  {'No':>6s}")
+    else:
+        print(f"  {'Apex $50K funded (10 MES)':<35s}  ${'10,000':>9s}  {'N/A':>10s}  "
+              f"{'N/A':>8s}  ${dd50:>7,.0f}  {'YES':>6s}")
 
-            if dd > 2500 and not breached_dd:
-                breached_dd = True
-                breach_trade = i + 1
+    # $150K
+    if not blown150:
+        net150 = payout150 - eval_cost150
+        print(f"  {'Apex $150K funded (25 MES)':<35s}  ${'10,000':>9s}  ${net150:>9,.0f}  "
+              f"{net150/10_000*100:>+7.0f}%  ${dd150:>7,.0f}  {'No':>6s}")
+    else:
+        print(f"  {'Apex $150K funded (25 MES)':<35s}  ${'10,000':>9s}  {'N/A':>10s}  "
+              f"{'N/A':>8s}  ${dd150:>7,.0f}  {'YES':>6s}")
 
-            if equity >= 3000 and not hit_target:
-                hit_target = True
-                hit_target_trade = i + 1
-
-        status = ""
-        if breached_dd and (not hit_target or breach_trade <= hit_target_trade):
-            status = f"FAIL — breached $2,500 DD at trade #{breach_trade} (DD=${max_dd:,.0f})"
-        elif hit_target:
-            # days_est superseded by trades_per_day calculation below
-            # Better estimate: trade frequency
-            trades_per_day = len(trades) / 403  # 403 non-Monday days
-            days_to_pass = hit_target_trade / trades_per_day
-            status = f"PASS at trade #{hit_target_trade} (~{days_to_pass:.0f} trading days, ~{days_to_pass/21:.1f} months)"
-        else:
-            status = f"DID NOT REACH TARGET (final equity: ${equity:+,.0f}, max DD: ${max_dd:,.0f})"
-
-        label = f"{ctrs} {instr} (${ctrs*pt_val:.0f}/pt)"
-        print(f"  {label:<22} → {status}")
-
-    # ── The real question: capital vs frequency ───────────────────
-    print("\n" + "=" * 80)
-    print("THE REAL QUESTION: IS IT CAPITAL OR TRADE FREQUENCY?")
-    print("=" * 80)
-
-    total_pts_per_contract = sum(per_contract_pnls)
-    n_trades = len(trades)
-    n_days = 403  # non-Monday trading days
-    trades_per_day = n_trades / n_days
-    trades_per_month = n_trades / (n_days / 21)
-    pts_per_trade = total_pts_per_contract / n_trades if n_trades > 0 else 0
-
-    print(f"\n  Per-contract edge per trade: {pts_per_trade:+.2f} pts")
-    print(f"  Trade frequency: {trades_per_day:.3f} trades/day = {trades_per_month:.1f} trades/month")
-    print(f"  Total per-contract pts: {total_pts_per_contract:+.2f} over {n_days} days")
-
-    print(f"\n  Monthly income at different scales (per-contract × N × $/pt ÷ months):")
-    print(f"  {'Scale':<30} {'Monthly':>10} {'Annual':>12} {'Required Capital':>18}")
-    print(f"  {'-'*72}")
-
-    months = n_days / 21
-
-    scale_scenarios = [
-        ("4 MES (current backtest)", 4, 5.0, "$2,000"),
-        ("10 MES", 10, 5.0, "$5,000"),
-        ("20 MES (= 2 ES)", 20, 5.0, "$10,000"),
-        ("1 ES", 1, 50.0, "$5,000-$12,000"),
-        ("2 ES", 2, 50.0, "$10,000-$25,000"),
-        ("4 ES", 4, 50.0, "$25,000-$50,000"),
-        ("10 ES", 10, 50.0, "$50,000-$125,000"),
-        ("20 ES", 20, 50.0, "$100,000-$250,000"),
-    ]
-
-    for label, ctrs, pt_val, cap_req in scale_scenarios:
-        monthly = total_pts_per_contract * ctrs * pt_val / months
-        annual = monthly * 12
-        print(f"  {label:<30} {monthly:>+10,.0f} {annual:>+12,.0f} {cap_req:>18}")
-
-    print(f"\n  ANSWER:")
-    print(f"  ───────")
-    print(f"  The strategy's EDGE is solid: {pts_per_trade:+.2f} pts/trade at 56% WR.")
-    print(f"  The FREQUENCY is the bottleneck: only {trades_per_month:.1f} trades/month.")
-    print(f"")
-    print(f"  At 4 MES ($20/pt total): ${total_pts_per_contract * 4 * 5 / months:+,.0f}/month — coffee money")
-    print(f"  At 2 ES ($100/pt total): ${total_pts_per_contract * 2 * 50 / months:+,.0f}/month — car payment")
-    print(f"  At 10 ES ($500/pt total): ${total_pts_per_contract * 10 * 50 / months:+,.0f}/month — salary replacement")
-    print(f"  At 20 ES ($1000/pt total): ${total_pts_per_contract * 20 * 50 / months:+,.0f}/month — serious money")
-    print(f"")
-    print(f"  To make $5,000/month you need: ", end="")
-    target_monthly = 5000
-    pts_per_month_per_ctr = total_pts_per_contract / months
-    needed_dollar_per_pt = target_monthly / pts_per_month_per_ctr if pts_per_month_per_ctr > 0 else 0
-    es_needed = needed_dollar_per_pt / 50
-    mes_needed = needed_dollar_per_pt / 5
-    print(f"{es_needed:.0f} ES contracts or {mes_needed:.0f} MES contracts")
-    print(f"  That requires roughly ${es_needed * 12500:,.0f}-${es_needed * 25000:,.0f} in capital (for ES)")
-    print(f"")
-    print(f"  TWO WAYS TO INCREASE INCOME:")
-    print(f"  1. MORE CAPITAL → trade more contracts (linear scaling)")
-    print(f"  2. MORE TRADES → the strategy currently filters aggressively")
-    print(f"     • Chop zone blocks {12}-{15}:00 ({3} hours/day)")
-    print(f"     • Only {n_trades} trades in {n_days} days = many days with 0 trades")
-    print(f"     • Could explore: shorter hold bars, wider chop zone, ")
-    print(f"       lower min_rr_ratio, more level types")
-    print(f"     • BUT: more trades historically = lower WR = worse results")
-    print(f"     • The 19-param Optuna found 174 trades but degraded to 39% WR")
+    print(f"\n  Notes:")
+    print(f"  - All scenarios use identical production params (no lookahead)")
+    print(f"  - Costs include 2-tick slippage + $1.24/contract RT commissions")
+    print(f"  - Personal account compounds (adds contracts as equity grows)")
+    print(f"  - Prop accounts use fixed max contracts")
+    print(f"  - Prop eval fees estimated at 12 months")
+    print("=" * 75)
 
 
 if __name__ == "__main__":

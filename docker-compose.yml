@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  ib-gateway:
+    image: ghcr.io/gnzsnz/ib-gateway:latest
+    restart: unless-stopped
+    environment:
+      TWS_USERID: ${TWS_USERID}
+      TWS_PASSWORD: ${TWS_PASSWORD}
+      TRADING_MODE: ${TRADING_MODE:-paper}
+      TWS_ACCEPT_INCOMING: "accept"
+      READ_ONLY_API: "no"
+      EXISTING_SESSION_DETECTED_ACTION: "primary"
+      TWOFA_TIMEOUT_ACTION: "restart"
+      JAVA_HEAP_SIZE: "512"
+      VNC_SERVER_PASSWORD: ${VNC_SERVER_PASSWORD:-}
+    ports:
+      # VNC for debugging only — bind to localhost
+      - "127.0.0.1:5900:5900"
+    volumes:
+      - ib-gateway-data:/home/ibgateway/Jts
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/4002'"]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+      start_period: 120s
+
+  mancini-bot:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      ib-gateway:
+        condition: service_healthy
+    environment:
+      IB_HOST: ib-gateway
+      IB_PORT: "4004"
+      TZ: America/New_York
+    volumes:
+      - ./logs:/app/logs
+    # Override CMD if you want different args:
+    # command: ["python3", "live/ib_runner.py", "--symbol", "ES", "--contracts", "1", "--full-session"]
+
+  dashboard:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - mancini-bot
+    environment:
+      STATUS_FILE: /app/logs/status.json
+      LOG_FILE: /app/logs/bot.log
+      DASHBOARD_PORT: "8080"
+      TZ: America/New_York
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs:/app/logs
+    command: ["python3", "live/dashboard.py"]
+
+volumes:
+  ib-gateway-data:

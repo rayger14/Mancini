@@ -10,6 +10,7 @@ Plus horizontal S/R detection from multiple touches.
 
 from __future__ import annotations
 
+from datetime import time as dt_time
 from typing import Optional
 
 import numpy as np
@@ -23,8 +24,22 @@ from config.settings import StrategyParams, DEFAULT_STRATEGY
 class PriceLevelDetector:
     """Detects significant price levels from OHLCV data."""
 
-    def __init__(self, params: StrategyParams = DEFAULT_STRATEGY):
+    def __init__(
+        self,
+        params: StrategyParams = DEFAULT_STRATEGY,
+        rth_filter: Optional[tuple[dt_time, dt_time]] = None,
+    ):
         self.params = params
+        # When set, only bars within (start, end) create new levels.
+        # Pattern detection still runs on all bars against existing levels.
+        self.rth_filter = rth_filter
+
+    def _is_rth_time(self, t: dt_time) -> bool:
+        """Check if a time falls within RTH hours for level creation."""
+        if self.rth_filter is None:
+            return True
+        start, end = self.rth_filter
+        return start <= t < end
 
     def detect_all(
         self,
@@ -53,9 +68,13 @@ class PriceLevelDetector:
         # 2. Multi-hour swing lows (argrelextrema)
         if len(df) > self.params.swing_low_order * 2:
             self._add_swing_lows(store, df)
+            if self.params.allow_short_fr or self.params.allow_short_lj:
+                self._add_swing_highs(store, df)
 
-        # 3. Cluster / shelf lows
+        # 3. Cluster / shelf lows and highs
         self._add_cluster_lows(store, df)
+        if self.params.allow_short_fr or self.params.allow_short_lj:
+            self._add_cluster_highs(store, df)
 
         # 4. Horizontal S/R levels
         self._add_horizontal_sr(store, df)
@@ -83,48 +102,101 @@ class PriceLevelDetector:
         order = self.params.swing_low_order
         if bar_idx >= order * 2:
             candidate_idx = bar_idx - order  # the potential low was `order` bars ago
-            lows = df["low"].values
-            # Check if candidate_idx is a local minimum within [candidate_idx - order, candidate_idx + order]
-            window_start = max(0, candidate_idx - order)
-            window_end = min(len(lows), candidate_idx + order + 1)
-            window = lows[window_start:window_end]
-            local_min = lows[candidate_idx]
 
-            if local_min == window.min() and local_min < window.mean():
-                low_price = float(local_min)
-                low_time = df.index[candidate_idx]
-                confirmed_time = df.index[bar_idx]
+            # RTH filter: only create levels from RTH bars
+            if not self._is_rth_time(df.index[candidate_idx].time()):
+                pass  # skip non-RTH swing low candidates
+            else:
+                lows = df["low"].values
+                # Check if candidate_idx is a local minimum within [candidate_idx - order, candidate_idx + order]
+                window_start = max(0, candidate_idx - order)
+                window_end = min(len(lows), candidate_idx + order + 1)
+                window = lows[window_start:window_end]
+                local_min = lows[candidate_idx]
 
-                # Check rally from this low
-                rally = float(df["high"].values[candidate_idx:bar_idx + 1].max()) - low_price
+                if local_min == window.min() and local_min < window.mean():
+                    low_price = float(local_min)
+                    low_time = df.index[candidate_idx]
+                    confirmed_time = df.index[bar_idx]
 
-                if rally >= self.params.multi_hour_rally_min_pts:
-                    level = Level(
-                        price=low_price,
-                        level_type=LevelType.MULTI_HOUR_LOW,
-                        created_at=low_time,
-                        confirmed_at=confirmed_time,
-                        rally_from_low_pts=rally,
-                    )
-                else:
-                    level = Level(
-                        price=low_price,
-                        level_type=LevelType.SWING_LOW,
-                        created_at=low_time,
-                        confirmed_at=confirmed_time,
-                    )
+                    # Check rally from this low
+                    rally = float(df["high"].values[candidate_idx:bar_idx + 1].max()) - low_price
 
-                store.add(level)
-                new_levels.append(level)
+                    if rally >= self.params.multi_hour_rally_min_pts:
+                        level = Level(
+                            price=low_price,
+                            level_type=LevelType.MULTI_HOUR_LOW,
+                            created_at=low_time,
+                            confirmed_at=confirmed_time,
+                            rally_from_low_pts=rally,
+                        )
+                    else:
+                        level = Level(
+                            price=low_price,
+                            level_type=LevelType.SWING_LOW,
+                            created_at=low_time,
+                            confirmed_at=confirmed_time,
+                        )
+
+                    store.add(level)
+                    new_levels.append(level)
+
+        # Check for newly confirmed swing highs (mirror of swing low detection)
+        # Only when short-side trading is enabled
+        if (self.params.allow_short_fr or self.params.allow_short_lj) and bar_idx >= order * 2:
+            candidate_idx = bar_idx - order
+            if not self._is_rth_time(df.index[candidate_idx].time()):
+                pass
+            else:
+                highs = df["high"].values
+                window_start = max(0, candidate_idx - order)
+                window_end = min(len(highs), candidate_idx + order + 1)
+                window = highs[window_start:window_end]
+                local_max = highs[candidate_idx]
+
+                if local_max == window.max() and local_max > window.mean():
+                    high_price = float(local_max)
+                    high_time = df.index[candidate_idx]
+                    confirmed_time = df.index[bar_idx]
+
+                    # Check selloff from this high
+                    selloff = high_price - float(df["low"].values[candidate_idx:bar_idx + 1].min())
+
+                    if selloff >= self.params.multi_hour_rally_min_pts:
+                        level = Level(
+                            price=high_price,
+                            level_type=LevelType.MULTI_HOUR_HIGH,
+                            created_at=high_time,
+                            confirmed_at=confirmed_time,
+                            rally_from_low_pts=selloff,
+                        )
+                    else:
+                        level = Level(
+                            price=high_price,
+                            level_type=LevelType.SWING_HIGH,
+                            created_at=high_time,
+                            confirmed_at=confirmed_time,
+                        )
+
+                    store.add(level)
+                    new_levels.append(level)
 
         # Run cluster and H/SR detection at reduced frequency (performance).
         # These scans are O(bar_idx) so running every bar makes the day O(n²).
         if bar_idx % hr_sr_interval != 0:
             return new_levels
 
-        # Check for cluster formation in recent bars
+        # Check for cluster formation in recent bars (RTH bars only)
         lookback = min(bar_idx + 1, 120)  # last 2 hours
-        recent_lows = df["low"].values[max(0, bar_idx + 1 - lookback) : bar_idx + 1]
+        slice_start = max(0, bar_idx + 1 - lookback)
+        slice_end = bar_idx + 1
+        if self.rth_filter is not None:
+            # Only use RTH bars for cluster detection
+            times = df.index[slice_start:slice_end]
+            rth_mask = np.array([self._is_rth_time(t.time()) for t in times])
+            recent_lows = df["low"].values[slice_start:slice_end][rth_mask]
+        else:
+            recent_lows = df["low"].values[slice_start:slice_end]
         clusters = self._find_clusters(recent_lows, self.params.cluster_proximity_pts)
         for cluster_price, count in clusters:
             if count >= self.params.cluster_min_touches:
@@ -138,10 +210,39 @@ class PriceLevelDetector:
                 store.add(level)
                 new_levels.append(level)
 
-        # Check for horizontal S/R levels in bars seen so far
+        # Check for cluster highs (resistance) — only when short-side enabled
+        if self.params.allow_short_fr or self.params.allow_short_lj:
+            if self.rth_filter is not None:
+                recent_highs = df["high"].values[slice_start:slice_end][rth_mask]
+            else:
+                recent_highs = df["high"].values[slice_start:slice_end]
+            clusters_high = self._find_clusters(recent_highs, self.params.cluster_proximity_pts)
+            for cluster_price, count in clusters_high:
+                if count >= self.params.cluster_min_touches:
+                    level = Level(
+                        price=cluster_price,
+                        level_type=LevelType.CLUSTER_HIGH,
+                        created_at=df.index[bar_idx],
+                        confirmed_at=df.index[bar_idx],
+                        touch_count=count,
+                    )
+                    store.add(level)
+                    new_levels.append(level)
+
+        # Check for horizontal S/R levels in bars seen so far (RTH bars only)
         if bar_idx >= self.params.level_reclaim_min_touches - 1:
-            highs = df["high"].values[: bar_idx + 1]
-            lows = df["low"].values[: bar_idx + 1]
+            if self.rth_filter is not None:
+                # Only use RTH bars for H/SR detection
+                times = df.index[: bar_idx + 1]
+                rth_mask = np.array([self._is_rth_time(t.time()) for t in times])
+                highs = df["high"].values[: bar_idx + 1][rth_mask]
+                lows = df["low"].values[: bar_idx + 1][rth_mask]
+                rth_indices = np.where(rth_mask)[0]  # original indices of RTH bars
+            else:
+                highs = df["high"].values[: bar_idx + 1]
+                lows = df["low"].values[: bar_idx + 1]
+                rth_indices = None
+
             all_levels = np.concatenate([highs, lows])
             rounded = np.round(all_levels * 2) / 2
             unique, counts = np.unique(rounded, return_counts=True)
@@ -152,7 +253,12 @@ class PriceLevelDetector:
                     low_touches = np.abs(lows - price) <= 0.5
                     all_touches = high_touches | low_touches
                     if all_touches.any():
-                        last_idx = np.where(all_touches)[0][-1]
+                        last_rth_pos = np.where(all_touches)[0][-1]
+                        # Map back to original DataFrame index
+                        if rth_indices is not None:
+                            last_idx = rth_indices[last_rth_pos]
+                        else:
+                            last_idx = last_rth_pos
                         level = Level(
                             price=float(price),
                             level_type=LevelType.HORIZONTAL_SR,
@@ -242,6 +348,57 @@ class PriceLevelDetector:
                     Level(
                         price=cluster_price,
                         level_type=LevelType.CLUSTER_LOW,
+                        created_at=df.index[last_touch_idx],
+                        confirmed_at=df.index[last_touch_idx],
+                        touch_count=count,
+                    )
+                )
+
+    def _add_swing_highs(self, store: LevelStore, df: pd.DataFrame) -> None:
+        """Detect swing highs via argrelextrema (mirror of _add_swing_lows)."""
+        order = self.params.short_swing_high_order
+        highs = df["high"].values
+        indices = argrelextrema(highs, np.greater_equal, order=order)[0]
+
+        for idx in indices:
+            high_price = float(highs[idx])
+            high_time = df.index[idx]
+            confirm_idx = min(idx + order, len(df) - 1)
+            confirmed_time = df.index[confirm_idx]
+
+            # Check if this high produced a significant selloff
+            future_low = float(df["low"].values[idx : confirm_idx + 1].min())
+            selloff = high_price - future_low
+
+            if selloff >= self.params.multi_hour_rally_min_pts:
+                level_type = LevelType.MULTI_HOUR_HIGH
+            else:
+                level_type = LevelType.SWING_HIGH
+
+            store.add(
+                Level(
+                    price=high_price,
+                    level_type=level_type,
+                    created_at=high_time,
+                    confirmed_at=confirmed_time,
+                    rally_from_low_pts=selloff,
+                )
+            )
+
+    def _add_cluster_highs(self, store: LevelStore, df: pd.DataFrame) -> None:
+        """Detect clusters/shelves of highs (3+ touches within proximity)."""
+        highs = df["high"].values
+        clusters = self._find_clusters(highs, self.params.cluster_proximity_pts)
+
+        for cluster_price, count in clusters:
+            if count >= self.params.cluster_min_touches:
+                mask = np.abs(highs - cluster_price) <= self.params.cluster_proximity_pts
+                last_touch_idx = np.where(mask)[0][-1]
+
+                store.add(
+                    Level(
+                        price=cluster_price,
+                        level_type=LevelType.CLUSTER_HIGH,
                         created_at=df.index[last_touch_idx],
                         confirmed_at=df.index[last_touch_idx],
                         touch_count=count,

@@ -1,0 +1,17 @@
+.git
+.venv311
+__pycache__
+*.pyc
+data/
+tests/
+backtest/
+docs/
+*.parquet
+*.db
+*.json
+logs/
+.env
+deploy/
+Dockerfile
+docker-compose.yml
+.dockerignore

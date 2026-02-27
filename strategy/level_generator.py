@@ -315,7 +315,10 @@ def generate_levels(
     # ── Step 1: Find intraday swing points (5-min) ──
 
     swing_start = daily.index[-min(swing_lookback_days, len(daily))]
-    intra_mask = bars_1min.index >= pd.Timestamp(swing_start)
+    swing_ts = pd.Timestamp(swing_start)
+    if bars_1min.index.tz is not None and swing_ts.tz is None:
+        swing_ts = swing_ts.tz_localize(bars_1min.index.tz)
+    intra_mask = bars_1min.index >= swing_ts
     intra_bars = bars_1min[intra_mask]
 
     # Resample to 5-min

@@ -9,12 +9,15 @@ build/
 # Data files (large, binary, or sensitive)
 data/*.parquet
 data/*.png
+data/*.db
+data/*.json
 data/substack/all_posts.json
 
 # Environment
 .env
 *.env
 .venv/
+.venv311/
 venv/
 
 # IDE

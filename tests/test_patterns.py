@@ -95,7 +95,7 @@ class TestFailedBreakdown:
             start_price=5050.0,
             selloff_bars=10,
             selloff_rate=3.0,
-            sweep_below=1.5,
+            sweep_below=3.0,  # Mancini: "2-11 points ideally" for sweep depth
             recovery_bars=5,
             hold_bars=5,
         )
@@ -517,8 +517,11 @@ class TestShallowVsDeepFlush:
         need fewer confirmation bars than shallow dips.
         """
         from core.elevator_down import ElevatorEvent
+        from dataclasses import replace
 
-        fb = FailedBreakdown(strategy_params)
+        # Allow deep sweeps for this test (default max is 10 pts)
+        params = replace(strategy_params, max_fb_sweep_depth_pts=30.0)
+        fb = FailedBreakdown(params)
         base_time = datetime(2024, 1, 15, 9, 30)
         store = LevelStore()
         level = Level(
@@ -688,9 +691,9 @@ class TestStopBuffer:
                 signal = result
 
         assert signal is not None
-        # Stop below sweep low (Mancini: beneath the swept low where shorts are trapped)
-        # stop = min(sweep_low - 0.25, level - fb_stop_buffer_pts)
-        expected_stop = min(signal.sweep_low - 0.25, signal.level.price - strategy_params.fb_stop_buffer_pts)
+        # Mancini: "stops always go a few points under the lowest low of the structure"
+        # The sweep_low is the lowest low; stop = sweep_low - fb_stop_buffer_pts
+        expected_stop = signal.sweep_low - strategy_params.fb_stop_buffer_pts
         assert signal.stop_price == expected_stop
 
     def test_lr_stop_is_level_minus_2(self, strategy_params):

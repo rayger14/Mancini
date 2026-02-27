@@ -1,0 +1,8 @@
+numpy
+pandas
+scipy
+loguru
+pydantic
+pytz
+ib_async
+pyarrow
