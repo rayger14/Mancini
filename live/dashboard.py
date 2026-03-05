@@ -307,6 +307,42 @@ HTML_TEMPLATE = Template(r"""<!DOCTYPE html>
   .bypass-banner-text { color: #d29922; font-weight: 600; }
   .bypass-banner-desc { color: #8b949e; }
 
+  /* Market hours bar */
+  .market-hours-bar {
+    background: #161b22; border-bottom: 1px solid #30363d;
+    padding: 8px 24px; display: flex; align-items: center; gap: 16px;
+    font-size: 12px;
+  }
+  .mh-status {
+    font-weight: 700; font-size: 13px; padding: 3px 10px;
+    border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .mh-open { background: #238636; color: #fff; }
+  .mh-closed { background: #484f58; color: #c9d1d9; }
+  .mh-weekend { background: #6e40c9; color: #fff; }
+  .mh-break { background: #d29922; color: #000; }
+  .mh-detail { color: #8b949e; }
+  .mh-next { color: #58a6ff; font-weight: 600; }
+  .mh-schedule {
+    position: relative; cursor: help; color: #58a6ff;
+    text-decoration: underline dotted; margin-left: auto;
+  }
+  .mh-schedule-tip {
+    display: none; position: absolute; top: 28px; right: 0;
+    background: #1c2128; border: 1px solid #30363d; border-radius: 8px;
+    padding: 14px 18px; font-size: 11px; color: #c9d1d9; z-index: 200;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5); min-width: 340px; line-height: 1.8;
+    white-space: nowrap;
+  }
+  .mh-schedule:hover .mh-schedule-tip { display: block; }
+  .mh-schedule-tip .mh-row { display: flex; justify-content: space-between; gap: 24px; }
+  .mh-schedule-tip .mh-window { color: #f0f6fc; font-weight: 600; }
+  .mh-schedule-tip .mh-time { color: #8b949e; }
+  .mh-schedule-tip .mh-gate { font-size: 10px; padding: 1px 5px; border-radius: 3px; }
+  .mh-gate-active { background: #23863630; color: #3fb950; }
+  .mh-gate-blocked { background: #da363320; color: #f85149; }
+  .mh-gate-data { background: #d2992220; color: #d29922; }
+
   /* Last updated indicator */
   .refresh-note { color: #484f58; font-size: 10px; text-align: center; padding: 16px 0; }
   #last-updated { color: #484f58; font-size: 10px; }
@@ -333,6 +369,34 @@ HTML_TEMPLATE = Template(r"""<!DOCTYPE html>
     <span id="last-updated"></span>
     <span>$account_name</span>
   </div>
+</div>
+
+<!-- Market Hours Bar -->
+<div class="market-hours-bar" id="market-hours-bar">
+  <span class="mh-status $market_status_css" id="mh-status">$market_status_label</span>
+  <span class="mh-detail" id="mh-detail">$market_status_detail</span>
+  <span class="mh-next" id="mh-next">$market_next</span>
+  <span class="mh-schedule">
+    Full Schedule
+    <div class="mh-schedule-tip">
+      <div style="font-weight:700; color:#f0f6fc; margin-bottom:8px; font-size:12px;">ES/MES Futures &mdash; CME Globex</div>
+      <div style="color:#8b949e; margin-bottom:6px; font-size:10px;">All times shown in ET (Eastern) &amp; PT (Pacific)</div>
+      <div class="mh-row"><span class="mh-window">Daily Break</span><span class="mh-time">5:00-6:00 PM ET (2-3 PM PT)</span><span class="mh-gate mh-gate-blocked">CLOSED</span></div>
+      <div class="mh-row"><span class="mh-window">Globex Evening</span><span class="mh-time">6:00-10:00 PM ET (3-7 PM PT)</span><span class="mh-gate mh-gate-data">BYPASS</span></div>
+      <div class="mh-row"><span class="mh-window">Overnight (Asia)</span><span class="mh-time">10:00 PM-2:00 AM ET (7-11 PM PT)</span><span class="mh-gate mh-gate-active">ACTIVE</span></div>
+      <div class="mh-row"><span class="mh-window">European Open</span><span class="mh-time">2:00-6:00 AM ET (11 PM-3 AM PT)</span><span class="mh-gate mh-gate-data">BYPASS</span></div>
+      <div class="mh-row"><span class="mh-window">US Pre-Market</span><span class="mh-time">6:00-9:30 AM ET (3-6:30 AM PT)</span><span class="mh-gate mh-gate-active">ACTIVE</span></div>
+      <div class="mh-row"><span class="mh-window">RTH Morning</span><span class="mh-time">9:30-11:00 AM ET (6:30-8 AM PT)</span><span class="mh-gate mh-gate-active">PRIME</span></div>
+      <div class="mh-row"><span class="mh-window">RTH Midday</span><span class="mh-time">11:00 AM-1:00 PM ET (8-10 AM PT)</span><span class="mh-gate mh-gate-active">ACTIVE</span></div>
+      <div class="mh-row"><span class="mh-window">Chop Zone</span><span class="mh-time">1:00-3:00 PM ET (10 AM-12 PM PT)</span><span class="mh-gate mh-gate-data">BYPASS</span></div>
+      <div class="mh-row"><span class="mh-window">RTH Afternoon</span><span class="mh-time">3:00-4:50 PM ET (12-1:50 PM PT)</span><span class="mh-gate mh-gate-active">FB ONLY</span></div>
+      <div class="mh-row"><span class="mh-window">EOD Settle</span><span class="mh-time">4:50-5:00 PM ET (1:50-2 PM PT)</span><span class="mh-gate mh-gate-blocked">FLATTEN</span></div>
+      <div style="margin-top:8px; color:#484f58; font-size:10px; white-space:normal;">
+        Weekend: Closed Friday 5 PM ET &rarr; Sunday 6 PM ET.<br>
+        BYPASS = time gate bypassed, quality gates still enforced (R:R &ge; 1.0).
+      </div>
+    </div>
+  </span>
 </div>
 
 <!-- Tabs -->
@@ -1098,6 +1162,63 @@ function updateLastUpdated() {
   }
 }
 
+// Client-side market hours update (deterministic from ET clock)
+function updateMarketHours() {
+  // Compute ET time from UTC
+  var now = new Date();
+  var etStr = now.toLocaleString('en-US', {timeZone: 'America/New_York'});
+  var et = new Date(etStr);
+  var ptStr = now.toLocaleString('en-US', {timeZone: 'America/Los_Angeles'});
+  var pt = new Date(ptStr);
+  var h = et.getHours(), m = et.getMinutes(), wd = et.getDay(); // 0=Sun, 5=Fri, 6=Sat
+  var t = h * 60 + m; // minutes since midnight ET
+  var ptTime = pt.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', timeZone:'America/Los_Angeles'});
+  var ptDay = pt.toLocaleDateString('en-US', {weekday:'long', timeZone:'America/Los_Angeles'});
+
+  var label, css, detail, next;
+
+  // Weekend checks
+  if (wd === 6) { // Saturday
+    label = 'MARKET CLOSED'; css = 'mh-weekend';
+    detail = 'Weekend \u2014 ' + ptDay + ' ' + ptTime + ' PT';
+    next = 'Opens Sunday 3:00 PM PT (6:00 PM ET)';
+  } else if (wd === 0 && t < 18*60) { // Sunday before 6 PM ET
+    label = 'MARKET CLOSED'; css = 'mh-weekend';
+    detail = 'Weekend \u2014 ' + ptDay + ' ' + ptTime + ' PT';
+    next = 'Opens today at 3:00 PM PT (6:00 PM ET)';
+  } else if (wd === 5 && t >= 17*60) { // Friday after 5 PM ET
+    label = 'MARKET CLOSED'; css = 'mh-weekend';
+    detail = 'Weekend \u2014 ' + ptDay + ' ' + ptTime + ' PT';
+    next = 'Opens Sunday 3:00 PM PT (6:00 PM ET)';
+  } else if (t >= 17*60 && t < 18*60) { // Daily break
+    label = 'DAILY BREAK'; css = 'mh-break';
+    detail = 'CME maintenance \u2014 ' + ptTime + ' PT';
+    next = 'Reopens at 3:00 PM PT (6:00 PM ET)';
+  } else { // Market open
+    label = 'MARKET OPEN'; css = 'mh-open';
+    next = 'Daily break at 2:00 PM PT (5:00 PM ET)';
+    if (t >= 18*60 && t < 22*60) detail = 'Globex Evening (time gate bypassed)';
+    else if (t >= 22*60 || t < 2*60) detail = 'Globex Overnight';
+    else if (t < 6*60) detail = 'European Session (time gate bypassed)';
+    else if (t < 9*60+30) detail = 'US Pre-Market';
+    else if (t < 11*60) detail = 'RTH Morning (Prime Window)';
+    else if (t < 13*60) detail = 'RTH Midday';
+    else if (t < 15*60) detail = 'Chop Zone (time gate bypassed)';
+    else if (t < 16*60+50) detail = 'RTH Afternoon (FB Only)';
+    else detail = 'EOD Settle / Flatten';
+    detail += ' \u2014 ' + ptTime + ' PT';
+  }
+
+  var el = document.getElementById('mh-status');
+  if (el) { el.textContent = label; el.className = 'mh-status ' + css; }
+  el = document.getElementById('mh-detail');
+  if (el) el.innerHTML = detail;
+  el = document.getElementById('mh-next');
+  if (el) el.textContent = next;
+}
+updateMarketHours();
+setInterval(updateMarketHours, 10000);
+
 setInterval(updateDashboard, 15000);
 setInterval(updateLastUpdated, 1000);
 </script>
@@ -1670,6 +1791,77 @@ def render_logs(lines: list[str]) -> str:
     return html
 
 
+def _compute_market_status() -> dict:
+    """Compute current ES/MES market status from real time (ET)."""
+    from datetime import datetime, time as dt_time
+    import pytz
+
+    et = pytz.timezone("US/Eastern")
+    now = datetime.now(et)
+    t = now.time()
+    wd = now.weekday()  # 0=Mon, 4=Fri, 5=Sat, 6=Sun
+    pt = pytz.timezone("US/Pacific")
+    now_pt = now.astimezone(pt)
+
+    # Weekend check
+    if wd == 5:  # Saturday
+        return {
+            "label": "MARKET CLOSED", "css": "mh-weekend",
+            "detail": f"Weekend &mdash; {now_pt.strftime('%A %I:%M %p PT')}",
+            "next": "Opens Sunday 3:00 PM PT (6:00 PM ET)",
+        }
+    if wd == 6 and t < dt_time(18, 0):  # Sunday before 6 PM ET
+        open_pt = "3:00 PM PT"
+        return {
+            "label": "MARKET CLOSED", "css": "mh-weekend",
+            "detail": f"Weekend &mdash; {now_pt.strftime('%A %I:%M %p PT')}",
+            "next": f"Opens today at {open_pt} (6:00 PM ET)",
+        }
+    if wd == 4 and t >= dt_time(17, 0):  # Friday after 5 PM ET
+        return {
+            "label": "MARKET CLOSED", "css": "mh-weekend",
+            "detail": f"Weekend &mdash; {now_pt.strftime('%A %I:%M %p PT')}",
+            "next": "Opens Sunday 3:00 PM PT (6:00 PM ET)",
+        }
+
+    # Daily break
+    if dt_time(17, 0) <= t < dt_time(18, 0):
+        return {
+            "label": "DAILY BREAK", "css": "mh-break",
+            "detail": f"CME maintenance &mdash; {now_pt.strftime('%I:%M %p PT')}",
+            "next": "Reopens at 3:00 PM PT (6:00 PM ET)",
+        }
+
+    # Market is open — determine which window
+    if dt_time(18, 0) <= t <= dt_time(23, 59) or dt_time(0, 0) <= t < dt_time(2, 0):
+        if dt_time(18, 0) <= t < dt_time(22, 0):
+            window = "Globex Evening (time gate bypassed)"
+        else:
+            window = "Globex Overnight"
+    elif dt_time(2, 0) <= t < dt_time(6, 0):
+        window = "European Session (time gate bypassed)"
+    elif dt_time(6, 0) <= t < dt_time(9, 30):
+        window = "US Pre-Market"
+    elif dt_time(9, 30) <= t < dt_time(11, 0):
+        window = "RTH Morning (Prime Window)"
+    elif dt_time(11, 0) <= t < dt_time(13, 0):
+        window = "RTH Midday"
+    elif dt_time(13, 0) <= t < dt_time(15, 0):
+        window = "Chop Zone (time gate bypassed)"
+    elif dt_time(15, 0) <= t < dt_time(16, 50):
+        window = "RTH Afternoon (FB Only)"
+    elif dt_time(16, 50) <= t < dt_time(17, 0):
+        window = "EOD Settle / Flatten"
+    else:
+        window = "Globex"
+
+    return {
+        "label": "MARKET OPEN", "css": "mh-open",
+        "detail": f"{window} &mdash; {now_pt.strftime('%I:%M %p PT')}",
+        "next": "Daily break at 2:00 PM PT (5:00 PM ET)",
+    }
+
+
 def build_page() -> str:
     """Build the full dashboard HTML page."""
     status = read_status()
@@ -1712,7 +1904,14 @@ def build_page() -> str:
     else:
         bypass_banner_html = ""
 
+    # Market hours status (computed from real time, not from bot status)
+    mkt = _compute_market_status()
+
     return HTML_TEMPLATE.substitute(
+        market_status_label=mkt["label"],
+        market_status_css=mkt["css"],
+        market_status_detail=mkt["detail"],
+        market_next=mkt["next"],
         connection_status="CONNECTED" if connected else "DISCONNECTED",
         connection_css="green" if connected else "red",
         dot_class="dot-connected" if connected else "dot-disconnected",

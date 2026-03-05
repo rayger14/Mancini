@@ -2,10 +2,15 @@
 
 Loads cached parquet, splits into per-day frames, runs the strategy
 via BacktestRunner, then prints metrics and saves artifacts.
+
+Usage:
+    python3 backtest/run_backtest.py              # single-core (default)
+    python3 backtest/run_backtest.py --parallel    # multi-core (split by year)
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from collections import defaultdict
@@ -127,29 +132,80 @@ def save_results_json(metrics, mc: dict, result, path: Path) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Run Mancini backtest")
+    parser.add_argument(
+        "--parallel", action="store_true",
+        help="Split by year and run on multiple cores",
+    )
+    parser.add_argument(
+        "--workers", type=int, default=None,
+        help="Number of parallel workers (default: one per year chunk)",
+    )
+    parser.add_argument(
+        "--data", type=str, default=None,
+        help="Path to parquet data file (default: RTH 2-year dataset)",
+    )
+    parser.add_argument(
+        "--full-session", action="store_true",
+        help="Use full session (no RTH filter)",
+    )
+    args = parser.parse_args()
+
     # -----------------------------------------------------------------------
     # 1. Load and prepare data
     # -----------------------------------------------------------------------
-    df = load_data(DATA_PATH)
-    df_rth = filter_rth(df)
-    logger.info(f"RTH bars: {len(df_rth):,}")
+    data_path = Path(args.data) if args.data else DATA_PATH
+    df = load_data(data_path)
+    if args.full_session:
+        df_filtered = df
+        logger.info(f"Full session bars: {len(df_filtered):,}")
+    else:
+        df_filtered = filter_rth(df)
+        logger.info(f"RTH bars: {len(df_filtered):,}")
 
-    daily_dfs = split_by_day(df_rth)
+    daily_dfs = split_by_day(df_filtered)
     logger.info(f"Trading days: {len(daily_dfs)}")
 
     # -----------------------------------------------------------------------
-    # 2. Run backtest (suppress verbose per-bar strategy logging)
+    # 2. Run backtest
     # -----------------------------------------------------------------------
-    logger.info("Starting backtest...")
-    logger.remove()
-    run_id = logger.add(sys.stderr, level="WARNING")
+    if args.parallel:
+        from backtest.parallel import run_parallel_backtest
 
-    runner = BacktestRunner(min_rr_ratio=1.5)
-    result = runner.run_multi_day(daily_dfs=daily_dfs)
+        logger.info("Starting PARALLEL backtest...")
+        parallel_result = run_parallel_backtest(
+            daily_dfs, num_workers=args.workers, min_rr_ratio=1.5,
+        )
 
-    # Restore normal logging for summary output
-    logger.remove(run_id)
-    logger.add(sys.stderr, level="INFO")
+        # Wrap into a BacktestResult-compatible object for metrics
+        from backtest.runner import BacktestResult, DayResult
+        result = BacktestResult()
+        result.all_trades = parallel_result.all_trades
+        for day_date, day_pnl in parallel_result.day_pnls:
+            day_trades = [t for t in parallel_result.all_trades
+                          if t.entry_time.date() == day_date]
+            wins = sum(1 for t in day_trades if t.pnl_pts > 0)
+            wr = wins / len(day_trades) if day_trades else 0.0
+            result.days.append(DayResult(
+                date=day_date,
+                bar_results=[],
+                trade_records=day_trades,
+                pnl_pts=day_pnl,
+                pnl_dollars=day_pnl * 50.0,
+                num_trades=len(day_trades),
+                win_rate=wr,
+            ))
+    else:
+        logger.info("Starting backtest (single-core)...")
+        logger.remove()
+        run_id = logger.add(sys.stderr, level="WARNING")
+
+        runner = BacktestRunner(min_rr_ratio=1.5)
+        result = runner.run_multi_day(daily_dfs=daily_dfs)
+
+        # Restore normal logging for summary output
+        logger.remove(run_id)
+        logger.add(sys.stderr, level="INFO")
 
     # -----------------------------------------------------------------------
     # 3. Compute and display metrics

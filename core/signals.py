@@ -56,8 +56,9 @@ class Signal:
     reward_t2_pts: float
     rr_ratio_t1: float
     rr_ratio_t2: float
-    bar_idx: int
-    timestamp: datetime
+    position_size_factor: float = 1.0  # Mancini sizing: 1.0=full, 0.5=half, 0.25=quarter
+    bar_idx: int = 0
+    timestamp: datetime = None
 
     @property
     def direction(self) -> str:
@@ -125,6 +126,22 @@ class SignalAggregator:
         self.require_volume_confirmation: bool = False  # opt-in
         # Signal cooldown: track last signal bar per type to suppress rapid-fire signals
         self._last_signal_bar: dict[SignalType, int] = {}
+
+    def get_pattern_state(self) -> dict:
+        """Serialize pattern state for persistence across restarts."""
+        from datetime import datetime as dt
+        return {
+            "failed_breakdown": self.failed_breakdown.get_state_snapshot(),
+            "breakdown_short": self.breakdown_short.get_state_snapshot(),
+            "timestamp": dt.now().isoformat(),
+        }
+
+    def restore_pattern_state(self, state: dict) -> None:
+        """Restore pattern state from a saved snapshot."""
+        if "failed_breakdown" in state:
+            self.failed_breakdown.restore_state(state["failed_breakdown"])
+        if "breakdown_short" in state:
+            self.breakdown_short.restore_state(state["breakdown_short"])
 
     def reset(self) -> None:
         """Reset all state for a new session."""
@@ -478,8 +495,14 @@ class SignalAggregator:
         if risk <= 0:
             return None
 
-        # Find targets from level store (supports below entry)
-        below = self.level_store.supports_below(entry, pattern.timestamp)
+        # Find targets from level store (supports below entry), filtering out
+        # too-close levels and clusters
+        min_dist = self.strategy_params.min_target_distance_pts
+        below = [
+            l for l in self.level_store.supports_below(entry, pattern.timestamp)
+            if entry - l.price >= min_dist
+            and l.level_type.name not in ('CLUSTER_LOW', 'CLUSTER_HIGH')
+        ]
         below.reverse()  # nearest first
         if len(below) >= 2:
             t1 = below[0].price
@@ -503,7 +526,35 @@ class SignalAggregator:
         rr_t1 = reward_t1 / risk if risk > 0 else 0
         rr_t2 = reward_t2 / risk if risk > 0 else 0
 
-        if rr_t1 < self.min_rr_ratio:
+        # Mancini-style position sizing based on stop distance
+        max_full_stop = self.strategy_params.max_full_stop_pts
+        if risk <= max_full_stop:
+            size_factor = 1.0
+        elif risk <= max_full_stop * 2:
+            size_factor = 0.5
+        elif risk <= max_full_stop * (10.0 / 3.0):
+            size_factor = 0.25
+        else:
+            size_factor = 0.25  # minimum size for very deep sweeps
+
+        # Absolute R:R floor — reject truly garbage signals
+        if rr_t1 < self.strategy_params.min_signal_rr:
+            detector = self.failed_breakdown if signal_type == SignalType.FAILED_BREAKDOWN else None
+            if detector and hasattr(detector, 'near_misses'):
+                detector.near_misses.append({
+                    "timestamp": str(pattern.timestamp),
+                    "bar_idx": pattern.bar_idx,
+                    "level_price": pattern.level.price,
+                    "failure_reason": "rr_below_floor",
+                    "achieved": {"rr_ratio": round(rr_t1, 2)},
+                    "required": {"min_signal_rr": self.strategy_params.min_signal_rr},
+                    "sweep_low": pattern.sweep_low,
+                    "close_at_failure": entry,
+                })
+            return None
+
+        # Absolute R:R floor — reject truly garbage signals
+        if rr_t1 < self.strategy_params.min_signal_rr:
             return None
 
         return Signal(
@@ -516,6 +567,7 @@ class SignalAggregator:
             reward_t2_pts=reward_t2,
             rr_ratio_t1=rr_t1,
             rr_ratio_t2=rr_t2,
+            position_size_factor=size_factor,
             bar_idx=pattern.bar_idx,
             timestamp=pattern.timestamp,
         )
@@ -534,8 +586,13 @@ class SignalAggregator:
         if risk <= 0:
             return None
 
-        # Find targets from level store
-        above = self.level_store.resistances_above(entry, pattern.timestamp)
+        # Find targets from level store, filtering out too-close levels and clusters
+        min_dist = self.strategy_params.min_target_distance_pts
+        above = [
+            l for l in self.level_store.resistances_above(entry, pattern.timestamp)
+            if l.price - entry >= min_dist
+            and l.level_type.name not in ('CLUSTER_LOW', 'CLUSTER_HIGH')
+        ]
         if len(above) >= 2:
             t1 = above[0].price
             t2 = above[1].price
@@ -560,21 +617,32 @@ class SignalAggregator:
         rr_t1 = reward_t1 / risk if risk > 0 else 0
         rr_t2 = reward_t2 / risk if risk > 0 else 0
 
+        # Track near-miss diagnostics when R:R is low (but don't reject)
         if rr_t1 < self.min_rr_ratio:
-            # Track as near-miss for self-improvement data
             detector = self.failed_breakdown if signal_type == SignalType.FAILED_BREAKDOWN else None
             if detector and hasattr(detector, 'near_misses'):
                 detector.near_misses.append({
                     "timestamp": str(pattern.timestamp),
                     "bar_idx": pattern.bar_idx,
                     "level_price": pattern.level.price,
-                    "failure_reason": "rr_too_low",
+                    "failure_reason": "rr_low_sized_down",
                     "achieved": {"rr_ratio": round(rr_t1, 2)},
                     "required": {"min_rr_ratio": self.min_rr_ratio},
                     "sweep_low": pattern.sweep_low,
                     "close_at_failure": entry,
                 })
-            return None
+
+        # Mancini-style position sizing based on stop distance
+        # Max 15 pts full size, size down proportionally beyond that
+        max_full_stop = self.strategy_params.max_full_stop_pts
+        if risk <= max_full_stop:
+            size_factor = 1.0
+        elif risk <= max_full_stop * 2:
+            size_factor = 0.5
+        elif risk <= max_full_stop * (10.0 / 3.0):
+            size_factor = 0.25
+        else:
+            size_factor = 0.25  # minimum size for very deep sweeps
 
         return Signal(
             signal_type=signal_type,
@@ -586,6 +654,7 @@ class SignalAggregator:
             reward_t2_pts=reward_t2,
             rr_ratio_t1=rr_t1,
             rr_ratio_t2=rr_t2,
+            position_size_factor=size_factor,
             bar_idx=pattern.bar_idx,
             timestamp=pattern.timestamp,
         )

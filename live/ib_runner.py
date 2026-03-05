@@ -52,7 +52,7 @@ from strategy.risk_manager import RiskManager
 # 5yr: 455T, PF=1.42, +2,706 pts, all years positive
 
 PRODUCTION_STRATEGY = StrategyParams(
-    acceptance_max_dip_pts=4.0,
+    acceptance_max_dip_pts=50.0,          # data collection: allow deep dips (was 4.0)
     acceptance_min_hold_bars=7,
     swing_low_order=15,
     allow_breakdown_short=True,
@@ -60,6 +60,7 @@ PRODUCTION_STRATEGY = StrategyParams(
     fb_stop_buffer_pts=7.0,
     lr_stop_buffer_pts=3.0,
     max_target_distance_pts=15.0,
+    max_fb_sweep_depth_pts=50.0,          # data collection: allow deep sweeps (was 10.0)
     bd_confirm_bars=8,
     bd_stop_buffer_pts=4.0,
     bd_max_break_depth_pts=14.0,
@@ -73,10 +74,16 @@ PRODUCTION_ELEVATOR = ElevatorParams(
     higher_low_lookback=4,
 )
 PRODUCTION_EXIT = ExitParams(
-    t1_exit_fraction=1.0,
-    fb_max_hold_bars=24,
+    default_contracts=2,
+    t1_exit_fraction=0.5,       # exit 1 of 2 at T1, keep runner
+    t2_exit_fraction=0.0,
+    runner_fraction=0.5,        # 1 contract runner
+    breakeven_buffer_pts=-3.0,  # Mancini: "several pts under breakeven"
+    trailing_stop_pts=12.0,
+    runner_prior_day_low_buffer_pts=1.0,
+    fb_max_hold_bars=0,         # no time limit — let runners run
 )
-PRODUCTION_RISK = RiskParams(max_trades_per_day=999, skip_tuesdays=False)
+PRODUCTION_RISK = RiskParams(max_trades_per_day=999, max_daily_loss_pts=9999.0, skip_tuesdays=False, min_rr_ratio=0.1)
 PRODUCTION_REGIME = RegimeParams(
     mode="ema",
     ema_span=80,
@@ -112,6 +119,34 @@ MES_CONTRACT = ESContractSpec(
     margin_maintenance=1_150.0,
     exchange="CME",
 )
+
+
+def _is_market_closed(now: datetime = None) -> bool:
+    """Check if ES/MES futures market is closed right now.
+
+    Schedule (all times US/Eastern):
+      - Daily break: 17:00-18:00 ET (Mon-Thu)
+      - Weekend: Friday 17:00 ET through Sunday 18:00 ET
+    """
+    if now is None:
+        now = datetime.now()
+    t = now.time()
+    wd = now.weekday()  # 0=Mon, 4=Fri, 5=Sat, 6=Sun
+
+    # Saturday: always closed
+    if wd == 5:
+        return True
+    # Sunday: closed until 18:00 ET
+    if wd == 6:
+        return t < time(18, 0)
+    # Friday: closed after 17:00 ET
+    if wd == 4 and t >= time(17, 0):
+        return True
+    # Mon-Thu: daily break 17:00-18:00
+    if time(17, 0) <= t < time(18, 0):
+        return True
+
+    return False
 
 
 class IBRunner:
@@ -168,7 +203,7 @@ class IBRunner:
             risk_params=risk_params,
         )
         self.exit_manager = ExitManager(params=exit_params, contract=contract)
-        self.position_manager = PositionManager(risk_params=risk_params)
+        self.position_manager = PositionManager(risk_params=risk_params, point_value=contract.point_value)
         self.risk_manager = RiskManager(
             risk_params=risk_params,
             session=session_times,
@@ -239,15 +274,35 @@ class IBRunner:
             return
 
         logger.info("Listening for streaming bars from IB...")
+        self._last_bar_received = _time.monotonic()
         try:
             while self._running:
                 bar = self.bridge.get_latest_bar()
                 if bar is not None:
+                    self._last_bar_received = _time.monotonic()
                     self._process_bar(bar)
                     self._check_eod(bar)
+                else:
+                    # Check if we haven't received a bar in too long
+                    minutes_since_bar = (_time.monotonic() - self._last_bar_received) / 60
+                    if minutes_since_bar > 5 and not _is_market_closed():
+                        # Throttle: only log once per 5-minute interval
+                        last_alert = getattr(self, "_last_stale_alert", 0.0)
+                        if _time.monotonic() - last_alert >= 300:  # 5 min
+                            self._last_stale_alert = _time.monotonic()
+                            logger.error(
+                                f"NO NEW BARS for {minutes_since_bar:.0f} minutes. "
+                                f"IB connection may be stale. Last bar: {self._bar_count}"
+                            )
 
                 # IB-aware sleep keeps the event loop alive for streaming callbacks
                 self.bridge.sleep(self.bridge.config.poll_interval_sec)
+
+                # Session rollover: detect new Globex session (date change)
+                # Globex sessions start at 18:00 ET, so the "trading date" rolls
+                # over then. Without this, daily loss limits from yesterday block
+                # today's signals.
+                self._check_session_rollover()
 
                 # Sync position with IB periodically
                 self._sync_position()
@@ -377,6 +432,9 @@ class IBRunner:
                     velocity=vel,
                     df=self._df,
                 )
+
+        # Restore pattern state from prior session (if saved)
+        self._load_pattern_state()
 
         # Check for existing position (crash recovery)
         pos_data = self.bridge.get_position()
@@ -1042,6 +1100,7 @@ class IBRunner:
                     "pnl_pts": getattr(trade_record, "pnl_pts", None),
                     "pnl_dollars": getattr(trade_record, "pnl_dollars", None),
                     "contracts": getattr(trade_record, "contracts", 1),
+                    "direction": getattr(trade_record, "direction", "long"),
                     "pattern_type": getattr(trade_record, "pattern_type", self._pattern_type),
                     "exit_reason": getattr(trade_record, "exit_reason", None),
                     "entry_time": str(getattr(trade_record, "entry_time", "")),
@@ -1278,6 +1337,60 @@ class IBRunner:
         except Exception as e:
             logger.warning(f"Failed to archive session: {e}")
 
+    def _check_session_rollover(self) -> None:
+        """Detect new Globex session and reset daily state.
+
+        CME Globex sessions run 18:00 ET -> 17:00 ET next day.
+        The "trading date" is the NEXT calendar day after 18:00.
+        E.g., Sunday 18:00 ET = Monday's session.
+
+        Without this, daily loss limits and trade counts from the
+        previous session carry over and block new signals.
+        """
+        now = datetime.now()
+        t = now.time()
+
+        # Compute the trading date: after 18:00 ET, it's "tomorrow's" session
+        if t >= time(18, 0):
+            trading_date = now.date() + __import__('datetime').timedelta(days=1)
+        elif t < time(17, 0):
+            trading_date = now.date()
+        else:
+            # 17:00-18:00 = break, keep current date
+            return
+
+        if trading_date != self._session_date:
+            logger.info(f"SESSION ROLLOVER: {self._session_date} -> {trading_date}")
+            # Save pattern state before reset (carries across sessions)
+            pattern_snapshot = self.signal_aggregator.get_pattern_state()
+            # Archive old session
+            self._archive_session()
+            self._log_session_summary()
+
+            # Reset for new session
+            old_date = self._session_date
+            self._session_date = trading_date
+            self.strategy.reset()
+            self.position_manager.start_session(now)
+            self._phantom_positions.clear()
+            self._near_miss_phantoms.clear()
+            self._bar_count = 0
+            self._df = pd.DataFrame()
+
+            # Re-initialize levels from IB (prior day data)
+            try:
+                prior_day_df = self.bridge.get_prior_day_bars()
+                if prior_day_df is not None:
+                    self.signal_aggregator.initialize_levels(pd.DataFrame(), prior_day_df)
+                    logger.info(f"Rollover: re-initialized levels from {len(prior_day_df)} prior day bars")
+            except Exception as e:
+                logger.warning(f"Rollover: failed to reload prior day bars: {e}")
+
+            # Restore pattern state from prior session (sweeps carry across)
+            self.signal_aggregator.restore_pattern_state(pattern_snapshot)
+            logger.info(f"New session {trading_date}: daily PnL reset, "
+                        f"trade count reset, levels re-initialized, pattern state restored")
+
     # ── EOD and session management ───────────────────────────────────
 
     def _check_eod(self, bar: dict) -> None:
@@ -1357,6 +1470,31 @@ class IBRunner:
 
     # ── Shutdown ─────────────────────────────────────────────────────
 
+    def _save_pattern_state(self) -> None:
+        """Save pattern state to disk for restoration after restart."""
+        try:
+            state = self.signal_aggregator.get_pattern_state()
+            state_path = Path(os.environ.get("PATTERN_STATE_FILE", "/app/data/pattern_state.json"))
+            state_path.parent.mkdir(parents=True, exist_ok=True)
+            state_path.write_text(json.dumps(state, default=str))
+            logger.info(f"Pattern state saved to {state_path}")
+        except Exception as e:
+            logger.warning(f"Failed to save pattern state: {e}")
+
+    def _load_pattern_state(self) -> None:
+        """Load and restore pattern state from disk (one-shot)."""
+        state_path = Path(os.environ.get("PATTERN_STATE_FILE", "/app/data/pattern_state.json"))
+        if not state_path.exists():
+            return
+        try:
+            state = json.loads(state_path.read_text())
+            self.signal_aggregator.restore_pattern_state(state)
+            saved_at = state.get("timestamp", "unknown")
+            logger.info(f"Restored pattern state from {state_path} (saved at {saved_at})")
+            state_path.unlink()  # One-shot: clear after loading
+        except Exception as e:
+            logger.warning(f"Failed to load pattern state: {e}")
+
     def _handle_shutdown(self, signum, frame) -> None:
         """Handle SIGINT/SIGTERM.
 
@@ -1369,6 +1507,7 @@ class IBRunner:
                         f"@ {self._position.entry_price:.2f}, "
                         f"SL={self._position.stop_price:.2f}, "
                         f"TP={self._position.target_1:.2f}")
+        self._save_pattern_state()
         self._archive_session()
         self._running = False
 
@@ -1417,26 +1556,35 @@ class IBRunner:
         """Determine current market session window from ET time."""
         t = et_time
         if time(17, 0) <= t < time(18, 0):
-            return {"label": "CLOSED", "detail": "Daily Break", "trading": False, "css": "session-closed"}
+            window = {"label": "CLOSED", "detail": "Daily Break", "trading": False, "css": "session-closed"}
         elif time(18, 0) <= t < time(22, 0):
-            return {"label": "GLOBEX", "detail": "Evening (Blocked 6-10PM ET)", "trading": False, "css": "session-blocked"}
+            window = {"label": "GLOBEX", "detail": "Evening (Blocked 6-10PM ET)", "trading": False, "css": "session-blocked"}
         elif time(22, 0) <= t <= time(23, 59) or time(0, 0) <= t < time(2, 0):
-            return {"label": "GLOBEX", "detail": "Late Night Session", "trading": True, "css": "session-globex"}
+            window = {"label": "GLOBEX", "detail": "Late Night Session", "trading": True, "css": "session-globex"}
         elif time(2, 0) <= t < time(6, 0):
-            return {"label": "EURO", "detail": "European Open (Blocked)", "trading": False, "css": "session-blocked"}
+            window = {"label": "EURO", "detail": "European Open (Blocked)", "trading": False, "css": "session-blocked"}
         elif time(6, 0) <= t < time(9, 30):
-            return {"label": "PRE-RTH", "detail": "Pre-Market", "trading": True, "css": "session-globex"}
+            window = {"label": "PRE-RTH", "detail": "Pre-Market", "trading": True, "css": "session-globex"}
         elif time(9, 30) <= t < time(11, 0):
-            return {"label": "RTH", "detail": "Morning Window (Prime)", "trading": True, "css": "session-rth"}
+            window = {"label": "RTH", "detail": "Morning Window (Prime)", "trading": True, "css": "session-rth"}
         elif time(11, 0) <= t < time(13, 0):
-            return {"label": "RTH", "detail": "Midday", "trading": True, "css": "session-rth"}
+            window = {"label": "RTH", "detail": "Midday", "trading": True, "css": "session-rth"}
         elif time(13, 0) <= t < time(15, 0):
-            return {"label": "CHOP", "detail": "Chop Zone (Blocked)", "trading": False, "css": "session-blocked"}
+            window = {"label": "CHOP", "detail": "Chop Zone (Blocked)", "trading": False, "css": "session-blocked"}
         elif time(15, 0) <= t < time(16, 50):
-            return {"label": "RTH", "detail": "Afternoon (FB Only)", "trading": True, "css": "session-rth"}
+            window = {"label": "RTH", "detail": "Afternoon (FB Only)", "trading": True, "css": "session-rth"}
         elif time(16, 50) <= t < time(17, 0):
-            return {"label": "RTH", "detail": "EOD Flatten Zone", "trading": False, "css": "session-blocked"}
-        return {"label": "UNKNOWN", "detail": "", "trading": False, "css": "session-closed"}
+            window = {"label": "RTH", "detail": "EOD Flatten Zone", "trading": False, "css": "session-blocked"}
+        else:
+            window = {"label": "UNKNOWN", "detail": "", "trading": False, "css": "session-closed"}
+
+        # Bypass mode: override time gates so dashboard shows trading active
+        if self._bypass_session_gates and not window["trading"]:
+            window["trading"] = True
+            window["detail"] += " [BYPASS]"
+            window["css"] = "session-bypass"
+
+        return window
 
     def _write_status(self) -> None:
         """Write current state to JSON file for the dashboard."""
@@ -1508,7 +1656,7 @@ class IBRunner:
                 for t in self.position_manager.session.trades:
                     trade_dict = {
                         "time": self._et_to_pt(t.entry_time).strftime("%I:%M %p PT") if hasattr(t.entry_time, "strftime") else str(t.entry_time),
-                        "direction": "long",
+                        "direction": getattr(t, "direction", "long"),
                         "pattern": t.pattern_type,
                         "entry_price": t.entry_price,
                         "exit_price": t.avg_exit_price,
@@ -1610,7 +1758,7 @@ class IBRunner:
             os.replace(tmp_path, status_path)
 
         except Exception as e:
-            logger.debug(f"Failed to write status: {e}")
+            logger.error(f"Failed to write status: {e}")
 
 
 def main():
@@ -1667,9 +1815,9 @@ def main():
         t2_exit_fraction=0.0,    # skip T2 with 2 contracts (no contracts left)
         runner_fraction=0.5,     # keep 50% (1 contract) as runner
         breakeven_buffer_pts=-3.0,  # Mancini: "several pts under breakeven"
-        trailing_stop_pts=7.0,   # fallback intraday trail before EOD hook
+        trailing_stop_pts=12.0,   # fallback intraday trail before EOD hook
         runner_prior_day_low_buffer_pts=1.0,  # 1 pt below prior day's low
-        fb_max_hold_bars=24,
+        fb_max_hold_bars=0,      # no time limit — let runners run
     )
 
     session_times = FULL_SESSION if args.full_session else PRODUCTION_SESSION
@@ -1690,8 +1838,10 @@ def main():
     # Rejected signals are tracked as phantoms to see what we're missing.
     live_risk = RiskParams(
         max_trades_per_day=999,
-        max_stop_distance_pts=15.0,
+        max_daily_loss_pts=9999.0,  # unlimited for data collection
+        max_stop_distance_pts=50.0,  # data collection: allow deep sweep stops (was 15.0)
         skip_tuesdays=False,
+        min_rr_ratio=0.1,  # match SignalAggregator's 0.1 for data collection
     )
 
     runner = IBRunner(
@@ -1699,7 +1849,7 @@ def main():
         exit_params=exit_params,
         risk_params=live_risk,
         session_times=session_times,
-        min_rr_ratio=1.0,  # only take trades with real R:R
+        min_rr_ratio=0.1,  # data collection: capture deep sweeps (was 1.0)
         rth_filter=rth_filter,
         fb_only_pm=fb_only_pm,
         regime_params=PRODUCTION_REGIME,

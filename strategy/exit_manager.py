@@ -201,13 +201,19 @@ class ExitManager:
             pnl = (position.stop_price - position.entry_price) * contracts
         position.realized_pnl_pts += pnl
         position.remaining_contracts = 0
+
+        if position.phase in (ExitPhase.AFTER_T1, ExitPhase.AFTER_T2):
+            reason = "Trailing stop hit"
+        else:
+            reason = "Stop loss hit"
+
         position.phase = ExitPhase.CLOSED
         return ExitAction(
             contracts_to_close=contracts,
             exit_price=position.stop_price,
             new_stop=0.0,
             new_phase=ExitPhase.CLOSED,
-            reason="Stop loss hit",
+            reason=reason,
         )
 
     def _check_t1(
@@ -261,8 +267,9 @@ class ExitManager:
         During the day, use fallback trailing if prior_day_low not yet set.
         """
         # Fallback intraday trail (ratchet up) if no prior_day_low set
+        # For runners (AFTER_T1), use base trailing_stop_pts without aggressive tightening
         if position.prior_day_low <= 0:
-            new_trail = self._compute_trail_stop(position, high)
+            new_trail = position.highest_price_since_entry - self.params.trailing_stop_pts
             if new_trail > position.stop_price:
                 position.stop_price = new_trail
 
@@ -313,8 +320,8 @@ class ExitManager:
             # During the session, stop stays fixed. No per-bar trail.
             pass
         else:
-            # Fallback: intraday trailing (for backtest engine without EOD hooks)
-            new_trail = self._compute_trail_stop(position, high)
+            # Fallback: intraday trailing with base trailing_stop_pts (no tightening for runners)
+            new_trail = position.highest_price_since_entry - self.params.trailing_stop_pts
             if new_trail > position.stop_price:
                 position.stop_price = new_trail
         return None
@@ -373,8 +380,10 @@ class ExitManager:
         self, position: TradePosition, low: float, close: float
     ) -> Optional[ExitAction]:
         """Check if Target 2 is reached for short."""
+        # Fallback intraday trail (ratchet down) if no prior_day_high set
+        # For runners (AFTER_T1), use base trailing_stop_pts without aggressive tightening
         if position.prior_day_high <= 0:
-            new_trail = self._compute_trail_stop_short(position, low)
+            new_trail = position.lowest_price_since_entry + self.params.trailing_stop_pts
             if new_trail < position.stop_price:
                 position.stop_price = new_trail
 
@@ -418,7 +427,8 @@ class ExitManager:
         if position.prior_day_high > 0:
             pass  # Trail updated at EOD only
         else:
-            new_trail = self._compute_trail_stop_short(position, low)
+            # Fallback: intraday trailing with base trailing_stop_pts (no tightening for runners)
+            new_trail = position.lowest_price_since_entry + self.params.trailing_stop_pts
             if new_trail < position.stop_price:
                 position.stop_price = new_trail
         return None

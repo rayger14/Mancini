@@ -184,6 +184,62 @@ class BreakdownShort:
         return signal
 
 
+    def get_state_snapshot(self) -> dict:
+        """Serialize active pattern state for persistence across restarts."""
+        target_level = None
+        if self._target_level is not None:
+            target_level = {
+                "price": self._target_level.price,
+                "level_type": self._target_level.level_type.name,
+                "created_at": self._target_level.created_at.isoformat(),
+                "confirmed_at": self._target_level.confirmed_at.isoformat() if self._target_level.confirmed_at else None,
+                "touch_count": self._target_level.touch_count,
+                "rally_from_low_pts": self._target_level.rally_from_low_pts,
+                "is_active": self._target_level.is_active,
+                "label": self._target_level.label,
+            }
+
+        return {
+            "state": self.state.name,
+            "target_level": target_level,
+            "break_bar": self._break_bar,
+            "bars_below": self._bars_below,
+            "lowest_low": self._lowest_low,
+            "break_close": self._break_close,
+        }
+
+    def restore_state(self, snapshot: dict) -> None:
+        """Restore pattern state from a saved snapshot."""
+        from config.levels import Level, LevelType
+
+        state_name = snapshot.get("state", "IDLE")
+        try:
+            self.state = ShortState[state_name]
+        except KeyError:
+            self.state = ShortState.IDLE
+            return
+
+        tl = snapshot.get("target_level")
+        if tl is not None:
+            self._target_level = Level(
+                price=tl["price"],
+                level_type=LevelType[tl["level_type"]],
+                created_at=datetime.fromisoformat(tl["created_at"]),
+                confirmed_at=datetime.fromisoformat(tl["confirmed_at"]) if tl.get("confirmed_at") else None,
+                touch_count=tl.get("touch_count", 1),
+                rally_from_low_pts=tl.get("rally_from_low_pts", 0.0),
+                is_active=tl.get("is_active", True),
+                label=tl.get("label", ""),
+            )
+        else:
+            self._target_level = None
+
+        self._break_bar = snapshot.get("break_bar", -1)
+        self._bars_below = snapshot.get("bars_below", 0)
+        self._lowest_low = snapshot.get("lowest_low", float("inf"))
+        self._break_close = snapshot.get("break_close", 0.0)
+
+
 class BacktestShort:
     """Detect failed backtests of previously broken resistance for short entries.
 

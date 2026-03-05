@@ -8,7 +8,7 @@ Dual-mode execution:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, time as dt_time
+from datetime import date, datetime, time as dt_time
 from typing import Optional
 
 import numpy as np
@@ -29,11 +29,12 @@ from config.settings import (
     DEFAULT_SESSION,
     DEFAULT_CONTRACT,
 )
+from config.levels import Level, LevelType
 from core.indicators import enrich_dataframe
 from core.regime_filter import compute_regime, RegimeState, RegimeParams, Direction, VolRegime
 from core.signals import Signal, SignalAggregator
 from strategy.entry_manager import EntryManager, EntryDecision
-from strategy.exit_manager import ExitManager, ExitAction, TradePosition
+from strategy.exit_manager import ExitManager, ExitAction, ExitPhase, TradePosition
 from strategy.position_manager import PositionManager, TradeRecord
 from strategy.risk_manager import RiskManager
 
@@ -93,7 +94,7 @@ class ManciniLongStrategy:
             params=exit_params,
             contract=contract,
         )
-        self.position_manager = PositionManager(risk_params=risk_params)
+        self.position_manager = PositionManager(risk_params=risk_params, point_value=contract.point_value)
         self.risk_manager = RiskManager(
             risk_params=risk_params,
             session=session_times,
@@ -120,8 +121,15 @@ class ManciniLongStrategy:
         # Recent bars for candle bias filter (rolling 5-bar window)
         self._recent_bars: list[tuple[float, float, float, float]] = []  # [(o, h, l, c), ...]
 
+        # Multi-day level persistence — survives reset() across days
+        self._persistent_levels: list[Level] = []
+
     def reset(self) -> None:
-        """Reset all state for a new session."""
+        """Reset all state for a new session.
+
+        NOTE: _persistent_levels is intentionally NOT cleared here.
+        It carries significant levels across days for multi-day memory.
+        """
         self.signal_aggregator.reset()
         self._long_position = None
         self._long_pattern_type = ""
@@ -144,6 +152,7 @@ class ManciniLongStrategy:
         df: pd.DataFrame,
         prior_day_df: Optional[pd.DataFrame] = None,
         session_date: Optional[datetime] = None,
+        runner_state: Optional[object] = None,
     ) -> list[BarResult]:
         """Run strategy bar-by-bar over one day of data.
 
@@ -155,6 +164,8 @@ class ManciniLongStrategy:
             Previous day for level initialization.
         session_date : datetime, optional
             Session date (defaults to first bar date).
+        runner_state : RunnerCarryState, optional
+            Runner position carried from prior day (for multi-day backtests).
 
         Returns
         -------
@@ -162,6 +173,21 @@ class ManciniLongStrategy:
             Results for each bar.
         """
         self.reset()
+
+        # Re-inject runner from prior day (after reset cleared signal state)
+        if runner_state is not None:
+            pos = runner_state.position
+            if runner_state.direction == "long":
+                self._long_position = pos
+                self._long_pattern_type = runner_state.pattern_type
+                self._long_signal = runner_state.signal
+                self._long_entry_bar_idx = -runner_state.cumulative_bars
+                self._current_position = pos
+            else:
+                self._short_position = pos
+                self._short_pattern_type = runner_state.pattern_type
+                self._short_signal = runner_state.signal
+                self._short_entry_bar_idx = -runner_state.cumulative_bars
 
         if session_date is None:
             session_date = df.index[0].to_pydatetime()
@@ -190,6 +216,26 @@ class ManciniLongStrategy:
         self.position_manager.start_session(session_date)
         self.signal_aggregator.initialize_levels(df, prior_day_df)
 
+        # Re-inject persistent multi-day levels (after reset cleared the store)
+        if (self.strategy_params.level_memory_days > 0
+                and self._persistent_levels):
+            today = session_date.date() if isinstance(session_date, datetime) else session_date
+            # Filter out levels older than level_memory_days trading days
+            cutoff_days = self.strategy_params.level_memory_days
+            fresh_levels = [
+                lv for lv in self._persistent_levels
+                if lv.origin_date is not None
+                and (today - lv.origin_date).days <= cutoff_days * 7 // 5 + 2  # rough calendar→trading conversion
+            ]
+            if fresh_levels:
+                self.signal_aggregator.level_store.inject_levels(fresh_levels)
+                logger.debug(
+                    f"Injecting {len(fresh_levels)} persistent levels "
+                    f"(scores: {[round(l.significance_score, 2) for l in fresh_levels]})"
+                )
+            # Update persistent list to only keep non-expired
+            self._persistent_levels = fresh_levels
+
         # Set prior day range for volatility filter
         if prior_day_df is not None and len(prior_day_df) > 0:
             prior_range = float(prior_day_df["high"].max() - prior_day_df["low"].min())
@@ -213,6 +259,54 @@ class ManciniLongStrategy:
 
         results: list[BarResult] = []
 
+        # Overnight gap check: if runner carried from prior day gaps below stop
+        if runner_state is not None and n > 0:
+            first_open = float(opens[0])
+            gap_closed = False
+            if runner_state.direction == "long" and self._long_position is not None:
+                if first_open <= self._long_position.stop_price:
+                    # Gap below stop — close at open (realistic slippage)
+                    pos = self._long_position
+                    pnl = (first_open - pos.entry_price) * pos.remaining_contracts
+                    pos.realized_pnl_pts += pnl
+                    pos.remaining_contracts = 0
+                    pos.phase = ExitPhase.CLOSED
+                    record = self.position_manager.close_position(
+                        exit_price=first_open, timestamp=timestamps[0],
+                        exit_reason="Overnight gap below stop",
+                        pattern_type=self._long_pattern_type,
+                        signal=self._long_signal,
+                        entry_bar_idx=self._long_entry_bar_idx, exit_bar_idx=0,
+                    )
+                    if record is not None:
+                        record.direction = "long"
+                        record.is_runner = True
+                        record.entry_date = runner_state.entry_date
+                        record.days_held = runner_state.cumulative_bars // 390 + 1
+                    self._long_position = None
+                    self._current_position = None
+                    gap_closed = True
+            elif runner_state.direction == "short" and self._short_position is not None:
+                if first_open >= self._short_position.stop_price:
+                    pos = self._short_position
+                    pnl = (pos.entry_price - first_open) * pos.remaining_contracts
+                    pos.realized_pnl_pts += pnl
+                    pos.remaining_contracts = 0
+                    pos.phase = ExitPhase.CLOSED
+                    record = self.position_manager.close_position(
+                        exit_price=first_open, timestamp=timestamps[0],
+                        exit_reason="Overnight gap above stop",
+                        pattern_type=self._short_pattern_type,
+                        signal=self._short_signal,
+                        entry_bar_idx=self._short_entry_bar_idx, exit_bar_idx=0,
+                    )
+                    if record is not None:
+                        record.direction = "short"
+                        record.is_runner = True
+                        record.entry_date = runner_state.entry_date
+                    self._short_position = None
+                    gap_closed = True
+
         for i in range(n):
             vel = float(vels[i])
             if vel != vel:  # fast NaN check
@@ -230,8 +324,189 @@ class ManciniLongStrategy:
             )
             results.append(result)
 
+        # EOD processing: flatten non-runners, leave runners for carry
+        for pos, ptype, sig, entry_idx, direction in [
+            (self._long_position, self._long_pattern_type, self._long_signal,
+             self._long_entry_bar_idx, "long"),
+            (self._short_position, self._short_pattern_type, self._short_signal,
+             self._short_entry_bar_idx, "short"),
+        ]:
+            if pos is None or not pos.is_open:
+                continue
+            if pos.phase in (ExitPhase.AFTER_T1, ExitPhase.AFTER_T2):
+                # Runner survives EOD — BacktestRunner will extract it
+                pass
+            else:
+                # Non-runner: flatten at last close
+                last_close = float(closes[-1])
+                contracts = pos.remaining_contracts
+                if direction == "long":
+                    pnl = (last_close - pos.entry_price) * contracts
+                else:
+                    pnl = (pos.entry_price - last_close) * contracts
+                pos.realized_pnl_pts += pnl
+                pos.remaining_contracts = 0
+                pos.phase = ExitPhase.CLOSED
+                record = self.position_manager.close_position(
+                    exit_price=last_close, timestamp=timestamps[-1],
+                    exit_reason="EOD flatten",
+                    pattern_type=ptype, signal=sig,
+                    entry_bar_idx=entry_idx, exit_bar_idx=n - 1,
+                )
+                if record is not None:
+                    record.direction = direction
+                if direction == "long":
+                    self._long_position = None
+                    self._current_position = None
+                else:
+                    self._short_position = None
+
+        # Score existing persistent levels based on today's price action, then snapshot
+        if self.strategy_params.level_memory_days > 0:
+            self._score_persistent_levels(df)
+            self._snapshot_persistent_levels(session_date)
+
         self._results = results
         return results
+
+    def _score_persistent_levels(self, bars_df: pd.DataFrame) -> None:
+        """Score persistent levels based on today's price action.
+
+        Applies daily decay and checks if levels were tested/held today.
+        Must be called BEFORE _snapshot_persistent_levels().
+        """
+        if not self._persistent_levels:
+            return
+
+        decay = self.strategy_params.level_decay_rate
+
+        for level in self._persistent_levels:
+            # Apply daily decay
+            level.significance_score *= decay
+
+            # Check if tested today
+            is_support = level.level_type.name in (
+                'PRIOR_DAY_LOW', 'MULTI_HOUR_LOW', 'SWING_LOW',
+            )
+            if is_support:
+                # Tested if price came within 3 pts from above
+                tested = (bars_df['low'] <= level.price + 3.0).any()
+                # Held if price then went 5+ pts above
+                held = tested and (bars_df['high'] >= level.price + 5.0).any()
+            else:
+                # Resistance: tested if price came within 3 pts from below
+                tested = (bars_df['high'] >= level.price - 3.0).any()
+                # Held if price then went 5+ pts below
+                held = tested and (bars_df['low'] <= level.price - 5.0).any()
+
+            if tested:
+                level.touch_count += 1
+            if held:
+                level.tested_and_held = True
+                level.significance_score = min(level.significance_score * 1.5, 2.0)
+
+    def _snapshot_persistent_levels(self, session_date) -> None:
+        """Snapshot today's significant levels into _persistent_levels.
+
+        Score-based persistence: only keeps levels that are proven significant
+        by type, touch count, and significance score. Caps total to prevent
+        accumulation of noise.
+
+        Eligible types (NO clusters, NO horizontals):
+        - PRIOR_DAY_LOW / PRIOR_DAY_HIGH
+        - MULTI_HOUR_LOW / MULTI_HOUR_HIGH
+        - SWING_LOW / SWING_HIGH
+
+        Each level gets tagged with origin_date for aging.
+        """
+        today = session_date.date() if isinstance(session_date, datetime) else session_date
+        store = self.signal_aggregator.level_store
+        params = self.strategy_params
+
+        # Only these types qualify for multi-day persistence
+        _PERSISTABLE_TYPES = {
+            LevelType.PRIOR_DAY_LOW,
+            LevelType.PRIOR_DAY_HIGH,
+            LevelType.MULTI_HOUR_LOW,
+            LevelType.MULTI_HOUR_HIGH,
+            LevelType.SWING_LOW,
+            LevelType.SWING_HIGH,
+        }
+
+        new_persistent: list[Level] = []
+
+        # Keep existing persistent levels that still meet thresholds
+        for level in self._persistent_levels:
+            if (level.significance_score >= params.level_persist_min_score
+                    and level.touch_count >= params.level_persist_min_touches):
+                new_persistent.append(level)
+
+        # Collect already-persistent prices for dedup
+        existing_prices = {lv.price for lv in new_persistent}
+
+        # Consider new levels from today's session
+        for level in store.levels:
+            if not level.is_active:
+                continue
+            # Skip if already persistent (origin_date set means it was injected)
+            if level.origin_date is not None:
+                continue
+            # Must be a persistable type
+            if level.level_type not in _PERSISTABLE_TYPES:
+                continue
+            # Must have enough touches
+            if level.touch_count < params.level_persist_min_touches:
+                continue
+
+            # Dedup: skip if within 1 pt of an existing persistent level
+            too_close = any(abs(level.price - p) <= 1.0 for p in existing_prices)
+            if too_close:
+                continue
+
+            # Set initial persistence metadata
+            level.origin_date = today
+            level.significance_score = 1.0
+            new_persistent.append(level)
+            existing_prices.add(level.price)
+
+        # Hard calendar cutoff (backup safety)
+        cutoff_days = params.level_memory_days
+        new_persistent = [
+            lv for lv in new_persistent
+            if lv.origin_date is not None
+            and (today - lv.origin_date).days <= cutoff_days * 7 // 5 + 2
+        ]
+
+        # Cap to top N by significance_score
+        if len(new_persistent) > params.max_persistent_levels:
+            new_persistent.sort(key=lambda l: l.significance_score, reverse=True)
+            new_persistent = new_persistent[:params.max_persistent_levels]
+
+        self._persistent_levels = new_persistent
+
+    def get_runner_state(self) -> Optional[object]:
+        """Extract surviving runner position for cross-day carry.
+
+        Returns a dict with runner state if a position in AFTER_T1/AFTER_T2
+        is still open, else None. The BacktestRunner wraps this into
+        RunnerCarryState.
+        """
+        for pos, ptype, sig, entry_idx, direction in [
+            (self._long_position, self._long_pattern_type, self._long_signal,
+             self._long_entry_bar_idx, "long"),
+            (self._short_position, self._short_pattern_type, self._short_signal,
+             self._short_entry_bar_idx, "short"),
+        ]:
+            if pos is not None and pos.is_open:
+                if pos.phase in (ExitPhase.AFTER_T1, ExitPhase.AFTER_T2):
+                    return {
+                        "position": pos,
+                        "pattern_type": ptype,
+                        "signal": sig,
+                        "entry_bar_idx": entry_idx,
+                        "direction": direction,
+                    }
+        return None
 
     def _has_bullish_bias(self) -> bool:
         """Check if recent price action shows bullish bias for a long entry.
@@ -320,6 +595,7 @@ class ManciniLongStrategy:
             # FB time-based exit: force close after max hold bars
             fb_time_exit = False
             if (self._long_pattern_type == "failed_breakdown"
+                    and self._long_position.phase == ExitPhase.INITIAL
                     and self.exit_params.fb_max_hold_bars > 0
                     and bar_idx - self._long_entry_bar_idx >= self.exit_params.fb_max_hold_bars):
                 fb_time_exit = True
@@ -330,7 +606,6 @@ class ManciniLongStrategy:
 
             # If time exit triggered and no stop/target hit, force close at market
             if fb_time_exit and (exit_action is None or self._long_position.is_open):
-                from strategy.exit_manager import ExitAction, ExitPhase
                 contracts = self._long_position.remaining_contracts
                 pnl = (close - self._long_position.entry_price) * contracts
                 self._long_position.realized_pnl_pts += pnl
@@ -445,18 +720,25 @@ class ManciniLongStrategy:
 
             # Step 4a: Regime filter gating
             if self._regime_state is not None:
-                if direction == "long" and not self._regime_state.longs_enabled:
-                    logger.debug(f"Bar {bar_idx}: Long signal rejected by regime filter (BEAR)")
-                    self._recent_bars.append((open_, high, low, close))
-                    if len(self._recent_bars) > 10:
-                        self._recent_bars = self._recent_bars[-10:]
-                    return result
-                if direction == "short" and not self._regime_state.shorts_enabled:
-                    logger.debug(f"Bar {bar_idx}: Short signal rejected by regime filter (BULL)")
-                    self._recent_bars.append((open_, high, low, close))
-                    if len(self._recent_bars) > 10:
-                        self._recent_bars = self._recent_bars[-10:]
-                    return result
+                # If regime_filter_patterns is set, only gate those specific patterns
+                gated_patterns = self.strategy_params.regime_filter_patterns
+                apply_regime = (
+                    not gated_patterns  # empty = gate all
+                    or signal.signal_type.name in gated_patterns
+                )
+                if apply_regime:
+                    if direction == "long" and not self._regime_state.longs_enabled:
+                        logger.debug(f"Bar {bar_idx}: Long {signal.signal_type.name} rejected by regime filter (BEAR)")
+                        self._recent_bars.append((open_, high, low, close))
+                        if len(self._recent_bars) > 10:
+                            self._recent_bars = self._recent_bars[-10:]
+                        return result
+                    if direction == "short" and not self._regime_state.shorts_enabled:
+                        logger.debug(f"Bar {bar_idx}: Short {signal.signal_type.name} rejected by regime filter (BULL)")
+                        self._recent_bars.append((open_, high, low, close))
+                        if len(self._recent_bars) > 10:
+                            self._recent_bars = self._recent_bars[-10:]
+                        return result
 
             # Step 4b: Check if we already have a position in this direction
             if direction == "long" and self._long_position is not None and self._long_position.is_open:

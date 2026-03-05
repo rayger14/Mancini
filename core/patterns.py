@@ -80,7 +80,6 @@ class FailedBreakdown:
     _HIGH_QUALITY_LEVELS = frozenset({
         LevelType.PRIOR_DAY_LOW,
         LevelType.MULTI_HOUR_LOW,
-        LevelType.CLUSTER_LOW,
     })
 
     def __init__(self, params: StrategyParams = DEFAULT_STRATEGY):
@@ -575,8 +574,13 @@ class FailedBreakdown:
 
         # Mancini: "Stops for Failed Breakdowns ALWAYS go below (a few points)
         # the lowest low of the structure." The sweep_low IS the lowest low.
-        # Use sweep_low - buffer, but cap at max_stop_distance_pts from entry.
-        stop_price = self._sweep_low - self.params.fb_stop_buffer_pts
+        # For deep sweeps (>threshold), use level-based stop to avoid massive
+        # risk. E.g., 50pt sweep → 55pt stop is unreasonable; level - 4.5 = 8pt stop.
+        threshold = self.params.deep_sweep_level_stop_threshold_pts
+        if threshold > 0 and sweep_depth > threshold:
+            stop_price = self._target_level.price - self.params.fb_stop_buffer_pts
+        else:
+            stop_price = self._sweep_low - self.params.fb_stop_buffer_pts
         signal = PatternSignal(
             pattern_type="failed_breakdown",
             confirmation=confirmation,
@@ -591,6 +595,106 @@ class FailedBreakdown:
         )
         self.reset()
         return signal
+
+
+    def get_state_snapshot(self) -> dict:
+        """Serialize active pattern state for persistence across restarts."""
+        target_level = None
+        if self._target_level is not None:
+            target_level = {
+                "price": self._target_level.price,
+                "level_type": self._target_level.level_type.name,
+                "created_at": self._target_level.created_at.isoformat(),
+                "confirmed_at": self._target_level.confirmed_at.isoformat() if self._target_level.confirmed_at else None,
+                "touch_count": self._target_level.touch_count,
+                "rally_from_low_pts": self._target_level.rally_from_low_pts,
+                "is_active": self._target_level.is_active,
+                "label": self._target_level.label,
+            }
+
+        sweep_tracking_level = None
+        if self._sweep_tracking_level is not None:
+            sweep_tracking_level = {
+                "price": self._sweep_tracking_level.price,
+                "level_type": self._sweep_tracking_level.level_type.name,
+                "created_at": self._sweep_tracking_level.created_at.isoformat(),
+                "confirmed_at": self._sweep_tracking_level.confirmed_at.isoformat() if self._sweep_tracking_level.confirmed_at else None,
+                "touch_count": self._sweep_tracking_level.touch_count,
+                "rally_from_low_pts": self._sweep_tracking_level.rally_from_low_pts,
+                "is_active": self._sweep_tracking_level.is_active,
+                "label": self._sweep_tracking_level.label,
+            }
+
+        return {
+            "state": self.state.name,
+            "target_level": target_level,
+            "sweep_low": self._sweep_low,
+            "recovery_bar": self._recovery_bar,
+            "recovery_price": self._recovery_price,
+            "hold_bars": self._hold_bars,
+            "bars_below_level": self._bars_below_level,
+            "is_double_dip": self._is_double_dip,
+            "is_level_sweep": self._is_level_sweep,
+            "sweep_tracking_level": sweep_tracking_level,
+            "sweep_tracking_bars_below": self._sweep_tracking_bars_below,
+            "sweep_tracking_low": self._sweep_tracking_low,
+            "stopped_out_levels": self._stopped_out_levels,
+            "near_misses": self.near_misses[-10:],
+        }
+
+    def restore_state(self, snapshot: dict) -> None:
+        """Restore pattern state from a saved snapshot."""
+        state_name = snapshot.get("state", "IDLE")
+        try:
+            self.state = PatternState[state_name]
+        except KeyError:
+            self.state = PatternState.IDLE
+            return
+
+        # Restore target level
+        tl = snapshot.get("target_level")
+        if tl is not None:
+            self._target_level = Level(
+                price=tl["price"],
+                level_type=LevelType[tl["level_type"]],
+                created_at=datetime.fromisoformat(tl["created_at"]),
+                confirmed_at=datetime.fromisoformat(tl["confirmed_at"]) if tl.get("confirmed_at") else None,
+                touch_count=tl.get("touch_count", 1),
+                rally_from_low_pts=tl.get("rally_from_low_pts", 0.0),
+                is_active=tl.get("is_active", True),
+                label=tl.get("label", ""),
+            )
+        else:
+            self._target_level = None
+
+        self._sweep_low = snapshot.get("sweep_low", float("inf"))
+        self._recovery_bar = snapshot.get("recovery_bar", -1)
+        self._recovery_price = snapshot.get("recovery_price", 0.0)
+        self._hold_bars = snapshot.get("hold_bars", 0)
+        self._bars_below_level = snapshot.get("bars_below_level", 0)
+        self._is_double_dip = snapshot.get("is_double_dip", False)
+        self._is_level_sweep = snapshot.get("is_level_sweep", False)
+
+        # Restore sweep tracking level
+        stl = snapshot.get("sweep_tracking_level")
+        if stl is not None:
+            self._sweep_tracking_level = Level(
+                price=stl["price"],
+                level_type=LevelType[stl["level_type"]],
+                created_at=datetime.fromisoformat(stl["created_at"]),
+                confirmed_at=datetime.fromisoformat(stl["confirmed_at"]) if stl.get("confirmed_at") else None,
+                touch_count=stl.get("touch_count", 1),
+                rally_from_low_pts=stl.get("rally_from_low_pts", 0.0),
+                is_active=stl.get("is_active", True),
+                label=stl.get("label", ""),
+            )
+        else:
+            self._sweep_tracking_level = None
+
+        self._sweep_tracking_bars_below = snapshot.get("sweep_tracking_bars_below", 0)
+        self._sweep_tracking_low = snapshot.get("sweep_tracking_low", float("inf"))
+        self._stopped_out_levels = snapshot.get("stopped_out_levels", [])
+        self.near_misses = snapshot.get("near_misses", [])
 
 
 class LevelReclaim:

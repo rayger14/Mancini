@@ -94,18 +94,18 @@ class TestExitManager:
         assert action is None  # already at runner size, just phase change
         assert sample_position.phase == ExitPhase.AFTER_T2
 
-    def test_trailing_stop_tightens(self, exit_manager, sample_position):
-        """Trailing stop should tighten as profit grows (fallback intraday trail)."""
+    def test_trailing_stop_uses_base_for_runners(self, exit_manager, sample_position):
+        """Runner trailing stop uses base trailing_stop_pts (no aggressive tightening)."""
         sample_position.remaining_contracts = 1
         sample_position.phase = ExitPhase.AFTER_T2
         sample_position.stop_price = 5027.0
 
-        # Runner at 5045 → profit = 25 pts → trail should tighten to 2 pts
+        # Runner at 5045 → uses base trailing_stop_pts=12.0 (not tightened 2.0)
         exit_manager.update(
             sample_position,
             high=5045.0, low=5043.0, close=5044.0
         )
-        expected_stop = 5045.0 - 2.0
+        expected_stop = 5045.0 - 12.0  # base trailing, not tightened
         assert sample_position.stop_price == expected_stop
 
     def test_pnl_tracking_75pct(self, exit_manager, sample_position):

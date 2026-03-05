@@ -116,7 +116,7 @@ class ExitParams:
     breakeven_buffer_ticks: int = 1
     # Intraday trailing only used before EOD prior-day-low trail kicks in.
     # This is a fallback for the backtest engine which doesn't have EOD hooks.
-    trailing_stop_pts: float = 7.0
+    trailing_stop_pts: float = 12.0
     trailing_tighten_thresholds: list[tuple[float, float]] = field(
         default_factory=lambda: [
             (10.0, 3.0),
@@ -137,8 +137,8 @@ class StrategyParams:
 
     # Significant low detection
     swing_low_order: int = 30  # argrelextrema order (30 bars = 30 min on 1-min)
-    cluster_proximity_pts: float = 1.0  # points within which lows form a cluster
-    cluster_min_touches: int = 3  # minimum touches for a cluster
+    cluster_proximity_pts: float = 2.0  # points within which lows form a cluster
+    cluster_min_touches: int = 5  # minimum touches for a cluster
     multi_hour_rally_min_pts: float = 25.0  # min rally from low to qualify (only significant levels)
 
     # Failed breakdown
@@ -175,6 +175,16 @@ class StrategyParams:
     # Deep sweeps (>10 pts) are often true breakdowns, not failed breakdowns.
     # The two best late-night trades had 3.5-4.5 pt sweep depth.
     max_fb_sweep_depth_pts: float = 10.0
+    # Deep sweep dual stop: for sweeps deeper than this threshold, use
+    # level_price - fb_stop_buffer_pts as the stop instead of sweep_low - buffer.
+    # This avoids massive 50+ pt stops on deep sweeps while still capturing
+    # the bounce. Set to 0 to disable (always use sweep_low stop).
+    deep_sweep_level_stop_threshold_pts: float = 20.0
+
+    # Mancini-style position sizing based on stop distance.
+    # Max stop for full size; beyond this, size down proportionally.
+    # 15 pts = full, 30 pts = half, 50 pts = quarter.
+    max_full_stop_pts: float = 15.0
 
     # Max target distance cap (points).
     # Mancini: "average FB return is 30-50 points (~70%), 4-15 points (~15%),
@@ -182,6 +192,8 @@ class StrategyParams:
     # target so the R:R filter doesn't pass trades with unrealistic targets.
     # Diagnostic: trades with R:R > 5 win only 8%. Sweet spot is 2.0-2.5 R:R.
     max_target_distance_pts: float = 30.0
+    min_target_distance_pts: float = 8.0  # min distance to target (filter too-close levels)
+    min_signal_rr: float = 0.5  # absolute R:R floor (reject garbage signals)
 
     # Level sweep FB (no elevator required for high-quality levels)
     # When price sweeps below a prior day low, multi-hour low, or cluster,
@@ -246,9 +258,21 @@ class StrategyParams:
     # Cooldown prevents taking signal #2 when signal #1 from the same zone just lost.
     signal_cooldown_bars: int = 15          # min bars between signals of same type (sweep: 15=optimal)
 
+    # Multi-day level memory: carry significant levels forward across sessions.
+    # Mancini tracks levels that persist for days/weeks (e.g., Monday's session low
+    # is still valid on Friday). Set to 0 to disable (current-day + prior-day only).
+    level_memory_days: int = 5              # trading days to carry levels (5 = one week)
+    max_persistent_levels: int = 10         # cap total persistent levels to prevent accumulation
+    level_decay_rate: float = 0.85          # daily multiplicative decay for significance_score
+    level_persist_min_score: float = 0.3    # drop persistent levels below this score
+    level_persist_min_touches: int = 2      # min touch_count to qualify for persistence
+
     # Regime filter gating
     use_regime_filter: bool = False          # enable EMA regime direction gating
     regime_mode: str = "ema"                # "ema", "structure", "composite", "composite_strict"
+    # Which patterns get regime-filtered. Empty tuple = all patterns gated.
+    # Set to e.g. ("LEVEL_RECLAIM",) to only gate LR while FB/BD trade freely.
+    regime_filter_patterns: tuple = ()      # empty = gate all; names from SignalType enum
 
 
 @dataclass(frozen=True)
@@ -267,6 +291,9 @@ class RiskParams:
     never_let_green_go_red: bool = True
     # After first win: only risk profits from first trade
     risk_only_profits_after_first_win: bool = True
+    # Minimum R:R to accept a trade (used by RiskManager as final gate).
+    # Set low (e.g. 0.1) for data collection / bypass mode.
+    min_rr_ratio: float = 1.0
 
 
 # Default instances for easy import

@@ -208,7 +208,7 @@ class IBBridge:
         if not self._connected:
             return  # Intentional disconnect
 
-        logger.warning("IB connection lost — attempting reconnect...")
+        logger.error("IB CONNECTION LOST — attempting reconnect...")
         self._connected = False
 
         for attempt in range(1, self.config.max_reconnect_attempts + 1):
@@ -229,7 +229,7 @@ class IBBridge:
             except Exception as e:
                 logger.warning(f"Reconnect attempt {attempt} failed: {e}")
 
-        logger.error("All reconnect attempts exhausted")
+        logger.error("ALL RECONNECT ATTEMPTS EXHAUSTED — bot is blind, no data flowing")
 
     # ── Bar Data ──────────────────────────────────────────────────────
 
@@ -408,9 +408,36 @@ class IBBridge:
         bar = bars[-2]
         result = self._extract_bar(bar)
         if result:
-            logger.debug(f"Poll OK: {len(bars)} bars, latest closed={bar.date}")
+            logger.info(f"Poll OK: {len(bars)} bars, latest closed={bar.date}")
+            self._stale_count = 0
         else:
-            logger.debug(f"Poll OK but no new bar (dedup): {len(bars)} bars, latest={bar.date}, last_seen={self._last_bar_time}")
+            # Check staleness: if bar is old during market hours, escalate
+            self._stale_count = getattr(self, "_stale_count", 0) + 1
+            bar_time = pd.Timestamp(bar.date)
+            if bar_time.tzinfo is None:
+                bar_time = bar_time.tz_localize("UTC")
+            age_minutes = (pd.Timestamp.now(tz="UTC") - bar_time).total_seconds() / 60
+
+            if age_minutes > 5 and self._stale_count >= 3:
+                # Suppress during market closure (weekends + daily break)
+                from datetime import datetime as _dt, time as _t
+                _now = _dt.now()
+                _wd = _now.weekday()
+                _nt = _now.time()
+                _market_closed = (
+                    _wd == 5  # Saturday
+                    or (_wd == 6 and _nt < _t(18, 0))  # Sunday before 6 PM
+                    or (_wd == 4 and _nt >= _t(17, 0))  # Friday after 5 PM
+                    or (_t(17, 0) <= _nt < _t(18, 0))   # Daily break
+                )
+                if not _market_closed:
+                    logger.error(
+                        f"STALE DATA: latest bar is {age_minutes:.0f} min old "
+                        f"({bar.date}), stale for {self._stale_count} polls. "
+                        f"IB may be disconnected or not returning new session bars."
+                    )
+            elif self._stale_count <= 1:
+                logger.debug(f"Poll OK but no new bar (dedup): {len(bars)} bars, latest={bar.date}, last_seen={self._last_bar_time}")
         return result
 
     def _extract_bar(self, bar) -> Optional[dict]:

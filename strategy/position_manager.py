@@ -54,6 +54,11 @@ class TradeRecord:
     entry_bar_idx: int = 0
     exit_bar_idx: int = 0
     direction: str = "long"  # "long" or "short"
+    # Multi-day runner fields
+    entry_date: object = None       # date when trade was opened
+    exit_date: object = None        # date when trade was closed
+    days_held: int = 1              # number of trading days held
+    is_runner: bool = False         # True if position reached AFTER_T1+
 
 
 @dataclass
@@ -107,8 +112,9 @@ class PositionManager:
     - Never let a green day go red
     """
 
-    def __init__(self, risk_params: RiskParams = DEFAULT_RISK):
+    def __init__(self, risk_params: RiskParams = DEFAULT_RISK, point_value: float = 50.0):
         self.risk_params = risk_params
+        self.point_value = point_value
         self.session: Optional[DaySession] = None
 
     def start_session(self, date: datetime) -> DaySession:
@@ -176,8 +182,9 @@ class PositionManager:
             return None  # still has open contracts
 
         pnl_pts = pos.realized_pnl_pts
-        pnl_dollars = pnl_pts * 50.0  # point_value
+        pnl_dollars = pnl_pts * self.point_value
 
+        direction = getattr(pos, "direction", "long")
         record = TradeRecord(
             entry_time=timestamp,  # approximate
             exit_time=timestamp,
@@ -190,6 +197,7 @@ class PositionManager:
             exit_reason=exit_reason,
             entry_bar_idx=entry_bar_idx,
             exit_bar_idx=exit_bar_idx,
+            direction=direction,
         )
 
         # Populate diagnostic fields from signal

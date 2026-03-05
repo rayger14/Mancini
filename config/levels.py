@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum, auto
 from typing import Optional
 
@@ -36,6 +36,9 @@ class Level:
     rally_from_low_pts: float = 0.0  # for MULTI_HOUR_LOW: size of ensuing rally
     is_active: bool = True
     label: str = ""
+    origin_date: Optional[date] = None  # date level was first detected (for multi-day aging)
+    significance_score: float = 1.0    # starts at 1.0, decays over time
+    tested_and_held: bool = False       # True if price tested and bounced (not broke through)
 
     def __post_init__(self):
         if not self.label:
@@ -119,6 +122,14 @@ class LevelStore:
                 level.is_active = False
                 count += 1
         return count
+
+    def inject_levels(self, levels: list[Level]) -> None:
+        """Inject external levels into the store (e.g., persistent multi-day levels).
+
+        Uses the standard add() method so nearby same-type levels are merged.
+        """
+        for level in levels:
+            self.add(level)
 
     def clear(self) -> None:
         """Clear all levels."""

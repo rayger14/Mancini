@@ -142,12 +142,10 @@ class RiskManager:
         return RiskCheck(True, "Trade count OK")
 
     def _check_risk_reward(self, signal: Signal) -> RiskCheck:
-        if signal.rr_ratio_t1 < 1.0:
-            return RiskCheck(
-                False,
-                f"R:R too low: {signal.rr_ratio_t1:.2f}",
-            )
-        return RiskCheck(True, f"R:R = {signal.rr_ratio_t1:.2f}")
+        # Mancini never skips a structurally valid trade due to R:R.
+        # Position sizing handles risk (size_factor on the signal).
+        size_info = f", size_factor={signal.position_size_factor:.2f}" if hasattr(signal, 'position_size_factor') else ""
+        return RiskCheck(True, f"R:R = {signal.rr_ratio_t1:.2f}{size_info}")
 
     def _check_stop_distance(self, signal: Signal) -> RiskCheck:
         if signal.risk_pts <= 0:
