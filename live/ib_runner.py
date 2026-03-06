@@ -24,7 +24,10 @@ from typing import Optional
 
 import numpy as np
 import pandas as pd
+import pytz
 from loguru import logger
+
+_ET = pytz.timezone("US/Eastern")
 
 # Allow running as script from project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -529,11 +532,13 @@ class IBRunner:
                         )
                     self._position = None
                     self._trade_id = None
+                self._write_status()
                 return
 
         # Step 2: Check for new signals (only if no position and not done)
         if self._position is None or not self._position.is_open:
             if self.position_manager.is_done_for_day:
+                self._write_status()
                 return
 
             bar_idx = len(self._df) - 1  # Index into current DataFrame, not cumulative count
@@ -699,6 +704,14 @@ class IBRunner:
                     stop_price=signal.stop_price,
                 )
 
+        # Final contracts sanity check before sending to IB
+        if entry.contracts <= 0:
+            logger.error(
+                f"REJECTED: entry.contracts={entry.contracts} for {signal.signal_type.name} — "
+                f"would create ghost order"
+            )
+            return
+
         # Execute via IB — bracket order (market + SL + TP as OCO)
         trade_id = self.bridge.send_entry(
             quantity=entry.contracts,
@@ -802,15 +815,24 @@ class IBRunner:
                 logger.debug(f"IB position returned None ({self._sync_none_count}/3), waiting for confirmation...")
                 return
 
-            # Position confirmed closed on IB side
-            logger.info("Position closed on IB side (bracket order filled, confirmed 3x)")
+            # Position confirmed closed on IB side — retrieve actual fill price
+            fill_price, exit_type = self.bridge.get_bracket_fill_price(self._trade_id)
+            if fill_price > 0:
+                logger.info(
+                    f"Position closed on IB side ({exit_type} filled @ {fill_price:.2f}, confirmed 3x)"
+                )
+            else:
+                logger.warning(
+                    "Position closed on IB side (bracket filled, confirmed 3x) "
+                    "but fill price unavailable — recording exit_price=0"
+                )
             self._sync_none_count = 0
             self._position.remaining_contracts = 0
             self._position.phase = ExitPhase.CLOSED
             self.position_manager.close_position(
-                exit_price=0,  # Unknown exact fill price
+                exit_price=fill_price,
                 timestamp=datetime.now(),
-                exit_reason="IB bracket fill",
+                exit_reason=f"IB bracket {exit_type}" if exit_type != "unknown" else "IB bracket fill",
                 pattern_type=self._pattern_type,
             )
             # Log exit to persistent trade log
@@ -1073,13 +1095,13 @@ class IBRunner:
                 }
 
             # Session window
-            now_et = datetime.now()
+            now_et = datetime.now(_ET)
             session_window = self._get_session_window(now_et.time())
 
             # Build the rich record
             record = {
                 "event": context,  # "entry" or "exit"
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": now_et.isoformat(),
                 "session_date": str(self._session_date),
                 "symbol": self.bridge.config.symbol,
                 "bar_count": bar_count,
@@ -1099,7 +1121,7 @@ class IBRunner:
                     "exit_price": getattr(trade_record, "avg_exit_price", None),
                     "pnl_pts": getattr(trade_record, "pnl_pts", None),
                     "pnl_dollars": getattr(trade_record, "pnl_dollars", None),
-                    "contracts": getattr(trade_record, "contracts", 1),
+                    "contracts": getattr(trade_record, "contracts", None) or getattr(trade_record, "total_contracts", 1),
                     "direction": getattr(trade_record, "direction", "long"),
                     "pattern_type": getattr(trade_record, "pattern_type", self._pattern_type),
                     "exit_reason": getattr(trade_record, "exit_reason", None),
@@ -1144,7 +1166,7 @@ class IBRunner:
             if self._df is not None and len(self._df) > 0:
                 last_price = float(self._df["close"].iat[-1])
 
-            now_et = datetime.now()
+            now_et = datetime.now(_ET)
             record = {
                 "event": "phantom",
                 "timestamp": now_et.isoformat(),
@@ -1170,7 +1192,7 @@ class IBRunner:
         try:
             record = {
                 "event": "phantom_resolved",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(_ET).isoformat(),
                 "session_date": str(self._session_date),
                 "signal_type": p["signal_type"],
                 "entry_price": p["entry_price"],

@@ -57,6 +57,9 @@ class TradePosition:
     prior_day_low: float = 0.0
     # Prior day's RTH high — for short runner trailing
     prior_day_high: float = 0.0
+    # Track whether T1/T2 were hit (for accurate exit_reason on final close)
+    t1_hit: bool = False
+    t2_hit: bool = False
 
     def __post_init__(self):
         self.highest_price_since_entry = self.entry_price
@@ -203,7 +206,12 @@ class ExitManager:
         position.remaining_contracts = 0
 
         if position.phase in (ExitPhase.AFTER_T1, ExitPhase.AFTER_T2):
-            reason = "Trailing stop hit"
+            if position.t2_hit:
+                reason = "Runner stopped after T1+T2"
+            elif position.t1_hit:
+                reason = "Runner stopped after T1"
+            else:
+                reason = "Trailing stop hit"
         else:
             reason = "Stop loss hit"
 
@@ -247,6 +255,7 @@ class ExitManager:
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T1
+            position.t1_hit = True
 
             return ExitAction(
                 contracts_to_close=contracts_to_exit,
@@ -297,6 +306,7 @@ class ExitManager:
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T2
+            position.t2_hit = True
 
             return ExitAction(
                 contracts_to_close=contracts_to_exit,
@@ -366,6 +376,7 @@ class ExitManager:
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T1
+            position.t1_hit = True
 
             return ExitAction(
                 contracts_to_close=contracts_to_exit,
@@ -410,6 +421,7 @@ class ExitManager:
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T2
+            position.t2_hit = True
 
             return ExitAction(
                 contracts_to_close=contracts_to_exit,

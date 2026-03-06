@@ -18,6 +18,7 @@ from string import Template
 
 STATUS_FILE = os.environ.get("STATUS_FILE", "/app/logs/status.json")
 LOG_FILE = os.environ.get("LOG_FILE", "/app/logs/bot.log")
+TRADES_FILE = os.environ.get("TRADE_LOG", "/app/logs/trades.jsonl")
 PORT = int(os.environ.get("DASHBOARD_PORT", "8080"))
 
 HTML_TEMPLATE = Template(r"""<!DOCTYPE html>
@@ -297,6 +298,40 @@ HTML_TEMPLATE = Template(r"""<!DOCTYPE html>
   .not-mancini-title { color: #d29922; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
   .not-mancini-text { color: #8b949e; font-size: 12px; line-height: 1.6; }
 
+  /* Trade History tab */
+  .history-summary { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .history-stat { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px 16px; text-align: center; flex: 1; min-width: 100px; }
+  .history-stat-val { font-size: 18px; font-weight: 700; font-family: 'SF Mono', monospace; }
+  .history-stat-lbl { font-size: 9px; color: #8b949e; text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
+  .history-filters { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+  .filter-pill { padding: 4px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; border: 1px solid #30363d; background: #21262d; color: #8b949e; transition: all 0.15s; }
+  .filter-pill:hover { border-color: #58a6ff; color: #c9d1d9; }
+  .filter-pill.active { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+  .filter-toggle { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #8b949e; cursor: pointer; margin-left: 12px; }
+  .filter-toggle input { accent-color: #1f6feb; }
+  .history-wrap { max-height: 600px; overflow-y: auto; border: 1px solid #30363d; border-radius: 8px; }
+  .history-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .history-table thead th {
+    position: sticky; top: 0; background: #161b22; cursor: pointer; user-select: none;
+    padding: 8px 6px; font-size: 10px; color: #8b949e; text-transform: uppercase;
+    letter-spacing: 0.5px; border-bottom: 1px solid #30363d; font-weight: 600; white-space: nowrap;
+  }
+  .history-table thead th:hover { color: #58a6ff; }
+  .history-table thead th .sort-arrow { font-size: 8px; margin-left: 2px; opacity: 0.5; }
+  .history-table thead th .sort-arrow.active { opacity: 1; color: #58a6ff; }
+  .history-table tbody td { padding: 6px; border-bottom: 1px solid #21262d; font-family: 'SF Mono', monospace; white-space: nowrap; }
+  .history-table tbody tr { cursor: pointer; transition: background 0.1s; }
+  .history-table tbody tr:hover { background: #1c2128; }
+  .history-table tbody tr.expanded { background: #1c2128; }
+  .trade-detail-row td { padding: 0 !important; border-bottom: 1px solid #30363d; }
+  .trade-detail { padding: 12px 16px; border-left: 3px solid #58a6ff; background: #0d1117; }
+  .trade-detail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+  .trade-detail-item { font-size: 11px; }
+  .trade-detail-label { color: #8b949e; font-size: 10px; }
+  .trade-detail-value { color: #f0f6fc; font-family: 'SF Mono', monospace; font-size: 12px; }
+  .pnl-chart-wrap { margin-top: 16px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; }
+  .pnl-chart-title { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 600; }
+
   /* Bypass mode banner */
   .bypass-banner {
     background: #d2992215; border: 1px solid #d2992240; border-radius: 6px;
@@ -404,6 +439,7 @@ HTML_TEMPLATE = Template(r"""<!DOCTYPE html>
   <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview')">Overview</button>
   <button class="tab-btn" data-tab="strategy" onclick="switchTab('strategy')">Strategy</button>
   <button class="tab-btn" data-tab="chart" onclick="switchTab('chart')">Chart</button>
+  <button class="tab-btn" data-tab="history" onclick="switchTab('history')">Trade History</button>
 </div>
 
 <!-- ==================== OVERVIEW TAB ==================== -->
@@ -857,6 +893,59 @@ $bypass_banner_html
 </div>
 </div>
 
+<!-- ==================== TRADE HISTORY TAB ==================== -->
+<div id="tab-history" class="tab-content">
+<div class="main">
+
+<div id="history-summary" class="history-summary">
+  <div class="history-stat"><div class="history-stat-val dim" id="hs-total">--</div><div class="history-stat-lbl">Total Trades</div></div>
+  <div class="history-stat"><div class="history-stat-val dim" id="hs-winrate">--</div><div class="history-stat-lbl">Win Rate</div></div>
+  <div class="history-stat"><div class="history-stat-val dim" id="hs-pnl">--</div><div class="history-stat-lbl">Total PnL (pts)</div></div>
+  <div class="history-stat"><div class="history-stat-val dim" id="hs-pf">--</div><div class="history-stat-lbl">Profit Factor</div></div>
+  <div class="history-stat"><div class="history-stat-val dim" id="hs-best">--</div><div class="history-stat-lbl">Best Trade</div></div>
+  <div class="history-stat"><div class="history-stat-val dim" id="hs-worst">--</div><div class="history-stat-lbl">Worst Trade</div></div>
+  <div class="history-stat"><div class="history-stat-val dim" id="hs-avg">--</div><div class="history-stat-lbl">Avg PnL</div></div>
+</div>
+
+<div class="history-filters">
+  <div id="date-pills"></div>
+  <label class="filter-toggle">
+    <input type="checkbox" id="prod-filter" onchange="toggleProdFilter()">
+    Production only
+  </label>
+</div>
+
+<div class="history-wrap">
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th onclick="sortHistory('date')">Date <span class="sort-arrow" id="sa-date"></span></th>
+        <th onclick="sortHistory('entry_time')">Entry <span class="sort-arrow" id="sa-entry_time"></span></th>
+        <th onclick="sortHistory('exit_time')">Exit <span class="sort-arrow" id="sa-exit_time"></span></th>
+        <th onclick="sortHistory('direction')">Dir <span class="sort-arrow" id="sa-direction"></span></th>
+        <th onclick="sortHistory('pattern')">Pattern <span class="sort-arrow" id="sa-pattern"></span></th>
+        <th onclick="sortHistory('entry_price')">Entry <span class="sort-arrow" id="sa-entry_price"></span></th>
+        <th onclick="sortHistory('stop')">Stop <span class="sort-arrow" id="sa-stop"></span></th>
+        <th onclick="sortHistory('target_1')">T1 <span class="sort-arrow" id="sa-target_1"></span></th>
+        <th onclick="sortHistory('exit_price')">Exit <span class="sort-arrow" id="sa-exit_price"></span></th>
+        <th onclick="sortHistory('pnl_pts')">PnL <span class="sort-arrow" id="sa-pnl_pts"></span></th>
+        <th onclick="sortHistory('rr_ratio')">R:R <span class="sort-arrow" id="sa-rr_ratio"></span></th>
+        <th onclick="sortHistory('exit_reason')">Reason <span class="sort-arrow" id="sa-exit_reason"></span></th>
+        <th>Mode</th>
+      </tr>
+    </thead>
+    <tbody id="history-tbody"></tbody>
+  </table>
+</div>
+
+<div class="pnl-chart-wrap">
+  <div class="pnl-chart-title">Cumulative PnL (pts)</div>
+  <svg id="pnl-chart" width="100%" height="120" preserveAspectRatio="none"></svg>
+</div>
+
+</div>
+</div>
+
 <!-- ==================== REGIME MODAL ==================== -->
 <div id="regime-modal" class="modal-overlay" onclick="if(event.target===this)closeRegimeModal()">
   <div class="modal-content">
@@ -947,6 +1036,7 @@ function switchTab(name) {
   });
   window.location.hash = name;
   if (name === 'chart') initChart();
+  if (name === 'history') loadTradeHistory();
 }
 
 // Restore tab from URL hash on load
@@ -1221,6 +1311,250 @@ setInterval(updateMarketHours, 10000);
 
 setInterval(updateDashboard, 15000);
 setInterval(updateLastUpdated, 1000);
+
+// ==================== TRADE HISTORY ====================
+var _allTrades = [];
+var _sortCol = 'exit_time';
+var _sortAsc = false;
+var _filterDate = 'all';
+var _filterProd = false;
+var _expandedIdx = -1;
+var _historyLoaded = false;
+
+function loadTradeHistory() {
+  if (_historyLoaded && _allTrades.length > 0) { renderTradeHistory(); return; }
+  var tbody = document.getElementById('history-tbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:40px;color:#8b949e;">Loading trade history...</td></tr>';
+  fetch('/api/trades')
+    .then(function(r) { return r.json(); })
+    .then(function(trades) {
+      _allTrades = trades;
+      _historyLoaded = true;
+      renderTradeHistory();
+    })
+    .catch(function(err) {
+      if (tbody) tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:40px;color:#f85149;">Failed to load trades: ' + err + '</td></tr>';
+    });
+}
+
+function getFiltered() {
+  var filtered = _allTrades.slice();
+  if (_filterDate !== 'all') filtered = filtered.filter(function(t) { return t.date === _filterDate; });
+  if (_filterProd) filtered = filtered.filter(function(t) { return t.production_would_take && !(t.gate_bypassed && t.gate_bypassed.length); });
+  filtered.sort(function(a, b) {
+    var va = a[_sortCol], vb = b[_sortCol];
+    if (va == null) va = '';
+    if (vb == null) vb = '';
+    if (typeof va === 'number' && typeof vb === 'number') return _sortAsc ? va - vb : vb - va;
+    return _sortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  });
+  return filtered;
+}
+
+function renderTradeHistory() {
+  var filtered = getFiltered();
+  updateHistorySummary(filtered);
+  updateDatePills();
+  renderHistoryTable(filtered);
+  renderPnlChart(filtered);
+}
+
+function updateHistorySummary(trades) {
+  var total = trades.length;
+  var wins = 0, totalPnl = 0, grossWin = 0, grossLoss = 0, best = -Infinity, worst = Infinity;
+  for (var i = 0; i < trades.length; i++) {
+    var p = trades[i].pnl_pts || 0;
+    totalPnl += p;
+    if (p > 0) { wins++; grossWin += p; }
+    if (p < 0) { grossLoss += Math.abs(p); }
+    if (p > best) best = p;
+    if (p < worst) worst = p;
+  }
+  var wr = total > 0 ? (wins / total * 100).toFixed(1) + '%' : '--';
+  var pf = grossLoss > 0 ? (grossWin / grossLoss).toFixed(2) : grossWin > 0 ? '99.0' : '--';
+  var avg = total > 0 ? (totalPnl / total).toFixed(1) : '--';
+
+  var el;
+  el = document.getElementById('hs-total'); if (el) { el.textContent = total; el.className = 'history-stat-val blue'; }
+  el = document.getElementById('hs-winrate'); if (el) { el.textContent = wr; el.className = 'history-stat-val ' + (wins/total >= 0.5 ? 'green' : total > 0 ? 'yellow' : 'dim'); }
+  el = document.getElementById('hs-pnl'); if (el) { el.textContent = total > 0 ? (totalPnl > 0 ? '+' : '') + totalPnl.toFixed(1) : '--'; el.className = 'history-stat-val ' + (totalPnl > 0 ? 'green' : totalPnl < 0 ? 'red' : 'dim'); }
+  el = document.getElementById('hs-pf'); if (el) { el.textContent = pf; el.className = 'history-stat-val ' + (parseFloat(pf) >= 1.0 ? 'green' : 'red'); }
+  el = document.getElementById('hs-best'); if (el) { el.textContent = total > 0 ? '+' + best.toFixed(1) : '--'; el.className = 'history-stat-val green'; }
+  el = document.getElementById('hs-worst'); if (el) { el.textContent = total > 0 ? worst.toFixed(1) : '--'; el.className = 'history-stat-val red'; }
+  el = document.getElementById('hs-avg'); if (el) { el.textContent = avg !== '--' ? (parseFloat(avg) > 0 ? '+' : '') + avg : '--'; el.className = 'history-stat-val ' + (parseFloat(avg) > 0 ? 'green' : parseFloat(avg) < 0 ? 'red' : 'dim'); }
+}
+
+function updateDatePills() {
+  var dates = {};
+  for (var i = 0; i < _allTrades.length; i++) {
+    var d = _allTrades[i].date;
+    if (d) dates[d] = (dates[d] || 0) + 1;
+  }
+  var sorted = Object.keys(dates).sort().reverse();
+  var html = '<span class="filter-pill ' + (_filterDate === 'all' ? 'active' : '') + '" onclick="setDateFilter(\'all\')">All (' + _allTrades.length + ')</span> ';
+  for (var i = 0; i < Math.min(sorted.length, 14); i++) {
+    var d = sorted[i];
+    var label = d.slice(5);
+    html += '<span class="filter-pill ' + (_filterDate === d ? 'active' : '') + '" onclick="setDateFilter(\'' + d + '\')">' + label + ' (' + dates[d] + ')</span> ';
+  }
+  var el = document.getElementById('date-pills');
+  if (el) el.innerHTML = html;
+}
+
+function setDateFilter(d) {
+  _filterDate = d;
+  _expandedIdx = -1;
+  renderTradeHistory();
+}
+
+function toggleProdFilter() {
+  _filterProd = document.getElementById('prod-filter').checked;
+  _expandedIdx = -1;
+  renderTradeHistory();
+}
+
+function sortHistory(col) {
+  if (_sortCol === col) { _sortAsc = !_sortAsc; } else { _sortCol = col; _sortAsc = false; }
+  _expandedIdx = -1;
+  renderTradeHistory();
+  // Update sort arrows
+  document.querySelectorAll('.sort-arrow').forEach(function(el) { el.className = 'sort-arrow'; el.textContent = ''; });
+  var arrow = document.getElementById('sa-' + col);
+  if (arrow) { arrow.className = 'sort-arrow active'; arrow.textContent = _sortAsc ? ' \\u25B2' : ' \\u25BC'; }
+}
+
+function fmtTime(ts) {
+  if (!ts) return '--';
+  try {
+    var s = String(ts);
+    // New records have timezone offset (e.g. -05:00). Old records are naive ET (container TZ=America/New_York).
+    var hasOffset = /[+-]\d{2}:\d{2}$$/.test(s) || s.endsWith('Z');
+    if (!hasOffset && s.length >= 19) {
+      s += '-05:00';  // naive timestamps are ET (container TZ=America/New_York)
+    }
+    var d = new Date(s);
+    return d.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', timeZone:'America/New_York'}) + ' ET';
+  } catch(e) { return ts.slice(11, 16); }
+}
+
+function fmtDuration(entry, exit) {
+  if (!entry || !exit) return '--';
+  try {
+    var ms = new Date(exit) - new Date(entry);
+    var mins = Math.round(ms / 60000);
+    if (mins < 60) return mins + 'm';
+    return Math.floor(mins/60) + 'h ' + (mins%60) + 'm';
+  } catch(e) { return '--'; }
+}
+
+function renderHistoryTable(trades) {
+  var tbody = document.getElementById('history-tbody');
+  if (!tbody) return;
+  if (trades.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:40px;color:#8b949e;">No trades match the current filters</td></tr>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < trades.length; i++) {
+    var t = trades[i];
+    var dirCss = t.direction === 'long' ? 'green' : 'red';
+    var pnl = t.pnl_pts || 0;
+    var pnlCss = pnl > 0 ? 'green' : pnl < 0 ? 'red' : 'dim';
+    var bypassed = t.gate_bypassed && t.gate_bypassed.length > 0;
+    var prodValid = t.production_would_take && !bypassed;
+    var modeBadge = prodValid
+      ? '<span class="bypass-tag bypass-production">PROD</span>'
+      : '<span class="bypass-tag bypass-collection">COLL</span>';
+    var expanded = i === _expandedIdx;
+
+    html += '<tr class="' + (expanded ? 'expanded' : '') + '" onclick="toggleTradeDetail(' + i + ')">'
+      + '<td>' + (t.date || '--') + '</td>'
+      + '<td>' + fmtTime(t.entry_time) + '</td>'
+      + '<td>' + fmtTime(t.exit_time) + '</td>'
+      + '<td class="' + dirCss + '">' + (t.direction === 'long' ? 'L' : 'S') + '</td>'
+      + '<td><span class="level-tag">' + (t.pattern || '?').replace('failed_breakdown','FB').replace('level_reclaim','LR').replace('FAILED_BREAKDOWN','FB').replace('LEVEL_RECLAIM','LR').replace('breakdown_short','BD') + '</span></td>'
+      + '<td>' + (t.entry_price ? t.entry_price.toFixed(2) : '--') + '</td>'
+      + '<td>' + (t.stop ? t.stop.toFixed(2) : '--') + '</td>'
+      + '<td>' + (t.target_1 ? t.target_1.toFixed(2) : '--') + '</td>'
+      + '<td>' + (t.exit_price ? t.exit_price.toFixed(2) : '--') + '</td>'
+      + '<td class="' + pnlCss + '" style="font-weight:700">' + (pnl > 0 ? '+' : '') + pnl.toFixed(1) + '</td>'
+      + '<td>' + (t.rr_ratio ? t.rr_ratio.toFixed(2) : '--') + '</td>'
+      + '<td class="dim" style="font-size:11px">' + (t.exit_reason || '?').replace(/_/g,' ') + '</td>'
+      + '<td>' + modeBadge + '</td>'
+      + '</tr>';
+
+    if (expanded) {
+      html += '<tr class="trade-detail-row"><td colspan="13"><div class="trade-detail"><div class="trade-detail-grid">'
+        + detailItem('Duration', fmtDuration(t.entry_time, t.exit_time))
+        + detailItem('Contracts', t.contracts || '--')
+        + detailItem('PnL ($$)', t.pnl_dollars ? '$$' + t.pnl_dollars.toFixed(2) : '--')
+        + detailItem('Level Type', (t.level_type || '--').replace(/_/g,' '))
+        + detailItem('Level Price', t.level_price ? t.level_price.toFixed(2) : '--')
+        + detailItem('Target 2', t.target_2 ? t.target_2.toFixed(2) : '--')
+        + detailItem('Regime', t.regime || '--')
+        + detailItem('Session', (t.session_window || '--').replace(/_/g,' '))
+        + (bypassed ? detailItem('Bypassed', t.gate_bypassed.join(', ')) : '')
+        + '</div></div></td></tr>';
+    }
+  }
+  tbody.innerHTML = html;
+}
+
+function detailItem(label, value) {
+  return '<div class="trade-detail-item"><div class="trade-detail-label">' + label + '</div><div class="trade-detail-value">' + value + '</div></div>';
+}
+
+function toggleTradeDetail(idx) {
+  _expandedIdx = _expandedIdx === idx ? -1 : idx;
+  renderHistoryTable(getFiltered());
+}
+
+function renderPnlChart(trades) {
+  var svg = document.getElementById('pnl-chart');
+  if (!svg || trades.length === 0) {
+    if (svg) svg.innerHTML = '<text x="50%" y="60" text-anchor="middle" fill="#8b949e" font-size="12">No trade data</text>';
+    return;
+  }
+  // Reverse to chronological order for cumulative calc
+  var chrono = trades.slice().reverse();
+  var cumPnl = [];
+  var running = 0;
+  for (var i = 0; i < chrono.length; i++) {
+    running += (chrono[i].pnl_pts || 0);
+    cumPnl.push(running);
+  }
+
+  var w = svg.getBoundingClientRect().width || 800;
+  var h = 120;
+  var minY = Math.min(0, Math.min.apply(null, cumPnl));
+  var maxY = Math.max(0, Math.max.apply(null, cumPnl));
+  var range = maxY - minY || 1;
+  var pad = 10;
+
+  function x(i) { return pad + (i / Math.max(cumPnl.length - 1, 1)) * (w - 2 * pad); }
+  function y(v) { return h - pad - ((v - minY) / range) * (h - 2 * pad); }
+
+  var points = '';
+  var areaPoints = x(0) + ',' + y(0) + ' ';
+  for (var i = 0; i < cumPnl.length; i++) {
+    points += x(i) + ',' + y(cumPnl[i]) + ' ';
+    areaPoints += x(i) + ',' + y(cumPnl[i]) + ' ';
+  }
+  areaPoints += x(cumPnl.length - 1) + ',' + y(0);
+
+  var lineColor = running >= 0 ? '#3fb950' : '#f85149';
+  var fillColor = running >= 0 ? '#3fb95015' : '#f8514915';
+  var zeroY = y(0);
+
+  var svgHtml = '<line x1="' + pad + '" y1="' + zeroY + '" x2="' + (w - pad) + '" y2="' + zeroY + '" stroke="#30363d" stroke-dasharray="4,4"/>'
+    + '<polygon points="' + areaPoints + '" fill="' + fillColor + '"/>'
+    + '<polyline points="' + points + '" fill="none" stroke="' + lineColor + '" stroke-width="2"/>'
+    + '<text x="' + (w - pad) + '" y="' + (y(running) - 6) + '" text-anchor="end" fill="' + lineColor + '" font-size="11" font-weight="700" font-family="SF Mono, monospace">' + (running > 0 ? '+' : '') + running.toFixed(1) + '</text>'
+    + '<text x="' + pad + '" y="' + (h - 2) + '" fill="#484f58" font-size="9">' + (chrono[0].date || '') + '</text>'
+    + '<text x="' + (w - pad) + '" y="' + (h - 2) + '" text-anchor="end" fill="#484f58" font-size="9">' + (chrono[chrono.length-1].date || '') + '</text>';
+
+  svg.innerHTML = svgHtml;
+}
 </script>
 </body>
 </html>""")
@@ -1862,6 +2196,57 @@ def _compute_market_status() -> dict:
     }
 
 
+def read_all_trades() -> list:
+    """Read all trades from trades.jsonl, pair entries with exits."""
+    path = Path(TRADES_FILE)
+    if not path.exists():
+        return []
+    entries = {}  # key: (session_date, entry_price, pattern_type) -> entry record
+    trades = []
+    try:
+        for line in path.read_text().splitlines():
+            if not line.strip():
+                continue
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            evt = rec.get("event")
+            if evt == "entry":
+                key = (rec.get("session_date"), rec.get("entry_price"), rec.get("pattern_type"))
+                entries[key] = rec
+            elif evt == "exit":
+                key = (rec.get("session_date"), rec.get("entry_price"), rec.get("pattern_type"))
+                entry_rec = entries.pop(key, {})
+                signal = entry_rec.get("signal", {})
+                trades.append({
+                    "date": rec.get("session_date", ""),
+                    "entry_time": entry_rec.get("timestamp", ""),
+                    "exit_time": rec.get("timestamp", ""),
+                    "direction": entry_rec.get("direction", rec.get("direction", "long")),
+                    "pattern": entry_rec.get("pattern_type", rec.get("pattern_type", "?")),
+                    "entry_price": rec.get("entry_price", 0),
+                    "exit_price": rec.get("exit_price", 0),
+                    "stop": signal.get("stop", 0),
+                    "target_1": signal.get("target_1", 0),
+                    "target_2": signal.get("target_2", 0),
+                    "rr_ratio": signal.get("rr_ratio", 0),
+                    "pnl_pts": rec.get("pnl_pts", 0),
+                    "pnl_dollars": rec.get("pnl_dollars", 0),
+                    "contracts": entry_rec.get("contracts", rec.get("contracts", 1)),
+                    "exit_reason": rec.get("exit_reason", "?"),
+                    "level_type": signal.get("level_type", ""),
+                    "level_price": signal.get("level_price", 0),
+                    "regime": entry_rec.get("regime", {}).get("direction", "") if isinstance(entry_rec.get("regime"), dict) else str(entry_rec.get("regime", "")),
+                    "session_window": entry_rec.get("session_window", ""),
+                    "gate_bypassed": entry_rec.get("gate_bypassed", []),
+                    "production_would_take": entry_rec.get("production_would_take", True),
+                })
+    except OSError:
+        return []
+    return sorted(trades, key=lambda t: t.get("exit_time", ""), reverse=True)
+
+
 def build_page() -> str:
     """Build the full dashboard HTML page."""
     status = read_status()
@@ -2010,6 +2395,12 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_header("Cache-Control", "no-cache")
             self.end_headers()
             self.wfile.write(json.dumps(build_fragments()).encode())
+        elif self.path == "/api/trades":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+            self.wfile.write(json.dumps(read_all_trades(), default=str).encode())
         elif self.path == "/health":
             self.send_response(200)
             self.send_header("Content-Type", "text/plain")

@@ -589,6 +589,10 @@ class IBBridge:
         if not self.is_connected or self._contract is None:
             return None
 
+        if quantity <= 0:
+            logger.error(f"send_entry() called with quantity={quantity} — rejecting ghost order")
+            return None
+
         parent_id = self._ib.client.getReqId()
         tp_id = self._ib.client.getReqId()
         sl_id = self._ib.client.getReqId()
@@ -760,6 +764,10 @@ class IBBridge:
         if not self.is_connected or self._contract is None:
             return False
 
+        if quantity <= 0:
+            logger.error(f"partial_exit() called with quantity={quantity} — skipping")
+            return False
+
         bracket = self._active_orders.get(trade_id)
 
         # Cancel existing bracket children first
@@ -810,6 +818,51 @@ class IBBridge:
                     logger.error(f"New SL placement failed: {e}")
 
         return True
+
+    # ── Fill Price Retrieval ──────────────────────────────────────────
+
+    def get_bracket_fill_price(self, trade_id: int) -> tuple[float, str]:
+        """Retrieve the actual fill price from a bracket order's child trades.
+
+        Checks the TP and SL Trade objects for fills to determine which
+        child order was executed and at what price.
+
+        Returns
+        -------
+        (fill_price, exit_type) : tuple[float, str]
+            fill_price: actual execution price, or 0.0 if unknown
+            exit_type: "TP", "SL", or "unknown"
+        """
+        bracket = self._active_orders.get(trade_id)
+        if not bracket:
+            logger.warning(f"get_bracket_fill_price: no bracket found for trade_id={trade_id}")
+            return 0.0, "unknown"
+
+        # Check TP fills
+        tp_trade = bracket.get("tp")
+        if tp_trade and hasattr(tp_trade, "fills") and tp_trade.fills:
+            fill = tp_trade.fills[-1]
+            price = getattr(fill, "avgPrice", 0.0) or getattr(fill, "price", 0.0)
+            if price > 0:
+                logger.info(f"Bracket TP filled: price={price:.2f} (trade_id={trade_id})")
+                return price, "TP"
+
+        # Check SL fills
+        sl_trade = bracket.get("sl")
+        if sl_trade and hasattr(sl_trade, "fills") and sl_trade.fills:
+            fill = sl_trade.fills[-1]
+            price = getattr(fill, "avgPrice", 0.0) or getattr(fill, "price", 0.0)
+            if price > 0:
+                logger.info(f"Bracket SL filled: price={price:.2f} (trade_id={trade_id})")
+                return price, "SL"
+
+        # Check parent fills for entry price (fallback)
+        parent_trade = bracket.get("parent")
+        if parent_trade and hasattr(parent_trade, "fills") and parent_trade.fills:
+            # Parent filled but no child fills yet — bracket may still be active
+            logger.debug(f"Bracket parent filled but no child fills yet (trade_id={trade_id})")
+
+        return 0.0, "unknown"
 
     # ── Position Tracking ─────────────────────────────────────────────
 
