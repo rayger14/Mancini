@@ -1484,6 +1484,24 @@ function renderHistoryTable(trades) {
       + '</tr>';
 
     if (expanded) {
+      var exitsHtml = '';
+      if (t.exits && t.exits.length > 1) {
+        exitsHtml = '<div style="margin-top:10px; border-top:1px solid #30363d; padding-top:8px;">'
+          + '<div style="font-size:10px; color:#8b949e; text-transform:uppercase; margin-bottom:6px; letter-spacing:0.5px;">Exit Breakdown</div>'
+          + '<table style="width:100%; font-size:11px; border-collapse:collapse;">'
+          + '<tr style="color:#8b949e;"><th style="text-align:left; padding:2px 8px;">Time</th><th style="text-align:right; padding:2px 8px;">Qty</th><th style="text-align:right; padding:2px 8px;">Price</th><th style="text-align:right; padding:2px 8px;">PnL</th><th style="text-align:left; padding:2px 8px;">Reason</th></tr>';
+        for (var ei = 0; ei < t.exits.length; ei++) {
+          var ex = t.exits[ei];
+          var ePnl = ex.pnl_pts || 0;
+          var ePnlCss = ePnl > 0 ? 'green' : ePnl < 0 ? 'red' : 'dim';
+          exitsHtml += '<tr><td style="padding:2px 8px;">' + fmtTime(ex.time) + '</td>'
+            + '<td style="text-align:right; padding:2px 8px;">' + (ex.contracts || '?') + '</td>'
+            + '<td style="text-align:right; padding:2px 8px; font-family:SF Mono,monospace;">' + (ex.price ? ex.price.toFixed(2) : '--') + '</td>'
+            + '<td style="text-align:right; padding:2px 8px; font-family:SF Mono,monospace;" class="' + ePnlCss + '">' + (ePnl > 0 ? '+' : '') + ePnl.toFixed(1) + '</td>'
+            + '<td style="padding:2px 8px; color:#8b949e;">' + (ex.reason || '').replace(/_/g,' ') + '</td></tr>';
+        }
+        exitsHtml += '</table></div>';
+      }
       html += '<tr class="trade-detail-row"><td colspan="13"><div class="trade-detail"><div class="trade-detail-grid">'
         + detailItem('Duration', fmtDuration(t.entry_time, t.exit_time))
         + detailItem('Contracts', t.contracts || '--')
@@ -1494,7 +1512,7 @@ function renderHistoryTable(trades) {
         + detailItem('Regime', t.regime || '--')
         + detailItem('Session', (t.session_window || '--').replace(/_/g,' '))
         + (bypassed ? detailItem('Bypassed', t.gate_bypassed.join(', ')) : '')
-        + '</div></div></td></tr>';
+        + '</div>' + exitsHtml + '</div></td></tr>';
     }
   }
   tbody.innerHTML = html;
@@ -2202,6 +2220,7 @@ def read_all_trades() -> list:
     if not path.exists():
         return []
     entries = {}  # key: (session_date, entry_price, pattern_type) -> entry record
+    partials = {}  # key -> list of partial_exit records
     trades = []
     try:
         for line in path.read_text().splitlines():
@@ -2215,10 +2234,40 @@ def read_all_trades() -> list:
             if evt == "entry":
                 key = (rec.get("session_date"), rec.get("entry_price"), rec.get("pattern_type"))
                 entries[key] = rec
+            elif evt == "partial_exit":
+                key = (rec.get("session_date"), rec.get("entry_price"), rec.get("pattern_type"))
+                partials.setdefault(key, []).append(rec)
             elif evt == "exit":
                 key = (rec.get("session_date"), rec.get("entry_price"), rec.get("pattern_type"))
                 entry_rec = entries.pop(key, {})
+                partial_list = partials.pop(key, [])
                 signal = entry_rec.get("signal", {})
+                # Build partial exits summary for display
+                exits = []
+                for p in partial_list:
+                    exits.append({
+                        "time": p.get("timestamp", ""),
+                        "price": p.get("exit_price", 0),
+                        "contracts": p.get("contracts", 0),
+                        "pnl_pts": p.get("pnl_pts", 0),
+                        "reason": p.get("exit_reason", ""),
+                        "new_stop": p.get("new_stop", 0),
+                    })
+                # Final exit (runner stop or full close)
+                final_contracts = rec.get("contracts", 1)
+                # If we have partials, the final exit contracts = total - sum(partial contracts)
+                if exits:
+                    partial_qty = sum(e.get("contracts", 0) for e in exits)
+                    final_contracts = max(1, (entry_rec.get("contracts", None) or entry_rec.get("total_contracts", 2) or 2) - partial_qty)
+                exits.append({
+                    "time": rec.get("timestamp", ""),
+                    "price": rec.get("exit_price", 0),
+                    "contracts": final_contracts,
+                    "pnl_pts": round((rec.get("pnl_pts", 0) or 0) - sum(e.get("pnl_pts", 0) for e in exits[:-1]), 2),
+                    "reason": rec.get("exit_reason", "?"),
+                    "new_stop": 0,
+                })
+                total_contracts = entry_rec.get("contracts", None) or entry_rec.get("total_contracts", None) or rec.get("contracts", 1)
                 trades.append({
                     "date": rec.get("session_date", ""),
                     "entry_time": entry_rec.get("timestamp", ""),
@@ -2233,7 +2282,7 @@ def read_all_trades() -> list:
                     "rr_ratio": signal.get("rr_ratio", 0),
                     "pnl_pts": rec.get("pnl_pts", 0),
                     "pnl_dollars": rec.get("pnl_dollars", 0),
-                    "contracts": entry_rec.get("contracts", rec.get("contracts", 1)),
+                    "contracts": total_contracts,
                     "exit_reason": rec.get("exit_reason", "?"),
                     "level_type": signal.get("level_type", ""),
                     "level_price": signal.get("level_price", 0),
@@ -2241,6 +2290,7 @@ def read_all_trades() -> list:
                     "session_window": entry_rec.get("session_window", ""),
                     "gate_bypassed": entry_rec.get("gate_bypassed", []),
                     "production_would_take": entry_rec.get("production_would_take", True),
+                    "exits": exits,
                 })
     except OSError:
         return []

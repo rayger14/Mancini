@@ -771,6 +771,7 @@ class IBRunner:
                 self.bridge.flatten(reason=action.reason)
             logger.info(f"EXIT: partial {action.contracts_to_close} @ T1, "
                          f"new stop={action.new_stop:.2f}")
+            self._log_partial_exit(action, timestamp)
 
         elif action.reason.startswith("Target 2"):
             self.bridge.partial_exit(
@@ -779,6 +780,7 @@ class IBRunner:
                 new_sl=action.new_stop,
                 reason=action.reason,
             )
+            self._log_partial_exit(action, timestamp)
 
         else:
             # Stop update (trailing)
@@ -787,6 +789,42 @@ class IBRunner:
                 new_sl=action.new_stop,
                 reason=action.reason,
             )
+
+    def _log_partial_exit(self, action: ExitAction, timestamp: datetime) -> None:
+        """Log a partial exit (T1/T2) to trades.jsonl so the dashboard can show it."""
+        try:
+            if not self._position:
+                return
+            pos = self._position
+            direction = getattr(pos, "direction", "long")
+            if direction == "short":
+                pnl_pts = (pos.entry_price - action.exit_price) * action.contracts_to_close
+            else:
+                pnl_pts = (action.exit_price - pos.entry_price) * action.contracts_to_close
+            pnl_dollars = pnl_pts * self.contract.point_value
+
+            now_et = datetime.now(_ET)
+            record = {
+                "event": "partial_exit",
+                "timestamp": now_et.isoformat(),
+                "session_date": str(self._session_date),
+                "symbol": self.bridge.config.symbol,
+                "entry_price": pos.entry_price,
+                "exit_price": action.exit_price,
+                "pnl_pts": round(pnl_pts, 2),
+                "pnl_dollars": round(pnl_dollars, 2),
+                "contracts": action.contracts_to_close,
+                "total_contracts": pos.total_contracts,
+                "remaining_contracts": pos.remaining_contracts,
+                "direction": direction,
+                "pattern_type": self._pattern_type,
+                "exit_reason": action.reason,
+                "new_stop": action.new_stop,
+            }
+            with open(self._trade_log_path, "a") as f:
+                f.write(json.dumps(record, default=str) + "\n")
+        except Exception:
+            pass
 
     def _sync_position(self) -> None:
         """Sync local position state with IB actual position.
@@ -1458,14 +1496,22 @@ class IBRunner:
                         self.bridge.flatten(reason="eod_flatten")
                         flatten_time = session.eod_flatten_time.strftime("%H:%M")
                         logger.info(f"EOD flatten sent ({flatten_time} ET)")
+                        exit_price = float(bar.get("close", 0))
+                        # Compute PnL before closing
+                        if self._position.direction == "short":
+                            self._position.realized_pnl_pts = (self._position.entry_price - exit_price) * self._position.remaining_contracts
+                        else:
+                            self._position.realized_pnl_pts = (exit_price - self._position.entry_price) * self._position.remaining_contracts
                         self._position.remaining_contracts = 0
                         self._position.phase = ExitPhase.CLOSED
-                        self.position_manager.close_position(
-                            exit_price=float(bar.get("close", 0)),
+                        trade_rec = self.position_manager.close_position(
+                            exit_price=exit_price,
                             timestamp=timestamp,
                             exit_reason="EOD flatten",
                             pattern_type=self._pattern_type,
                         )
+                        if trade_rec:
+                            self._log_trade(trade_rec, self._current_signal, "exit")
                         self._position = None
                         self._trade_id = None
 

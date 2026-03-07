@@ -229,6 +229,7 @@ class FastBacktestRunner:
                 target_1=signal.target_1,
                 target_2=signal.target_2,
                 contracts=entry.contracts,
+                direction=signal.direction,
             )
             accepted = pos_mgr.open_position(position, ts, signal.pattern.pattern_type)
             if accepted:

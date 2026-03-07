@@ -111,7 +111,11 @@ class ExitParams:
     initial_stop_buffer_pts: float = 4.5  # matches fb_stop_buffer_pts
     # After T1, stop goes several pts UNDER breakeven to give room.
     # Mancini: "it will usually go several points under break-even"
-    breakeven_buffer_pts: float = -3.0  # negative = below breakeven
+    breakeven_buffer_pts: float = -3.0  # negative = below breakeven (longs)
+    # Short-specific breakeven buffer: wider than longs because short runners
+    # need room to survive post-T1 bounces. Entry + 8 pts = 6821.75 on a
+    # 6813.75 entry, vs entry + 3 = 6816.75 which gets clipped by normal bounces.
+    short_breakeven_buffer_pts: float = -8.0  # negative = above breakeven for shorts
     # Legacy field kept for backward compat with tests
     breakeven_buffer_ticks: int = 1
     # Intraday trailing only used before EOD prior-day-low trail kicks in.
