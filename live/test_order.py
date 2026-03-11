@@ -95,7 +95,7 @@ def main():
         bridge.disconnect()
         return
 
-    order_id = bridge.send_entry(
+    order_id, fill_price = bridge.send_entry(
         quantity=qty,
         sl=sl,
         tp=tp,
@@ -103,7 +103,7 @@ def main():
     )
 
     if order_id is not None:
-        print(f"\nOrder submitted! Parent ID: {order_id}")
+        print(f"\nOrder filled! Parent ID: {order_id}, fill price: {fill_price:.2f}")
         print("Check TWS for order status.")
 
         # Wait and check fill
