@@ -111,7 +111,11 @@ class ExitParams:
     initial_stop_buffer_pts: float = 4.5  # matches fb_stop_buffer_pts
     # After T1, stop goes several pts UNDER breakeven to give room.
     # Mancini: "it will usually go several points under break-even"
-    breakeven_buffer_pts: float = -3.0  # negative = below breakeven
+    breakeven_buffer_pts: float = -3.0  # negative = below breakeven (longs)
+    # Short-specific breakeven buffer: wider than longs because short runners
+    # need room to survive post-T1 bounces. Entry + 8 pts = 6821.75 on a
+    # 6813.75 entry, vs entry + 3 = 6816.75 which gets clipped by normal bounces.
+    short_breakeven_buffer_pts: float = -8.0  # negative = above breakeven for shorts
     # Legacy field kept for backward compat with tests
     breakeven_buffer_ticks: int = 1
     # Intraday trailing only used before EOD prior-day-low trail kicks in.
@@ -172,9 +176,9 @@ class StrategyParams:
     lr_stop_buffer_pts: float = 4.5  # LR stop at level - this value
 
     # Max sweep depth: reject FB signals where the sweep went too far below the level.
-    # Deep sweeps (>10 pts) are often true breakdowns, not failed breakdowns.
-    # The two best late-night trades had 3.5-4.5 pt sweep depth.
-    max_fb_sweep_depth_pts: float = 10.0
+    # Live data (1,651 events): deep sweeps (50+ pts) produce 117.6 pt avg recovery —
+    # the biggest bounces come from the deepest sweeps. Default raised from 10 to 100.
+    max_fb_sweep_depth_pts: float = 100.0
     # Deep sweep dual stop: for sweeps deeper than this threshold, use
     # level_price - fb_stop_buffer_pts as the stop instead of sweep_low - buffer.
     # This avoids massive 50+ pt stops on deep sweeps while still capturing
@@ -253,6 +257,16 @@ class StrategyParams:
     bt_reclaim_abort_bars: int = 3          # abort if price reclaims level
     bt_max_distance_from_level: float = 2.0 # max distance for backtest touch
 
+    # Deep sell recovery: detect intraday levels during massive selloffs.
+    # Mancini: "The bigger the sell, the bigger the squeeze." After deep sells,
+    # he FBs at NEW levels formed during the selloff, not the original broken level.
+    # When price is >30 pts below nearest support, use faster swing detection
+    # (order=5 instead of 30) to catch crash bottoms and consolidation zones.
+    allow_deep_sell_recovery: bool = False   # +148 pts on 5yr (+1 trade) but disabled pending more validation
+    deep_sell_threshold_pts: float = 30.0   # below nearest support = deep sell mode
+    deep_sell_swing_order: int = 5          # faster swing confirmation (5 bars vs 30)
+    deep_sell_rally_confirm_pts: float = 10.0  # lower rally threshold for crash lows
+
     # Signal cooldown: suppress repeated signals of the same type within N bars.
     # Feb 26 analysis: 97 signals in one session = noise. Mancini takes 1-3/day.
     # Cooldown prevents taking signal #2 when signal #1 from the same zone just lost.
@@ -281,7 +295,7 @@ class RiskParams:
 
     max_trades_per_day: int = 3
     max_daily_loss_pts: float = 20.0  # per-contract loss limit in points
-    max_stop_distance_pts: float = 10.0  # max allowed risk per trade in points
+    max_stop_distance_pts: float = 15.0  # live data shows BD Shorts need 10-15 pt stops to capture winners
     max_position_contracts: int = 4
     # Min prior-day range (high-low) to allow entries. Set to 0 to disable.
     # Testing showed prior-day range is a poor proxy for current conditions.

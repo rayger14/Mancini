@@ -57,6 +57,9 @@ class TradePosition:
     prior_day_low: float = 0.0
     # Prior day's RTH high — for short runner trailing
     prior_day_high: float = 0.0
+    # Track whether T1/T2 were hit (for accurate exit_reason on final close)
+    t1_hit: bool = False
+    t2_hit: bool = False
 
     def __post_init__(self):
         self.highest_price_since_entry = self.entry_price
@@ -203,7 +206,12 @@ class ExitManager:
         position.remaining_contracts = 0
 
         if position.phase in (ExitPhase.AFTER_T1, ExitPhase.AFTER_T2):
-            reason = "Trailing stop hit"
+            if position.t2_hit:
+                reason = "Runner stopped after T1+T2"
+            elif position.t1_hit:
+                reason = "Runner stopped after T1"
+            else:
+                reason = "Trailing stop hit"
         else:
             reason = "Stop loss hit"
 
@@ -247,6 +255,7 @@ class ExitManager:
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T1
+            position.t1_hit = True
 
             return ExitAction(
                 contracts_to_close=contracts_to_exit,
@@ -297,6 +306,7 @@ class ExitManager:
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T2
+            position.t2_hit = True
 
             return ExitAction(
                 contracts_to_close=contracts_to_exit,
@@ -359,13 +369,16 @@ class ExitManager:
             position.remaining_contracts -= contracts_to_exit
 
             # Stop to several pts above breakeven (for shorts, above = tighter)
-            new_stop = position.entry_price - self.params.breakeven_buffer_pts
+            # Use short-specific buffer (wider than longs to survive post-T1 bounces)
+            short_buf = getattr(self.params, "short_breakeven_buffer_pts", self.params.breakeven_buffer_pts)
+            new_stop = position.entry_price - short_buf
             if position.prior_day_high > 0:
                 pdh_stop = position.prior_day_high + self.params.runner_prior_day_low_buffer_pts
                 new_stop = max(new_stop, pdh_stop)  # use the wider (higher) stop for short
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T1
+            position.t1_hit = True
 
             return ExitAction(
                 contracts_to_close=contracts_to_exit,
@@ -380,9 +393,12 @@ class ExitManager:
         self, position: TradePosition, low: float, close: float
     ) -> Optional[ExitAction]:
         """Check if Target 2 is reached for short."""
-        # Fallback intraday trail (ratchet down) if no prior_day_high set
-        # For runners (AFTER_T1), use base trailing_stop_pts without aggressive tightening
-        if position.prior_day_high <= 0:
+        # Fallback intraday trail (ratchet down) if no prior_day_high set.
+        # Delayed activation: only trail once price makes a new low below T1,
+        # confirming the trend continues. This prevents the trail from
+        # ratcheting the stop down during the initial T1 drop, then getting
+        # clipped by the post-T1 bounce.
+        if position.prior_day_high <= 0 and low < position.target_1:
             new_trail = position.lowest_price_since_entry + self.params.trailing_stop_pts
             if new_trail < position.stop_price:
                 position.stop_price = new_trail
@@ -410,6 +426,7 @@ class ExitManager:
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T2
+            position.t2_hit = True
 
             return ExitAction(
                 contracts_to_close=contracts_to_exit,
@@ -427,10 +444,12 @@ class ExitManager:
         if position.prior_day_high > 0:
             pass  # Trail updated at EOD only
         else:
-            # Fallback: intraday trailing with base trailing_stop_pts (no tightening for runners)
-            new_trail = position.lowest_price_since_entry + self.params.trailing_stop_pts
-            if new_trail < position.stop_price:
-                position.stop_price = new_trail
+            # Fallback: intraday trailing with base trailing_stop_pts (no tightening for runners).
+            # Only activate once price is below T1 (confirming trend continuation).
+            if low < position.target_1:
+                new_trail = position.lowest_price_since_entry + self.params.trailing_stop_pts
+                if new_trail < position.stop_price:
+                    position.stop_price = new_trail
         return None
 
     def _compute_trail_stop_short(self, position: TradePosition, low: float) -> float:

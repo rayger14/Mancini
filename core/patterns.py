@@ -80,6 +80,7 @@ class FailedBreakdown:
     _HIGH_QUALITY_LEVELS = frozenset({
         LevelType.PRIOR_DAY_LOW,
         LevelType.MULTI_HOUR_LOW,
+        LevelType.INTRADAY_LOW,
     })
 
     def __init__(self, params: StrategyParams = DEFAULT_STRATEGY):
@@ -99,6 +100,8 @@ class FailedBreakdown:
         self._is_level_sweep: bool = False  # Path 2: level sweep without elevator
         # Near-miss tracking — setups that almost triggered but missed a threshold
         self.near_misses: list[dict] = []
+        # Deep sell recovery: track used intraday levels to avoid re-triggers
+        self._used_intraday_levels: list[float] = []
         # Level sweep tracking: count bars below a high-quality level
         self._sweep_tracking_level: Optional[Level] = None
         self._sweep_tracking_bars_below: int = 0
@@ -155,6 +158,44 @@ class FailedBreakdown:
         -------
         PatternSignal or None
         """
+        # Pre-emption: if we're tracking a non-INTRADAY_LOW level but a fresh
+        # INTRADAY_LOW is available, abandon the current tracking and switch.
+        # The crash bottom is the highest-priority FB opportunity.
+        if (
+            self.state != PatternState.IDLE
+            and self.params.allow_deep_sell_recovery
+            and (self._target_level is None or self._target_level.level_type != LevelType.INTRADAY_LOW)
+        ):
+            # Save state in case we don't preempt
+            saved_state = self.state
+            saved_target = self._target_level
+            saved_sweep_low = self._sweep_low
+            saved_recovery_bar = self._recovery_bar
+            saved_recovery_price = self._recovery_price
+            saved_hold_bars = self._hold_bars
+            saved_elevator = self._elevator_event
+            saved_bars_below = self._bars_below_level
+            saved_is_dd = self._is_double_dip
+            saved_is_ls = self._is_level_sweep
+
+            self.state = PatternState.IDLE
+            self._scan_for_deep_sell_recovery(low, close, level_store, timestamp, bar_idx)
+            if self.state != PatternState.IDLE:
+                # Deep sell recovery found — preempt the old tracking
+                return self._check_confirmation(bar_idx, timestamp, high, low, close)
+            else:
+                # No INTRADAY_LOW available — restore previous state
+                self.state = saved_state
+                self._target_level = saved_target
+                self._sweep_low = saved_sweep_low
+                self._recovery_bar = saved_recovery_bar
+                self._recovery_price = saved_recovery_price
+                self._hold_bars = saved_hold_bars
+                self._elevator_event = saved_elevator
+                self._bars_below_level = saved_bars_below
+                self._is_double_dip = saved_is_dd
+                self._is_level_sweep = saved_is_ls
+
         if self.state == PatternState.IDLE:
             # Clean up expired stop-out records
             self._stopped_out_levels = [
@@ -191,7 +232,19 @@ class FailedBreakdown:
                             self._hold_bars = 1
                         return self._check_confirmation(bar_idx, timestamp, high, low, close)
 
-            # Path 2: Level Sweep FB — no elevator needed for high-quality levels
+            # Path 2: Deep sell recovery — newly confirmed INTRADAY_LOW levels
+            # Runs BEFORE level sweep to prioritize crash bottom FBs.
+            # Mancini: "The bigger the sell, the bigger the squeeze."
+            # After a crash, the bottom becomes a level. By the time it's
+            # confirmed (rally proves significance), price is already above.
+            # Retroactively treat the crash as the sweep and current price
+            # as recovery. The stop goes below the crash low.
+            if self.state == PatternState.IDLE and self.params.allow_deep_sell_recovery:
+                self._scan_for_deep_sell_recovery(low, close, level_store, timestamp, bar_idx)
+                if self.state != PatternState.IDLE:
+                    return self._check_confirmation(bar_idx, timestamp, high, low, close)
+
+            # Path 3: Level Sweep FB — no elevator needed for high-quality levels
             # Prior day low, multi-hour low, and cluster lows are significant
             # enough that a sweep + recovery defines the pattern.
             if self.state == PatternState.IDLE and self.params.allow_level_sweep_fb:
@@ -211,7 +264,7 @@ class FailedBreakdown:
                             self._hold_bars = 1
                         return self._check_confirmation(bar_idx, timestamp, high, low, close)
 
-            # Path 3: Double-dip — no elevator needed if recently stopped at this level
+            # Path 4: Double-dip — no elevator needed if recently stopped at this level
             if self.state == PatternState.IDLE and self._stopped_out_levels:
                 self._scan_for_double_dip(low, close, level_store, timestamp, bar_idx)
                 if self.state == PatternState.SWEEP_DETECTED:
@@ -294,6 +347,7 @@ class FailedBreakdown:
         LevelType.PRIOR_DAY_LOW,
         LevelType.MULTI_HOUR_LOW,
         LevelType.CLUSTER_LOW,
+        LevelType.INTRADAY_LOW,
     })
 
     def _scan_for_sweep(
@@ -370,6 +424,15 @@ class FailedBreakdown:
                 self._sweep_tracking_bars_below += 1
                 self._sweep_tracking_low = min(self._sweep_tracking_low, low)
             elif close >= level.price and self._sweep_tracking_bars_below >= min_bars:
+                # Pre-check: if sweep got too deep during tracking, skip it.
+                # Avoids entering SWEEP_DETECTED only to be rejected in _emit_signal,
+                # which causes an infinite detect/reject/reset loop.
+                final_depth = level.price - self._sweep_tracking_low
+                if level.level_type != LevelType.INTRADAY_LOW and final_depth > self.params.max_fb_sweep_depth_pts:
+                    self._sweep_tracking_level = None
+                    self._sweep_tracking_bars_below = 0
+                    self._sweep_tracking_low = float("inf")
+                    return
                 # Recovery! We've been below long enough — this is a real FB
                 self.state = PatternState.SWEEP_DETECTED
                 self._target_level = level
@@ -393,6 +456,12 @@ class FailedBreakdown:
                 if level.level_type in self._HIGH_QUALITY_LEVELS:
                     sweep_depth = level.price - low
                     if sweep_depth >= min_depth and close < level.price:
+                        # Pre-check: skip non-INTRADAY_LOW levels that are already
+                        # too deep — they'll just get rejected in _emit_signal anyway,
+                        # causing an infinite detect/reject/reset loop.
+                        if level.level_type != LevelType.INTRADAY_LOW:
+                            if sweep_depth > self.params.max_fb_sweep_depth_pts:
+                                continue
                         self._sweep_tracking_level = level
                         self._sweep_tracking_bars_below = 1
                         self._sweep_tracking_low = low
@@ -423,6 +492,62 @@ class FailedBreakdown:
                         self._is_double_dip = True
                         self._elevator_event = None
                         return
+
+    def _scan_for_deep_sell_recovery(
+        self,
+        low: float,
+        close: float,
+        level_store: LevelStore,
+        timestamp: datetime,
+        bar_idx: int,
+    ) -> None:
+        """Check for freshly confirmed INTRADAY_LOW levels to FB retroactively.
+
+        When a crash bottom is confirmed (rally proves significance), price is
+        already above the level. The crash itself was the "sweep" and the current
+        price action is the "recovery". Fast-track to acceptance/non-acceptance.
+
+        Uses _used_intraday_levels to avoid re-triggering on the same level.
+        """
+        confirmed = level_store.get_confirmed(timestamp)
+
+        for level in confirmed:
+            if level.level_type != LevelType.INTRADAY_LOW:
+                continue
+
+            # Skip if already used this level (tracked by price proximity)
+            if hasattr(self, '_used_intraday_levels'):
+                if any(abs(p - level.price) < 1.0 for p in self._used_intraday_levels):
+                    continue
+            else:
+                self._used_intraday_levels = []
+
+            # Must be above the level (already recovered)
+            if close <= level.price:
+                continue
+
+            # The crash that created this level IS the sweep
+            self.state = PatternState.SWEEP_DETECTED
+            self._target_level = level
+            self._sweep_low = level.price  # crash bottom = sweep low
+            self._is_level_sweep = True
+            self._elevator_event = None
+
+            # Already recovered — fast-track to confirmation watch
+            self.state = PatternState.RECOVERY_DETECTED
+            self._recovery_bar = bar_idx
+            self._recovery_price = close
+            recovery_pts = close - level.price
+            if recovery_pts >= self.params.non_acceptance_min_recovery_pts:
+                self.state = PatternState.NON_ACCEPTANCE_WATCH
+                self._hold_bars = 1
+            else:
+                self.state = PatternState.ACCEPTANCE_WATCH
+                self._hold_bars = 1
+
+            # Mark as used so we don't re-trigger
+            self._used_intraday_levels.append(level.price)
+            return
 
     def _check_acceptance(
         self,
@@ -557,8 +682,11 @@ class FailedBreakdown:
         assert self._target_level is not None
         sweep_depth = self._target_level.price - self._sweep_low
 
-        # Reject deep sweeps: likely true breakdowns, not failed breakdowns
-        if sweep_depth > self.params.max_fb_sweep_depth_pts:
+        # Reject deep sweeps: likely true breakdowns, not failed breakdowns.
+        # Exception: INTRADAY_LOW levels form during the crash itself, so a
+        # deeper sweep is expected and normal. Skip the depth filter for these.
+        is_intraday = self._target_level.level_type == LevelType.INTRADAY_LOW
+        if not is_intraday and sweep_depth > self.params.max_fb_sweep_depth_pts:
             self.near_misses.append({
                 "timestamp": str(timestamp),
                 "bar_idx": bar_idx,

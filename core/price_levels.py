@@ -181,6 +181,12 @@ class PriceLevelDetector:
                     store.add(level)
                     new_levels.append(level)
 
+        # Deep sell recovery: detect intraday levels with faster confirmation
+        # when price is far below known support (Mancini: FB new levels during selloff)
+        if self.params.allow_deep_sell_recovery and bar_idx >= self.params.deep_sell_swing_order * 2:
+            deep_sell_levels = self._detect_deep_sell_levels(store, df, bar_idx)
+            new_levels.extend(deep_sell_levels)
+
         # Run cluster and H/SR detection at reduced frequency (performance).
         # These scans are O(bar_idx) so running every bar makes the day O(n²).
         if bar_idx % hr_sr_interval != 0:
@@ -429,6 +435,102 @@ class PriceLevelDetector:
                             touch_count=int(count),
                         )
                     )
+
+    def _detect_deep_sell_levels(
+        self, store: LevelStore, df: pd.DataFrame, bar_idx: int,
+    ) -> list[Level]:
+        """Detect intraday levels when price is in a deep sell.
+
+        During a massive selloff (>30 pts below nearest support), use faster
+        swing detection (order=5) to catch consolidation zones and crash bottoms.
+        These become INTRADAY_LOW levels eligible for FB detection.
+
+        Also detects the absolute crash bottom when rally confirms it.
+        """
+        new_levels: list[Level] = []
+        close = float(df["close"].values[bar_idx])
+        timestamp = df.index[bar_idx]
+
+        # Check if we're in a deep sell: close is far below nearest confirmed support
+        confirmed = store.get_confirmed(timestamp)
+        supports = [l for l in confirmed if l.price > close]
+        if not supports:
+            return new_levels
+
+        nearest_support = min(supports, key=lambda l: l.price)
+        depth_below = nearest_support.price - close
+
+        if depth_below < self.params.deep_sell_threshold_pts:
+            return new_levels
+
+        # --- Deep sell mode: faster swing low detection ---
+        order = self.params.deep_sell_swing_order
+        if bar_idx < order * 2:
+            return new_levels
+
+        lows = df["low"].values
+        candidate_idx = bar_idx - order
+
+        # Check if candidate_idx is a local minimum with the shorter order
+        window_start = max(0, candidate_idx - order)
+        window_end = min(len(lows), candidate_idx + order + 1)
+        window = lows[window_start:window_end]
+        local_min = float(lows[candidate_idx])
+
+        if local_min == window.min() and local_min < window.mean():
+            # Check rally from this low
+            rally = float(df["high"].values[candidate_idx:bar_idx + 1].max()) - local_min
+
+            # Use lower rally threshold for deep sell intraday levels
+            if rally >= self.params.deep_sell_rally_confirm_pts:
+                # Check it's not too close to an existing level
+                too_close = any(
+                    abs(l.price - local_min) <= 1.0
+                    for l in confirmed
+                    if l.level_type in (
+                        LevelType.INTRADAY_LOW,
+                        LevelType.MULTI_HOUR_LOW,
+                        LevelType.PRIOR_DAY_LOW,
+                        LevelType.SWING_LOW,
+                    )
+                )
+                if not too_close:
+                    level = Level(
+                        price=local_min,
+                        level_type=LevelType.INTRADAY_LOW,
+                        created_at=df.index[candidate_idx],
+                        confirmed_at=timestamp,  # confirmed now
+                        rally_from_low_pts=rally,
+                    )
+                    store.add(level)
+                    new_levels.append(level)
+
+        # --- Crash bottom detection: absolute session low ---
+        # When the session low has produced a significant rally, it's confirmed
+        session_lows = lows[:bar_idx + 1]
+        session_low_val = float(session_lows.min())
+        session_low_idx = int(session_lows.argmin())
+        rally_from_bottom = close - session_low_val
+
+        if rally_from_bottom >= self.params.deep_sell_rally_confirm_pts:
+            # Check crash bottom isn't already tracked
+            too_close = any(
+                abs(l.price - session_low_val) <= 1.0
+                for l in store.levels
+                if l.level_type == LevelType.INTRADAY_LOW
+            )
+            if not too_close:
+                level = Level(
+                    price=session_low_val,
+                    level_type=LevelType.INTRADAY_LOW,
+                    created_at=df.index[session_low_idx],
+                    confirmed_at=timestamp,
+                    rally_from_low_pts=rally_from_bottom,
+                )
+                store.add(level)
+                new_levels.append(level)
+
+        return new_levels
 
     @staticmethod
     def _find_clusters(

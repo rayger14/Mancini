@@ -24,7 +24,10 @@ from typing import Optional
 
 import numpy as np
 import pandas as pd
+import pytz
 from loguru import logger
+
+_ET = pytz.timezone("US/Eastern")
 
 # Allow running as script from project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -48,25 +51,32 @@ from strategy.position_manager import PositionManager, TradeRecord
 from strategy.risk_manager import RiskManager
 
 
-# ── Production parameters (Trial 47 — Optuna optimized, Feb 2026) ────
-# 5yr: 455T, PF=1.42, +2,706 pts, all years positive
+# ── Production parameters (Optuna v2 Trial 16 — data-informed, Mar 2026) ────
+# Walk-forward validated: Train PF=1.70/+2,589 pts, OOS PF=1.14/+289 pts
+# Full: 737T, PF=1.50, Sharpe=2.90, +2,878 pts (2024: +1,466 | 2025: +1,616)
+# Key changes from live data analysis of 1,651 events:
+#   - wider dips (15 pts): captures more FB opportunities
+#   - wider stops (20 pts): BD Shorts with 10-15 pt stops are winners
+#   - shorter hold (14 bars): quicker exits improve PF
+#   - sweep depth UNCAPPED: live data confirms 50+ pt sweeps = 117.6 avg recovery
+#   - slower BD confirmation (21 bars): fewer false breakdowns
 
 PRODUCTION_STRATEGY = StrategyParams(
-    acceptance_max_dip_pts=50.0,          # data collection: allow deep dips (was 4.0)
-    acceptance_min_hold_bars=7,
+    acceptance_max_dip_pts=15.0,          # Optuna v2: wider dips capture more winners (was 50/4)
+    acceptance_min_hold_bars=11,           # Optuna v2: stricter confirmation (was 7)
     swing_low_order=15,
     allow_breakdown_short=True,
     allow_backtest_short=False,
-    fb_stop_buffer_pts=7.0,
-    lr_stop_buffer_pts=3.0,
-    max_target_distance_pts=15.0,
-    max_fb_sweep_depth_pts=50.0,          # data collection: allow deep sweeps (was 10.0)
-    bd_confirm_bars=8,
-    bd_stop_buffer_pts=4.0,
-    bd_max_break_depth_pts=14.0,
-    bd_timeout_bars=55,
+    fb_stop_buffer_pts=6.0,               # Optuna v2 (was 7.0)
+    lr_stop_buffer_pts=4.0,               # Optuna v2 (was 3.0)
+    max_target_distance_pts=30.0,         # Optuna v2 (was 15.0)
+    max_fb_sweep_depth_pts=999.0,         # No cap — live data: 50+ pt sweeps = 117.6 avg recovery (Mancini: bigger sell = bigger squeeze)
+    bd_confirm_bars=21,                   # Optuna v2: slower BD confirmation (was 8)
+    bd_stop_buffer_pts=6.0,               # Optuna v2: wider BD stops (was 4.0)
+    bd_max_break_depth_pts=17.0,          # Optuna v2 (was 14.0)
+    bd_timeout_bars=35,                   # Optuna v2 (was 55)
     signal_cooldown_bars=15,
-    use_regime_filter=True,
+    use_regime_filter=False,              # Data collection: don't block longs/shorts based on regime
 )
 PRODUCTION_ELEVATOR = ElevatorParams(
     min_velocity_pts_per_min=0.75,
@@ -81,14 +91,14 @@ PRODUCTION_EXIT = ExitParams(
     breakeven_buffer_pts=-3.0,  # Mancini: "several pts under breakeven"
     trailing_stop_pts=12.0,
     runner_prior_day_low_buffer_pts=1.0,
-    fb_max_hold_bars=0,         # no time limit — let runners run
+    fb_max_hold_bars=14,        # Optuna v2: shorter hold = quicker exits (was 0)
 )
-PRODUCTION_RISK = RiskParams(max_trades_per_day=999, max_daily_loss_pts=9999.0, skip_tuesdays=False, min_rr_ratio=0.1)
+PRODUCTION_RISK = RiskParams(max_trades_per_day=999, max_daily_loss_pts=9999.0, skip_tuesdays=False, min_rr_ratio=0.8)  # Optuna v2: 0.8 R:R filter (was 0.1)
 PRODUCTION_REGIME = RegimeParams(
     mode="ema",
-    ema_span=80,
-    slope_lookback=6,
-    slope_threshold_atr_mult=0.35,
+    ema_span=30,                          # Optuna v2: faster regime detection (was 80)
+    slope_lookback=10,                    # Optuna v2 (was 6)
+    slope_threshold_atr_mult=0.325,       # Optuna v2 (was 0.35)
 )
 PRODUCTION_SESSION = SessionTimes(
     chop_zone_start=time(13, 0),
@@ -529,11 +539,13 @@ class IBRunner:
                         )
                     self._position = None
                     self._trade_id = None
+                self._write_status()
                 return
 
         # Step 2: Check for new signals (only if no position and not done)
         if self._position is None or not self._position.is_open:
             if self.position_manager.is_done_for_day:
+                self._write_status()
                 return
 
             bar_idx = len(self._df) - 1  # Index into current DataFrame, not cumulative count
@@ -699,8 +711,17 @@ class IBRunner:
                     stop_price=signal.stop_price,
                 )
 
+        # Final contracts sanity check before sending to IB
+        if entry.contracts <= 0:
+            logger.error(
+                f"REJECTED: entry.contracts={entry.contracts} for {signal.signal_type.name} — "
+                f"would create ghost order"
+            )
+            return
+
         # Execute via IB — bracket order (market + SL + TP as OCO)
-        trade_id = self.bridge.send_entry(
+        # send_entry waits for fill confirmation before returning
+        trade_id, fill_price = self.bridge.send_entry(
             quantity=entry.contracts,
             sl=entry.stop_price,
             tp=signal.target_1,
@@ -709,12 +730,21 @@ class IBRunner:
         )
 
         if trade_id is None:
-            logger.error("Entry order rejected by IB")
+            logger.error("Entry order rejected or timed out — no position created")
+            self._add_phantom(signal, "ib:entry_rejected_or_timeout", timestamp)
             return
 
-        # Create local position tracking
+        # Use IB's actual fill price if available, fall back to signal entry
+        actual_entry_price = fill_price if fill_price > 0 else entry.entry_price
+        if fill_price > 0 and abs(fill_price - entry.entry_price) > 1.0:
+            logger.warning(
+                f"Fill price slippage: expected={entry.entry_price:.2f}, "
+                f"actual={fill_price:.2f} ({fill_price - entry.entry_price:+.2f} pts)"
+            )
+
+        # Create local position tracking (only after confirmed fill)
         self._position = self.exit_manager.create_position(
-            entry_price=entry.entry_price,
+            entry_price=actual_entry_price,
             stop_price=entry.stop_price,
             target_1=signal.target_1,
             target_2=signal.target_2,
@@ -758,6 +788,7 @@ class IBRunner:
                 self.bridge.flatten(reason=action.reason)
             logger.info(f"EXIT: partial {action.contracts_to_close} @ T1, "
                          f"new stop={action.new_stop:.2f}")
+            self._log_partial_exit(action, timestamp)
 
         elif action.reason.startswith("Target 2"):
             self.bridge.partial_exit(
@@ -766,6 +797,7 @@ class IBRunner:
                 new_sl=action.new_stop,
                 reason=action.reason,
             )
+            self._log_partial_exit(action, timestamp)
 
         else:
             # Stop update (trailing)
@@ -774,6 +806,42 @@ class IBRunner:
                 new_sl=action.new_stop,
                 reason=action.reason,
             )
+
+    def _log_partial_exit(self, action: ExitAction, timestamp: datetime) -> None:
+        """Log a partial exit (T1/T2) to trades.jsonl so the dashboard can show it."""
+        try:
+            if not self._position:
+                return
+            pos = self._position
+            direction = getattr(pos, "direction", "long")
+            if direction == "short":
+                pnl_pts = (pos.entry_price - action.exit_price) * action.contracts_to_close
+            else:
+                pnl_pts = (action.exit_price - pos.entry_price) * action.contracts_to_close
+            pnl_dollars = pnl_pts * self.contract.point_value
+
+            now_et = datetime.now(_ET)
+            record = {
+                "event": "partial_exit",
+                "timestamp": now_et.isoformat(),
+                "session_date": str(self._session_date),
+                "symbol": self.bridge.config.symbol,
+                "entry_price": pos.entry_price,
+                "exit_price": action.exit_price,
+                "pnl_pts": round(pnl_pts, 2),
+                "pnl_dollars": round(pnl_dollars, 2),
+                "contracts": action.contracts_to_close,
+                "total_contracts": pos.total_contracts,
+                "remaining_contracts": pos.remaining_contracts,
+                "direction": direction,
+                "pattern_type": self._pattern_type,
+                "exit_reason": action.reason,
+                "new_stop": action.new_stop,
+            }
+            with open(self._trade_log_path, "a") as f:
+                f.write(json.dumps(record, default=str) + "\n")
+        except Exception:
+            pass
 
     def _sync_position(self) -> None:
         """Sync local position state with IB actual position.
@@ -790,8 +858,9 @@ class IBRunner:
         # Grace period: IB needs time to register the position after entry
         # or after recovery. Without this, get_position() returns None
         # immediately and we falsely conclude the bracket was filled.
+        # 45s accounts for the fill confirmation wait (up to 30s) plus buffer.
         elapsed = _time.monotonic() - self._last_entry_monotonic
-        if elapsed < 15.0:
+        if elapsed < 45.0:
             return
 
         ib_pos = self.bridge.get_position()
@@ -802,15 +871,24 @@ class IBRunner:
                 logger.debug(f"IB position returned None ({self._sync_none_count}/3), waiting for confirmation...")
                 return
 
-            # Position confirmed closed on IB side
-            logger.info("Position closed on IB side (bracket order filled, confirmed 3x)")
+            # Position confirmed closed on IB side — retrieve actual fill price
+            fill_price, exit_type = self.bridge.get_bracket_fill_price(self._trade_id)
+            if fill_price > 0:
+                logger.info(
+                    f"Position closed on IB side ({exit_type} filled @ {fill_price:.2f}, confirmed 3x)"
+                )
+            else:
+                logger.warning(
+                    "Position closed on IB side (bracket filled, confirmed 3x) "
+                    "but fill price unavailable — recording exit_price=0"
+                )
             self._sync_none_count = 0
             self._position.remaining_contracts = 0
             self._position.phase = ExitPhase.CLOSED
             self.position_manager.close_position(
-                exit_price=0,  # Unknown exact fill price
+                exit_price=fill_price,
                 timestamp=datetime.now(),
-                exit_reason="IB bracket fill",
+                exit_reason=f"IB bracket {exit_type}" if exit_type != "unknown" else "IB bracket fill",
                 pattern_type=self._pattern_type,
             )
             # Log exit to persistent trade log
@@ -859,7 +937,7 @@ class IBRunner:
             logger.warning(f"FORCE TRADE: {direction.upper()} {qty} @ ~{close:.2f}, "
                            f"TP={tp:.2f}, SL={sl:.2f}")
 
-            trade_id = self.bridge.send_entry(
+            trade_id, fill_price = self.bridge.send_entry(
                 quantity=qty, sl=sl, tp=tp,
                 direction=direction, comment="ForceTest",
             )
@@ -1073,13 +1151,13 @@ class IBRunner:
                 }
 
             # Session window
-            now_et = datetime.now()
+            now_et = datetime.now(_ET)
             session_window = self._get_session_window(now_et.time())
 
             # Build the rich record
             record = {
                 "event": context,  # "entry" or "exit"
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": now_et.isoformat(),
                 "session_date": str(self._session_date),
                 "symbol": self.bridge.config.symbol,
                 "bar_count": bar_count,
@@ -1099,7 +1177,7 @@ class IBRunner:
                     "exit_price": getattr(trade_record, "avg_exit_price", None),
                     "pnl_pts": getattr(trade_record, "pnl_pts", None),
                     "pnl_dollars": getattr(trade_record, "pnl_dollars", None),
-                    "contracts": getattr(trade_record, "contracts", 1),
+                    "contracts": getattr(trade_record, "contracts", None) or getattr(trade_record, "total_contracts", 1),
                     "direction": getattr(trade_record, "direction", "long"),
                     "pattern_type": getattr(trade_record, "pattern_type", self._pattern_type),
                     "exit_reason": getattr(trade_record, "exit_reason", None),
@@ -1119,6 +1197,8 @@ class IBRunner:
                     "level_price": signal.pattern.level.price,
                     "level_type": signal.pattern.level.level_type.name,
                 }
+                # Human-readable trade explanation
+                record["reason"] = self._build_trade_reason(signal, regime_info, session_window)
 
             # Gate bypass info (collection mode)
             if self._current_gate_bypass:
@@ -1137,6 +1217,54 @@ class IBRunner:
         except Exception as e:
             logger.warning(f"Failed to log trade: {e}")
 
+    def _build_trade_reason(self, signal: Signal, regime_info: dict, session_window: dict) -> str:
+        """Build a plain English explanation of why this trade was taken."""
+        p = signal.pattern
+        level_type = p.level.level_type.name.replace("_", " ").title()
+        level_price = p.level.price
+        direction = getattr(p, "direction", "long")
+        sig_type = signal.signal_type.name
+
+        if sig_type == "FAILED_BREAKDOWN":
+            sweep_depth = getattr(p, "sweep_depth_pts", 0)
+            conf = getattr(p, "confirmation", None)
+            conf_str = conf.name.replace("_", "-").lower() if conf else "confirmed"
+            reason = (
+                f"FB at {level_type} {level_price:.2f}: "
+                f"price swept {sweep_depth:.1f} pts below, recovered and {conf_str}. "
+            )
+        elif sig_type == "LEVEL_RECLAIM":
+            reason = (
+                f"Level Reclaim at {level_type} {level_price:.2f}: "
+                f"price reclaimed level from below and held. "
+            )
+        elif sig_type == "BREAKDOWN_SHORT":
+            reason = (
+                f"BD Short at {level_type} {level_price:.2f}: "
+                f"support broke and held below. "
+            )
+        elif sig_type == "BACKTEST_SHORT":
+            reason = (
+                f"Backtest Short at {level_type} {level_price:.2f}: "
+                f"broken resistance retest failed. "
+            )
+        else:
+            reason = f"{sig_type} at {level_type} {level_price:.2f}. "
+
+        # Add risk/reward
+        reason += f"Risk: {signal.risk_pts:.1f} pts, T1: {signal.target_1:.2f} (R:R {signal.rr_ratio_t1:.1f}). "
+
+        # Add regime
+        regime_dir = regime_info.get("direction", "?")
+        reason += f"Regime: {regime_dir}. "
+
+        # Add session window
+        window_name = session_window.get("detail", "") if isinstance(session_window, dict) else str(session_window)
+        if window_name:
+            reason += f"Window: {window_name}."
+
+        return reason
+
     def _log_phantom(self, signal: Signal, reject_reason: str, result: str = "") -> None:
         """Log a phantom (rejected) signal to the persistent log."""
         try:
@@ -1144,7 +1272,7 @@ class IBRunner:
             if self._df is not None and len(self._df) > 0:
                 last_price = float(self._df["close"].iat[-1])
 
-            now_et = datetime.now()
+            now_et = datetime.now(_ET)
             record = {
                 "event": "phantom",
                 "timestamp": now_et.isoformat(),
@@ -1170,7 +1298,7 @@ class IBRunner:
         try:
             record = {
                 "event": "phantom_resolved",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(_ET).isoformat(),
                 "session_date": str(self._session_date),
                 "signal_type": p["signal_type"],
                 "entry_price": p["entry_price"],
@@ -1436,14 +1564,22 @@ class IBRunner:
                         self.bridge.flatten(reason="eod_flatten")
                         flatten_time = session.eod_flatten_time.strftime("%H:%M")
                         logger.info(f"EOD flatten sent ({flatten_time} ET)")
+                        exit_price = float(bar.get("close", 0))
+                        # Compute PnL before closing
+                        if self._position.direction == "short":
+                            self._position.realized_pnl_pts = (self._position.entry_price - exit_price) * self._position.remaining_contracts
+                        else:
+                            self._position.realized_pnl_pts = (exit_price - self._position.entry_price) * self._position.remaining_contracts
                         self._position.remaining_contracts = 0
                         self._position.phase = ExitPhase.CLOSED
-                        self.position_manager.close_position(
-                            exit_price=float(bar.get("close", 0)),
+                        trade_rec = self.position_manager.close_position(
+                            exit_price=exit_price,
                             timestamp=timestamp,
                             exit_reason="EOD flatten",
                             pattern_type=self._pattern_type,
                         )
+                        if trade_rec:
+                            self._log_trade(trade_rec, self._current_signal, "exit")
                         self._position = None
                         self._trade_id = None
 
@@ -1832,16 +1968,14 @@ def main():
         logger.info("Full session active: rth_filter for levels, FB-only PM, evening block")
 
     # Live mode: bypass time gates (trade all hours) but enforce quality gates.
-    # - min_rr_ratio=1.0: only take trades with >= 1:1 risk:reward
-    # - max_stop_distance=15: allow BD shorts (wider stops) but not absurd
-    # - max_trades_per_day=999: no daily limit (let the strategy decide)
-    # Rejected signals are tracked as phantoms to see what we're missing.
+    # Optuna v2 optimized params (Mar 2026): OOS validated PF=1.14, Sharpe=1.00
+    # Quality gates tightened based on 1,651 live events analysis.
     live_risk = RiskParams(
         max_trades_per_day=999,
-        max_daily_loss_pts=9999.0,  # unlimited for data collection
-        max_stop_distance_pts=50.0,  # data collection: allow deep sweep stops (was 15.0)
+        max_daily_loss_pts=9999.0,  # no daily loss limit
+        max_stop_distance_pts=20.0,  # Optuna v2: BD Short 10-15 pt stops are winners
         skip_tuesdays=False,
-        min_rr_ratio=0.1,  # match SignalAggregator's 0.1 for data collection
+        min_rr_ratio=0.8,  # Optuna v2: moderate filter (was 0.1 data collection)
     )
 
     runner = IBRunner(
@@ -1849,7 +1983,7 @@ def main():
         exit_params=exit_params,
         risk_params=live_risk,
         session_times=session_times,
-        min_rr_ratio=0.1,  # data collection: capture deep sweeps (was 1.0)
+        min_rr_ratio=0.8,  # Optuna v2 optimized (was 0.1 data collection)
         rth_filter=rth_filter,
         fb_only_pm=fb_only_pm,
         regime_params=PRODUCTION_REGIME,
