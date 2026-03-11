@@ -1,0 +1,54 @@
+{
+  "best_trial": 16,
+  "best_score": 4.8432914616232425,
+  "best_params": {
+    "slope_threshold_atr_mult": 0.325,
+    "ema_span": 30,
+    "slope_lookback": 10,
+    "fb_stop_buffer_pts": 6.0,
+    "lr_stop_buffer_pts": 4.0,
+    "fb_max_hold_bars": 14,
+    "acceptance_min_hold_bars": 11,
+    "acceptance_max_dip_pts": 15.0,
+    "max_fb_sweep_depth_pts": 20.0,
+    "max_target_distance_pts": 30.0,
+    "bd_confirm_bars": 21,
+    "bd_stop_buffer_pts": 6.0,
+    "bd_max_break_depth_pts": 17.0,
+    "bd_timeout_bars": 35,
+    "min_rr_ratio": 0.8,
+    "max_stop_distance_pts": 20.0
+  },
+  "train_metrics": {
+    "n": 498,
+    "pf": 1.6994664685621665,
+    "wr": 53.6144578313253,
+    "sharpe": 3.7152180233665426,
+    "pnl": 2589.25
+  },
+  "oos_metrics": {
+    "n": 239,
+    "pf": 1.1418038830179404,
+    "wr": 50.2092050209205,
+    "sharpe": 0.9956087634743416,
+    "pnl": 288.5,
+    "pass": true
+  },
+  "full_metrics": {
+    "n": 737,
+    "pf": 1.5016779254739594,
+    "sharpe": 2.8957118626297156,
+    "pnl": 2877.75,
+    "year_pnls": {
+      "2024": 1465.75,
+      "2025": 1615.75,
+      "2026": -203.75
+    }
+  },
+  "n_trials": 22,
+  "elapsed_min": 212.8096234321594,
+  "walk_forward": {
+    "train": "2024-02-01 to 2025-06-30",
+    "test": "2025-07-01 to 2026-02-05"
+  }
+}
