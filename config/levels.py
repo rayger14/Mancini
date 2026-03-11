@@ -20,6 +20,7 @@ class LevelType(Enum):
     SWING_LOW = auto()  # argrelextrema-detected
     SWING_HIGH = auto()  # argrelextrema-detected (resistance)
     HORIZONTAL_SR = auto()  # horizontal S/R with multiple touches
+    INTRADAY_LOW = auto()   # fast-confirmed low during deep sell (crash bottom / consolidation)
     VWAP = auto()
     CUSTOM = auto()
 
