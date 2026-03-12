@@ -878,6 +878,11 @@ class IBBridge:
         Checks the TP and SL Trade objects for fills to determine which
         child order was executed and at what price.
 
+        Three strategies attempted in order:
+        1. Check Trade.fills list (populated by IB event loop)
+        2. Check Trade.orderStatus (avgFillPrice, status=="Filled")
+        3. Query IB executions API as final fallback
+
         Returns
         -------
         (fill_price, exit_type) : tuple[float, str]
@@ -889,30 +894,56 @@ class IBBridge:
             logger.warning(f"get_bracket_fill_price: no bracket found for trade_id={trade_id}")
             return 0.0, "unknown"
 
-        # Check TP fills
-        tp_trade = bracket.get("tp")
-        if tp_trade and hasattr(tp_trade, "fills") and tp_trade.fills:
-            fill = tp_trade.fills[-1]
-            price = getattr(fill, "avgPrice", 0.0) or getattr(fill, "price", 0.0)
-            if price > 0:
-                logger.info(f"Bracket TP filled: price={price:.2f} (trade_id={trade_id})")
-                return price, "TP"
+        # Flush IB event loop to receive any pending fill updates
+        try:
+            self._ib.sleep(1.0)
+        except Exception:
+            pass
 
-        # Check SL fills
-        sl_trade = bracket.get("sl")
-        if sl_trade and hasattr(sl_trade, "fills") and sl_trade.fills:
-            fill = sl_trade.fills[-1]
-            price = getattr(fill, "avgPrice", 0.0) or getattr(fill, "price", 0.0)
-            if price > 0:
-                logger.info(f"Bracket SL filled: price={price:.2f} (trade_id={trade_id})")
-                return price, "SL"
+        for label, trade_obj in [("tp", bracket.get("tp")), ("sl", bracket.get("sl"))]:
+            if not trade_obj:
+                continue
 
-        # Check parent fills for entry price (fallback)
-        parent_trade = bracket.get("parent")
-        if parent_trade and hasattr(parent_trade, "fills") and parent_trade.fills:
-            # Parent filled but no child fills yet — bracket may still be active
-            logger.debug(f"Bracket parent filled but no child fills yet (trade_id={trade_id})")
+            # Strategy 1: check fills list
+            if hasattr(trade_obj, "fills") and trade_obj.fills:
+                fill = trade_obj.fills[-1]
+                price = getattr(fill, "avgPrice", 0.0) or getattr(fill, "price", 0.0)
+                if price > 0:
+                    exit_type = "TP" if label == "tp" else "SL"
+                    logger.info(f"Bracket {exit_type} filled (fills list): price={price:.2f} (trade_id={trade_id})")
+                    return price, exit_type
 
+            # Strategy 2: check orderStatus
+            if hasattr(trade_obj, "orderStatus") and trade_obj.orderStatus:
+                status = trade_obj.orderStatus.status
+                avg_price = getattr(trade_obj.orderStatus, "avgFillPrice", 0.0)
+                if status == "Filled" and avg_price > 0:
+                    exit_type = "TP" if label == "tp" else "SL"
+                    logger.info(f"Bracket {exit_type} filled (orderStatus): price={avg_price:.2f} (trade_id={trade_id})")
+                    return avg_price, exit_type
+
+        # Strategy 3: query IB executions as fallback
+        try:
+            tp_order_id = bracket.get("tp_order_id")
+            sl_order_id = bracket.get("sl_order_id")
+            all_fills = self._ib.fills()
+            for f in all_fills:
+                if f.contract.symbol == self.config.symbol:
+                    oid = f.execution.orderId
+                    price = f.execution.avgPrice or f.execution.price
+                    if price > 0:
+                        if oid == tp_order_id:
+                            logger.info(f"Bracket TP filled (executions API): price={price:.2f} (trade_id={trade_id})")
+                            return price, "TP"
+                        elif oid == sl_order_id:
+                            logger.info(f"Bracket SL filled (executions API): price={price:.2f} (trade_id={trade_id})")
+                            return price, "SL"
+        except Exception as e:
+            logger.debug(f"Executions API fallback failed: {e}")
+
+        # Last resort: check if we know the stop/target prices from the bracket
+        # and infer from last known market price
+        logger.warning(f"Bracket fill price unavailable after 3 strategies (trade_id={trade_id})")
         return 0.0, "unknown"
 
     # ── Position Tracking ─────────────────────────────────────────────

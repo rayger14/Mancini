@@ -489,6 +489,7 @@ class IBRunner:
         low = float(bar.get("low", 0))
         close = float(bar.get("close", 0))
         volume = float(bar.get("volume", 0))
+        self._last_price = close  # Track for exit fill fallback
 
         logger.info(f"BAR #{self._bar_count}: {timestamp.strftime('%H:%M')} "
                      f"O={open_:.2f} H={high:.2f} L={low:.2f} C={close:.2f} V={volume:.0f}")
@@ -872,16 +873,29 @@ class IBRunner:
                 return
 
             # Position confirmed closed on IB side — retrieve actual fill price
-            fill_price, exit_type = self.bridge.get_bracket_fill_price(self._trade_id)
-            if fill_price > 0:
-                logger.info(
-                    f"Position closed on IB side ({exit_type} filled @ {fill_price:.2f}, confirmed 3x)"
-                )
-            else:
+            # Try up to 3 times with 2s delay to let IB propagate fill data
+            fill_price, exit_type = 0.0, "unknown"
+            for attempt in range(3):
+                fill_price, exit_type = self.bridge.get_bracket_fill_price(self._trade_id)
+                if fill_price > 0:
+                    logger.info(
+                        f"Position closed on IB side ({exit_type} filled @ {fill_price:.2f}, "
+                        f"confirmed 3x, attempt {attempt + 1})"
+                    )
+                    break
+                if attempt < 2:
+                    logger.debug(f"Fill price not yet available (attempt {attempt + 1}/3), retrying in 2s...")
+                    _time.sleep(2)
+
+            if fill_price <= 0:
+                # Final fallback: use last known market price as estimate
+                last_price = getattr(self, "_last_price", 0.0)
                 logger.warning(
-                    "Position closed on IB side (bracket filled, confirmed 3x) "
-                    "but fill price unavailable — recording exit_price=0"
+                    f"Position closed on IB side (bracket filled, confirmed 3x) "
+                    f"but fill price unavailable after 3 attempts — "
+                    f"using last market price {last_price:.2f} as estimate"
                 )
+                fill_price = last_price
             self._sync_none_count = 0
             self._position.remaining_contracts = 0
             self._position.phase = ExitPhase.CLOSED
