@@ -213,7 +213,11 @@ class IBRunner:
             risk_params=risk_params,
         )
         self.exit_manager = ExitManager(params=exit_params, contract=contract)
-        self.position_manager = PositionManager(risk_params=risk_params, point_value=contract.point_value)
+        self.position_manager = PositionManager(
+            risk_params=risk_params,
+            point_value=contract.point_value,
+            bypass_loss_limits=bypass_session_gates,
+        )
         self.risk_manager = RiskManager(
             risk_params=risk_params,
             session=session_times,

@@ -112,10 +112,12 @@ class PositionManager:
     - Never let a green day go red
     """
 
-    def __init__(self, risk_params: RiskParams = DEFAULT_RISK, point_value: float = 50.0):
+    def __init__(self, risk_params: RiskParams = DEFAULT_RISK, point_value: float = 50.0,
+                 bypass_loss_limits: bool = False):
         self.risk_params = risk_params
         self.point_value = point_value
         self.session: Optional[DaySession] = None
+        self.bypass_loss_limits = bypass_loss_limits
 
     def start_session(self, date: datetime) -> DaySession:
         """Initialize a new trading day session."""
@@ -298,6 +300,10 @@ class PositionManager:
     def _update_session_state(self, trade_pnl_pts: float) -> None:
         """Update session state after a trade closes."""
         assert self.session is not None
+
+        # In data collection mode, never shut down — keep trading
+        if self.bypass_loss_limits:
+            return
 
         if trade_pnl_pts > 0:
             # Winner
