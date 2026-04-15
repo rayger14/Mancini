@@ -59,6 +59,7 @@ class TradeRecord:
     exit_date: object = None        # date when trade was closed
     days_held: int = 1              # number of trading days held
     is_runner: bool = False         # True if position reached AFTER_T1+
+    is_double_dip: bool = False     # True if trade was a double-dip re-entry
 
 
 @dataclass
@@ -170,6 +171,7 @@ class PositionManager:
         signal: Optional['Signal'] = None,
         entry_bar_idx: int = 0,
         exit_bar_idx: int = 0,
+        entry_time: Optional[datetime] = None,
     ) -> Optional[TradeRecord]:
         """Record a closed trade and update session state.
 
@@ -188,7 +190,7 @@ class PositionManager:
 
         direction = getattr(pos, "direction", "long")
         record = TradeRecord(
-            entry_time=timestamp,  # approximate
+            entry_time=entry_time if entry_time is not None else timestamp,
             exit_time=timestamp,
             entry_price=pos.entry_price,
             avg_exit_price=exit_price,
@@ -214,6 +216,7 @@ class PositionManager:
             record.level_type = signal.pattern.level.level_type.name
             record.level_price = signal.pattern.level.price
             record.sweep_depth_pts = signal.pattern.sweep_depth_pts
+            record.is_double_dip = getattr(signal.pattern, 'is_double_dip', False)
             if signal.pattern.elevator_event is not None:
                 ev = signal.pattern.elevator_event
                 record.elevator_peak_velocity = ev.peak_velocity

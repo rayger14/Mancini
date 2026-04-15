@@ -67,6 +67,9 @@ class BreakdownShort:
         self._bars_below: int = 0
         self._lowest_low: float = float("inf")
         self._break_close: float = 0.0
+        # Conviction scoring state
+        self._conviction_score: float = 0.0
+        self._prev_low_below: float = float("inf")
 
     def reset(self) -> None:
         self.state = ShortState.IDLE
@@ -75,20 +78,28 @@ class BreakdownShort:
         self._bars_below = 0
         self._lowest_low = float("inf")
         self._break_close = 0.0
+        self._conviction_score = 0.0
+        self._prev_low_below = float("inf")
 
     def update(
         self,
         bar_idx: int,
         timestamp: datetime,
-        high: float,
-        low: float,
-        close: float,
-        level_store: LevelStore,
+        open_: float = 0.0,
+        high: float = 0.0,
+        low: float = 0.0,
+        close: float = 0.0,
+        velocity: float = 0.0,
+        level_store: LevelStore = None,
+        # Legacy positional support: if called with old signature (high, low, close, level_store)
+        **kwargs,
     ) -> Optional[PatternSignal]:
         """Process one bar. Returns PatternSignal if breakdown confirms."""
 
         if self.state == ShortState.IDLE:
-            self._scan_for_break(low, close, level_store, timestamp, bar_idx)
+            self._scan_for_break(
+                open_, low, close, velocity, level_store, timestamp, bar_idx
+            )
             return None
 
         elif self.state == ShortState.BREAK_DETECTED:
@@ -100,7 +111,8 @@ class BreakdownShort:
                 self._lowest_low = low
 
             # Check if price recovered above level — this is a failed breakdown (long), not our setup
-            if close > level_price:
+            # Use >= so a close exactly AT the level counts as recovery (not breakdown)
+            if close >= level_price:
                 self.reset()
                 return None
 
@@ -117,18 +129,74 @@ class BreakdownShort:
                 self.reset()
                 return None
 
-            # Confirmed! Price stayed below for enough bars
-            if self._bars_below >= self.params.bd_confirm_bars:
+            # Accumulate conviction score for this bar
+            bar_score = self._compute_bar_conviction(
+                level_price, open_, high, low, close, velocity
+            )
+            self._conviction_score += bar_score
+            self._prev_low_below = low
+
+            # Confirm when conviction threshold met AND minimum bars observed
+            if (self._conviction_score >= self.params.bd_conviction_threshold
+                    and self._bars_below >= self.params.bd_min_bars_floor):
                 return self._emit_signal(bar_idx, timestamp, close)
 
             return None
 
         return None
 
-    def _scan_for_break(
+    def _compute_bar_conviction(
         self,
+        level_price: float,
+        open_: float,
+        high: float,
         low: float,
         close: float,
+        velocity: float,
+    ) -> float:
+        """Compute conviction score for one bar below the broken level.
+
+        Components:
+          A. Base hold: 1.0 (every bar below)
+          B. Depth bonus: how far below the level (normalized)
+          C. Velocity bonus: selling speed (negative velocity)
+          D. Candle character: bearish = close near low
+          E. New low bonus: bar makes a new low vs prior bars
+        """
+        p = self.params
+        score = 1.0  # A: base hold
+
+        # B: Depth bonus
+        depth_pts = level_price - close
+        if p.bd_conviction_depth_norm_pts > 0 and depth_pts > 0 and p.bd_conviction_depth_weight > 0:
+            depth_ratio = min(depth_pts / p.bd_conviction_depth_norm_pts, 1.0)
+            score += depth_ratio * p.bd_conviction_depth_weight
+
+        # C: Velocity bonus (negative velocity = selling pressure)
+        if p.bd_conviction_velocity_norm > 0 and p.bd_conviction_velocity_weight > 0:
+            abs_sell_velocity = max(-velocity, 0.0)
+            velocity_ratio = min(abs_sell_velocity / p.bd_conviction_velocity_norm, 1.0)
+            score += velocity_ratio * p.bd_conviction_velocity_weight
+
+        # D: Candle character (close near low = bearish follow-through)
+        bar_range = high - low
+        if bar_range > 0 and p.bd_conviction_candle_weight > 0:
+            close_position = (close - low) / bar_range
+            bearish_score = 1.0 - close_position
+            score += bearish_score * p.bd_conviction_candle_weight
+
+        # E: New low bonus (progression, not stalling)
+        if low < self._prev_low_below and p.bd_conviction_new_low_weight > 0:
+            score += p.bd_conviction_new_low_weight
+
+        return score
+
+    def _scan_for_break(
+        self,
+        open_: float,
+        low: float,
+        close: float,
+        velocity: float,
         level_store: LevelStore,
         timestamp: datetime,
         bar_idx: int,
@@ -153,6 +221,12 @@ class BreakdownShort:
                     self._bars_below = 1  # this bar counts
                     self._lowest_low = low
                     self._break_close = close
+                    # Initialize conviction with first bar's score
+                    self._prev_low_below = float("inf")  # first bar always counts as new low
+                    self._conviction_score = self._compute_bar_conviction(
+                        level.price, open_, level.price + 1, low, close, velocity
+                    )
+                    self._prev_low_below = low
                     return
 
     def _emit_signal(
@@ -206,6 +280,8 @@ class BreakdownShort:
             "bars_below": self._bars_below,
             "lowest_low": self._lowest_low,
             "break_close": self._break_close,
+            "conviction_score": self._conviction_score,
+            "prev_low_below": self._prev_low_below,
         }
 
     def restore_state(self, snapshot: dict) -> None:
@@ -238,6 +314,102 @@ class BreakdownShort:
         self._bars_below = snapshot.get("bars_below", 0)
         self._lowest_low = snapshot.get("lowest_low", float("inf"))
         self._break_close = snapshot.get("break_close", 0.0)
+        self._conviction_score = snapshot.get("conviction_score", 0.0)
+        self._prev_low_below = snapshot.get("prev_low_below", float("inf"))
+
+
+class VelocityBreakdownShort:
+    """Single-bar velocity breakdown — catches news-driven breaks.
+
+    When a major support level breaks on a single high-volume bar (e.g., 4000+
+    volume, 5x average), the multi-bar BD detector can't catch it because
+    it requires 15+ bars of confirmation. This detector fires on ONE bar
+    if the break is deep enough and volume is high enough.
+
+    Conservative by default: 25% position size, major levels only.
+    """
+
+    _MAJOR_SUPPORT_TYPES = frozenset({
+        LevelType.PRIOR_DAY_LOW,
+        LevelType.MULTI_HOUR_LOW,
+    })
+
+    _ALL_SUPPORT_TYPES = frozenset({
+        LevelType.PRIOR_DAY_LOW,
+        LevelType.MULTI_HOUR_LOW,
+        LevelType.CLUSTER_LOW,
+    })
+
+    def __init__(self, params: StrategyParams = DEFAULT_STRATEGY):
+        self.params = params
+
+    def update(
+        self,
+        bar_idx: int,
+        timestamp: datetime,
+        high: float,
+        low: float,
+        close: float,
+        volume: float,
+        avg_volume_20: float,
+        level_store: LevelStore,
+    ) -> Optional[PatternSignal]:
+        """Process one bar. Returns PatternSignal if velocity breakdown detected.
+
+        Parameters
+        ----------
+        volume : float
+            Current bar's volume.
+        avg_volume_20 : float
+            20-bar rolling average volume. If <= 0, check is skipped.
+        """
+        if avg_volume_20 <= 0:
+            return None
+
+        # Volume must be >= ratio * average
+        if volume < self.params.vbd_min_volume_ratio * avg_volume_20:
+            return None
+
+        allowed = (
+            self._MAJOR_SUPPORT_TYPES
+            if self.params.vbd_only_major_levels
+            else self._ALL_SUPPORT_TYPES
+        )
+        confirmed = level_store.get_confirmed(timestamp)
+
+        for level in confirmed:
+            if level.level_type not in allowed:
+                continue
+
+            level_price = level.price
+            break_depth = level_price - low
+
+            # Bar must break through level by enough points
+            if break_depth < self.params.vbd_min_break_pts:
+                continue
+
+            # Bar must close below level (if required)
+            if self.params.vbd_require_close_below and close >= level_price:
+                continue
+
+            # All conditions met — emit signal
+            stop_price = level_price + self.params.vbd_stop_buffer_pts
+
+            return PatternSignal(
+                pattern_type="velocity_short",
+                confirmation=ConfirmationType.ACCEPTANCE,
+                level=level,
+                sweep_low=low,
+                sweep_depth_pts=break_depth,
+                entry_price=close,
+                stop_price=stop_price,
+                bar_idx=bar_idx,
+                timestamp=timestamp,
+                direction="short",
+                sweep_high=level_price,  # the broken level
+            )
+
+        return None
 
 
 class BacktestShort:

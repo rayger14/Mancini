@@ -247,6 +247,30 @@ class StrategyParams:
     # Mancini only shorts breakdowns of major levels (prior day low, multi-hour low).
     bd_require_major_level: bool = True     # if True, CLUSTER_LOW excluded from BD SHORT
 
+    # Velocity Breakdown Short: single-bar news-driven breakdown
+    # Catches moves where a major level breaks on one 4000+ volume bar
+    # with 5x average volume — too fast for the multi-bar BD detector.
+    allow_velocity_short: bool = False       # enable single-bar velocity breakdown
+    vbd_min_break_pts: float = 8.0          # minimum break below level in one bar
+    vbd_min_volume_ratio: float = 3.0       # bar volume >= 3x 20-bar average
+    vbd_require_close_below: bool = True    # bar must CLOSE below the level
+    vbd_stop_buffer_pts: float = 3.0        # stop above the broken level + buffer
+    vbd_position_size_factor: float = 0.25  # 25% size (aggressive signal, small position)
+    vbd_only_major_levels: bool = True      # only at PDL, not minor levels
+
+    # BD Short conviction-based confirmation (replaces flat bd_confirm_bars count).
+    # Mancini reads conviction: velocity, depth, candle character, follow-through.
+    # Each bar accumulates a score; confirmation when score >= threshold AND bars >= floor.
+    # With all weights=0.0, collapses to flat bar count (backward compatible).
+    bd_conviction_threshold: float = 21.0       # score to confirm (21 = backward compat with bd_confirm_bars)
+    bd_min_bars_floor: int = 5                  # absolute minimum bars below before confirming
+    bd_conviction_depth_norm_pts: float = 10.0  # depth normalizer (10 pts below = max bonus)
+    bd_conviction_depth_weight: float = 0.0     # max depth bonus per bar (0=disabled for safe default)
+    bd_conviction_velocity_norm: float = 2.0    # velocity normalizer (2 pts/bar selling = max bonus)
+    bd_conviction_velocity_weight: float = 0.0  # max velocity bonus per bar (0=disabled)
+    bd_conviction_candle_weight: float = 0.0    # max candle character bonus per bar (0=disabled)
+    bd_conviction_new_low_weight: float = 0.0   # bonus for making new low (0=disabled)
+
     # Backtest Short: broken resistance retested from below and fails → short
     allow_backtest_short: bool = False
     bt_breakout_confirm_bars: int = 5       # bars above resistance = breakout confirmed
@@ -265,12 +289,46 @@ class StrategyParams:
     allow_deep_sell_recovery: bool = False   # +148 pts on 5yr (+1 trade) but disabled pending more validation
     deep_sell_threshold_pts: float = 30.0   # below nearest support = deep sell mode
     deep_sell_swing_order: int = 5          # faster swing confirmation (5 bars vs 30)
-    deep_sell_rally_confirm_pts: float = 10.0  # lower rally threshold for crash lows
+    deep_sell_rally_confirm_pts: float = 20.0  # Mancini: significant low = 20+ pt bounce (V-shaped reversal)
 
     # Signal cooldown: suppress repeated signals of the same type within N bars.
     # Feb 26 analysis: 97 signals in one session = noise. Mancini takes 1-3/day.
     # Cooldown prevents taking signal #2 when signal #1 from the same zone just lost.
     signal_cooldown_bars: int = 15          # min bars between signals of same type (sweep: 15=optimal)
+
+    # --- Data-driven gates (from live trade_lessons.md analysis, Mar 2026) ---
+
+    # Level reuse: second trade at same level same session = 0W/4L, avg -18.6 pts.
+    max_trades_per_level: int = 1           # max signals per level per session (0=disabled)
+
+    # BD Short R:R floor: BD Shorts at R:R 1.0-1.5 had 14% WR. Need higher floor.
+    bd_short_min_rr: float = 1.5            # pattern-specific minimum R:R for BD Short
+
+    # Session range minimum: trades at <20 pt session range = negative expectancy.
+    min_session_range_pts: float = 15.0     # min session H-L before allowing signals
+    min_session_range_grace_bars: int = 30  # grace period at session start (range builds)
+
+    # Cross-type cooldown: after ANY signal at a level, no other signal type can fire
+    # at that level for N bars. Prevents BD Short → FB Long whipsaw on same level.
+    cross_type_level_cooldown_bars: int = 30  # bars before same level can produce another signal
+
+    # BD Short max entry distance: reject if entry is too far below broken level.
+    # Mar 18: BD Short entered 10.5 pts below level, move was already exhausted.
+    bd_max_entry_distance_pts: float = 10.0   # max distance from level at confirmation
+
+    # --- Intraday Price Action Context (Mancini-faithful trend detection) ---
+    # Reads intraday direction from swing structure, bounce quality, and session position.
+    # POST_SELL_SETUP (after elevator) always overrides — never suppress FB Longs after a flush.
+    use_intraday_context: bool = False      # master switch (default off)
+    idc_swing_order: int = 5               # bars to confirm swing H/L (fast detection)
+    idc_min_swing_pts: float = 3.0         # min swing size (noise filter)
+    idc_weak_bounce_pts: float = 5.0       # avg bounce below this = weak recovery
+    idc_bounce_lookback: int = 3           # how many recent bounces to average
+    idc_elevator_recency_bars: int = 30    # POST_SELL_SETUP duration after elevator completes
+    idc_session_pos_bearish: float = 0.2   # session position below this = bearish vote
+    idc_session_pos_bullish: float = 0.8   # session position above this = bullish vote
+    idc_bearish_threshold: int = 3         # votes needed for BEARISH_PRESSURE
+    idc_bullish_threshold: int = 3         # votes needed for BULLISH_PRESSURE
 
     # Multi-day level memory: carry significant levels forward across sessions.
     # Mancini tracks levels that persist for days/weeks (e.g., Monday's session low
@@ -280,6 +338,79 @@ class StrategyParams:
     level_decay_rate: float = 0.85          # daily multiplicative decay for significance_score
     level_persist_min_score: float = 0.3    # drop persistent levels below this score
     level_persist_min_touches: int = 2      # min touch_count to qualify for persistence
+
+    # Mancini exit scaling: toggle between current 50/50 split and Mancini 75/15/10.
+    # When enabled, ExitManager overrides ExitParams fractions with these values,
+    # and _qualify_signal uses level-based T1 instead of fixed distance.
+    mancini_exit_scaling: bool = False       # use Mancini 75/15/10 scaling vs current 50/50
+    mancini_t1_at_first_resistance: bool = False  # T1 at first resistance level vs fixed distance
+    mancini_t1_exit_pct: float = 0.75       # 75% off at T1 (Mancini standard)
+    mancini_t2_exit_pct: float = 0.15       # 15% off at T2
+    mancini_runner_pct: float = 0.10        # 10% runner
+    mancini_t1_min_distance_pts: float = 8.0  # min distance from entry to first resistance for T1
+
+    # Sweep depth position sizing: "the bigger the sell, the bigger the squeeze"
+    # Scale size proportionally to how far price swept below the level.
+    # Deep sweeps (30+ pts) produce +264 pts on 5yr backtest; shallow sweeps are noise.
+    use_sweep_depth_sizing: bool = False     # scale size by sweep depth (overrides stop-distance sizing)
+    sweep_depth_min_pts: float = 2.0        # minimum sweep to qualify (below this = quarter size)
+    sweep_depth_full_size_pts: float = 8.0  # sweep >= this = full size
+    sweep_depth_quarter_size_pts: float = 2.0  # sweep this shallow = 25% size
+
+    # Mode 1 trend day detection
+    # Mancini: 90% of days are Mode 2 (range/chop, FBs work), 10% are Mode 1
+    # (open-to-close trend). Mode 1 Red days destroy FB longs.
+    use_mode1_detection: bool = False       # enable Mode 1 detector
+    mode1_levels_broken_threshold: int = 3  # 3+ levels broken without recovery = Mode 1
+    mode1_min_bars_below_pdl: int = 30      # 30+ bars below PDL = strong Mode 1 signal
+    mode1_bearish_pressure_bars: int = 60   # 60+ bars of bearish pressure = Mode 1 signal
+    mode1_level_broken_hold_bars: int = 20  # level must stay broken for 20+ bars to count
+    mode1_size_reduction: float = 0.25      # reduce to 25% size on Mode 1 Red days
+    mode1_disable_fb_longs: bool = False    # option to completely disable FB longs on Mode 1 Red
+
+    # Level confluence scoring
+    # When enabled, entries require a minimum confluence score based on level
+    # quality (PDL=5, MHL=3, etc.), proximity to other levels, touch count,
+    # and rally size. Live data: PDL=100% WR, MHL=67%, CLUSTER_LOW=0%.
+    use_confluence_scoring: bool = False     # gate entries by confluence score
+    confluence_min_score: int = 2           # minimum score to take a trade
+    confluence_proximity_pts: float = 3.0   # how close levels must be to count as confluent
+
+    # ATM level tracking: levels that produce profits every time they're tested.
+    # Mancini: "ATM machine levels" — multi-day, multi-touch shelves where
+    # every FB produces a 30+ pt rally. Track per-level profitability and
+    # boost size when a level qualifies.
+    use_atm_level_boost: bool = False       # boost size at ATM levels
+    atm_min_winning_trades: int = 2         # min wins at this level to qualify
+    atm_min_win_rate: float = 0.6           # 60% WR at this level
+    atm_size_boost: float = 1.5             # 150% size at ATM levels (up from 100%)
+
+    # Double Dip re-entry after stop-out
+    allow_double_dip: bool = True
+    dd_cooldown_bars: int = 120              # max bars after stop-out to allow re-entry
+    dd_min_depth_below_stop_pts: float = 5.0 # new sweep must go this far below the original stop
+    dd_bypass_level_gate: bool = True        # bypass max_trades_per_level for double dips
+    dd_bypass_cooldown: bool = True          # bypass signal_cooldown_bars for double dips
+    dd_position_size_factor: float = 0.5     # sizing for DD re-entries (half size)
+    dd_fixed_stop_until_t1: bool = True      # no trailing until T1 hits (keep stop fixed at entry)
+    dd_trail_pts_after_t1: float = 25.0      # wider trail for DD runners (25 vs 12 pts)
+
+    # Shadow mode: features log what they WOULD do but don't change trading decisions.
+    # When True, sweep depth sizing, Mode 1 detection, and velocity short all run
+    # but only produce shadow log entries — actual sizing/gating/signals are unchanged.
+    shadow_mode_features: bool = False
+
+    # 5-minute timeframe for level detection (Mancini uses 5-min charts)
+    use_5min_levels: bool = False             # enable 5-min bar level detection
+    swing_low_order_5min: int = 6             # Mancini's swing order on 5-min (6 bars = 30 min)
+    level_detection_timeframe_min: int = 5    # aggregation period
+
+    # Shelf of lows detection (Mancini's multi-touch horizontal base)
+    detect_shelf_levels: bool = False          # enable shelf detection on 5-min
+    shelf_min_touches: int = 4               # minimum touches to qualify as shelf
+    shelf_proximity_pts: float = 3.0         # max range of the shelf (tight base)
+    shelf_min_bars: int = 12                 # minimum 5-min bars the shelf spans (1 hour)
+    shelf_sweep_min_pts: float = 1.0         # allow micro sweeps (1 pt below shelf)
 
     # Regime filter gating
     use_regime_filter: bool = False          # enable EMA regime direction gating

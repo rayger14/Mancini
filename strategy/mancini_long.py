@@ -31,8 +31,9 @@ from config.settings import (
 )
 from config.levels import Level, LevelType
 from core.indicators import enrich_dataframe
+from core.mode1_detector import Mode1Detector
 from core.regime_filter import compute_regime, RegimeState, RegimeParams, Direction, VolRegime
-from core.signals import Signal, SignalAggregator
+from core.signals import Signal, SignalAggregator, SignalType
 from strategy.entry_manager import EntryManager, EntryDecision
 from strategy.exit_manager import ExitManager, ExitAction, ExitPhase, TradePosition
 from strategy.position_manager import PositionManager, TradeRecord
@@ -121,6 +122,9 @@ class ManciniLongStrategy:
         # Recent bars for candle bias filter (rolling 5-bar window)
         self._recent_bars: list[tuple[float, float, float, float]] = []  # [(o, h, l, c), ...]
 
+        # Mode 1 (trend day) detector
+        self.mode1_detector = Mode1Detector(strategy_params)
+
         # Multi-day level persistence — survives reset() across days
         self._persistent_levels: list[Level] = []
 
@@ -131,6 +135,7 @@ class ManciniLongStrategy:
         It carries significant levels across days for multi-day memory.
         """
         self.signal_aggregator.reset()
+        self.mode1_detector.reset()
         self._long_position = None
         self._long_pattern_type = ""
         self._long_signal = None
@@ -192,6 +197,13 @@ class ManciniLongStrategy:
         if session_date is None:
             session_date = df.index[0].to_pydatetime()
 
+        # Expire stale ATM level records at session rollover
+        if self.strategy_params.level_memory_days > 0:
+            session_str = session_date.strftime("%Y-%m-%d")
+            self.signal_aggregator.expire_atm_levels(
+                session_str, self.strategy_params.level_memory_days
+            )
+
         # Skip Tuesdays if configured (legacy — use regime filter instead)
         if self.risk_params.skip_tuesdays and session_date.weekday() == 1:
             return []
@@ -240,6 +252,10 @@ class ManciniLongStrategy:
         if prior_day_df is not None and len(prior_day_df) > 0:
             prior_range = float(prior_day_df["high"].max() - prior_day_df["low"].min())
             self.risk_manager.set_prior_day_range(prior_range)
+            # Set PDL for Mode 1 detector
+            if self.strategy_params.use_mode1_detection:
+                pdl = float(prior_day_df["low"].min())
+                self.mode1_detector.set_pdl(pdl)
         else:
             self.risk_manager.set_prior_day_range(0.0)
 
@@ -644,8 +660,21 @@ class ManciniLongStrategy:
                         )
                         if "Stop" in exit_action.reason and self._long_signal is not None:
                             level_price = self._long_signal.pattern.level.price
+                            stop_price = self._long_signal.pattern.stop_price
+                            entry_price_val = self._long_signal.pattern.entry_price
+                            level_type = getattr(self._long_signal.pattern.level, 'level_type', None)
+                            level_type_str = level_type.name if level_type else ""
                             self.signal_aggregator.failed_breakdown.record_stop_out(
-                                level_price, bar_idx
+                                level_price, bar_idx, stop_price=stop_price,
+                                entry_price=entry_price_val, level_type=level_type_str
+                            )
+                        # ATM level tracking: record outcome at this level
+                        if self._long_signal is not None:
+                            session_str = timestamp.strftime("%Y-%m-%d")
+                            self.signal_aggregator.record_level_outcome(
+                                self._long_signal.pattern.level.price,
+                                record.pnl_pts,
+                                session_str,
                             )
                     self._long_position = None
                     self._long_signal = None
@@ -686,6 +715,14 @@ class ManciniLongStrategy:
                             self.signal_aggregator.failed_rally.record_stop_out(
                                 level_price, bar_idx
                             )
+                        # ATM level tracking: record outcome at this level
+                        if self._short_signal is not None:
+                            session_str = timestamp.strftime("%Y-%m-%d")
+                            self.signal_aggregator.record_level_outcome(
+                                self._short_signal.pattern.level.price,
+                                record.pnl_pts,
+                                session_str,
+                            )
                     self._short_position = None
                     self._short_signal = None
 
@@ -709,6 +746,31 @@ class ManciniLongStrategy:
             df=df,
         )
 
+        # Step 3b: Update Mode 1 detector (runs every bar regardless of signal)
+        if self.strategy_params.use_mode1_detection:
+            was_mode1 = self.mode1_detector.state.is_mode1_red
+            self.mode1_detector.update(
+                bar_idx=bar_idx,
+                close=close,
+                low=low,
+                level_store=self.signal_aggregator.level_store,
+                timestamp=timestamp,
+            )
+            # Shadow log on transition to MODE_1_RED
+            if self.mode1_detector.state.is_mode1_red and not was_mode1:
+                state = self.mode1_detector.state
+                self.signal_aggregator.shadow_events.append({
+                    "feature": "mode1",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_RED",
+                    "event": "transition",
+                    "levels_broken": state.levels_broken_sustained,
+                    "bars_below_pdl": state.bars_below_pdl,
+                    "bearish_pressure_bars": state.bearish_pressure_bars,
+                    "conditions_met": state.conditions_met,
+                })
+
         if signal is not None:
             result.signal = signal
             direction = signal.pattern.direction
@@ -717,6 +779,54 @@ class ManciniLongStrategy:
                 f"entry={signal.entry_price:.2f} stop={signal.stop_price:.2f} "
                 f"R:R={signal.rr_ratio_t1:.2f}"
             )
+
+            # Step 3c: Mode 1 Red gating — reduce size or reject FB longs
+            if (self.strategy_params.use_mode1_detection
+                    and self.mode1_detector.state.is_mode1_red
+                    and direction == "long"):
+                state = self.mode1_detector.state
+                reduction = self.strategy_params.mode1_size_reduction
+                would_reject = (
+                    self.strategy_params.mode1_disable_fb_longs
+                    and signal.signal_type == SignalType.FAILED_BREAKDOWN
+                )
+                # Shadow log for Mode 1 (always emitted when Mode 1 triggers)
+                self.signal_aggregator.shadow_events.append({
+                    "feature": "mode1",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_RED",
+                    "signal_type": signal.signal_type.name,
+                    "would_reject": would_reject,
+                    "would_reduce_to": reduction if not would_reject else 0.0,
+                    "levels_broken": state.levels_broken_sustained,
+                    "bars_below_pdl": state.bars_below_pdl,
+                    "bearish_pressure_bars": state.bearish_pressure_bars,
+                    "conditions_met": state.conditions_met,
+                })
+                if not self.strategy_params.shadow_mode_features:
+                    # Live mode: actually reject or reduce
+                    if would_reject:
+                        logger.warning(
+                            f"Bar {bar_idx}: MODE 1 RED — FB long rejected "
+                            f"(mode1_disable_fb_longs=True)"
+                        )
+                        self._recent_bars.append((open_, high, low, close))
+                        if len(self._recent_bars) > 10:
+                            self._recent_bars = self._recent_bars[-10:]
+                        return result
+                    # Apply size reduction to the signal
+                    signal.position_size_factor *= reduction
+                    logger.warning(
+                        f"Bar {bar_idx}: MODE 1 RED detected — reducing long size "
+                        f"(factor={signal.position_size_factor:.2f})"
+                    )
+                else:
+                    logger.info(
+                        f"SHADOW mode1 @ bar {bar_idx}: MODE_1_RED "
+                        f"{'would REJECT' if would_reject else f'would reduce to {reduction:.0%}'} "
+                        f"{signal.signal_type.name} (not acting)"
+                    )
 
             # Step 4a: Regime filter gating
             if self._regime_state is not None:
@@ -740,7 +850,30 @@ class ManciniLongStrategy:
                             self._recent_bars = self._recent_bars[-10:]
                         return result
 
-            # Step 4b: Check if we already have a position in this direction
+            # Step 4b: Intraday price action context gating
+            if self.strategy_params.use_intraday_context:
+                from core.intraday_context import IntradayState
+                idc_state = self.signal_aggregator.intraday_state
+                if direction == "long" and idc_state == IntradayState.BEARISH_PRESSURE:
+                    logger.debug(
+                        f"Bar {bar_idx}: Long {signal.signal_type.name} rejected by "
+                        f"intraday context (BEARISH_PRESSURE — LH/LL or weak bounces)"
+                    )
+                    self._recent_bars.append((open_, high, low, close))
+                    if len(self._recent_bars) > 10:
+                        self._recent_bars = self._recent_bars[-10:]
+                    return result
+                if direction == "short" and idc_state == IntradayState.BULLISH_PRESSURE:
+                    logger.debug(
+                        f"Bar {bar_idx}: Short {signal.signal_type.name} rejected by "
+                        f"intraday context (BULLISH_PRESSURE — HH/HL)"
+                    )
+                    self._recent_bars.append((open_, high, low, close))
+                    if len(self._recent_bars) > 10:
+                        self._recent_bars = self._recent_bars[-10:]
+                    return result
+
+            # Step 4c: Check if we already have a position in this direction
             if direction == "long" and self._long_position is not None and self._long_position.is_open:
                 self._recent_bars.append((open_, high, low, close))
                 if len(self._recent_bars) > 10:
@@ -798,6 +931,7 @@ class ManciniLongStrategy:
                     target_2=signal.target_2,
                     contracts=entry.contracts,
                     direction=direction,
+                    is_double_dip=getattr(signal.pattern, 'is_double_dip', False),
                 )
                 accepted = self.position_manager.open_position(
                     position, timestamp, signal.pattern.pattern_type

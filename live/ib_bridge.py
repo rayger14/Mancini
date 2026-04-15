@@ -88,6 +88,8 @@ class IBBridge:
         self._contract: Optional[Contract] = None
         self._connected: bool = False
         self._last_bar_time: Optional[pd.Timestamp] = None
+        self._stale_count: int = 0
+        self._zero_volume_count: int = 0  # consecutive zero-volume bars → expired contract
         # Track our bracket orders: parent_order_id -> {parent, tp, sl}
         self._active_orders: dict[int, dict] = {}
         # Streaming bars state
@@ -97,6 +99,7 @@ class IBBridge:
         self._use_polling: bool = False
         self._poll_interval: float = 60.0
         self._last_poll_time: float = 0.0
+        self._needs_reconnect: bool = False
 
     # ── Connection ────────────────────────────────────────────────────
 
@@ -167,7 +170,8 @@ class IBBridge:
                 logger.error(f"Contract qualification failed: {e}")
                 return None
         else:
-            # Auto-detect front month: request all MES contracts, pick nearest expiry
+            # Auto-detect front month: request all MES contracts, pick nearest
+            # ACTIVE expiry (skip expired contracts to avoid dead-contract blindness).
             contract = Future(
                 symbol=self.config.symbol,
                 exchange=self.config.exchange,
@@ -176,9 +180,17 @@ class IBBridge:
             try:
                 details = self._ib.reqContractDetails(contract)
                 if details:
-                    # Sort by expiry, pick the nearest
+                    # Sort by expiry ascending
                     details.sort(key=lambda d: d.contract.lastTradeDateOrContractMonth)
-                    front = details[0].contract
+                    today_str = date.today().strftime("%Y%m%d")
+                    # Filter to contracts expiring today or later
+                    active = [d for d in details
+                              if d.contract.lastTradeDateOrContractMonth >= today_str]
+                    if not active:
+                        # All contracts appear expired — fall back to latest expiry
+                        logger.warning("All MES contracts appear expired, using latest expiry")
+                        active = details[-1:]
+                    front = active[0].contract
                     qualified = self._ib.qualifyContracts(front)
                     if qualified:
                         c = qualified[0]
@@ -203,17 +215,72 @@ class IBBridge:
             logger.error(f"Contract qualification failed: {e}")
             return None
 
+    def _attempt_contract_reroll(self, reason: str) -> None:
+        """Re-qualify the front-month contract after detecting stale/expired data.
+
+        This handles the scenario where a contract expires mid-session (e.g.,
+        quarterly rollover) and the bot keeps polling the dead contract.
+        """
+        old_symbol = getattr(self._contract, "localSymbol", "unknown")
+        logger.warning(
+            f"CONTRACT REROLL triggered: {reason}. "
+            f"Current contract: {old_symbol}. Re-qualifying..."
+        )
+        # Force auto-detect by temporarily clearing contract_month
+        saved_month = self.config.contract_month
+        self.config.contract_month = ""
+        new_contract = self._qualify_contract()
+        self.config.contract_month = saved_month
+
+        if new_contract and new_contract.conId != (self._contract.conId if self._contract else 0):
+            logger.warning(
+                f"CONTRACT ROLLED: {old_symbol} → {new_contract.localSymbol} "
+                f"(conId {new_contract.conId})"
+            )
+            self._contract = new_contract
+            self._last_bar_time = None  # Reset dedup so new bars come through
+            self._zero_volume_count = 0
+            self._stale_count = 0
+        else:
+            logger.error(
+                f"Contract reroll failed — still on {old_symbol}. "
+                f"May need manual intervention."
+            )
+            # Reset counter to avoid spamming reroll attempts every poll
+            self._zero_volume_count = 0
+
     def _on_disconnect(self) -> None:
-        """Handle unexpected disconnection — attempt reconnect."""
+        """Handle unexpected disconnection — flag for reconnect.
+
+        This is a callback from the ib_async event loop. We must NOT call
+        self._ib.sleep() or self._ib.connect() here because the event loop
+        is already running, which would raise "event loop already running".
+        Instead, set a flag and let the main polling loop call check_reconnect().
+        """
         if not self._connected:
             return  # Intentional disconnect
 
-        logger.error("IB CONNECTION LOST — attempting reconnect...")
+        logger.error("IB CONNECTION LOST — flagging for reconnect")
         self._connected = False
+        self._needs_reconnect = True
+
+    def check_reconnect(self) -> bool:
+        """Attempt reconnection if flagged by _on_disconnect.
+
+        Called from the main polling loop in ib_runner.py, outside the
+        ib_async event loop callback context, so it is safe to call
+        self._ib.sleep() and self._ib.connect() here.
+
+        Returns True if reconnected successfully, False otherwise.
+        """
+        if not self._needs_reconnect:
+            return True  # Nothing to do
+
+        logger.info("Attempting IB reconnect...")
 
         for attempt in range(1, self.config.max_reconnect_attempts + 1):
             try:
-                self._ib.sleep(self.config.reconnect_delay_sec)
+                _time.sleep(self.config.reconnect_delay_sec)
                 self._ib.connect(
                     self.config.host,
                     self.config.port,
@@ -224,12 +291,19 @@ class IBBridge:
                     # Re-qualify contract
                     self._contract = self._qualify_contract()
                     self._connected = True
+                    self._needs_reconnect = False
                     logger.info(f"Reconnected on attempt {attempt}")
-                    return
+                    # Restart streaming if it was active before disconnect
+                    if self._streaming_active:
+                        self.stop_streaming()
+                        self.start_streaming()
+                    return True
             except Exception as e:
                 logger.warning(f"Reconnect attempt {attempt} failed: {e}")
 
         logger.error("ALL RECONNECT ATTEMPTS EXHAUSTED — bot is blind, no data flowing")
+        self._needs_reconnect = False  # Stop retrying until next disconnect
+        return False
 
     # ── Bar Data ──────────────────────────────────────────────────────
 
@@ -332,7 +406,7 @@ class IBBridge:
         # Fall back to polling mode (works with historical data, no subscription needed)
         self._streaming_active = True
         self._use_polling = True
-        self._poll_interval = 60  # seconds between polls
+        self._poll_interval = 60  # 1-min bars close every 60s; polling faster just returns the same bar
         # Delay first poll by 5s to avoid pacing violations after the keepUpToDate cancel
         self._last_poll_time = _time.monotonic() - self._poll_interval + 5.0
         logger.info("Streaming 1-min bars started (polling every 60s). "
@@ -402,42 +476,62 @@ class IBBridge:
 
         if not bars or len(bars) < 2:
             logger.warning(f"Poll returned {len(bars) if bars else 0} bars")
+            self._zero_volume_count += 1
+            if self._zero_volume_count >= 10:
+                self._attempt_contract_reroll("Poll returning no bars")
             return None
 
         # bars[-1] may be incomplete, bars[-2] is last closed bar
         bar = bars[-2]
+
+        # Zero-volume detection: expired contracts produce bars with V=0
+        if getattr(bar, "volume", -1) == 0:
+            self._zero_volume_count += 1
+            if self._zero_volume_count >= 5:
+                self._attempt_contract_reroll(
+                    f"Zero-volume bars for {self._zero_volume_count} polls "
+                    f"(contract may be expired)"
+                )
+        else:
+            self._zero_volume_count = 0
+
         result = self._extract_bar(bar)
         if result:
             logger.info(f"Poll OK: {len(bars)} bars, latest closed={bar.date}")
             self._stale_count = 0
         else:
             # Check staleness: if bar is old during market hours, escalate
-            self._stale_count = getattr(self, "_stale_count", 0) + 1
-            bar_time = pd.Timestamp(bar.date)
-            if bar_time.tzinfo is None:
-                bar_time = bar_time.tz_localize("UTC")
-            age_minutes = (pd.Timestamp.now(tz="UTC") - bar_time).total_seconds() / 60
+            # First check if market is closed (weekends + daily break)
+            from datetime import datetime as _dt, time as _t
+            _now = _dt.now()
+            _wd = _now.weekday()
+            _nt = _now.time()
+            _market_closed = (
+                _wd == 5  # Saturday
+                or (_wd == 6 and _nt < _t(18, 0))  # Sunday before 6 PM
+                or (_wd == 4 and _nt >= _t(17, 0))  # Friday after 5 PM
+                or (_t(17, 0) <= _nt < _t(18, 0))   # Daily break
+            )
 
-            if age_minutes > 5 and self._stale_count >= 3:
-                # Suppress during market closure (weekends + daily break)
-                from datetime import datetime as _dt, time as _t
-                _now = _dt.now()
-                _wd = _now.weekday()
-                _nt = _now.time()
-                _market_closed = (
-                    _wd == 5  # Saturday
-                    or (_wd == 6 and _nt < _t(18, 0))  # Sunday before 6 PM
-                    or (_wd == 4 and _nt >= _t(17, 0))  # Friday after 5 PM
-                    or (_t(17, 0) <= _nt < _t(18, 0))   # Daily break
-                )
-                if not _market_closed:
+            if _market_closed:
+                # During daily break / market closure, reset stale counter
+                self._stale_count = 0
+                logger.debug(f"Poll OK but no new bar (market closed): {len(bars)} bars, latest={bar.date}")
+            else:
+                self._stale_count = getattr(self, "_stale_count", 0) + 1
+                bar_time = pd.Timestamp(bar.date)
+                if bar_time.tzinfo is None:
+                    bar_time = bar_time.tz_localize("UTC")
+                age_minutes = (pd.Timestamp.now(tz="UTC") - bar_time).total_seconds() / 60
+
+                if age_minutes > 5 and self._stale_count >= 3:
                     logger.error(
                         f"STALE DATA: latest bar is {age_minutes:.0f} min old "
                         f"({bar.date}), stale for {self._stale_count} polls. "
                         f"IB may be disconnected or not returning new session bars."
                     )
-            elif self._stale_count <= 1:
-                logger.debug(f"Poll OK but no new bar (dedup): {len(bars)} bars, latest={bar.date}, last_seen={self._last_bar_time}")
+                elif self._stale_count <= 1:
+                    logger.debug(f"Poll OK but no new bar (dedup): {len(bars)} bars, latest={bar.date}, last_seen={self._last_bar_time}")
         return result
 
     def _extract_bar(self, bar) -> Optional[dict]:
@@ -821,35 +915,15 @@ class IBBridge:
 
         bracket = self._active_orders.get(trade_id)
 
-        # Cancel existing bracket children first
-        if bracket:
-            try:
-                self._ib.cancelOrder(bracket["tp"].order)
-                self._ib.cancelOrder(bracket["sl"].order)
-                self._ib.sleep(0.5)
-            except Exception:
-                pass
-
         # Determine direction from stored bracket
         direction = bracket.get("direction", "long") if bracket else "long"
         exit_action = "BUY" if direction == "short" else "SELL"
 
-        # Market exit the partial quantity
-        partial_order = MarketOrder(
-            action=exit_action,
-            totalQuantity=quantity,
-            orderRef=f"partial:{reason}",
-            tif="GTC",
-        )
-        try:
-            self._ib.placeOrder(self._contract, partial_order)
-            self._ib.sleep(1.0)
-            logger.info(f"PARTIAL EXIT: {quantity} MES [{reason}]")
-        except Exception as e:
-            logger.error(f"Partial exit failed: {e}")
-            return False
+        # Save old bracket children references before overwriting
+        old_tp_trade = bracket.get("tp") if bracket else None
+        old_sl_trade = bracket.get("sl") if bracket else None
 
-        # Place new SL for remaining quantity
+        # Place new SL for remaining quantity FIRST to keep position protected
         if bracket:
             remaining = bracket["quantity"] - quantity
             if remaining > 0:
@@ -867,6 +941,32 @@ class IBBridge:
                     bracket["quantity"] = remaining
                 except Exception as e:
                     logger.error(f"New SL placement failed: {e}")
+
+        # Cancel old bracket children (new SL is already in place)
+        if old_tp_trade or old_sl_trade:
+            try:
+                if old_tp_trade:
+                    self._ib.cancelOrder(old_tp_trade.order)
+                if old_sl_trade:
+                    self._ib.cancelOrder(old_sl_trade.order)
+                self._ib.sleep(0.5)
+            except Exception:
+                pass
+
+        # Market exit the partial quantity
+        partial_order = MarketOrder(
+            action=exit_action,
+            totalQuantity=quantity,
+            orderRef=f"partial:{reason}",
+            tif="GTC",
+        )
+        try:
+            self._ib.placeOrder(self._contract, partial_order)
+            self._ib.sleep(1.0)
+            logger.info(f"PARTIAL EXIT: {quantity} MES [{reason}]")
+        except Exception as e:
+            logger.error(f"Partial exit failed: {e}")
+            return False
 
         return True
 
@@ -945,6 +1045,72 @@ class IBBridge:
         # and infer from last known market price
         logger.warning(f"Bracket fill price unavailable after 3 strategies (trade_id={trade_id})")
         return 0.0, "unknown"
+
+    def get_bracket_orders(self) -> dict:
+        """Read actual SL/TP prices from open bracket orders on IB.
+
+        Scans openOrders() for stop and limit orders on the current contract
+        to recover the real bracket prices after a restart.
+
+        Returns
+        -------
+        dict with keys: sl, tp, sl_order_id, tp_order_id
+            Empty dict if no matching bracket orders found.
+        """
+        if not self.is_connected:
+            return {}
+
+        try:
+            open_orders = self._ib.openOrders()
+        except Exception as e:
+            logger.warning(f"get_bracket_orders: openOrders() failed: {e}")
+            return {}
+
+        sl_price = 0.0
+        tp_price = 0.0
+        sl_order_id = None
+        tp_order_id = None
+
+        for order in open_orders:
+            # Filter for orders on our futures contract
+            contract = getattr(order, "contract", None)
+            if contract is None:
+                # openOrders() returns Order objects; need to match via trades
+                continue
+
+        # openOrders() returns Order objects without contract info attached.
+        # Use openTrades() instead which pairs orders with contracts.
+        try:
+            open_trades = self._ib.openTrades()
+        except Exception as e:
+            logger.warning(f"get_bracket_orders: openTrades() failed: {e}")
+            return {}
+
+        for trade in open_trades:
+            contract = trade.contract
+            order = trade.order
+            if (contract.symbol != self.config.symbol or
+                    contract.secType != "FUT"):
+                continue
+
+            if order.orderType == "STP":
+                sl_price = order.auxPrice
+                sl_order_id = order.orderId
+            elif order.orderType == "LMT":
+                tp_price = order.lmtPrice
+                tp_order_id = order.orderId
+
+        if sl_price > 0 or tp_price > 0:
+            result = {
+                "sl": sl_price,
+                "tp": tp_price,
+                "sl_order_id": sl_order_id,
+                "tp_order_id": tp_order_id,
+            }
+            logger.info(f"Found bracket orders on IB: SL={sl_price:.2f}, TP={tp_price:.2f}")
+            return result
+
+        return {}
 
     # ── Position Tracking ─────────────────────────────────────────────
 

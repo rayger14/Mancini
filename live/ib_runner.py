@@ -49,6 +49,7 @@ from strategy.exit_manager import ExitManager, ExitAction, ExitPhase, TradePosit
 from strategy.mancini_long import ManciniLongStrategy
 from strategy.position_manager import PositionManager, TradeRecord
 from strategy.risk_manager import RiskManager
+from live.market_data import fetch_market_snapshot
 
 
 # ── Production parameters (Optuna v2 Trial 16 — data-informed, Mar 2026) ────
@@ -71,12 +72,46 @@ PRODUCTION_STRATEGY = StrategyParams(
     lr_stop_buffer_pts=4.0,               # Optuna v2 (was 3.0)
     max_target_distance_pts=30.0,         # Optuna v2 (was 15.0)
     max_fb_sweep_depth_pts=999.0,         # No cap — live data: 50+ pt sweeps = 117.6 avg recovery (Mancini: bigger sell = bigger squeeze)
-    bd_confirm_bars=21,                   # Optuna v2: slower BD confirmation (was 8)
+    true_breakdown_abort_bars=40,         # Was 20 — too aggressive for deep sweeps. 30+ pt sweeps need time to recover.
+                                          # Mancini: "bigger sell = bigger squeeze" but recovery takes 25-40 bars, not 20.
+                                          # 5yr H9: 5-10 pt sweeps = 63% WR (best bucket). Let deep sweeps confirm.
+    bd_confirm_bars=21,                   # Legacy fallback (conviction system overrides this)
     bd_stop_buffer_pts=6.0,               # Optuna v2: wider BD stops (was 4.0)
     bd_max_break_depth_pts=17.0,          # Optuna v2 (was 14.0)
     bd_timeout_bars=35,                   # Optuna v2 (was 55)
     signal_cooldown_bars=15,
+    # Shadow mode features: run detectors but only log, don't trade
+    shadow_mode_features=True,
+    use_sweep_depth_sizing=True,          # Shadow: log sweep-depth-adjusted sizing
+    use_mode1_detection=True,             # Shadow: log Mode 1 trend day detection
+    allow_velocity_short=True,            # Shadow: log velocity breakdown shorts
     use_regime_filter=False,              # Data collection: don't block longs/shorts based on regime
+    # BD Short validated: PDL = +199 pts/75T/44% WR (edge); MHL = -191 pts/19T/32% WR (loser)
+    # bd_require_major_level=True keeps CLUSTER_LOW out. MHL exclusion needs future code change.
+    # --- Session range gate (Optuna-validated: +125 pts OOS, Sharpe 2.05) ---
+    min_session_range_pts=15.0,           # Don't trade until market moves 15+ pts
+    min_session_range_grace_bars=30,      # Grace period at session start
+    # --- BD Short conviction scoring (replaces flat 21-bar count) ---
+    # Confirms faster on strong breaks (vel+depth+candles), slower on weak ones.
+    # Backtest: PF 1.10→1.15, BD 10→19 trades, +203 pts improvement on 2025.
+    bd_conviction_threshold=21.0,         # Score to confirm (same as old bar count when weights=0)
+    bd_min_bars_floor=5,                  # Safety minimum — at least 5 bars no matter what
+    bd_conviction_depth_weight=1.0,       # Deeper breaks score higher
+    bd_conviction_velocity_weight=1.0,    # Fast selling scores higher
+    bd_conviction_candle_weight=0.5,      # Bearish candles (close near low) score higher
+    bd_conviction_new_low_weight=0.5,     # Making new lows = progression
+    # --- Deep sell recovery: catch crash bottoms when no levels exist nearby ---
+    # Mar 24 2026: missed 6573→6610 FB because nearest level was 6616 (43 pts above).
+    # Deep sell mode uses 5-bar swing order (vs 30), 10-pt rally confirm, bypasses RTH filter.
+    # 5yr backtest: +148 pts, creates INTRADAY_LOW levels eligible for FB.
+    allow_deep_sell_recovery=True,
+    deep_sell_threshold_pts=30.0,         # 30+ pts below nearest support = deep sell
+    deep_sell_swing_order=5,              # fast swing confirmation (5 bars vs 30)
+    deep_sell_rally_confirm_pts=20.0,     # Mancini: significant low = 20+ pt bounce (V-shaped reversal)
+    # --- 5-min level detection (Mancini reads 5-min charts for level ID) ---
+    use_5min_levels=False,                # Backtest showed -261 pts vs baseline — needs tuning before live
+    swing_low_order_5min=6,               # 6 bars on 5-min = 30 min confirmation (ready when enabled)
+    detect_shelf_levels=False,            # Shelf detection ready but needs tuning with 5-min levels
 )
 PRODUCTION_ELEVATOR = ElevatorParams(
     min_velocity_pts_per_min=0.75,
@@ -190,6 +225,10 @@ class IBRunner:
         self.bridge = IBBridge(ib_config)
         self.contract = contract
         self._fb_only_pm = fb_only_pm
+        # Shadow mode log: features log what they WOULD do without trading
+        self._shadow_log_path = Path("/app/logs/shadow_trades.jsonl")
+        self._shadow_log_path.parent.mkdir(parents=True, exist_ok=True)
+        self._shadow_phantoms: list[dict] = []  # track shadow signal outcomes
         self._regime_params = regime_params
         self._bypass_session_gates = bypass_session_gates
         self._pending_gate_bypass: list[str] | None = None
@@ -228,11 +267,14 @@ class IBRunner:
         self._df: Optional[pd.DataFrame] = None
         self._position: Optional[TradePosition] = None
         self._trade_id: Optional[int] = None  # IB parent order ID
+        self._entry_timestamp: Optional[datetime] = None  # ET timestamp of entry fill
         self._pattern_type: str = ""
         self._current_signal: Optional[Signal] = None
         self._last_entry_monotonic: float = 0.0  # monotonic time of last entry
         self._current_gate_bypass: list[str] | None = None
         self._bar_count: int = 0
+        self._entry_bar_count: int = 0  # bar_count at entry, for bars_held calc
+        self._last_trade_bar: int = 0  # bar_count at last entry/exit, for time_since_last_trade
         self._running: bool = False
         self._session_date: date = date.today()
 
@@ -241,6 +283,9 @@ class IBRunner:
 
         # Near-miss outcome tracking — setups that almost triggered, track what would have happened
         self._near_miss_phantoms: list[dict] = []
+
+        # Post-exit continuation tracking — what happens after we exit a trade
+        self._post_exit_trackers: list[dict] = []
 
         # Persistent trade log — survives restarts, accumulates data for self-improvement
         self._trade_log_path = Path(os.environ.get("TRADE_LOG", "/app/logs/trades.jsonl"))
@@ -291,6 +336,10 @@ class IBRunner:
         self._last_bar_received = _time.monotonic()
         try:
             while self._running:
+                # Check if IB disconnected and needs reconnection
+                if self.bridge._needs_reconnect:
+                    self.bridge.check_reconnect()
+
                 bar = self.bridge.get_latest_bar()
                 if bar is not None:
                     self._last_bar_received = _time.monotonic()
@@ -534,6 +583,7 @@ class IBRunner:
                         timestamp=timestamp,
                         exit_reason=exit_action.reason,
                         pattern_type=self._pattern_type,
+                        entry_time=self._entry_timestamp,
                     )
                     # Log rich exit to persistent trade log
                     if self.position_manager.session and self.position_manager.session.trades:
@@ -542,10 +592,16 @@ class IBRunner:
                             self._current_signal,
                             "exit",
                         )
+                    # Start post-exit continuation tracker
+                    self._start_post_exit_tracker(
+                        trade_id=self._trade_id,
+                        exit_price=exit_action.exit_price,
+                        direction=getattr(self._position, "direction", "long"),
+                        exit_reason=exit_action.reason,
+                    )
                     self._position = None
                     self._trade_id = None
                 self._write_status()
-                return
 
         # Step 2: Check for new signals (only if no position and not done)
         if self._position is None or not self._position.is_open:
@@ -573,19 +629,24 @@ class IBRunner:
         if self._near_miss_phantoms:
             self._update_near_miss_phantoms(high, low, close, timestamp)
 
+        # Step 3: Update post-exit continuation trackers
+        if self._post_exit_trackers:
+            self._update_post_exit_trackers(high, low, timestamp)
+
         # Log any new near-misses to persistent trade log
         fb = self.signal_aggregator.failed_breakdown
         if hasattr(fb, "near_misses") and fb.near_misses:
             for nm in fb.near_misses:
                 if not nm.get("_logged"):
                     try:
-                        nm_record = {"event": "near_miss", "pattern": "FAILED_BREAKDOWN"}
-                        nm_record.update(nm)
-                        with open(self._trade_log_path, "a") as f:
-                            f.write(json.dumps(nm_record, default=str) + "\n")
-                        nm["_logged"] = True
-
-                        # Convert to phantom for outcome tracking
+                        # Build enriched near-miss record with full signal details
+                        volume_at_signal = None
+                        try:
+                            if self._df is not None and len(self._df) > 0:
+                                volume_at_signal = float(self._df["volume"].iat[-1])
+                        except Exception:
+                            pass
+                        now_et = datetime.now(_ET)
                         level_price = nm.get("level_price", 0)
                         stop_buffer = self.strategy.strategy_params.fb_stop_buffer_pts
                         entry_price = close  # would have entered at current close
@@ -593,12 +654,44 @@ class IBRunner:
                         risk = abs(entry_price - stop_price)
                         target_price = entry_price + risk * 1.0  # 1:1 R:R
 
+                        nm_record = {
+                            "event": "near_miss",
+                            "timestamp": str(timestamp),
+                            "session_date": str(self._session_date),
+                            "pattern": "FAILED_BREAKDOWN",
+                            "signal_type": "FAILED_BREAKDOWN",
+                            "direction": "long",
+                            "entry_price": entry_price,
+                            "stop_price": stop_price,
+                            "target_1": target_price,
+                            "target_2": None,
+                            "rr_ratio": round(risk / risk, 2) if risk > 0 else None,
+                            "level_price": level_price,
+                            "level_type": nm.get("level_type"),
+                            "sweep_depth_pts": nm.get("sweep_depth_pts"),
+                            "confirmation_type": nm.get("confirmation_type"),
+                            "failure_reason": nm.get("failure_reason", ""),
+                            "session_window": self._get_session_window(now_et.time()).get("detail", ""),
+                            "bar_count": self._bar_count,
+                            "volume_at_signal": volume_at_signal,
+                        }
+                        # Merge any extra fields from the detector's nm dict
+                        for k, v in nm.items():
+                            if k not in nm_record and k != "_logged":
+                                nm_record[k] = v
+                        with open(self._trade_log_path, "a") as f:
+                            f.write(json.dumps(nm_record, default=str) + "\n")
+                        nm["_logged"] = True
+
+                        # Stable key: (timestamp, level_price, failure_reason)
+                        nm_key = f"{nm.get('timestamp')}_{level_price:.2f}_{nm.get('failure_reason','')}"
                         if risk > 0 and not any(
-                            p.get("near_miss_id") == id(nm)
+                            p.get("near_miss_key") == nm_key
                             for p in self._near_miss_phantoms
                         ):
                             self._near_miss_phantoms.append({
-                                "near_miss_id": id(nm),
+                                "near_miss_key": nm_key,
+                                "direction": "long",  # FB near-misses are always long
                                 "entry_price": entry_price,
                                 "stop_price": stop_price,
                                 "target_price": target_price,
@@ -616,6 +709,10 @@ class IBRunner:
 
         # Check for manual force-trade trigger file
         self._check_force_trade(close, timestamp)
+
+        # Flush shadow mode events to disk and track outcomes
+        self._flush_shadow_events()
+        self._update_shadow_phantoms(high, low)
 
         # Write status for dashboard after every bar
         self._write_status()
@@ -759,13 +856,15 @@ class IBRunner:
         self._trade_id = trade_id
         self._pattern_type = signal.pattern.pattern_type
         self._current_signal = signal
+        self._entry_timestamp = datetime.now(_ET)
+        self._entry_bar_count = self._bar_count
         self._last_entry_monotonic = _time.monotonic()
         self._current_gate_bypass = self._pending_gate_bypass
         self._pending_gate_bypass = None
         self.position_manager.open_position(self._position, timestamp, self._pattern_type)
 
         logger.info(
-            f"ENTRY: {entry.contracts} {self.contract.symbol} @ {entry.entry_price:.2f} "
+            f"ENTRY: {entry.contracts} {self.contract.symbol} @ {actual_entry_price:.2f} "
             f"stop={entry.stop_price:.2f} T1={signal.target_1:.2f} "
             f"R:R={signal.rr_ratio_t1:.1f} [{signal.signal_type.name}]"
         )
@@ -828,6 +927,7 @@ class IBRunner:
             now_et = datetime.now(_ET)
             record = {
                 "event": "partial_exit",
+                "trade_id": self._trade_id,
                 "timestamp": now_et.isoformat(),
                 "session_date": str(self._session_date),
                 "symbol": self.bridge.config.symbol,
@@ -901,13 +1001,22 @@ class IBRunner:
                 )
                 fill_price = last_price
             self._sync_none_count = 0
+            # Calculate PnL before closing — IB bracket exits bypass ExitManager
+            contracts = self._position.remaining_contracts
+            if self._position.direction == "long":
+                pnl = (fill_price - self._position.entry_price) * contracts
+            else:
+                pnl = (self._position.entry_price - fill_price) * contracts
+            self._position.realized_pnl_pts += pnl
             self._position.remaining_contracts = 0
             self._position.phase = ExitPhase.CLOSED
+            now = datetime.now()
             self.position_manager.close_position(
                 exit_price=fill_price,
-                timestamp=datetime.now(),
+                timestamp=now,
                 exit_reason=f"IB bracket {exit_type}" if exit_type != "unknown" else "IB bracket fill",
                 pattern_type=self._pattern_type,
+                entry_time=self._entry_timestamp,
             )
             # Log exit to persistent trade log
             if self.position_manager.session and self.position_manager.session.trades:
@@ -992,29 +1101,49 @@ class IBRunner:
         qty = int(pos_data.get("volume", 1))
         direction = pos_data.get("market_position", "long")
 
-        # Look up the last entry in trade log matching this position
+        # Priority 1: Read actual bracket orders from IB (most reliable source)
         stop = 0.0
         target = 0.0
         pattern_type = "recovered"
         signal_data = None
+        bracket_info = self.bridge.get_bracket_orders()
 
-        for record in reversed(self._all_trades):
-            if record.get("event") != "entry":
-                continue
-            rec_entry = record.get("entry_price", 0)
-            # Match by entry price (within 1 pt) and same session date
-            if abs(rec_entry - entry) < 1.0 and record.get("session_date") == str(self._session_date):
-                sig = record.get("signal", {})
-                if sig:
-                    stop = sig.get("stop", 0)
-                    target = sig.get("target_1", 0)
-                    signal_data = sig
-                pattern_type = record.get("pattern_type", "recovered")
-                logger.info(f"Position recovery: matched trade log entry "
-                            f"(pattern={pattern_type}, stop={stop:.2f}, target={target:.2f})")
-                break
+        if bracket_info.get("sl", 0) > 0 and bracket_info.get("tp", 0) > 0:
+            stop = bracket_info["sl"]
+            target = bracket_info["tp"]
+            logger.info(f"Recovered bracket orders from IB: SL={stop:.2f}, TP={target:.2f}")
+            # Populate _active_orders so _sync_position works
+            self.bridge._active_orders[0] = {
+                "parent": None,
+                "tp": None,
+                "sl": None,
+                "tp_order_id": bracket_info.get("tp_order_id"),
+                "sl_order_id": bracket_info.get("sl_order_id"),
+                "quantity": qty,
+                "direction": direction,
+            }
 
-        # If no trade log match or values are zero, compute sensible defaults
+        # Priority 2: Look up the last entry in trade log matching this position
+        if stop == 0 or target == 0:
+            for record in reversed(self._all_trades):
+                if record.get("event") != "entry":
+                    continue
+                rec_entry = record.get("entry_price", 0)
+                # Match by entry price (within 1 pt) and same session date
+                if abs(rec_entry - entry) < 1.0 and record.get("session_date") == str(self._session_date):
+                    sig = record.get("signal", {})
+                    if sig:
+                        if stop == 0:
+                            stop = sig.get("stop", 0)
+                        if target == 0:
+                            target = sig.get("target_1", 0)
+                        signal_data = sig
+                    pattern_type = record.get("pattern_type", "recovered")
+                    logger.info(f"Position recovery: matched trade log entry "
+                                f"(pattern={pattern_type}, stop={stop:.2f}, target={target:.2f})")
+                    break
+
+        # Priority 3: If no IB bracket or trade log match, compute sensible defaults
         if stop == 0 or target == 0:
             sp = self.strategy.strategy_params
             if direction == "long":
@@ -1041,10 +1170,22 @@ class IBRunner:
             target_2=target_2,
             total_contracts=qty,
             remaining_contracts=qty,
+            direction=direction,
         )
         self._trade_id = 0  # Unknown, but mark as having a position
         self._pattern_type = pattern_type
         self._last_entry_monotonic = _time.monotonic()  # prevent immediate sync close
+        # Recover entry timestamp from trade log if available
+        if signal_data:
+            for record in reversed(self._all_trades):
+                if record.get("event") == "entry" and abs(record.get("entry_price", 0) - entry) < 1.0:
+                    try:
+                        self._entry_timestamp = datetime.fromisoformat(record.get("timestamp", ""))
+                    except (ValueError, TypeError):
+                        self._entry_timestamp = datetime.now(_ET)
+                    break
+        if not getattr(self, "_entry_timestamp", None):
+            self._entry_timestamp = datetime.now(_ET)
         logger.warning(f"Recovered position: {direction.upper()} {qty} @ {entry:.2f}, "
                         f"SL={stop:.2f}, TP={target:.2f} [{pattern_type}]")
 
@@ -1126,11 +1267,93 @@ class IBRunner:
             logger.warning(f"Failed to load trade log: {e}")
         return trades
 
+    def _start_post_exit_tracker(
+        self, trade_id: Optional[int], exit_price: float, direction: str, exit_reason: str
+    ) -> None:
+        """Begin tracking price action after a trade exit.
+
+        Tracks high/low for 60 bars (1 hour) to measure whether our exit
+        was premature (price continued) or well-timed (price reversed).
+        """
+        tracker = {
+            "trade_id": trade_id,
+            "exit_bar": self._bar_count,
+            "exit_price": exit_price,
+            "direction": direction,
+            "exit_reason": exit_reason,
+            "high_after": exit_price,
+            "low_after": exit_price,
+            "bars_tracked": 0,
+            "max_bars": 60,
+        }
+        self._post_exit_trackers.append(tracker)
+        # Cap at 10 trackers to avoid memory growth
+        if len(self._post_exit_trackers) > 10:
+            self._post_exit_trackers = self._post_exit_trackers[-10:]
+        logger.info(
+            f"POST-EXIT TRACKER started: trade_id={trade_id} "
+            f"exit_price={exit_price:.2f} direction={direction} reason={exit_reason}"
+        )
+
+    def _update_post_exit_trackers(self, high: float, low: float, timestamp) -> None:
+        """Update all active post-exit trackers with latest bar data.
+
+        When a tracker reaches max_bars, compute continuation/reversal metrics
+        and write a post_exit_analysis record to trades.jsonl.
+        """
+        completed = []
+        for tracker in self._post_exit_trackers:
+            tracker["high_after"] = max(tracker["high_after"], high)
+            tracker["low_after"] = min(tracker["low_after"], low)
+            tracker["bars_tracked"] += 1
+
+            if tracker["bars_tracked"] >= tracker["max_bars"]:
+                # Compute continuation and reversal
+                exit_price = tracker["exit_price"]
+                direction = tracker["direction"]
+                if direction == "short":
+                    continuation_pts = round(exit_price - tracker["low_after"], 2)
+                    reversal_pts = round(tracker["high_after"] - exit_price, 2)
+                else:
+                    continuation_pts = round(tracker["high_after"] - exit_price, 2)
+                    reversal_pts = round(exit_price - tracker["low_after"], 2)
+
+                record = {
+                    "event": "post_exit_analysis",
+                    "trade_id": tracker["trade_id"],
+                    "timestamp": str(timestamp),
+                    "session_date": str(self._session_date),
+                    "exit_price": exit_price,
+                    "direction": direction,
+                    "exit_reason": tracker["exit_reason"],
+                    "exit_bar": tracker["exit_bar"],
+                    "bars_tracked": tracker["bars_tracked"],
+                    "high_after": tracker["high_after"],
+                    "low_after": tracker["low_after"],
+                    "post_exit_continuation_pts": continuation_pts,
+                    "post_exit_reversal_pts": reversal_pts,
+                }
+                try:
+                    with open(self._trade_log_path, "a") as f:
+                        f.write(json.dumps(record, default=str) + "\n")
+                    logger.info(
+                        f"POST-EXIT ANALYSIS: trade_id={tracker['trade_id']} "
+                        f"direction={direction} reason={tracker['exit_reason']} "
+                        f"continuation={continuation_pts}pts reversal={reversal_pts}pts"
+                    )
+                except Exception as e:
+                    logger.warning(f"Failed to write post-exit analysis: {e}")
+                completed.append(tracker)
+
+        for t in completed:
+            self._post_exit_trackers.remove(t)
+
     def _log_trade(self, trade_record, signal: Optional[Signal], context: str) -> None:
         """Append a rich trade record to the persistent JSONL log.
 
         Captures everything needed for future analysis and self-improvement:
-        market context, regime, session window, nearby levels, pattern details.
+        market context, regime, session window, nearby levels, pattern details,
+        entry path classification, exit excursion stats, and sizing info.
         """
         try:
             # Gather market context at trade time
@@ -1157,6 +1380,19 @@ class IBRunner:
                         })
                 nearby_levels.sort(key=lambda x: abs(x["distance"]))
 
+            # Full level store snapshot for ML analysis
+            all_levels = []
+            if hasattr(self.signal_aggregator, "level_store"):
+                for lv in self.signal_aggregator.level_store.get_active():
+                    all_levels.append({
+                        "price": round(lv.price, 2),
+                        "type": lv.level_type.name,
+                        "touches": lv.touch_count,
+                        "rally_pts": round(lv.rally_from_low_pts, 1) if lv.rally_from_low_pts else 0,
+                        "age_bars": bar_count - getattr(lv, '_created_bar', 0) if hasattr(lv, '_created_bar') else None,
+                    })
+                all_levels.sort(key=lambda x: x["price"])
+
             # Regime state
             regime_info = {}
             if self.strategy._regime_state:
@@ -1175,6 +1411,7 @@ class IBRunner:
             # Build the rich record
             record = {
                 "event": context,  # "entry" or "exit"
+                "trade_id": self._trade_id,
                 "timestamp": now_et.isoformat(),
                 "session_date": str(self._session_date),
                 "symbol": self.bridge.config.symbol,
@@ -1186,6 +1423,8 @@ class IBRunner:
                 "session_window": session_window.get("detail", ""),
                 "regime": regime_info,
                 "nearby_levels": nearby_levels[:5],
+                "all_levels": all_levels,
+                "bars_since_last_trade": self._bar_count - self._last_trade_bar,
             }
 
             # Trade-specific data
@@ -1218,12 +1457,200 @@ class IBRunner:
                 # Human-readable trade explanation
                 record["reason"] = self._build_trade_reason(signal, regime_info, session_window)
 
+            # All signals evaluated on the entry bar (not just the winner)
+            if context == "entry":
+                try:
+                    record["signals_evaluated"] = self.signal_aggregator.bar_signals
+                except Exception:
+                    record["signals_evaluated"] = []
+
+            # ── ENRICHED ENTRY FIELDS ──
+            if context == "entry" and signal is not None:
+                pattern = signal.pattern
+
+                # Sweep depth
+                record["sweep_depth_pts"] = getattr(pattern, "sweep_depth_pts", None)
+
+                # Confirmation type (ACCEPTANCE / NON_ACCEPTANCE)
+                try:
+                    record["confirmation_type"] = pattern.confirmation.name
+                except Exception:
+                    record["confirmation_type"] = None
+
+                # FB entry path classification
+                fb_detector = getattr(self.signal_aggregator, "failed_breakdown", None)
+                if fb_detector is not None:
+                    is_dd = getattr(fb_detector, "_is_double_dip", False)
+                    is_ls = getattr(fb_detector, "_is_level_sweep", False)
+                else:
+                    is_dd = False
+                    is_ls = False
+                if is_dd:
+                    record["fb_entry_path"] = "double_dip"
+                elif is_ls:
+                    record["fb_entry_path"] = "level_sweep"
+                else:
+                    record["fb_entry_path"] = "elevator_fb"
+
+                # BD Short conviction score
+                try:
+                    bd_detector = self.signal_aggregator.breakdown_short
+                    record["conviction_score"] = getattr(bd_detector, "_conviction_score", None)
+                except Exception:
+                    record["conviction_score"] = None
+
+                # Market context at entry
+                try:
+                    vel_series = compute_velocity(self._df, window=5)
+                    record["velocity"] = float(vel_series.iat[-1]) if not np.isnan(vel_series.iat[-1]) else None
+                except Exception:
+                    record["velocity"] = None
+
+                try:
+                    record["volume_at_entry"] = float(self._df["volume"].iat[-1]) if self._df is not None and len(self._df) > 0 else None
+                except Exception:
+                    record["volume_at_entry"] = None
+
+                try:
+                    record["intraday_state"] = self.signal_aggregator.intraday_state.name
+                except Exception:
+                    record["intraday_state"] = None
+
+                try:
+                    record["swing_structure"] = self.signal_aggregator.get_swing_snapshot()
+                except Exception:
+                    record["swing_structure"] = None
+
+                # Session position pct: (close - session_low) / (session_high - session_low)
+                session_range = session_high - session_low
+                if session_range > 0:
+                    record["session_position_pct"] = round((last_price - session_low) / session_range, 4)
+                else:
+                    record["session_position_pct"] = None
+
+                # Level quality
+                try:
+                    record["level_touch_count"] = getattr(pattern.level, "touch_count", None)
+                except Exception:
+                    record["level_touch_count"] = None
+
+                try:
+                    record["level_rally_from_low_pts"] = getattr(pattern.level, "rally_from_low_pts", None)
+                except Exception:
+                    record["level_rally_from_low_pts"] = None
+
+                try:
+                    created_at = getattr(pattern.level, "created_at", None)
+                    if created_at is not None and self._df is not None and len(self._df) > 0:
+                        delta = self._df.index[-1] - created_at
+                        # Approximate bars: assume 5-min bars
+                        record["level_age_bars"] = int(delta.total_seconds() / 300) if hasattr(delta, "total_seconds") else None
+                    else:
+                        record["level_age_bars"] = None
+                except Exception:
+                    record["level_age_bars"] = None
+
+                # Sizing
+                record["position_size_factor"] = getattr(signal, "position_size_factor", None)
+                record["risk_pts"] = getattr(signal, "risk_pts", None)
+                record["reward_t1_pts"] = getattr(signal, "reward_t1_pts", None)
+
+            # ── BAR WINDOW & VOLUME TREND (entries only) ──
+            if context == "entry" and self._df is not None and len(self._df) > 0:
+                window_size = min(20, len(self._df))
+                window_df = self._df.iloc[-window_size:]
+                bar_window = []
+                for idx, row in window_df.iterrows():
+                    bar_window.append({
+                        "time": str(idx),
+                        "open": round(float(row["open"]), 2),
+                        "high": round(float(row["high"]), 2),
+                        "low": round(float(row["low"]), 2),
+                        "close": round(float(row["close"]), 2),
+                        "volume": int(row["volume"]),
+                    })
+                record["bar_window"] = bar_window
+
+                if len(self._df) >= 20:
+                    vol = self._df["volume"].values
+                    vol_5 = float(vol[-5:].mean())
+                    vol_20 = float(vol[-20:].mean())
+                    record["volume_5bar_avg"] = round(vol_5, 1)
+                    record["volume_20bar_avg"] = round(vol_20, 1)
+                    record["volume_trend"] = round(vol_5 / vol_20, 2) if vol_20 > 0 else 1.0
+
+            # ── MARKET CONTEXT (entries only) ──
+            if context == "entry" and self._df is not None and len(self._df) >= 20:
+                try:
+                    closes = self._df["close"].values
+                    highs = self._df["high"].values
+                    lows = self._df["low"].values
+                    # Average True Range (simplified: avg bar range over 20 bars)
+                    ranges = highs[-20:] - lows[-20:]
+                    atr_20 = float(ranges.mean())
+                    record["atr_20"] = round(atr_20, 2)
+                    # Multi-bar trend: is price above or below 20-bar average?
+                    sma_20 = float(closes[-20:].mean())
+                    record["sma_20"] = round(sma_20, 2)
+                    record["price_vs_sma20"] = round(float(closes[-1]) - sma_20, 2)
+                except Exception:
+                    pass
+
+            # ── ENRICHED EXIT FIELDS ──
+            if context == "exit":
+                # Bars held
+                record["bars_held"] = self._bar_count - self._entry_bar_count
+
+                # MFE/MAE from TradePosition
+                pos = self._position  # may already be None if cleared; use trade_record fallback
+                direction = getattr(trade_record, "direction", "long")
+                entry_price = getattr(trade_record, "entry_price", 0.0)
+
+                # Try to get excursion data from the position or trade_record
+                highest = getattr(pos, "highest_price_since_entry", None) or getattr(trade_record, "highest_price_since_entry", None)
+                lowest = getattr(pos, "lowest_price_since_entry", None) or getattr(trade_record, "lowest_price_since_entry", None)
+
+                if direction == "long":
+                    record["mfe_pts"] = round(highest - entry_price, 2) if highest is not None else None
+                    record["mae_pts"] = round(entry_price - lowest, 2) if lowest is not None else None
+                else:
+                    record["mfe_pts"] = round(entry_price - lowest, 2) if lowest is not None else None
+                    record["mae_pts"] = round(highest - entry_price, 2) if highest is not None else None
+
+                # T1/T2 hit flags
+                record["t1_hit"] = getattr(pos, "t1_hit", None) or getattr(trade_record, "t1_hit", None)
+                record["t2_hit"] = getattr(pos, "t2_hit", None) or getattr(trade_record, "t2_hit", None)
+
+                # Exit phase
+                try:
+                    phase = getattr(pos, "phase", None) or getattr(trade_record, "phase", None)
+                    record["exit_phase"] = phase.name if phase is not None else None
+                except Exception:
+                    record["exit_phase"] = None
+
+                # Slippage: actual fill vs signal entry price
+                if signal is not None:
+                    record["slippage_pts"] = round(entry_price - signal.entry_price, 2)
+                else:
+                    record["slippage_pts"] = None
+
+            # External market correlation data (VIX, SPY, 10Y yield)
+            try:
+                market_snapshot = fetch_market_snapshot()
+                if market_snapshot:
+                    record["market_correlation"] = market_snapshot
+            except Exception:
+                pass
+
             # Gate bypass info (collection mode)
             if self._current_gate_bypass:
                 record["gate_bypassed"] = self._current_gate_bypass
                 record["production_would_take"] = False
             else:
                 record["production_would_take"] = True
+
+            # Update last trade bar for time_since_last_trade tracking
+            self._last_trade_bar = self._bar_count
 
             # Append to file (one JSON per line — append-only, crash-safe)
             with open(self._trade_log_path, "a") as f:
@@ -1287,8 +1714,13 @@ class IBRunner:
         """Log a phantom (rejected) signal to the persistent log."""
         try:
             last_price = 0.0
+            volume = None
             if self._df is not None and len(self._df) > 0:
                 last_price = float(self._df["close"].iat[-1])
+                try:
+                    volume = float(self._df["volume"].iat[-1])
+                except Exception:
+                    pass
 
             now_et = datetime.now(_ET)
             record = {
@@ -1297,14 +1729,25 @@ class IBRunner:
                 "session_date": str(self._session_date),
                 "symbol": self.bridge.config.symbol,
                 "signal_type": signal.signal_type.name,
+                "direction": signal.direction,
                 "entry_price": signal.entry_price,
                 "stop_price": signal.stop_price,
                 "target_1": signal.target_1,
+                "target_2": getattr(signal, "target_2", None),
                 "rr_ratio": round(signal.rr_ratio_t1, 2),
+                "level_price": signal.pattern.level.price if signal.pattern.level else None,
+                "level_type": signal.pattern.level.level_type.name if signal.pattern.level else None,
+                "sweep_depth_pts": getattr(signal.pattern, "sweep_depth_pts", None),
+                "confirmation_type": signal.pattern.confirmation.name if hasattr(signal.pattern, "confirmation") and signal.pattern.confirmation else None,
                 "reject_reason": reject_reason,
                 "result": result,
                 "last_price": last_price,
                 "session_window": self._get_session_window(now_et.time()).get("detail", ""),
+                "bar_count": self._bar_count,
+                "volume_at_signal": volume,
+                "risk_pts": getattr(signal, "risk_pts", None),
+                "reward_t1_pts": getattr(signal, "reward_t1_pts", None),
+                "position_size_factor": getattr(signal, "position_size_factor", None),
             }
             with open(self._trade_log_path, "a") as f:
                 f.write(json.dumps(record, default=str) + "\n")
@@ -1319,9 +1762,16 @@ class IBRunner:
                 "timestamp": datetime.now(_ET).isoformat(),
                 "session_date": str(self._session_date),
                 "signal_type": p["signal_type"],
+                "direction": p.get("direction", "long"),
                 "entry_price": p["entry_price"],
                 "stop_price": p["stop_price"],
                 "target_1": p["target_1"],
+                "target_2": p.get("target_2"),
+                "rr_ratio": p.get("rr_ratio"),
+                "level_price": p.get("level_price"),
+                "level_type": p.get("level_type"),
+                "sweep_depth_pts": p.get("sweep_depth_pts"),
+                "confirmation_type": p.get("confirmation_type"),
                 "reject_reason": p["reject_reason"],
                 "result": p["result"],
                 "high_since": p["high_since"],
@@ -1338,9 +1788,16 @@ class IBRunner:
         """Record a rejected signal as a phantom trade to track what would have happened."""
         phantom = {
             "signal_type": signal.signal_type.name,
+            "direction": signal.direction,
             "entry_price": signal.entry_price,
             "stop_price": signal.stop_price,
             "target_1": signal.target_1,
+            "target_2": getattr(signal, "target_2", None),
+            "rr_ratio": round(signal.rr_ratio_t1, 2),
+            "level_price": signal.pattern.level.price if signal.pattern.level else None,
+            "level_type": signal.pattern.level.level_type.name if signal.pattern.level else None,
+            "sweep_depth_pts": getattr(signal.pattern, "sweep_depth_pts", None),
+            "confirmation_type": signal.pattern.confirmation.name if hasattr(signal.pattern, "confirmation") and signal.pattern.confirmation else None,
             "reject_reason": reject_reason,
             "entry_time": timestamp,
             "high_since": signal.entry_price,
@@ -1366,9 +1823,15 @@ class IBRunner:
             if low < p["low_since"]:
                 p["low_since"] = low
 
-            # Check stop hit
-            if low <= p["stop_price"]:
-                pnl = p["stop_price"] - p["entry_price"]
+            is_short = p.get("direction", "long") == "short"
+
+            # Check stop hit (short: high >= stop, long: low <= stop)
+            stop_hit = (high >= p["stop_price"]) if is_short else (low <= p["stop_price"])
+            if stop_hit:
+                if is_short:
+                    pnl = p["entry_price"] - p["stop_price"]
+                else:
+                    pnl = p["stop_price"] - p["entry_price"]
                 p["resolved"] = True
                 p["result"] = f"STOP HIT ({pnl:+.2f} pts)"
                 logger.warning(
@@ -1381,9 +1844,13 @@ class IBRunner:
                 self._log_phantom_outcome(p)
                 continue
 
-            # Check target hit
-            if high >= p["target_1"]:
-                pnl = p["target_1"] - p["entry_price"]
+            # Check target hit (short: low <= target, long: high >= target)
+            target_hit = (low <= p["target_1"]) if is_short else (high >= p["target_1"])
+            if target_hit:
+                if is_short:
+                    pnl = p["entry_price"] - p["target_1"]
+                else:
+                    pnl = p["target_1"] - p["entry_price"]
                 p["resolved"] = True
                 p["result"] = f"T1 HIT ({pnl:+.2f} pts)"
                 logger.warning(
@@ -1401,9 +1868,12 @@ class IBRunner:
         enriched = []
         for nm in raw:
             item = dict(nm)
+            # Build stable key to match phantom
+            level_price = nm.get("level_price", 0)
+            nm_key = f"{nm.get('timestamp')}_{level_price:.2f}_{nm.get('failure_reason','')}"
             # Find matching phantom
             for p in self._near_miss_phantoms:
-                if p.get("near_miss_id") == id(nm):
+                if p.get("near_miss_key") == nm_key:
                     item["outcome"] = {
                         "entry_price": p["entry_price"],
                         "stop_price": p["stop_price"],
@@ -1417,6 +1887,29 @@ class IBRunner:
             enriched.append(item)
         return enriched
 
+    def _log_near_miss_outcome(self, p: dict) -> None:
+        """Log a resolved near-miss phantom outcome to the persistent log."""
+        try:
+            record = {
+                "event": "near_miss_resolved",
+                "timestamp": datetime.now(_ET).isoformat(),
+                "session_date": str(self._session_date),
+                "direction": p.get("direction", "long"),
+                "entry_price": p["entry_price"],
+                "stop_price": p["stop_price"],
+                "target_price": p["target_price"],
+                "level_price": p.get("level_price"),
+                "risk_pts": p.get("risk_pts"),
+                "failure_reason": p.get("failure_reason", ""),
+                "result": p["result"],
+                "high_since": p["high_since"],
+                "low_since": p["low_since"],
+            }
+            with open(self._trade_log_path, "a") as f:
+                f.write(json.dumps(record, default=str) + "\n")
+        except Exception:
+            pass
+
     def _update_near_miss_phantoms(self, high: float, low: float, close: float, timestamp: datetime) -> None:
         """Update near-miss phantom trades — track what would have happened."""
         for p in self._near_miss_phantoms:
@@ -1428,9 +1921,15 @@ class IBRunner:
             if low < p["low_since"]:
                 p["low_since"] = low
 
-            # Check stop hit
-            if low <= p["stop_price"]:
-                pnl = p["stop_price"] - p["entry_price"]
+            is_short = p.get("direction", "long") == "short"
+
+            # Check stop hit (short: high >= stop, long: low <= stop)
+            stop_hit = (high >= p["stop_price"]) if is_short else (low <= p["stop_price"])
+            if stop_hit:
+                if is_short:
+                    pnl = p["entry_price"] - p["stop_price"]
+                else:
+                    pnl = p["stop_price"] - p["entry_price"]
                 p["resolved"] = True
                 p["result"] = f"STOP HIT ({pnl:+.2f} pts)"
                 logger.info(
@@ -1438,11 +1937,16 @@ class IBRunner:
                     f"-> STOP HIT {pnl:+.2f} pts (entry {p['entry_price']:.2f}, "
                     f"stop {p['stop_price']:.2f})"
                 )
+                self._log_near_miss_outcome(p)
                 continue
 
-            # Check target hit
-            if high >= p["target_price"]:
-                pnl = p["target_price"] - p["entry_price"]
+            # Check target hit (short: low <= target, long: high >= target)
+            target_hit = (low <= p["target_price"]) if is_short else (high >= p["target_price"])
+            if target_hit:
+                if is_short:
+                    pnl = p["entry_price"] - p["target_price"]
+                else:
+                    pnl = p["target_price"] - p["entry_price"]
                 p["resolved"] = True
                 p["result"] = f"T1 HIT ({pnl:+.2f} pts)"
                 logger.info(
@@ -1450,6 +1954,7 @@ class IBRunner:
                     f"-> T1 HIT {pnl:+.2f} pts (entry {p['entry_price']:.2f}, "
                     f"target {p['target_price']:.2f})"
                 )
+                self._log_near_miss_outcome(p)
                 continue
 
     # ── Session archival ───────────────────────────────────────────
@@ -1493,7 +1998,7 @@ class IBRunner:
         Without this, daily loss limits and trade counts from the
         previous session carry over and block new signals.
         """
-        now = datetime.now()
+        now = datetime.now(_ET)
         t = now.time()
 
         # Compute the trading date: after 18:00 ET, it's "tomorrow's" session
@@ -1516,8 +2021,17 @@ class IBRunner:
             # Reset for new session
             old_date = self._session_date
             self._session_date = trading_date
+            # Preserve open position reference before reset
+            open_pos = self._position if (self._position is not None and self._position.is_open) else None
             self.strategy.reset()
             self.position_manager.start_session(now)
+            # Transfer open position to new session so it isn't lost
+            if open_pos is not None:
+                self.position_manager.session.active_position = open_pos
+                if open_pos.direction == "long":
+                    self.position_manager.session.active_long = open_pos
+                else:
+                    self.position_manager.session.active_short = open_pos
             self._phantom_positions.clear()
             self._near_miss_phantoms.clear()
             self._bar_count = 0
@@ -1585,9 +2099,9 @@ class IBRunner:
                         exit_price = float(bar.get("close", 0))
                         # Compute PnL before closing
                         if self._position.direction == "short":
-                            self._position.realized_pnl_pts = (self._position.entry_price - exit_price) * self._position.remaining_contracts
+                            self._position.realized_pnl_pts += (self._position.entry_price - exit_price) * self._position.remaining_contracts
                         else:
-                            self._position.realized_pnl_pts = (exit_price - self._position.entry_price) * self._position.remaining_contracts
+                            self._position.realized_pnl_pts += (exit_price - self._position.entry_price) * self._position.remaining_contracts
                         self._position.remaining_contracts = 0
                         self._position.phase = ExitPhase.CLOSED
                         trade_rec = self.position_manager.close_position(
@@ -1595,6 +2109,7 @@ class IBRunner:
                             timestamp=timestamp,
                             exit_reason="EOD flatten",
                             pattern_type=self._pattern_type,
+                            entry_time=self._entry_timestamp,
                         )
                         if trade_rec:
                             self._log_trade(trade_rec, self._current_signal, "exit")
@@ -1666,7 +2181,7 @@ class IBRunner:
         self._running = False
 
     def _log_session_summary(self) -> None:
-        """Log end-of-session statistics."""
+        """Log end-of-session statistics and write summary to JSONL."""
         if self.position_manager.session is None:
             return
         s = self.position_manager.session
@@ -1681,6 +2196,7 @@ class IBRunner:
         logger.info(f"  State:   {s.state.name}")
 
         # Phantom trade summary
+        phantom_count = len(self._phantom_positions)
         if self._phantom_positions:
             logger.info("-" * 60)
             logger.info("PHANTOM TRADES (signals rejected by filters):")
@@ -1698,6 +2214,27 @@ class IBRunner:
             logger.info(f"  Phantom tally: {wins}W / {losses}L / {len(self._phantom_positions)-len(resolved)} unresolved")
 
         logger.info("=" * 60)
+
+        # Write session summary JSONL record
+        try:
+            signals_generated = len(getattr(self.signal_aggregator, "signals", []))
+            summary_record = {
+                "event": "session_summary",
+                "timestamp": datetime.now(_ET).isoformat(),
+                "session_date": str(self._session_date),
+                "symbol": self.bridge.config.symbol,
+                "bar_count": self._bar_count,
+                "trades": s.trade_count,
+                "wins": s.wins,
+                "losses": s.losses,
+                "pnl_pts": round(s.daily_pnl_pts, 2),
+                "phantom_count": phantom_count,
+                "signals_generated": signals_generated,
+            }
+            with open(self._trade_log_path, "a") as f:
+                f.write(json.dumps(summary_record, default=str) + "\n")
+        except Exception as e:
+            logger.warning(f"Failed to log session summary: {e}")
 
 
     @staticmethod
@@ -1740,6 +2277,111 @@ class IBRunner:
 
         return window
 
+    def _flush_shadow_events(self) -> None:
+        """Write any pending shadow mode events to the shadow log file.
+
+        Also creates phantom trackers for shadow signals that have entry/stop/target
+        so we can track what would have happened.
+        """
+        events = self.signal_aggregator.shadow_events
+        if not events:
+            return
+        try:
+            with open(self._shadow_log_path, "a") as f:
+                for event in events:
+                    f.write(json.dumps(event, default=str) + "\n")
+                    # Create phantom tracker for signals with entry/stop/target
+                    if event.get("entry_price") and event.get("stop_price"):
+                        direction = "short" if "short" in event.get("feature", "").lower() else "long"
+                        self._shadow_phantoms.append({
+                            "feature": event.get("feature"),
+                            "entry_price": event["entry_price"],
+                            "stop_price": event["stop_price"],
+                            "target_price": event.get("target_1", 0),
+                            "direction": direction,
+                            "bar_start": self._bar_count,
+                            "bars_tracked": 0,
+                            "max_bars": 60,
+                            "high_since": event["entry_price"],
+                            "low_since": event["entry_price"],
+                            "outcome": None,  # "target_hit", "stop_hit", "timeout"
+                            "outcome_price": 0,
+                            "timestamp": event.get("timestamp", ""),
+                        })
+            logger.debug(f"Flushed {len(events)} shadow event(s) to {self._shadow_log_path}")
+        except Exception as e:
+            logger.error(f"Failed to write shadow log: {e}")
+        events.clear()
+
+    def _update_shadow_phantoms(self, high: float, low: float) -> None:
+        """Track shadow signal outcomes — did they hit target or stop?"""
+        completed = []
+        for p in self._shadow_phantoms:
+            if p["outcome"]:
+                continue
+            p["high_since"] = max(p["high_since"], high)
+            p["low_since"] = min(p["low_since"], low)
+            p["bars_tracked"] += 1
+
+            # Check target/stop hit
+            if p["direction"] == "long":
+                if p["target_price"] > 0 and high >= p["target_price"]:
+                    p["outcome"] = "target_hit"
+                    p["outcome_price"] = p["target_price"]
+                elif low <= p["stop_price"]:
+                    p["outcome"] = "stop_hit"
+                    p["outcome_price"] = p["stop_price"]
+            else:  # short
+                if p["target_price"] > 0 and low <= p["target_price"]:
+                    p["outcome"] = "target_hit"
+                    p["outcome_price"] = p["target_price"]
+                elif high >= p["stop_price"]:
+                    p["outcome"] = "stop_hit"
+                    p["outcome_price"] = p["stop_price"]
+
+            # Timeout
+            if p["bars_tracked"] >= p["max_bars"] and not p["outcome"]:
+                p["outcome"] = "timeout"
+                if p["direction"] == "long":
+                    p["outcome_price"] = p["low_since"]
+                else:
+                    p["outcome_price"] = p["high_since"]
+
+            if p["outcome"]:
+                # Compute PnL
+                if p["direction"] == "short":
+                    pnl = p["entry_price"] - p["outcome_price"]
+                else:
+                    pnl = p["outcome_price"] - p["entry_price"]
+                p["pnl_pts"] = round(pnl, 2)
+                # Write outcome to shadow log
+                try:
+                    record = {
+                        "event": "shadow_outcome",
+                        "feature": p["feature"],
+                        "timestamp": p["timestamp"],
+                        "direction": p["direction"],
+                        "entry_price": p["entry_price"],
+                        "stop_price": p["stop_price"],
+                        "target_price": p["target_price"],
+                        "outcome": p["outcome"],
+                        "outcome_price": p["outcome_price"],
+                        "pnl_pts": p["pnl_pts"],
+                        "bars_tracked": p["bars_tracked"],
+                        "mfe_pts": round(p["high_since"] - p["entry_price"] if p["direction"] == "long" else p["entry_price"] - p["low_since"], 2),
+                    }
+                    with open(self._shadow_log_path, "a") as f:
+                        f.write(json.dumps(record, default=str) + "\n")
+                except Exception:
+                    pass
+                completed.append(p)
+
+        for p in completed:
+            self._shadow_phantoms.remove(p)
+        # Cap
+        if len(self._shadow_phantoms) > 20:
+            self._shadow_phantoms = self._shadow_phantoms[-20:]
+
     def _write_status(self) -> None:
         """Write current state to JSON file for the dashboard."""
         status_path = os.environ.get("STATUS_FILE", "/app/logs/status.json")
@@ -1778,9 +2420,21 @@ class IBRunner:
                         unrealized = self._position.entry_price - last_price
                     else:
                         unrealized = last_price - self._position.entry_price
+                phase = getattr(self._position, "phase", None)
+                phase_name = phase.name if phase else "INITIAL"
+                highest = getattr(self._position, "highest_price_since_entry", 0)
+                lowest = getattr(self._position, "lowest_price_since_entry", 0)
+                t1_hit = getattr(self._position, "t1_hit", False)
+                direction = getattr(self._current_signal, "direction", "long") if self._current_signal else "long"
+                if direction == "long":
+                    mfe = highest - self._position.entry_price if highest else 0
+                    mae = self._position.entry_price - lowest if lowest else 0
+                else:
+                    mfe = self._position.entry_price - lowest if lowest else 0
+                    mae = highest - self._position.entry_price if highest else 0
                 pos_data = {
                     "is_open": True,
-                    "direction": getattr(self._current_signal, "direction", "long") if self._current_signal else "long",
+                    "direction": direction,
                     "pattern": self._pattern_type,
                     "entry_price": self._position.entry_price,
                     "stop_price": self._position.stop_price,
@@ -1789,6 +2443,12 @@ class IBRunner:
                     "contracts": self._position.remaining_contracts,
                     "risk_pts": abs(self._position.entry_price - self._position.stop_price),
                     "reward_pts": abs(self._position.target_1 - self._position.entry_price),
+                    "phase": phase_name,
+                    "t1_hit": t1_hit,
+                    "mfe_pts": round(mfe, 2),
+                    "mae_pts": round(mae, 2),
+                    "trail_stop": self._position.stop_price if phase_name in ("AFTER_T1", "AFTER_T2", "RUNNER") else None,
+                    "trail_distance_pts": round(abs(last_price - self._position.stop_price), 2) if phase_name in ("AFTER_T1", "AFTER_T2", "RUNNER") else None,
                 }
 
             # Active levels — sorted by proximity to current price
@@ -1905,6 +2565,14 @@ class IBRunner:
                 "bypass_mode": self._bypass_session_gates,
             }
 
+            # External market correlation data for dashboard
+            try:
+                market_snapshot = fetch_market_snapshot()
+                if market_snapshot:
+                    status["market_data"] = market_snapshot
+            except Exception:
+                pass
+
             # Atomic write (write to temp then rename)
             tmp_path = status_path + ".tmp"
             with open(tmp_path, "w") as f:
@@ -1991,7 +2659,7 @@ def main():
     live_risk = RiskParams(
         max_trades_per_day=999,
         max_daily_loss_pts=9999.0,  # no daily loss limit
-        max_stop_distance_pts=20.0,  # Optuna v2: BD Short 10-15 pt stops are winners
+        max_stop_distance_pts=60.0,  # Data collection: allow deep sweep FBs (30-40pt stops = 61% WR, +264 pts on 5yr)
         skip_tuesdays=False,
         min_rr_ratio=0.8,  # Optuna v2: moderate filter (was 0.1 data collection)
     )

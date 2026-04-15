@@ -53,6 +53,7 @@ class PatternSignal:
     elevator_event: Optional[ElevatorEvent] = None
     direction: str = "long"  # "long" or "short"
     sweep_high: float = 0.0  # highest price during the sweep (short-side)
+    is_double_dip: bool = False  # True if this is a double-dip re-entry
 
     @property
     def risk_pts(self) -> float:
@@ -94,8 +95,7 @@ class FailedBreakdown:
         self._elevator_event: Optional[ElevatorEvent] = None
         self._bars_below_level: int = 0  # for true breakdown abort
         # Double-dip re-entry: levels where we were recently stopped out
-        self._stopped_out_levels: list[tuple[float, int]] = []  # (price, bar_idx)
-        self._double_dip_cooldown_bars: int = 60  # allow re-entry within 60 bars
+        self._stopped_out_levels: list[dict] = []  # {level_price, stop_price, entry_price, bar_idx}
         self._is_double_dip: bool = False
         self._is_level_sweep: bool = False  # Path 2: level sweep without elevator
         # Near-miss tracking — setups that almost triggered but missed a threshold
@@ -122,14 +122,25 @@ class FailedBreakdown:
         self._sweep_tracking_bars_below = 0
         self._sweep_tracking_low = float("inf")
 
-    def record_stop_out(self, level_price: float, bar_idx: int) -> None:
+    def record_stop_out(self, level_price: float, bar_idx: int,
+                        stop_price: float = 0.0, entry_price: float = 0.0,
+                        level_type: str = "") -> None:
         """Record a stop-out at a level for double-dip tracking."""
-        self._stopped_out_levels.append((level_price, bar_idx))
+        self._stopped_out_levels.append({
+            "level_price": level_price,
+            "stop_price": stop_price,
+            "entry_price": entry_price,
+            "bar_idx": bar_idx,
+            "level_type": level_type,
+        })
 
     def _is_double_dip_level(self, level_price: float, bar_idx: int) -> bool:
         """Check if this level had a recent stop-out (double-dip candidate)."""
-        for price, stop_bar in self._stopped_out_levels:
-            if abs(price - level_price) <= 1.0 and bar_idx - stop_bar <= self._double_dip_cooldown_bars:
+        cooldown = getattr(self.params, 'dd_cooldown_bars', 120)
+        for record in self._stopped_out_levels:
+            rec_level = record["level_price"] if isinstance(record, dict) else record[0]
+            rec_bar = record["bar_idx"] if isinstance(record, dict) else record[1]
+            if abs(rec_level - level_price) <= 1.0 and bar_idx - rec_bar <= cooldown:
                 return True
         return False
 
@@ -198,9 +209,10 @@ class FailedBreakdown:
 
         if self.state == PatternState.IDLE:
             # Clean up expired stop-out records
+            cooldown = getattr(self.params, 'dd_cooldown_bars', 120)
             self._stopped_out_levels = [
-                (p, b) for p, b in self._stopped_out_levels
-                if bar_idx - b <= self._double_dip_cooldown_bars
+                rec for rec in self._stopped_out_levels
+                if bar_idx - (rec["bar_idx"] if isinstance(rec, dict) else rec[1]) <= cooldown
             ]
 
             # Path 1: Normal FB — need a completed elevator event
@@ -218,6 +230,9 @@ class FailedBreakdown:
                 )
                 # If sweep was detected and we already recovered, fast-track
                 if self.state == PatternState.SWEEP_DETECTED:
+                    # Mark as DD if this level had a recent stop-out
+                    if self._is_double_dip_level(self._target_level.price, bar_idx):
+                        self._is_double_dip = True
                     level_price = self._target_level.price
                     if close > level_price:
                         self.state = PatternState.RECOVERY_DETECTED
@@ -244,11 +259,11 @@ class FailedBreakdown:
                 if self.state != PatternState.IDLE:
                     return self._check_confirmation(bar_idx, timestamp, high, low, close)
 
-            # Path 3: Level Sweep FB — no elevator needed for high-quality levels
-            # Prior day low, multi-hour low, and cluster lows are significant
-            # enough that a sweep + recovery defines the pattern.
-            if self.state == PatternState.IDLE and self.params.allow_level_sweep_fb:
-                self._scan_for_level_sweep(low, close, level_store, timestamp, bar_idx)
+            # Path 3: Double-dip — re-entry at a level where we were recently
+            # stopped out. Takes priority over regular level sweep so the DD
+            # flag and stop-below-sweep-low logic are applied correctly.
+            if self.state == PatternState.IDLE and self._stopped_out_levels:
+                self._scan_for_double_dip(low, close, level_store, timestamp, bar_idx)
                 if self.state == PatternState.SWEEP_DETECTED:
                     level_price = self._target_level.price
                     if close > level_price:
@@ -264,10 +279,16 @@ class FailedBreakdown:
                             self._hold_bars = 1
                         return self._check_confirmation(bar_idx, timestamp, high, low, close)
 
-            # Path 4: Double-dip — no elevator needed if recently stopped at this level
-            if self.state == PatternState.IDLE and self._stopped_out_levels:
-                self._scan_for_double_dip(low, close, level_store, timestamp, bar_idx)
+            # Path 4: Level Sweep FB — no elevator needed for high-quality levels
+            # Prior day low, multi-hour low, and cluster lows are significant
+            # enough that a sweep + recovery defines the pattern.
+            if self.state == PatternState.IDLE and self.params.allow_level_sweep_fb:
+                self._scan_for_level_sweep(low, close, level_store, timestamp, bar_idx)
                 if self.state == PatternState.SWEEP_DETECTED:
+                    # Check if this level sweep is at a level where we were recently
+                    # stopped out — if so, mark as double-dip for proper sizing/stop
+                    if self._is_double_dip_level(self._target_level.price, bar_idx):
+                        self._is_double_dip = True
                     level_price = self._target_level.price
                     if close > level_price:
                         self.state = PatternState.RECOVERY_DETECTED
@@ -365,7 +386,14 @@ class FailedBreakdown:
         # Only sweep significant lows (Mancini's 3-tier definition)
         for level in confirmed:
             if level.level_type in self._SIGNIFICANT_LOW_TYPES:
-                if low <= level.price - tick:
+                # Shelf levels allow micro sweeps (1 pt instead of standard 2+)
+                shelf_min_touches = getattr(self.params, 'shelf_min_touches', 4)
+                if level.touch_count >= shelf_min_touches:
+                    min_sweep = getattr(self.params, 'shelf_sweep_min_pts', 1.0)
+                else:
+                    min_sweep = tick  # standard
+
+                if low <= level.price - min_sweep:
                     self.state = PatternState.SWEEP_DETECTED
                     self._target_level = level
                     self._sweep_low = low
@@ -391,7 +419,14 @@ class FailedBreakdown:
 
         for level in confirmed:
             if level.level_type in self._SIGNIFICANT_LOW_TYPES:
-                if sweep_low <= level.price - tick:
+                # Shelf levels allow micro sweeps (1 pt instead of standard 2+)
+                shelf_min_touches = getattr(self.params, 'shelf_min_touches', 4)
+                if level.touch_count >= shelf_min_touches:
+                    min_sweep = getattr(self.params, 'shelf_sweep_min_pts', 1.0)
+                else:
+                    min_sweep = tick  # standard
+
+                if sweep_low <= level.price - min_sweep:
                     self.state = PatternState.SWEEP_DETECTED
                     self._target_level = level
                     self._sweep_low = sweep_low
@@ -475,23 +510,57 @@ class FailedBreakdown:
         timestamp: datetime,
         bar_idx: int,
     ) -> None:
-        """Check if current bar sweeps a level where we were recently stopped out.
+        """Check if current bar sweeps deeper after a recent stop-out.
 
         Double-dip: no elevator required — the level was already proven.
-        """
-        tick = self.params.sweep_min_ticks * 0.25
-        confirmed = level_store.get_confirmed(timestamp)
+        Uses the stop-out record directly instead of looking up the level
+        in the store (which may have been removed after the breakdown).
 
-        for level in confirmed:
-            if level.level_type in self._SIGNIFICANT_LOW_TYPES:
-                if low <= level.price - tick:
-                    if self._is_double_dip_level(level.price, bar_idx):
-                        self.state = PatternState.SWEEP_DETECTED
-                        self._target_level = level
-                        self._sweep_low = low
-                        self._is_double_dip = True
-                        self._elevator_event = None
-                        return
+        Detection: low <= original_stop - dd_min_depth_below_stop_pts
+        Recovery and confirmation happen via the normal state machine
+        (SWEEP_DETECTED -> RECOVERY -> ACCEPTANCE/NON_ACCEPTANCE -> SIGNAL).
+        Stop is placed below the sweep low (not the original level).
+        """
+        if not getattr(self.params, 'allow_double_dip', True):
+            return
+
+        cooldown = getattr(self.params, 'dd_cooldown_bars', 120)
+        min_depth = getattr(self.params, 'dd_min_depth_below_stop_pts', 5.0)
+
+        for record in self._stopped_out_levels:
+            rec_level = record["level_price"] if isinstance(record, dict) else record[0]
+            rec_bar = record["bar_idx"] if isinstance(record, dict) else record[1]
+            rec_stop = record.get("stop_price", 0.0) if isinstance(record, dict) else 0.0
+
+            if bar_idx - rec_bar > cooldown:
+                continue
+
+            # Sweep below original stop by min_depth
+            if rec_stop > 0:
+                if low > rec_stop - min_depth:
+                    continue
+            else:
+                # Fallback: sweep below original level
+                tick = self.params.sweep_min_ticks * 0.25
+                if low > rec_level - tick:
+                    continue
+
+            # Sweep confirmed — create synthetic level from stop-out record.
+            # No level store lookup needed; the level may have been removed
+            # after the original breakdown.
+            target = Level(
+                price=rec_level,
+                level_type=LevelType.INTRADAY_LOW,
+                created_at=timestamp,
+                confirmed_at=timestamp,
+            )
+
+            self.state = PatternState.SWEEP_DETECTED
+            self._target_level = target
+            self._sweep_low = low
+            self._is_double_dip = True
+            self._elevator_event = None
+            return
 
     def _scan_for_deep_sell_recovery(
         self,
@@ -631,10 +700,10 @@ class FailedBreakdown:
         level_price = self._target_level.price
 
         recovery = close - level_price
+        # Count total bars meeting recovery threshold (monotonically increasing).
+        # Don't reset to 0 on pullback — just skip the increment.
         if recovery >= self.params.non_acceptance_min_recovery_pts:
             self._hold_bars += 1
-        else:
-            self._hold_bars = 0
 
         if self._hold_bars >= self.params.non_acceptance_min_hold_bars:
             return self._emit_signal(
@@ -704,11 +773,16 @@ class FailedBreakdown:
         # the lowest low of the structure." The sweep_low IS the lowest low.
         # For deep sweeps (>threshold), use level-based stop to avoid massive
         # risk. E.g., 50pt sweep → 55pt stop is unreasonable; level - 4.5 = 8pt stop.
-        threshold = self.params.deep_sweep_level_stop_threshold_pts
-        if threshold > 0 and sweep_depth > threshold:
-            stop_price = self._target_level.price - self.params.fb_stop_buffer_pts
-        else:
+        # Exception: Double-dip entries ALWAYS use sweep_low stop — the deeper
+        # sweep is the whole point, and the stop must be below the new structure low.
+        if self._is_double_dip:
             stop_price = self._sweep_low - self.params.fb_stop_buffer_pts
+        else:
+            threshold = self.params.deep_sweep_level_stop_threshold_pts
+            if threshold > 0 and sweep_depth > threshold:
+                stop_price = self._target_level.price - self.params.fb_stop_buffer_pts
+            else:
+                stop_price = self._sweep_low - self.params.fb_stop_buffer_pts
         signal = PatternSignal(
             pattern_type="failed_breakdown",
             confirmation=confirmation,
@@ -720,6 +794,7 @@ class FailedBreakdown:
             bar_idx=bar_idx,
             timestamp=timestamp,
             elevator_event=self._elevator_event,
+            is_double_dip=self._is_double_dip,
         )
         self.reset()
         return signal
@@ -918,10 +993,11 @@ class LevelReclaim:
             self.reset()
             return None
 
+        # Align with FailedBreakdown's acceptance logic: only increment on
+        # bars above the level, but do NOT reset to 0 on dips. The dip is
+        # part of the acceptance process (backtest-dip-return).
         if close >= level_price:
             self._hold_bars += 1
-        else:
-            self._hold_bars = 0
 
         if self._hold_bars >= self.params.acceptance_min_hold_bars:
             return self._emit_signal(

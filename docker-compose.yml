@@ -42,7 +42,9 @@ services:
     # command: ["python3", "live/ib_runner.py", "--symbol", "ES", "--contracts", "1", "--full-session"]
 
   dashboard:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.sidecar
     restart: unless-stopped
     depends_on:
       - mancini-bot
@@ -51,11 +53,44 @@ services:
       LOG_FILE: /app/logs/bot.log
       DASHBOARD_PORT: "8080"
       TZ: America/New_York
+      SUBSTACK_COOKIE: ${SUBSTACK_COOKIE}
     ports:
       - "8080:8080"
     volumes:
       - ./logs:/app/logs
+      - ./data:/app/data
     command: ["python3", "live/dashboard.py"]
+
+  discord-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.sidecar
+    restart: unless-stopped
+    depends_on:
+      - mancini-bot
+    environment:
+      TZ: America/New_York
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      DISCORD_CHANNEL_ID: ${DISCORD_CHANNEL_ID:-}
+    volumes:
+      - ./logs:/app/logs
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: ["python3", "live/discord_bot.py"]
+
+  watchdog:
+    build:
+      context: .
+      dockerfile: Dockerfile.sidecar
+    restart: unless-stopped
+    depends_on:
+      - mancini-bot
+    environment:
+      TZ: America/New_York
+      WATCHDOG_WEBHOOK: ${WATCHDOG_WEBHOOK:-}
+    volumes:
+      - ./logs:/app/logs
+    command: ["python3", "live/watchdog.py", "--poll-interval", "30"]
 
 volumes:
   ib-gateway-data:

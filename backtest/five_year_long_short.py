@@ -186,6 +186,7 @@ def run_backtest(sessions):
                 "rr_ratio": t.rr_ratio_t1,
                 "exit_reason": t.exit_reason,
                 "won": t.pnl_pts > 0,
+                "is_double_dip": getattr(t, 'is_double_dip', False),
             })
 
         prev_session_df = session_df
@@ -378,6 +379,51 @@ def main():
     print(f"  OOS  (MES):        {oos_pts:+,.1f} pts = ${oos_pts * 5:+,.0f}")
     print(f"  IS   (MES):        {is_pts:+,.1f} pts = ${is_pts * 5:+,.0f}")
     print(f"  Full period (ES):  {total_pts:+,.1f} pts = ${total_pts * 50:+,.0f}")
+
+    # ── Double Dip Breakdown ──────────────────────────────────────
+    dd_trades = [t for t in all_trades if t["is_double_dip"]]
+    non_dd_trades = [t for t in all_trades if not t["is_double_dip"]]
+
+    print(f"\n{'='*80}")
+    print("DOUBLE DIP BREAKDOWN")
+    print(f"{'='*80}")
+
+    for label, subset in [("DD Trades", dd_trades), ("Non-DD   ", non_dd_trades)]:
+        n = len(subset)
+        if n == 0:
+            print(f"  {label}: 0 trades")
+            continue
+        wins = [t for t in subset if t["won"]]
+        losses = [t for t in subset if not t["won"]]
+        pnl = sum(t["pnl_pts"] for t in subset)
+        wr = len(wins) / n * 100
+        gp = sum(t["pnl_pts"] for t in wins)
+        gl = abs(sum(t["pnl_pts"] for t in losses))
+        pf = gp / gl if gl > 0 else float("inf")
+        print(f"  {label}: {n:>4}  |  WR: {wr:>5.1f}%  |  PF: {pf:.2f}  |  PnL: {pnl:>+,.1f} pts")
+
+    if dd_trades:
+        print(f"\n  DD by level type:")
+        level_types = sorted(set(t["level_type"] for t in dd_trades))
+        for lt in level_types:
+            lt_trades = [t for t in dd_trades if t["level_type"] == lt]
+            lt_wins = [t for t in lt_trades if t["won"]]
+            lt_losses = [t for t in lt_trades if not t["won"]]
+            lt_pnl = sum(t["pnl_pts"] for t in lt_trades)
+            lt_wr = len(lt_wins) / len(lt_trades) * 100 if lt_trades else 0
+            print(f"    {lt:<25} {len(lt_wins)}W/{len(lt_losses)}L  {lt_wr:>5.1f}% WR  {lt_pnl:>+,.1f} pts")
+
+        print(f"\n  DD by pattern:")
+        dd_patterns = sorted(set(t["pattern"] for t in dd_trades))
+        for p in dd_patterns:
+            pt = [t for t in dd_trades if t["pattern"] == p]
+            pw = [t for t in pt if t["won"]]
+            pl = [t for t in pt if not t["won"]]
+            ppnl = sum(t["pnl_pts"] for t in pt)
+            pwr = len(pw) / len(pt) * 100 if pt else 0
+            short_name = {"failed_breakdown": "FB", "level_reclaim": "LR",
+                          "failed_rally": "FR", "level_rejection": "LJ"}.get(p, p)
+            print(f"    {short_name:<25} {len(pw)}W/{len(pl)}L  {pwr:>5.1f}% WR  {ppnl:>+,.1f} pts")
 
 
 if __name__ == "__main__":

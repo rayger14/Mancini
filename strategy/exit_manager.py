@@ -14,7 +14,14 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Optional
 
-from config.settings import ExitParams, ESContractSpec, DEFAULT_EXIT, DEFAULT_CONTRACT
+from config.settings import (
+    ExitParams,
+    ESContractSpec,
+    StrategyParams,
+    DEFAULT_EXIT,
+    DEFAULT_CONTRACT,
+    DEFAULT_STRATEGY,
+)
 
 
 class ExitPhase(Enum):
@@ -60,6 +67,7 @@ class TradePosition:
     # Track whether T1/T2 were hit (for accurate exit_reason on final close)
     t1_hit: bool = False
     t2_hit: bool = False
+    is_double_dip: bool = False  # True if this is a double-dip re-entry
 
     def __post_init__(self):
         self.highest_price_since_entry = self.entry_price
@@ -81,9 +89,23 @@ class ExitManager:
         self,
         params: ExitParams = DEFAULT_EXIT,
         contract: ESContractSpec = DEFAULT_CONTRACT,
+        strategy_params: StrategyParams = DEFAULT_STRATEGY,
     ):
         self.params = params
         self.contract = contract
+        self.strategy_params = strategy_params
+
+        # When mancini_exit_scaling is enabled, override the exit fractions
+        # from StrategyParams so the 75/15/10 split is used instead of
+        # whatever ExitParams has (which may be a different split).
+        if strategy_params.mancini_exit_scaling:
+            self._t1_exit_fraction = strategy_params.mancini_t1_exit_pct
+            self._t2_exit_fraction = strategy_params.mancini_t2_exit_pct
+            self._runner_fraction = strategy_params.mancini_runner_pct
+        else:
+            self._t1_exit_fraction = params.t1_exit_fraction
+            self._t2_exit_fraction = params.t2_exit_fraction
+            self._runner_fraction = params.runner_fraction
 
     def create_position(
         self,
@@ -93,6 +115,7 @@ class ExitManager:
         target_2: float,
         contracts: int,
         direction: str = "long",
+        is_double_dip: bool = False,
     ) -> TradePosition:
         """Create a new trade position."""
         return TradePosition(
@@ -103,6 +126,7 @@ class ExitManager:
             total_contracts=contracts,
             remaining_contracts=contracts,
             direction=direction,
+            is_double_dip=is_double_dip,
         )
 
     def update_prior_day_low(self, position: TradePosition, prior_day_low: float) -> Optional[ExitAction]:
@@ -234,7 +258,7 @@ class ExitManager:
         """
         if high >= position.target_1:
             contracts_to_exit = round(
-                position.total_contracts * self.params.t1_exit_fraction
+                position.total_contracts * self._t1_exit_fraction
             )
             contracts_to_exit = min(contracts_to_exit, position.remaining_contracts)
 
@@ -277,14 +301,19 @@ class ExitManager:
         """
         # Fallback intraday trail (ratchet up) if no prior_day_low set
         # For runners (AFTER_T1), use base trailing_stop_pts without aggressive tightening
+        # Double-dip entries use wider trail (dd_trail_pts_after_t1) to give room
         if position.prior_day_low <= 0:
-            new_trail = position.highest_price_since_entry - self.params.trailing_stop_pts
+            if position.is_double_dip:
+                trail_pts = self.strategy_params.dd_trail_pts_after_t1
+            else:
+                trail_pts = self.params.trailing_stop_pts
+            new_trail = position.highest_price_since_entry - trail_pts
             if new_trail > position.stop_price:
                 position.stop_price = new_trail
 
         if high >= position.target_2:
             runner_contracts = max(
-                1, round(position.total_contracts * self.params.runner_fraction)
+                1, round(position.total_contracts * self._runner_fraction)
             )
             contracts_to_exit = position.remaining_contracts - runner_contracts
 
@@ -331,7 +360,12 @@ class ExitManager:
             pass
         else:
             # Fallback: intraday trailing with base trailing_stop_pts (no tightening for runners)
-            new_trail = position.highest_price_since_entry - self.params.trailing_stop_pts
+            # Double-dip entries use wider trail to give room for the recovery
+            if position.is_double_dip:
+                trail_pts = self.strategy_params.dd_trail_pts_after_t1
+            else:
+                trail_pts = self.params.trailing_stop_pts
+            new_trail = position.highest_price_since_entry - trail_pts
             if new_trail > position.stop_price:
                 position.stop_price = new_trail
         return None
@@ -357,7 +391,7 @@ class ExitManager:
         """Check if Target 1 is reached for short (price drops to target)."""
         if low <= position.target_1:
             contracts_to_exit = round(
-                position.total_contracts * self.params.t1_exit_fraction
+                position.total_contracts * self._t1_exit_fraction
             )
             contracts_to_exit = min(contracts_to_exit, position.remaining_contracts)
 
@@ -405,7 +439,7 @@ class ExitManager:
 
         if low <= position.target_2:
             runner_contracts = max(
-                1, round(position.total_contracts * self.params.runner_fraction)
+                1, round(position.total_contracts * self._runner_fraction)
             )
             contracts_to_exit = position.remaining_contracts - runner_contracts
 

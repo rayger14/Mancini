@@ -1,0 +1,15 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Lightweight requirements — no heavy trading/data libs
+COPY requirements-sidecar.txt .
+RUN pip install --no-cache-dir -r requirements-sidecar.txt
+
+# Copy only what sidecars need (dashboard, watchdog, discord bot, health check)
+COPY live/dashboard.py live/dashboard.py
+COPY live/watchdog.py live/watchdog.py
+COPY live/discord_bot.py live/discord_bot.py
+COPY live/health_check.py live/health_check.py
+
+# No default CMD — each service overrides in docker-compose.yml

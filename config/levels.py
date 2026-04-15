@@ -135,3 +135,75 @@ class LevelStore:
     def clear(self) -> None:
         """Clear all levels."""
         self.levels.clear()
+
+
+# Base scores by level type — reflects empirical edge from live data.
+# PDL=100% WR (highest conviction), MHL=67%, CLUSTER_LOW=0% (noise).
+_LEVEL_BASE_SCORES: dict[LevelType, int] = {
+    LevelType.PRIOR_DAY_LOW: 5,
+    LevelType.PRIOR_DAY_HIGH: 5,
+    LevelType.MULTI_HOUR_LOW: 3,
+    LevelType.MULTI_HOUR_HIGH: 3,
+    LevelType.SWING_LOW: 2,
+    LevelType.SWING_HIGH: 2,
+    LevelType.INTRADAY_LOW: 2,
+    LevelType.CLUSTER_LOW: 1,
+    LevelType.CLUSTER_HIGH: 1,
+    LevelType.HORIZONTAL_SR: 1,
+    LevelType.VWAP: 1,
+    LevelType.CUSTOM: 1,
+}
+
+
+def compute_confluence_score(
+    level: Level, all_levels: list[Level], proximity: float = 3.0
+) -> int:
+    """Compute confluence score for a level based on type, nearby levels, and metadata.
+
+    Scoring rules:
+    - Base score from level type (PDL=5, MHL=3, SWING=2, CLUSTER=1, etc.)
+    - +2 for each additional level of *different* type within ``proximity`` pts
+    - +1 if touch_count >= 3 (shelf of lows / multiple tests)
+    - +1 if rally_from_low_pts >= 20 (significant bounce proves the level)
+    - +1 if level.tested_and_held (previously defended)
+
+    Parameters
+    ----------
+    level : Level
+        The level being scored.
+    all_levels : list[Level]
+        All active levels in the store (used for proximity check).
+    proximity : float
+        Points within which another level counts as confluent.
+
+    Returns
+    -------
+    int
+        Confluence score (higher = more conviction).
+    """
+    score = _LEVEL_BASE_SCORES.get(level.level_type, 1)
+
+    # Confluence: nearby levels of different type reinforce the zone
+    seen_types = {level.level_type}
+    for other in all_levels:
+        if other is level or not other.is_active:
+            continue
+        if other.level_type in seen_types:
+            continue
+        if abs(other.price - level.price) <= proximity:
+            score += 2
+            seen_types.add(other.level_type)
+
+    # Shelf of lows: multiple touches prove the level is real
+    if level.touch_count >= 3:
+        score += 1
+
+    # Significant bounce: a 20+ pt rally from the level proves demand
+    if level.rally_from_low_pts >= 20.0:
+        score += 1
+
+    # Previously tested and held: market already proved the level
+    if level.tested_and_held:
+        score += 1
+
+    return score
