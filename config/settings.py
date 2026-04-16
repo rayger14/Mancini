@@ -143,7 +143,10 @@ class StrategyParams:
     swing_low_order: int = 30  # argrelextrema order (30 bars = 30 min on 1-min)
     cluster_proximity_pts: float = 2.0  # points within which lows form a cluster
     cluster_min_touches: int = 5  # minimum touches for a cluster
-    multi_hour_rally_min_pts: float = 25.0  # min rally from low to qualify (only significant levels)
+    # Mancini: a "significant low" requires a 20+ pt bounce/rally from it
+    # (criterion #2 in his 3-tier definition). Previously 25.0 — tightened
+    # to match the exact Mancini number from Apr 15 2026 Substack (6983 FB).
+    multi_hour_rally_min_pts: float = 20.0  # min rally from low to qualify (only significant levels)
 
     # Failed breakdown
     # Mancini: "2-11 points ideally" for sweep depth. 1 pt = "not ideal."
@@ -367,6 +370,30 @@ class StrategyParams:
     mode1_level_broken_hold_bars: int = 20  # level must stay broken for 20+ bars to count
     mode1_size_reduction: float = 0.25      # reduce to 25% size on Mode 1 Red days
     mode1_disable_fb_longs: bool = False    # option to completely disable FB longs on Mode 1 Red
+
+    # Mode 1 Green trend day detection (mirror of Mode 1 Red, UP direction)
+    # Mancini Apr 15 2026: on trend-up days FBs can fire near significant lows
+    # with relaxed gates — the trend is the edge, not level R:R.
+    # Still requires acceptance OR non-acceptance (rules DON'T change on trend days).
+    use_mode1_green_detection: bool = False  # master switch (default off / shadow-first)
+    mode1_green_resistance_broken_threshold: int = 3  # 3+ resistance levels broken UP and held
+    mode1_green_bars_above_pdh: int = 30     # bars continuously above PDH
+    mode1_green_bullish_pressure_bars: int = 60  # sustained higher highs for N bars
+    mode1_green_level_broken_hold_bars: int = 20  # bars price must hold above a broken resistance
+    mode1_green_fb_min_rr: float = 1.0       # relaxed R:R on confirmed Mode 1 Green
+    mode1_green_size_factor: float = 1.0     # full size on confirmed trend days
+
+    # Danger zone enforcement (Mancini: 0-5 pts above level = danger zone)
+    # Entries in the danger zone require clear acceptance (dip-back pattern).
+    # If recovery >= danger_zone_pts, non-acceptance protocol applies normally.
+    danger_zone_pts: float = 5.0
+    danger_zone_require_dip_acceptance: bool = True  # require a dip-back touch when recovery < 5 pts
+    danger_zone_dip_proximity_pts: float = 2.0       # dip within this pts of level counts as acceptance touch
+
+    # Risky trend-day FB flag: FB fired within N pts of session high on an
+    # up-trending session. Mancini: "FBs not far off major highs after big
+    # rally are dangerous — tend to fakeout unless parabolic rally sustains."
+    risky_trend_fb_distance_from_high_pts: float = 30.0
 
     # Level confluence scoring
     # When enabled, entries require a minimum confluence score based on level

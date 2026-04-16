@@ -163,6 +163,10 @@ class SignalAggregator:
             bullish_threshold=sp.idc_bullish_threshold,
         )
         self._intraday_state = IntradayState.NEUTRAL
+        # Set externally by ManciniLongStrategy each bar when Mode 1 Green
+        # is active and live (not shadow). When True, ``_qualify_signal`` uses
+        # ``mode1_green_fb_min_rr`` as the R:R floor for FB longs.
+        self.mode1_green_active: bool = False
 
     @property
     def intraday_state(self) -> IntradayState:
@@ -1106,12 +1110,24 @@ class SignalAggregator:
         rr_t1 = reward_t1 / risk if risk > 0 else 0
         rr_t2 = reward_t2 / risk if risk > 0 else 0
 
+        # Mode 1 Green relaxed R:R floor for FB longs on confirmed trend-up days.
+        # The trend itself is a large part of the edge; Mancini accepts tighter
+        # R:R on trend days (Apr 15 2026 post). Only applies when live (not shadow).
+        effective_min_rr = self.min_rr_ratio
+        effective_min_signal_rr = self.strategy_params.min_signal_rr
+        if (signal_type == SignalType.FAILED_BREAKDOWN
+                and self.mode1_green_active
+                and not self.strategy_params.shadow_mode_features):
+            green_min = self.strategy_params.mode1_green_fb_min_rr
+            effective_min_rr = min(effective_min_rr, green_min)
+            effective_min_signal_rr = min(effective_min_signal_rr, green_min)
+
         # Absolute R:R floor — reject truly garbage signals (same as short side)
-        if rr_t1 < self.strategy_params.min_signal_rr:
+        if rr_t1 < effective_min_signal_rr:
             return None
 
         # Track near-miss diagnostics when R:R is low (but don't reject)
-        if rr_t1 < self.min_rr_ratio:
+        if rr_t1 < effective_min_rr:
             detector = self.failed_breakdown if signal_type == SignalType.FAILED_BREAKDOWN else None
             if detector and hasattr(detector, 'near_misses'):
                 detector.near_misses.append({
