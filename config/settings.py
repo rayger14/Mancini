@@ -407,10 +407,10 @@ class StrategyParams:
 
     # Shelf of lows detection (Mancini's multi-touch horizontal base)
     detect_shelf_levels: bool = False          # enable shelf detection on 5-min
-    shelf_min_touches: int = 4               # minimum touches to qualify as shelf
+    shelf_min_touches: int = 8               # real Mancini shelves have 8+ touches on 5-min
     shelf_proximity_pts: float = 3.0         # max range of the shelf (tight base)
     shelf_min_bars: int = 12                 # minimum 5-min bars the shelf spans (1 hour)
-    shelf_sweep_min_pts: float = 1.0         # allow micro sweeps (1 pt below shelf)
+    shelf_sweep_min_pts: float = 2.0         # need 2+ pts below shelf to qualify
 
     # Regime filter gating
     use_regime_filter: bool = False          # enable EMA regime direction gating

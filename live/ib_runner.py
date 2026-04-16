@@ -109,9 +109,11 @@ PRODUCTION_STRATEGY = StrategyParams(
     deep_sell_swing_order=5,              # fast swing confirmation (5 bars vs 30)
     deep_sell_rally_confirm_pts=20.0,     # Mancini: significant low = 20+ pt bounce (V-shaped reversal)
     # --- 5-min level detection (Mancini reads 5-min charts for level ID) ---
-    use_5min_levels=False,                # Backtest showed -261 pts vs baseline — needs tuning before live
-    swing_low_order_5min=6,               # 6 bars on 5-min = 30 min confirmation (ready when enabled)
-    detect_shelf_levels=False,            # Shelf detection ready but needs tuning with 5-min levels
+    use_5min_levels=True,                 # Tuned: supplement (not replace) 1-min + longs only + raised thresholds
+    swing_low_order_5min=6,               # 6 bars on 5-min = 30 min confirmation
+    detect_shelf_levels=True,             # Shelf detection with 8-touch / 2-pt sweep gates
+    shelf_min_touches=8,                  # Real Mancini shelves have 8+ touches on 5-min
+    shelf_sweep_min_pts=2.0,              # Need 2+ pts below shelf to qualify
 )
 PRODUCTION_ELEVATOR = ElevatorParams(
     min_velocity_pts_per_min=0.75,

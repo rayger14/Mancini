@@ -113,8 +113,18 @@ class PriceLevelDetector:
             and len(df_5min) > 0
         )
 
+        # --- Always run 1-min swing low detection (preserves LR and all existing levels) ---
+        new_levels.extend(
+            self._detect_swing_lows_on_df(
+                store, df, bar_idx,
+                order=self.params.swing_low_order,
+                current_close_1min=float(df["close"].values[bar_idx]),
+                timestamp_1min=df.index[bar_idx],
+            )
+        )
+
         if use_5min:
-            # --- 5-min swing low detection ---
+            # --- Additionally run 5-min swing low detection (structural levels on top) ---
             new_levels.extend(
                 self._detect_swing_lows_on_df(
                     store, df_5min, bar_idx_5min,
@@ -124,41 +134,23 @@ class PriceLevelDetector:
                 )
             )
 
-            # --- 5-min swing high detection (when short-side enabled) ---
-            if (self.params.allow_short_fr or self.params.allow_short_lj
-                    or self.params.allow_breakdown_short or self.params.allow_backtest_short):
-                new_levels.extend(
-                    self._detect_swing_highs_on_df(
-                        store, df_5min, bar_idx_5min,
-                        order=self.params.swing_low_order_5min,
-                    )
-                )
+            # --- 5-min swing HIGH detection SKIPPED (Fix 4: longs only for 5-min levels) ---
+            # Existing 1-min swing high detection below handles shorts.
 
             # --- Shelf-of-lows detection on 5-min ---
             if self.params.detect_shelf_levels:
                 new_levels.extend(
                     self._detect_shelf_levels(store, df_5min, bar_idx_5min)
                 )
-        else:
-            # --- Original 1-min swing low detection ---
-            new_levels.extend(
-                self._detect_swing_lows_on_df(
-                    store, df, bar_idx,
-                    order=self.params.swing_low_order,
-                    current_close_1min=float(df["close"].values[bar_idx]),
-                    timestamp_1min=df.index[bar_idx],
-                )
-            )
 
         # Check for newly confirmed swing highs (mirror of swing low detection)
-        # Only when short-side trading is enabled and NOT using 5-min (handled above)
-        if not use_5min:
-            order_1min = self.params.swing_low_order
-            if (self.params.allow_short_fr or self.params.allow_short_lj
-                    or self.params.allow_breakdown_short or self.params.allow_backtest_short) and bar_idx >= order_1min * 2:
-                new_levels.extend(
-                    self._detect_swing_highs_on_df(store, df, bar_idx, order=order_1min)
-                )
+        # Always uses 1-min data — 5-min swing highs are NOT added (Fix 4: longs only)
+        order_1min = self.params.swing_low_order
+        if (self.params.allow_short_fr or self.params.allow_short_lj
+                or self.params.allow_breakdown_short or self.params.allow_backtest_short) and bar_idx >= order_1min * 2:
+            new_levels.extend(
+                self._detect_swing_highs_on_df(store, df, bar_idx, order=order_1min)
+            )
 
         # Deep sell recovery: detect intraday levels with faster confirmation
         # when price is far below known support (Mancini: FB new levels during selloff)
