@@ -294,6 +294,9 @@ class IBRunner:
         self._trade_log_path.parent.mkdir(parents=True, exist_ok=True)
         self._all_trades: list[dict] = self._load_trade_log()
 
+        # Mancini Substack overlay result (populated in _initialize_session when enabled)
+        self._mancini_overlay_result = None
+
     def run(self) -> None:
         """Main event loop. Blocks until session ends or shutdown signal."""
         # Add file log sink for dashboard
@@ -479,6 +482,45 @@ class IBRunner:
             self._df if self._df is not None and len(self._df) > 0 else pd.DataFrame(),
             prior_day_df,
         )
+
+        # Mancini Substack level overlay — augments engine-detected levels.
+        # Failure modes (missing file, corrupt JSON, parse failure) are all
+        # swallowed so the bot runs normally when this isn't available.
+        self._mancini_overlay_result = None
+        sp = self.strategy.strategy_params
+        if getattr(sp, "use_mancini_levels", False):
+            try:
+                from live.mancini_levels import load as load_mancini_levels
+                from core.mancini_overlay import apply_mancini_overlay
+
+                current_price = 0.0
+                if self._df is not None and len(self._df) > 0:
+                    current_price = float(self._df["close"].iat[-1])
+
+                mancini_data = load_mancini_levels(
+                    self._session_date,
+                    input_dir=Path(sp.mancini_levels_dir),
+                )
+                if mancini_data:
+                    self._mancini_overlay_result = apply_mancini_overlay(
+                        store=self.signal_aggregator.level_store,
+                        mancini_data=mancini_data,
+                        mode=sp.mancini_mode,
+                        confirm_tolerance_pts=sp.mancini_confirm_tolerance_pts,
+                        current_price=current_price,
+                        timestamp=datetime.now(_ET),
+                    )
+                    logger.info(
+                        f"Mancini overlay applied: mode={sp.mancini_mode} "
+                        f"confirmed={self._mancini_overlay_result.confirmed_count} "
+                        f"injected={self._mancini_overlay_result.injected_count} "
+                        f"shadow={self._mancini_overlay_result.shadow_count} "
+                        f"blind_spots={len(self._mancini_overlay_result.blind_spots)}"
+                    )
+                else:
+                    logger.info("Mancini overlay: no parsed levels for session (skipping)")
+            except Exception as e:
+                logger.warning(f"Mancini overlay failed (non-fatal): {e}")
 
         # Catch up on current-day bars (update state, don't trade)
         if self._df is not None and len(self._df) > 0:
@@ -2566,6 +2608,18 @@ class IBRunner:
                 "near_misses": self._enrich_near_misses(),
                 "bypass_mode": self._bypass_session_gates,
             }
+
+            # Mancini Substack overlay summary (if enabled for this session)
+            if self._mancini_overlay_result is not None:
+                status["mancini"] = {
+                    "mode": self._mancini_overlay_result.mode,
+                    "lean": self._mancini_overlay_result.lean,
+                    "parse_status": self._mancini_overlay_result.parse_status,
+                    "confirmed_count": self._mancini_overlay_result.confirmed_count,
+                    "injected_count": self._mancini_overlay_result.injected_count,
+                    "shadow_count": self._mancini_overlay_result.shadow_count,
+                    "blind_spots": self._mancini_overlay_result.blind_spots[:20],
+                }
 
             # External market correlation data for dashboard
             try:

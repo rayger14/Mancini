@@ -446,6 +446,15 @@ class StrategyParams:
     # Set to e.g. ("LEVEL_RECLAIM",) to only gate LR while FB/BD trade freely.
     regime_filter_patterns: tuple = ()      # empty = gate all; names from SignalType enum
 
+    # --- Mancini Substack level overlay ---
+    # Augments engine-derived levels with levels Mancini calls out in his post.
+    # Ships OFF by default; defaults to shadow mode when enabled.
+    use_mancini_levels: bool = False          # master switch (off by default)
+    mancini_mode: str = "shadow"              # "shadow" | "confirmation" | "augmentation"
+    mancini_levels_dir: str = "/app/data"
+    mancini_confirm_tolerance_pts: float = 3.0
+    mancini_min_conviction_for_trade: int = 2
+
 
 @dataclass(frozen=True)
 class RiskParams:

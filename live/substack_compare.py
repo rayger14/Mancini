@@ -554,6 +554,17 @@ def main():
 
     print(f"\nOutput written to: {output_path}")
 
+    # Also dump structured levels for tomorrow's trading session so the
+    # live runner can load an overlay at session start.
+    try:
+        from live.mancini_levels import dump_for_trading_date
+        tomorrow = date.today() + timedelta(days=1)
+        out = dump_for_trading_date(tomorrow, Path("/app/data"))
+        if out is not None:
+            print(f"Mancini levels overlay written to: {out}")
+    except Exception as e:
+        print(f"Failed to dump mancini levels: {e}")
+
 
 if __name__ == "__main__":
     main()
