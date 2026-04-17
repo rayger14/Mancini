@@ -1,0 +1,94 @@
+{
+  "trading_date": "2025-05-07",
+  "levels": [
+    {
+      "price": 5550.0,
+      "role": "mentioned",
+      "context": "d this again one week ago last Monday (when we were down at 5550), by stating: \u201cNext leg up targets 5600, 5620-23, 5650, the"
+    },
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "hen we were down at 5550), by stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (b"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5623.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "n at 5550), by stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the"
+    },
+    {
+      "price": 5672.0,
+      "role": "mentioned",
+      "context": "by stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the red megaph"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5550.0,
+      "role": "mentioned",
+      "context": "d this again one week ago last Monday (when we were down at 5550), by stating: \u201cNext leg up targets 5600, 5620-23, 5650, the"
+    },
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "hen we were down at 5550), by stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (b"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5623.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "n at 5550), by stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the"
+    },
+    {
+      "price": 5672.0,
+      "role": "mentioned",
+      "context": "by stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the red megaph"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "<5650 would be needed to confirm the loss and I wrote yesterday that \u201cBear case tomorrow: Begins under 5650.\u201d We sold to 5607 low of day after."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I have discussed at length, we don\u2019t need to guess or predict when or where any dip will be bought, as all dip buys are caused by my core setup (and footprint of institutional accumulation), the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into three quality Failed Breakdowns we had over the last three days (one on Thursday which produced a 120 point squeeze from 5600 to 5720), and one yesterday which produced a 35 point squeeze into the high of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These were all provided in advance, and we have generally seen one Failed Breakdown per day."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "FOMC Tomorrow. Expect Volatility in SPX. May 7 Plan",
+  "post_date": "2025-05-06",
+  "post_slug": "fomc-tomorrow-expect-volatility-in-3d8",
+  "parsed_at": "2026-04-16T15:44:15.873917",
+  "body_length": 2355
+}

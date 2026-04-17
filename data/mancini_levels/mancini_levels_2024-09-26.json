@@ -1,0 +1,82 @@
+{
+  "trading_date": "2024-09-26",
+  "levels": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5769.0,
+      "role": "range",
+      "context": "5769-71"
+    },
+    {
+      "price": 5771.0,
+      "role": "range",
+      "context": "5769-71"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "as this range is in tact though, it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thurs"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thursday, we tagged 5797 exact and this"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5769.0,
+      "role": "range",
+      "context": "5769-71"
+    },
+    {
+      "price": 5771.0,
+      "role": "range",
+      "context": "5769-71"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "as this range is in tact though, it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thurs"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thursday, we tagged 5797 exact and this"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk how to trade it, I\u2019ll do a deep dive into a very important distinction that readers need to know between my core setup (the failed breakdown) and its sibling (the level reclaim)."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Tight For A Move. Breakout? Or Breakdown? Sept 26 Plan",
+  "post_date": "2024-09-25",
+  "post_slug": "spx-is-coiled-tight-for-a-move-breakout",
+  "parsed_at": "2026-04-16T15:47:31.228494",
+  "body_length": 2234
+}

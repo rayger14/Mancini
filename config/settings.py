@@ -395,6 +395,13 @@ class StrategyParams:
     dd_fixed_stop_until_t1: bool = True      # no trailing until T1 hits (keep stop fixed at entry)
     dd_trail_pts_after_t1: float = 25.0      # wider trail for DD runners (25 vs 12 pts)
 
+    # Level Quality Scoring (LQS): continuous 0-100 score per level that drives
+    # position size, R:R requirements, and FB eligibility. Shadow first, then enable.
+    use_level_quality_scoring: bool = False   # master switch (shadow first)
+    lqs_min_trade_threshold: int = 25         # min LQS to trade (PDL=53, MHL=45, SWING=15)
+    lqs_full_size_threshold: int = 55         # full size (PDL+recency=53+, Mancini-confirmed=60+)
+    lqs_shadow_threshold: int = 10            # below = skip (CLUSTER=0-10, bare SWING=5-15)
+
     # Shadow mode: features log what they WOULD do but don't change trading decisions.
     # When True, sweep depth sizing, Mode 1 detection, and velocity short all run
     # but only produce shadow log entries — actual sizing/gating/signals are unchanged.

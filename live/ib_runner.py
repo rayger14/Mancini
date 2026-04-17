@@ -610,6 +610,20 @@ class IBRunner:
                 return
 
             bar_idx = len(self._df) - 1  # Index into current DataFrame, not cumulative count
+
+            # Build market data and session context for LQS scoring
+            try:
+                _lqs_market_data = fetch_market_snapshot()
+            except Exception:
+                _lqs_market_data = None
+            _lqs_session_ctx = {
+                "session_date": self._session_date,
+                "current_price": close,
+                "session_high": float(self._df["high"].max()),
+                "session_low": float(self._df["low"].min()),
+                "bar_count": self._bar_count,
+            }
+
             signal = self.signal_aggregator.update(
                 bar_idx=bar_idx,
                 timestamp=timestamp,
@@ -620,6 +634,8 @@ class IBRunner:
                 volume=volume,
                 velocity=vel,
                 df=self._df,
+                market_data=_lqs_market_data,
+                session_context=_lqs_session_ctx,
             )
 
             if signal is not None:
@@ -1453,6 +1469,7 @@ class IBRunner:
                     "rr_ratio": round(signal.rr_ratio_t1, 2),
                     "level_price": signal.pattern.level.price,
                     "level_type": signal.pattern.level.level_type.name,
+                    "lqs": getattr(signal, "lqs", None),
                 }
                 # Human-readable trade explanation
                 record["reason"] = self._build_trade_reason(signal, regime_info, session_window)

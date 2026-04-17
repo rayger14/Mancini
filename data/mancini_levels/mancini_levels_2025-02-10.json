@@ -1,0 +1,120 @@
+{
+  "trading_date": "2025-02-10",
+  "levels": [
+    {
+      "price": 5949.0,
+      "role": "mentioned",
+      "context": "s case, it was again a macro Failed Breakdown of last weeks 5949 low where we flushed it off this Sundays open, and recovere"
+    },
+    {
+      "price": 6004.0,
+      "role": "support",
+      "context": "above 6004"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "hold 6066"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6125.0,
+      "role": "range",
+      "context": "6125-30"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6125-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5949.0,
+      "role": "mentioned",
+      "context": "s case, it was again a macro Failed Breakdown of last weeks 5949 low where we flushed it off this Sundays open, and recovere"
+    },
+    {
+      "price": 6004.0,
+      "role": "support",
+      "context": "above 6004"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "hold 6066"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6125.0,
+      "role": "range",
+      "context": "6125-30"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6125-30"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend until proven otherwise."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This then setup a Failed Breakdown (remember after deep sells, price always puts in my core setup, the Failed Breakdown)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Each day last week, ES saw 1-2 flash dips, which resulted in 1-2 Failed Breakdowns per day for us to long."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We opened on Sunday with a 75 point gap down, which setup a long at 6:10PM Sunday evening - in this case, it was again a macro Failed Breakdown of last weeks 5949 low where we flushed it off this Sundays open, and recovered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Wedneday 4pm: \u201cIts been an incredible run and I am now up 130 points on my runner from Sundays macro Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter I\u2019ll talk this, I\u2019ll do a comprehensive run down of every single Failed Breakdown we had this week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is highly educational and gives one of the best looks yet at all the variants of Failed Breakdowns we had."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If you recognize all these real-time, you understand Failed Breakdowns."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Carbon Copy Of Last Week For SPX: Green All Week Then Friday Sell. What Now? Feb 10 Plan",
+  "post_date": "2025-02-09",
+  "post_slug": "carbon-copy-of-last-week-for-spx-c2d",
+  "parsed_at": "2026-04-16T15:45:32.274197",
+  "body_length": 2426
+}

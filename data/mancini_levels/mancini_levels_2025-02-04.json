@@ -1,0 +1,89 @@
+{
+  "trading_date": "2025-02-04",
+  "levels": [
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6127.0,
+      "role": "resistance",
+      "context": "below 6127"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6127.0,
+      "role": "resistance",
+      "context": "below 6127"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "After this I was looking for a rally and gap fill all last week, writing last Monday at 4pm: \u201c For now though, the bull case is that we got a short squeeze trigger on the Failed Breakdown of 5997 this morning at 8am, which triggered longs ."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case ES can now begin back-testing with 6068-71 1st up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers recall that after last Sunday\u2019s gap down and crash to 5940s, ES put in my core setup : A Failed Breakdown of the prior weeks ~5997 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As tweeted in real-time last, ES put in a Failed Breakdown of last weeks low right after the open last night, then squeezed to fill the gap 6050ish this morning Now the question is, can it sustain?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the setup last Thursday that caused the final squeeze to ATHS (my core setup, the Failed Breakdown), then the setup Friday that caused the melt-down below 6127 (my third setup, the Breakdown Short)."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "A Historic Gap Down For SPX/ES Was Bought. Are The Lows In? Feb 4th Plan",
+  "post_date": "2025-02-03",
+  "post_slug": "a-historic-gap-down-for-spxes-was",
+  "parsed_at": "2026-04-16T15:45:37.303045",
+  "body_length": 2027
+}

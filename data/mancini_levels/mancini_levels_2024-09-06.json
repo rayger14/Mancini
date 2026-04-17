@@ -1,0 +1,120 @@
+{
+  "trading_date": "2024-09-06",
+  "levels": [
+    {
+      "price": 5492.0,
+      "role": "mentioned",
+      "context": "the level, rallied to 5552 , lost 5519 after, sold down to 5492, then returned to the 5519 magnet by the close again. Bears"
+    },
+    {
+      "price": 5519.0,
+      "role": "mentioned",
+      "context": "Tuesday I wrote yesterday: \u201cFor tomorrow though, as long as 5519 holds the relief bounce leg that started yesterday is still"
+    },
+    {
+      "price": 5552.0,
+      "role": "mentioned",
+      "context": "ore setup) . This morning, we flushed the level, rallied to 5552 , lost 5519 after, sold down to 5492, then returned to the"
+    },
+    {
+      "price": 5588.0,
+      "role": "range",
+      "context": "5588-90"
+    },
+    {
+      "price": 5589.0,
+      "role": "range",
+      "context": "5589-91"
+    },
+    {
+      "price": 5590.0,
+      "role": "range",
+      "context": "5588-90"
+    },
+    {
+      "price": 5591.0,
+      "role": "range",
+      "context": "5589-91"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5625-30"
+    },
+    {
+      "price": 5630.0,
+      "role": "range",
+      "context": "5625-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5492.0,
+      "role": "mentioned",
+      "context": "the level, rallied to 5552 , lost 5519 after, sold down to 5492, then returned to the 5519 magnet by the close again. Bears"
+    },
+    {
+      "price": 5519.0,
+      "role": "mentioned",
+      "context": "Tuesday I wrote yesterday: \u201cFor tomorrow though, as long as 5519 holds the relief bounce leg that started yesterday is still"
+    },
+    {
+      "price": 5552.0,
+      "role": "mentioned",
+      "context": "ore setup) . This morning, we flushed the level, rallied to 5552 , lost 5519 after, sold down to 5492, then returned to the"
+    },
+    {
+      "price": 5588.0,
+      "role": "range",
+      "context": "5588-90"
+    },
+    {
+      "price": 5589.0,
+      "role": "range",
+      "context": "5589-91"
+    },
+    {
+      "price": 5590.0,
+      "role": "range",
+      "context": "5588-90"
+    },
+    {
+      "price": 5591.0,
+      "role": "range",
+      "context": "5589-91"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5625-30"
+    },
+    {
+      "price": 5630.0,
+      "role": "range",
+      "context": "5625-30"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my Friday 4pm newsletter when we were 5662: \u201cBear case Monday: There is no bear case until this flag breaks down at 5588-90."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the setup that caused Tuesdays flush (my third setup type; the breakdown short) and the recent bounces (my first setup type; the failed breakdown)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This morning, we flushed the level, rallied to 5552 , lost 5519 after, sold down to 5492, then returned to the 5519 magnet by the close again."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Have Bears Run Out Of Steam Already In SPX? Sept 6 Plan",
+  "post_date": "2024-09-05",
+  "post_slug": "have-bears-run-out-of-steam-already",
+  "parsed_at": "2026-04-16T15:47:49.471433",
+  "body_length": 2023
+}

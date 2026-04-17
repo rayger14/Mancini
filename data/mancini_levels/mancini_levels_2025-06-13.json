@@ -1,0 +1,89 @@
+{
+  "trading_date": "2025-06-13",
+  "levels": [
+    {
+      "price": 6047.0,
+      "role": "mentioned",
+      "context": "6k, then rallied. I also wrote: \u201c My lean is we work up to 6047 again, dip, then try to 6064+\u2026We may work on more structure"
+    },
+    {
+      "price": 6064.0,
+      "role": "mentioned",
+      "context": "te: \u201c My lean is we work up to 6047 again, dip, then try to 6064+\u2026We may work on more structure there, but when its done the"
+    },
+    {
+      "price": 6084.0,
+      "role": "target",
+      "context": "target 6084"
+    },
+    {
+      "price": 6110.0,
+      "role": "mentioned",
+      "context": "when its done the next leg to new highs would target 6084, 6110, then 6155.\u201d By 11am, we got to 6047 then spent the rest of"
+    },
+    {
+      "price": 6155.0,
+      "role": "mentioned",
+      "context": "one the next leg to new highs would target 6084, 6110, then 6155.\u201d By 11am, we got to 6047 then spent the rest of the day ba"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6047.0,
+      "role": "mentioned",
+      "context": "6k, then rallied. I also wrote: \u201c My lean is we work up to 6047 again, dip, then try to 6064+\u2026We may work on more structure"
+    },
+    {
+      "price": 6064.0,
+      "role": "mentioned",
+      "context": "te: \u201c My lean is we work up to 6047 again, dip, then try to 6064+\u2026We may work on more structure there, but when its done the"
+    },
+    {
+      "price": 6110.0,
+      "role": "mentioned",
+      "context": "when its done the next leg to new highs would target 6084, 6110, then 6155.\u201d By 11am, we got to 6047 then spent the rest of"
+    },
+    {
+      "price": 6155.0,
+      "role": "mentioned",
+      "context": "one the next leg to new highs would target 6084, 6110, then 6155.\u201d By 11am, we got to 6047 then spent the rest of the day ba"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6084.0,
+      "role": "target",
+      "context": "target 6084"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I also wrote: \u201c My lean is we work up to 6047 again, dip, then try to 6064+\u2026We may work on more structure there, but when its done the next leg to new highs would target 6084, 6110, then 6155.\u201d By 11am, we got to 6047 then spent the rest of the day basing below Ultimately, ES has spent all week building out a large range mostly between between 6k and 6047, with some brief excursions above and below."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "While I am a Failed Breakdown day trader who is purely focused on waiting for the next Failed Breakdown, taking my entry, and managing it level to level, this broad context is nonetheless important."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My edge as a Failed Breakdown trader is to wait for these traps, then enter afterwards."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm that: \u201c One possible trade would be if we could test 5987 then put in a Failed Breakdown of the 5992 Tuesday daily low.\u201d Overnight, we sold down to 5987 exact, recovered Tuesdays 5992 *and* 6k, then rallied."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a variation of my core setup (the Failed Breakdown) called the \u201cdouble dip\u201d Failed Breakdown."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "[Re-Send With Chart] SPX is Coiled Up Tight Again. Another Leg Is Coming, but What Way? June 13 Plan",
+  "post_date": "2025-06-12",
+  "post_slug": "re-send-with-chart-spx-is-coiled",
+  "parsed_at": "2026-04-16T15:43:43.012890",
+  "body_length": 2068
+}

@@ -1,0 +1,138 @@
+{
+  "trading_date": "2025-08-28",
+  "levels": [
+    {
+      "price": 6363.0,
+      "role": "mentioned",
+      "context": "ueeze. Last Friday morning around 2:30AM ES flushed hard to 6363 and in the dead of night, a massive institution took a long"
+    },
+    {
+      "price": 6370.0,
+      "role": "support",
+      "context": "6370 daily low"
+    },
+    {
+      "price": 6430.0,
+      "role": "mentioned",
+      "context": "nday evening, headlines flushed ES below this range down to 6430, and institutions were waiting there to accumulate. I wrote"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "other sideways range. This range mostly had support at 6461/6452 and resistance up at 6494. Monday evening, headlines flushe"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "support at 6461"
+    },
+    {
+      "price": 6474.0,
+      "role": "mentioned",
+      "context": "lagging out. The range is mostly 6461-6494 with a magnet at 6474 but this will expand and morph. My general lean is always t"
+    },
+    {
+      "price": 6494.0,
+      "role": "range",
+      "context": "6461-6494"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ots inside. We can fill it out, then breakout which targets 6507, 6518, then 6540. 6452 fails, we flush again.\u201d Today we tag"
+    },
+    {
+      "price": 6518.0,
+      "role": "mentioned",
+      "context": "side. We can fill it out, then breakout which targets 6507, 6518, then 6540. 6452 fails, we flush again.\u201d Today we tagged 64"
+    },
+    {
+      "price": 6540.0,
+      "role": "mentioned",
+      "context": "n fill it out, then breakout which targets 6507, 6518, then 6540. 6452 fails, we flush again.\u201d Today we tagged 6474 exact th"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6363.0,
+      "role": "mentioned",
+      "context": "ueeze. Last Friday morning around 2:30AM ES flushed hard to 6363 and in the dead of night, a massive institution took a long"
+    },
+    {
+      "price": 6370.0,
+      "role": "support",
+      "context": "6370 daily low"
+    },
+    {
+      "price": 6430.0,
+      "role": "mentioned",
+      "context": "nday evening, headlines flushed ES below this range down to 6430, and institutions were waiting there to accumulate. I wrote"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "other sideways range. This range mostly had support at 6461/6452 and resistance up at 6494. Monday evening, headlines flushe"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "support at 6461"
+    },
+    {
+      "price": 6474.0,
+      "role": "mentioned",
+      "context": "lagging out. The range is mostly 6461-6494 with a magnet at 6474 but this will expand and morph. My general lean is always t"
+    },
+    {
+      "price": 6494.0,
+      "role": "range",
+      "context": "6461-6494"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ots inside. We can fill it out, then breakout which targets 6507, 6518, then 6540. 6452 fails, we flush again.\u201d Today we tag"
+    },
+    {
+      "price": 6518.0,
+      "role": "mentioned",
+      "context": "side. We can fill it out, then breakout which targets 6507, 6518, then 6540. 6452 fails, we flush again.\u201d Today we tagged 64"
+    },
+    {
+      "price": 6540.0,
+      "role": "mentioned",
+      "context": "n fill it out, then breakout which targets 6507, 6518, then 6540. 6452 fails, we flush again.\u201d Today we tagged 6474 exact th"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm: \u201cA Failed Breakdown of today\u2019s 6370 daily low is always of interest.\u201d I also wrote last Thursday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close yesterday: \u201c My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we saw last Friday that started this entire 130+ point squeeze cycle (this was the quintessential Failed Breakdown and was provided to readers in advance)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "The range is mostly 6461-6494 with a magnet at 6474 but this will expand and morph."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "[Re-Send] Nvidia Earnings Incoming For SPX. Expect Volatility. Can Bulls Keep The Run Going? August 28 Plan",
+  "post_date": "2025-08-27",
+  "post_slug": "re-send-nvidia-earnings-incoming",
+  "parsed_at": "2026-04-16T15:42:35.835903",
+  "body_length": 2986
+}

@@ -32,6 +32,7 @@ from core.patterns_short import FailedRally, LevelRejection
 from core.patterns_short_v2 import BreakdownShort, BacktestShort, VelocityBreakdownShort
 from core.bar_aggregator import BarAggregator
 from core.intraday_context import IntradayContextTracker, IntradayState
+from core.level_scoring import LevelQualityScorer
 from core.price_levels import PriceLevelDetector
 
 
@@ -64,6 +65,7 @@ class Signal:
     bar_idx: int = 0
     timestamp: datetime = None
     confluence_score: int = 0  # level confluence score (0 = not computed)
+    lqs: int = 0  # Level Quality Score (0-100) — logged for retrospective analysis
 
     @property
     def direction(self) -> str:
@@ -97,6 +99,11 @@ class SignalAggregator:
         self.strategy_params = strategy_params
         self.exit_params = exit_params
         self.min_rr_ratio = min_rr_ratio
+
+        # Level Quality Scorer (LQS)
+        self._level_scorer = LevelQualityScorer(strategy_params)
+        self._market_data: Optional[dict] = None
+        self._session_context: Optional[dict] = None
 
         # Sub-detectors (long side)
         self.price_level_detector = PriceLevelDetector(
@@ -263,6 +270,8 @@ class SignalAggregator:
         volume: float,
         velocity: float,
         df: Optional[pd.DataFrame] = None,
+        market_data: Optional[dict] = None,
+        session_context: Optional[dict] = None,
     ) -> Optional[Signal]:
         """Process one bar through all detectors.
 
@@ -275,11 +284,21 @@ class SignalAggregator:
             Pre-computed velocity for this bar.
         df : pd.DataFrame, optional
             Full DataFrame (for incremental level detection).
+        market_data : dict, optional
+            Market snapshot (vix, vix_term_structure, etc.) for LQS regime scoring.
+        session_context : dict, optional
+            Session context (session_date, current_price, session_high, session_low,
+            bar_count) for LQS recency scoring.
 
         Returns
         -------
         Signal or None
         """
+        # Store market data and session context for LQS scoring in _qualify_signal
+        if market_data is not None:
+            self._market_data = market_data
+        if session_context is not None:
+            self._session_context = session_context
         # Clear per-bar signal diagnostics
         self._bar_signals = []
 
@@ -1031,6 +1050,34 @@ class SignalAggregator:
                     f"{record['wins']}W/{record['losses']}L — boosting size"
                 )
 
+        # Level Quality Score (LQS): always compute for logging (short side)
+        lqs = self._level_scorer.compute_lqs(
+            pattern.level, self._market_data, self._session_context
+        )
+
+        # When LQS gating is enabled, apply trade params (short side)
+        if self.strategy_params.use_level_quality_scoring:
+            if lqs < self.strategy_params.lqs_shadow_threshold:
+                return None  # skip entirely
+            elif lqs < self.strategy_params.lqs_min_trade_threshold:
+                # Shadow only — log phantom but don't trade
+                self.shadow_events.append({
+                    "feature": "lqs_shadow",
+                    "bar_idx": pattern.bar_idx,
+                    "timestamp": str(pattern.timestamp),
+                    "signal_type": signal_type.name,
+                    "direction": "short",
+                    "lqs": lqs,
+                    "level_price": pattern.level.price if pattern.level else None,
+                    "level_type": pattern.level.level_type.name if pattern.level else None,
+                    "entry_price": entry,
+                    "rr_ratio_t1": round(rr_t1, 2),
+                })
+                return None
+            else:
+                trade_params = self._level_scorer.get_trade_params(lqs)
+                size_factor = min(size_factor, trade_params["size_factor"])
+
         return Signal(
             signal_type=signal_type,
             pattern=pattern,
@@ -1045,6 +1092,7 @@ class SignalAggregator:
             bar_idx=pattern.bar_idx,
             timestamp=pattern.timestamp,
             confluence_score=confluence_score,
+            lqs=lqs,
         )
 
     def _qualify_signal(
@@ -1165,6 +1213,34 @@ class SignalAggregator:
                     f"{record['wins']}W/{record['losses']}L — boosting size"
                 )
 
+        # Level Quality Score (LQS): always compute for logging
+        lqs = self._level_scorer.compute_lqs(
+            pattern.level, self._market_data, self._session_context
+        )
+
+        # When LQS gating is enabled, apply trade params
+        if self.strategy_params.use_level_quality_scoring:
+            if lqs < self.strategy_params.lqs_shadow_threshold:
+                return None  # skip entirely
+            elif lqs < self.strategy_params.lqs_min_trade_threshold:
+                # Shadow only — log phantom but don't trade
+                self.shadow_events.append({
+                    "feature": "lqs_shadow",
+                    "bar_idx": pattern.bar_idx,
+                    "timestamp": str(pattern.timestamp),
+                    "signal_type": signal_type.name,
+                    "direction": "long",
+                    "lqs": lqs,
+                    "level_price": pattern.level.price if pattern.level else None,
+                    "level_type": pattern.level.level_type.name if pattern.level else None,
+                    "entry_price": entry,
+                    "rr_ratio_t1": round(rr_t1, 2),
+                })
+                return None
+            else:
+                trade_params = self._level_scorer.get_trade_params(lqs)
+                size_factor = min(size_factor, trade_params["size_factor"])
+
         return Signal(
             signal_type=signal_type,
             pattern=pattern,
@@ -1179,4 +1255,5 @@ class SignalAggregator:
             bar_idx=pattern.bar_idx,
             timestamp=pattern.timestamp,
             confluence_score=confluence_score,
+            lqs=lqs,
         )

@@ -1,0 +1,50 @@
+{
+  "trading_date": "2025-09-29",
+  "levels": [
+    {
+      "price": 6699.0,
+      "role": "resistance",
+      "context": "below 6699"
+    },
+    {
+      "price": 6705.0,
+      "role": "resistance",
+      "context": "below 6705"
+    }
+  ],
+  "supports": [],
+  "resistances": [
+    {
+      "price": 6699.0,
+      "role": "resistance",
+      "context": "below 6699"
+    },
+    {
+      "price": 6705.0,
+      "role": "resistance",
+      "context": "below 6705"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Tuesday at 4pm: \u201cBear case tomorrow: Begins below 6699-6705.\u201d We lost 6699 Wednesday,bears took control, and we sold to 6670s Wednesday low of day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we re-test 6683, then 6699 and bulls must recover that.\u201d Bulls got to work on this, and we hit 6699 by 10am."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This squeezes occur on my core setup: The Failed Breakdown where price flushes a low, traps shorts, and recovers."
+    }
+  ],
+  "level_count": 2,
+  "support_count": 0,
+  "resistance_count": 2,
+  "post_title": "The Dip Was Bought In SPX. Can Bulls Sustain It Though? Sept 29 Plan",
+  "post_date": "2025-09-28",
+  "post_slug": "the-dip-was-bought-in-spx-can-bulls-097",
+  "parsed_at": "2026-04-16T15:42:07.692757",
+  "body_length": 2748
+}

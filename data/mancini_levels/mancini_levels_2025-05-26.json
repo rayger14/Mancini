@@ -1,0 +1,92 @@
+{
+  "trading_date": "2025-05-26",
+  "levels": [
+    {
+      "price": 5760.0,
+      "role": "mentioned",
+      "context": "is morning, we hit that 5836 short trigger and sold hard to 5760. While this was a sharp sell, it ended in the usual dip buy"
+    },
+    {
+      "price": 5788.0,
+      "role": "mentioned",
+      "context": "/Failed Breakdown and as tweeted at 9:25AM, the recovery of 5788 would give us the dip buy/squeeze back up the levels and we"
+    },
+    {
+      "price": 5843.0,
+      "role": "mentioned",
+      "context": "ive us the dip buy/squeeze back up the levels and we got to 5843. Is this dip just charging ES for more upside? In today\u2019s n"
+    },
+    {
+      "price": 5850.0,
+      "role": "level",
+      "context": "5850 level"
+    },
+    {
+      "price": 5890.0,
+      "role": "mentioned",
+      "context": "ly recovered by 8:50AM, triggered longs, and we were off to 5890 target/high of day. Today - given that bulls put in a massi"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5760.0,
+      "role": "mentioned",
+      "context": "is morning, we hit that 5836 short trigger and sold hard to 5760. While this was a sharp sell, it ended in the usual dip buy"
+    },
+    {
+      "price": 5788.0,
+      "role": "mentioned",
+      "context": "/Failed Breakdown and as tweeted at 9:25AM, the recovery of 5788 would give us the dip buy/squeeze back up the levels and we"
+    },
+    {
+      "price": 5843.0,
+      "role": "mentioned",
+      "context": "ive us the dip buy/squeeze back up the levels and we got to 5843. Is this dip just charging ES for more upside? In today\u2019s n"
+    },
+    {
+      "price": 5850.0,
+      "role": "level",
+      "context": "5850 level"
+    },
+    {
+      "price": 5890.0,
+      "role": "mentioned",
+      "context": "ly recovered by 8:50AM, triggered longs, and we were off to 5890 target/high of day. Today - given that bulls put in a massi"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: Begins below 5850, but realistically 5836 must fail to really see a sell.\u201d This morning, we hit that 5836 short trigger and sold hard to 5760."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I\u2019ve also discussed the practicalities of how institutions go about buying dips (via my core setup, the Failed Breakdown/Level Reclaims)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Wednesday at 4pm: \u201cOn an even shorter-term basis, if bulls are extremely motivated to buy this dip they won\u2019t even lose 5850 from here (or if it does fail, just a quick failed breakdown and recovery).\u201d We saw exactly that yesterday morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today - given that bulls put in a massive bullish Failed Breakdown at 5850 - the job for bulls was to defend it, and until 730AM, they were doing just fine ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "While this was a sharp sell, it ended in the usual dip buy/Failed Breakdown and as tweeted at 9:25AM, the recovery of 5788 would give us the dip buy/squeeze back up the levels and we got to 5843."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This includes yesterdays 5850 Failed Breakdown long (my core setup), this mornings Breakdown Short, and then a Level Reclaim Long after the open today to trigger back up."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Is the Current Pullback In SPX Fuel For The Next Big Leg Up? May 26/27 Plan",
+  "post_date": "2025-05-25",
+  "post_slug": "is-the-current-pullback-in-spx-fuel",
+  "parsed_at": "2026-04-16T15:43:59.425508",
+  "body_length": 2860
+}

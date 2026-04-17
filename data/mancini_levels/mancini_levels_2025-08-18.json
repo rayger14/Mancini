@@ -1,0 +1,225 @@
+{
+  "trading_date": "2025-08-18",
+  "levels": [
+    {
+      "price": 6388.0,
+      "role": "mentioned",
+      "context": "nday. Late day Monday ES put in a violent late day flush to 6388. ES then promptly recovered a low at 6396 set a few hours e"
+    },
+    {
+      "price": 6396.0,
+      "role": "mentioned",
+      "context": "late day flush to 6388. ES then promptly recovered a low at 6396 set a few hours earlier in the process. This got us long an"
+    },
+    {
+      "price": 6398.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6418.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6426.0,
+      "role": "mentioned",
+      "context": "er to the trend. 6398-6402 starts higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all tim"
+    },
+    {
+      "price": 6439.0,
+      "role": "mentioned",
+      "context": "higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and by Wedn"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and by Wednesday morni"
+    },
+    {
+      "price": 6454.0,
+      "role": "mentioned",
+      "context": "long and this is much safer. \u201d We saw exactly this. We held 6454 exact at 830am, recovered 6461 (which was a key low from Tu"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "recover 6461"
+    },
+    {
+      "price": 6469.0,
+      "role": "support",
+      "context": "6469 support"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "61 (which was a key low from Tuesday), and then squeezed to 6494, which was my targe. Same drill, over and over. This Failed"
+    },
+    {
+      "price": 6497.0,
+      "role": "resistance",
+      "context": "6497 resistance"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "Breakdown of today\u2019s low), we simply continue up after with 6507, 6518, then 6528 targets.\u201d We sold down to 6469 today, and"
+    },
+    {
+      "price": 6518.0,
+      "role": "mentioned",
+      "context": "own of today\u2019s low), we simply continue up after with 6507, 6518, then 6528 targets.\u201d We sold down to 6469 today, and spend"
+    },
+    {
+      "price": 6528.0,
+      "role": "mentioned",
+      "context": "y\u2019s low), we simply continue up after with 6507, 6518, then 6528 targets.\u201d We sold down to 6469 today, and spend most the da"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6388.0,
+      "role": "mentioned",
+      "context": "nday. Late day Monday ES put in a violent late day flush to 6388. ES then promptly recovered a low at 6396 set a few hours e"
+    },
+    {
+      "price": 6396.0,
+      "role": "mentioned",
+      "context": "late day flush to 6388. ES then promptly recovered a low at 6396 set a few hours earlier in the process. This got us long an"
+    },
+    {
+      "price": 6398.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6418.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6426.0,
+      "role": "mentioned",
+      "context": "er to the trend. 6398-6402 starts higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all tim"
+    },
+    {
+      "price": 6439.0,
+      "role": "mentioned",
+      "context": "higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and by Wedn"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and by Wednesday morni"
+    },
+    {
+      "price": 6454.0,
+      "role": "mentioned",
+      "context": "long and this is much safer. \u201d We saw exactly this. We held 6454 exact at 830am, recovered 6461 (which was a key low from Tu"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "recover 6461"
+    },
+    {
+      "price": 6469.0,
+      "role": "support",
+      "context": "6469 support"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "61 (which was a key low from Tuesday), and then squeezed to 6494, which was my targe. Same drill, over and over. This Failed"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "Breakdown of today\u2019s low), we simply continue up after with 6507, 6518, then 6528 targets.\u201d We sold down to 6469 today, and"
+    },
+    {
+      "price": 6518.0,
+      "role": "mentioned",
+      "context": "own of today\u2019s low), we simply continue up after with 6507, 6518, then 6528 targets.\u201d We sold down to 6469 today, and spend"
+    },
+    {
+      "price": 6528.0,
+      "role": "mentioned",
+      "context": "y\u2019s low), we simply continue up after with 6507, 6518, then 6528 targets.\u201d We sold down to 6469 today, and spend most the da"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6497.0,
+      "role": "resistance",
+      "context": "6497 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This got us long and I wrote at 4:20PM Monday \u201cI have added long exposure a little after the close ~6396 as we put in a nice Failed Breakdown of the 6396 low set at 2:40PM.\u201d I also wrote: \u201cMy general lean though is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The cycle is as follows: ES puts in an \u201celevator down\u201d sell where it flushes violently in a straight down manner, through every level."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then, after every \u201celevator down\u201d sell, ES puts in an equally violent squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This squeeze is - in turn - always caused by my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Specifically ES undercuts a low rapidly during the \u201celevator down\u201d sell, traps shorts, then squeeze the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It then went \u201celevator down\u201d at 830AM to 6454."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This Failed Breakdown assisted ES in painting a clear flag on the chart, mostly 6469 to 6490s."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As long as it holds though (and if we do sell, bulls want to see no lower than a Failed Breakdown of today\u2019s low), we simply continue up after with 6507, 6518, then 6528 targets.\u201d We sold down to 6469 today, and spend most the day bouncing off it, testing it 6x."
+    }
+  ],
+  "level_count": 17,
+  "support_count": 16,
+  "resistance_count": 1,
+  "post_title": "SPX Closes At New All Time Highs. Continuation, or Collapse Next Week? Aug 18 Plan ",
+  "post_date": "2025-08-17",
+  "post_slug": "spx-closes-at-new-all-time-highs-321",
+  "parsed_at": "2026-04-16T15:42:46.305960",
+  "body_length": 3226
+}

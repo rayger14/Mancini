@@ -1,0 +1,76 @@
+{
+  "trading_date": "2024-11-13",
+  "levels": [
+    {
+      "price": 5985.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 6020.0,
+      "role": "level",
+      "context": "6020 area"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "hop. Ideally this can fill out a little bit (perhaps pop to 6038 then 6046, then try a dip down the range or lower). Bulls w"
+    },
+    {
+      "price": 6046.0,
+      "role": "range",
+      "context": "6046-6020"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5985.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 6020.0,
+      "role": "level",
+      "context": "6020 area"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "hop. Ideally this can fill out a little bit (perhaps pop to 6038 then 6046, then try a dip down the range or lower). Bulls w"
+    },
+    {
+      "price": 6046.0,
+      "role": "range",
+      "context": "6046-6020"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cMy general lean is 6046-6020=chop."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This morning, we lost a key support in the 6020 area and got one of those dips."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "CPI Tomorrow. Will It Take SPX To New All Time Highs (Again)? November 13 Plan",
+  "post_date": "2024-11-12",
+  "post_slug": "cpi-tomorrow-will-it-take-spx-to",
+  "parsed_at": "2026-04-16T15:46:46.929422",
+  "body_length": 1632
+}

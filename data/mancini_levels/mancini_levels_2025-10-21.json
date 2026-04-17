@@ -1,0 +1,140 @@
+{
+  "trading_date": "2025-10-21",
+  "levels": [
+    {
+      "price": 6572.0,
+      "role": "mentioned",
+      "context": "tup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 early Friday morning, then ripped all day."
+    },
+    {
+      "price": 6593.0,
+      "role": "support",
+      "context": "6593 daily low"
+    },
+    {
+      "price": 6655.0,
+      "role": "support",
+      "context": "6655 support"
+    },
+    {
+      "price": 6694.0,
+      "role": "mentioned",
+      "context": "pm were: \u201cMy lean is bulls can try a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 671"
+    },
+    {
+      "price": 6702.0,
+      "role": "mentioned",
+      "context": "re: \u201cMy lean is bulls can try a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm"
+    },
+    {
+      "price": 6715.0,
+      "role": "mentioned",
+      "context": "bulls can try a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday. This w"
+    },
+    {
+      "price": 6731.0,
+      "role": "mentioned",
+      "context": "a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday. This was a key back-t"
+    },
+    {
+      "price": 6766.0,
+      "role": "range",
+      "context": "6766-83"
+    },
+    {
+      "price": 6783.0,
+      "role": "range",
+      "context": "6766-83"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6572.0,
+      "role": "mentioned",
+      "context": "tup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 early Friday morning, then ripped all day."
+    },
+    {
+      "price": 6593.0,
+      "role": "support",
+      "context": "6593 daily low"
+    },
+    {
+      "price": 6655.0,
+      "role": "support",
+      "context": "6655 support"
+    },
+    {
+      "price": 6694.0,
+      "role": "mentioned",
+      "context": "pm were: \u201cMy lean is bulls can try a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 671"
+    },
+    {
+      "price": 6702.0,
+      "role": "mentioned",
+      "context": "re: \u201cMy lean is bulls can try a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm"
+    },
+    {
+      "price": 6715.0,
+      "role": "mentioned",
+      "context": "bulls can try a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday. This w"
+    },
+    {
+      "price": 6731.0,
+      "role": "mentioned",
+      "context": "a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday. This was a key back-t"
+    },
+    {
+      "price": 6766.0,
+      "role": "range",
+      "context": "6766-83"
+    },
+    {
+      "price": 6783.0,
+      "role": "range",
+      "context": "6766-83"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Targets specified on Thursday at 4pm were: \u201cMy lean is bulls can try a final bounce here with 6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work up it to 6732, 6744, then 6766/83.\u201d This could not worked out better and right off the open Sunday we began the trek upwards, hitting 6783 by this afternoon to set the high of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These building blocks are: Elevator down sells (this refers to when ES knifes through every support), Failed Breakdowns (my core setup, this follows elevator down), then Back-Tests (the magnets for these short squeezes)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Early Friday morning, ES then collapsed and went elevator down to 6573."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "What comes after elevator down?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Thursday at 4pm: \u201cObvious setup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 early Friday morning, then ripped all day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was a classic Failed Breakdown, we see them every day nearly, and this was a great example to learn from."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "I wrote on Tuesday at 4pm that: \u201c6766 is a lower risk spot to short\u201d."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "After a 200 Point Parabolic Squeeze Since Friday, Do SPX Bulls Have The Energy For All Time Highs? Or Sell 1st? Oct 21st Plan",
+  "post_date": "2025-10-20",
+  "post_slug": "after-a-200-point-parabolic-squeeze",
+  "parsed_at": "2026-04-16T15:41:48.647236",
+  "body_length": 2784
+}

@@ -1,0 +1,127 @@
+{
+  "trading_date": "2025-08-26",
+  "levels": [
+    {
+      "price": 6362.0,
+      "role": "mentioned",
+      "context": "the 6490s, put in the largest sell since August 1st down to 6362 low of week, then Friday made the trip back up the range to"
+    },
+    {
+      "price": 6370.0,
+      "role": "support",
+      "context": "6370 daily low"
+    },
+    {
+      "price": 6453.0,
+      "role": "resistance",
+      "context": "below 6453"
+    },
+    {
+      "price": 6455.0,
+      "role": "range",
+      "context": "6461-55"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "above 6461"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "s, trapped shorts, then ripped violently to 6461, then onto 6494 to close Friday. After a big squeeze like Friday though, pr"
+    },
+    {
+      "price": 6533.0,
+      "role": "range",
+      "context": "6533-36"
+    },
+    {
+      "price": 6536.0,
+      "role": "range",
+      "context": "6533-36"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6362.0,
+      "role": "mentioned",
+      "context": "the 6490s, put in the largest sell since August 1st down to 6362 low of week, then Friday made the trip back up the range to"
+    },
+    {
+      "price": 6370.0,
+      "role": "support",
+      "context": "6370 daily low"
+    },
+    {
+      "price": 6455.0,
+      "role": "range",
+      "context": "6461-55"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "above 6461"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "s, trapped shorts, then ripped violently to 6461, then onto 6494 to close Friday. After a big squeeze like Friday though, pr"
+    },
+    {
+      "price": 6533.0,
+      "role": "range",
+      "context": "6533-36"
+    },
+    {
+      "price": 6536.0,
+      "role": "range",
+      "context": "6533-36"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6453.0,
+      "role": "resistance",
+      "context": "below 6453"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote back last Monday at 4pm (before the sell) that: \u201c Bear case tomorrow: Short-term, begins below 6453\u201d and \u201cIf 6453 fails, we start down.\u201d Tuesday morning, ES lost 6453 and began a sell that took ES down to 6362 by Wednesday morning."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm that: \u201cA Failed Breakdown of today\u2019s 6370 daily low is always of interest.\u201d I also wrote on Thursday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I call this sequence \u201celevator down\u201d sell, into short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My specialty is trading the squeezes and in ES, the squeezes always occur on my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns are how institutions accumulate, and after a violent sell ES undercuts a low, traps shorts, and squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into three monster Failed Breakdowns we had last week from Wednesday into Friday."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "SPX Is Coiled Tight After Friday's Squeeze. New All Time Highs Ahead, or Sell? August 26 Plan",
+  "post_date": "2025-08-25",
+  "post_slug": "spx-is-coiled-tight-after-fridays",
+  "parsed_at": "2026-04-16T15:42:38.438211",
+  "body_length": 2718
+}

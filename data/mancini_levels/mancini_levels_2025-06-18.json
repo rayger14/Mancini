@@ -1,0 +1,106 @@
+{
+  "trading_date": "2025-06-18",
+  "levels": [
+    {
+      "price": 5979.0,
+      "role": "mentioned",
+      "context": "d been stuck in a huge range since June 5th, mostly 6099 to 5979, with 6050 a key pivot in the middle. No true next trend le"
+    },
+    {
+      "price": 6027.0,
+      "role": "support",
+      "context": "above 6027"
+    },
+    {
+      "price": 6045.0,
+      "role": "support",
+      "context": "hold 6045"
+    },
+    {
+      "price": 6050.0,
+      "role": "range",
+      "context": "6045-50"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "6050, which held 3x overnight, producing a morning rally to 6081. This afternoon, we flushed it again. Tomorrow however is F"
+    },
+    {
+      "price": 6099.0,
+      "role": "mentioned",
+      "context": "d longs triggered. We hit all the above targets, getting to 6099 by 10am yesterday. It remained the high into today. Ultimat"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5979.0,
+      "role": "mentioned",
+      "context": "d been stuck in a huge range since June 5th, mostly 6099 to 5979, with 6050 a key pivot in the middle. No true next trend le"
+    },
+    {
+      "price": 6027.0,
+      "role": "support",
+      "context": "above 6027"
+    },
+    {
+      "price": 6045.0,
+      "role": "support",
+      "context": "hold 6045"
+    },
+    {
+      "price": 6050.0,
+      "role": "range",
+      "context": "6045-50"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "6050, which held 3x overnight, producing a morning rally to 6081. This afternoon, we flushed it again. Tomorrow however is F"
+    },
+    {
+      "price": 6099.0,
+      "role": "mentioned",
+      "context": "d longs triggered. We hit all the above targets, getting to 6099 by 10am yesterday. It remained the high into today. Ultimat"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cIn a strong bull case, ES won\u2019t even re-test 5977."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I stated yesterday that: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know though, my edge is trading Failed Breakdowns and Failed Breakdowns are foundational to how institutions accumulate longs."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm that \u201cI especially like the Failed Breakdown of last Thursdays 5981 low especially if we tag 5978 first.\u201d What did we see Thursday evening?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For those who missed that though, this Sunday brought another Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the massive Failed Breakdown we saw last Thursday evening which triggered Fridays/yesterdays 125+ point rally (you need to get used to this setup, if a bear market comes, we\u2019ll be seeing it daily)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Ultimately though, ES had been stuck in a huge range since June 5th, mostly 6099 to 5979, with 6050 a key pivot in the middle."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "FOMC Tomorrow. Can SPX Bulls Survive FOMC Volatility? June 18 Plan",
+  "post_date": "2025-06-17",
+  "post_slug": "fomc-tomorrow-can-spx-bulls-survive",
+  "parsed_at": "2026-04-16T15:43:39.234433",
+  "body_length": 3078
+}

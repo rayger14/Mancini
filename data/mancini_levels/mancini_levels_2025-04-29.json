@@ -1,0 +1,132 @@
+{
+  "trading_date": "2025-04-29",
+  "levels": [
+    {
+      "price": 5481.0,
+      "role": "mentioned",
+      "context": "at 10:30AM ES saw exactly this, and we flushed 5493 down to 5481, recovered it (Failed Breakdown) and rallied all day. I als"
+    },
+    {
+      "price": 5485.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5492.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5493.0,
+      "role": "mentioned",
+      "context": "iday morning at 10:30AM ES saw exactly this, and we flushed 5493 down to 5481, recovered it (Failed Breakdown) and rallied a"
+    },
+    {
+      "price": 5565.0,
+      "role": "range",
+      "context": "5565-75"
+    },
+    {
+      "price": 5575.0,
+      "role": "range",
+      "context": "5565-75"
+    },
+    {
+      "price": 5582.0,
+      "role": "mentioned",
+      "context": "\u201cAs long as the above supports hold (5492-85 lowest), 5565, 5582, then 5620-25 are next batch of targets.\u201d They bought the d"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5481.0,
+      "role": "mentioned",
+      "context": "at 10:30AM ES saw exactly this, and we flushed 5493 down to 5481, recovered it (Failed Breakdown) and rallied all day. I als"
+    },
+    {
+      "price": 5485.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5492.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5493.0,
+      "role": "mentioned",
+      "context": "iday morning at 10:30AM ES saw exactly this, and we flushed 5493 down to 5481, recovered it (Failed Breakdown) and rallied a"
+    },
+    {
+      "price": 5565.0,
+      "role": "range",
+      "context": "5565-75"
+    },
+    {
+      "price": 5575.0,
+      "role": "range",
+      "context": "5565-75"
+    },
+    {
+      "price": 5582.0,
+      "role": "mentioned",
+      "context": "\u201cAs long as the above supports hold (5492-85 lowest), 5565, 5582, then 5620-25 are next batch of targets.\u201d They bought the d"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I also wrote on Thursday: \u201c My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Dip buys and short squeezes are *all* caused by my core setup: The Failed Breakdown, whereby price flushes a low, traps shorts, institutions get long, the low recovers, and then we squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every one of the above dip buys occurred on a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Thursday in my newsletter at 3pm: \u201c5493 is first support down as of writing\u2026.I\u2019d want to see it flush to 5485 or lower and recover.\u201d After selling from 5540s Thursday evening, on Friday morning at 10:30AM ES saw exactly this, and we flushed 5493 down to 5481, recovered it (Failed Breakdown) and rallied all day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today, the task would be for bulls to buy the dip again and I wrote on Friday at 4pm: \u201cAs long as the above supports hold (5492-85 lowest), 5565, 5582, then 5620-25 are next batch of targets.\u201d They bought the dip right on cue and we hit 5492 exact low of day, and squeezed back to 5565+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdowns we had last Thursday and Friday which cumulatively produced nearly 250 points of upside (and all provided to readers in advance)."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Biggest Green Day Stretch Since November 2024 For SPX. Pullback Coming? April 29 Plan",
+  "post_date": "2025-04-28",
+  "post_slug": "biggest-green-day-stretch-since-november",
+  "parsed_at": "2026-04-16T15:44:23.276963",
+  "body_length": 2281
+}

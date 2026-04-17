@@ -1,0 +1,118 @@
+{
+  "trading_date": "2025-10-02",
+  "levels": [
+    {
+      "price": 6625.0,
+      "role": "mentioned",
+      "context": "unced, then put in a nice sweep of it Thursday afternoon to 6625, trapped shorts, recovered, got long then the squeeze comme"
+    },
+    {
+      "price": 6629.0,
+      "role": "mentioned",
+      "context": "S sold 133 points from last weeks high to last weeks low of 6629. We were ready to buy this dip. I wrote Wednesday at 4pm th"
+    },
+    {
+      "price": 6631.0,
+      "role": "mentioned",
+      "context": "ere ready to buy this dip. I wrote Wednesday at 4pm that: \u201c 6631 is the next spot below there that I like.\u201d We held it exact"
+    },
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "day\u2019s daily low at 6693.\u201d Overnight we flushed 6693 down to 6680, recovered, then the squeeze began today back to 6757+ Octo"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6699.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6705.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6744.0,
+      "role": "mentioned",
+      "context": "for a 120+ point rally. Where did this rally target? We hit 6744 right into the close yesterday and this zone is no coincide"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6625.0,
+      "role": "mentioned",
+      "context": "unced, then put in a nice sweep of it Thursday afternoon to 6625, trapped shorts, recovered, got long then the squeeze comme"
+    },
+    {
+      "price": 6629.0,
+      "role": "mentioned",
+      "context": "S sold 133 points from last weeks high to last weeks low of 6629. We were ready to buy this dip. I wrote Wednesday at 4pm th"
+    },
+    {
+      "price": 6631.0,
+      "role": "mentioned",
+      "context": "ere ready to buy this dip. I wrote Wednesday at 4pm that: \u201c 6631 is the next spot below there that I like.\u201d We held it exact"
+    },
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "day\u2019s daily low at 6693.\u201d Overnight we flushed 6693 down to 6680, recovered, then the squeeze began today back to 6757+ Octo"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6699.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6705.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6744.0,
+      "role": "mentioned",
+      "context": "for a 120+ point rally. Where did this rally target? We hit 6744 right into the close yesterday and this zone is no coincide"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close Monday this week: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They buy dips via my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We had been long on this - as updated everyday at the close since - for a 120+ point rally."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The same way as always, via a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote at the close yesterday that: \u201cAnother option is the Failed Breakdown of today\u2019s daily low at 6693.\u201d Overnight we flushed 6693 down to 6680, recovered, then the squeeze began today back to 6757+ October is off to a strong start."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "October Trading Starts Off With A Bang In SPX. Sign of What's To Come? Oct 2nd Plan",
+  "post_date": "2025-10-01",
+  "post_slug": "october-trading-starts-off-with-a",
+  "parsed_at": "2026-04-16T15:42:05.236595",
+  "body_length": 2681
+}

@@ -1,0 +1,64 @@
+{
+  "trading_date": "2025-03-05",
+  "levels": [
+    {
+      "price": 5858.0,
+      "role": "support",
+      "context": "5858 support"
+    },
+    {
+      "price": 5875.0,
+      "role": "mentioned",
+      "context": "no shock where we bounced too by the close today: 5858 then 5875 yet again. From there, we rejected. This means ES is now 8"
+    },
+    {
+      "price": 6000.0,
+      "role": "mentioned",
+      "context": "etting a bounce is one thing, sustaining is another. We hit 6000 Monday morning and began a deep flush, aided by more Tariff"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5858.0,
+      "role": "support",
+      "context": "5858 support"
+    },
+    {
+      "price": 5875.0,
+      "role": "mentioned",
+      "context": "no shock where we bounced too by the close today: 5858 then 5875 yet again. From there, we rejected. This means ES is now 8"
+    },
+    {
+      "price": 6000.0,
+      "role": "mentioned",
+      "context": "etting a bounce is one thing, sustaining is another. We hit 6000 Monday morning and began a deep flush, aided by more Tariff"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: Resumes under 5850.\u201d First thing this morning, we lost this, shorts triggered, and we commenced a violent, 100+ point selloff down into today\u2019s lows."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that after elevator down selloffs, ES always sees a vicious counter-squeeze , and it usually comes on my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "\u201d On Friday ES saw a violent Failed Breakdown below the 5858 shelf, flushing it by 10 points, recovering, and we rallied 130 points into Monday morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the sequence of events that lead into yesterdays collapse (firstly a monster Failed Breakdown on Friday that rallied us 130 points, then a Breakdown Short yesterday that took us back down)."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "8 Of The Last 9 days Red For SPX. More Coming? March 5 Plan",
+  "post_date": "2025-03-04",
+  "post_slug": "8-of-the-last-9-days-red-for-spx",
+  "parsed_at": "2026-04-16T15:45:12.298811",
+  "body_length": 2167
+}

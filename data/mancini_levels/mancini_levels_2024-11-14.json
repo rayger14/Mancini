@@ -1,0 +1,72 @@
+{
+  "trading_date": "2024-11-14",
+  "levels": [
+    {
+      "price": 5985.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 5986.0,
+      "role": "mentioned",
+      "context": "hold on any deeper corrections\u201d. Yesterday, we got a dip to 5986 low of day, then bounced. Today, the task for bulls would b"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 6032.0,
+      "role": "range",
+      "context": "6032-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6032-38"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5985.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 5986.0,
+      "role": "mentioned",
+      "context": "hold on any deeper corrections\u201d. Yesterday, we got a dip to 5986 low of day, then bounced. Today, the task for bulls would b"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 6032.0,
+      "role": "range",
+      "context": "6032-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6032-38"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cThe ultra bull case for tomorrow is that this current consolidation we\u2019ve been in since Friday is a bull flag (and it is a bull flag, its just a question of whether it breaks out or not)\u2026.This would then mean revisiting 6032-38 from here, perhaps final reaction, then on to 6051 to revisit the ATH\u201d."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Yet Again, SPX is Coiled Tight. A Big Move Is Coming. What Way? Nov 14th Plan",
+  "post_date": "2024-11-13",
+  "post_slug": "yet-again-spx-is-coiled-tight-a-big",
+  "parsed_at": "2026-04-16T15:46:45.703685",
+  "body_length": 1919
+}

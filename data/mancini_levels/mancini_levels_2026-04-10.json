@@ -1,0 +1,104 @@
+{
+  "trading_date": "2026-04-10",
+  "levels": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last"
+    },
+    {
+      "price": 6677.0,
+      "role": "mentioned",
+      "context": "e (entries discussed above) then breakout. Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 r"
+    },
+    {
+      "price": 6691.0,
+      "role": "mentioned",
+      "context": "ries discussed above) then breakout. Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 range r"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "iscussed above) then breakout. Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 range resista"
+    },
+    {
+      "price": 6742.0,
+      "role": "mentioned",
+      "context": "ove) then breakout. Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 range resistance, and br"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last"
+    },
+    {
+      "price": 6677.0,
+      "role": "mentioned",
+      "context": "e (entries discussed above) then breakout. Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 r"
+    },
+    {
+      "price": 6691.0,
+      "role": "mentioned",
+      "context": "ries discussed above) then breakout. Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 range r"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "iscussed above) then breakout. Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 range resista"
+    },
+    {
+      "price": 6742.0,
+      "role": "mentioned",
+      "context": "ove) then breakout. Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 range resistance, and br"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case tomorrow is simply that ES can fill this out more (entries discussed above) then breakout."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Again - my lean was they could."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can fill this structure out, perhaps trap it, then head to 6846, 6873, 6893, then 6903.\u201d By noon today, we hit 6873."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Monday March 30th, something important happened in ES: It put in my core setup - the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I frequently discuss all major rallies in ES start on Failed Breakdowns, because Failed Breakdowns are how institutions accumulate ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We saw it last Monday March 30th as stated and this was a major accumulation event as institutions prepped for what ended up being a 480 point leg up - as always, we followed them : ES plunged to 6353 last Monday March 30th in evening going elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "An alternative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last Monday evening, and were off to last weeks 6650 high."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    },
+    {
+      "type": "TARGETS",
+      "text": "Targets would be 6677, 6691, 6716, then 6742\u201d By the close Tuesday, we hit 6663 range resistance, and broke out viciously to 6850 Tuesday morning."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Massive Breakout Underway For SPX. How Much More Upside? April 10 Plan",
+  "post_date": "2026-04-09",
+  "post_slug": "massive-breakout-underway-for-spx",
+  "parsed_at": "2026-04-16T15:38:07.968918",
+  "body_length": 2551
+}

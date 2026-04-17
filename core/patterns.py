@@ -82,6 +82,7 @@ class FailedBreakdown:
         LevelType.PRIOR_DAY_LOW,
         LevelType.MULTI_HOUR_LOW,
         LevelType.INTRADAY_LOW,
+        LevelType.CUSTOM,  # Mancini Substack-sourced levels (injected via overlay)
     })
 
     def __init__(self, params: StrategyParams = DEFAULT_STRATEGY):
@@ -369,6 +370,7 @@ class FailedBreakdown:
         LevelType.MULTI_HOUR_LOW,
         LevelType.CLUSTER_LOW,
         LevelType.INTRADAY_LOW,
+        LevelType.CUSTOM,  # Mancini Substack-sourced levels (injected via overlay)
     })
 
     def _scan_for_sweep(

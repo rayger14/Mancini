@@ -1,0 +1,84 @@
+{
+  "trading_date": "2025-05-02",
+  "levels": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": ". I wrote in that same newsletter that \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (b"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5623.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "at same newsletter that \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the"
+    },
+    {
+      "price": 5672.0,
+      "role": "level",
+      "context": "5672 level"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": ". I wrote in that same newsletter that \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (b"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5623.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "at same newsletter that \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the"
+    },
+    {
+      "price": 5672.0,
+      "role": "level",
+      "context": "5672 level"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "This happens to dovetail very nicely with my edge, and as readers know, I am a Failed Breakdown trader and essentially all rallies/short squeezes are caused by Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When ES is in buy dips mode, this typically means almost everyday or every second day will see a selloff, bear trap/Failed Breakdown, then squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cFailed Breakdowns of 5493 [Mondays low] would be of interest.\u201d What did we do yesterday morning?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we had on Tuesday (which produced a 75 point leg up), as well as yesterdays Failed Breakdown, which produced a 130+ point long."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "How Much Do SPX Bulls Have Left In The Tank? May 2nd Plan",
+  "post_date": "2025-05-01",
+  "post_slug": "how-much-do-spx-bulls-have-left-in",
+  "parsed_at": "2026-04-16T15:44:19.583490",
+  "body_length": 2419
+}

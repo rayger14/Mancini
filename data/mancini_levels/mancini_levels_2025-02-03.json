@@ -1,0 +1,96 @@
+{
+  "trading_date": "2025-02-03",
+  "levels": [
+    {
+      "price": 5997.0,
+      "role": "mentioned",
+      "context": "wn (my core setup). This Monday we flushed the last Monday ~5997 low down to 6040s, recovered it, and were off to the races."
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5997.0,
+      "role": "mentioned",
+      "context": "wn (my core setup). This Monday we flushed the last Monday ~5997 low down to 6040s, recovered it, and were off to the races."
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I started this week on Monday at 4pm (when we were 6040s), writing: \u201c For now though, the bull case is that we got a short squeeze trigger on the Failed Breakdown of 5997 this morning at 8am, which triggered longs ."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case ES can now begin back-testing with 6068-71 1st up."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 3pm yesterday: \u201cMy general lean is always just to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As stated above, it should be no surprise as its the same thing that propels every single rally: A large Failed Breakdown (my core setup)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A huge Failed Breakdown + a large open gap made the pathway this week quite evident: That ES would squeeze to eventually fill the gap, and I\u2019ve been long all week for it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the multiple quality Failed Breakdowns we had this week (we have had one per day since Monday, sometimes two."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Above there, we head to 6136, then 6155, then new ATHs.\u201d By 10AM today, we got to 6136, creeped a little above, before getting a Tariff Related \u201cTape Bomb\u201d that tanked ES."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "After a 200 Point Rally This Week, A \"Tape Bomb\" Tanks SPX. Will It Get Bought? Feb 3rd Plan",
+  "post_date": "2025-01-31",
+  "post_slug": "after-a-200-point-rally-this-week",
+  "parsed_at": "2026-04-16T15:45:38.748152",
+  "body_length": 2193
+}

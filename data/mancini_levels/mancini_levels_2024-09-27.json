@@ -1,0 +1,106 @@
+{
+  "trading_date": "2024-09-27",
+  "levels": [
+    {
+      "price": 5680.0,
+      "role": "mentioned",
+      "context": "ific target. After rallying last Wednesday to Thursday from 5680 to 5797, ES spent from last Thursday until yesterday doing"
+    },
+    {
+      "price": 5740.0,
+      "role": "mentioned",
+      "context": "g a chart pattern for a move. This base was largely 5790 to 5740 with a 5770 key mid-pivot, and the pattern was a flag. I wr"
+    },
+    {
+      "price": 5770.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5772.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5790.0,
+      "role": "mentioned",
+      "context": "creating a chart pattern for a move. This base was largely 5790 to 5740 with a 5770 key mid-pivot, and the pattern was a fl"
+    },
+    {
+      "price": 5803.0,
+      "role": "mentioned",
+      "context": "and this structure targets new ATHs. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. This could not have played out"
+    },
+    {
+      "price": 5808.0,
+      "role": "mentioned",
+      "context": "his structure targets new ATHs. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. This could not have played out better"
+    },
+    {
+      "price": 5823.0,
+      "role": "mentioned",
+      "context": "ructure targets new ATHs. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. This could not have played out better. We h"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5680.0,
+      "role": "mentioned",
+      "context": "ific target. After rallying last Wednesday to Thursday from 5680 to 5797, ES spent from last Thursday until yesterday doing"
+    },
+    {
+      "price": 5740.0,
+      "role": "mentioned",
+      "context": "g a chart pattern for a move. This base was largely 5790 to 5740 with a 5770 key mid-pivot, and the pattern was a flag. I wr"
+    },
+    {
+      "price": 5770.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5772.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5790.0,
+      "role": "mentioned",
+      "context": "creating a chart pattern for a move. This base was largely 5790 to 5740 with a 5770 key mid-pivot, and the pattern was a fl"
+    },
+    {
+      "price": 5803.0,
+      "role": "mentioned",
+      "context": "and this structure targets new ATHs. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. This could not have played out"
+    },
+    {
+      "price": 5808.0,
+      "role": "mentioned",
+      "context": "his structure targets new ATHs. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. This could not have played out better"
+    },
+    {
+      "price": 5823.0,
+      "role": "mentioned",
+      "context": "ructure targets new ATHs. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. This could not have played out better. We h"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in yesterdays 4pm newsletter: \u201cThe short term bull case is that this current consolidation represents a mature bull flag 5790 to 5740, with 5770-72 key mid-pivot."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This base was largely 5790 to 5740 with a 5770 key mid-pivot, and the pattern was a flag."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Another Day, Another All Big Time High For SPX. Will This One Stick? Sept 27 Plan",
+  "post_date": "2024-09-26",
+  "post_slug": "another-day-another-all-big-time",
+  "parsed_at": "2026-04-16T15:47:29.940221",
+  "body_length": 2093
+}

@@ -1,0 +1,115 @@
+{
+  "trading_date": "2024-10-17",
+  "levels": [
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5809.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5811.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5883.0,
+      "role": "mentioned",
+      "context": "me of the breakdown zones from today\u2026From there, we head to 5883, then 5902\u201d. We got to 5883+ by 1pm. Was todays bounce a de"
+    },
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "below 5893"
+    },
+    {
+      "price": 5895.0,
+      "role": "range",
+      "context": "5893-95"
+    },
+    {
+      "price": 5902.0,
+      "role": "mentioned",
+      "context": "reakdown zones from today\u2026From there, we head to 5883, then 5902\u201d. We got to 5883+ by 1pm. Was todays bounce a dead cat boun"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5809.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5811.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5883.0,
+      "role": "mentioned",
+      "context": "me of the breakdown zones from today\u2026From there, we head to 5883, then 5902\u201d. We got to 5883+ by 1pm. Was todays bounce a de"
+    },
+    {
+      "price": 5895.0,
+      "role": "range",
+      "context": "5893-95"
+    },
+    {
+      "price": 5902.0,
+      "role": "mentioned",
+      "context": "reakdown zones from today\u2026From there, we head to 5883, then 5902\u201d. We got to 5883+ by 1pm. Was todays bounce a dead cat boun"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "below 5893"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my Monday October 7th newsletter: \u201cBull case tomorrow: No change."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Thursday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my Monday 4pm newsletter: \u201cBear case tomorrow: For tomorrow, a short term dip may evolve below 5893-95\u201d, and we got a 70 point flush yesterday into today which was the largest sell since October 7th."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is that ES tries to backtest some of the breakdown zones from today\u2026From there, we head to 5883, then 5902\u201d."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "Is The PullBack Already Done In SPX? Not So Fast. October 17 Plan",
+  "post_date": "2024-10-16",
+  "post_slug": "is-the-pullback-already-done-in-spx",
+  "parsed_at": "2026-04-16T15:47:11.461505",
+  "body_length": 2235
+}

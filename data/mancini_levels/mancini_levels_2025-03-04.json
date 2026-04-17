@@ -1,0 +1,75 @@
+{
+  "trading_date": "2025-03-04",
+  "levels": [
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5938.0,
+      "role": "resistance",
+      "context": "below 5938"
+    },
+    {
+      "price": 5940.0,
+      "role": "range",
+      "context": "5938-40"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5940.0,
+      "role": "range",
+      "context": "5938-40"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5938.0,
+      "role": "resistance",
+      "context": "below 5938"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday: \u201cBear case Monday: The real bear case begins if 5870-75 fails."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that when ES is selling, we get counter-trend rallies/short squeezes in one circumstance only: When ES puts in my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then at 1:15PM on Friday, we sold down to 5850 exact, put in a monster Failed Breakdown of 5860 to trigger longs, then went parabolic to 6000 by this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the the picture perfect Failed Breakdown (one of the best this year) that caused Friday\u2019s squeeze, and I\u2019ll discuss the actionable plan for Tuesday."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "A Tariff \"Tape Bomb\" Forces SPX To New Lows. What Now? March 4 Plan",
+  "post_date": "2025-03-03",
+  "post_slug": "a-tariff-tape-bomb-forces-spx-to",
+  "parsed_at": "2026-04-16T15:45:13.561931",
+  "body_length": 2199
+}

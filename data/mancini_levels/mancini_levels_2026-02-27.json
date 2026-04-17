@@ -1,0 +1,156 @@
+{
+  "trading_date": "2026-02-27",
+  "levels": [
+    {
+      "price": 6822.0,
+      "role": "mentioned",
+      "context": "which is at 6832 now. If we can flush that (perhaps down to 6822) and recover, this is a possible long.\u201d At 9:30AM Tuesday,"
+    },
+    {
+      "price": 6828.0,
+      "role": "mentioned",
+      "context": "a possible long.\u201d At 9:30AM Tuesday, we swept 6832 down to 6828, recovered, it and ripped parabolically to 6910. On Tuesday"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "swept 6832"
+    },
+    {
+      "price": 6866.0,
+      "role": "range",
+      "context": "6866-70"
+    },
+    {
+      "price": 6867.0,
+      "role": "range",
+      "context": "6867-70"
+    },
+    {
+      "price": 6870.0,
+      "role": "range",
+      "context": "6867-70"
+    },
+    {
+      "price": 6892.0,
+      "role": "mentioned",
+      "context": "his is a decent support. Also watch Failed Breakdown of the 6892 evening low last night.\u201d We saw exactly this today, holding"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "832 down to 6828, recovered, it and ripped parabolically to 6910. On Tuesday at 4pm, I specified higher targets: \u201cMy general"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "r to yesterday, ES had been stuck in a range mostly 6850 to 6925 with 6925 being a strong ceiling all week. This flush to an"
+    },
+    {
+      "price": 6935.0,
+      "role": "mentioned",
+      "context": "resistance. Perhaps a final dip there, then head higher to 6935, 6953.\u201d By noon yesteday we tagged 6953 and overshot to 698"
+    },
+    {
+      "price": 6953.0,
+      "role": "mentioned",
+      "context": "tance. Perhaps a final dip there, then head higher to 6935, 6953.\u201d By noon yesteday we tagged 6953 and overshot to 6980+ aft"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6822.0,
+      "role": "mentioned",
+      "context": "which is at 6832 now. If we can flush that (perhaps down to 6822) and recover, this is a possible long.\u201d At 9:30AM Tuesday,"
+    },
+    {
+      "price": 6828.0,
+      "role": "mentioned",
+      "context": "a possible long.\u201d At 9:30AM Tuesday, we swept 6832 down to 6828, recovered, it and ripped parabolically to 6910. On Tuesday"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "swept 6832"
+    },
+    {
+      "price": 6866.0,
+      "role": "range",
+      "context": "6866-70"
+    },
+    {
+      "price": 6867.0,
+      "role": "range",
+      "context": "6867-70"
+    },
+    {
+      "price": 6870.0,
+      "role": "range",
+      "context": "6867-70"
+    },
+    {
+      "price": 6892.0,
+      "role": "mentioned",
+      "context": "his is a decent support. Also watch Failed Breakdown of the 6892 evening low last night.\u201d We saw exactly this today, holding"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "832 down to 6828, recovered, it and ripped parabolically to 6910. On Tuesday at 4pm, I specified higher targets: \u201cMy general"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "r to yesterday, ES had been stuck in a range mostly 6850 to 6925 with 6925 being a strong ceiling all week. This flush to an"
+    },
+    {
+      "price": 6935.0,
+      "role": "mentioned",
+      "context": "resistance. Perhaps a final dip there, then head higher to 6935, 6953.\u201d By noon yesteday we tagged 6953 and overshot to 698"
+    },
+    {
+      "price": 6953.0,
+      "role": "mentioned",
+      "context": "tance. Perhaps a final dip there, then head higher to 6935, 6953.\u201d By noon yesteday we tagged 6953 and overshot to 6980+ aft"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "On Tuesday at 4pm, I specified higher targets: \u201cMy general lean is can head back up to 6925 range resistance."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of those cycles is ES goes elevator down in a vertical flush cutting through every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Monday at 4pm: \u201cThe only possible option here would be a Failed Breakdown of Monday\u2019s daily low which is at 6832 now."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today - after that monster rally - it was finally time to retrace and ES went elevator down this morning 100 points basically down to 6867-70."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always though, this elevator down sell would resolve in a short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Also watch Failed Breakdown of the 6892 evening low last night.\u201d We saw exactly this today, holding 6870 , recovering 6892, and popping."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "SPX Finally Pulls Back Today, and Bulls Bought It. Can It Stick Though? Feb 27 Plan",
+  "post_date": "2026-02-26",
+  "post_slug": "spx-finally-pulls-back-today-and",
+  "parsed_at": "2026-04-16T15:38:46.704816",
+  "body_length": 2272
+}

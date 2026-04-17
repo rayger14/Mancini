@@ -1,0 +1,134 @@
+{
+  "trading_date": "2025-03-18",
+  "levels": [
+    {
+      "price": 5512.0,
+      "role": "mentioned",
+      "context": "sday when ES flushed the major Tuesday low of 5534, sold to 5512, then recovered it. This got me long and I wrote on Thursda"
+    },
+    {
+      "price": 5534.0,
+      "role": "mentioned",
+      "context": "at 2pm on Thursday when ES flushed the major Tuesday low of 5534, sold to 5512, then recovered it. This got me long and I wr"
+    },
+    {
+      "price": 5599.0,
+      "role": "support",
+      "context": "defend 5599"
+    },
+    {
+      "price": 5658.0,
+      "role": "range",
+      "context": "5658-60"
+    },
+    {
+      "price": 5660.0,
+      "role": "range",
+      "context": "5658-60"
+    },
+    {
+      "price": 5703.0,
+      "role": "range",
+      "context": "5703-10"
+    },
+    {
+      "price": 5706.0,
+      "role": "range",
+      "context": "5703-06"
+    },
+    {
+      "price": 5710.0,
+      "role": "range",
+      "context": "5703-10"
+    },
+    {
+      "price": 5720.0,
+      "role": "support",
+      "context": "support at 5720"
+    },
+    {
+      "price": 5999.0,
+      "role": "mentioned",
+      "context": "to 5654, 5666, then 5703-06.\u201d Overnight last night, we held 5999 *exact* then ran to that full target set. Can it keep going"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5512.0,
+      "role": "mentioned",
+      "context": "sday when ES flushed the major Tuesday low of 5534, sold to 5512, then recovered it. This got me long and I wrote on Thursda"
+    },
+    {
+      "price": 5534.0,
+      "role": "mentioned",
+      "context": "at 2pm on Thursday when ES flushed the major Tuesday low of 5534, sold to 5512, then recovered it. This got me long and I wr"
+    },
+    {
+      "price": 5599.0,
+      "role": "support",
+      "context": "defend 5599"
+    },
+    {
+      "price": 5658.0,
+      "role": "range",
+      "context": "5658-60"
+    },
+    {
+      "price": 5660.0,
+      "role": "range",
+      "context": "5658-60"
+    },
+    {
+      "price": 5703.0,
+      "role": "range",
+      "context": "5703-10"
+    },
+    {
+      "price": 5706.0,
+      "role": "range",
+      "context": "5703-06"
+    },
+    {
+      "price": 5710.0,
+      "role": "range",
+      "context": "5703-10"
+    },
+    {
+      "price": 5720.0,
+      "role": "support",
+      "context": "support at 5720"
+    },
+    {
+      "price": 5999.0,
+      "role": "mentioned",
+      "context": "to 5654, 5666, then 5703-06.\u201d Overnight last night, we held 5999 *exact* then ran to that full target set. Can it keep going"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can re-test 5558."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is bulls can correct/consolidate on Monday and ideally bulls want to defend 5599."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember all short squeezes/relief rallies in a downtrend are caused by my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This got me long and I wrote on Thursday at 4pm: \u201c We have an active Failed Breakdown."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "SPX Puts In 2 Green Days In A Row For 1st Time In A Month. Can It Keep Going? March 18 Plan",
+  "post_date": "2025-03-17",
+  "post_slug": "spx-puts-in-2-green-days-in-a-row",
+  "parsed_at": "2026-04-16T15:45:01.004840",
+  "body_length": 2076
+}

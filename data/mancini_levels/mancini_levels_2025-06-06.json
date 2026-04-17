@@ -1,0 +1,158 @@
+{
+  "trading_date": "2025-06-06",
+  "levels": [
+    {
+      "price": 5850.0,
+      "role": "range",
+      "context": "5850-5877"
+    },
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "allied to 5985. At 2:15PM, we flushed the entire cluster to 5945, trapped shorts again and squeezed to 5975. Now and then, t"
+    },
+    {
+      "price": 5956.0,
+      "role": "range",
+      "context": "5956-61"
+    },
+    {
+      "price": 5961.0,
+      "role": "range",
+      "context": "5956-61"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5975.0,
+      "role": "support",
+      "context": "5975 support"
+    },
+    {
+      "price": 5985.0,
+      "role": "mentioned",
+      "context": "to 6008. At 10:50AM, we tested 5956-61 again and rallied to 5985. At 2:15PM, we flushed the entire cluster to 5945, trapped"
+    },
+    {
+      "price": 6008.0,
+      "role": "mentioned",
+      "context": "10am, we dipped down to 5956-61, recovered 5975, rallied to 6008. At 10:50AM, we tested 5956-61 again and rallied to 5985. A"
+    },
+    {
+      "price": 6014.0,
+      "role": "mentioned",
+      "context": "er. At 830AM we dipped to 5970, recovered 5975, squeezed to 6014. At 10am, we dipped down to 5956-61, recovered 5975, rallie"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5850.0,
+      "role": "range",
+      "context": "5850-5877"
+    },
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "allied to 5985. At 2:15PM, we flushed the entire cluster to 5945, trapped shorts again and squeezed to 5975. Now and then, t"
+    },
+    {
+      "price": 5956.0,
+      "role": "range",
+      "context": "5956-61"
+    },
+    {
+      "price": 5961.0,
+      "role": "range",
+      "context": "5956-61"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5975.0,
+      "role": "support",
+      "context": "5975 support"
+    },
+    {
+      "price": 5985.0,
+      "role": "mentioned",
+      "context": "to 6008. At 10:50AM, we tested 5956-61 again and rallied to 5985. At 2:15PM, we flushed the entire cluster to 5945, trapped"
+    },
+    {
+      "price": 6008.0,
+      "role": "mentioned",
+      "context": "10am, we dipped down to 5956-61, recovered 5975, rallied to 6008. At 10:50AM, we tested 5956-61 again and rallied to 5985. A"
+    },
+    {
+      "price": 6014.0,
+      "role": "mentioned",
+      "context": "er. At 830AM we dipped to 5970, recovered 5975, squeezed to 6014. At 10am, we dipped down to 5956-61, recovered 5975, rallie"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Friday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, I am a Failed Breakdown trader and this comes in handy in large ranges because as we know, institutions accumulate using Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Friday, we saw a monster Failed Breakdown, and institutions took a heavy position: We flushed a major low set at 8am on Friday morning at 5877, sold down to 5850, recovered it, and longs were triggered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today was an absolute Gold Mine for Failed Breakdown traders and we began the trapping at the 5975 level."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a powerful Failed Breakdown we had on Tuesday morning (beneath the 5925 level) which slingshot us higher and started this weeks strength."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "A Rare Red Close For SPX (First In A Week). Will It Get Bought? June 6th Plan",
+  "post_date": "2025-06-05",
+  "post_slug": "a-rare-red-close-for-spx-first-in",
+  "parsed_at": "2026-04-16T15:43:49.288658",
+  "body_length": 2819
+}

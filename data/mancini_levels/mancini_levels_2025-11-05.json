@@ -1,0 +1,84 @@
+{
+  "trading_date": "2025-11-05",
+  "levels": [
+    {
+      "price": 6841.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6843.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6851.0,
+      "role": "support",
+      "context": "6851 daily low"
+    },
+    {
+      "price": 6857.0,
+      "role": "mentioned",
+      "context": "I wrote yesterday at 4pm: \u201cBear case tomorrow: Begins under 6857\u2026.For the 6857 short, one would need to see a final bounce t"
+    },
+    {
+      "price": 6907.0,
+      "role": "mentioned",
+      "context": "it exact, recovered Thurday\u2019s 6851 daily low, and ripped to 6907 by yesterday morning where we set the high of day. Heading"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6841.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6843.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6851.0,
+      "role": "support",
+      "context": "6851 daily low"
+    },
+    {
+      "price": 6857.0,
+      "role": "mentioned",
+      "context": "I wrote yesterday at 4pm: \u201cBear case tomorrow: Begins under 6857\u2026.For the 6857 short, one would need to see a final bounce t"
+    },
+    {
+      "price": 6907.0,
+      "role": "mentioned",
+      "context": "it exact, recovered Thurday\u2019s 6851 daily low, and ripped to 6907 by yesterday morning where we set the high of day. Heading"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cBear case tomorrow: Begins under 6857\u2026.For the 6857 short, one would need to see a final bounce there."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For that, we need a setup, and as readers know, I trade the same setup institutions use to accumulate: The Failed Breakdown/Level reclaim."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Thursday at 2:30PM: \u201cOne can try the 6841-43 long if its a controlled dip.\u201d On Friday afternoon we sold to 6843, held it exact, recovered Thurday\u2019s 6851 daily low, and ripped to 6907 by yesterday morning where we set the high of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Of course though, as readers know after every elevator down sell comes a squeeze, and we got it this morning."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Biggest Dip Today For SPX Since October 10th. Will It Get Bought? November 5 Plan",
+  "post_date": "2025-11-04",
+  "post_slug": "biggest-dip-today-for-spx-since-october",
+  "parsed_at": "2026-04-16T15:41:34.798220",
+  "body_length": 2636
+}

@@ -1,0 +1,81 @@
+{
+  "trading_date": "2025-04-01",
+  "levels": [
+    {
+      "price": 5536.0,
+      "role": "mentioned",
+      "context": "we flushed 5565 (March 13th low), put in a big wick down to 5536, and recovered to trigger a monster 100+ point squeeze. Is"
+    },
+    {
+      "price": 5565.0,
+      "role": "mentioned",
+      "context": "ins a strong zone .\u201d At around 10am this morning we flushed 5565 (March 13th low), put in a big wick down to 5536, and recov"
+    },
+    {
+      "price": 5585.0,
+      "role": "resistance",
+      "context": "Below 5585"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "Thursday testing a key zone comprising two levels: 5735 and 5720. This was the support of a massive \u201cmegaphone\u201d pattern from"
+    },
+    {
+      "price": 5735.0,
+      "role": "level",
+      "context": "5735 zone"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5536.0,
+      "role": "mentioned",
+      "context": "we flushed 5565 (March 13th low), put in a big wick down to 5536, and recovered to trigger a monster 100+ point squeeze. Is"
+    },
+    {
+      "price": 5565.0,
+      "role": "mentioned",
+      "context": "ins a strong zone .\u201d At around 10am this morning we flushed 5565 (March 13th low), put in a big wick down to 5536, and recov"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "Thursday testing a key zone comprising two levels: 5735 and 5720. This was the support of a massive \u201cmegaphone\u201d pattern from"
+    },
+    {
+      "price": 5735.0,
+      "role": "level",
+      "context": "5735 zone"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5585.0,
+      "role": "resistance",
+      "context": "Below 5585"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "After a deep sell though - as readers know - ES *always* puts in a massive short squeeze, and its *always* triggered by my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A Failed Breakdown here would be very much of interest and this remains a strong zone .\u201d At around 10am this morning we flushed 5565 (March 13th low), put in a big wick down to 5536, and recovered to trigger a monster 100+ point squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the conditions that caused Friday\u2019s sell, because its a typical sequence before major sells (we see my core setup, the Failed Breakdown multiple times, then we see a Breakdown Short and ES goes elevator down)."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "Dead Cat Bounce Today In SPX, Or Bottom? April 1st Plan",
+  "post_date": "2025-03-31",
+  "post_slug": "dead-cat-bounce-today-in-spx-or-bottom",
+  "parsed_at": "2026-04-16T15:44:48.325822",
+  "body_length": 2132
+}

@@ -1,0 +1,118 @@
+{
+  "trading_date": "2025-03-17",
+  "levels": [
+    {
+      "price": 5512.0,
+      "role": "mentioned",
+      "context": "ES trapped below the Tuesday major low at 5533, flushed to 5512, then recovered it. For this reason, I wrote at 4pm yesterd"
+    },
+    {
+      "price": 5533.0,
+      "role": "mentioned",
+      "context": "another one where ES trapped below the Tuesday major low at 5533, flushed to 5512, then recovered it. For this reason, I wro"
+    },
+    {
+      "price": 5584.0,
+      "role": "mentioned",
+      "context": "8 exact, then recovered it and squeezed into today, hitting 5584 target, 5599 target, and coming about 10 points shy of 5658"
+    },
+    {
+      "price": 5599.0,
+      "role": "mentioned",
+      "context": "recovered it and squeezed into today, hitting 5584 target, 5599 target, and coming about 10 points shy of 5658-60. ES manag"
+    },
+    {
+      "price": 5658.0,
+      "role": "range",
+      "context": "5658-60"
+    },
+    {
+      "price": 5660.0,
+      "role": "range",
+      "context": "5658-60"
+    },
+    {
+      "price": 5703.0,
+      "role": "range",
+      "context": "5703-10"
+    },
+    {
+      "price": 5710.0,
+      "role": "range",
+      "context": "5703-10"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5512.0,
+      "role": "mentioned",
+      "context": "ES trapped below the Tuesday major low at 5533, flushed to 5512, then recovered it. For this reason, I wrote at 4pm yesterd"
+    },
+    {
+      "price": 5533.0,
+      "role": "mentioned",
+      "context": "another one where ES trapped below the Tuesday major low at 5533, flushed to 5512, then recovered it. For this reason, I wro"
+    },
+    {
+      "price": 5584.0,
+      "role": "mentioned",
+      "context": "8 exact, then recovered it and squeezed into today, hitting 5584 target, 5599 target, and coming about 10 points shy of 5658"
+    },
+    {
+      "price": 5599.0,
+      "role": "mentioned",
+      "context": "recovered it and squeezed into today, hitting 5584 target, 5599 target, and coming about 10 points shy of 5658-60. ES manag"
+    },
+    {
+      "price": 5658.0,
+      "role": "range",
+      "context": "5658-60"
+    },
+    {
+      "price": 5660.0,
+      "role": "range",
+      "context": "5658-60"
+    },
+    {
+      "price": 5703.0,
+      "role": "range",
+      "context": "5703-10"
+    },
+    {
+      "price": 5710.0,
+      "role": "range",
+      "context": "5703-10"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can re-test 5558."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that after deep sells, rallies in ES/short squeezes are always caused by my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every deep sell is followed by a Failed Breakdown which produces a bear trap/short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For this reason, I wrote at 4pm yesterday: \u201cWe have an active Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdowns (my core setup) we saw yesterday to cause this rally today, provided to readers in advance."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "After 4 Red Weeks In A Row, Can SPX Get A Green Week? March 17th Plan",
+  "post_date": "2025-03-16",
+  "post_slug": "after-4-red-weeks-in-a-row-can-spx-64b",
+  "parsed_at": "2026-04-16T15:45:02.273810",
+  "body_length": 1995
+}

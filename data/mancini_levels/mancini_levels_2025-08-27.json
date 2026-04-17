@@ -1,0 +1,88 @@
+{
+  "trading_date": "2025-08-27",
+  "levels": [
+    {
+      "price": 6363.0,
+      "role": "mentioned",
+      "context": "em in. Last Friday morning around 2:30AM ES flushed hard to 6363 and in the dead of night, a massive institution took a long"
+    },
+    {
+      "price": 6370.0,
+      "role": "support",
+      "context": "6370 daily low"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "above 6461"
+    },
+    {
+      "price": 6474.0,
+      "role": "mentioned",
+      "context": "lagging out. The range is mostly 6461-6494 with a magnet at 6474 but this will expand and morph. My general lean is always t"
+    },
+    {
+      "price": 6494.0,
+      "role": "range",
+      "context": "6461-6494"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6363.0,
+      "role": "mentioned",
+      "context": "em in. Last Friday morning around 2:30AM ES flushed hard to 6363 and in the dead of night, a massive institution took a long"
+    },
+    {
+      "price": 6370.0,
+      "role": "support",
+      "context": "6370 daily low"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "above 6461"
+    },
+    {
+      "price": 6474.0,
+      "role": "mentioned",
+      "context": "lagging out. The range is mostly 6461-6494 with a magnet at 6474 but this will expand and morph. My general lean is always t"
+    },
+    {
+      "price": 6494.0,
+      "role": "range",
+      "context": "6461-6494"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm: \u201cA Failed Breakdown of today\u2019s 6370 daily low is always of interest.\u201d I also wrote on Thursday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the two Failed Breakdowns (Thursday and Friday) that represented the institutional accumulation prior to the Friday squeeze."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "For yesterday, that key support was 6461."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "The range is mostly 6461-6494 with a magnet at 6474 but this will expand and morph."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "SPX Has Gone Nowhere For Two Weeks. Is The Coil Ready To Break? August 27 Plan",
+  "post_date": "2025-08-26",
+  "post_slug": "spx-has-gone-nowhere-for-two-weeks",
+  "parsed_at": "2026-04-16T15:42:37.144029",
+  "body_length": 2990
+}

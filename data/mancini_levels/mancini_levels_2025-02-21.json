@@ -1,0 +1,112 @@
+{
+  "trading_date": "2025-02-21",
+  "levels": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6093.0,
+      "role": "mentioned",
+      "context": "tance, starting with 6066-70 which is the 1st gateway, then 6093, then onto 6129.\u201d On February 9th Sunday, we got this flush"
+    },
+    {
+      "price": 6109.0,
+      "role": "mentioned",
+      "context": "that would interest me here would be if we can tag 6116 or 6109, and recover the Tuesday 6118 low.\u201d This morning we flushed"
+    },
+    {
+      "price": 6118.0,
+      "role": "mentioned",
+      "context": "ould be if we can tag 6116 or 6109, and recover the Tuesday 6118 low.\u201d This morning we flushed below Thursdays 6118 low, rec"
+    },
+    {
+      "price": 6129.0,
+      "role": "mentioned",
+      "context": "with 6066-70 which is the 1st gateway, then 6093, then onto 6129.\u201d On February 9th Sunday, we got this flush of 6020 down to"
+    },
+    {
+      "price": 6145.0,
+      "role": "mentioned",
+      "context": "n actionable dip. I wrote yesterday at 4pm: \u201cAny lower than 6145, and todays late day breakout was premature, and we need to"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6093.0,
+      "role": "mentioned",
+      "context": "tance, starting with 6066-70 which is the 1st gateway, then 6093, then onto 6129.\u201d On February 9th Sunday, we got this flush"
+    },
+    {
+      "price": 6109.0,
+      "role": "mentioned",
+      "context": "that would interest me here would be if we can tag 6116 or 6109, and recover the Tuesday 6118 low.\u201d This morning we flushed"
+    },
+    {
+      "price": 6118.0,
+      "role": "mentioned",
+      "context": "ould be if we can tag 6116 or 6109, and recover the Tuesday 6118 low.\u201d This morning we flushed below Thursdays 6118 low, rec"
+    },
+    {
+      "price": 6129.0,
+      "role": "mentioned",
+      "context": "with 6066-70 which is the 1st gateway, then 6093, then onto 6129.\u201d On February 9th Sunday, we got this flush of 6020 down to"
+    },
+    {
+      "price": 6145.0,
+      "role": "mentioned",
+      "context": "n actionable dip. I wrote yesterday at 4pm: \u201cAny lower than 6145, and todays late day breakout was premature, and we need to"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "ES put in my core setup, and the most powerful footprint of institutional accumulation: The Failed Breakdown."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Will Todays SPX Dip Get Bought Like All The Others? Feb 21 Plan. ",
+  "post_date": "2025-02-20",
+  "post_slug": "will-todays-spx-dip-get-bought-like",
+  "parsed_at": "2026-04-16T15:45:22.346705",
+  "body_length": 2080
+}

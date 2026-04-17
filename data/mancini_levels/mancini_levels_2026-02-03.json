@@ -1,0 +1,130 @@
+{
+  "trading_date": "2026-02-03",
+  "levels": [
+    {
+      "price": 6899.0,
+      "role": "support",
+      "context": "6899 daily low"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "y of it is actionable.\u201d By 11:20AM Thursday, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6986.0,
+      "role": "range",
+      "context": "6986-88"
+    },
+    {
+      "price": 6988.0,
+      "role": "range",
+      "context": "6986-88"
+    },
+    {
+      "price": 7002.0,
+      "role": "mentioned",
+      "context": "6923, the Failed Breakdown was triggered, and we ripped to 7002 Thursday. Then last evening? We saw the ame sequence play o"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6899.0,
+      "role": "support",
+      "context": "6899 daily low"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "y of it is actionable.\u201d By 11:20AM Thursday, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6986.0,
+      "role": "range",
+      "context": "6986-88"
+    },
+    {
+      "price": 6988.0,
+      "role": "range",
+      "context": "6986-88"
+    },
+    {
+      "price": 7002.0,
+      "role": "mentioned",
+      "context": "6923, the Failed Breakdown was triggered, and we ripped to 7002 Thursday. Then last evening? We saw the ame sequence play o"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 3pm: \u201cBear case tomorrow/today: Begins under 6982\u2026 Perhaps 6979 trigger.\u201d We hit that 6979 sell trigger early Thursday morning, and down we went to 6900 elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The most common of these is what I call the two siblings: The first sibling is ES suddenly goes elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This always follows the elevator down sell - never any exception in recorded history."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, the short squeeze only occurs when ES puts in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips by waiting for a news driven elevator down flush/trap , waiting for a low to be taken out in the process, trapping shorts beneath the low, using that liquidity to fund their longs, and then price rips when the low recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This would mean a Failed Breakdown and short squeeze was coming From there, institutions stepped in as always."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote also Wednesday at 3pm: \u201cThere is some support at 6923 but instead of buying this wait for the Failed Breakdown of 6923."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We set a huge low Monday morning at 4:45AM at 6923 and the flush and recovery of it is actionable.\u201d By 11:20AM Thursday, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we ripped to 7002 Thursday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We went elevator down nearly 100 points from 6964 last evening down to 6866 early this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Prepare for the Failed Breakdown and squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cThe most obvious Failed Breakdown here is the Failed Breakdown of yesterday\u2019s 6899 daily low.\u201d We recovered that low early this morning, and were off to the races."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Upside targets were: \u201cFrom there, ES can fill it out to 6986-88, perhaps final reaction, then onto 7002, 7014, then 7036+\u201d We ran to 7014 by noon."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "SPX Bears Got Trapped As They Always Do. Was That The Bottom Though?  February 3rd Plan",
+  "post_date": "2026-02-02",
+  "post_slug": "spx-bears-got-trapped-as-they-always",
+  "parsed_at": "2026-04-16T15:40:16.948372",
+  "body_length": 2341
+}

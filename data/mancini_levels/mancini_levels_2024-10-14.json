@@ -1,0 +1,168 @@
+{
+  "trading_date": "2024-10-14",
+  "levels": [
+    {
+      "price": 5730.0,
+      "role": "range",
+      "context": "5740-30"
+    },
+    {
+      "price": 5734.0,
+      "role": "range",
+      "context": "5734-40"
+    },
+    {
+      "price": 5740.0,
+      "role": "range",
+      "context": "5734-40"
+    },
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "mentioned",
+      "context": "86-88, possible dip there, then tackle bull flag resistance 5805. If this flag breaks out, we see a new ATH to 5846\u201d. We bot"
+    },
+    {
+      "price": 5809.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5811.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5828.0,
+      "role": "mentioned",
+      "context": "5809-11 to 5840 is a new consolidation (bull flag), with a 5828 mid-pivot. As long as this structure is in tact, we can bre"
+    },
+    {
+      "price": 5840.0,
+      "role": "mentioned",
+      "context": "My general lean is always to defer to the trend. 5809-11 to 5840 is a new consolidation (bull flag), with a 5828 mid-pivot."
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "ance. Then Wednesday, we broke out the bull flag and ran to 5846 target *exactly*. Since Wednesday, ES has built *another bu"
+    },
+    {
+      "price": 5858.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5860.0,
+      "role": "range",
+      "context": "5858-60"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5730.0,
+      "role": "range",
+      "context": "5740-30"
+    },
+    {
+      "price": 5734.0,
+      "role": "range",
+      "context": "5734-40"
+    },
+    {
+      "price": 5740.0,
+      "role": "range",
+      "context": "5734-40"
+    },
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "mentioned",
+      "context": "86-88, possible dip there, then tackle bull flag resistance 5805. If this flag breaks out, we see a new ATH to 5846\u201d. We bot"
+    },
+    {
+      "price": 5809.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5811.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5828.0,
+      "role": "mentioned",
+      "context": "5809-11 to 5840 is a new consolidation (bull flag), with a 5828 mid-pivot. As long as this structure is in tact, we can bre"
+    },
+    {
+      "price": 5840.0,
+      "role": "mentioned",
+      "context": "My general lean is always to defer to the trend. 5809-11 to 5840 is a new consolidation (bull flag), with a 5828 mid-pivot."
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "ance. Then Wednesday, we broke out the bull flag and ran to 5846 target *exactly*. Since Wednesday, ES has built *another bu"
+    },
+    {
+      "price": 5858.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5860.0,
+      "role": "range",
+      "context": "5858-60"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in Monday\u2019s 4pm newsletter : \u201cBull case tomorrow: No change."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case is that we just work this back up to the upside."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I concluded my newsletter yesterday by writing: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Each represents a different variant of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "5809-11 to 5840 is a new consolidation (bull flag), with a 5828 mid-pivot."
+    }
+  ],
+  "level_count": 13,
+  "support_count": 13,
+  "resistance_count": 0,
+  "post_title": "5 Green Weeks In A Row For SPX. Pullback Time, Or More Upside Ahead? Oct 14 Plan",
+  "post_date": "2024-10-13",
+  "post_slug": "5-green-weeks-in-a-row-for-spx-pullback-f58",
+  "parsed_at": "2026-04-16T15:47:15.638133",
+  "body_length": 2313
+}

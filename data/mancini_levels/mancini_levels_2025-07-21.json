@@ -1,0 +1,145 @@
+{
+  "trading_date": "2025-07-21",
+  "levels": [
+    {
+      "price": 6268.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6271.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6279.0,
+      "role": "mentioned",
+      "context": "t of its two week ascending triangle which has been 6333 to 6279. Ideally, ES can backtest some of today\u2019s breakout zones (6"
+    },
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target. Above there, its back to 6309, 6324, then"
+    },
+    {
+      "price": 6309.0,
+      "role": "mentioned",
+      "context": "ucture with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d When it comes to act"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "ally, ES can backtest some of today\u2019s breakout zones (6333, 6311/01 lowest), but as long as they defend momentum remains hig"
+    },
+    {
+      "price": 6324.0,
+      "role": "mentioned",
+      "context": "with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d When it comes to actually"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "trend, and as readers know my target for this breakout was ~6325. We put in 10 green days in a row, and we hit that on July"
+    },
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6268.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6271.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6279.0,
+      "role": "mentioned",
+      "context": "t of its two week ascending triangle which has been 6333 to 6279. Ideally, ES can backtest some of today\u2019s breakout zones (6"
+    },
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target. Above there, its back to 6309, 6324, then"
+    },
+    {
+      "price": 6309.0,
+      "role": "mentioned",
+      "context": "ucture with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d When it comes to act"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "ally, ES can backtest some of today\u2019s breakout zones (6333, 6311/01 lowest), but as long as they defend momentum remains hig"
+    },
+    {
+      "price": 6324.0,
+      "role": "mentioned",
+      "context": "with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d When it comes to actually"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "trend, and as readers know my target for this breakout was ~6325. We put in 10 green days in a row, and we hit that on July"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I confirmed this at 4pm Tuesday: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was they would, staying \u201cMy general lean is always to defer to the trend and today, ES broke out of its two week ascending triangle which has been 6333 to 6279."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For me, these pieces are largely my core setup (the Failed Breakdown) and the context that setup occurs within is given by what I call the market cycle."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As long as the triangle support holds (or failed breakdown and quick recover), ES can work back up the structure with 6301 being 1st target."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d When it comes to actually trading these patterns though, we need to use a setup, and for me, that means Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns are also how instiutions accumulate, and I just follow them."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Exactly what the excerpt above suggested: We put in a massive Failed Breakdown of the 6271-68 triangle around 11am, sold to 6241, trapped those bears, and we got to triangle resistance at 6333 by Thursday, and broke it out."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the sequence of Failed Breakdowns that produced the monster 100+ point leg up we saw from this weeks 6241 low to this weeks 6340+ high."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was provided to readers in advance, and got us long for the week and was an example of what I call a \u201cdouble dip\u201d Failed Breakdown which refers to when price puts in back-to-back failed breakdowns."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "SPX Breaks Out A Two Week Range, Then Sputters. Breakout, Or Fakeout Now? July 21 Plan",
+  "post_date": "2025-07-20",
+  "post_slug": "spx-breaks-out-a-two-week-range-then-479",
+  "parsed_at": "2026-04-16T15:43:12.236164",
+  "body_length": 3764
+}

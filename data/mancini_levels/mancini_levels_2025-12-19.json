@@ -1,0 +1,103 @@
+{
+  "trading_date": "2025-12-19",
+  "levels": [
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6829.0,
+      "role": "range",
+      "context": "6832-29"
+    },
+    {
+      "price": 6832.0,
+      "role": "resistance",
+      "context": "lose 6832"
+    },
+    {
+      "price": 6845.0,
+      "role": "mentioned",
+      "context": "recover that to take control which would then target 6832, 6845, then 6870.\u201d This played out perfectly. Last evening we got"
+    },
+    {
+      "price": 6870.0,
+      "role": "mentioned",
+      "context": "at to take control which would then target 6832, 6845, then 6870.\u201d This played out perfectly. Last evening we got a planned"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6829.0,
+      "role": "range",
+      "context": "6832-29"
+    },
+    {
+      "price": 6845.0,
+      "role": "mentioned",
+      "context": "recover that to take control which would then target 6832, 6845, then 6870.\u201d This played out perfectly. Last evening we got"
+    },
+    {
+      "price": 6870.0,
+      "role": "mentioned",
+      "context": "at to take control which would then target 6832, 6845, then 6870.\u201d This played out perfectly. Last evening we got a planned"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6832.0,
+      "role": "resistance",
+      "context": "lose 6832"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Tuesday at 4pm that: \u201cBear case tomorrow: ES needs to lose 6832-29\u2026."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean if I had to give one is ES can retest 6818-22 again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know that in ES every elevator down sell (like yesterday) is followed by an equally violent short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These only occur though when my core setup (the Failed breakdown) presents."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last evening we got a planned Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the monster Failed Breakdown we had last Friday which produced the 60 point squeeze into Monday\u2019s high which was the high of week."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "Is Today's SPX Bounce A Dead Cat Bounce, Or Bottom? December 19 Plan",
+  "post_date": "2025-12-18",
+  "post_slug": "is-todays-spx-bounce-a-dead-cat-bounce",
+  "parsed_at": "2026-04-16T15:40:54.243153",
+  "body_length": 2165
+}

@@ -1,0 +1,115 @@
+{
+  "trading_date": "2026-03-31",
+  "levels": [
+    {
+      "price": 6411.0,
+      "role": "support",
+      "context": "recover 6411"
+    },
+    {
+      "price": 6454.0,
+      "role": "target",
+      "context": "target 6454"
+    },
+    {
+      "price": 6481.0,
+      "role": "mentioned",
+      "context": "on this early this morning, recovering 6411, and ripping to 6481 by 7:30AM, dipping, then returning to 6411, then ripping to"
+    },
+    {
+      "price": 6492.0,
+      "role": "mentioned",
+      "context": "ecovering that 6411 shelf and would target 6454 (big test), 6492, 6520-24 first up.\u201d We got right to work on this early this"
+    },
+    {
+      "price": 6520.0,
+      "role": "range",
+      "context": "6520-24"
+    },
+    {
+      "price": 6524.0,
+      "role": "range",
+      "context": "6520-24"
+    },
+    {
+      "price": 6575.0,
+      "role": "support",
+      "context": "support at 6575"
+    },
+    {
+      "price": 6592.0,
+      "role": "resistance",
+      "context": "below 6592"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6411.0,
+      "role": "support",
+      "context": "recover 6411"
+    },
+    {
+      "price": 6481.0,
+      "role": "mentioned",
+      "context": "on this early this morning, recovering 6411, and ripping to 6481 by 7:30AM, dipping, then returning to 6411, then ripping to"
+    },
+    {
+      "price": 6492.0,
+      "role": "mentioned",
+      "context": "ecovering that 6411 shelf and would target 6454 (big test), 6492, 6520-24 first up.\u201d We got right to work on this early this"
+    },
+    {
+      "price": 6520.0,
+      "role": "range",
+      "context": "6520-24"
+    },
+    {
+      "price": 6524.0,
+      "role": "range",
+      "context": "6520-24"
+    },
+    {
+      "price": 6575.0,
+      "role": "support",
+      "context": "support at 6575"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6454.0,
+      "role": "target",
+      "context": "target 6454"
+    },
+    {
+      "price": 6592.0,
+      "role": "resistance",
+      "context": "below 6592"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "On Wednesday at 4pm, I wrote: \u201c Bear case tomorrow: Begins below 6592.\u201d We broke it down Thursday, and a two day grind lower commenced into Friday\u2019s 6390s low of day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean based purely on technicals though is that ES can try a bounce now."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The catch though, is they only occur when my core setup - the Failed Breakdown - triggers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 8,
+  "support_count": 6,
+  "resistance_count": 2,
+  "post_title": "Can SPX Snap Its 5 Red Day Streak Tomorrow? March 31 Plan",
+  "post_date": "2026-03-30",
+  "post_slug": "can-spx-snap-its-5-red-day-streak",
+  "parsed_at": "2026-04-16T15:38:18.264009",
+  "body_length": 2228
+}

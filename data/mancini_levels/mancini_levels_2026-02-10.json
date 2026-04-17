@@ -1,0 +1,180 @@
+{
+  "trading_date": "2026-02-10",
+  "levels": [
+    {
+      "price": 6751.0,
+      "role": "mentioned",
+      "context": "ints.\u201d We got this at 8pm Thursday. We flushed 6773 down to 6751, recovered 6773 and began a 200+ point leg up. What was the"
+    },
+    {
+      "price": 6773.0,
+      "role": "mentioned",
+      "context": "allied 270 points.\u201d We got this at 8pm Thursday. We flushed 6773 down to 6751, recovered 6773 and began a 200+ point leg up."
+    },
+    {
+      "price": 6854.0,
+      "role": "mentioned",
+      "context": "cktest. My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then"
+    },
+    {
+      "price": 6878.0,
+      "role": "mentioned",
+      "context": ". My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then 6960+"
+    },
+    {
+      "price": 6897.0,
+      "role": "range",
+      "context": "6897-6900"
+    },
+    {
+      "price": 6900.0,
+      "role": "range",
+      "context": "6897-6900"
+    },
+    {
+      "price": 6935.0,
+      "role": "support",
+      "context": "defend 6935"
+    },
+    {
+      "price": 6940.0,
+      "role": "range",
+      "context": "6935-40"
+    },
+    {
+      "price": 6960.0,
+      "role": "mentioned",
+      "context": "lls want to hold 6935-40, 6900 lowest next week. This keeps 6960, 6975-78, 6998, 7006 live. 7006 is a big magnet.\u201d Today we"
+    },
+    {
+      "price": 6975.0,
+      "role": "range",
+      "context": "6975-78"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6975-78"
+    },
+    {
+      "price": 6998.0,
+      "role": "mentioned",
+      "context": "d 6935-40, 6900 lowest next week. This keeps 6960, 6975-78, 6998, 7006 live. 7006 is a big magnet.\u201d Today we dipped under 69"
+    },
+    {
+      "price": 7006.0,
+      "role": "mentioned",
+      "context": "-40, 6900 lowest next week. This keeps 6960, 6975-78, 6998, 7006 live. 7006 is a big magnet.\u201d Today we dipped under 6935-40,"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6751.0,
+      "role": "mentioned",
+      "context": "ints.\u201d We got this at 8pm Thursday. We flushed 6773 down to 6751, recovered 6773 and began a 200+ point leg up. What was the"
+    },
+    {
+      "price": 6773.0,
+      "role": "mentioned",
+      "context": "allied 270 points.\u201d We got this at 8pm Thursday. We flushed 6773 down to 6751, recovered 6773 and began a 200+ point leg up."
+    },
+    {
+      "price": 6854.0,
+      "role": "mentioned",
+      "context": "cktest. My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then"
+    },
+    {
+      "price": 6878.0,
+      "role": "mentioned",
+      "context": ". My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then 6960+"
+    },
+    {
+      "price": 6897.0,
+      "role": "range",
+      "context": "6897-6900"
+    },
+    {
+      "price": 6900.0,
+      "role": "range",
+      "context": "6897-6900"
+    },
+    {
+      "price": 6935.0,
+      "role": "support",
+      "context": "defend 6935"
+    },
+    {
+      "price": 6940.0,
+      "role": "range",
+      "context": "6935-40"
+    },
+    {
+      "price": 6960.0,
+      "role": "mentioned",
+      "context": "lls want to hold 6935-40, 6900 lowest next week. This keeps 6960, 6975-78, 6998, 7006 live. 7006 is a big magnet.\u201d Today we"
+    },
+    {
+      "price": 6975.0,
+      "role": "range",
+      "context": "6975-78"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6975-78"
+    },
+    {
+      "price": 6998.0,
+      "role": "mentioned",
+      "context": "d 6935-40, 6900 lowest next week. This keeps 6960, 6975-78, 6998, 7006 live. 7006 is a big magnet.\u201d Today we dipped under 69"
+    },
+    {
+      "price": 7006.0,
+      "role": "mentioned",
+      "context": "-40, 6900 lowest next week. This keeps 6960, 6975-78, 6998, 7006 live. 7006 is a big magnet.\u201d Today we dipped under 6935-40,"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then 6960+ Friday to end the week."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cIn summary for Monday: My lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The cause was the same thing that causes every single long in ES: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They firstly wait for a vertical, elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Thursday at 4pm: \u201cBelow there one very obvious trade is a Failed Breakdown of the December 17th 6773 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "What was the initial target for this rally?"
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "7006 is a big magnet.\u201d Today we dipped under 6935-40, trapped shorts again, then rippd to 6998 exact by noon."
+    }
+  ],
+  "level_count": 13,
+  "support_count": 13,
+  "resistance_count": 0,
+  "post_title": "The February Crash Was Totally Bought In SPX. Are All Time Highs Ahead? February 10th Plan",
+  "post_date": "2026-02-09",
+  "post_slug": "the-february-crash-was-totally-bought",
+  "parsed_at": "2026-04-16T15:40:10.631215",
+  "body_length": 2211
+}

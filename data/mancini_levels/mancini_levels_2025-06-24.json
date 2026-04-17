@@ -1,0 +1,139 @@
+{
+  "trading_date": "2025-06-24",
+  "levels": [
+    {
+      "price": 5964.0,
+      "role": "mentioned",
+      "context": "r a Failed Breakdown of Thursdays 5970 low. Perhaps down to 5964 and back up.\u201d Right at 6pm, we flushed last Thursdays 5970"
+    },
+    {
+      "price": 5970.0,
+      "role": "mentioned",
+      "context": "5964 and back up.\u201d Right at 6pm, we flushed last Thursdays 5970 low, trapped shorts, longs were triggered the exact same se"
+    },
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5979.0,
+      "role": "support",
+      "context": "support at 5979"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": ", June 12ths, and June 19th) with 6081/6099 resistance, and 6050 being a large \u201cmagnet\u201d inside the range. I described this p"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "big lows here on June 5th, June 12ths, and June 19th) with 6081/6099 resistance, and 6050 being a large \u201cmagnet\u201d inside the"
+    },
+    {
+      "price": 6099.0,
+      "role": "resistance",
+      "context": "resistance at 6099"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5964.0,
+      "role": "mentioned",
+      "context": "r a Failed Breakdown of Thursdays 5970 low. Perhaps down to 5964 and back up.\u201d Right at 6pm, we flushed last Thursdays 5970"
+    },
+    {
+      "price": 5970.0,
+      "role": "mentioned",
+      "context": "5964 and back up.\u201d Right at 6pm, we flushed last Thursdays 5970 low, trapped shorts, longs were triggered the exact same se"
+    },
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5979.0,
+      "role": "support",
+      "context": "support at 5979"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": ", June 12ths, and June 19th) with 6081/6099 resistance, and 6050 being a large \u201cmagnet\u201d inside the range. I described this p"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "big lows here on June 5th, June 12ths, and June 19th) with 6081/6099 resistance, and 6050 being a large \u201cmagnet\u201d inside the"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6099.0,
+      "role": "resistance",
+      "context": "resistance at 6099"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm my lean was \u201cwe work back up to 6050, then 6081."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Inside this range, the wild ping pongs we saw were largely driven by a backdrop of conflict in the Middle East, where escalation headlines sell us to range support, and then institutions buy the dips there."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Specifically, as I\u2019ve discussed at length, my core setup is the Failed Breakdown and Failed Breakdowns are how institutions accumulate ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This in turn, setup a monster Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote a little prior to June 12th \u201cI especially like the Failed Breakdown of Thursday June 5th 5981 low especially if we tag 5978 first.\u201d What did we see Thursday June 12th?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We sold down the range last week back to 5978-82 again last Thursday, Failed Breakdown yet again (second time) , then 100 point rally into Friday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From there, it was time to wait for the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I tweeted on Friday at 4pm: \u201c\u2026Wait for a Failed Breakdown of Thursdays 5970 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the Failed Breakdowns we saw last week including the one that most recently got me long on Thursday morning in the low 5980s (we saw 1-3 per day, everything you need to know about this setup can be found last week)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This range was largely 5978-82 support (we set big lows here on June 5th, June 12ths, and June 19th) with 6081/6099 resistance, and 6050 being a large \u201cmagnet\u201d inside the range."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "Every \"War\" Dip Is Bought In SPX, But Can It Finally Break The 2 Week Range? June 24 Plan",
+  "post_date": "2025-06-23",
+  "post_slug": "every-war-dip-is-bought-in-spx-but",
+  "parsed_at": "2026-04-16T15:43:35.326426",
+  "body_length": 3533
+}

@@ -1,0 +1,70 @@
+{
+  "trading_date": "2025-02-13",
+  "levels": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "support",
+      "context": "defend 6020"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "support",
+      "context": "defend 6020"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "Then, shortly after the Sunday open each week, ES did what it almost always does after a deep, headline driven collapse: Put in my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cBulls took control on Sunday with a Failed Breakdown of 6020, a nd bulls will need to defend 6020 on any CPI dips tomorrow .\u201d After CPI hit at 830AM, we sold to 6020 *exact* and rallied back to 6066-70 where we spent the rest of the day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a series of Failed Breakdowns (my core setup) that we saw Sunday and yesterday which propelled the recent leg up."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "SPX Has Coiled For 3 Weeks. A Trend Leg Is Coming. Feb 13 Plan",
+  "post_date": "2025-02-12",
+  "post_slug": "spx-has-coiled-for-3-weeks-a-trend",
+  "parsed_at": "2026-04-16T15:45:28.638783",
+  "body_length": 2011
+}

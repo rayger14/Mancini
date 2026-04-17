@@ -60,6 +60,7 @@ class TradeRecord:
     days_held: int = 1              # number of trading days held
     is_runner: bool = False         # True if position reached AFTER_T1+
     is_double_dip: bool = False     # True if trade was a double-dip re-entry
+    lqs: int = 0                    # Level Quality Score (0-100)
 
 
 @dataclass
@@ -217,6 +218,7 @@ class PositionManager:
             record.level_price = signal.pattern.level.price
             record.sweep_depth_pts = signal.pattern.sweep_depth_pts
             record.is_double_dip = getattr(signal.pattern, 'is_double_dip', False)
+            record.lqs = getattr(signal, 'lqs', 0)
             if signal.pattern.elevator_event is not None:
                 ev = signal.pattern.elevator_event
                 record.elevator_peak_velocity = ev.peak_velocity

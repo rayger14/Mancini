@@ -1,0 +1,101 @@
+{
+  "trading_date": "2024-10-09",
+  "levels": [
+    {
+      "price": 5734.0,
+      "role": "resistance",
+      "context": "below 5734"
+    },
+    {
+      "price": 5740.0,
+      "role": "mentioned",
+      "context": "saw exactly this yesterday as we flushed from 5805 down to 5740 by yesterdays close to retest range support. What happened"
+    },
+    {
+      "price": 5760.0,
+      "role": "mentioned",
+      "context": "was: \u201cAs long as 5734 and 5746 hold, we can work back up to 5760, 5773, then 5786-88. From there, possible dip then tackle f"
+    },
+    {
+      "price": 5773.0,
+      "role": "mentioned",
+      "context": "As long as 5734 and 5746 hold, we can work back up to 5760, 5773, then 5786-88. From there, possible dip then tackle flag re"
+    },
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "resistance",
+      "context": "resistance at 5805"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5740.0,
+      "role": "mentioned",
+      "context": "saw exactly this yesterday as we flushed from 5805 down to 5740 by yesterdays close to retest range support. What happened"
+    },
+    {
+      "price": 5760.0,
+      "role": "mentioned",
+      "context": "was: \u201cAs long as 5734 and 5746 hold, we can work back up to 5760, 5773, then 5786-88. From there, possible dip then tackle f"
+    },
+    {
+      "price": 5773.0,
+      "role": "mentioned",
+      "context": "As long as 5734 and 5746 hold, we can work back up to 5760, 5773, then 5786-88. From there, possible dip then tackle flag re"
+    },
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5734.0,
+      "role": "resistance",
+      "context": "below 5734"
+    },
+    {
+      "price": 5805.0,
+      "role": "resistance",
+      "context": "resistance at 5805"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I have for the last week, identified this range as a Bull Flag, writing yesterday: I wrote yesterday: \u201c 5734 to 5805 is a large consolidation, and this consolidation is a bull flag\u201d On Friday, we rallied up to range resistance at 5805 and to start this week, my lean was that ranges do what they usually do - fill out, - and this case, to the downside."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday that my lean for the day was: \u201cAs long as 5734 and 5746 hold, we can work back up to 5760, 5773, then 5786-88."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This played out to perfection today: At 630PM last night, we saw a quick Failed Breakdown below 5734, trapped shorts, then squeezed to 5805+ flag resistance by today\u2019s close."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 5,
+  "resistance_count": 2,
+  "post_title": "SPX Is Coiled For A Major Move Anytime Now. What Way? Oct 9 plan",
+  "post_date": "2024-10-08",
+  "post_slug": "spx-is-coiled-for-a-major-move-anytime",
+  "parsed_at": "2026-04-16T15:47:19.573054",
+  "body_length": 2067
+}

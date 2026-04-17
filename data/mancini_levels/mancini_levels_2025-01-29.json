@@ -1,0 +1,112 @@
+{
+  "trading_date": "2025-01-29",
+  "levels": [
+    {
+      "price": 5997.0,
+      "role": "mentioned",
+      "context": "one, and early yesterday morning we flushed the last Monday 5997 low down to 5940s, recovered, and longs were triggered as r"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6082.0,
+      "role": "mentioned",
+      "context": "vernight, dipped there to 6020s this morning,then worked to 6082 to 6100+ before the close. Its been a great run, but now th"
+    },
+    {
+      "price": 6100.0,
+      "role": "mentioned",
+      "context": ", dipped there to 6020s this morning,then worked to 6082 to 6100+ before the close. Its been a great run, but now things get"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5997.0,
+      "role": "mentioned",
+      "context": "one, and early yesterday morning we flushed the last Monday 5997 low down to 5940s, recovered, and longs were triggered as r"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6082.0,
+      "role": "mentioned",
+      "context": "vernight, dipped there to 6020s this morning,then worked to 6082 to 6100+ before the close. Its been a great run, but now th"
+    },
+    {
+      "price": 6100.0,
+      "role": "mentioned",
+      "context": ", dipped there to 6020s this morning,then worked to 6082 to 6100+ before the close. Its been a great run, but now things get"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Of course though, there are often shorts that trigger before these big headline catalysts, or if not, shortly after I wrote on Friday at 4pm: \u201cWe are in a very headline dominated market now, and Tape bombs means that ES can flush violently through multiple supports as it did on Monday evening this week.\u201d I also wrote: \u201cBear case Monday: Bears finally lost a small support late day today at 6135, but have more work to do."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "On Monday, failure of 6115 now triggers the bear case.\u201d Right off the open Sunday the bear case triggered, and down we went."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My target for this was 6070ish, and I wrote at 4pm yesterday: \u201cFor now though, the bull case is that we got a short squeeze trigger on the Failed Breakdown of 5997 this morning at 8am, which triggered longs."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case ES can now begin back-testing with 6068-71 1st up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know however that I am a Failed Breakdown trader."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This means that whenever we get a sell like we had on Sunday - I am always eagerly awaiting for what always follows these type of elevator down selloff: The Short Squeeze, which is caused by my core setup: The Failed Breakdown."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "FOMC Tomorrow. Will It Spoil The SPX Rally? Jan 29th Plan",
+  "post_date": "2025-01-28",
+  "post_slug": "fomc-tomorrow-will-it-spoil-the-spx",
+  "parsed_at": "2026-04-16T15:45:42.574008",
+  "body_length": 2270
+}

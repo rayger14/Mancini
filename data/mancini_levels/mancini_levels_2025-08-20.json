@@ -1,0 +1,119 @@
+{
+  "trading_date": "2025-08-20",
+  "levels": [
+    {
+      "price": 6453.0,
+      "role": "resistance",
+      "context": "below 6453"
+    },
+    {
+      "price": 6460.0,
+      "role": "range",
+      "context": "6460-6500"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "recover 6461"
+    },
+    {
+      "price": 6469.0,
+      "role": "range",
+      "context": "6460-69"
+    },
+    {
+      "price": 6477.0,
+      "role": "mentioned",
+      "context": "rday, we saw it again, flushing to 6460ish, then popping to 6477 high of day. The result of this is that ES was coiled as ti"
+    },
+    {
+      "price": 6484.0,
+      "role": "mentioned",
+      "context": "ecovery.\u201d We recovered 6469 at noon Friday, and squeezed to 6484, before fading late day. Yesterday, we saw it again, flushi"
+    },
+    {
+      "price": 6500.0,
+      "role": "range",
+      "context": "6460-6500"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ailed Breakdown key low from Tuesday), and then squeezed to 6507 by Friday morning. Trap under the range, rally. We saw it a"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6460.0,
+      "role": "range",
+      "context": "6460-6500"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "recover 6461"
+    },
+    {
+      "price": 6469.0,
+      "role": "range",
+      "context": "6460-69"
+    },
+    {
+      "price": 6477.0,
+      "role": "mentioned",
+      "context": "rday, we saw it again, flushing to 6460ish, then popping to 6477 high of day. The result of this is that ES was coiled as ti"
+    },
+    {
+      "price": 6484.0,
+      "role": "mentioned",
+      "context": "ecovery.\u201d We recovered 6469 at noon Friday, and squeezed to 6484, before fading late day. Yesterday, we saw it again, flushi"
+    },
+    {
+      "price": 6500.0,
+      "role": "range",
+      "context": "6460-6500"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ailed Breakdown key low from Tuesday), and then squeezed to 6507 by Friday morning. Trap under the range, rally. We saw it a"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6453.0,
+      "role": "resistance",
+      "context": "below 6453"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yeserday: \u201cBear case tomorrow: Short-term, begins below 6453.\u201d We lost 6453 this morning and it was a seamless less afterwards to the daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Mode 2 is where we get paid because generally everyday in Mode 2 is the same: Price flushes under support, puts in my core setup (the Failed Breakdown), rallies."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Thursday we started the day up at 6490 around range resistance.It then went \u201celevator down\u201d at 830AM to 6454."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Wednesday at 4pm: \u201c If we are knifing down, wait for 6454 to test then recover 6461 to try long \u201d We held 6454 exact at 830am Thursday, recovered 6461 (which was a Failed Breakdown key low from Tuesday), and then squeezed to 6507 by Friday morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Will it get bought?In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a powerful Failed Breakdown we saw last Thursday (discussed above) that set the low that lasted from Thursday into today."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "First Pullback For SPX in 19 Days. Will It Get Bought? August 20th Plan",
+  "post_date": "2025-08-19",
+  "post_slug": "first-pullback-for-spx-in-19-days",
+  "parsed_at": "2026-04-16T15:42:43.664433",
+  "body_length": 2782
+}

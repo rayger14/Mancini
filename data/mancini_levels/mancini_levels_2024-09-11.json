@@ -1,0 +1,114 @@
+{
+  "trading_date": "2024-09-11",
+  "levels": [
+    {
+      "price": 5372.0,
+      "role": "range",
+      "context": "5372-78"
+    },
+    {
+      "price": 5378.0,
+      "role": "range",
+      "context": "5372-78"
+    },
+    {
+      "price": 5393.0,
+      "role": "mentioned",
+      "context": "close trend day to the downside Friday, with ES flushing to 5393 in the final minutes of trading. As I\u2019ve discussed at lengt"
+    },
+    {
+      "price": 5400.0,
+      "role": "mentioned",
+      "context": "he corner\u2026. My general lean for Monday is we resume down to 5400, perhaps 5372-78. Those are both possible pivots to bounce"
+    },
+    {
+      "price": 5438.0,
+      "role": "range",
+      "context": "5438-41"
+    },
+    {
+      "price": 5441.0,
+      "role": "range",
+      "context": "5438-41"
+    },
+    {
+      "price": 5474.0,
+      "role": "range",
+      "context": "5474-78"
+    },
+    {
+      "price": 5478.0,
+      "role": "range",
+      "context": "5474-78"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5372.0,
+      "role": "range",
+      "context": "5372-78"
+    },
+    {
+      "price": 5378.0,
+      "role": "range",
+      "context": "5372-78"
+    },
+    {
+      "price": 5393.0,
+      "role": "mentioned",
+      "context": "close trend day to the downside Friday, with ES flushing to 5393 in the final minutes of trading. As I\u2019ve discussed at lengt"
+    },
+    {
+      "price": 5400.0,
+      "role": "mentioned",
+      "context": "he corner\u2026. My general lean for Monday is we resume down to 5400, perhaps 5372-78. Those are both possible pivots to bounce"
+    },
+    {
+      "price": 5438.0,
+      "role": "range",
+      "context": "5438-41"
+    },
+    {
+      "price": 5441.0,
+      "role": "range",
+      "context": "5438-41"
+    },
+    {
+      "price": 5474.0,
+      "role": "range",
+      "context": "5474-78"
+    },
+    {
+      "price": 5478.0,
+      "role": "range",
+      "context": "5474-78"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean for Monday is we resume down to 5400, perhaps 5372-78."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cGenerally the bull case for tomorrow would see ES building out structure."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I\u2019ve discussed at length though, there is something close to a law that exists in ES in which every significant \u201celevator down\u201d move has a correspondent short squeeze ."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Those are both possible pivots to bounce us, with 5474-78 being an obvious backtest magnet\u201d."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "CPI Day Tomorrow. Expect Volatility in SPX. September 11th Plan ",
+  "post_date": "2024-09-10",
+  "post_slug": "cpi-day-tomorrow-expect-volatility-bf4",
+  "parsed_at": "2026-04-16T15:47:45.696633",
+  "body_length": 1801
+}

@@ -1,0 +1,180 @@
+{
+  "trading_date": "2025-07-11",
+  "levels": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6250.0,
+      "role": "range",
+      "context": "6250-6288"
+    },
+    {
+      "price": 6252.0,
+      "role": "mentioned",
+      "context": "ive, the bull case is ES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. We could"
+    },
+    {
+      "price": 6271.0,
+      "role": "support",
+      "context": "hold 6271"
+    },
+    {
+      "price": 6277.0,
+      "role": "mentioned",
+      "context": "case is ES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. We could fill this out"
+    },
+    {
+      "price": 6288.0,
+      "role": "range",
+      "context": "6250-6288"
+    },
+    {
+      "price": 6303.0,
+      "role": "range",
+      "context": "6303-05"
+    },
+    {
+      "price": 6305.0,
+      "role": "range",
+      "context": "6303-05"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "perspective, the bull case is ES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. W"
+    },
+    {
+      "price": 6319.0,
+      "role": "mentioned",
+      "context": "ore but the bull case would be this breaks out, and targets 6319, 6325-30.\u201d By this morning, we tagged 6325-30 target. In to"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6325-30"
+    },
+    {
+      "price": 6330.0,
+      "role": "range",
+      "context": "6325-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6250.0,
+      "role": "range",
+      "context": "6250-6288"
+    },
+    {
+      "price": 6252.0,
+      "role": "mentioned",
+      "context": "ive, the bull case is ES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. We could"
+    },
+    {
+      "price": 6271.0,
+      "role": "support",
+      "context": "hold 6271"
+    },
+    {
+      "price": 6277.0,
+      "role": "mentioned",
+      "context": "case is ES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. We could fill this out"
+    },
+    {
+      "price": 6288.0,
+      "role": "range",
+      "context": "6250-6288"
+    },
+    {
+      "price": 6303.0,
+      "role": "range",
+      "context": "6303-05"
+    },
+    {
+      "price": 6305.0,
+      "role": "range",
+      "context": "6303-05"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "perspective, the bull case is ES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. W"
+    },
+    {
+      "price": 6319.0,
+      "role": "mentioned",
+      "context": "ore but the bull case would be this breaks out, and targets 6319, 6325-30.\u201d By this morning, we tagged 6325-30 target. In to"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6325-30"
+    },
+    {
+      "price": 6330.0,
+      "role": "range",
+      "context": "6325-30"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on F riday June 20th at 4pm when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I stated Tuesday that \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "In the most extreme bull case, ES will hold 6271 (or trap below)."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I confirmed at the close yesterday: \u201cOn a short term perspective, the bull case is ES is building a new triangle 6311 to 6252 now with 6277 magnet."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We could fill this out more but the bull case would be this breaks out, and targets 6319, 6325-30.\u201d By this morning, we tagged 6325-30 target."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into two quality Failed Breakdowns (my core setup) we had on Monday this week on the recovery of 6260, and Tuesday this week on the recovery of 6271."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I often say patterns are interesting, but when it comes to making money, we need to execute and on that front, all I care about is failed breakdowns."
+    }
+  ],
+  "level_count": 13,
+  "support_count": 13,
+  "resistance_count": 0,
+  "post_title": "New All Time Highs Obtained For SPX. New Leg Starting, Or Will It Fizzle Out? July 11 Plan ",
+  "post_date": "2025-07-10",
+  "post_slug": "new-all-time-highs-obtained-for-spx",
+  "parsed_at": "2026-04-16T15:43:19.857983",
+  "body_length": 2963
+}

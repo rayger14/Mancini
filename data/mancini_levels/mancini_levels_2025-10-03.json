@@ -1,0 +1,136 @@
+{
+  "trading_date": "2025-10-03",
+  "levels": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6770+ by yesterday\u2019"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6699.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6705.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6744.0,
+      "role": "mentioned",
+      "context": "when this work is done.\u201d We saw this today, we sold down to 6744 this morning, defended, then rallied to 6770. The dip was b"
+    },
+    {
+      "price": 6769.0,
+      "role": "mentioned",
+      "context": "er, 6699-6705 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this today, we"
+    },
+    {
+      "price": 6770.0,
+      "role": "mentioned",
+      "context": "e sold down to 6744 this morning, defended, then rallied to 6770. The dip was bought. Are we headed for another big leg up?"
+    },
+    {
+      "price": 6776.0,
+      "role": "mentioned",
+      "context": "99-6705 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this today, we sold"
+    },
+    {
+      "price": 6787.0,
+      "role": "mentioned",
+      "context": "5 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this today, we sold down t"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6770+ by yesterday\u2019"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6699.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6705.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6744.0,
+      "role": "mentioned",
+      "context": "when this work is done.\u201d We saw this today, we sold down to 6744 this morning, defended, then rallied to 6770. The dip was b"
+    },
+    {
+      "price": 6769.0,
+      "role": "mentioned",
+      "context": "er, 6699-6705 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this today, we"
+    },
+    {
+      "price": 6770.0,
+      "role": "mentioned",
+      "context": "e sold down to 6744 this morning, defended, then rallied to 6770. The dip was bought. Are we headed for another big leg up?"
+    },
+    {
+      "price": 6776.0,
+      "role": "mentioned",
+      "context": "99-6705 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this today, we sold"
+    },
+    {
+      "price": 6787.0,
+      "role": "mentioned",
+      "context": "5 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this today, we sold down t"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Readers recall that I was looking for a rally to 6744 this week, stating Monday this week: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is we correct/consolidate."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy these dips the same way everytime: They wait for a scary, violent \u201celevator down\u201d sell that causes price to take out a major low or shelf of lows."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every single, violent, \u201celevator down\u201d sell in ES resolves with an equally violent snap back rally."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Next up, comes the Failed Breakdown and squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cAnother option to long is the Failed Breakdown of today\u2019s daily low at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6770+ by yesterday\u2019s close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter, I\u2019ll talk this, I\u2019ll do a deep dive into some of the plethora of quality setups we had this week including a monster Failed Breakdown Tuesday (that took us to 6745), a breakdown short late Tuesday (that took us to 6680), then a big Failed Breakdown yesterday (that took us to 6769)."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "The First October Dip Was Bought. Is The Parabolic Run Going To Continue In SPX? October 3rd Plan.",
+  "post_date": "2025-10-02",
+  "post_slug": "the-first-october-dip-was-bought",
+  "parsed_at": "2026-04-16T15:42:03.960927",
+  "body_length": 2825
+}

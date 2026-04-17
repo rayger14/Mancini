@@ -1,0 +1,172 @@
+{
+  "trading_date": "2026-02-19",
+  "levels": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "day\u2019s 6808 daily low.\u201d Yesterday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again. The tas"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "daily low at 6808"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6822-24"
+    },
+    {
+      "price": 6824.0,
+      "role": "range",
+      "context": "6822-24"
+    },
+    {
+      "price": 6843.0,
+      "role": "support",
+      "context": "hold 6843"
+    },
+    {
+      "price": 6860.0,
+      "role": "support",
+      "context": "recover 6860"
+    },
+    {
+      "price": 6876.0,
+      "role": "mentioned",
+      "context": "ulls need to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this today"
+    },
+    {
+      "price": 6893.0,
+      "role": "mentioned",
+      "context": "eed to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this today, gett"
+    },
+    {
+      "price": 6923.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6926.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "ally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this today, getting to 6923-26 which"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "day\u2019s 6808 daily low.\u201d Yesterday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again. The tas"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "daily low at 6808"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6822-24"
+    },
+    {
+      "price": 6824.0,
+      "role": "range",
+      "context": "6822-24"
+    },
+    {
+      "price": 6843.0,
+      "role": "support",
+      "context": "hold 6843"
+    },
+    {
+      "price": 6860.0,
+      "role": "support",
+      "context": "recover 6860"
+    },
+    {
+      "price": 6876.0,
+      "role": "mentioned",
+      "context": "ulls need to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this today"
+    },
+    {
+      "price": 6893.0,
+      "role": "mentioned",
+      "context": "eed to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this today, gett"
+    },
+    {
+      "price": 6923.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6926.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "ally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this today, getting to 6923-26 which"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Thursday at 4pm: \u201cMy general lean is after today\u2019s pullback ES can try some backtesting."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is bulls need to hold 6843 ideally."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "There are many of these, but the foundation of them is what I call the two siblings: Elevator down (sibling 1) , into Failed Breakdown, into short squeeze (sibling 2) ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator Down refers to vertical red candles where no support matters."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These short squeezes are caused by one thing: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES went elevator down 50 points rapidly to 6808."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In the morning we went elevator down 70+ points down to 6791."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cIf this is the case, the obvious entry is to wait for 6795 to defend (doesn\u2019t need to be exact) then recover today\u2019s 6808 daily low.\u201d Yesterday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday: \u201cIn summary for tomorrow: ES put in a big Failed Breakdown today by trapping under Friday\u2019s 6808 low down to 6791, and recovering 6808."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "In doing so, ES lost Friday\u2019s daily low at 6808."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "Two Big Green Days For SPX. More Incoming? Feb 19 Plan",
+  "post_date": "2026-02-18",
+  "post_slug": "two-big-green-days-for-spx-more-incoming",
+  "parsed_at": "2026-04-16T15:40:03.115769",
+  "body_length": 2444
+}

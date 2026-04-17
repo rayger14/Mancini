@@ -1,0 +1,120 @@
+{
+  "trading_date": "2025-10-16",
+  "levels": [
+    {
+      "price": 6602.0,
+      "role": "range",
+      "context": "6602-05"
+    },
+    {
+      "price": 6605.0,
+      "role": "range",
+      "context": "6602-05"
+    },
+    {
+      "price": 6652.0,
+      "role": "mentioned",
+      "context": "ot, wait for the Failed Breakdown of that 6667 low.\u201d We hit 6652 low of day, recovered 6667, ripped into the close. Volatili"
+    },
+    {
+      "price": 6667.0,
+      "role": "mentioned",
+      "context": "an long 6653. If not, wait for the Failed Breakdown of that 6667 low.\u201d We hit 6652 low of day, recovered 6667, ripped into t"
+    },
+    {
+      "price": 6715.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6723.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "us up. We reclaimed it, and ripped 158 points right to that 6766 backtest. I wrote yesterday: \u201cThe 6766 full backtest is a l"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6602.0,
+      "role": "range",
+      "context": "6602-05"
+    },
+    {
+      "price": 6605.0,
+      "role": "range",
+      "context": "6602-05"
+    },
+    {
+      "price": 6652.0,
+      "role": "mentioned",
+      "context": "ot, wait for the Failed Breakdown of that 6667 low.\u201d We hit 6652 low of day, recovered 6667, ripped into the close. Volatili"
+    },
+    {
+      "price": 6667.0,
+      "role": "mentioned",
+      "context": "an long 6653. If not, wait for the Failed Breakdown of that 6667 low.\u201d We hit 6652 low of day, recovered 6667, ripped into t"
+    },
+    {
+      "price": 6715.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6723.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "us up. We reclaimed it, and ripped 158 points right to that 6766 backtest. I wrote yesterday: \u201cThe 6766 full backtest is a l"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, my favorite footprint is the Failed Breakdown and this is how institutions accumulate: They wait for price to put in a vicious, \u201celevator down\u201d sell, undercut a low, trap shorts/grab stops on longs, then squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "An elevator down sell to setup a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was an \u201celevator down\u201d sell, meaning we prepare for the Failed Breakdown and short-squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I tweeted live at 9:45AM Tuesday that the 6605 Failed Breakdown would squeeze us up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If not, wait for the Failed Breakdown of that 6667 low.\u201d We hit 6652 low of day, recovered 6667, ripped into the close."
+    },
+    {
+      "type": "TARGETS",
+      "text": "I was looking for this target all week, writing Monday at 4pm: \u201cTargets are 6715-23 which tackles the red \u201cmegaphone\u201d above yet again."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This back-test remains a magnet.\u201d However, we would need a setup to rally us there."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "I wrote yesterday: \u201cThe 6766 full backtest is a lower risk spot to short.\u201d We held it exact, and down we went 100+ points to 6652 low of day."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Macro Rally Target Has Been Hit For SPX, and We Sold. Can Bulls Buy This Dip? Oct 16 Plan",
+  "post_date": "2025-10-15",
+  "post_slug": "macro-rally-target-has-been-hit-for",
+  "parsed_at": "2026-04-16T15:41:52.428471",
+  "body_length": 2970
+}

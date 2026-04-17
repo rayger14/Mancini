@@ -1,0 +1,179 @@
+{
+  "trading_date": "2025-01-16",
+  "levels": [
+    {
+      "price": 5845.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5848.0,
+      "role": "range",
+      "context": "5848-50"
+    },
+    {
+      "price": 5850.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5893.0,
+      "role": "target",
+      "context": "target 5893"
+    },
+    {
+      "price": 5917.0,
+      "role": "target",
+      "context": "target 5917"
+    },
+    {
+      "price": 5918.0,
+      "role": "mentioned",
+      "context": "bulls can keep it going\u2026 the next leg up would target 5893, 5918, then 5928-31 .\u201d Yesterday, we got to 5918. Today, it would"
+    },
+    {
+      "price": 5928.0,
+      "role": "range",
+      "context": "5928-31"
+    },
+    {
+      "price": 5931.0,
+      "role": "range",
+      "context": "5928-31"
+    },
+    {
+      "price": 5934.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "y coiling for more upside. This would target 5917, 5934-36, 5965, then 5996/6004-08 if bulls really want to move\u201d This playe"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "or more upside. This would target 5917, 5934-36, 5965, then 5996/6004-08 if bulls really want to move\u201d This played out fanta"
+    },
+    {
+      "price": 6004.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5845.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5848.0,
+      "role": "range",
+      "context": "5848-50"
+    },
+    {
+      "price": 5850.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5918.0,
+      "role": "mentioned",
+      "context": "bulls can keep it going\u2026 the next leg up would target 5893, 5918, then 5928-31 .\u201d Yesterday, we got to 5918. Today, it would"
+    },
+    {
+      "price": 5928.0,
+      "role": "range",
+      "context": "5928-31"
+    },
+    {
+      "price": 5931.0,
+      "role": "range",
+      "context": "5928-31"
+    },
+    {
+      "price": 5934.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "y coiling for more upside. This would target 5917, 5934-36, 5965, then 5996/6004-08 if bulls really want to move\u201d This playe"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "or more upside. This would target 5917, 5934-36, 5965, then 5996/6004-08 if bulls really want to move\u201d This played out fanta"
+    },
+    {
+      "price": 6004.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5893.0,
+      "role": "target",
+      "context": "target 5893"
+    },
+    {
+      "price": 5917.0,
+      "role": "target",
+      "context": "target 5917"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "For tomorrow the bull case is bulls can keep it going\u2026 the next leg up would target 5893, 5918, then 5928-31 .\u201d Yesterday, we got to 5918."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is that a relief bounce leg began on Monday by testing megaphone support, and is underway."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My newsletter yesterday was entitled: \u201cIs Buy The Dip Temporarily Back In SPX\u201d and for today, the answer was certainly yes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Recall that all short squeezes are caused by the flush and recovery (failed breakdown) of a major previous support shelf."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It was a Back-Test Long at 5845-50 (as readers know), that got me long into CPI today, writing at 4pm yesterday: \u201cI am still holding my 10% long runner from the 5848-50 long setup around noon today, discussed above, and will let this work."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 12,
+  "resistance_count": 2,
+  "post_title": "The Rally Is Underway In SPX, But Now The Hard Part. Can It Sustain? Jan 16 Plan",
+  "post_date": "2025-01-15",
+  "post_slug": "the-rally-is-underway-in-spx-but",
+  "parsed_at": "2026-04-16T15:45:52.642764",
+  "body_length": 2219
+}

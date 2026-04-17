@@ -1,0 +1,99 @@
+{
+  "trading_date": "2024-11-11",
+  "levels": [
+    {
+      "price": 5733.0,
+      "role": "mentioned",
+      "context": "failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered\u201d , and I was looking 6000+ yeste"
+    },
+    {
+      "price": 5979.0,
+      "role": "mentioned",
+      "context": "n is always to defer to the trend. Bulls want to hold 6000, 5979 lowest tomorrow on dips. This would keep the parabolic move"
+    },
+    {
+      "price": 6000.0,
+      "role": "support",
+      "context": "hold 6000"
+    },
+    {
+      "price": 6016.0,
+      "role": "target",
+      "context": "target 6016"
+    },
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5733.0,
+      "role": "mentioned",
+      "context": "failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered\u201d , and I was looking 6000+ yeste"
+    },
+    {
+      "price": 5979.0,
+      "role": "mentioned",
+      "context": "n is always to defer to the trend. Bulls want to hold 6000, 5979 lowest tomorrow on dips. This would keep the parabolic move"
+    },
+    {
+      "price": 6000.0,
+      "role": "support",
+      "context": "hold 6000"
+    },
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6016.0,
+      "role": "target",
+      "context": "target 6016"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, this weeks long was the best of the year for me and it was triggered on Monday by the core accumulation pattern of large institutions (and my core setup): The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Monday at 4pm: \u201cThere is an active failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered\u201d , and I was looking 6000+ yesterday, and we got there."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a complete overview of the structure of this rally as it was caused (Monday) and perpetuated (Wednesday) by two quite different examples of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I want to talk about the difference between a high, and low quality Failed Breakdown in this regard."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "The Largest Green Week of 2024 Just Concluded In SPX. Cool-Off Coming? Nov 11 Plan",
+  "post_date": "2024-11-10",
+  "post_slug": "the-largest-green-week-of-2024-just-eca",
+  "parsed_at": "2026-04-16T15:46:49.403728",
+  "body_length": 1915
+}

@@ -1,0 +1,86 @@
+{
+  "trading_date": "2024-11-08",
+  "levels": [
+    {
+      "price": 5733.0,
+      "role": "mentioned",
+      "context": "failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered. The bull case for tomorrow woul"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5975-80"
+    },
+    {
+      "price": 5980.0,
+      "role": "range",
+      "context": "5975-80"
+    },
+    {
+      "price": 6006.0,
+      "role": "mentioned",
+      "context": "n runs to 5975-80 target. Perhaps reaction there, then onto 6006+\u201d. This morning, we hit 5975-80 major target, then got to 6"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5733.0,
+      "role": "mentioned",
+      "context": "failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered. The bull case for tomorrow woul"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5975-80"
+    },
+    {
+      "price": 5980.0,
+      "role": "range",
+      "context": "5975-80"
+    },
+    {
+      "price": 6006.0,
+      "role": "mentioned",
+      "context": "n runs to 5975-80 target. Perhaps reaction there, then onto 6006+\u201d. This morning, we hit 5975-80 major target, then got to 6"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case for tomorrow would be that this zone holds."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I added yesterday: \u201cMy general lean if I had to give one is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, this was the best trade of the year for me by a long shot from 5734 on Monday, and the market telegraphed it well in advance ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Via my core setup: The Failed Breakdown which is the footprint on the price chart that a large institution is longing."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When you see one you know a \u201cwhale\u201d just got in, and we need to follow them We got this on Monday, and on Monday at 4pm (when we were 5744) I wrote: \u201c There is an active failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The setup that caused this was my bread and butter trade, the failed breakdown, and we get them daily, albeit with far less extreme follow through."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Then we can head to all time highs.\u201d Monday evening, we touched 5735, which set the low, then rallied 280 points into todays highs."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "Steepest 4 Day Rally Of 2024 For SPX. How Much Is Left In The Tank? Nov 8th Plan",
+  "post_date": "2024-11-07",
+  "post_slug": "steepest-4-day-rally-of-2024-for",
+  "parsed_at": "2026-04-16T15:46:50.584875",
+  "body_length": 1968
+}

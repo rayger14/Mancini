@@ -1,0 +1,99 @@
+{
+  "trading_date": "2024-12-17",
+  "levels": [
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-40"
+    },
+    {
+      "price": 6040.0,
+      "role": "range",
+      "context": "6035-40"
+    },
+    {
+      "price": 6055.0,
+      "role": "range",
+      "context": "6060-55"
+    },
+    {
+      "price": 6060.0,
+      "role": "resistance",
+      "context": "below 6060"
+    },
+    {
+      "price": 6063.0,
+      "role": "range",
+      "context": "6060-63"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "still building out a huge structure between 6035-40 now and 6098 with a 6060 magnet in between. My general lean is always to"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-40"
+    },
+    {
+      "price": 6040.0,
+      "role": "range",
+      "context": "6035-40"
+    },
+    {
+      "price": 6055.0,
+      "role": "range",
+      "context": "6060-55"
+    },
+    {
+      "price": 6063.0,
+      "role": "range",
+      "context": "6060-63"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "still building out a huge structure between 6035-40 now and 6098 with a 6060 magnet in between. My general lean is always to"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6060.0,
+      "role": "resistance",
+      "context": "below 6060"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into an important variant of my core setup (the Failed Breakdown), known as the Failed Breakdown Re-Test, and this concept was critical last week, and we see it regularly."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I warned about this last Friday December 6th, where I wrote: \u201cIt would not shock me if this 6060-63 level turned into a \u201cmagnet level\u201d which we trap below over over for several days and build a new base\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Even last Wednesday when we had rallied to 6100 I had warned readers not to get too excited, stating Wednesday at 4pm: \u201c This range could easily fill out and morph for many more days (including several more tests of the 6060-55 magnet)\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I concluded my newsletter on Friday with the following: \u201c We are rangebound still building out a huge structure between 6035-40 now and 6098 with a 6060 magnet in between."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "SPX Has Built A Huge Bull Flag. Can It Follow Through? Dec 17 Plan",
+  "post_date": "2024-12-16",
+  "post_slug": "spx-has-built-a-huge-bull-flag-can",
+  "parsed_at": "2026-04-16T15:46:16.420361",
+  "body_length": 2158
+}

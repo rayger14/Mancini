@@ -1,0 +1,198 @@
+{
+  "trading_date": "2025-05-29",
+  "levels": [
+    {
+      "price": 5760.0,
+      "role": "mentioned",
+      "context": "+ target yesterday. Recall that last Friday\u2019s deep flush to 5760 was triggered by the failure of a two day shelf at 5850, by"
+    },
+    {
+      "price": 5809.0,
+      "role": "support",
+      "context": "hold 5809"
+    },
+    {
+      "price": 5815.0,
+      "role": "support",
+      "context": "recover 5815"
+    },
+    {
+      "price": 5820.0,
+      "role": "range",
+      "context": "5815-20"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": ", we recovered 5815-20, longs triggered. We then rallied to 5850, cleared it, then ran to 5925+ target yesterday. Recall tha"
+    },
+    {
+      "price": 5920.0,
+      "role": "range",
+      "context": "5920-25"
+    },
+    {
+      "price": 5925.0,
+      "role": "range",
+      "context": "5920-25"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "d as long as it holds (or traps below quickly and recovers) 5945, 5957, then 5970-75 are next target slate...Perhaps dip the"
+    },
+    {
+      "price": 5957.0,
+      "role": "mentioned",
+      "context": "ong as it holds (or traps below quickly and recovers) 5945, 5957, then 5970-75 are next target slate...Perhaps dip there, th"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5995.0,
+      "role": "range",
+      "context": "5995-6000"
+    },
+    {
+      "price": 6000.0,
+      "role": "range",
+      "context": "5995-6000"
+    },
+    {
+      "price": 6030.0,
+      "role": "mentioned",
+      "context": "ip there, then when the range is ready to break, 5995-6000, 6030, 6047, then 6072 are the next big targets up.\u201d After runnin"
+    },
+    {
+      "price": 6047.0,
+      "role": "mentioned",
+      "context": "re, then when the range is ready to break, 5995-6000, 6030, 6047, then 6072 are the next big targets up.\u201d After running to 5"
+    },
+    {
+      "price": 6072.0,
+      "role": "mentioned",
+      "context": "en the range is ready to break, 5995-6000, 6030, 6047, then 6072 are the next big targets up.\u201d After running to 5945+ overni"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5760.0,
+      "role": "mentioned",
+      "context": "+ target yesterday. Recall that last Friday\u2019s deep flush to 5760 was triggered by the failure of a two day shelf at 5850, by"
+    },
+    {
+      "price": 5809.0,
+      "role": "support",
+      "context": "hold 5809"
+    },
+    {
+      "price": 5815.0,
+      "role": "support",
+      "context": "recover 5815"
+    },
+    {
+      "price": 5820.0,
+      "role": "range",
+      "context": "5815-20"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": ", we recovered 5815-20, longs triggered. We then rallied to 5850, cleared it, then ran to 5925+ target yesterday. Recall tha"
+    },
+    {
+      "price": 5920.0,
+      "role": "range",
+      "context": "5920-25"
+    },
+    {
+      "price": 5925.0,
+      "role": "range",
+      "context": "5920-25"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "d as long as it holds (or traps below quickly and recovers) 5945, 5957, then 5970-75 are next target slate...Perhaps dip the"
+    },
+    {
+      "price": 5957.0,
+      "role": "mentioned",
+      "context": "ong as it holds (or traps below quickly and recovers) 5945, 5957, then 5970-75 are next target slate...Perhaps dip there, th"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5995.0,
+      "role": "range",
+      "context": "5995-6000"
+    },
+    {
+      "price": 6000.0,
+      "role": "range",
+      "context": "5995-6000"
+    },
+    {
+      "price": 6030.0,
+      "role": "mentioned",
+      "context": "ip there, then when the range is ready to break, 5995-6000, 6030, 6047, then 6072 are the next big targets up.\u201d After runnin"
+    },
+    {
+      "price": 6047.0,
+      "role": "mentioned",
+      "context": "re, then when the range is ready to break, 5995-6000, 6030, 6047, then 6072 are the next big targets up.\u201d After running to 5"
+    },
+    {
+      "price": 6072.0,
+      "role": "mentioned",
+      "context": "en the range is ready to break, 5995-6000, 6030, 6047, then 6072 are the next big targets up.\u201d After running to 5945+ overni"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Friday at 4pm: \u201cIn a strong bull case for Monday, ES won\u2019t even head back to support of this range, and will rather just hold 5809 or 5794, recover 5815-20, then head back on up to 5843 then 5850\u2026After 5850 recovers, 5877, 5900, then 5925 are the next big stops on the upside as we work back towards the highs.\u201d On Sunday, Monday, and yesterday, we saw exactly this."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, my edge (Failed Breakdowns) exploits this, and I long alongside institutions after those \u201cscary\u201d selloffs when price loses a low, traps shorts, then recovers it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the setup last Friday morning that caused this weeks 160+ point rally (its a great example of what I call a Level Reclaim, which is an important-to-know variant of my core setup, the Failed Breakdown)."
+    },
+    {
+      "type": "TARGETS",
+      "text": "5920-25=support and as long as it holds (or traps below quickly and recovers) 5945, 5957, then 5970-75 are next target slate...Perhaps dip there, then when the range is ready to break, 5995-6000, 6030, 6047, then 6072 are the next big targets up.\u201d After running to 5945+ overnight, ES spent all day glued to 5920-25, trapping below."
+    }
+  ],
+  "level_count": 16,
+  "support_count": 16,
+  "resistance_count": 0,
+  "post_title": "Can Nvidia Earnings Spoil The SPX Rally? May 29 Plan",
+  "post_date": "2025-05-28",
+  "post_slug": "can-nvidia-earnings-spoil-the-spx",
+  "parsed_at": "2026-04-16T15:43:56.899119",
+  "body_length": 2965
+}

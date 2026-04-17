@@ -1,0 +1,144 @@
+{
+  "trading_date": "2024-09-16",
+  "levels": [
+    {
+      "price": 5393.0,
+      "role": "mentioned",
+      "context": "uyable Dip, or More Red Ahead?\u201d. Last Friday, we flushed to 5393 in the final minutes of trading, concluding an open-to-clos"
+    },
+    {
+      "price": 5437.0,
+      "role": "range",
+      "context": "5437-43"
+    },
+    {
+      "price": 5443.0,
+      "role": "range",
+      "context": "5437-43"
+    },
+    {
+      "price": 5537.0,
+      "role": "range",
+      "context": "5543-37"
+    },
+    {
+      "price": 5543.0,
+      "role": "range",
+      "context": "5543-37"
+    },
+    {
+      "price": 5585.0,
+      "role": "range",
+      "context": "5585-93"
+    },
+    {
+      "price": 5593.0,
+      "role": "range",
+      "context": "5585-93"
+    },
+    {
+      "price": 5619.0,
+      "role": "mentioned",
+      "context": "flushes) we simply continue up, with the next leg targeting 5619, 5630, then 5660-64 as a stretch target\u201d. By 10am this morn"
+    },
+    {
+      "price": 5630.0,
+      "role": "mentioned",
+      "context": "s) we simply continue up, with the next leg targeting 5619, 5630, then 5660-64 as a stretch target\u201d. By 10am this morning, w"
+    },
+    {
+      "price": 5660.0,
+      "role": "range",
+      "context": "5660-64"
+    },
+    {
+      "price": 5664.0,
+      "role": "range",
+      "context": "5660-64"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5393.0,
+      "role": "mentioned",
+      "context": "uyable Dip, or More Red Ahead?\u201d. Last Friday, we flushed to 5393 in the final minutes of trading, concluding an open-to-clos"
+    },
+    {
+      "price": 5437.0,
+      "role": "range",
+      "context": "5437-43"
+    },
+    {
+      "price": 5443.0,
+      "role": "range",
+      "context": "5437-43"
+    },
+    {
+      "price": 5537.0,
+      "role": "range",
+      "context": "5543-37"
+    },
+    {
+      "price": 5543.0,
+      "role": "range",
+      "context": "5543-37"
+    },
+    {
+      "price": 5585.0,
+      "role": "range",
+      "context": "5585-93"
+    },
+    {
+      "price": 5593.0,
+      "role": "range",
+      "context": "5585-93"
+    },
+    {
+      "price": 5619.0,
+      "role": "mentioned",
+      "context": "flushes) we simply continue up, with the next leg targeting 5619, 5630, then 5660-64 as a stretch target\u201d. By 10am this morn"
+    },
+    {
+      "price": 5630.0,
+      "role": "mentioned",
+      "context": "s) we simply continue up, with the next leg targeting 5619, 5630, then 5660-64 as a stretch target\u201d. By 10am this morning, w"
+    },
+    {
+      "price": 5660.0,
+      "role": "range",
+      "context": "5660-64"
+    },
+    {
+      "price": 5664.0,
+      "role": "range",
+      "context": "5660-64"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my Wednesday 4pm newsletter: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I then wrote in yesterdays newsletter at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For every \u201celevator down\u201d selloff, there is an equally powerful and often more vicious short squeeze loading."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After CPI day on Wednesday, we saw another \u201celevator down\u201d move and like all elevator down moves, that lead to another vicious short squeeze and phase of buy the dips."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "Are ATHs Coming Next Week For SPX? Not So Fast. Sept 16 Plan",
+  "post_date": "2024-09-15",
+  "post_slug": "are-aths-coming-next-week-for-spx-735",
+  "parsed_at": "2026-04-16T15:47:41.649525",
+  "body_length": 2262
+}

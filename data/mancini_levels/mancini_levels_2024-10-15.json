@@ -1,0 +1,160 @@
+{
+  "trading_date": "2024-10-15",
+  "levels": [
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "mentioned",
+      "context": "86-88, possible dip there, then tackle bull flag resistance 5805. If this flag breaks out, we see a new ATH to 5846\u201d. It bro"
+    },
+    {
+      "price": 5809.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5811.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5834.0,
+      "role": "range",
+      "context": "5834-36"
+    },
+    {
+      "price": 5836.0,
+      "role": "range",
+      "context": "5834-36"
+    },
+    {
+      "price": 5842.0,
+      "role": "support",
+      "context": "hold 5842"
+    },
+    {
+      "price": 5858.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5860.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5863.0,
+      "role": "mentioned",
+      "context": "834-36 on Monday, we just continue rallying. This would see 5863 revisited, perhaps 1 more dip, then on to 5878, 5890+\u201d. We"
+    },
+    {
+      "price": 5878.0,
+      "role": "mentioned",
+      "context": "is would see 5863 revisited, perhaps 1 more dip, then on to 5878, 5890+\u201d. We hit 5890+ by 9:50AM Its been a massively lucrat"
+    },
+    {
+      "price": 5890.0,
+      "role": "mentioned",
+      "context": "ld see 5863 revisited, perhaps 1 more dip, then on to 5878, 5890+\u201d. We hit 5890+ by 9:50AM Its been a massively lucrative fe"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "mentioned",
+      "context": "86-88, possible dip there, then tackle bull flag resistance 5805. If this flag breaks out, we see a new ATH to 5846\u201d. It bro"
+    },
+    {
+      "price": 5809.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5811.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5834.0,
+      "role": "range",
+      "context": "5834-36"
+    },
+    {
+      "price": 5836.0,
+      "role": "range",
+      "context": "5834-36"
+    },
+    {
+      "price": 5842.0,
+      "role": "support",
+      "context": "hold 5842"
+    },
+    {
+      "price": 5858.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5860.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5863.0,
+      "role": "mentioned",
+      "context": "834-36 on Monday, we just continue rallying. This would see 5863 revisited, perhaps 1 more dip, then on to 5878, 5890+\u201d. We"
+    },
+    {
+      "price": 5878.0,
+      "role": "mentioned",
+      "context": "is would see 5863 revisited, perhaps 1 more dip, then on to 5878, 5890+\u201d. We hit 5890+ by 9:50AM Its been a massively lucrat"
+    },
+    {
+      "price": 5890.0,
+      "role": "mentioned",
+      "context": "ld see 5863 revisited, perhaps 1 more dip, then on to 5878, 5890+\u201d. We hit 5890+ by 9:50AM Its been a massively lucrative fe"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The first was 5734 to 5805 and I wrote exactly 1 week ago at 4pm: \u201cBull case tomorrow: No change."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case is that we just work this back up to the upside."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Then, they formed another bull flag on Thursday and I wrote in my Thursday newsletter: \u201cMy general lean is always to defer to the trend."
+    }
+  ],
+  "level_count": 13,
+  "support_count": 13,
+  "resistance_count": 0,
+  "post_title": "SPX Goes Full-On Parabolic, How Much Does It Have Left Though? Oct 15 Plan",
+  "post_date": "2024-10-14",
+  "post_slug": "spx-goes-full-on-parabolic-how-much",
+  "parsed_at": "2026-04-16T15:47:14.111582",
+  "body_length": 2372
+}

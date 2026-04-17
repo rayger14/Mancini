@@ -1,0 +1,138 @@
+{
+  "trading_date": "2025-09-01",
+  "levels": [
+    {
+      "price": 6363.0,
+      "role": "mentioned",
+      "context": "22nd. Last Friday morning around 2:30AM ES flushed hard to 6363 and in the dead of night, a massive institution took a long"
+    },
+    {
+      "price": 6370.0,
+      "role": "support",
+      "context": "6370 daily low"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "it holds (or quick trap below) ES can work higher to 6407, 6452, then 6461.\u201d What did we see Friday? Exactly this. ES flush"
+    },
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": "or quick trap below) ES can work higher to 6407, 6452, then 6461.\u201d What did we see Friday? Exactly this. ES flushed under 63"
+    },
+    {
+      "price": 6474.0,
+      "role": "mentioned",
+      "context": "arnings: \u201cThe Failed Breakdown is obvious: It is of today\u2019s 6474 low.\u201d What did we do? Literally exactly this. We flushed 64"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "s, trapped shorts, then ripped violently to 6461, then onto 6494 to close last Friday. That took is into this week, and inst"
+    },
+    {
+      "price": 6501.0,
+      "role": "mentioned",
+      "context": "a Failed Breakdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This playe"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ed Breakdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out"
+    },
+    {
+      "price": 6523.0,
+      "role": "mentioned",
+      "context": "akdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out incred"
+    },
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": "squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out incredibly well a"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6363.0,
+      "role": "mentioned",
+      "context": "22nd. Last Friday morning around 2:30AM ES flushed hard to 6363 and in the dead of night, a massive institution took a long"
+    },
+    {
+      "price": 6370.0,
+      "role": "support",
+      "context": "6370 daily low"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "it holds (or quick trap below) ES can work higher to 6407, 6452, then 6461.\u201d What did we see Friday? Exactly this. ES flush"
+    },
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": "or quick trap below) ES can work higher to 6407, 6452, then 6461.\u201d What did we see Friday? Exactly this. ES flushed under 63"
+    },
+    {
+      "price": 6474.0,
+      "role": "mentioned",
+      "context": "arnings: \u201cThe Failed Breakdown is obvious: It is of today\u2019s 6474 low.\u201d What did we do? Literally exactly this. We flushed 64"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "s, trapped shorts, then ripped violently to 6461, then onto 6494 to close last Friday. That took is into this week, and inst"
+    },
+    {
+      "price": 6501.0,
+      "role": "mentioned",
+      "context": "a Failed Breakdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This playe"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ed Breakdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out"
+    },
+    {
+      "price": 6523.0,
+      "role": "mentioned",
+      "context": "akdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out incred"
+    },
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": "squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out incredibly well a"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm: \u201cA Failed Breakdown of today\u2019s 6370 daily low is always of interest.\u201d and \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote at 3:20pm Wednesday prior to NVDA earnings: \u201cThe Failed Breakdown is obvious: It is of today\u2019s 6474 low.\u201d What did we do?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We flushed 6474 after Nvdia, recovered in a Failed Breakdown and squeezed."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a few of the prime quality Failed Breakdowns we had this week."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "Summer Trading Concludes With A Dip In SPX. Will It Get Bought? September 1st/2nd Plan",
+  "post_date": "2025-08-31",
+  "post_slug": "summer-trading-concludes-with-a-dip-e13",
+  "parsed_at": "2026-04-16T15:42:33.142660",
+  "body_length": 2293
+}

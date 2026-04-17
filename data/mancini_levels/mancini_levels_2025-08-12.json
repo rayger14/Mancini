@@ -1,0 +1,118 @@
+{
+  "trading_date": "2025-08-12",
+  "levels": [
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6387.0,
+      "role": "mentioned",
+      "context": "g as 6333 holds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d We saw exactly this"
+    },
+    {
+      "price": 6399.0,
+      "role": "mentioned",
+      "context": "333 holds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d We saw exactly this on Fri"
+    },
+    {
+      "price": 6407.0,
+      "role": "mentioned",
+      "context": "lds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d We saw exactly this on Friday, w"
+    },
+    {
+      "price": 6415.0,
+      "role": "mentioned",
+      "context": "just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d We saw exactly this on Friday, with ES tagg"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6387.0,
+      "role": "mentioned",
+      "context": "g as 6333 holds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d We saw exactly this"
+    },
+    {
+      "price": 6399.0,
+      "role": "mentioned",
+      "context": "333 holds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d We saw exactly this on Fri"
+    },
+    {
+      "price": 6407.0,
+      "role": "mentioned",
+      "context": "lds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d We saw exactly this on Friday, w"
+    },
+    {
+      "price": 6415.0,
+      "role": "mentioned",
+      "context": "just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d We saw exactly this on Friday, with ES tagg"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Friday August 1st at 4pm: \u201cThe bull case Monday is that ES can do some back-testing of the zones we broke down yesterday and today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Thursday at 4pm (when were 6360s): \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I call this \u201celevator down\u201d and it sees ES lose many supports rapidly."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This turns sentiment bearish, and top-callers appear 2) All \u201celevator down\u201d sells in ES resolve with a violent short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These short squeezes are caused by my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A Failed Breakdown is when price sweeps a low, traps shorts, then recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After selling 230 points last week, on Friday August 1st in the afternoon we saw a massive Failed Breakdown where ES swept a major low at 6245 then recovered, getting us long."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then last Thursday, ES saw an \u201celevator down\u201d sell, reversing from 6420s down to 6333."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Sentiment was bearish here, but we were longing, and last Thursday at around 2:50PM ES got a quality Failed Breakdown of a shelf of lows at 6344."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive review into the Failed Breakdowns we saw on Wednesday and Thursday last week each which gave us a nearly 100 point leg up (these were given in advance)."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "CPI Day Tomorrow. Will It Derail, Or Accelerate The Current Rally? August 12th Plan",
+  "post_date": "2025-08-11",
+  "post_slug": "cpi-day-tomorrow-will-it-derail-or",
+  "parsed_at": "2026-04-16T15:42:51.539125",
+  "body_length": 2794
+}

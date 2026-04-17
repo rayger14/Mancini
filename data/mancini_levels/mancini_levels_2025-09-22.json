@@ -1,0 +1,116 @@
+{
+  "trading_date": "2025-09-22",
+  "levels": [
+    {
+      "price": 6656.0,
+      "role": "support",
+      "context": "defend 6656"
+    },
+    {
+      "price": 6675.0,
+      "role": "mentioned",
+      "context": "is always to defer to the trend. ES is flagging 6708-14 to 6675 with 6693 a magnet inside. This keeps the next leg up live"
+    },
+    {
+      "price": 6693.0,
+      "role": "mentioned",
+      "context": "to defer to the trend. ES is flagging 6708-14 to 6675 with 6693 a magnet inside. This keeps the next leg up live which targ"
+    },
+    {
+      "price": 6708.0,
+      "role": "range",
+      "context": "6708-14"
+    },
+    {
+      "price": 6714.0,
+      "role": "range",
+      "context": "6708-14"
+    },
+    {
+      "price": 6725.0,
+      "role": "mentioned",
+      "context": "eps the next leg up live which targets 6708-14, react, then 6725, 6735+.\u201d Today, ES ran to 6708-14 acting as precise resista"
+    },
+    {
+      "price": 6735.0,
+      "role": "mentioned",
+      "context": "e next leg up live which targets 6708-14, react, then 6725, 6735+.\u201d Today, ES ran to 6708-14 acting as precise resistance al"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6656.0,
+      "role": "support",
+      "context": "defend 6656"
+    },
+    {
+      "price": 6675.0,
+      "role": "mentioned",
+      "context": "is always to defer to the trend. ES is flagging 6708-14 to 6675 with 6693 a magnet inside. This keeps the next leg up live"
+    },
+    {
+      "price": 6693.0,
+      "role": "mentioned",
+      "context": "to defer to the trend. ES is flagging 6708-14 to 6675 with 6693 a magnet inside. This keeps the next leg up live which targ"
+    },
+    {
+      "price": 6708.0,
+      "role": "range",
+      "context": "6708-14"
+    },
+    {
+      "price": 6714.0,
+      "role": "range",
+      "context": "6708-14"
+    },
+    {
+      "price": 6725.0,
+      "role": "mentioned",
+      "context": "eps the next leg up live which targets 6708-14, react, then 6725, 6735+.\u201d Today, ES ran to 6708-14 acting as precise resista"
+    },
+    {
+      "price": 6735.0,
+      "role": "mentioned",
+      "context": "e next leg up live which targets 6708-14, react, then 6725, 6735+.\u201d Today, ES ran to 6708-14 acting as precise resistance al"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "After FOMC in my Wednesday 4pm newsletter, I noted: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close yesterday: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The most violent Failed Breakdowns occur after the most violent dips, and these are typically going to be data/news driven."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In this case, the Failed Breakdown was of last Friday\u2019s 6633 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll run down the 4 major Failed Breakdowns we had this week since Tuesday (its been one of the active weeks for Failed Breakdowns this year)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "ES is flagging 6708-14 to 6675 with 6693 a magnet inside."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Three Green Weeks In A Row For September. Will SPX Put In 4/4 Next Week? Sept 22 Plan",
+  "post_date": "2025-09-21",
+  "post_slug": "three-green-weeks-in-a-row-for-september-9d7",
+  "parsed_at": "2026-04-16T15:42:13.911293",
+  "body_length": 2413
+}

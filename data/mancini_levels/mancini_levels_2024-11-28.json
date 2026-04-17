@@ -1,0 +1,96 @@
+{
+  "trading_date": "2024-11-28",
+  "levels": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5988-93"
+    },
+    {
+      "price": 5993.0,
+      "role": "range",
+      "context": "5988-93"
+    },
+    {
+      "price": 6002.0,
+      "role": "mentioned",
+      "context": "we flush back down the range again towards the 5993 magnet. 6002 is support en route and I\u2019ll be watching for reactions ther"
+    },
+    {
+      "price": 6026.0,
+      "role": "mentioned",
+      "context": "the range this morning, and I wrote yesterday at 4pm: \u201c If 6026 fails, we flush back down the range again towards the 5993"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6038-44"
+    },
+    {
+      "price": 6044.0,
+      "role": "range",
+      "context": "6038-44"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5988-93"
+    },
+    {
+      "price": 5993.0,
+      "role": "range",
+      "context": "5988-93"
+    },
+    {
+      "price": 6002.0,
+      "role": "mentioned",
+      "context": "we flush back down the range again towards the 5993 magnet. 6002 is support en route and I\u2019ll be watching for reactions ther"
+    },
+    {
+      "price": 6026.0,
+      "role": "mentioned",
+      "context": "the range this morning, and I wrote yesterday at 4pm: \u201c If 6026 fails, we flush back down the range again towards the 5993"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6038-44"
+    },
+    {
+      "price": 6044.0,
+      "role": "range",
+      "context": "6038-44"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is to defer to the trend and we are closing today right at resistance of a 2 day range which has generally been 5993 to 6038-44 now."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "After hitting resistance yesterday, we began working down the range this morning, and I wrote yesterday at 4pm: \u201c If 6026 fails, we flush back down the range again towards the 5993 magnet."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Will Thanksgiving Bring A New All Time High For SPX? Nov 28/29 Plan",
+  "post_date": "2024-11-27",
+  "post_slug": "will-thanksgiving-bring-a-new-all",
+  "parsed_at": "2026-04-16T15:46:32.933814",
+  "body_length": 2202
+}

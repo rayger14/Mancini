@@ -1,0 +1,126 @@
+{
+  "trading_date": "2025-03-25",
+  "levels": [
+    {
+      "price": 5586.0,
+      "role": "mentioned",
+      "context": ", we got this when ES flushed the Tuesday March 11th low at 5586, sold 20 points, recovered it, and triggered long. I have b"
+    },
+    {
+      "price": 5699.0,
+      "role": "support",
+      "context": "defend 5699"
+    },
+    {
+      "price": 5747.0,
+      "role": "range",
+      "context": "5747-55"
+    },
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5750-55"
+    },
+    {
+      "price": 5755.0,
+      "role": "range",
+      "context": "5750-55"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "ck up to 5747-55. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next l"
+    },
+    {
+      "price": 5795.0,
+      "role": "mentioned",
+      "context": "to 5747-55. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d R"
+    },
+    {
+      "price": 5809.0,
+      "role": "mentioned",
+      "context": "7-55. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right o"
+    },
+    {
+      "price": 5824.0,
+      "role": "mentioned",
+      "context": "Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right off the"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "inal dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right off the futures op"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5586.0,
+      "role": "mentioned",
+      "context": ", we got this when ES flushed the Tuesday March 11th low at 5586, sold 20 points, recovered it, and triggered long. I have b"
+    },
+    {
+      "price": 5699.0,
+      "role": "support",
+      "context": "defend 5699"
+    },
+    {
+      "price": 5747.0,
+      "role": "range",
+      "context": "5747-55"
+    },
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5750-55"
+    },
+    {
+      "price": 5755.0,
+      "role": "range",
+      "context": "5750-55"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "ck up to 5747-55. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next l"
+    },
+    {
+      "price": 5795.0,
+      "role": "mentioned",
+      "context": "to 5747-55. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d R"
+    },
+    {
+      "price": 5809.0,
+      "role": "mentioned",
+      "context": "7-55. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right o"
+    },
+    {
+      "price": 5824.0,
+      "role": "mentioned",
+      "context": "Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right off the"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "inal dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right off the futures op"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "As I frequently discuss, I like to think of all price action in ES being comprised of three building blocks, each correlating with one of my setup types (Failed Breakdowns, Back-Test, Breakdowns)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Rallies to Back-Test the break down zone , but price needs a setup to do so, and this is typically my core setup & primary building block: The Failed Breakdown."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "SPX Breaks Out A 2 Week Range. Can It Follow Through? March 25 Plan",
+  "post_date": "2025-03-24",
+  "post_slug": "spx-breaks-out-a-2-week-range-can",
+  "parsed_at": "2026-04-16T15:44:54.718947",
+  "body_length": 2197
+}

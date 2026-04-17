@@ -1,0 +1,75 @@
+{
+  "trading_date": "2025-05-08",
+  "levels": [
+    {
+      "price": 5597.0,
+      "role": "range",
+      "context": "5597-5600"
+    },
+    {
+      "price": 5600.0,
+      "role": "range",
+      "context": "5597-5600"
+    },
+    {
+      "price": 5607.0,
+      "role": "support",
+      "context": "daily low at 5607"
+    },
+    {
+      "price": 5620.0,
+      "role": "resistance",
+      "context": "Below 5620"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5597.0,
+      "role": "range",
+      "context": "5597-5600"
+    },
+    {
+      "price": 5600.0,
+      "role": "range",
+      "context": "5597-5600"
+    },
+    {
+      "price": 5607.0,
+      "role": "support",
+      "context": "daily low at 5607"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5620.0,
+      "role": "resistance",
+      "context": "Below 5620"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that dips are always bought via my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In this case, the Failed Breakdown of yesterdays daily low at 5607 would be the actionable setup for today and I wrote yesterday at 4pm: \u201cBelow 5620, we should see a new low to 5597-5600."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Instead of just buying this, a safer bet is to wait for the Failed Breakdown of today\u2019s low which is just a little above at 5607.\u201d At 4:40PM last night, we lost 5607, put in a Failed Breakdown of yesterdays 5607 low, and squeezed violently to 5689."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into three quality setups we have had this week via my methodology: A Failed Breakdown on Monday (my core setup, which took us to Monday\u2019s 5706 high) then a Breakdown Short (my third setup type, which caused yesterdays sell)."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "SPX Is Coiled Tight For A Huge Move. What Way? May 8 Plan",
+  "post_date": "2025-05-07",
+  "post_slug": "spx-is-coiled-tight-for-a-huge-move",
+  "parsed_at": "2026-04-16T15:44:14.628406",
+  "body_length": 1985
+}

@@ -1,0 +1,107 @@
+{
+  "trading_date": "2026-03-25",
+  "levels": [
+    {
+      "price": 6524.0,
+      "role": "support",
+      "context": "6524 daily low"
+    },
+    {
+      "price": 6623.0,
+      "role": "resistance",
+      "context": "below 6623"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "e trapped below 6623, recovered, and ripped up the range to 6647 before spending most the day chopping around 6623 with a ma"
+    },
+    {
+      "price": 6690.0,
+      "role": "range",
+      "context": "6623-6690"
+    },
+    {
+      "price": 6761.0,
+      "role": "range",
+      "context": "6761-65"
+    },
+    {
+      "price": 6765.0,
+      "role": "range",
+      "context": "6761-65"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6524.0,
+      "role": "support",
+      "context": "6524 daily low"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "e trapped below 6623, recovered, and ripped up the range to 6647 before spending most the day chopping around 6623 with a ma"
+    },
+    {
+      "price": 6690.0,
+      "role": "range",
+      "context": "6623-6690"
+    },
+    {
+      "price": 6761.0,
+      "role": "range",
+      "context": "6761-65"
+    },
+    {
+      "price": 6765.0,
+      "role": "range",
+      "context": "6761-65"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6623.0,
+      "role": "resistance",
+      "context": "below 6623"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is to defer to the momentum."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of the most powerful building blocks is elevator down sell into Failed Breakdown, into short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down sell refers to a short period of time where ES flushes every support violently."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES went elevator down to 6484 by 3am."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cThis is where I get interested, and an obvious trade is the Failed Breakdown of today\u2019s 6524 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Once broken, next leg sees 6703, 6716, 6761-65.\u201d Overnight and this morning, we trapped below 6623, recovered, and ripped up the range to 6647 before spending most the day chopping around 6623 with a magnet, expanding this range futher."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "After Yesterdays Squeeze, SPX Is Consolidating. Trend Move Coming. What Way? March 25 Plan",
+  "post_date": "2026-03-24",
+  "post_slug": "after-yesterdays-squeeze-spx-is-consolidating",
+  "parsed_at": "2026-04-16T15:38:23.517084",
+  "body_length": 2274
+}

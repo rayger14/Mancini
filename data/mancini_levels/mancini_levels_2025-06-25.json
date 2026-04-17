@@ -1,0 +1,142 @@
+{
+  "trading_date": "2025-06-25",
+  "levels": [
+    {
+      "price": 5970.0,
+      "role": "mentioned",
+      "context": "his took us to triangle support. We then flushed Thursday\u2019s 5970 low, trapped shorts, recovered, and longs were triggered fo"
+    },
+    {
+      "price": 5978.0,
+      "role": "support",
+      "context": "5978 support"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "nday), with resistance being up at 6081. Inside this range, 6050 has been the mid-point support or what I call a magnet. I\u2019v"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "is always to defer to the trend, until it ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet insid"
+    },
+    {
+      "price": 6099.0,
+      "role": "mentioned",
+      "context": "en into this morning, we ran to all three provided targets: 6099, 6124, 6143. Now that the breakout is done, can bulls hold"
+    },
+    {
+      "price": 6124.0,
+      "role": "mentioned",
+      "context": "o this morning, we ran to all three provided targets: 6099, 6124, 6143. Now that the breakout is done, can bulls hold it? An"
+    },
+    {
+      "price": 6143.0,
+      "role": "mentioned",
+      "context": "morning, we ran to all three provided targets: 6099, 6124, 6143. Now that the breakout is done, can bulls hold it? And wher"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5970.0,
+      "role": "mentioned",
+      "context": "his took us to triangle support. We then flushed Thursday\u2019s 5970 low, trapped shorts, recovered, and longs were triggered fo"
+    },
+    {
+      "price": 5978.0,
+      "role": "support",
+      "context": "5978 support"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "nday), with resistance being up at 6081. Inside this range, 6050 has been the mid-point support or what I call a magnet. I\u2019v"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "is always to defer to the trend, until it ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet insid"
+    },
+    {
+      "price": 6099.0,
+      "role": "mentioned",
+      "context": "en into this morning, we ran to all three provided targets: 6099, 6124, 6143. Now that the breakout is done, can bulls hold"
+    },
+    {
+      "price": 6124.0,
+      "role": "mentioned",
+      "context": "o this morning, we ran to all three provided targets: 6099, 6124, 6143. Now that the breakout is done, can bulls hold it? An"
+    },
+    {
+      "price": 6143.0,
+      "role": "mentioned",
+      "context": "morning, we ran to all three provided targets: 6099, 6124, 6143. Now that the breakout is done, can bulls hold it? And wher"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For two weeks, ES had been stuck inside the same range, which I\u2019ve defined daily as being 5978 support (we set big lows here on June 5th, June 12th, then put in 10 point Failed Breakdowns on June 19th and this Sunday), with resistance being up at 6081."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "To trade, we need an entry setup and as readers know, mine is the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The past two weeks have seen a marriage between this triangle pattern, my core setup The Failed Breakdown, and headline flow originating from the Middle East conflict."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The cycle is generally the same: Bearish headline causes price to flush, it loses a major low, puts in a Failed Breakdown, recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The chart pattern enters the picture here, because it tells us where the Failed Breakdowns are likely to occur and for two weeks, most my entries have occurred on Failed Breakdowns of 5978 triangle support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "\u201d I also wrote on Friday at 4pm: \u201c\u2026Wait for a Failed Breakdown of Thursdays 5970 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the Failed Breakdowns we had at the 5978 zone over the last week, with particular emphasis on the one we saw last Thursday where we flushed that zone, trapped shorts, rallied 100 points into Friday."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Inside this range, 6050 has been the mid-point support or what I call a magnet."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "SPX Finally Breaks Out Its 2 Week Range. Where To From Here? June 25 Plan",
+  "post_date": "2025-06-24",
+  "post_slug": "spx-finally-breaks-out-its-2-week",
+  "parsed_at": "2026-04-16T15:43:34.020891",
+  "body_length": 2723
+}

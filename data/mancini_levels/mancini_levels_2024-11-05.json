@@ -1,0 +1,57 @@
+{
+  "trading_date": "2024-11-05",
+  "levels": [
+    {
+      "price": 5728.0,
+      "role": "range",
+      "context": "5728-30"
+    },
+    {
+      "price": 5730.0,
+      "role": "range",
+      "context": "5728-30"
+    },
+    {
+      "price": 5843.0,
+      "role": "resistance",
+      "context": "below 5843"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5728.0,
+      "role": "range",
+      "context": "5728-30"
+    },
+    {
+      "price": 5730.0,
+      "role": "range",
+      "context": "5728-30"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5843.0,
+      "role": "resistance",
+      "context": "below 5843"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Readers were well prepared for this event and everyday in this newsletter I provide the \u201cBear case short trigger\u201d below which price is likely to unravel."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my last Wednesday newsletter: \u201cBear case tomorrow: Begins below 5843\u201d."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 2,
+  "resistance_count": 1,
+  "post_title": "Election Week Is Underway. Can SPX Bulls Hold The Market Up? Nov 5th Plan",
+  "post_date": "2024-11-04",
+  "post_slug": "election-week-is-underway-can-spx",
+  "parsed_at": "2026-04-16T15:46:54.381778",
+  "body_length": 1979
+}

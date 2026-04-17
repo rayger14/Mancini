@@ -1,0 +1,103 @@
+{
+  "trading_date": "2025-08-06",
+  "levels": [
+    {
+      "price": 6282.0,
+      "role": "support",
+      "context": "above 6282"
+    },
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6361.0,
+      "role": "range",
+      "context": "6361-65"
+    },
+    {
+      "price": 6365.0,
+      "role": "range",
+      "context": "6361-65"
+    },
+    {
+      "price": 6374.0,
+      "role": "resistance",
+      "context": "Below 6374"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6282.0,
+      "role": "support",
+      "context": "above 6282"
+    },
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6361.0,
+      "role": "range",
+      "context": "6361-65"
+    },
+    {
+      "price": 6365.0,
+      "role": "range",
+      "context": "6361-65"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6374.0,
+      "role": "resistance",
+      "context": "Below 6374"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cThe bull case Monday is that ES can do some back-testing of the zones we broke down yesterday and today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Monday at 4pm: \u201cWe\u2019ve had a spectacular squeeze today and the bull case played out fully for the complete backtest of 6361-65, so there is little for me to write about here until we get a good pullback again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When it comes to how to buy those dips, I buy them the exact same way institutions do: Via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES always follows the same sequence after a sell: A slew of negative headlines/catalyts causes price to go \u2018elevator down\u2019 and sell vertically through supports."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Those who are familiar with the sell cycle though know what comes next: The Failed Breakdown and violent squeeze, with that squeeze frequently targetting the back-test of the zone whose failure initially produced the sell; 6274 in this case."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today, the agenda would be ES needed to pullback off that back-test, and the mission for bulls would be to buy the dip."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "Can Bulls Sustain The Friday/Monday SPX Rally? August 6 Plan",
+  "post_date": "2025-08-05",
+  "post_slug": "can-bulls-sustain-the-fridaymonday",
+  "parsed_at": "2026-04-16T15:42:56.548988",
+  "body_length": 3315
+}

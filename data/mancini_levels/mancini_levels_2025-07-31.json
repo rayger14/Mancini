@@ -1,0 +1,101 @@
+{
+  "trading_date": "2025-07-31",
+  "levels": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    },
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6386.0,
+      "role": "support",
+      "context": "recover 6386"
+    },
+    {
+      "price": 6436.0,
+      "role": "mentioned",
+      "context": "to 6365, recovered 6374, then squeezed viciously right to ~6436 into the close. The FOMC dip was bought, but can bulls make"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6386.0,
+      "role": "support",
+      "context": "recover 6386"
+    },
+    {
+      "price": 6436.0,
+      "role": "mentioned",
+      "context": "to 6365, recovered 6374, then squeezed viciously right to ~6436 into the close. The FOMC dip was bought, but can bulls make"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Monday July 21st at 4pm (when we were 6340s): \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Tuesday at 4pm: \u201cThe bull case though is that ES can fill it out the upside and test 6360, 6366, then 6371-74."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Rallies like this don\u2019t come for free though and as I wrote on Friday at 4pm: \u201cAfter a move like this, ES often needs to digest the move\u2026My general lean if I had to give one though is that ES can cooloff now and do some backtesting and work on structure.\u201d This is what we spent Monday and Tuesday doing, and ES began building a flag structure with support generally down at 6400, and resistance being in the mid-6430s."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cMy general lean is always defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is any traps under are bought, then we head up to 6415, 6428, 6436\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This gives us a chance to long and as readers know, I do that via one trade: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the difference between my core setup (The Failed Breakdown) and its more advanced sibling (the Level Reclaim)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For those who have mastered the classical Failed Breakdown, level reclaims are a useful tool for the toolkit and offer more entries."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "The FOMC Dip Was Bought. Will It Stick Though? July 31 Plan",
+  "post_date": "2025-07-30",
+  "post_slug": "the-fomc-dip-was-bought-will-it-stick",
+  "parsed_at": "2026-04-16T15:43:01.772589",
+  "body_length": 3086
+}

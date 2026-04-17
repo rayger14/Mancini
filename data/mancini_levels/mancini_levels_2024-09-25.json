@@ -1,0 +1,131 @@
+{
+  "trading_date": "2024-09-25",
+  "levels": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5738.0,
+      "role": "support",
+      "context": "5738 support"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "as this range is in tact though, it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thurs"
+    },
+    {
+      "price": 5782.0,
+      "role": "resistance",
+      "context": "5782 resistance"
+    },
+    {
+      "price": 5789.0,
+      "role": "mentioned",
+      "context": "as long as the structure remains in tact, breakout targets 5789, 5806, 5813, 5846+\u201d. Today, we continue to fill out this ba"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thursday, we tagged 5797 exact and it h"
+    },
+    {
+      "price": 5806.0,
+      "role": "mentioned",
+      "context": "ng as the structure remains in tact, breakout targets 5789, 5806, 5813, 5846+\u201d. Today, we continue to fill out this base, pu"
+    },
+    {
+      "price": 5813.0,
+      "role": "mentioned",
+      "context": "the structure remains in tact, breakout targets 5789, 5806, 5813, 5846+\u201d. Today, we continue to fill out this base, pushing"
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "ructure remains in tact, breakout targets 5789, 5806, 5813, 5846+\u201d. Today, we continue to fill out this base, pushing to 578"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5738.0,
+      "role": "support",
+      "context": "5738 support"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "as this range is in tact though, it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thurs"
+    },
+    {
+      "price": 5789.0,
+      "role": "mentioned",
+      "context": "as long as the structure remains in tact, breakout targets 5789, 5806, 5813, 5846+\u201d. Today, we continue to fill out this ba"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thursday, we tagged 5797 exact and it h"
+    },
+    {
+      "price": 5806.0,
+      "role": "mentioned",
+      "context": "ng as the structure remains in tact, breakout targets 5789, 5806, 5813, 5846+\u201d. Today, we continue to fill out this base, pu"
+    },
+    {
+      "price": 5813.0,
+      "role": "mentioned",
+      "context": "the structure remains in tact, breakout targets 5789, 5806, 5813, 5846+\u201d. Today, we continue to fill out this base, pushing"
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "ructure remains in tact, breakout targets 5789, 5806, 5813, 5846+\u201d. Today, we continue to fill out this base, pushing to 578"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5782.0,
+      "role": "resistance",
+      "context": "5782 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cShort-term for tomorrow, the bull case is unchanged and is that the range we have spent the last two days in is a bull flag with 5782 resistance and 5751/5738 supports."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Can this base lead to a green end to \u201cthe most bearish month of the year?\u201d In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a run down on the multiple failed breakdowns and level reclaims that propelled this recent move up (its been a good practical education into my core setup and how it functions)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Beginning last Wednesday, we finally made the trap to what was always the inevitably magnet for this rally: A New ATH in ES, and I wrote last Tuesday 1 week ago at 4pm: \u201cAs long as 5680-85 keeps holding we can simply continue building out the base we have spent the last several days in."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 9,
+  "resistance_count": 1,
+  "post_title": "Will September Finish Green For SPX? Sept 25th Plan",
+  "post_date": "2024-09-24",
+  "post_slug": "will-september-finish-green-for-spx",
+  "parsed_at": "2026-04-16T15:47:32.521207",
+  "body_length": 2041
+}

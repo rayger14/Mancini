@@ -1,0 +1,114 @@
+{
+  "trading_date": "2025-08-05",
+  "levels": [
+    {
+      "price": 6240.0,
+      "role": "mentioned",
+      "context": "d last Friday , flushing 130 points from 6374 into Friday\u2019s 6240 low. As stated above though, ES follows a very predictable"
+    },
+    {
+      "price": 6257.0,
+      "role": "support",
+      "context": "hold 6257"
+    },
+    {
+      "price": 6260.0,
+      "role": "range",
+      "context": "6257-60"
+    },
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6374.0,
+      "role": "support",
+      "context": "above 6374"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6240.0,
+      "role": "mentioned",
+      "context": "d last Friday , flushing 130 points from 6374 into Friday\u2019s 6240 low. As stated above though, ES follows a very predictable"
+    },
+    {
+      "price": 6257.0,
+      "role": "support",
+      "context": "hold 6257"
+    },
+    {
+      "price": 6260.0,
+      "role": "range",
+      "context": "6257-60"
+    },
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6374.0,
+      "role": "support",
+      "context": "above 6374"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cThe bull case Monday is that ES can do some back-testing of the zones we broke down yesterday and today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "In an \u201cultra bull case\u201d for Monday/Sunday, ES won\u2019t even make a new low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For Failed Breakdown traders like myself, readers know volatility just means bigger Failed Breakdowns/squeezes, and it\u2019s what caused today\u2019s rally after Friday\u2019s melt-down."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I use Failed Breakdowns, which mirror institutional accumulation patterns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It goes \u201celevator down\u201d and sells violently."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It undercuts a low, recovers, puts in a Failed Breakdown, and short squeezes 2x as violently."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My edge is trading the latter, and late day Friday as readers know, we put in a quality Failed Breakdown to get us long ~6257 ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We saw a large squeeze today, but its never the initial squeeze after a rally that\u2019s interesting, its whether bulls can then buy the dip after the first retracement of the squeeze."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "All last week, key supports which I discussed were 6374 and then 6333."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "Short Squeeze For SPX. Dead Cat Bounce, or Bottom? August 5th Plan",
+  "post_date": "2025-08-04",
+  "post_slug": "short-squeeze-for-spx-dead-cat-bounce-f1a",
+  "parsed_at": "2026-04-16T15:42:57.792288",
+  "body_length": 3054
+}

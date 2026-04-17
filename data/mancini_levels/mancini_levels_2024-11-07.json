@@ -1,0 +1,64 @@
+{
+  "trading_date": "2024-11-07",
+  "levels": [
+    {
+      "price": 5733.0,
+      "role": "mentioned",
+      "context": "failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered. Generally, the bull case for to"
+    },
+    {
+      "price": 5798.0,
+      "role": "range",
+      "context": "5798-5802"
+    },
+    {
+      "price": 5802.0,
+      "role": "range",
+      "context": "5798-5802"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5733.0,
+      "role": "mentioned",
+      "context": "failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered. Generally, the bull case for to"
+    },
+    {
+      "price": 5798.0,
+      "role": "range",
+      "context": "5798-5802"
+    },
+    {
+      "price": 5802.0,
+      "role": "range",
+      "context": "5798-5802"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Generally, the bull case for tomorrow would be that this zone holds."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This trade was triggered by the same thing that triggers almost every significant rally though: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Back on Monday at 4pm (when we were 5744), I wrote: \u201cThere is an active failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Then we can head to all time highs.\u201d This move started how every major move does: ES flushed last Thursdays lows on Monday, trapped shorts, institutions loaded up, and we rallied."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "FOMC Tomorrow. Can SPX Bulls Keep The Run Going, Or Will We Rug Pull? Nov 7 Plan",
+  "post_date": "2024-11-06",
+  "post_slug": "fomc-tomorrow-can-spx-bulls-keep",
+  "parsed_at": "2026-04-16T15:46:51.865948",
+  "body_length": 1944
+}

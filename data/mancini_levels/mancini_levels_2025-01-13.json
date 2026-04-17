@@ -1,0 +1,113 @@
+{
+  "trading_date": "2025-01-13",
+  "levels": [
+    {
+      "price": 5918.0,
+      "role": "level",
+      "context": "5918 level"
+    },
+    {
+      "price": 5928.0,
+      "role": "resistance",
+      "context": "below 5928"
+    },
+    {
+      "price": 5935.0,
+      "role": "range",
+      "context": "5928-35"
+    },
+    {
+      "price": 5936.0,
+      "role": "support",
+      "context": "above 5936"
+    },
+    {
+      "price": 5997.0,
+      "role": "target",
+      "context": "target 5997"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "w up this rally more. This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d This week the high"
+    },
+    {
+      "price": 6070.0,
+      "role": "mentioned",
+      "context": "ally more. This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d This week the high of week wa"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5918.0,
+      "role": "level",
+      "context": "5918 level"
+    },
+    {
+      "price": 5935.0,
+      "role": "range",
+      "context": "5928-35"
+    },
+    {
+      "price": 5936.0,
+      "role": "support",
+      "context": "above 5936"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "w up this rally more. This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d This week the high"
+    },
+    {
+      "price": 6070.0,
+      "role": "mentioned",
+      "context": "ally more. This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d This week the high of week wa"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5928.0,
+      "role": "resistance",
+      "context": "below 5928"
+    },
+    {
+      "price": 5997.0,
+      "role": "target",
+      "context": "target 5997"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking for a rally to 6070 this week as a result, writing last Friday at 4pm: \u201cMy general lean is that ES can try to follow up this rally more."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "It would be the battle line for today and I wrote on in my last newsletter: \u201cBear case Friday: Begins below 5928\u201d and \u201cGenerally its a case of bulls control above 5936 and 5928, and we sell again below\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This new regime would be characterized by two things: 1) Higher volatility, where 50 points today are now what 5 or 10 point moves before and 2) Higher complexity, with ES alternating between elevator down sells, and vicious counter short squeezes which are usually sold eventually due to bears controlling."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For the latter, it is my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One week ago today, we had just put in a monster Failed Breakdown of the 5918 level that set the lows last Monday and Tuesday, sold down to 5875 last Thursday, then we recovered it last Thursday around the close to trigger longs."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the action we had at the 5928-35 zone this week as we saw a great example of my core setup (the Failed Breakdown) there on Wednesday, and its failure today flushed us down."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 5,
+  "resistance_count": 2,
+  "post_title": "The First Week of 2025 Is Red For SPX. 4 of Last 5 Weeks Are Red. Green Week Next Week? Jan 13 Plan",
+  "post_date": "2025-01-12",
+  "post_slug": "the-first-week-of-2025-is-red-for-e83",
+  "parsed_at": "2026-04-16T15:45:56.567007",
+  "body_length": 2545
+}

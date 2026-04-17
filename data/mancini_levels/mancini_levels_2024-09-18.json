@@ -1,0 +1,36 @@
+{
+  "trading_date": "2024-09-18",
+  "levels": [
+    {
+      "price": 5734.0,
+      "role": "mentioned",
+      "context": "s played out perfectly, and by 10:15AM today, we had tagged 5734 target. From there, we finally got a pullback and as I warn"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5734.0,
+      "role": "mentioned",
+      "context": "s played out perfectly, and by 10:15AM today, we had tagged 5734 target. From there, we finally got a pullback and as I warn"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter I\u2019ll talk this, I\u2019ll go over my core setup: The Failed Breakdown, and discuss how it got me long yesterday for todays push (a setup provided to readers)."
+    }
+  ],
+  "level_count": 1,
+  "support_count": 1,
+  "resistance_count": 0,
+  "post_title": "FOMC Day Tomorrow: Expect Volatility In SPX. September 18th Plan",
+  "post_date": "2024-09-17",
+  "post_slug": "fomc-day-tomorrow-expect-volatility",
+  "parsed_at": "2026-04-16T15:47:38.905884",
+  "body_length": 2470
+}

@@ -1,0 +1,176 @@
+{
+  "trading_date": "2026-04-16",
+  "levels": [
+    {
+      "price": 6760.0,
+      "role": "mentioned",
+      "context": "a clear Failed Breakdown and a powerful one.\u201d ES flushed to 6760\u2019s Sunday evening, recovered 6780 shortly after (Failed Brea"
+    },
+    {
+      "price": 6780.0,
+      "role": "mentioned",
+      "context": "arish, retail was chasing short. I wrote on Friday at 4pm: \u201c6780 is below there. This was Wednesday\u2019s low of day. A flush an"
+    },
+    {
+      "price": 6882.0,
+      "role": "mentioned",
+      "context": "d ripped. I wrote Friday that: \u201cFrom there next leg up sees 6882, 6902, then 6937.\u201d We got to 6937 yesterday. The task for b"
+    },
+    {
+      "price": 6903.0,
+      "role": "mentioned",
+      "context": "ect the trend. As long as 6872 holds (or quick trap below), 6903, 6923, then 6930 are next. Perhaps dip there, then onto 694"
+    },
+    {
+      "price": 6923.0,
+      "role": "mentioned",
+      "context": "e trend. As long as 6872 holds (or quick trap below), 6903, 6923, then 6930 are next. Perhaps dip there, then onto 6949, 697"
+    },
+    {
+      "price": 6930.0,
+      "role": "mentioned",
+      "context": "long as 6872 holds (or quick trap below), 6903, 6923, then 6930 are next. Perhaps dip there, then onto 6949, 6978.\u201d We got"
+    },
+    {
+      "price": 6949.0,
+      "role": "mentioned",
+      "context": "903, 6923, then 6930 are next. Perhaps dip there, then onto 6949, 6978.\u201d We got to 7000+ yesterday. I was looking for even m"
+    },
+    {
+      "price": 6978.0,
+      "role": "mentioned",
+      "context": "923, then 6930 are next. Perhaps dip there, then onto 6949, 6978.\u201d We got to 7000+ yesterday. I was looking for even more up"
+    },
+    {
+      "price": 6983.0,
+      "role": "mentioned",
+      "context": "esterday at 4pm: \u201cMy general lean is to defer to the trend. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 704"
+    },
+    {
+      "price": 7000.0,
+      "role": "mentioned",
+      "context": "e next. Perhaps dip there, then onto 6949, 6978.\u201d We got to 7000+ yesterday. I was looking for even more upside from here. I"
+    },
+    {
+      "price": 7021.0,
+      "role": "mentioned",
+      "context": "the trend. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued ni"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "end. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued nicely t"
+    },
+    {
+      "price": 7048.0,
+      "role": "mentioned",
+      "context": "983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued nicely today,"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6760.0,
+      "role": "mentioned",
+      "context": "a clear Failed Breakdown and a powerful one.\u201d ES flushed to 6760\u2019s Sunday evening, recovered 6780 shortly after (Failed Brea"
+    },
+    {
+      "price": 6780.0,
+      "role": "mentioned",
+      "context": "arish, retail was chasing short. I wrote on Friday at 4pm: \u201c6780 is below there. This was Wednesday\u2019s low of day. A flush an"
+    },
+    {
+      "price": 6882.0,
+      "role": "mentioned",
+      "context": "d ripped. I wrote Friday that: \u201cFrom there next leg up sees 6882, 6902, then 6937.\u201d We got to 6937 yesterday. The task for b"
+    },
+    {
+      "price": 6903.0,
+      "role": "mentioned",
+      "context": "ect the trend. As long as 6872 holds (or quick trap below), 6903, 6923, then 6930 are next. Perhaps dip there, then onto 694"
+    },
+    {
+      "price": 6923.0,
+      "role": "mentioned",
+      "context": "e trend. As long as 6872 holds (or quick trap below), 6903, 6923, then 6930 are next. Perhaps dip there, then onto 6949, 697"
+    },
+    {
+      "price": 6930.0,
+      "role": "mentioned",
+      "context": "long as 6872 holds (or quick trap below), 6903, 6923, then 6930 are next. Perhaps dip there, then onto 6949, 6978.\u201d We got"
+    },
+    {
+      "price": 6949.0,
+      "role": "mentioned",
+      "context": "903, 6923, then 6930 are next. Perhaps dip there, then onto 6949, 6978.\u201d We got to 7000+ yesterday. I was looking for even m"
+    },
+    {
+      "price": 6978.0,
+      "role": "mentioned",
+      "context": "923, then 6930 are next. Perhaps dip there, then onto 6949, 6978.\u201d We got to 7000+ yesterday. I was looking for even more up"
+    },
+    {
+      "price": 6983.0,
+      "role": "mentioned",
+      "context": "esterday at 4pm: \u201cMy general lean is to defer to the trend. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 704"
+    },
+    {
+      "price": 7000.0,
+      "role": "mentioned",
+      "context": "e next. Perhaps dip there, then onto 6949, 6978.\u201d We got to 7000+ yesterday. I was looking for even more upside from here. I"
+    },
+    {
+      "price": 7021.0,
+      "role": "mentioned",
+      "context": "the trend. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued ni"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "end. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued nicely t"
+    },
+    {
+      "price": 7048.0,
+      "role": "mentioned",
+      "context": "983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued nicely today,"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Monday at 4pm: \u201c My general lean though has to respect the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Readers know this only occurs when a major support fails to trigger the Bear Case ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions are always positioning in advance, and my edge is to recognize the pattern which prints on the chart when they do so: My core setup - the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I frequently discuss all major rallies in ES start on Failed Breakdowns, because Failed Breakdowns are how institutions accumulate ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A flush and recovery of this low is a clear Failed Breakdown and a powerful one.\u201d ES flushed to 6760\u2019s Sunday evening, recovered 6780 shortly after (Failed Breakdown) and ripped."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll expand on this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 13,
+  "support_count": 13,
+  "resistance_count": 0,
+  "post_title": "The Non-Stop SPX Rally Continues. When Will It Dip? April 16 Plan",
+  "post_date": "2026-04-15",
+  "post_slug": "the-non-stop-spx-rally-continues",
+  "parsed_at": "2026-04-16T15:38:03.116897",
+  "body_length": 2562
+}

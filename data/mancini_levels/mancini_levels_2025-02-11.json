@@ -1,0 +1,126 @@
+{
+  "trading_date": "2025-02-11",
+  "levels": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "hold 6066"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6093.0,
+      "role": "mentioned",
+      "context": "20 major low there, and rallied 60+ points to 6066-70, then 6093+ targets. This week started exactly like last two. Will it"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6120-30"
+    },
+    {
+      "price": 6125.0,
+      "role": "range",
+      "context": "6125-30"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6120-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "hold 6066"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6093.0,
+      "role": "mentioned",
+      "context": "20 major low there, and rallied 60+ points to 6066-70, then 6093+ targets. This week started exactly like last two. Will it"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6120-30"
+    },
+    {
+      "price": 6125.0,
+      "role": "range",
+      "context": "6125-30"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6120-30"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend until proven otherwise."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In the hours after the gap down, ES put in my core setup: The Failed Breakdown Long."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember Failed Breakdowns nearly always follow significant selloffs."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In both last weeks case and the week before\u2019s case, this Failed Breakdown got us long for the entire week, resulting in about 180 points worth of upside in both weeks case."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Wednesday at 4pm (when we were 6070s): \u201cIts been an incredible run and I am now up 130 points on my runner from Sundays macro Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "With the above context in mind, it was no shock how we opened last night; the exact same as the last two weeks: Tariff headlines hit over the weekend, ES gapped down on Sunday, into a Failed Breakdown to get long."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This would allow ES to work back up to range resistance, starting with 6066-70 which is the 1st gateway, then 6093, then onto 6129.\u201d R ight after the open last night, we saw exactly this: Sold down to 6016-20, put in a Failed Breakdown of last Wednesday\u2019s 6020 major low there, and rallied 60+ points to 6066-70, then 6093+ targets."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "The Week In SPX Starts *Identical* To The Last Two Weeks. Will It Continue? Feb 11 Plan",
+  "post_date": "2025-02-10",
+  "post_slug": "the-week-in-spx-starts-identical",
+  "parsed_at": "2026-04-16T15:45:31.067895",
+  "body_length": 2193
+}

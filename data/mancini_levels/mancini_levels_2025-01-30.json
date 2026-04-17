@@ -1,0 +1,130 @@
+{
+  "trading_date": "2025-01-30",
+  "levels": [
+    {
+      "price": 6008.0,
+      "role": "mentioned",
+      "context": "rapid traps down, bulls will want to keep it above 6016 or 6008.\u201d ES spent all day engaging this level, flushing it right F"
+    },
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "above 6016"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "defends 6066"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6008.0,
+      "role": "mentioned",
+      "context": "rapid traps down, bulls will want to keep it above 6016 or 6008.\u201d ES spent all day engaging this level, flushing it right F"
+    },
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "above 6016"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "defends 6066"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm on Monday\u2019s close\u201d \u201cMy general lean for tomorrow is ES can do some more back-testing."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "6068-71 is 1st up, and if bulls are really energized, can make the run for 6082 then 6115-20\u201d and \u201cFor now though, the bull case is that we got a short squeeze trigger on the Failed Breakdown of 5997 this morning at 8am, which triggered longs."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case ES can now begin back-testing with 6068-71 1st up."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Today\u2019s FOMC plan was all about 1 level: 6066-70 and I wrote yesterday: \u201cOn a normal day though, the bull case is simple that ES defends 6066-70 ideally and build a base above it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This week started off with my absolute favorite combination of price action: As I\u2019ve discussed for days ES has two things it loves to do when volatility ramps: It goes \u201celevator down\u201d which refers to few hour free falls like we saw right off the Sunday gap down open, and then it puts my core setup - the Failed Breakdown - and initiates a face ripping short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After 170+ point \u201celevator down\u201d sell to start the week, we got a massive Failed Breakdown, and as provided to readers, longs were triggered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In this case, the Failed Breakdown was of last Mondays ~5997 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the combination of Failed Breakdowns (my core setup) that triggered the monster long into FOMC."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled For A Big Move. What Way? Jan 30th Plan",
+  "post_date": "2025-01-29",
+  "post_slug": "spx-is-coiled-for-a-big-move-what",
+  "parsed_at": "2026-04-16T15:45:41.291508",
+  "body_length": 2106
+}

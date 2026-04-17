@@ -1,0 +1,156 @@
+{
+  "trading_date": "2025-10-17",
+  "levels": [
+    {
+      "price": 6652.0,
+      "role": "mentioned",
+      "context": "test. Then it repeats. After yesterday\u2019s 112 point flush to 6652, we got another Failed Breakdown. I wrote Tuesday at 4pm: \u201c"
+    },
+    {
+      "price": 6655.0,
+      "role": "support",
+      "context": "defend 6655"
+    },
+    {
+      "price": 6667.0,
+      "role": "mentioned",
+      "context": "that 6667 low.\u201d We hit 6652 low of day yesterday, recovered 6667, then ripped to 6752 by this morning. The day after a big b"
+    },
+    {
+      "price": 6715.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6719.0,
+      "role": "range",
+      "context": "6719-22"
+    },
+    {
+      "price": 6722.0,
+      "role": "range",
+      "context": "6719-22"
+    },
+    {
+      "price": 6723.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6752.0,
+      "role": "mentioned",
+      "context": "t 6652 low of day yesterday, recovered 6667, then ripped to 6752 by this morning. The day after a big back-test like 6766 is"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "to 6752 by this morning. The day after a big back-test like 6766 is always key though . The core task for bulls today was to"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6652.0,
+      "role": "mentioned",
+      "context": "test. Then it repeats. After yesterday\u2019s 112 point flush to 6652, we got another Failed Breakdown. I wrote Tuesday at 4pm: \u201c"
+    },
+    {
+      "price": 6655.0,
+      "role": "support",
+      "context": "defend 6655"
+    },
+    {
+      "price": 6667.0,
+      "role": "mentioned",
+      "context": "that 6667 low.\u201d We hit 6652 low of day yesterday, recovered 6667, then ripped to 6752 by this morning. The day after a big b"
+    },
+    {
+      "price": 6715.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6719.0,
+      "role": "range",
+      "context": "6719-22"
+    },
+    {
+      "price": 6722.0,
+      "role": "range",
+      "context": "6719-22"
+    },
+    {
+      "price": 6723.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6752.0,
+      "role": "mentioned",
+      "context": "t 6652 low of day yesterday, recovered 6667, then ripped to 6752 by this morning. The day after a big back-test like 6766 is"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "to 6752 by this morning. The day after a big back-test like 6766 is always key though . The core task for bulls today was to"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "The cycle goes as follows: ES goes elevator down."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then, ES puts in a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "An elevator down sell to setup a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was an \u201celevator down\u201d sell, meaning we prepare for the Failed Breakdown and short-squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The long setup for this was the Failed Breakdown of a big low at 6605 - given in advance to readers - and we squeezed 158 points yesterday to hit 6766 *exact* to set the high of day yesterday, from which we sold 112 points yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "You can see here the cycle in play: Elevator down sell, Failed Breakdown, short squeeze to back-test."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After yesterday\u2019s 112 point flush to 6652, we got another Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If not, wait for the Failed Breakdown of that 6667 low.\u201d We hit 6652 low of day yesterday, recovered 6667, then ripped to 6752 by this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the 158 point Failed Breakdown we had from the 6605 Failed Breakdown yesterday to the 6766 macro back-test target Wednesday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was the 2nd best Failed Breakdown of 2025, so its important to understand it."
+    },
+    {
+      "type": "TARGETS",
+      "text": "I specified this target at the close on Monday, stating: \u201cTargets are 6715-23 which tackles the red \u201cmegaphone\u201d above yet again."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This back-test remains a magnet.\u201d ES we would need a setup to rally us there."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "SPX Back-Tested Last Friday's Breakdown Yesterday And Collapsed Today. Are Bulls In Trouble? Oct 17 Plan",
+  "post_date": "2025-10-16",
+  "post_slug": "spx-back-tested-last-fridays-breakdown",
+  "parsed_at": "2026-04-16T15:41:51.175840",
+  "body_length": 3142
+}

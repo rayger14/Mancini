@@ -1,0 +1,139 @@
+{
+  "trading_date": "2025-10-23",
+  "levels": [
+    {
+      "price": 6572.0,
+      "role": "mentioned",
+      "context": "of Tuesday\u2019s 6593 daily low.\u201d Early Friday morning, ES held 6572, recovered 6593, then ripped all day. Now the question beco"
+    },
+    {
+      "price": 6593.0,
+      "role": "support",
+      "context": "6593 daily low"
+    },
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "\u201d We saw exactly this at 2pm today. We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close. In toda"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "support",
+      "context": "6698 support"
+    },
+    {
+      "price": 6702.0,
+      "role": "range",
+      "context": "6698-6702"
+    },
+    {
+      "price": 6756.0,
+      "role": "resistance",
+      "context": "below 6756"
+    },
+    {
+      "price": 6783.0,
+      "role": "mentioned",
+      "context": "triangle pattern. 6595 is support, and resistance was up at 6783. Failed breakdowns tend to magnetize towards major pattern"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6572.0,
+      "role": "mentioned",
+      "context": "of Tuesday\u2019s 6593 daily low.\u201d Early Friday morning, ES held 6572, recovered 6593, then ripped all day. Now the question beco"
+    },
+    {
+      "price": 6593.0,
+      "role": "support",
+      "context": "6593 daily low"
+    },
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "\u201d We saw exactly this at 2pm today. We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close. In toda"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "support",
+      "context": "6698 support"
+    },
+    {
+      "price": 6702.0,
+      "role": "range",
+      "context": "6698-6702"
+    },
+    {
+      "price": 6783.0,
+      "role": "mentioned",
+      "context": "triangle pattern. 6595 is support, and resistance was up at 6783. Failed breakdowns tend to magnetize towards major pattern"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6756.0,
+      "role": "resistance",
+      "context": "below 6756"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Back on Friday, I warned readers this was 6783, stating: \u201c My lean is we work up it to 6732, 6744, then 6766/83.\u201d This could not worked out better and right off the open Sunday we began the trek upwards, hitting 6783 and we spent Monday and Tuesday sitting there."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: On a short-term basis though, begins below 6756.\u201d Price made its decision this morning, we lost 6756 and sold down to 6698 support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup spots it: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions accumulate by waiting for a headline to hit (or engineering a sell themselves), which produces what I call an elevator down sell which causes price to flush a major low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Thursday at 4pm: \u201cObvious setup here the recovery of Tuesday\u2019s 6593 daily low.\u201d Early Friday morning, ES held 6572, recovered 6593, then ripped all day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed breakdowns tend to magnetize towards major pattern resistances, and this is exactly what we saw."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was a headline driven, elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If we are really melting down, the best setup here is to wait for the Failed Breakdown of yesterday\u2019s 6694 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive review into a power Failed Breakdown we had on Sunday shortly after the open at 6701 that gave us an 80 point rally Monday/Tuesday (this was given to readers in advance)."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "After a 200 Point Rally, SPX Sold Today. It Was Bought, But Can Bulls Sustain It Though? Oct 23 Plan",
+  "post_date": "2025-10-22",
+  "post_slug": "after-a-200-point-rally-spx-sold",
+  "parsed_at": "2026-04-16T15:41:46.083186",
+  "body_length": 3029
+}

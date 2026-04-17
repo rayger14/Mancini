@@ -1,0 +1,142 @@
+{
+  "trading_date": "2026-01-05",
+  "levels": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote at 4"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "mber 18th: \u201cES started a relief bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sund"
+    },
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "elief bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sunday December 21st. This con"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sunday December 21st. This continued"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "ices and no lower than 6872-69. This would mean rallying to 6925/6938 to backtest. Bulls need to recover or the sell bounces"
+    },
+    {
+      "price": 6935.0,
+      "role": "range",
+      "context": "6935-38"
+    },
+    {
+      "price": 6938.0,
+      "role": "support",
+      "context": "recover 6938"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote at 4"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "mber 18th: \u201cES started a relief bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sund"
+    },
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "elief bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sunday December 21st. This con"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sunday December 21st. This continued"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "ices and no lower than 6872-69. This would mean rallying to 6925/6938 to backtest. Bulls need to recover or the sell bounces"
+    },
+    {
+      "price": 6935.0,
+      "role": "range",
+      "context": "6935-38"
+    },
+    {
+      "price": 6938.0,
+      "role": "support",
+      "context": "recover 6938"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Tuesday at 4pm : \u201cBear case tomorrow: Begins under 6935-38.\u201d We sold all day Wednesday to 6890."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was we could back-test it."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 4pm: \u201cMy general lean is ES can try some back-testing."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Whenever there is what I call an elevator down sell (a vertical flush that cuts through every support - this is the first subling) bulls always get nearly every point of that type of action paid back in the form of a squeeze ( the squeeze being the second sibling )."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "That footprint is the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This would mean bulls will get paid back for this action, but only when a Failed Breakdown occurs."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "SPX Starts 2026 With A 5 Red Day Stretch. Can It Bounce Next Week? January 5 Plan",
+  "post_date": "2026-01-02",
+  "post_slug": "spx-starts-2026-with-a-5-red-day",
+  "parsed_at": "2026-04-16T15:40:42.856013",
+  "body_length": 3555
+}

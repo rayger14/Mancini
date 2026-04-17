@@ -1,0 +1,96 @@
+{
+  "trading_date": "2026-03-10",
+  "levels": [
+    {
+      "price": 6621.0,
+      "role": "mentioned",
+      "context": "g into 6636, wait for it flush and recover, perhaps down to 6621.\u201d Where did we bounce to into the close? You guessed it, ~6"
+    },
+    {
+      "price": 6636.0,
+      "role": "mentioned",
+      "context": "and I wrote on Friday at 4pm: \u201cIf we are full knifing into 6636, wait for it flush and recover, perhaps down to 6621.\u201d Wher"
+    },
+    {
+      "price": 6718.0,
+      "role": "support",
+      "context": "6718 daily low"
+    },
+    {
+      "price": 6778.0,
+      "role": "range",
+      "context": "6778-82"
+    },
+    {
+      "price": 6782.0,
+      "role": "support",
+      "context": "6782 support"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6621.0,
+      "role": "mentioned",
+      "context": "g into 6636, wait for it flush and recover, perhaps down to 6621.\u201d Where did we bounce to into the close? You guessed it, ~6"
+    },
+    {
+      "price": 6636.0,
+      "role": "mentioned",
+      "context": "and I wrote on Friday at 4pm: \u201cIf we are full knifing into 6636, wait for it flush and recover, perhaps down to 6621.\u201d Wher"
+    },
+    {
+      "price": 6718.0,
+      "role": "support",
+      "context": "6718 daily low"
+    },
+    {
+      "price": 6778.0,
+      "role": "range",
+      "context": "6778-82"
+    },
+    {
+      "price": 6782.0,
+      "role": "support",
+      "context": "6782 support"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm that: \u201cBear case Tomorrow: Begins below 6782.\u201d Friday morning, we lost it, and down we went."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "What it does is it goes elevator down in a vertical in a vertical flush cutting through every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I warned last Thursday at 4pm: \u201cWatch for the Failed Breakdown of Tuesday\u2019s 6718 daily low.\u201d On Friday ES flushed last Tuesday\u2019s 6718 low by a few points, recovered, and ripped."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Bulls couldn\u2019t recover it initially, and we went elevator down off the futures open last night due to more bearish weekly headlines, selling down to 6588."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always though, every elevator down sell in ES resolves in a squeeze, and last night was no different."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Bulls Bought The Dip With Force. Dead Cat Bounce, or Bottom? March 10th Plan",
+  "post_date": "2026-03-09",
+  "post_slug": "bulls-bought-the-dip-with-force-dead",
+  "parsed_at": "2026-04-16T15:38:37.819448",
+  "body_length": 2468
+}

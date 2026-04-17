@@ -1,0 +1,198 @@
+{
+  "trading_date": "2025-12-05",
+  "levels": [
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6805.0,
+      "role": "mentioned",
+      "context": "was a flag. I wrote Tuesday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle. My general lean is to"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "k trap below) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at"
+    },
+    {
+      "price": 6825.0,
+      "role": "range",
+      "context": "6825-30"
+    },
+    {
+      "price": 6830.0,
+      "role": "range",
+      "context": "6825-30"
+    },
+    {
+      "price": 6847.0,
+      "role": "support",
+      "context": "above 6847"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "w) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at 9:40AM, we"
+    },
+    {
+      "price": 6853.0,
+      "role": "mentioned",
+      "context": "pattern was a flag. I wrote Tuesday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle. My general lea"
+    },
+    {
+      "price": 6863.0,
+      "role": "mentioned",
+      "context": "to defer to the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d However, we can"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "er to the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d However, we cannot ju"
+    },
+    {
+      "price": 6889.0,
+      "role": "range",
+      "context": "6889-93"
+    },
+    {
+      "price": 6893.0,
+      "role": "range",
+      "context": "6889-93"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6805.0,
+      "role": "mentioned",
+      "context": "was a flag. I wrote Tuesday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle. My general lean is to"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "k trap below) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at"
+    },
+    {
+      "price": 6825.0,
+      "role": "range",
+      "context": "6825-30"
+    },
+    {
+      "price": 6830.0,
+      "role": "range",
+      "context": "6825-30"
+    },
+    {
+      "price": 6847.0,
+      "role": "support",
+      "context": "above 6847"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "w) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at 9:40AM, we"
+    },
+    {
+      "price": 6853.0,
+      "role": "mentioned",
+      "context": "pattern was a flag. I wrote Tuesday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle. My general lea"
+    },
+    {
+      "price": 6863.0,
+      "role": "mentioned",
+      "context": "to defer to the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d However, we can"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "er to the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d However, we cannot ju"
+    },
+    {
+      "price": 6889.0,
+      "role": "range",
+      "context": "6889-93"
+    },
+    {
+      "price": 6893.0,
+      "role": "range",
+      "context": "6889-93"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Monday November 24th at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The most foundational building block of ES price action is the trap , or what I call the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is how institutions long: They wait for an \u201c elevator down\u201d sell, wait for a low to be lost, trap shorts below the low, recover and we rally."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The squeeze is always proportionate though to the size of the elevator down sell that precedes it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Tuesday at 9:40AM, we went elevator down and flushed 6701 (there was a big shelf of lows there set on Monday/early Tuesday last) to 6675, trapped shorts then recovered 6701 for a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d However, we cannot just buy patterns - we need an entry trigger - and for that, we used Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I also wrote on Tuesday at 4pm: \u201cThe Failed Breakdown of the 11:30AM 6818 low is also actionable.\u201d We got exactly this yesterday morning - ES went elevator down from that 6863 flag resistance down to 6817."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the Failed Breakdown\u2019s that gave us this weeks strength (there were a multi-tude and they are great to learn from)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote Tuesday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 14,
+  "resistance_count": 0,
+  "post_title": "Another New High of Week For SPX, But Are Bulls Running Out Of Steam? Dec 5th Plan",
+  "post_date": "2025-12-04",
+  "post_slug": "another-new-high-of-week-for-spx",
+  "parsed_at": "2026-04-16T15:41:06.970394",
+  "body_length": 3207
+}

@@ -1,0 +1,81 @@
+{
+  "trading_date": "2025-08-25",
+  "levels": [
+    {
+      "price": 6375.0,
+      "role": "mentioned",
+      "context": "own.\u201d What did we see today? Exactly this. ES flushed under 6375 (this was roughly yesterdays daily low) down to 6363, trapp"
+    },
+    {
+      "price": 6453.0,
+      "role": "resistance",
+      "context": "below 6453"
+    },
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": ", Failed Breakdown, then after 10am today, squeezed to that 6461 target, and beyond. My system is built to catch these squee"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6375.0,
+      "role": "mentioned",
+      "context": "own.\u201d What did we see today? Exactly this. ES flushed under 6375 (this was roughly yesterdays daily low) down to 6363, trapp"
+    },
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": ", Failed Breakdown, then after 10am today, squeezed to that 6461 target, and beyond. My system is built to catch these squee"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6453.0,
+      "role": "resistance",
+      "context": "below 6453"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote back on Monday at 4pm (before the sell) that: \u201c Bear case tomorrow: Short-term, begins below 6453\u201d and \u201cIf 6453 fails, we start down.\u201d Tuesday morning, ES lost 6453 and began a sell that took ES down to 6362 by Wednesday morning."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers of this newsletter know - while I provide short entries to readers - I don\u2019t short myself as I solely trade the subsequent squeezes on the longside via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Therefore, selloffs like we had to start this week (where ES sold 145 points from last Friday\u2019s high into Wednesday\u2019s 6361 low) are of interest to me because they - without exception - produce an equally violent rally to the upside, driven by my core setup: The Failed Breakdown, and its what we saw today."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know very well though, every \u201celevator down\u201d sell in ES (which is what we saw Wednesday morning) has a sibling: The short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When ES sells, it cuts through every level for a few minutes to a few hours, it induces panic, then it puts in a vertical squeeze on a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES flushed under 6375 (this was roughly yesterdays daily low) down to 6363, trapped, Failed Breakdown, then after 10am today, squeezed to that 6461 target, and beyond."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the rare Breakdown Short setup we had that caused Tuesday\u2019s 100+ point sell (this was given to readers in advance) then I\u2019ll discuss the subsequent Failed Breakdowns we saw."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 2,
+  "resistance_count": 1,
+  "post_title": "The Dip Was Decisively Bought in SPX. Are New All Time Highs Coming? Or Bull Trap? August 25 Plan",
+  "post_date": "2025-08-24",
+  "post_slug": "the-dip-was-decisively-bought-in-c4e",
+  "parsed_at": "2026-04-16T15:42:39.698442",
+  "body_length": 2617
+}

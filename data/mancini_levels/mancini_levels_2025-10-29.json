@@ -1,0 +1,185 @@
+{
+  "trading_date": "2025-10-29",
+  "levels": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "exactly this at 2pm Wednesday. We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began. How"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "mentioned",
+      "context": "at 6605\u2026..At 2pm today, ES put in a Failed Breakdown under 6698 and ripped us higher. The bull case tomorrow is that ES can"
+    },
+    {
+      "price": 6732.0,
+      "role": "support",
+      "context": "above 6732"
+    },
+    {
+      "price": 6766.0,
+      "role": "resistance",
+      "context": "resistance at 6766"
+    },
+    {
+      "price": 6875.0,
+      "role": "range",
+      "context": "6875-77"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6875-77"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "to the next batch of upside targets were are 6875-77, then 6900.\u201d We got to 6900+ by the close yesterday. There was more in"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "ay: \u201cI defer to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 today, then dipp"
+    },
+    {
+      "price": 6928.0,
+      "role": "mentioned",
+      "context": "defer to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 today, then dipped int"
+    },
+    {
+      "price": 6942.0,
+      "role": "mentioned",
+      "context": "to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 today, then dipped into the"
+    },
+    {
+      "price": 6959.0,
+      "role": "range",
+      "context": "6959-62"
+    },
+    {
+      "price": 6962.0,
+      "role": "range",
+      "context": "6959-62"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "exactly this at 2pm Wednesday. We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began. How"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "mentioned",
+      "context": "at 6605\u2026..At 2pm today, ES put in a Failed Breakdown under 6698 and ripped us higher. The bull case tomorrow is that ES can"
+    },
+    {
+      "price": 6732.0,
+      "role": "support",
+      "context": "above 6732"
+    },
+    {
+      "price": 6875.0,
+      "role": "range",
+      "context": "6875-77"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6875-77"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "to the next batch of upside targets were are 6875-77, then 6900.\u201d We got to 6900+ by the close yesterday. There was more in"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "ay: \u201cI defer to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 today, then dipp"
+    },
+    {
+      "price": 6928.0,
+      "role": "mentioned",
+      "context": "defer to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 today, then dipped int"
+    },
+    {
+      "price": 6942.0,
+      "role": "mentioned",
+      "context": "to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 today, then dipped into the"
+    },
+    {
+      "price": 6959.0,
+      "role": "range",
+      "context": "6959-62"
+    },
+    {
+      "price": 6962.0,
+      "role": "range",
+      "context": "6959-62"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6766.0,
+      "role": "resistance",
+      "context": "resistance at 6766"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Last Wednesday at 4pm I wrote: \u201cBull case tomorrow: The macro pattern remains a large triangle pattern shown in bolded yellow below with resistance just a little above 6766 and support down at 6605\u2026..At 2pm today, ES put in a Failed Breakdown under 6698 and ripped us higher."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case tomorrow is that ES can resume up to backtest 6766 again."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "There was more incoming today I wrote at the close yesterday: \u201cI defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm (one week ago): \u201cThe best setup here is to wait for the Failed Breakdown of Sunday\u2019s 6694 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, there was more technical analysis here at play than this singular Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Wednesday\u2019s Failed Breakdown lit the final fuse to break it out."
+    },
+    {
+      "type": "TARGETS",
+      "text": "After that if bulls have the momentum, we can head higher to 6782, then we likely head to all time highs after .\u201d We made it to all time highs by Friday, and on Friday at 4pm I stated: \u201cThe obvious target for this leg is resistance of the big purple multi-month megaphone in the below chart at 6858."
+    },
+    {
+      "type": "TARGETS",
+      "text": "If it clears we can progress to the next batch of upside targets were are 6875-77, then 6900.\u201d We got to 6900+ by the close yesterday."
+    }
+  ],
+  "level_count": 13,
+  "support_count": 12,
+  "resistance_count": 1,
+  "post_title": "FOMC and Earnings Tomorrow. Expect Volatility In SPX. But What Way? Oct 29 Plan",
+  "post_date": "2025-10-28",
+  "post_slug": "fomc-and-earnings-tomorrow-expect",
+  "parsed_at": "2026-04-16T15:41:41.072770",
+  "body_length": 2969
+}

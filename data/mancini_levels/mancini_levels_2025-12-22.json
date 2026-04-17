@@ -1,0 +1,145 @@
+{
+  "trading_date": "2025-12-22",
+  "levels": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote on W"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6832.0,
+      "role": "target",
+      "context": "target 6832"
+    },
+    {
+      "price": 6843.0,
+      "role": "mentioned",
+      "context": "5 and back up. My general lean is it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this"
+    },
+    {
+      "price": 6845.0,
+      "role": "mentioned",
+      "context": "recover that to take control which would then target 6832, 6845, then 6870.\u201d This played out perfectly. Thursday morning we"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "back up. My general lean is it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this today"
+    },
+    {
+      "price": 6870.0,
+      "role": "mentioned",
+      "context": "at to take control which would then target 6832, 6845, then 6870.\u201d This played out perfectly. Thursday morning we hit 6818-2"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "s it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this today. ES held 6818-22 all nigh"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "oes. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this today. ES held 6818-22 all night, the"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote on W"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6843.0,
+      "role": "mentioned",
+      "context": "5 and back up. My general lean is it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this"
+    },
+    {
+      "price": 6845.0,
+      "role": "mentioned",
+      "context": "recover that to take control which would then target 6832, 6845, then 6870.\u201d This played out perfectly. Thursday morning we"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "back up. My general lean is it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this today"
+    },
+    {
+      "price": 6870.0,
+      "role": "mentioned",
+      "context": "at to take control which would then target 6832, 6845, then 6870.\u201d This played out perfectly. Thursday morning we hit 6818-2"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "s it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this today. ES held 6818-22 all nigh"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "oes. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this today. ES held 6818-22 all night, the"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6832.0,
+      "role": "target",
+      "context": "target 6832"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 4pm: \u201cMy general lean if I had to give one is ES can retest 6818-22 again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These are \u201celevator down sell\u201d and \u201cshort squeeze\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The catch though is that this rip only occurs when ES puts in a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a series of Failed Breakdowns we had this week."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 10,
+  "resistance_count": 1,
+  "post_title": "Has the \"Santa Rally\" Begun For SPX, or Is It A Bull Trap? December 22nd Plan.",
+  "post_date": "2025-12-21",
+  "post_slug": "has-the-santa-rally-begun-for-spx-bf6",
+  "parsed_at": "2026-04-16T15:40:52.981328",
+  "body_length": 2699
+}

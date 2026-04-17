@@ -1,0 +1,231 @@
+{
+  "trading_date": "2026-01-29",
+  "levels": [
+    {
+      "price": 6879.0,
+      "role": "mentioned",
+      "context": ".\u201d We saw exactly this, on Sunday evening ES gapped down to 6879, recovered 6923 last evening, and we ripped Monday to nearl"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6952.0,
+      "role": "mentioned",
+      "context": "a strong bull case tomorrow though, ES won\u2019t even backtest 6952. We will just just hold 6982 (or quick trap below) then con"
+    },
+    {
+      "price": 6964.0,
+      "role": "resistance",
+      "context": "resistance at 6964"
+    },
+    {
+      "price": 6970.0,
+      "role": "mentioned",
+      "context": "this range out (or quick trap below) then next leg targets 6970, 6978-81, 6998-7002. Above there ES can gun for all time hi"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6981.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6982.0,
+      "role": "support",
+      "context": "hold 6982"
+    },
+    {
+      "price": 6997.0,
+      "role": "mentioned",
+      "context": "ick trap below) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, t"
+    },
+    {
+      "price": 6998.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7002.0,
+      "role": "support",
+      "context": "hold 7002"
+    },
+    {
+      "price": 7014.0,
+      "role": "mentioned",
+      "context": "ap below) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, then we"
+    },
+    {
+      "price": 7017.0,
+      "role": "mentioned",
+      "context": "owest on any deep sells. From there the next leg up targets 7017, 7036, 7044, 7068. Bear case discussed above.\u201d Overnight, w"
+    },
+    {
+      "price": 7032.0,
+      "role": "mentioned",
+      "context": "ow) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, then we ran n"
+    },
+    {
+      "price": 7036.0,
+      "role": "support",
+      "context": "above 7036"
+    },
+    {
+      "price": 7044.0,
+      "role": "mentioned",
+      "context": "deep sells. From there the next leg up targets 7017, 7036, 7044, 7068. Bear case discussed above.\u201d Overnight, we got a litt"
+    },
+    {
+      "price": 7049.0,
+      "role": "mentioned",
+      "context": "en continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, then we ran nicely"
+    },
+    {
+      "price": 7068.0,
+      "role": "mentioned",
+      "context": "sells. From there the next leg up targets 7017, 7036, 7044, 7068. Bear case discussed above.\u201d Overnight, we got a little abo"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6879.0,
+      "role": "mentioned",
+      "context": ".\u201d We saw exactly this, on Sunday evening ES gapped down to 6879, recovered 6923 last evening, and we ripped Monday to nearl"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6952.0,
+      "role": "mentioned",
+      "context": "a strong bull case tomorrow though, ES won\u2019t even backtest 6952. We will just just hold 6982 (or quick trap below) then con"
+    },
+    {
+      "price": 6970.0,
+      "role": "mentioned",
+      "context": "this range out (or quick trap below) then next leg targets 6970, 6978-81, 6998-7002. Above there ES can gun for all time hi"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6981.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6982.0,
+      "role": "support",
+      "context": "hold 6982"
+    },
+    {
+      "price": 6997.0,
+      "role": "mentioned",
+      "context": "ick trap below) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, t"
+    },
+    {
+      "price": 6998.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7002.0,
+      "role": "support",
+      "context": "hold 7002"
+    },
+    {
+      "price": 7014.0,
+      "role": "mentioned",
+      "context": "ap below) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, then we"
+    },
+    {
+      "price": 7017.0,
+      "role": "mentioned",
+      "context": "owest on any deep sells. From there the next leg up targets 7017, 7036, 7044, 7068. Bear case discussed above.\u201d Overnight, w"
+    },
+    {
+      "price": 7032.0,
+      "role": "mentioned",
+      "context": "ow) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, then we ran n"
+    },
+    {
+      "price": 7036.0,
+      "role": "support",
+      "context": "above 7036"
+    },
+    {
+      "price": 7044.0,
+      "role": "mentioned",
+      "context": "deep sells. From there the next leg up targets 7017, 7036, 7044, 7068. Bear case discussed above.\u201d Overnight, we got a litt"
+    },
+    {
+      "price": 7049.0,
+      "role": "mentioned",
+      "context": "en continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, then we ran nicely"
+    },
+    {
+      "price": 7068.0,
+      "role": "mentioned",
+      "context": "sells. From there the next leg up targets 7017, 7036, 7044, 7068. Bear case discussed above.\u201d Overnight, we got a little abo"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6964.0,
+      "role": "resistance",
+      "context": "resistance at 6964"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was they would be able to."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Monday at 4pm: \u201cIn a strong bull case tomorrow though, ES won\u2019t even backtest 6952."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Bear case discussed above.\u201d Overnight, we got a little above 7036, then pulled back."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I\u2019ve also specified at length, insitutions in ES buy these dips in a very particular way: Via my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, this trap down would setup a strong squeeze, but only on the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 Monday evening, then we ran nicely to 7014+ yesterday."
+    }
+  ],
+  "level_count": 18,
+  "support_count": 17,
+  "resistance_count": 1,
+  "post_title": "Major Earnings Incoming For SPX. Will They Ruin The Rally? January 29 Plan",
+  "post_date": "2026-01-28",
+  "post_slug": "major-earnings-incoming-for-spx-will",
+  "parsed_at": "2026-04-16T15:40:20.650788",
+  "body_length": 2304
+}

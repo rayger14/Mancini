@@ -1,0 +1,174 @@
+{
+  "trading_date": "2025-09-09",
+  "levels": [
+    {
+      "price": 6371.0,
+      "role": "mentioned",
+      "context": "returned: We started last week off up 6507, flushed down to 6371 last Tuesday, rallied to 6540 by Thursday, flushed to 6450s"
+    },
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": "end the supports mentioned above on any dips (no lower than 6461 or trap below) .\u201d On Friday at 11am we trapped under 6461,"
+    },
+    {
+      "price": 6480.0,
+      "role": "range",
+      "context": "6480-82"
+    },
+    {
+      "price": 6482.0,
+      "role": "range",
+      "context": "6480-82"
+    },
+    {
+      "price": 6498.0,
+      "role": "mentioned",
+      "context": "e writing last Wednesday at 4pm: \u201cNext leg targets 6480-82, 6498, then 6505.\u201d By last Thursday we got to 6505, then 6540 hig"
+    },
+    {
+      "price": 6500.0,
+      "role": "mentioned",
+      "context": "540 by Thursday, flushed to 6450s by Friday, then ripped to 6500+ into noon today. I very frequently talk about trading has"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "ast Wednesday at 4pm: \u201cNext leg targets 6480-82, 6498, then 6505.\u201d By last Thursday we got to 6505, then 6540 high of week t"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "traders as volatility returned: We started last week off up 6507, flushed down to 6371 last Tuesday, rallied to 6540 by Thur"
+    },
+    {
+      "price": 6518.0,
+      "role": "range",
+      "context": "6518-20"
+    },
+    {
+      "price": 6520.0,
+      "role": "range",
+      "context": "6518-20"
+    },
+    {
+      "price": 6532.0,
+      "role": "mentioned",
+      "context": "then 6518-20. Dip there. If it recovers, we head higher to 6532, 6540+.\u201d This played out perfectly and last evening we hit"
+    },
+    {
+      "price": 6540.0,
+      "role": "mentioned",
+      "context": "off up 6507, flushed down to 6371 last Tuesday, rallied to 6540 by Thursday, flushed to 6450s by Friday, then ripped to 650"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6371.0,
+      "role": "mentioned",
+      "context": "returned: We started last week off up 6507, flushed down to 6371 last Tuesday, rallied to 6540 by Thursday, flushed to 6450s"
+    },
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": "end the supports mentioned above on any dips (no lower than 6461 or trap below) .\u201d On Friday at 11am we trapped under 6461,"
+    },
+    {
+      "price": 6480.0,
+      "role": "range",
+      "context": "6480-82"
+    },
+    {
+      "price": 6482.0,
+      "role": "range",
+      "context": "6480-82"
+    },
+    {
+      "price": 6498.0,
+      "role": "mentioned",
+      "context": "e writing last Wednesday at 4pm: \u201cNext leg targets 6480-82, 6498, then 6505.\u201d By last Thursday we got to 6505, then 6540 hig"
+    },
+    {
+      "price": 6500.0,
+      "role": "mentioned",
+      "context": "540 by Thursday, flushed to 6450s by Friday, then ripped to 6500+ into noon today. I very frequently talk about trading has"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "ast Wednesday at 4pm: \u201cNext leg targets 6480-82, 6498, then 6505.\u201d By last Thursday we got to 6505, then 6540 high of week t"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "traders as volatility returned: We started last week off up 6507, flushed down to 6371 last Tuesday, rallied to 6540 by Thur"
+    },
+    {
+      "price": 6518.0,
+      "role": "range",
+      "context": "6518-20"
+    },
+    {
+      "price": 6520.0,
+      "role": "range",
+      "context": "6518-20"
+    },
+    {
+      "price": 6532.0,
+      "role": "mentioned",
+      "context": "then 6518-20. Dip there. If it recovers, we head higher to 6532, 6540+.\u201d This played out perfectly and last evening we hit"
+    },
+    {
+      "price": 6540.0,
+      "role": "mentioned",
+      "context": "off up 6507, flushed down to 6371 last Tuesday, rallied to 6540 by Thursday, flushed to 6450s by Friday, then ripped to 650"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can backtest 6505, then 6518-20."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The core of these is a two part cycle I call \u201cElevator Down-into-Short Squeeze\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When it sells, it is always vertical, and \u201celevator down\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was the story of last week: \u201cElevator Down\u201d last Tuesday when ES lost a week long support shelf at 6461 and we sold down to 6371 low of week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I tweeted at 11:55AM last Tuesday that the 6384 Failed Breakdown would squeeze us (6384 was a major low Tuesday morning), and up we went."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Friday, NFP hit and we restarted the cycle, going \u201celevator down\u201d selling from 6540 to 6452 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on on Thursday at 4pm that \u201cBulls want to see us defend the supports mentioned above on any dips (no lower than 6461 or trap below) .\u201d On Friday at 11am we trapped under 6461, Failed Breakdown, rallied to 6490 to close last week The technical task for bulls today was to keep that dip buy momentum going and back-test the regions we broke down from Friday and ideally, recover them to invalidate the Friday breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown that gave us last weeks 100+ point squeeze (its important to know), then I\u2019ll discuss the actionable trade plan for Tuesday."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "SPX Is Again Coiled Tight For A Move, With Catalysts Coming. What Way? Sept 9th Plan",
+  "post_date": "2025-09-08",
+  "post_slug": "spx-is-again-coiled-tight-for-a-move",
+  "parsed_at": "2026-04-16T15:42:25.491575",
+  "body_length": 3159
+}

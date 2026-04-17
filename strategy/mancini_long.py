@@ -128,6 +128,11 @@ class ManciniLongStrategy:
         # Multi-day level persistence — survives reset() across days
         self._persistent_levels: list[Level] = []
 
+        # External levels to inject at session start (e.g., Mancini Substack overlay).
+        # Set this before calling run_day(); levels are injected after initialize_levels()
+        # and cleared at the end of run_day().
+        self._extra_levels: list[Level] = []
+
     def reset(self) -> None:
         """Reset all state for a new session.
 
@@ -247,6 +252,15 @@ class ManciniLongStrategy:
                 )
             # Update persistent list to only keep non-expired
             self._persistent_levels = fresh_levels
+
+        # Inject external levels (e.g., Mancini Substack overlay)
+        if self._extra_levels:
+            self.signal_aggregator.level_store.inject_levels(self._extra_levels)
+            logger.debug(
+                f"Injecting {len(self._extra_levels)} external levels "
+                f"(prices: {[round(l.price, 2) for l in self._extra_levels[:5]]}...)"
+            )
+            self._extra_levels = []  # consumed
 
         # Set prior day range for volatility filter
         if prior_day_df is not None and len(prior_day_df) > 0:

@@ -1,0 +1,128 @@
+{
+  "trading_date": "2026-01-19",
+  "levels": [
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "est sell of 2026. We flushed nearly 100 points from 7035 to 6925 low of day Wednesday. As always, this elevator down sell wo"
+    },
+    {
+      "price": 6961.0,
+      "role": "mentioned",
+      "context": "low there at 2:50AM this morning.\u201d We flushed 6969 down to 6961 by 10:40AM today, recovered, and ripped to 6993 by noon. SP"
+    },
+    {
+      "price": 6967.0,
+      "role": "range",
+      "context": "6969-67"
+    },
+    {
+      "price": 6969.0,
+      "role": "support",
+      "context": "recover 6969"
+    },
+    {
+      "price": 6981.0,
+      "role": "mentioned",
+      "context": "end. Bulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exa"
+    },
+    {
+      "price": 6993.0,
+      "role": "mentioned",
+      "context": "ulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly t"
+    },
+    {
+      "price": 7003.0,
+      "role": "mentioned",
+      "context": "ust recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly this ye"
+    },
+    {
+      "price": 7017.0,
+      "role": "mentioned",
+      "context": "hich targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly this yesterday and ES rallied to 7017 high"
+    },
+    {
+      "price": 7035.0,
+      "role": "mentioned",
+      "context": "the biggest sell of 2026. We flushed nearly 100 points from 7035 to 6925 low of day Wednesday. As always, this elevator down"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "est sell of 2026. We flushed nearly 100 points from 7035 to 6925 low of day Wednesday. As always, this elevator down sell wo"
+    },
+    {
+      "price": 6961.0,
+      "role": "mentioned",
+      "context": "low there at 2:50AM this morning.\u201d We flushed 6969 down to 6961 by 10:40AM today, recovered, and ripped to 6993 by noon. SP"
+    },
+    {
+      "price": 6967.0,
+      "role": "range",
+      "context": "6969-67"
+    },
+    {
+      "price": 6969.0,
+      "role": "support",
+      "context": "recover 6969"
+    },
+    {
+      "price": 6981.0,
+      "role": "mentioned",
+      "context": "end. Bulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exa"
+    },
+    {
+      "price": 6993.0,
+      "role": "mentioned",
+      "context": "ulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly t"
+    },
+    {
+      "price": 7003.0,
+      "role": "mentioned",
+      "context": "ust recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly this ye"
+    },
+    {
+      "price": 7017.0,
+      "role": "mentioned",
+      "context": "hich targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly this yesterday and ES rallied to 7017 high"
+    },
+    {
+      "price": 7035.0,
+      "role": "mentioned",
+      "context": "the biggest sell of 2026. We flushed nearly 100 points from 7035 to 6925 low of day Wednesday. As always, this elevator down"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I then wrote at the close Wednesday: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We buy dips when institutions do, and institutions buy them via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns occur when price goes elevator down and flushes a low, institutions trap shorts/grab long stops beneath the low, then price recovers the low, we go parabolic, and short covering initiates a rip."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, this elevator down sell would resolve with a short squeeze higher, but ONLY when we get a Failed breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "SPX is Coiled Tight. Move Incoming. What Way? January 19/20 Plan",
+  "post_date": "2026-01-18",
+  "post_slug": "spx-is-coiled-tight-move-incoming-cd2",
+  "parsed_at": "2026-04-16T15:40:29.861290",
+  "body_length": 2150
+}

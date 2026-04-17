@@ -1,0 +1,98 @@
+{
+  "trading_date": "2025-11-11",
+  "levels": [
+    {
+      "price": 6655.0,
+      "role": "mentioned",
+      "context": "recover 6690, this is a very high quality long.\u201d We sold to 6655, recovered 6690 at 1:21PM Friday and began a vertical rip t"
+    },
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "of the October 22nd 6690 low. If we can flush this down at 6680 and recover 6690, this is a very high quality long.\u201d We sol"
+    },
+    {
+      "price": 6690.0,
+      "role": "support",
+      "context": "recover 6690"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "recovered 6690 at 1:21PM Friday and began a vertical rip to 6766 to close last week. This Failed Breakdown was a macro Faile"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6655.0,
+      "role": "mentioned",
+      "context": "recover 6690, this is a very high quality long.\u201d We sold to 6655, recovered 6690 at 1:21PM Friday and began a vertical rip t"
+    },
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "of the October 22nd 6690 low. If we can flush this down at 6680 and recover 6690, this is a very high quality long.\u201d We sol"
+    },
+    {
+      "price": 6690.0,
+      "role": "support",
+      "context": "recover 6690"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "recovered 6690 at 1:21PM Friday and began a vertical rip to 6766 to close last week. This Failed Breakdown was a macro Faile"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As I wrote last Monday (one week ago) at 4pm: \u201cBear case tomorrow: Begins under 6857\u2026 I t will probably be 6850 trigger."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean for today was bulls could run it more."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "If government reopens, it could be a \u201cgap and go\u201d scenario to those upside targets instantly without any retrace or pause\u2026 My general lean is we put in a big Failed Breakdown of the October 22nd 6690 low, starting a relief rally leg."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean as long as those hold we work higher to 6806, 6815, then 6851.\u201d Gap and go it was and we hit 6851 by this afternoon exactly as per the plan."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last week saw the 2nd largest weekly sell for ES since April with ES spending most the week selling off before bottoming out Friday, putting in a powerful Failed Breakdown around 1:20PM of the October 22nd low, and getting a parabolic rally all day today afterwards."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "\u201d Down we went after, but as readers know there is a law in ES: After every elevator down sell comes a face ripping squeeze ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The catch however, is we need to wait for the trigger for these squeezes and they occur only when ES puts in a Failed Breakdown or recovers a previously lost breakdown shelf."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Thursday at 4pm: \u201cIt is much smarter to wait for the Failed Breakdown of the October 22nd 6690 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This Failed Breakdown was a macro Failed Breakdown of the 6690 October 22nd low, from which the parabolic late October rally began."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Those new to Failed Breakdowns got a first hand lesson in how powerful they are today."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "SPX Goes Parabolic As Expected, But Can Bulls Maintain The Momentum, Or Pullback Coming? Nov 11th Plan",
+  "post_date": "2025-11-10",
+  "post_slug": "spx-goes-parabolic-as-expected-but",
+  "parsed_at": "2026-04-16T15:41:29.706575",
+  "body_length": 2696
+}

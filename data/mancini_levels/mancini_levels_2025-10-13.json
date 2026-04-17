@@ -1,0 +1,132 @@
+{
+  "trading_date": "2025-10-13",
+  "levels": [
+    {
+      "price": 6712.0,
+      "role": "range",
+      "context": "6712-16"
+    },
+    {
+      "price": 6716.0,
+      "role": "range",
+      "context": "6712-16"
+    },
+    {
+      "price": 6750.0,
+      "role": "mentioned",
+      "context": ": \u201cShort-term ES is in a multi-day consolidation now mostly 6750 to 6800, with 6765 being a key magnet in the middle. It is"
+    },
+    {
+      "price": 6765.0,
+      "role": "mentioned",
+      "context": "in a multi-day consolidation now mostly 6750 to 6800, with 6765 being a key magnet in the middle. It is a flag. As always,"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "r to the trend. 6757 to 6805-07 remains a massive flag with 6766 being a big magnet in the middle. My lean is we work to 679"
+    },
+    {
+      "price": 6794.0,
+      "role": "mentioned",
+      "context": "766 being a big magnet in the middle. My lean is we work to 6794 to backtest where we broke down today, perhaps extend to 68"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "-term ES is in a multi-day consolidation now mostly 6750 to 6800, with 6765 being a key magnet in the middle. It is a flag."
+    },
+    {
+      "price": 6805.0,
+      "role": "range",
+      "context": "6805-07"
+    },
+    {
+      "price": 6807.0,
+      "role": "range",
+      "context": "6805-07"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6712.0,
+      "role": "range",
+      "context": "6712-16"
+    },
+    {
+      "price": 6716.0,
+      "role": "range",
+      "context": "6712-16"
+    },
+    {
+      "price": 6750.0,
+      "role": "mentioned",
+      "context": ": \u201cShort-term ES is in a multi-day consolidation now mostly 6750 to 6800, with 6765 being a key magnet in the middle. It is"
+    },
+    {
+      "price": 6765.0,
+      "role": "mentioned",
+      "context": "in a multi-day consolidation now mostly 6750 to 6800, with 6765 being a key magnet in the middle. It is a flag. As always,"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "r to the trend. 6757 to 6805-07 remains a massive flag with 6766 being a big magnet in the middle. My lean is we work to 679"
+    },
+    {
+      "price": 6794.0,
+      "role": "mentioned",
+      "context": "766 being a big magnet in the middle. My lean is we work to 6794 to backtest where we broke down today, perhaps extend to 68"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "-term ES is in a multi-day consolidation now mostly 6750 to 6800, with 6765 being a key magnet in the middle. It is a flag."
+    },
+    {
+      "price": 6805.0,
+      "role": "range",
+      "context": "6805-07"
+    },
+    {
+      "price": 6807.0,
+      "role": "range",
+      "context": "6805-07"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close yesterday that: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work to 6794 to backtest where we broke down today, perhaps extend to 6805.\u201d This morning, ES got to 6806 high of day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "It was at this point that the tariff \u201ctape bomb\u201d hit the market, broke down the range, and triggered - for the first time in what felt like weeks - my Bear Case."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: Bear case tomorrow: No bear case until sub 6712-16 (megaphone failure) but there is a short-term bear case on the failure of the range at 6757 now.\u201d Down we went after, for what ended up being the largest sell since April."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I warned about this on Monday at 4pm when I stated: \u201cShort-term ES is in a multi-day consolidation now mostly 6750 to 6800, with 6765 being a key magnet in the middle."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6757 to 6805-07 remains a massive flag with 6766 being a big magnet in the middle."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "A Tariff \"Tape Bomb\" Creates The Biggest Red Day Since April For SPX. Can Bulls Buy It? Oct 13 Plan",
+  "post_date": "2025-10-12",
+  "post_slug": "a-tariff-tape-bomb-creates-the-biggest-79e",
+  "parsed_at": "2026-04-16T15:41:56.259122",
+  "body_length": 3165
+}

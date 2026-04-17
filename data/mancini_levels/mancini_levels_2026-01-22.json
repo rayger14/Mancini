@@ -1,0 +1,141 @@
+{
+  "trading_date": "2026-01-22",
+  "levels": [
+    {
+      "price": 6810.0,
+      "role": "range",
+      "context": "6810-13"
+    },
+    {
+      "price": 6813.0,
+      "role": "range",
+      "context": "6810-13"
+    },
+    {
+      "price": 6822.0,
+      "role": "support",
+      "context": "6822 support"
+    },
+    {
+      "price": 6847.0,
+      "role": "mentioned",
+      "context": "unce. The obvious entry to watch is the Failed Breakdown of 6847. 6847 was a big low we set at 4:20PM. We\u2019ve already backtes"
+    },
+    {
+      "price": 6886.0,
+      "role": "range",
+      "context": "6886-90"
+    },
+    {
+      "price": 6890.0,
+      "role": "range",
+      "context": "6886-90"
+    },
+    {
+      "price": 6910.0,
+      "role": "range",
+      "context": "6913-10"
+    },
+    {
+      "price": 6913.0,
+      "role": "support",
+      "context": "6913 support"
+    },
+    {
+      "price": 7010.0,
+      "role": "resistance",
+      "context": "7010 resistance"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6810.0,
+      "role": "range",
+      "context": "6810-13"
+    },
+    {
+      "price": 6813.0,
+      "role": "range",
+      "context": "6810-13"
+    },
+    {
+      "price": 6822.0,
+      "role": "support",
+      "context": "6822 support"
+    },
+    {
+      "price": 6847.0,
+      "role": "mentioned",
+      "context": "unce. The obvious entry to watch is the Failed Breakdown of 6847. 6847 was a big low we set at 4:20PM. We\u2019ve already backtes"
+    },
+    {
+      "price": 6886.0,
+      "role": "range",
+      "context": "6886-90"
+    },
+    {
+      "price": 6890.0,
+      "role": "range",
+      "context": "6886-90"
+    },
+    {
+      "price": 6910.0,
+      "role": "range",
+      "context": "6913-10"
+    },
+    {
+      "price": 6913.0,
+      "role": "support",
+      "context": "6913 support"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 7010.0,
+      "role": "resistance",
+      "context": "7010 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This is irrelevant for us day traders but useful for swing traders (support down at 6913).\u201d I also wrote on Friday at 4pm: \u201cBear case Monday/Tuesday: Bear case tomorrow: 6969 needs to fail.\u201d Over the weekend, ES got slammed with more tariff headlines and ES sold right down to 6913 flag support on Sunday evening."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cGenerally, in a strong bull case ES will hold 6822 OR quick trap down to 6810-13."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The first principle is that when ES sells it typically goes elevator down and violently flushes every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then, ES short squeezes but this ONLY happens when ES sees a Failed Breakdown (my core setup)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The obvious entry to watch is the Failed Breakdown of 6847."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We trapped below 6822 (yesterdays daily low) down to 6814, recovered for the Failed Breakdown by 9am, and ran those targets to 6913+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This showed by the power of my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "Bulls Bought The SPX Dip As Expected. Is The Bottom In? January 22nd Plan",
+  "post_date": "2026-01-21",
+  "post_slug": "bulls-bought-the-spx-dip-as-expected",
+  "parsed_at": "2026-04-16T15:40:27.343275",
+  "body_length": 2598
+}

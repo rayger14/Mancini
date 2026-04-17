@@ -1,0 +1,130 @@
+{
+  "trading_date": "2025-12-15",
+  "levels": [
+    {
+      "price": 6805.0,
+      "role": "mentioned",
+      "context": "ts. Today saw yet another dip, with ES selling from 6929 to 6805. This would setup yet another actionable dip buy, but only"
+    },
+    {
+      "price": 6817.0,
+      "role": "mentioned",
+      "context": "y 6817 low is a good entry as well.\u201d We swept the Wednesday 6817 low down to 6805, recovered 6817 by noon, and ripped to 685"
+    },
+    {
+      "price": 6830.0,
+      "role": "support",
+      "context": "6830 daily low"
+    },
+    {
+      "price": 6857.0,
+      "role": "mentioned",
+      "context": "817 low down to 6805, recovered 6817 by noon, and ripped to 6857 before dipping into the close. Ultimately though, for 2 wee"
+    },
+    {
+      "price": 6915.0,
+      "role": "mentioned",
+      "context": "e rip began. I wrote at the time that next targets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We hit 6924/"
+    },
+    {
+      "price": 6924.0,
+      "role": "mentioned",
+      "context": "began. I wrote at the time that next targets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We hit 6924/31 by"
+    },
+    {
+      "price": 6929.0,
+      "role": "mentioned",
+      "context": "100 points. Today saw yet another dip, with ES selling from 6929 to 6805. This would setup yet another actionable dip buy, b"
+    },
+    {
+      "price": 6948.0,
+      "role": "mentioned",
+      "context": "argets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We hit 6924/31 by yesterday\u2019s close for a clean 100 poin"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6805.0,
+      "role": "mentioned",
+      "context": "ts. Today saw yet another dip, with ES selling from 6929 to 6805. This would setup yet another actionable dip buy, but only"
+    },
+    {
+      "price": 6817.0,
+      "role": "mentioned",
+      "context": "y 6817 low is a good entry as well.\u201d We swept the Wednesday 6817 low down to 6805, recovered 6817 by noon, and ripped to 685"
+    },
+    {
+      "price": 6830.0,
+      "role": "support",
+      "context": "6830 daily low"
+    },
+    {
+      "price": 6857.0,
+      "role": "mentioned",
+      "context": "817 low down to 6805, recovered 6817 by noon, and ripped to 6857 before dipping into the close. Ultimately though, for 2 wee"
+    },
+    {
+      "price": 6915.0,
+      "role": "mentioned",
+      "context": "e rip began. I wrote at the time that next targets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We hit 6924/"
+    },
+    {
+      "price": 6924.0,
+      "role": "mentioned",
+      "context": "began. I wrote at the time that next targets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We hit 6924/31 by"
+    },
+    {
+      "price": 6929.0,
+      "role": "mentioned",
+      "context": "100 points. Today saw yet another dip, with ES selling from 6929 to 6805. This would setup yet another actionable dip buy, b"
+    },
+    {
+      "price": 6948.0,
+      "role": "mentioned",
+      "context": "argets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We hit 6924/31 by yesterday\u2019s close for a clean 100 poin"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "That footprint is my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "1) They wait for (or produce) a rapid elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES plunged elevator down 90 points in a few hours down to 6817."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Wednesday at 4pm: \u201cA Failed Breakdown of today\u2019s 6830 daily low is an option.\u201d We triggered this recovered Wednesday evening, and the rip began."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This would setup yet another actionable dip buy, but only on a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cThe Failed Breakdown of Wednesday 6817 low is a good entry as well.\u201d We swept the Wednesday 6817 low down to 6805, recovered 6817 by noon, and ripped to 6857 before dipping into the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the Failed Breakdowns we had this week to produce yesterday\u2019s rip."
+    },
+    {
+      "type": "TARGETS",
+      "text": "I wrote at the time that next targets up were \u201c6915, 6924/31."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Two Weeks Of Wide Consolidation For SPX. Will It Break Next Week, And What Way? December 15 Plan",
+  "post_date": "2025-12-14",
+  "post_slug": "two-weeks-of-wide-consolidation-for-dea",
+  "parsed_at": "2026-04-16T15:40:59.288590",
+  "body_length": 2287
+}

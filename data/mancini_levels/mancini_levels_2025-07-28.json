@@ -1,0 +1,113 @@
+{
+  "trading_date": "2025-07-28",
+  "levels": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "6333 resistance"
+    },
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6388.0,
+      "role": "support",
+      "context": "above 6388"
+    },
+    {
+      "price": 6415.0,
+      "role": "resistance",
+      "context": "below 6415"
+    },
+    {
+      "price": 6424.0,
+      "role": "mentioned",
+      "context": "ought). This sets up a retest of 6415, then if that clears, 6424, 6432+.\u201d We got to 6432 high of day, then dipped. A perfect"
+    },
+    {
+      "price": 6432.0,
+      "role": "mentioned",
+      "context": ". This sets up a retest of 6415, then if that clears, 6424, 6432+.\u201d We got to 6432 high of day, then dipped. A perfect sessi"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6388.0,
+      "role": "support",
+      "context": "above 6388"
+    },
+    {
+      "price": 6424.0,
+      "role": "mentioned",
+      "context": "ought). This sets up a retest of 6415, then if that clears, 6424, 6432+.\u201d We got to 6432 high of day, then dipped. A perfect"
+    },
+    {
+      "price": 6432.0,
+      "role": "mentioned",
+      "context": ". This sets up a retest of 6415, then if that clears, 6424, 6432+.\u201d We got to 6432 high of day, then dipped. A perfect sessi"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "6333 resistance"
+    },
+    {
+      "price": 6415.0,
+      "role": "resistance",
+      "context": "below 6415"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm Monday (when we were 6340s): \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Tuesday at 4pm: \u201cThe bull case though is that ES can fill it out the upside and test 6360, 6366, then 6371-74."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "To do that, we need a setup, and I trade 1: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The Failed Breakdown is how institutions accumulate; they flush lows, trap shorts, and price rallies."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When you marry the Failed Breakdown, with macro chart patterns, magic happens, and we saw that this week."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 5,
+  "resistance_count": 2,
+  "post_title": "SPX Breaks Out Its Bull Triangle and Rallies 100 Points This Week. Another Leg Up Next Week, Or Pullback? July 28 Plan",
+  "post_date": "2025-07-27",
+  "post_slug": "spx-breaks-out-its-bull-triangle-38a",
+  "parsed_at": "2026-04-16T15:43:05.677136",
+  "body_length": 3172
+}

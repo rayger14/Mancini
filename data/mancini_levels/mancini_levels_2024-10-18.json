@@ -1,0 +1,81 @@
+{
+  "trading_date": "2024-10-18",
+  "levels": [
+    {
+      "price": 5871.0,
+      "role": "mentioned",
+      "context": "saw exactly thi s. We tested down to 5878-80, flushed it to 5871, trapped bears, then squeezed to 5923+ by the open today. B"
+    },
+    {
+      "price": 5878.0,
+      "role": "range",
+      "context": "5878-80"
+    },
+    {
+      "price": 5880.0,
+      "role": "range",
+      "context": "5878-80"
+    },
+    {
+      "price": 5892.0,
+      "role": "resistance",
+      "context": "5892 resistance"
+    },
+    {
+      "price": 5923.0,
+      "role": "mentioned",
+      "context": "878-80, flushed it to 5871, trapped bears, then squeezed to 5923+ by the open today. Bulls however, were unable to hold the"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5871.0,
+      "role": "mentioned",
+      "context": "saw exactly thi s. We tested down to 5878-80, flushed it to 5871, trapped bears, then squeezed to 5923+ by the open today. B"
+    },
+    {
+      "price": 5878.0,
+      "role": "range",
+      "context": "5878-80"
+    },
+    {
+      "price": 5880.0,
+      "role": "range",
+      "context": "5878-80"
+    },
+    {
+      "price": 5923.0,
+      "role": "mentioned",
+      "context": "878-80, flushed it to 5871, trapped bears, then squeezed to 5923+ by the open today. Bulls however, were unable to hold the"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5892.0,
+      "role": "resistance",
+      "context": "5892 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "This recent leg into all time highs was triggered by - like all significant rallies - a Failed Breakdown/Level Reclaim that we had overnight."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a Failed Breakdown (my core setup) we had yesterday that triggered this mornings 70+ point rally."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "This is a risky zone to bid since its quite close to the major 5892 resistance we just backtested late day today."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "SPX Just Made Its 23rd New All Time High of 2024. New Leg Up, Or Bull Trap?",
+  "post_date": "2024-10-17",
+  "post_slug": "spx-just-made-its-23rd-new-all-time",
+  "parsed_at": "2026-04-16T15:47:10.246477",
+  "body_length": 1830
+}

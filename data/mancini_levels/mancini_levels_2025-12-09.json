@@ -1,0 +1,113 @@
+{
+  "trading_date": "2025-12-09",
+  "levels": [
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6880.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "into Friday, stating on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday"
+    },
+    {
+      "price": 6902.0,
+      "role": "mentioned",
+      "context": "Friday, stating on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday, then"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday, then dipped. My last"
+    },
+    {
+      "price": 6931.0,
+      "role": "mentioned",
+      "context": "rsday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday, then dipped. My last newsl"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6880.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "into Friday, stating on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday"
+    },
+    {
+      "price": 6902.0,
+      "role": "mentioned",
+      "context": "Friday, stating on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday, then"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday, then dipped. My last"
+    },
+    {
+      "price": 6931.0,
+      "role": "mentioned",
+      "context": "rsday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday, then dipped. My last newsl"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "We were on board for the entirety of it and its thanks to the adherence to two simple principles: 1) Recognizing the footprint of institutional accumulation (the Failed Breakdown)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions long by waiting for a deep elevator down sell, they wait for price to undercut a low, they then trap shorts, price recovers the low, and we squeeze the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is the Failed Breakdown, and my edge is simply following them."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then last week, bulls bought every dip via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Tuesday at 4pm: \u201cThe Failed Breakdown of the 11:30AM 6818 low is also actionable.\u201d We got exactly this Wednesday - ES went elevator down from 6865 resistance down to 6817."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the monster Failed breakdown we had last Wednesday (that took us up 80 points - this is key to learn from) and I\u2019ll talk the actionable plan for Tuesday with entries."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "SPX Puts In Its First Red Day In A Week. Will It Get Bought? December 9th Plan",
+  "post_date": "2025-12-08",
+  "post_slug": "spx-puts-in-its-first-red-day-in",
+  "parsed_at": "2026-04-16T15:41:04.463189",
+  "body_length": 2546
+}

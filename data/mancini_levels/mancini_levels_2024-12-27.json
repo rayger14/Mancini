@@ -1,0 +1,68 @@
+{
+  "trading_date": "2024-12-27",
+  "levels": [
+    {
+      "price": 5858.0,
+      "role": "range",
+      "context": "5866-58"
+    },
+    {
+      "price": 5866.0,
+      "role": "range",
+      "context": "5866-58"
+    },
+    {
+      "price": 6100.0,
+      "role": "mentioned",
+      "context": "clear target for this rally last Friday and everyday since: 6100, to backtest the zone we broke down from after FOMC last We"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5858.0,
+      "role": "range",
+      "context": "5866-58"
+    },
+    {
+      "price": 5866.0,
+      "role": "range",
+      "context": "5866-58"
+    },
+    {
+      "price": 6100.0,
+      "role": "mentioned",
+      "context": "clear target for this rally last Friday and everyday since: 6100, to backtest the zone we broke down from after FOMC last We"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I specified this last Friday at 4pm when we were 6000: \u201cMy general lean is that ES can make its way up to the back-test of 6099\u201d and \u201cI will just let this long runner work over the holidays now \u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers will know what setup I\u2019d be tracking here: The Failed Breakdown of Wednesdays 5907 low.\u201d What did we do last Friday morning?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Lost 5907, sold down to 5866, recovered Wednesdays 5907 major low, and put in the exact setup mentioned above: A Failed Breakdown to trigger a monster short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This setup got us long on Friday for the holiday week ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into two quality examples of my core setup (the Failed Breakdown) we had in the last week (Friday and Monday)."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "SPX Is At A Huge Inflection Point. Will The Santa Rally Run Out of Steam? Dec 27 Plan",
+  "post_date": "2024-12-26",
+  "post_slug": "spx-is-at-a-huge-inflection-point",
+  "parsed_at": "2026-04-16T15:46:07.749766",
+  "body_length": 2310
+}

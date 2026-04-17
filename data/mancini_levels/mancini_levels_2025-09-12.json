@@ -1,0 +1,163 @@
+{
+  "trading_date": "2025-09-12",
+  "levels": [
+    {
+      "price": 6456.0,
+      "role": "range",
+      "context": "6456-61"
+    },
+    {
+      "price": 6461.0,
+      "role": "range",
+      "context": "6456-61"
+    },
+    {
+      "price": 6490.0,
+      "role": "mentioned",
+      "context": "On Tuesday we saw exactly this: We flushed under the Monday 6490 low, trapped shorts, squeezed, then rallied to ATH\u2019s yester"
+    },
+    {
+      "price": 6495.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cMy general lean is always to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. As long as range su"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. As long as range support holds (with any quick trap"
+    },
+    {
+      "price": 6506.0,
+      "role": "range",
+      "context": "6506-08"
+    },
+    {
+      "price": 6508.0,
+      "role": "range",
+      "context": "6506-08"
+    },
+    {
+      "price": 6518.0,
+      "role": "target",
+      "context": "target 6518"
+    },
+    {
+      "price": 6531.0,
+      "role": "mentioned",
+      "context": "holds (with any quick traps below bought), we target 6518, 6531. Final reaction there, then onto ATHs.\u201d On Tuesday we saw e"
+    },
+    {
+      "price": 6552.0,
+      "role": "mentioned",
+      "context": "d 6518, 6506-08 lowest on any CPI spikes down which targets 6552, 6565, then 6578 megaphone resistance.\u201d We saw exactly this"
+    },
+    {
+      "price": 6565.0,
+      "role": "mentioned",
+      "context": ", 6506-08 lowest on any CPI spikes down which targets 6552, 6565, then 6578 megaphone resistance.\u201d We saw exactly this. Afte"
+    },
+    {
+      "price": 6578.0,
+      "role": "mentioned",
+      "context": "owest on any CPI spikes down which targets 6552, 6565, then 6578 megaphone resistance.\u201d We saw exactly this. After CPI we di"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6456.0,
+      "role": "range",
+      "context": "6456-61"
+    },
+    {
+      "price": 6461.0,
+      "role": "range",
+      "context": "6456-61"
+    },
+    {
+      "price": 6490.0,
+      "role": "mentioned",
+      "context": "On Tuesday we saw exactly this: We flushed under the Monday 6490 low, trapped shorts, squeezed, then rallied to ATH\u2019s yester"
+    },
+    {
+      "price": 6495.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cMy general lean is always to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. As long as range su"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. As long as range support holds (with any quick trap"
+    },
+    {
+      "price": 6506.0,
+      "role": "range",
+      "context": "6506-08"
+    },
+    {
+      "price": 6508.0,
+      "role": "range",
+      "context": "6506-08"
+    },
+    {
+      "price": 6531.0,
+      "role": "mentioned",
+      "context": "holds (with any quick traps below bought), we target 6518, 6531. Final reaction there, then onto ATHs.\u201d On Tuesday we saw e"
+    },
+    {
+      "price": 6552.0,
+      "role": "mentioned",
+      "context": "d 6518, 6506-08 lowest on any CPI spikes down which targets 6552, 6565, then 6578 megaphone resistance.\u201d We saw exactly this"
+    },
+    {
+      "price": 6565.0,
+      "role": "mentioned",
+      "context": ", 6506-08 lowest on any CPI spikes down which targets 6552, 6565, then 6578 megaphone resistance.\u201d We saw exactly this. Afte"
+    },
+    {
+      "price": 6578.0,
+      "role": "mentioned",
+      "context": "owest on any CPI spikes down which targets 6552, 6565, then 6578 megaphone resistance.\u201d We saw exactly this. After CPI we di"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6518.0,
+      "role": "target",
+      "context": "target 6518"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Monday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was they could, and late day yesterday, we got a long right into the close when ES lost a major low at 6533 and recovered."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cWe had an absolutely classic Failed Breakdown of this at 3:40PM today which was discussed above and live tweeted\u2026My lean is that bulls need to hold 6518, 6506-08 lowest on any CPI spikes down which targets 6552, 6565, then 6578 megaphone resistance.\u201d We saw exactly this."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "That footprint, is the Failed Breakdown, and it is my core edge."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the powerful combination of Failed Breakdown\u2019s we had on Monday and Tuesday around 6456-61 that represented the institutional accumulation that got us on board for the monster 75+ point squeeze into yesterday\u2019s highs (this is important to know), then I\u2019ll talk the actionable trade plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6495 to 6518= a chop range with 6505 magnet."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 11,
+  "resistance_count": 1,
+  "post_title": "Massive Squeeze To Close SPX Firmly At All Time Highs. More Ahead, Or Bull Trap? September 12 Plan",
+  "post_date": "2025-09-11",
+  "post_slug": "massive-squeeze-to-close-spx-firmly",
+  "parsed_at": "2026-04-16T15:42:21.602881",
+  "body_length": 2646
+}
