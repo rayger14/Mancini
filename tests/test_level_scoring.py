@@ -154,7 +154,9 @@ class TestConfirmationScore:
             tested_and_held=True,
             mancini_confirmed=True,
         )
-        assert scorer._confirmation_score(level) == 25
+        # Cap raised to 30 to let elite shelves (15+ touches) score higher
+        # CUSTOM + mancini_confirmed(+5) + 8 touches(+10) + 20pt rally(+10) + tested(+5) = 30
+        assert scorer._confirmation_score(level) == 30
 
 
 class TestRecencyScore:

@@ -44,7 +44,7 @@ _ORIGIN_SCORES: dict[LevelType, int] = {
     LevelType.SWING_LOW: 5,         # Noise unless confirmed by other factors
     LevelType.SWING_HIGH: 5,
     LevelType.VWAP: 5,
-    LevelType.CLUSTER_LOW: 0,       # 0% WR live, excluded from FB
+    LevelType.CLUSTER_LOW: 0,       # Base 0, but CAN reach 30 via confirmation (8+ touches = shelf)
     LevelType.CLUSTER_HIGH: 0,
 }
 
@@ -172,11 +172,15 @@ class LevelQualityScorer:
             # Mancini-only level — lower bonus since no engine validation
             score += 5
 
-        # Multi-touch scoring (additive, not cumulative)
-        if level.touch_count >= 8:
-            score += 10
+        # Multi-touch scoring — Mancini's "shelf of lows" concept
+        # A shelf is a horizontal zone tested many times = institutional interest
+        # 8+ touches on a CLUSTER_LOW transforms noise into a real shelf (Mancini: 4354 mentions)
+        if level.touch_count >= 15:
+            score += 15  # Monster shelf — "ATM machine level"
+        elif level.touch_count >= 8:
+            score += 10  # Real shelf — Mancini would trade this
         elif level.touch_count >= 4:
-            score += 5
+            score += 5   # Moderate structure
 
         # Validated rally: 20+ pt rally from this low proves demand
         if level.rally_from_low_pts >= 20.0:
@@ -186,8 +190,8 @@ class LevelQualityScorer:
         if level.tested_and_held:
             score += 5
 
-        # Cap at 25
-        return min(25, score)
+        # Cap at 30 (raised from 25 to let elite shelves score higher)
+        return min(30, score)
 
     def _recency_score(
         self,
