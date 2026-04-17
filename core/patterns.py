@@ -54,6 +54,10 @@ class PatternSignal:
     direction: str = "long"  # "long" or "short"
     sweep_high: float = 0.0  # highest price during the sweep (short-side)
     is_double_dip: bool = False  # True if this is a double-dip re-entry
+    # Mancini Apr 15 2026 context warning: "FBs not far off major highs after
+    # big rally are dangerous — tend to fakeout unless parabolic rally sustains."
+    # Set True for trend-day FBs fired within N pts of the session high.
+    is_risky_trend_fb: bool = False
 
     @property
     def risk_pts(self) -> float:
@@ -107,6 +111,11 @@ class FailedBreakdown:
         self._sweep_tracking_level: Optional[Level] = None
         self._sweep_tracking_bars_below: int = 0
         self._sweep_tracking_low: float = float("inf")
+        # Danger-zone acceptance: number of dips back to within
+        # danger_zone_dip_proximity_pts of the level after recovery.
+        # Mancini: "in the danger zone you need CLEAR acceptance" = dip-back pattern.
+        self._acceptance_dips: int = 0
+        self._last_dip_in_zone: bool = False  # tracks whether last bar dipped into the zone
 
     def reset(self) -> None:
         self.state = PatternState.IDLE
@@ -122,6 +131,8 @@ class FailedBreakdown:
         self._sweep_tracking_level = None
         self._sweep_tracking_bars_below = 0
         self._sweep_tracking_low = float("inf")
+        self._acceptance_dips = 0
+        self._last_dip_in_zone = False
 
     def record_stop_out(self, level_price: float, bar_idx: int,
                         stop_price: float = 0.0, entry_price: float = 0.0,
@@ -697,7 +708,13 @@ class FailedBreakdown:
         low: float,
         close: float,
     ) -> Optional[PatternSignal]:
-        """Non-acceptance: price recovers 5+ pts above level, holds 3+ bars."""
+        """Non-acceptance: price recovers 5+ pts above level, holds 3+ bars.
+
+        Danger-zone rule (Mancini Apr 15 2026): when entry would fire with
+        close < danger_zone_pts above the level, require a dip-back touch —
+        price must have come within danger_zone_dip_proximity_pts of the level
+        and returned ("clear acceptance" = dip-recover pattern).
+        """
         assert self._target_level is not None
         level_price = self._target_level.price
 
@@ -707,10 +724,32 @@ class FailedBreakdown:
         if recovery >= self.params.non_acceptance_min_recovery_pts:
             self._hold_bars += 1
 
+        # Danger-zone dip tracking: count dips back to within proximity of level.
+        # A "dip" is a bar whose low is within proximity; we only count once
+        # per contiguous dip (debounce via _last_dip_in_zone).
+        dip_proximity = getattr(self.params, 'danger_zone_dip_proximity_pts', 2.0)
+        in_zone_now = low <= level_price + dip_proximity
+        if in_zone_now and not self._last_dip_in_zone:
+            self._acceptance_dips += 1
+        self._last_dip_in_zone = in_zone_now
+
         if self._hold_bars >= self.params.non_acceptance_min_hold_bars:
-            return self._emit_signal(
-                bar_idx, timestamp, close, ConfirmationType.NON_ACCEPTANCE
+            # Danger-zone check: if current close is inside the danger zone
+            # (0 < recovery < danger_zone_pts) and the config requires dip
+            # acceptance, only fire if we've seen a dip-back.
+            danger_zone_pts = getattr(self.params, 'danger_zone_pts', 5.0)
+            require_dip = getattr(
+                self.params, 'danger_zone_require_dip_acceptance', True
             )
+            in_danger_zone = 0 < recovery < danger_zone_pts
+            if require_dip and in_danger_zone and self._acceptance_dips < 1:
+                # Not yet — keep watching for a dip-back. Don't timeout yet;
+                # fall through to timeout logic below.
+                pass
+            else:
+                return self._emit_signal(
+                    bar_idx, timestamp, close, ConfirmationType.NON_ACCEPTANCE
+                )
 
         # Use depth-aware timeout
         sweep_depth = self._target_level.price - self._sweep_low
@@ -845,6 +884,8 @@ class FailedBreakdown:
             "sweep_tracking_low": self._sweep_tracking_low,
             "stopped_out_levels": self._stopped_out_levels,
             "near_misses": self.near_misses[-10:],
+            "acceptance_dips": self._acceptance_dips,
+            "last_dip_in_zone": self._last_dip_in_zone,
         }
 
     def restore_state(self, snapshot: dict) -> None:
@@ -900,6 +941,8 @@ class FailedBreakdown:
         self._sweep_tracking_low = snapshot.get("sweep_tracking_low", float("inf"))
         self._stopped_out_levels = snapshot.get("stopped_out_levels", [])
         self.near_misses = snapshot.get("near_misses", [])
+        self._acceptance_dips = snapshot.get("acceptance_dips", 0)
+        self._last_dip_in_zone = snapshot.get("last_dip_in_zone", False)
 
 
 class LevelReclaim:

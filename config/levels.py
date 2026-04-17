@@ -23,6 +23,7 @@ class LevelType(Enum):
     INTRADAY_LOW = auto()   # fast-confirmed low during deep sell (crash bottom / consolidation)
     VWAP = auto()
     CUSTOM = auto()
+    MANCINI_LEVEL = auto()  # level called out in Mancini's Substack (overlay/augmentation)
 
 
 @dataclass
@@ -40,6 +41,12 @@ class Level:
     origin_date: Optional[date] = None  # date level was first detected (for multi-day aging)
     significance_score: float = 1.0    # starts at 1.0, decays over time
     tested_and_held: bool = False       # True if price tested and bounced (not broke through)
+    # Mancini Substack overlay fields (augmentation, not replacement)
+    mancini_confirmed: bool = False     # True if this level was called out in Mancini's post
+    mancini_side: str = ""              # "support" | "resistance" | "either"
+    mancini_conviction: int = 0         # 1-3 from Mancini's context (key/magnet/etc)
+    mancini_tags: list = field(default_factory=list)  # tags parsed from context (key, magnet, caution, ...)
+    shadow_only: bool = False           # True = do not influence trading (log-only overlay)
 
     def __post_init__(self):
         if not self.label:
@@ -152,6 +159,7 @@ _LEVEL_BASE_SCORES: dict[LevelType, int] = {
     LevelType.HORIZONTAL_SR: 1,
     LevelType.VWAP: 1,
     LevelType.CUSTOM: 1,
+    LevelType.MANCINI_LEVEL: 3,
 }
 
 
@@ -205,5 +213,9 @@ def compute_confluence_score(
     # Previously tested and held: market already proved the level
     if level.tested_and_held:
         score += 1
+
+    # Mancini confirmation bonus: level explicitly called out in Substack post
+    if level.mancini_confirmed:
+        score += 2
 
     return score

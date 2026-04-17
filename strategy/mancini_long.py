@@ -32,6 +32,7 @@ from config.settings import (
 from config.levels import Level, LevelType
 from core.indicators import enrich_dataframe
 from core.mode1_detector import Mode1Detector
+from core.mode1_green_detector import Mode1GreenDetector
 from core.regime_filter import compute_regime, RegimeState, RegimeParams, Direction, VolRegime
 from core.signals import Signal, SignalAggregator, SignalType
 from strategy.entry_manager import EntryManager, EntryDecision
@@ -124,6 +125,8 @@ class ManciniLongStrategy:
 
         # Mode 1 (trend day) detector
         self.mode1_detector = Mode1Detector(strategy_params)
+        # Mode 1 Green (trend up day) detector — mirror
+        self.mode1_green_detector = Mode1GreenDetector(strategy_params)
 
         # Multi-day level persistence — survives reset() across days
         self._persistent_levels: list[Level] = []
@@ -141,6 +144,7 @@ class ManciniLongStrategy:
         """
         self.signal_aggregator.reset()
         self.mode1_detector.reset()
+        self.mode1_green_detector.reset()
         self._long_position = None
         self._long_pattern_type = ""
         self._long_signal = None
@@ -270,6 +274,10 @@ class ManciniLongStrategy:
             if self.strategy_params.use_mode1_detection:
                 pdl = float(prior_day_df["low"].min())
                 self.mode1_detector.set_pdl(pdl)
+            # Set PDH for Mode 1 Green detector
+            if self.strategy_params.use_mode1_green_detection:
+                pdh = float(prior_day_df["high"].max())
+                self.mode1_green_detector.set_pdh(pdh)
         else:
             self.risk_manager.set_prior_day_range(0.0)
 
@@ -785,14 +793,99 @@ class ManciniLongStrategy:
                     "conditions_met": state.conditions_met,
                 })
 
+        # Step 3b-green: Update Mode 1 Green detector (trend up day)
+        if self.strategy_params.use_mode1_green_detection:
+            was_green = self.mode1_green_detector.state.is_mode1_green
+            self.mode1_green_detector.update(
+                bar_idx=bar_idx,
+                close=close,
+                high=high,
+                level_store=self.signal_aggregator.level_store,
+                timestamp=timestamp,
+            )
+            # Expose current Mode 1 Green status so _qualify_signal can apply
+            # the relaxed R:R floor. Only live mode (not shadow) takes effect.
+            self.signal_aggregator.mode1_green_active = (
+                self.mode1_green_detector.state.is_mode1_green
+            )
+            if self.mode1_green_detector.state.is_mode1_green and not was_green:
+                g = self.mode1_green_detector.state
+                self.signal_aggregator.shadow_events.append({
+                    "feature": "mode1_green",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_GREEN",
+                    "event": "transition",
+                    "resistances_broken": g.resistances_broken_sustained,
+                    "bars_above_pdh": g.bars_above_pdh,
+                    "bullish_pressure_bars": g.bullish_pressure_bars,
+                    "conditions_met": g.conditions_met,
+                })
+
         if signal is not None:
             result.signal = signal
             direction = signal.pattern.direction
+
+            # Flag risky trend-day FBs: fired within N pts of session high.
+            # Mancini Apr 15 2026: "FBs not far off major highs after big rally
+            # are dangerous — tend to fakeout unless parabolic rally sustains."
+            if (signal.signal_type == SignalType.FAILED_BREAKDOWN
+                    and direction == "long"):
+                session_high = self.signal_aggregator._session_high
+                if session_high != float('-inf'):
+                    dist = session_high - signal.entry_price
+                    if 0 <= dist <= self.strategy_params.risky_trend_fb_distance_from_high_pts:
+                        signal.pattern.is_risky_trend_fb = True
+                        logger.info(
+                            f"Bar {bar_idx}: Risky trend-day FB — {dist:.1f} pts "
+                            f"below session_high={session_high:.2f}"
+                        )
+
             logger.info(
                 f"Bar {bar_idx}: Signal - {signal.signal_type.name} ({direction}) "
                 f"entry={signal.entry_price:.2f} stop={signal.stop_price:.2f} "
                 f"R:R={signal.rr_ratio_t1:.2f}"
             )
+
+            # Step 3b-g: Mode 1 Green — relax R:R and apply size factor on
+            # confirmed trend-up days (FB LONG only). Ship in shadow mode first.
+            if (self.strategy_params.use_mode1_green_detection
+                    and self.mode1_green_detector.state.is_mode1_green
+                    and direction == "long"
+                    and signal.signal_type == SignalType.FAILED_BREAKDOWN):
+                g = self.mode1_green_detector.state
+                green_min_rr = self.strategy_params.mode1_green_fb_min_rr
+                green_size = self.strategy_params.mode1_green_size_factor
+                self.signal_aggregator.shadow_events.append({
+                    "feature": "mode1_green",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_GREEN",
+                    "signal_type": signal.signal_type.name,
+                    "rr_ratio": round(signal.rr_ratio_t1, 2),
+                    "would_relax_min_rr_to": green_min_rr,
+                    "would_apply_size_factor": green_size,
+                    "resistances_broken": g.resistances_broken_sustained,
+                    "bars_above_pdh": g.bars_above_pdh,
+                    "bullish_pressure_bars": g.bullish_pressure_bars,
+                    "conditions_met": g.conditions_met,
+                })
+                if not self.strategy_params.shadow_mode_features:
+                    # Live: apply size factor. The relaxed R:R floor
+                    # (mode1_green_fb_min_rr) is consumed upstream by
+                    # _qualify_signal via the Mode 1 Green hook — here we
+                    # just size the confirmed trend-day signal.
+                    signal.position_size_factor *= green_size
+                    logger.info(
+                        f"Bar {bar_idx}: MODE 1 GREEN — applying size_factor "
+                        f"{green_size:.2f} (new={signal.position_size_factor:.2f})"
+                    )
+                else:
+                    logger.info(
+                        f"SHADOW mode1_green @ bar {bar_idx}: MODE_1_GREEN "
+                        f"would apply size={green_size:.2f}, min_rr={green_min_rr:.2f} "
+                        f"(not acting)"
+                    )
 
             # Step 3c: Mode 1 Red gating — reduce size or reject FB longs
             if (self.strategy_params.use_mode1_detection
