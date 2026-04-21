@@ -716,9 +716,15 @@ class IBBridge:
         )
 
         # Take profit: limit order at target (tick-rounded)
+        # Only put HALF the contracts on TP — the rest stay as a runner
+        # managed by the ExitManager's trailing stop logic.
+        # With 1 contract: TP gets 1 (no runner possible)
+        # With 2 contracts: TP gets 1, runner gets 1
+        # With 4 contracts: TP gets 2, runner gets 2
+        tp_quantity = max(1, quantity // 2) if quantity > 1 else quantity
         take_profit = LimitOrder(
             action=exit_action,
-            totalQuantity=quantity,
+            totalQuantity=tp_quantity,
             lmtPrice=_round_tick(tp),
             orderId=tp_id,
             parentId=parent_id,
@@ -727,7 +733,8 @@ class IBBridge:
             tif="GTC",
         )
 
-        # Stop loss: stop order (tick-rounded) — transmit=True sends all three
+        # Stop loss: stop order (tick-rounded) — covers ALL contracts
+        # transmit=True sends the entire bracket
         stop_loss = StopOrder(
             action=exit_action,
             totalQuantity=quantity,

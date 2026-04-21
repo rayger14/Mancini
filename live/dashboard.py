@@ -484,6 +484,7 @@ HTML_TEMPLATE = Template(r"""<!DOCTYPE html>
   <button class="tab-btn" data-tab="chart" onclick="switchTab('chart')">Chart</button>
   <button class="tab-btn" data-tab="history" onclick="switchTab('history')">Trade History</button>
   <button class="tab-btn" data-tab="shadow" onclick="switchTab('shadow')">Shadow Mode</button>
+  <button class="tab-btn" data-tab="report" onclick="switchTab('report')">Daily Report</button>
 </div>
 
 <!-- ==================== OVERVIEW TAB ==================== -->
@@ -1162,6 +1163,13 @@ $bypass_banner_html
 </div>
 </div>
 
+<!-- ==================== DAILY REPORT TAB ==================== -->
+<div id="tab-report" class="tab-content">
+<div class="main">
+  <div id="report-content" style="color:#8b949e;text-align:center;padding:40px;">Loading daily reports...</div>
+</div>
+</div>
+
 <!-- ==================== REGIME MODAL ==================== -->
 <div id="regime-modal" class="modal-overlay" onclick="if(event.target===this)closeRegimeModal()">
   <div class="modal-content">
@@ -1254,6 +1262,7 @@ function switchTab(name) {
   if (name === 'chart') initChart();
   if (name === 'history') loadTradeHistory();
   if (name === 'shadow') loadShadowEvents();
+  if (name === 'report') loadDailyReports();
 }
 
 // Restore tab from URL hash on load
@@ -1817,6 +1826,141 @@ function renderPnlChart(trades) {
     + '<text x="' + (w - pad) + '" y="' + (h - 2) + '" text-anchor="end" fill="#484f58" font-size="9">' + (chrono[chrono.length-1].date || '') + '</text>';
 
   svg.innerHTML = svgHtml;
+}
+
+// ==================== DAILY REPORT ====================
+var _reportLoaded = false;
+function loadDailyReports() {
+  var container = document.getElementById('report-content');
+  if (!container) return;
+  if (!_reportLoaded) container.innerHTML = '<div style="color:#8b949e;text-align:center;padding:40px;">Loading reports...</div>';
+  fetch('/api/reports')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      _reportLoaded = true;
+      renderDailyReports(data.reports || []);
+    })
+    .catch(function(err) {
+      container.innerHTML = '<div style="color:#f85149;text-align:center;padding:40px;">Failed to load reports: ' + err + '</div>';
+    });
+}
+
+function renderDailyReports(reports) {
+  var container = document.getElementById('report-content');
+  if (!container) return;
+  if (reports.length === 0) {
+    container.innerHTML = '<div style="color:#8b949e;text-align:center;padding:40px;">No reports yet. First report generates at 2:10 AM ET.</div>';
+    return;
+  }
+  var latest = reports[reports.length - 1];
+  var html = '';
+
+  // Latest report header
+  html += '<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:16px;">';
+  html += '<h3 style="color:#58a6ff;margin:0 0 12px 0;">Latest Report: ' + (latest.session_date || '?') + '</h3>';
+
+  // Trades summary
+  var tr = latest.trades || {};
+  var pnlColor = (tr.total_pnl || 0) >= 0 ? '#3fb950' : '#f85149';
+  html += '<div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:12px;">';
+  html += '<div><span style="color:#8b949e;">Trades</span><br><span style="font-size:20px;font-weight:700;color:#f0f6fc;">' + (tr.count || 0) + '</span></div>';
+  html += '<div><span style="color:#8b949e;">W/L</span><br><span style="font-size:20px;font-weight:700;color:#f0f6fc;">' + (tr.wins || 0) + '/' + (tr.losses || 0) + '</span></div>';
+  html += '<div><span style="color:#8b949e;">PnL</span><br><span style="font-size:20px;font-weight:700;color:' + pnlColor + ';">' + ((tr.total_pnl || 0) >= 0 ? '+' : '') + (tr.total_pnl || 0).toFixed(1) + ' pts</span></div>';
+  html += '</div>';
+
+  // Winners
+  var win = latest.winners || {};
+  if (win.count > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#3fb950;">Winner Patterns (' + win.count + ')</strong><br>';
+    var factors = win.common_factors || [];
+    for (var i = 0; i < factors.length; i++) {
+      html += '<span style="color:#c9d1d9;font-size:13px;">&#x1F3C6; ' + factors[i] + '</span><br>';
+    }
+    html += '</div>';
+  }
+
+  // Losers
+  var los = latest.losers || {};
+  if (los.count > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#f85149;">Loser Warning Signs (' + los.count + ')</strong><br>';
+    var warnings = los.warning_signs || [];
+    for (var i = 0; i < warnings.length; i++) {
+      html += '<span style="color:#c9d1d9;font-size:13px;">&#x26A0;&#xFE0F; ' + warnings[i] + '</span><br>';
+    }
+    html += '</div>';
+  }
+
+  // Near misses
+  var nm = latest.near_misses || {};
+  if (nm.count > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#d29922;">Near-Misses (' + nm.count + ')</strong><br>';
+    html += '<span style="color:#c9d1d9;font-size:13px;">Would-have-won: ' + (nm.would_have_won || 0) + ' | Would-have-lost: ' + (nm.would_have_lost || 0) + '</span><br>';
+    var netGate = (nm.net_gate_value || 0);
+    var gateColor = netGate >= 0 ? '#3fb950' : '#f85149';
+    html += '<span style="color:' + gateColor + ';font-size:13px;">Net gate value: ' + (netGate >= 0 ? '+' : '') + netGate.toFixed(0) + ' pts</span>';
+    html += '</div>';
+  }
+
+  // Blind spots
+  var bs = latest.blind_spots || [];
+  if (bs.length > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#f85149;">Mancini Blind Spots (' + bs.length + ')</strong><br>';
+    for (var i = 0; i < Math.min(bs.length, 5); i++) {
+      html += '<span style="color:#c9d1d9;font-size:13px;">' + (bs[i].price || '?') + ' (' + (bs[i].side || '?') + ')</span><br>';
+    }
+    html += '</div>';
+  }
+
+  // Recommendations
+  var recs = latest.recommendations || [];
+  if (recs.length > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#58a6ff;">Recommendations</strong><br>';
+    for (var i = 0; i < recs.length; i++) {
+      html += '<span style="color:#c9d1d9;font-size:13px;">&#x1F4A1; ' + recs[i] + '</span><br>';
+    }
+    html += '</div>';
+  }
+
+  html += '</div>';
+
+  // History table
+  if (reports.length > 1) {
+    html += '<h3 style="color:#8b949e;margin:16px 0 8px;">Report History</h3>';
+    html += '<table style="width:100%;border-collapse:collapse;">';
+    html += '<tr style="border-bottom:1px solid #30363d;">';
+    html += '<th style="text-align:left;padding:6px;color:#8b949e;font-size:11px;">Date</th>';
+    html += '<th style="text-align:center;padding:6px;color:#8b949e;font-size:11px;">Trades</th>';
+    html += '<th style="text-align:center;padding:6px;color:#8b949e;font-size:11px;">W/L</th>';
+    html += '<th style="text-align:right;padding:6px;color:#8b949e;font-size:11px;">PnL</th>';
+    html += '<th style="text-align:right;padding:6px;color:#8b949e;font-size:11px;">Gate Value</th>';
+    html += '<th style="text-align:center;padding:6px;color:#8b949e;font-size:11px;">Blind Spots</th>';
+    html += '</tr>';
+    for (var i = reports.length - 1; i >= 0; i--) {
+      var r = reports[i];
+      var rt = r.trades || {};
+      var rnm = r.near_misses || {};
+      var rpnl = rt.total_pnl || 0;
+      var rpnlColor = rpnl >= 0 ? '#3fb950' : '#f85149';
+      var rgv = rnm.net_gate_value || 0;
+      var rgvColor = rgv >= 0 ? '#3fb950' : '#f85149';
+      html += '<tr style="border-bottom:1px solid #21262d;">';
+      html += '<td style="padding:6px;color:#c9d1d9;font-size:12px;">' + (r.session_date || '?') + '</td>';
+      html += '<td style="text-align:center;padding:6px;color:#c9d1d9;font-size:12px;">' + (rt.count || 0) + '</td>';
+      html += '<td style="text-align:center;padding:6px;color:#c9d1d9;font-size:12px;">' + (rt.wins || 0) + '/' + (rt.losses || 0) + '</td>';
+      html += '<td style="text-align:right;padding:6px;color:' + rpnlColor + ';font-size:12px;">' + (rpnl >= 0 ? '+' : '') + rpnl.toFixed(1) + '</td>';
+      html += '<td style="text-align:right;padding:6px;color:' + rgvColor + ';font-size:12px;">' + (rgv >= 0 ? '+' : '') + rgv.toFixed(0) + '</td>';
+      html += '<td style="text-align:center;padding:6px;color:#c9d1d9;font-size:12px;">' + (r.blind_spots || []).length + '</td>';
+      html += '</tr>';
+    }
+    html += '</table>';
+  }
+
+  container.innerHTML = html;
 }
 
 // ==================== SHADOW MODE ====================
@@ -2870,6 +3014,31 @@ def read_all_trades() -> list:
     return sorted(trades, key=lambda t: t.get("exit_time", ""), reverse=True)
 
 
+def read_nightly_reports() -> dict:
+    """Read nightly_reports.jsonl and return last 14 reports."""
+    log_dir = os.environ.get("LOG_PATH", os.environ.get("LOG_FILE", "/app/logs/bot.log"))
+    log_dir_path = Path(log_dir)
+    if log_dir_path.suffix:
+        log_dir_path = log_dir_path.parent
+    report_path = log_dir_path / "nightly_reports.jsonl"
+
+    reports = []
+    if report_path.exists():
+        try:
+            for line in report_path.read_text().splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    reports.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+        except OSError:
+            pass
+
+    return {"reports": reports[-14:]}
+
+
 def read_shadow_events() -> dict:
     """Read shadow_trades.jsonl and return last 100 events with summary stats."""
     log_dir = os.environ.get("LOG_PATH", os.environ.get("LOG_FILE", "/app/logs/bot.log"))
@@ -3118,6 +3287,12 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 self.send_header("Cache-Control", "no-cache")
                 self.end_headers()
                 self.wfile.write(json.dumps(read_shadow_events(), default=str).encode())
+            elif self.path == "/api/reports":
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Cache-Control", "no-cache")
+                self.end_headers()
+                self.wfile.write(json.dumps(read_nightly_reports(), default=str).encode())
             elif self.path == "/health":
                 self.send_response(200)
                 self.send_header("Content-Type", "text/plain")

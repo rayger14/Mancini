@@ -109,9 +109,9 @@ PRODUCTION_STRATEGY = StrategyParams(
     deep_sell_swing_order=5,              # fast swing confirmation (5 bars vs 30)
     deep_sell_rally_confirm_pts=20.0,     # Mancini: significant low = 20+ pt bounce (V-shaped reversal)
     # --- 5-min level detection (Mancini reads 5-min charts for level ID) ---
-    use_5min_levels=True,                 # Tuned: supplement (not replace) 1-min + longs only + raised thresholds
-    swing_low_order_5min=6,               # 6 bars on 5-min = 30 min confirmation
-    detect_shelf_levels=True,             # Shelf detection with 8-touch / 2-pt sweep gates
+    use_5min_levels=False,                # Off — needs DatetimeIndex fix for live DF before enabling
+    swing_low_order_5min=6,               # 6 bars on 5-min = 30 min confirmation (ready when enabled)
+    detect_shelf_levels=False,            # Shelf detection ready but 5-min must be fixed first
     shelf_min_touches=8,                  # Real Mancini shelves have 8+ touches on 5-min
     shelf_sweep_min_pts=2.0,              # Need 2+ pts below shelf to qualify
 )
@@ -2486,7 +2486,7 @@ class IBRunner:
                 highest = getattr(self._position, "highest_price_since_entry", 0)
                 lowest = getattr(self._position, "lowest_price_since_entry", 0)
                 t1_hit = getattr(self._position, "t1_hit", False)
-                direction = getattr(self._current_signal, "direction", "long") if self._current_signal else "long"
+                direction = getattr(self._position, "direction", None) or (getattr(self._current_signal, "direction", "long") if self._current_signal else "long")
                 if direction == "long":
                     mfe = highest - self._position.entry_price if highest else 0
                     mae = self._position.entry_price - lowest if lowest else 0
