@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from loguru import logger
 
-from config.levels import LevelStore, compute_confluence_score
+from config.levels import LevelStore, LevelType, compute_confluence_score
 from config.settings import (
     StrategyParams,
     ElevatorParams,
@@ -31,6 +31,7 @@ from core.patterns import (
 from core.patterns_short import FailedRally, LevelRejection
 from core.patterns_short_v2 import BreakdownShort, BacktestShort, VelocityBreakdownShort
 from core.bar_aggregator import BarAggregator
+from core.daily_structure import DailyStructureDetector
 from core.intraday_context import IntradayContextTracker, IntradayState
 from core.level_scoring import LevelQualityScorer
 from core.price_levels import PriceLevelDetector
@@ -175,10 +176,39 @@ class SignalAggregator:
         # ``mode1_green_fb_min_rr`` as the R:R floor for FB longs.
         self.mode1_green_active: bool = False
 
+        # Daily structure detector — macro bias from daily chart
+        self._daily_structure = DailyStructureDetector(strategy_params)
+        self._daily_bias: str = "NEUTRAL"
+
     @property
     def intraday_state(self) -> IntradayState:
         """Current intraday price action context state."""
         return self._intraday_state
+
+    @property
+    def daily_bias(self) -> str:
+        """Current daily structure bias (DAILY_FB_BULL, DAILY_BD_BEAR, or NEUTRAL)."""
+        return self._daily_bias
+
+    def set_daily_structure(self, daily_bars: pd.DataFrame) -> str:
+        """Update daily structure detector with daily OHLC bars.
+
+        Parameters
+        ----------
+        daily_bars : pd.DataFrame
+            Daily OHLC bars (at least ``daily_shelf_lookback_days`` rows).
+
+        Returns
+        -------
+        str
+            The detected daily bias.
+        """
+        self._daily_bias = self._daily_structure.update(daily_bars)
+        return self._daily_bias
+
+    def get_daily_structure_snapshot(self) -> dict:
+        """Return daily structure state for logging/dashboard."""
+        return self._daily_structure.get_snapshot()
 
     @property
     def bar_signals(self) -> list[dict]:
@@ -1054,10 +1084,49 @@ class SignalAggregator:
                     f"{record['wins']}W/{record['losses']}L — boosting size"
                 )
 
+        # Mancini overlay is LONG-SIDE ONLY — skip CUSTOM (Mancini) levels for shorts
+        # Mancini is a long-side trader. His levels help longs (+42 pts) but create
+        # bad short setups (-101 pts) per 5yr backtest.
+        if (pattern.level and pattern.level.level_type == LevelType.CUSTOM
+                and self.strategy_params.use_mancini_levels):
+            self.shadow_events.append({
+                "feature": "mancini_short_skip",
+                "bar_idx": bar_idx,
+                "timestamp": str(timestamp),
+                "signal_type": signal_type.name,
+                "level_price": pattern.level.price,
+                "entry_price": entry,
+            })
+            return None
+
         # Level Quality Score (LQS): always compute for logging (short side)
         lqs = self._level_scorer.compute_lqs(
             pattern.level, self._market_data, self._session_context
         )
+
+        # Daily structure gate: suppress low-LQS shorts during DAILY_FB_BULL
+        if (self._daily_bias == "DAILY_FB_BULL"
+                and self.strategy_params.use_daily_structure):
+            min_lqs = self.strategy_params.daily_bd_short_min_lqs
+            if lqs < min_lqs:
+                self.shadow_events.append({
+                    "feature": "daily_structure_short_suppression",
+                    "bar_idx": pattern.bar_idx,
+                    "timestamp": str(pattern.timestamp),
+                    "signal_type": signal_type.name,
+                    "lqs": lqs,
+                    "required_lqs": min_lqs,
+                    "daily_bias": self._daily_bias,
+                    "level_price": pattern.level.price if pattern.level else None,
+                    "level_type": pattern.level.level_type.name if pattern.level else None,
+                    "entry_price": entry,
+                })
+                logger.info(
+                    f"Daily FB BULL: contra-trend {signal_type.name} short "
+                    f"(LQS {lqs} < {min_lqs}) at {entry:.2f} — marking but not blocking"
+                )
+                # Don't block in collection mode — take it but mark as contra-trend
+                # Production mode would return None here
 
         # When LQS gating is enabled, apply trade params (short side)
         if self.strategy_params.use_level_quality_scoring:
@@ -1233,6 +1302,14 @@ class SignalAggregator:
         lqs = self._level_scorer.compute_lqs(
             pattern.level, self._market_data, self._session_context
         )
+
+        # Daily structure bonus: boost FB Long LQS during DAILY_FB_BULL
+        if (self._daily_bias == "DAILY_FB_BULL"
+                and signal_type == SignalType.FAILED_BREAKDOWN
+                and self.strategy_params.use_daily_structure):
+            bonus = self.strategy_params.daily_fb_lqs_bonus
+            lqs = min(100, lqs + bonus)
+            logger.debug(f"Daily FB BULL: +{bonus} LQS bonus for FB Long → LQS={lqs}")
 
         # When LQS gating is enabled, apply trade params
         if self.strategy_params.use_level_quality_scoring:

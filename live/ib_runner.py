@@ -80,6 +80,10 @@ PRODUCTION_STRATEGY = StrategyParams(
     bd_max_break_depth_pts=17.0,          # Optuna v2 (was 14.0)
     bd_timeout_bars=35,                   # Optuna v2 (was 55)
     signal_cooldown_bars=15,
+    # Mancini exit scaling: T1 at first resistance level, not fixed distance
+    # "Lock in 75% profits at first level up" — with 2 contracts, best we can do is 50/50
+    # but T1 should be at the ACTUAL next level, not a fixed point target
+    mancini_t1_at_first_resistance=True,
     # Shadow mode features: run detectors but only log, don't trade
     shadow_mode_features=True,
     use_sweep_depth_sizing=True,          # Shadow: log sweep-depth-adjusted sizing
@@ -469,6 +473,20 @@ class IBRunner:
                 shorts_enabled=True,
             )
             logger.info("Regime: NEUTRAL (filter disabled or insufficient history)")
+
+        # Daily structure detector — macro bias from daily chart
+        if self.strategy.strategy_params.use_daily_structure:
+            # Use the daily history already fetched for regime filter
+            dh = getattr(self.strategy, "_daily_history", None)
+            if dh is not None and len(dh) >= self.strategy.strategy_params.daily_shelf_lookback_days:
+                bias = self.signal_aggregator.set_daily_structure(dh)
+                snap = self.signal_aggregator.get_daily_structure_snapshot()
+                logger.info(
+                    f"Daily structure: {bias} | shelf={snap['shelf_price']:.1f} "
+                    f"sweep_low={snap['sweep_low']:.1f} move_pos={snap['move_position']:.2f}"
+                )
+            else:
+                logger.info("Daily structure: NEUTRAL (insufficient daily history)")
 
         if current_day_df is not None:
             self._df = current_day_df
@@ -1517,6 +1535,7 @@ class IBRunner:
                 }
                 # Human-readable trade explanation
                 record["reason"] = self._build_trade_reason(signal, regime_info, session_window)
+                record["daily_bias"] = self.signal_aggregator.daily_bias
 
             # All signals evaluated on the entry bar (not just the winner)
             if context == "entry":
@@ -2622,6 +2641,8 @@ class IBRunner:
                 "bars": bars_data,
                 "total_logged_trades": len(self._all_trades),
                 "regime_daily_bars": len(dh) if (dh := getattr(self.strategy, "_daily_history", None)) is not None and hasattr(dh, "__len__") else 0,
+                "daily_bias": self.signal_aggregator.daily_bias,
+                "daily_structure": self.signal_aggregator.get_daily_structure_snapshot(),
                 "near_misses": self._enrich_near_misses(),
                 "bypass_mode": self._bypass_session_gates,
             }

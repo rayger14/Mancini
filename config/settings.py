@@ -462,6 +462,17 @@ class StrategyParams:
     mancini_confirm_tolerance_pts: float = 3.0
     mancini_min_conviction_for_trade: int = 2
 
+    # --- Daily Structure Detector ---
+    # Macro bias from daily chart: detects daily FB (bullish) or BD (bearish)
+    # to suppress contra-trend trades and boost with-trend trades via LQS.
+    use_daily_structure: bool = True
+    daily_shelf_lookback_days: int = 20
+    daily_shelf_cluster_pts: float = 30.0   # daily lows within 30 pts = shelf
+    daily_shelf_min_touches: int = 3        # 3+ daily bars touching the shelf
+    daily_fb_recovery_bars: int = 3         # 3+ daily closes above shelf = confirmed
+    daily_fb_lqs_bonus: int = 10            # LQS boost for intraday longs during daily FB
+    daily_bd_short_min_lqs: int = 70        # minimum LQS for shorts during daily FB bull
+
 
 @dataclass(frozen=True)
 class RiskParams:
