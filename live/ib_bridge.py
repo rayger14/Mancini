@@ -656,6 +656,7 @@ class IBBridge:
         direction: str = "long",
         comment: str = "ManciniEntry",
         fill_timeout_sec: float = 30.0,
+        tp_fraction: float = 0.75,
     ) -> tuple[Optional[int], float]:
         """Send a bracket order: market entry + SL + TP as OCO.
 
@@ -681,6 +682,9 @@ class IBBridge:
             Order reference for identification.
         fill_timeout_sec : float
             Max seconds to wait for parent fill confirmation.
+        tp_fraction : float
+            Fraction of contracts to put on the TP order (rest become runner).
+            Default 0.75 = Mancini's 75/25 exit scaling.
 
         Returns
         -------
@@ -716,12 +720,16 @@ class IBBridge:
         )
 
         # Take profit: limit order at target (tick-rounded)
-        # Only put HALF the contracts on TP — the rest stay as a runner
+        # Put tp_fraction of contracts on TP — the rest stay as runner
         # managed by the ExitManager's trailing stop logic.
+        # With 4 contracts @ 0.75: TP gets 3, runner gets 1 (Mancini 75/25)
+        # With 2 contracts @ 0.75: TP gets 1, runner gets 1
         # With 1 contract: TP gets 1 (no runner possible)
-        # With 2 contracts: TP gets 1, runner gets 1
-        # With 4 contracts: TP gets 2, runner gets 2
-        tp_quantity = max(1, quantity // 2) if quantity > 1 else quantity
+        if quantity <= 1:
+            tp_quantity = quantity
+        else:
+            # Ensure at least 1 contract remains as runner
+            tp_quantity = min(quantity - 1, max(1, round(quantity * tp_fraction)))
         take_profit = LimitOrder(
             action=exit_action,
             totalQuantity=tp_quantity,

@@ -125,10 +125,10 @@ PRODUCTION_ELEVATOR = ElevatorParams(
     higher_low_lookback=4,
 )
 PRODUCTION_EXIT = ExitParams(
-    default_contracts=2,
-    t1_exit_fraction=0.5,       # exit 1 of 2 at T1, keep runner
+    default_contracts=4,
+    t1_exit_fraction=0.75,      # Mancini: "Lock in 75% profits at first level up" = 3 of 4
     t2_exit_fraction=0.0,
-    runner_fraction=0.5,        # 1 contract runner
+    runner_fraction=0.25,       # 1 contract runner (25%) — catches the rare trend days
     breakeven_buffer_pts=-3.0,  # Mancini: "several pts under breakeven"
     trailing_stop_pts=12.0,
     runner_prior_day_low_buffer_pts=1.0,
@@ -907,6 +907,7 @@ class IBRunner:
             tp=signal.target_1,
             direction=signal.direction,
             comment=f"Mancini:{signal.signal_type.name}",
+            tp_fraction=self.exit_params.t1_exit_fraction,
         )
 
         if trade_id is None:
