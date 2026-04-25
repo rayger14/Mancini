@@ -206,11 +206,14 @@ class Watchdog:
         if market_open:
             self._check_bar_flow(now_et)
 
-        # 3. Check zero volume streak
-        self._check_zero_volume()
+        # 3. Check zero volume streak (only during market hours)
+        if market_open:
+            self._check_zero_volume()
 
-        # 4. Check error rate
-        self._check_error_rate(now_et)
+        # 4. Check error rate (only during market hours —
+        #    IB connect retries during weekends/holidays are expected)
+        if market_open:
+            self._check_error_rate(now_et)
 
         # 5. Check signal pipeline (RTH only)
         if self._is_rth(now_et):
