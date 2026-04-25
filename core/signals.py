@@ -157,6 +157,11 @@ class SignalAggregator:
         self._last_signal_level_bar: dict[float, int] = {}  # level_price -> bar of last signal
         self._session_high: float = float('-inf')
         self._session_low: float = float('inf')
+        # Elevator→FB cycle: when a big selloff completes and price recovers,
+        # shorts are fighting the squeeze.  Mancini: "the flush IS the setup."
+        self._elevator_fb_active: bool = False
+        self._elevator_recovery_low: float = 0.0  # low of the elevator that triggered
+        self._elevator_recovery_drop: float = 0.0  # total drop in pts
         # Intraday price action context
         sp = strategy_params
         self._intraday_tracker = IntradayContextTracker(
@@ -255,6 +260,9 @@ class SignalAggregator:
         self._last_signal_level_bar.clear()
         self._session_high = float('-inf')
         self._session_low = float('inf')
+        self._elevator_fb_active = False
+        self._elevator_recovery_low = 0.0
+        self._elevator_recovery_drop = 0.0
         self._intraday_tracker.reset()
         self._intraday_state = IntradayState.NEUTRAL
 
@@ -380,6 +388,37 @@ class SignalAggregator:
             age_bars = bar_idx - active_elevator.end_idx
             if age_bars > self._elevator_max_age_bars:
                 active_elevator = None
+
+        # Elevator→FB cycle detection: when a big selloff completes and price
+        # recovers 50%+ of the drop, we're in the squeeze phase.  Any short
+        # fired now is fighting institutional accumulation.
+        # Mancini: "Elevator down → Failed Breakdown → Short Squeeze.  The
+        # cycle repeats over and over."
+        if active_elevator is not None and active_elevator.is_complete:
+            drop = active_elevator.total_drop_pts
+            recovery = close - active_elevator.low_price
+            # Activate when: drop was 40+ pts AND price has recovered 50%+
+            if drop >= 40 and recovery >= drop * 0.5:
+                if not self._elevator_fb_active:
+                    logger.info(
+                        f"Elevator→FB ACTIVE: {drop:.0f}pt drop, "
+                        f"{recovery:.0f}pt recovery ({recovery/drop*100:.0f}%) "
+                        f"— suppressing shorts during squeeze"
+                    )
+                self._elevator_fb_active = True
+                self._elevator_recovery_low = active_elevator.low_price
+                self._elevator_recovery_drop = drop
+            else:
+                self._elevator_fb_active = False
+        else:
+            # No completed elevator — if we had an active cycle from a now-expired
+            # elevator, keep it active as long as price stays above the recovery low
+            if self._elevator_fb_active and close < self._elevator_recovery_low:
+                logger.info(
+                    f"Elevator→FB DEACTIVATED: price {close:.2f} fell below "
+                    f"elevator low {self._elevator_recovery_low:.2f}"
+                )
+                self._elevator_fb_active = False
 
         # 2b. Intraday context update (swing structure, bounce quality, session position)
         if self.strategy_params.use_intraday_context:
@@ -1047,6 +1086,49 @@ class SignalAggregator:
                 })
             else:
                 size_factor = sweep_depth_factor
+
+        # Move exhaustion: if session low already hit the target, the move is
+        # done — don't short into a bounce.  Mancini: the flush IS the setup
+        # for the long, not a short continuation.
+        if self._session_low <= t1:
+            logger.info(
+                f"Move exhaustion: session low {self._session_low:.2f} already "
+                f"reached short target {t1:.2f} — skipping {signal_type.name}"
+            )
+            self.shadow_events.append({
+                "feature": "move_exhaustion",
+                "bar_idx": pattern.bar_idx,
+                "timestamp": str(pattern.timestamp),
+                "signal_type": signal_type.name,
+                "session_low": self._session_low,
+                "short_target": t1,
+                "entry_price": entry,
+            })
+            return None
+
+        # Elevator→FB cycle: suppress shorts during the squeeze phase.
+        # Mancini: "Elevator down, Failed Breakdown, Short Squeeze — the cycle
+        # repeats.  If you try to short during the squeeze, you will lose."
+        if self._elevator_fb_active:
+            logger.info(
+                f"Elevator→FB squeeze: {self._elevator_recovery_drop:.0f}pt "
+                f"elevator completed, price recovering — suppressing "
+                f"{signal_type.name} short at {entry:.2f}"
+            )
+            self.shadow_events.append({
+                "feature": "elevator_fb_squeeze_suppression",
+                "bar_idx": pattern.bar_idx,
+                "timestamp": str(pattern.timestamp),
+                "signal_type": signal_type.name,
+                "entry_price": entry,
+                "elevator_drop_pts": self._elevator_recovery_drop,
+                "elevator_low": self._elevator_recovery_low,
+                "current_recovery_pct": round(
+                    (entry - self._elevator_recovery_low)
+                    / self._elevator_recovery_drop * 100, 1
+                ) if self._elevator_recovery_drop > 0 else 0,
+            })
+            return None
 
         # BD Short R:R floor — BD Shorts at R:R 1.0-1.5 had 14% WR
         if (signal_type == SignalType.BREAKDOWN_SHORT
