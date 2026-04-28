@@ -312,7 +312,7 @@ class IBRunner:
         logger.info("=" * 60)
         logger.info("MANCINI IB RUNNER STARTING")
         logger.info(f"  Symbol: {self.bridge.config.symbol}")
-        is_paper = self.bridge.config.port in (7497, 4002)
+        is_paper = self.bridge.config.port in (7497, 4002, 4003)
         logger.info(f"  Port:   {self.bridge.config.port} "
                      f"({'PAPER' if is_paper else 'LIVE'})")
         logger.info("=" * 60)

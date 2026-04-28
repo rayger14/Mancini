@@ -19,8 +19,13 @@ services:
       - "127.0.0.1:5900:5900"
     volumes:
       - ib-gateway-data:/home/ibgateway/Jts
+    # Gateway resets TrustedIPs=127.0.0.1 on every restart, blocking
+    # Docker containers.  Socat proxy on port 4003 forwards to localhost:4002
+    # which is trusted.  Socat starts in background before the gateway runs.
+    command: ["/bin/bash", "-c", "socat TCP-LISTEN:4003,fork,reuseaddr TCP:127.0.0.1:4002 & exec /home/ibgateway/scripts/run.sh"]
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/4002'"]
+      # Health check tests the PROXY port (4003) not just raw 4002
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/4003'"]
       interval: 15s
       timeout: 5s
       retries: 12
@@ -34,12 +39,11 @@ services:
         condition: service_healthy
     environment:
       IB_HOST: ib-gateway
-      IB_PORT: "4004"
+      IB_PORT: "4003"
       TZ: America/New_York
     volumes:
       - ./logs:/app/logs
-    # Override CMD if you want different args:
-    # command: ["python3", "live/ib_runner.py", "--symbol", "ES", "--contracts", "1", "--full-session"]
+      - ./data:/app/data
 
   dashboard:
     build:
