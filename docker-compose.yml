@@ -94,7 +94,7 @@ services:
       WATCHDOG_WEBHOOK: ${WATCHDOG_WEBHOOK:-}
     volumes:
       - ./logs:/app/logs
-    command: ["python3", "live/watchdog.py", "--poll-interval", "30"]
+    command: ["/bin/bash", "-c", "python3 live/watchdog.py --poll-interval 30 --webhook ${WATCHDOG_WEBHOOK}"]
 
 volumes:
   ib-gateway-data:
