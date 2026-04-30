@@ -2722,21 +2722,10 @@ def main():
         use_rth_only=not args.full_session,
     )
 
-    # Mancini-faithful exit: 75/15/10 split with prior-day-low runner trail.
-    # With 2 MES contracts: T1 exits 1 (50%), runner 1 (50%) — closest
-    # approximation of 75/15/10 with small sizing.
-    # Runner stop trails under prior day's RTH low (updated at EOD).
+    # Mancini-faithful exit: 75/25 split with 4 contracts.
+    # 3 contracts exit at T1 (75%), 1 runner (25%) trails under prior day low.
     # Runners carry overnight/multi-day until prior day low is lost.
-    exit_params = ExitParams(
-        default_contracts=max(args.contracts, 2),  # min 2 for runner split
-        t1_exit_fraction=0.5,    # exit 50% at T1 (1 of 2 contracts)
-        t2_exit_fraction=0.0,    # skip T2 with 2 contracts (no contracts left)
-        runner_fraction=0.5,     # keep 50% (1 contract) as runner
-        breakeven_buffer_pts=-3.0,  # Mancini: "several pts under breakeven"
-        trailing_stop_pts=12.0,   # fallback intraday trail before EOD hook
-        runner_prior_day_low_buffer_pts=1.0,  # 1 pt below prior day's low
-        fb_max_hold_bars=0,      # no time limit — let runners run
-    )
+    exit_params = PRODUCTION_EXIT
 
     session_times = FULL_SESSION if args.full_session else PRODUCTION_SESSION
 
