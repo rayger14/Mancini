@@ -230,6 +230,7 @@ class IBRunner:
     ):
         self.bridge = IBBridge(ib_config)
         self.contract = contract
+        self.exit_params = exit_params
         self._fb_only_pm = fb_only_pm
         # Shadow mode log: features log what they WOULD do without trading
         self._shadow_log_path = Path("/app/logs/shadow_trades.jsonl")
