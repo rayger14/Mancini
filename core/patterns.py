@@ -107,6 +107,11 @@ class FailedBreakdown:
         self.near_misses: list[dict] = []
         # Deep sell recovery: track used intraday levels to avoid re-triggers
         self._used_intraday_levels: list[float] = []
+        # Highest high seen since detector init — used by Path 2 to verify a
+        # real drop into the level before retro-firing. Without this, Path 2
+        # fires on any INTRADAY_LOW that price has crossed above, regardless
+        # of whether a meaningful sell-off ever occurred.
+        self._session_high: float = 0.0
         # Level sweep tracking: count bars below a high-quality level
         self._sweep_tracking_level: Optional[Level] = None
         self._sweep_tracking_bars_below: int = 0
@@ -181,6 +186,10 @@ class FailedBreakdown:
         -------
         PatternSignal or None
         """
+        # Track running session high for Path 2's "real drop" gate.
+        if high > self._session_high:
+            self._session_high = high
+
         # Pre-emption: if we're tracking a non-INTRADAY_LOW level but a fresh
         # INTRADAY_LOW is available, abandon the current tracking and switch.
         # The crash bottom is the highest-priority FB opportunity.
@@ -606,6 +615,13 @@ class FailedBreakdown:
 
             # Must be above the level (already recovered)
             if close <= level.price:
+                continue
+
+            # Require a real drop into the level — Path 2's premise is "the
+            # crash is the sweep", but without this check it fires on any
+            # INTRADAY_LOW the bot crosses above (e.g., chop + gap-up shelf).
+            min_drop = getattr(self.params, 'deep_sell_min_drop_pts', 0.0)
+            if min_drop > 0 and (self._session_high - level.price) < min_drop:
                 continue
 
             # The crash that created this level IS the sweep

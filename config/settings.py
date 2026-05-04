@@ -293,6 +293,10 @@ class StrategyParams:
     deep_sell_threshold_pts: float = 30.0   # below nearest support = deep sell mode
     deep_sell_swing_order: int = 5          # faster swing confirmation (5 bars vs 30)
     deep_sell_rally_confirm_pts: float = 20.0  # Mancini: significant low = 20+ pt bounce (V-shaped reversal)
+    # Path 2 retroactive FB requires a real drop into the level — without this
+    # gate, Path 2 fires on any INTRADAY_LOW where current close happens to be
+    # above. Min drop = (session high since FB-detector init) - (level price).
+    deep_sell_min_drop_pts: float = 15.0
 
     # Signal cooldown: suppress repeated signals of the same type within N bars.
     # Feb 26 analysis: 97 signals in one session = noise. Mancini takes 1-3/day.
