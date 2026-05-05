@@ -41,6 +41,7 @@ services:
       IB_HOST: ib-gateway
       IB_PORT: "4003"
       TZ: America/New_York
+      SUBSTACK_COOKIE: ${SUBSTACK_COOKIE}
     volumes:
       - ./logs:/app/logs
       - ./data:/app/data
