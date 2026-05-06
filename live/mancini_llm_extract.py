@@ -6,20 +6,32 @@ setups with conviction, danger zones, targets, no-trade zones, and
 risk warnings. Output is consumed by the engine to inform signal
 qualification, level conviction, and trade gates.
 
-Pure module — not yet wired into any cron/runner.
+Two surfaces:
+  - extract_plan(post_body, ...) — pure function, takes text, returns
+    a ManciniPlan. Useful for tests and direct calls.
+  - dump_plan_for_trading_date(trading_date, ...) — cron entry point.
+    Fetches the latest Substack post, extracts a plan, writes JSON.
+  - load_plan(trading_date, ...) — engine-side reader.
 
-Usage:
-    from live.mancini_llm_extract import extract_plan
-    plan = extract_plan(post_body="...", post_title="...", post_date="2026-05-04")
+Cron usage on the VM:
+    python3 live/mancini_llm_extract.py                     # plan for tomorrow
+    python3 live/mancini_llm_extract.py --date 2026-05-06   # specific date
 """
 
 from __future__ import annotations
 
+import json
+import sys
 import time
+from datetime import date, datetime, timedelta
+from pathlib import Path
 from typing import Optional
 
 from loguru import logger
 from pydantic import BaseModel, Field
+
+# Allow running as a script from the project root
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 _SYSTEM_PROMPT = """You extract structured trading plans from daily Substack posts by Adam Mancini, a futures trader who trades the ES (S&P 500 e-mini) using Failed Breakdown setups.
@@ -207,3 +219,201 @@ def extract_plan(
     )
 
     return plan
+
+
+# ---------------------------------------------------------------------------
+# Cron entry point + engine-side reader
+# ---------------------------------------------------------------------------
+
+
+def _stub_payload(trading_date: date, status: str,
+                  post_title: str = "", post_date: str = "",
+                  error: str = "") -> dict:
+    """Schema-versioned stub written when extraction fails — keeps load_plan
+    able to reason about the failure without the engine crashing.
+    """
+    return {
+        "schema_version": 1,
+        "trading_date": trading_date.isoformat(),
+        "post_date": post_date,
+        "post_title": post_title,
+        "fetched_at": datetime.now().isoformat(),
+        "extract_status": status,
+        "plan": None,
+        "error": error,
+    }
+
+
+def dump_plan_for_trading_date(
+    trading_date: date,
+    output_dir: Path | None = None,
+    model: str = "claude-opus-4-7",
+) -> Path | None:
+    """Cron entry point: fetch the latest Substack post, run LLM extraction,
+    write `mancini_plan_<trading_date>.json`.
+
+    Never raises — any failure writes a degraded-stub JSON so the engine's
+    load_plan can return None cleanly. Returns the path to the written
+    file, or None if writing itself failed.
+
+    Outputs are written under the same directory as `mancini_levels_*.json`,
+    so a single mount is enough on the VM.
+    """
+    output_dir = output_dir or Path("/app/data")
+    output_path = output_dir / f"mancini_plan_{trading_date.isoformat()}.json"
+
+    try:
+        output_dir.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        logger.error(f"Mancini plan: cannot create output dir: {e}")
+        return None
+
+    # Fetch the post via the existing scraper. Reuse its body extractor.
+    try:
+        from live.substack_compare import fetch_latest_post
+        from live.mancini_levels import _get_body_text
+    except Exception as e:
+        logger.error(f"Mancini plan: failed to import scraper helpers: {e}")
+        output_path.write_text(json.dumps(
+            _stub_payload(trading_date, "import_failed", error=str(e)),
+            indent=2, default=str,
+        ))
+        return output_path
+
+    try:
+        post = fetch_latest_post()
+    except Exception as e:
+        logger.error(f"Mancini plan: fetch_latest_post raised: {e}")
+        output_path.write_text(json.dumps(
+            _stub_payload(trading_date, "fetch_failed", error=str(e)),
+            indent=2, default=str,
+        ))
+        return output_path
+
+    if not post:
+        logger.warning("Mancini plan: no post fetched (auth or upstream issue)")
+        output_path.write_text(json.dumps(
+            _stub_payload(trading_date, "no_post"),
+            indent=2, default=str,
+        ))
+        return output_path
+
+    body_text = _get_body_text(post)
+    post_title = str(post.get("title", ""))
+    post_date_str = str(post.get("post_date", post.get("date", "")))[:10]
+
+    if not body_text:
+        logger.warning("Mancini plan: post body empty after extraction")
+        output_path.write_text(json.dumps(
+            _stub_payload(trading_date, "empty_body",
+                          post_title=post_title, post_date=post_date_str),
+            indent=2, default=str,
+        ))
+        return output_path
+
+    try:
+        plan = extract_plan(
+            post_body=body_text,
+            post_title=post_title,
+            post_date=post_date_str,
+            model=model,
+        )
+    except ManciniExtractionError as e:
+        logger.error(f"Mancini plan: extraction failed: {e}")
+        output_path.write_text(json.dumps(
+            _stub_payload(trading_date, "extract_failed",
+                          post_title=post_title, post_date=post_date_str,
+                          error=str(e)),
+            indent=2, default=str,
+        ))
+        return output_path
+
+    payload = {
+        "schema_version": 1,
+        "trading_date": trading_date.isoformat(),
+        "post_date": post_date_str,
+        "post_title": post_title,
+        "fetched_at": datetime.now().isoformat(),
+        "extract_status": "ok",
+        "plan": plan.model_dump(),
+        "error": "",
+    }
+
+    output_path.write_text(json.dumps(payload, indent=2, default=str))
+    logger.info(
+        f"Mancini plan: wrote {output_path.name} "
+        f"(lean={plan.lean} mode={plan.mode} setups={len(plan.planned_setups)} "
+        f"danger={len(plan.danger_zones)} targets={len(plan.targets)})"
+    )
+    return output_path
+
+
+def load_plan(
+    trading_date: date,
+    input_dir: Path | None = None,
+) -> ManciniPlan | None:
+    """Engine-side reader. Returns the validated ManciniPlan for a trading
+    date, or None when the file is missing / corrupt / a degraded stub.
+    Never raises.
+    """
+    try:
+        input_dir = input_dir or Path("/app/data")
+        path = input_dir / f"mancini_plan_{trading_date.isoformat()}.json"
+        if not path.exists():
+            return None
+        try:
+            data = json.loads(path.read_text())
+        except (json.JSONDecodeError, OSError) as e:
+            logger.warning(f"Mancini plan: corrupt JSON at {path}: {e}")
+            return None
+        if not isinstance(data, dict):
+            logger.warning(f"Mancini plan: unexpected top-level type at {path}")
+            return None
+        if data.get("schema_version") != 1:
+            logger.warning(f"Mancini plan: unexpected schema_version in {path}")
+            return None
+        if data.get("extract_status") != "ok" or not data.get("plan"):
+            return None
+        try:
+            return ManciniPlan.model_validate(data["plan"])
+        except Exception as e:
+            logger.warning(f"Mancini plan: schema validation failed at {path}: {e}")
+            return None
+    except Exception as e:
+        logger.warning(f"Mancini plan load failed: {e}")
+        return None
+
+
+def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Dump structured Mancini Substack trade plan to JSON",
+    )
+    parser.add_argument(
+        "--date",
+        default="tomorrow",
+        help="Trading date (YYYY-MM-DD) or 'tomorrow' (default)",
+    )
+    parser.add_argument(
+        "--output-dir",
+        default="/app/data",
+        help="Output directory (default: /app/data)",
+    )
+    parser.add_argument(
+        "--model",
+        default="claude-opus-4-7",
+        help="Anthropic model id (default: claude-opus-4-7)",
+    )
+    args = parser.parse_args()
+
+    if args.date == "tomorrow":
+        target = date.today() + timedelta(days=1)
+    else:
+        target = date.fromisoformat(args.date)
+
+    dump_plan_for_trading_date(target, Path(args.output_dir), model=args.model)
+
+
+if __name__ == "__main__":
+    main()

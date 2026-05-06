@@ -11,17 +11,23 @@ needs ANTHROPIC_API_KEY):
 
 from __future__ import annotations
 
+import json
 import os
+from datetime import date
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 
+import live.mancini_llm_extract as mle
 from live.mancini_llm_extract import (
     DangerZone,
     ManciniExtractionError,
     ManciniPlan,
     PlannedSetup,
+    dump_plan_for_trading_date,
     extract_plan,
+    load_plan,
 )
 
 
@@ -284,3 +290,209 @@ def test_live_smoke():
     assert isinstance(plan.planned_setups, list)
     # Don't assert exact contents — model output varies; just verify wiring.
     assert plan.raw_extraction_metadata.get("model")
+
+
+# ---------------------------------------------------------------------------
+# dump_plan_for_trading_date — cron entry point
+# ---------------------------------------------------------------------------
+
+
+def _patch_fetch_and_extract(monkeypatch, post: dict | None,
+                             extracted: ManciniPlan | None,
+                             extract_raises: Exception | None = None):
+    """Stub fetch_latest_post + extract_plan inside live.mancini_llm_extract
+    so tests run without network or API.
+
+    The dump_plan_for_trading_date function imports both lazily inside its
+    body via `from live.substack_compare import fetch_latest_post` and
+    `from live.mancini_levels import _get_body_text`. We patch those source
+    modules directly so the import statements pick up our stubs.
+    """
+    import live.substack_compare as sc
+    import live.mancini_levels as ml
+
+    monkeypatch.setattr(sc, "fetch_latest_post", lambda: post)
+    monkeypatch.setattr(ml, "_get_body_text",
+                        lambda p: (p or {}).get("body_html_clean", "") or (p or {}).get("text", ""))
+
+    def _stub_extract(post_body, post_title="", post_date="", model="claude-opus-4-7", api_key=None):
+        if extract_raises is not None:
+            raise extract_raises
+        if extracted is None:
+            raise ManciniExtractionError("test forced failure")
+        plan = extracted.model_copy()
+        if not plan.post_title:
+            plan.post_title = post_title
+        if not plan.post_date:
+            plan.post_date = post_date
+        return plan
+
+    monkeypatch.setattr(mle, "extract_plan", _stub_extract)
+
+
+def test_dump_writes_ok_payload_on_success(monkeypatch, tmp_path):
+    """Happy path: post fetched, extracted plan written with extract_status=ok."""
+    post = {
+        "title": "May 5th Plan",
+        "post_date": "2026-05-04",
+        "body_html_clean": "Today we held 7198 at 12:10PM. ...",
+        "source": "live_api",
+    }
+    plan = ManciniPlan(
+        lean="bullish",
+        mode="mode_1_green",
+        planned_setups=[
+            PlannedSetup(
+                setup_type="failed_breakdown",
+                level_price=7137.0,
+                direction="long",
+                context="FB of 7137",
+                conviction="high",
+            )
+        ],
+        targets=[7253.0, 7267.0],
+    )
+    _patch_fetch_and_extract(monkeypatch, post, plan)
+
+    out = dump_plan_for_trading_date(date(2026, 5, 6), output_dir=tmp_path)
+    assert out is not None
+    payload = json.loads(out.read_text())
+
+    assert payload["schema_version"] == 1
+    assert payload["trading_date"] == "2026-05-06"
+    assert payload["extract_status"] == "ok"
+    assert payload["post_title"] == "May 5th Plan"
+    assert payload["post_date"] == "2026-05-04"
+    assert payload["plan"]["lean"] == "bullish"
+    assert payload["plan"]["mode"] == "mode_1_green"
+    assert len(payload["plan"]["planned_setups"]) == 1
+    assert payload["error"] == ""
+
+
+def test_dump_writes_no_post_stub(monkeypatch, tmp_path):
+    """Auth failure / cookie expired: write a degraded stub, don't crash."""
+    _patch_fetch_and_extract(monkeypatch, post=None, extracted=None)
+
+    out = dump_plan_for_trading_date(date(2026, 5, 6), output_dir=tmp_path)
+    assert out is not None
+    payload = json.loads(out.read_text())
+
+    assert payload["extract_status"] == "no_post"
+    assert payload["plan"] is None
+    assert payload["schema_version"] == 1
+
+
+def test_dump_writes_extract_failed_stub(monkeypatch, tmp_path):
+    """Post fetched, but LLM extraction raised: write extract_failed stub."""
+    post = {
+        "title": "Some Post",
+        "post_date": "2026-05-04",
+        "body_html_clean": "non-empty body",
+    }
+    _patch_fetch_and_extract(
+        monkeypatch, post, extracted=None,
+        extract_raises=ManciniExtractionError("API timeout"),
+    )
+
+    out = dump_plan_for_trading_date(date(2026, 5, 6), output_dir=tmp_path)
+    assert out is not None
+    payload = json.loads(out.read_text())
+
+    assert payload["extract_status"] == "extract_failed"
+    assert "API timeout" in payload["error"]
+    assert payload["post_title"] == "Some Post"
+    assert payload["plan"] is None
+
+
+def test_dump_writes_empty_body_stub(monkeypatch, tmp_path):
+    """Post fetched but body is empty (paywall, parser regression)."""
+    post = {"title": "Empty", "post_date": "2026-05-04", "body_html_clean": ""}
+    _patch_fetch_and_extract(monkeypatch, post, extracted=ManciniPlan())
+
+    out = dump_plan_for_trading_date(date(2026, 5, 6), output_dir=tmp_path)
+    payload = json.loads(out.read_text())
+
+    assert payload["extract_status"] == "empty_body"
+    assert payload["plan"] is None
+
+
+def test_dump_swallows_fetch_exceptions(monkeypatch, tmp_path):
+    """fetch_latest_post raising shouldn't crash the cron — write a stub."""
+    import live.substack_compare as sc
+    import live.mancini_levels as ml
+
+    def _raise():
+        raise RuntimeError("network down")
+
+    monkeypatch.setattr(sc, "fetch_latest_post", _raise)
+    monkeypatch.setattr(ml, "_get_body_text", lambda p: "")
+
+    out = dump_plan_for_trading_date(date(2026, 5, 6), output_dir=tmp_path)
+    assert out is not None
+    payload = json.loads(out.read_text())
+
+    assert payload["extract_status"] == "fetch_failed"
+    assert "network down" in payload["error"]
+
+
+# ---------------------------------------------------------------------------
+# load_plan — engine-side reader
+# ---------------------------------------------------------------------------
+
+
+def _write_plan_file(tmp_path: Path, trading_date: str, payload: dict) -> Path:
+    p = tmp_path / f"mancini_plan_{trading_date}.json"
+    p.write_text(json.dumps(payload, default=str))
+    return p
+
+
+def test_load_plan_returns_validated_model(tmp_path):
+    plan = ManciniPlan(lean="bullish", mode="trending", targets=[7300.0])
+    _write_plan_file(tmp_path, "2026-05-06", {
+        "schema_version": 1,
+        "trading_date": "2026-05-06",
+        "post_date": "2026-05-04",
+        "post_title": "T",
+        "fetched_at": "2026-05-05T02:30:00",
+        "extract_status": "ok",
+        "plan": plan.model_dump(),
+        "error": "",
+    })
+    loaded = load_plan(date(2026, 5, 6), input_dir=tmp_path)
+    assert isinstance(loaded, ManciniPlan)
+    assert loaded.lean == "bullish"
+    assert loaded.mode == "trending"
+    assert loaded.targets == [7300.0]
+
+
+def test_load_plan_returns_none_for_missing_file(tmp_path):
+    assert load_plan(date(2026, 5, 6), input_dir=tmp_path) is None
+
+
+def test_load_plan_returns_none_for_failed_stub(tmp_path):
+    _write_plan_file(tmp_path, "2026-05-06", {
+        "schema_version": 1,
+        "trading_date": "2026-05-06",
+        "post_date": "",
+        "post_title": "",
+        "fetched_at": "2026-05-05T02:30:00",
+        "extract_status": "no_post",
+        "plan": None,
+        "error": "",
+    })
+    assert load_plan(date(2026, 5, 6), input_dir=tmp_path) is None
+
+
+def test_load_plan_returns_none_for_corrupt_json(tmp_path):
+    p = tmp_path / "mancini_plan_2026-05-06.json"
+    p.write_text("not json {{{")
+    assert load_plan(date(2026, 5, 6), input_dir=tmp_path) is None
+
+
+def test_load_plan_returns_none_for_unexpected_schema_version(tmp_path):
+    _write_plan_file(tmp_path, "2026-05-06", {
+        "schema_version": 99,
+        "extract_status": "ok",
+        "plan": ManciniPlan().model_dump(),
+    })
+    assert load_plan(date(2026, 5, 6), input_dir=tmp_path) is None
