@@ -466,6 +466,19 @@ class StrategyParams:
     mancini_confirm_tolerance_pts: float = 3.0
     mancini_min_conviction_for_trade: int = 2
 
+    # --- Mancini LLM-extracted plan (Phase 3) ---
+    # When True, the engine loads the structured daily plan written by
+    # live/mancini_llm_extract.py to /app/data/mancini_plan_<date>.json
+    # and applies its mode/danger_zones/no_trade_zones gates and the
+    # planned_setups LQS boost. Plan extraction itself runs nightly via
+    # cron regardless — this only controls whether the engine consumes
+    # the output. Ships OFF; flip to True after several days of shadow
+    # validation against the JSON output.
+    use_mancini_llm_plan: bool = False
+    mancini_llm_plan_dir: str = "/app/data"
+    mancini_llm_setup_match_tolerance_pts: float = 2.0
+    mancini_llm_setup_lqs_bonus: int = 15
+
     # --- Daily Structure Detector ---
     # Macro bias from daily chart: detects daily FB (bullish) or BD (bearish)
     # to suppress contra-trend trades and boost with-trend trades via LQS.
