@@ -1428,6 +1428,62 @@ class IBRunner:
         for t in completed:
             self._post_exit_trackers.remove(t)
 
+    def _collect_signal_context(self) -> dict:
+        """Snapshot the engine's market context at the current bar.
+
+        Returns a dict with the same shape used by ``_log_trade`` for
+        live entries, so phantom rows can carry identical features for
+        downstream ML training. Captured at the moment of the call —
+        downstream consumers should call this when the signal is
+        identified, not later when its outcome resolves.
+        """
+        last_price = 0.0
+        session_high = 0.0
+        session_low = 999999.0
+        if self._df is not None and len(self._df) > 0:
+            last_price = float(self._df["close"].iat[-1])
+            session_high = float(self._df["high"].max())
+            session_low = float(self._df["low"].min())
+
+        nearby_levels: list[dict] = []
+        if hasattr(self.signal_aggregator, "level_store"):
+            for lv in self.signal_aggregator.level_store.get_active():
+                dist = abs(lv.price - last_price)
+                if dist < 30:
+                    nearby_levels.append({
+                        "price": lv.price,
+                        "type": lv.level_type.name,
+                        "touches": lv.touch_count,
+                        "distance": round(lv.price - last_price, 2),
+                    })
+            nearby_levels.sort(key=lambda x: abs(x["distance"]))
+
+        regime_info: dict = {}
+        if getattr(self, "strategy", None) is not None and self.strategy._regime_state:
+            rs = self.strategy._regime_state
+            regime_info = {
+                "direction": rs.direction.name,
+                "longs_enabled": rs.longs_enabled,
+                "shorts_enabled": rs.shorts_enabled,
+                "ema_slope": getattr(rs, "ema_slope", None),
+            }
+
+        try:
+            session_window = self._get_session_window(datetime.now(_ET).time())
+        except Exception:
+            session_window = {"detail": "", "label": ""}
+
+        return {
+            "bar_count": self._bar_count,
+            "last_price": last_price,
+            "session_high": session_high,
+            "session_low": session_low,
+            "session_range": round(session_high - session_low, 2),
+            "session_window": session_window.get("detail", ""),
+            "regime": regime_info,
+            "nearby_levels": nearby_levels[:5],
+        }
+
     def _log_trade(self, trade_record, signal: Optional[Signal], context: str) -> None:
         """Append a rich trade record to the persistent JSONL log.
 
@@ -1859,6 +1915,13 @@ class IBRunner:
                 "high_since": p["high_since"],
                 "low_since": p["low_since"],
             }
+            # Promote feature-richness fields captured at signal-time so
+            # phantoms train alongside live entries with a unified schema.
+            ctx = p.get("context") or {}
+            for k in ("bar_count", "last_price", "session_high", "session_low",
+                      "session_range", "session_window", "regime", "nearby_levels"):
+                if k in ctx:
+                    record[k] = ctx[k]
             with open(self._trade_log_path, "a") as f:
                 f.write(json.dumps(record, default=str) + "\n")
         except Exception:
@@ -1868,6 +1931,16 @@ class IBRunner:
 
     def _add_phantom(self, signal: Signal, reject_reason: str, timestamp: datetime) -> None:
         """Record a rejected signal as a phantom trade to track what would have happened."""
+        # Snapshot the bot's full context at signal-time so the phantom
+        # carries the same feature set as live entries (regime, nearby
+        # levels, session_high/low, session_window, etc.). Downstream ML
+        # treats phantoms and live entries as a unified labeled set.
+        try:
+            context_snapshot = self._collect_signal_context()
+        except Exception as e:
+            logger.debug(f"Phantom context snapshot failed (non-fatal): {e}")
+            context_snapshot = {}
+
         phantom = {
             "signal_type": signal.signal_type.name,
             "direction": signal.direction,
@@ -1886,6 +1959,7 @@ class IBRunner:
             "low_since": signal.entry_price,
             "resolved": False,
             "result": "",
+            "context": context_snapshot,
         }
         self._phantom_positions.append(phantom)
         logger.warning(
