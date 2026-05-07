@@ -185,6 +185,12 @@ class SignalAggregator:
         self._daily_structure = DailyStructureDetector(strategy_params)
         self._daily_bias: str = "NEUTRAL"
 
+        # Mancini LLM-extracted plan (Phase 3) — populated externally by
+        # IBRunner._initialize_session when use_mancini_llm_plan is True.
+        # When set, _qualify_signal applies mode / danger_zones / no_trade_*
+        # gates and a planned_setups LQS boost. None disables all gating.
+        self._mancini_llm_plan = None
+
     @property
     def intraday_state(self) -> IntradayState:
         """Current intraday price action context state."""
@@ -194,6 +200,89 @@ class SignalAggregator:
     def daily_bias(self) -> str:
         """Current daily structure bias (DAILY_FB_BULL, DAILY_BD_BEAR, or NEUTRAL)."""
         return self._daily_bias
+
+    def set_mancini_llm_plan(self, plan) -> None:
+        """Inject a ManciniPlan loaded from mancini_plan_<date>.json.
+
+        Pass ``None`` to clear. The plan is consulted only when
+        ``strategy_params.use_mancini_llm_plan`` is True. Caller is
+        responsible for loading the plan via ``live.mancini_llm_extract.load_plan``.
+        """
+        self._mancini_llm_plan = plan
+
+    def _check_mancini_llm_gates(self, pattern, signal_type) -> Optional[str]:
+        """Return a non-empty rejection reason if the LLM plan vetoes
+        this signal; ``None`` to let it through.
+
+        Three gates:
+        1. Mode 1 Green — Mancini's explicit rule is "no FB longs on
+           open-to-close trend-up days". Block FAILED_BREAKDOWN longs.
+        2. Danger zones — reject longs whose entry falls inside any
+           ``DangerZone`` price band Mancini flagged.
+        3. ``no_trade_above`` / ``no_trade_below`` — single-sided guards
+           Mancini sometimes states ("don't be long below 7100").
+        """
+        plan = self._mancini_llm_plan
+        if plan is None:
+            return None
+        if not getattr(self.strategy_params, 'use_mancini_llm_plan', False):
+            return None
+
+        entry = pattern.entry_price
+        direction = getattr(pattern, 'direction', 'long')
+
+        if (plan.mode == "mode_1_green"
+                and signal_type == SignalType.FAILED_BREAKDOWN
+                and direction == 'long'):
+            return f"mancini_mode={plan.mode} blocks FB long"
+
+        if direction == 'long':
+            for zone in plan.danger_zones:
+                lo = zone.price_low
+                hi = zone.price_high if zone.price_high is not None else lo
+                if lo <= entry <= hi:
+                    rule = (zone.rule or "")[:60]
+                    return f"entry {entry} in danger_zone [{lo},{hi}]: {rule}"
+            if plan.no_trade_above is not None and entry >= plan.no_trade_above:
+                return f"entry {entry} >= no_trade_above {plan.no_trade_above}"
+            if plan.no_trade_below is not None and entry <= plan.no_trade_below:
+                return f"entry {entry} <= no_trade_below {plan.no_trade_below}"
+
+        return None
+
+    def _mancini_llm_setup_bonus(self, pattern, signal_type) -> int:
+        """If the signal matches one of ``plan.planned_setups`` (level
+        price within tolerance + matching direction), return the LQS
+        bonus to apply. ``0`` otherwise.
+
+        Setup type matching is intentionally relaxed — any matching
+        level + direction qualifies, even if Mancini's named
+        ``setup_type`` is ``level_reclaim`` and the engine fired
+        ``failed_breakdown``. Both express the same conviction in the
+        same level; a stricter match would suppress legitimate boosts.
+        """
+        plan = self._mancini_llm_plan
+        if plan is None or not plan.planned_setups:
+            return 0
+        if not getattr(self.strategy_params, 'use_mancini_llm_plan', False):
+            return 0
+        if pattern.level is None:
+            return 0
+
+        level_price = pattern.level.price
+        direction = getattr(pattern, 'direction', 'long')
+        tolerance = getattr(
+            self.strategy_params, 'mancini_llm_setup_match_tolerance_pts', 2.0,
+        )
+        bonus = getattr(self.strategy_params, 'mancini_llm_setup_lqs_bonus', 15)
+
+        for setup in plan.planned_setups:
+            if abs(setup.level_price - level_price) > tolerance:
+                continue
+            if setup.direction != direction:
+                continue
+            return bonus
+        return 0
 
     def set_daily_structure(self, daily_bars: pd.DataFrame) -> str:
         """Update daily structure detector with daily OHLC bars.
@@ -1293,6 +1382,13 @@ class SignalAggregator:
         self, pattern: PatternSignal, signal_type: SignalType
     ) -> Optional[Signal]:
         """Calculate targets, R:R, and filter."""
+        # Mancini LLM plan early gates (mode_1_green, danger zones, no-trade
+        # zones). No-op when use_mancini_llm_plan is False or no plan loaded.
+        llm_reject = self._check_mancini_llm_gates(pattern, signal_type)
+        if llm_reject is not None:
+            logger.debug(f"Mancini LLM plan rejected signal: {llm_reject}")
+            return None
+
         # Volume confirmation check (opt-in)
         if self.require_volume_confirmation and not self._has_volume_confirmation():
             return None
@@ -1431,6 +1527,17 @@ class SignalAggregator:
             bonus = self.strategy_params.daily_fb_lqs_bonus
             lqs = min(100, lqs + bonus)
             logger.debug(f"Daily FB BULL: +{bonus} LQS bonus for FB Long → LQS={lqs}")
+
+        # Mancini LLM plan setup-match bonus: when the signal level is one
+        # Mancini explicitly flagged as a planned setup, boost LQS so the
+        # high-conviction setup clears the trade threshold even when other
+        # confluence is lukewarm.
+        llm_setup_bonus = self._mancini_llm_setup_bonus(pattern, signal_type)
+        if llm_setup_bonus > 0:
+            lqs = min(100, lqs + llm_setup_bonus)
+            logger.debug(
+                f"Mancini LLM planned setup match: +{llm_setup_bonus} LQS → {lqs}"
+            )
 
         # When LQS gating is enabled, apply trade params
         if self.strategy_params.use_level_quality_scoring:

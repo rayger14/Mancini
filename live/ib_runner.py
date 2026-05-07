@@ -541,6 +541,37 @@ class IBRunner:
             except Exception as e:
                 logger.warning(f"Mancini overlay failed (non-fatal): {e}")
 
+        # Mancini LLM-extracted plan (Phase 3) — gates signal qualification on
+        # mode/danger_zones/no_trade_zones and boosts planned-setup matches.
+        # Plan extraction runs nightly via cron regardless; this only loads
+        # the JSON when use_mancini_llm_plan is on.
+        self._mancini_llm_plan = None
+        if getattr(sp, "use_mancini_llm_plan", False):
+            try:
+                from live.mancini_llm_extract import load_plan as _load_llm_plan
+
+                plan = _load_llm_plan(
+                    self._session_date,
+                    input_dir=Path(getattr(sp, "mancini_llm_plan_dir", "/app/data")),
+                )
+                if plan is not None:
+                    self._mancini_llm_plan = plan
+                    self.signal_aggregator.set_mancini_llm_plan(plan)
+                    logger.info(
+                        f"Mancini LLM plan loaded for {self._session_date}: "
+                        f"lean={plan.lean} mode={plan.mode} "
+                        f"setups={len(plan.planned_setups)} "
+                        f"danger={len(plan.danger_zones)} "
+                        f"no_trade_above={plan.no_trade_above} "
+                        f"no_trade_below={plan.no_trade_below}"
+                    )
+                else:
+                    logger.info(
+                        f"Mancini LLM plan: no plan available for {self._session_date}"
+                    )
+            except Exception as e:
+                logger.warning(f"Mancini LLM plan load failed (non-fatal): {e}")
+
         # Catch up on current-day bars (update state, don't trade)
         if self._df is not None and len(self._df) > 0:
             logger.info(f"Catching up on {len(self._df)} bars from session start")
