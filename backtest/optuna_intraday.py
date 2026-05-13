@@ -15,7 +15,8 @@ Usage:
     python3 -u backtest/optuna_intraday.py [--trials 30] [--timeout 180]
 """
 import sys
-sys.path.insert(0, "/Users/raymondghandchi/Mancini/Mancini")
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from loguru import logger
 logger.remove()
 

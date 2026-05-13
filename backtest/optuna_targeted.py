@@ -15,7 +15,9 @@ Usage:
 """
 
 import sys
-sys.path.insert(0, "/Users/raymondghandchi/Mancini/Mancini")
+from pathlib import Path
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_PROJECT_ROOT))
 from loguru import logger
 logger.remove()
 
@@ -36,8 +38,8 @@ from core.regime_filter import RegimeParams, build_daily_bars
 from strategy.mancini_long import ManciniLongStrategy
 
 # ── Constants ──────────────────────────────────────────────────────────
-DATA_PATH = Path("/Users/raymondghandchi/Mancini/Mancini/data/ES_1m_full_session_2021-01-01_2026-02-05.parquet")
-RESULTS_PATH = Path("/Users/raymondghandchi/Mancini/Mancini/data/optuna_targeted_results.json")
+DATA_PATH = _PROJECT_ROOT / "data" / "ES_1m_full_session_2021-01-01_2026-02-05.parquet"
+RESULTS_PATH = _PROJECT_ROOT / "data" / "optuna_targeted_results.json"
 
 ELEVATOR = ElevatorParams(min_velocity_pts_per_min=0.75, min_levels_broken=2, higher_low_lookback=4)
 FULL_SESSION = SessionTimes(
