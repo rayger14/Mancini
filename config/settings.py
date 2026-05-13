@@ -166,10 +166,21 @@ class StrategyParams:
     # Sweep depth classification
     shallow_flush_threshold_pts: float = 20.0  # < 20 pts = shallow, >= 20 = deep
 
-    # Deep flush uses longer hold/timeout
+    # Deep flush uses longer hold/timeout.
+    # 5/13/2026 — shallow timeout raised 15→20 per FB near-miss audit:
+    # 27 resolved near-misses at this gate had 63% WR, +6pt avg; many were
+    # rejected after achieving 7-10 hold bars. The downstream `fb_max_hold_bars=20`
+    # still bounds the actual trade life, so loosening this is safe.
     acceptance_min_hold_bars_deep: int = 4
-    acceptance_timeout_bars_shallow: int = 15
+    acceptance_timeout_bars_shallow: int = 20
     acceptance_timeout_bars_deep: int = 60
+
+    # FB level freshness gate (Mancini's "24-36 hours" rule).
+    # Standard FBs require the swept low to be within `fb_max_level_age_hours`
+    # of the signal timestamp. Older levels are "macro FBs" — Mancini says
+    # they're rare and need elevated volatility to work. Setting to 0 disables
+    # the gate (any age accepted).
+    fb_max_level_age_hours: float = 36.0
 
     # True breakdown abort: consecutive bars closing below level
     true_breakdown_abort_bars: int = 20

@@ -1389,6 +1389,37 @@ class SignalAggregator:
             logger.debug(f"Mancini LLM plan rejected signal: {llm_reject}")
             return None
 
+        # FB level freshness gate (Mancini's 24-36 hour rule). Older levels
+        # are "macro FBs" — rare, only work in elevated volatility. We don't
+        # try to take them in production; 0 disables the gate entirely.
+        max_age_hours = getattr(self.strategy_params, "fb_max_level_age_hours", 0.0)
+        if (max_age_hours > 0
+                and signal_type == SignalType.FAILED_BREAKDOWN
+                and pattern.level is not None
+                and pattern.level.created_at is not None):
+            try:
+                age_seconds = (pattern.timestamp - pattern.level.created_at).total_seconds()
+                # Force to float — guards against mocked/non-datetime types
+                # silently returning unrelated objects through the arithmetic
+                age_hours = float(age_seconds) / 3600.0
+            except (AttributeError, TypeError, ValueError):
+                age_hours = 0.0  # can't compute → don't gate
+            if age_hours > max_age_hours:
+                logger.info(
+                    f"FB rejected: level age {age_hours:.1f}h > "
+                    f"{max_age_hours:.0f}h cap (level @ {pattern.level.price:.2f})"
+                )
+                self.shadow_events.append({
+                    "feature": "fb_level_too_old",
+                    "bar_idx": pattern.bar_idx,
+                    "timestamp": str(pattern.timestamp),
+                    "signal_type": signal_type.name,
+                    "level_price": pattern.level.price,
+                    "level_age_hours": round(age_hours, 1),
+                    "max_age_hours": max_age_hours,
+                })
+                return None
+
         # Volume confirmation check (opt-in)
         if self.require_volume_confirmation and not self._has_volume_confirmation():
             return None
