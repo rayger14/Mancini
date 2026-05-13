@@ -118,6 +118,15 @@ PRODUCTION_STRATEGY = StrategyParams(
     detect_shelf_levels=False,            # Shelf detection ready but 5-min must be fixed first
     shelf_min_touches=8,                  # Real Mancini shelves have 8+ touches on 5-min
     shelf_sweep_min_pts=2.0,              # Need 2+ pts below shelf to qualify
+    # --- Mancini LLM plan consumption (PR #8) ---
+    # Engine loads the nightly LLM-extracted plan (mancini_plan_<date>.json)
+    # and applies its gates to signal qualification. Boosts FB-trade quality
+    # by recognizing Mancini's explicit planned setups (LQS bonus), blocks FB
+    # longs on Mode 1 Green days, rejects entries in named danger zones. Plan
+    # extraction runs nightly via cron regardless; this enables the engine to
+    # actually consume the output. Inert when plan file is missing or
+    # extract_status != "ok".
+    use_mancini_llm_plan=True,
 )
 PRODUCTION_ELEVATOR = ElevatorParams(
     min_velocity_pts_per_min=0.75,
