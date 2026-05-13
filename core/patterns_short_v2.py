@@ -388,6 +388,12 @@ class VelocityBreakdownShort:
             if break_depth < self.params.vbd_min_break_pts:
                 continue
 
+            # Upper cap: a one-bar print taking the level by 30-49pts is the
+            # back half of a crash, not a clean velocity breakdown. Reject.
+            max_break = getattr(self.params, 'vbd_max_break_pts', 0.0)
+            if max_break > 0 and break_depth > max_break:
+                continue
+
             # Bar must close below level (if required)
             if self.params.vbd_require_close_below and close >= level_price:
                 continue

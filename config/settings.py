@@ -255,11 +255,28 @@ class StrategyParams:
     # with 5x average volume — too fast for the multi-bar BD detector.
     allow_velocity_short: bool = False       # enable single-bar velocity breakdown
     vbd_min_break_pts: float = 8.0          # minimum break below level in one bar
+    # Upper cap on a velocity break: a 30-49pt one-bar print isn't a velocity
+    # breakdown, it's the back half of a crash. Empirically every BD/VBD trade
+    # in the 5/2026 sample with sweep_depth > 20pts lost. Mirrors the existing
+    # bd_max_break_depth_pts=15.0 for the multi-bar BD detector.
+    vbd_max_break_pts: float = 20.0
     vbd_min_volume_ratio: float = 3.0       # bar volume >= 3x 20-bar average
     vbd_require_close_below: bool = True    # bar must CLOSE below the level
     vbd_stop_buffer_pts: float = 3.0        # stop above the broken level + buffer
     vbd_position_size_factor: float = 0.25  # 25% size (aggressive signal, small position)
     vbd_only_major_levels: bool = True      # only at PDL, not minor levels
+
+    # Capitulation-entry guard for short signals (applies to BREAKDOWN_SHORT
+    # and VELOCITY_SHORT). Rejects shorts that fire when price has already
+    # crashed to the session low — the bot was fading the flush instead of
+    # the breakdown. Per the 5/2026 short-side post-mortem: 5 of 9 production
+    # BD losers and 5 of 7 velocity losers had entry within 10pts of the
+    # session low while the session_high was 25+pts above entry. The existing
+    # move_exhaustion gate (session_low <= T1) is too lenient because T1 sits
+    # 20-30pts BELOW entry, so it stays silent on the exact entries that lose.
+    block_capitulation_shorts: bool = True
+    short_capitulation_floor_pts: float = 10.0   # max (entry - session_low)
+    short_capitulation_off_high_pts: float = 25.0  # min (session_high - entry)
 
     # BD Short conviction-based confirmation (replaces flat bd_confirm_bars count).
     # Mancini reads conviction: velocity, depth, candle character, follow-through.
