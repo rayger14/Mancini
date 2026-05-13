@@ -1106,6 +1106,41 @@ class SignalAggregator:
             })
             return None
 
+        # Capitulation-entry guard: reject shorts that fire near the session
+        # low when most of the day's drop has already happened. The existing
+        # move_exhaustion check only fires when session_low <= T1 (T1 is 20-30pts
+        # BELOW entry), so it stays silent at the worst moment — when price has
+        # crashed to the entry but not yet to the target. Per the 5/2026
+        # short-side post-mortem, this caught 5 of 9 BD production losers and
+        # 5 of 7 velocity losers.
+        if getattr(self.strategy_params, 'block_capitulation_shorts', True):
+            floor = self.strategy_params.short_capitulation_floor_pts
+            off_high = self.strategy_params.short_capitulation_off_high_pts
+            entry_above_low = entry - self._session_low
+            high_above_entry = self._session_high - entry
+            if (entry_above_low <= floor
+                    and high_above_entry >= off_high
+                    and self._session_high > 0  # guard pre-session no-data case
+                    and self._session_low < float('inf')):
+                logger.info(
+                    f"Capitulation entry: {signal_type.name} short at {entry:.2f} "
+                    f"sits {entry_above_low:.1f}pt above session_low "
+                    f"{self._session_low:.2f}, {high_above_entry:.1f}pt below "
+                    f"session_high {self._session_high:.2f} — skipping (fading the flush)"
+                )
+                self.shadow_events.append({
+                    "feature": "capitulation_entry",
+                    "bar_idx": pattern.bar_idx,
+                    "timestamp": str(pattern.timestamp),
+                    "signal_type": signal_type.name,
+                    "entry_price": entry,
+                    "session_low": self._session_low,
+                    "session_high": self._session_high,
+                    "entry_above_low_pts": round(entry_above_low, 2),
+                    "high_above_entry_pts": round(high_above_entry, 2),
+                })
+                return None
+
         # Elevator→FB cycle: suppress shorts during the squeeze phase.
         # Mancini: "Elevator down, Failed Breakdown, Short Squeeze — the cycle
         # repeats.  If you try to short during the squeeze, you will lose."
@@ -1186,7 +1221,12 @@ class SignalAggregator:
             pattern.level, self._market_data, self._session_context
         )
 
-        # Daily structure gate: suppress low-LQS shorts during DAILY_FB_BULL
+        # Daily structure gate: suppress low-LQS shorts during DAILY_FB_BULL.
+        # Per the 5/2026 short-side post-mortem, every losing production BD
+        # short and 6 of 7 velocity short losses fired with daily_bias =
+        # DAILY_FB_BULL; the prior behavior here logged a shadow event but
+        # fell through to return the signal ("Production mode would return
+        # None here"). Now it actually blocks.
         if (self._daily_bias == "DAILY_FB_BULL"
                 and self.strategy_params.use_daily_structure):
             min_lqs = self.strategy_params.daily_bd_short_min_lqs
@@ -1205,10 +1245,9 @@ class SignalAggregator:
                 })
                 logger.info(
                     f"Daily FB BULL: contra-trend {signal_type.name} short "
-                    f"(LQS {lqs} < {min_lqs}) at {entry:.2f} — marking but not blocking"
+                    f"(LQS {lqs} < {min_lqs}) at {entry:.2f} — BLOCKED"
                 )
-                # Don't block in collection mode — take it but mark as contra-trend
-                # Production mode would return None here
+                return None
 
         # When LQS gating is enabled, apply trade params (short side)
         if self.strategy_params.use_level_quality_scoring:
