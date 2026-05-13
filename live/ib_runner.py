@@ -1788,6 +1788,28 @@ class IBRunner:
                 highest = getattr(pos, "highest_price_since_entry", None) or getattr(trade_record, "highest_price_since_entry", None)
                 lowest = getattr(pos, "lowest_price_since_entry", None) or getattr(trade_record, "lowest_price_since_entry", None)
 
+                # Augment with the most recent bar and the exit fill price.
+                # The IB bracket OCO can fill mid-bar BEFORE the strategy's
+                # bar-update loop absorbs that bar's high/low into the
+                # position state — so the recorded MFE undershoots. Capture
+                # the latest bar's high/low and the actual exit price too.
+                exit_price = getattr(trade_record, "exit_price", None)
+                recent_high = None
+                recent_low = None
+                if self._df is not None and len(self._df) > 0:
+                    try:
+                        recent_high = float(self._df["high"].iat[-1])
+                        recent_low = float(self._df["low"].iat[-1])
+                    except Exception:
+                        pass
+                # Take max of all known highs; min of all known lows.
+                for candidate in (recent_high, exit_price):
+                    if candidate is not None and (highest is None or candidate > highest):
+                        highest = candidate
+                for candidate in (recent_low, exit_price):
+                    if candidate is not None and (lowest is None or candidate < lowest):
+                        lowest = candidate
+
                 if direction == "long":
                     record["mfe_pts"] = round(highest - entry_price, 2) if highest is not None else None
                     record["mae_pts"] = round(entry_price - lowest, 2) if lowest is not None else None
