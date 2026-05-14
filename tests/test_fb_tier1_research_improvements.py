@@ -138,6 +138,84 @@ def test_freshness_logs_shadow_event_on_reject():
 
 
 # ---------------------------------------------------------------------------
+# Change 1b — Macro-FB VIX override on freshness gate
+# ---------------------------------------------------------------------------
+
+
+def test_macro_fb_allowed_in_elevated_vix():
+    """Stale level + VIX > 20 → freshness gate skipped, FB allowed.
+
+    Mancini: "when volatility hits, I get bigger Failed Breakdowns" —
+    macro FBs of week-old lows work in elevated volatility.
+    """
+    agg = _agg(fb_max_level_age_hours=36.0, fb_macro_vix_threshold=20.0)
+    agg._market_data = {"vix": 28.0}  # extreme vol
+    pattern = _fb_pattern(level_age_hours=72.0)  # 3-day-old level
+    sig = agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN)
+    assert sig is not None
+
+
+def test_macro_fb_rejected_in_calm_vix():
+    """Stale level + VIX = 15 → freshness gate fires, FB rejected.
+
+    Calm-market regime, macro FBs don't work per Mancini.
+    """
+    agg = _agg(fb_max_level_age_hours=36.0, fb_macro_vix_threshold=20.0)
+    agg._market_data = {"vix": 15.0}
+    pattern = _fb_pattern(level_age_hours=72.0)
+    sig = agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN)
+    assert sig is None
+
+
+def test_macro_fb_at_vix_boundary():
+    """VIX exactly at threshold (20) — strict greater-than, so gate STILL
+    enforces. Anything above the threshold opens the door."""
+    agg = _agg(fb_max_level_age_hours=36.0, fb_macro_vix_threshold=20.0)
+    agg._market_data = {"vix": 20.0}
+    pattern = _fb_pattern(level_age_hours=72.0)
+    sig = agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN)
+    assert sig is None  # 20.0 is not > 20.0
+
+
+def test_vix_override_disabled_by_zero_threshold():
+    """Setting fb_macro_vix_threshold=0.0 disables the override (always
+    enforce the freshness gate, regardless of VIX)."""
+    agg = _agg(fb_max_level_age_hours=36.0, fb_macro_vix_threshold=0.0)
+    agg._market_data = {"vix": 50.0}  # would normally trigger override
+    pattern = _fb_pattern(level_age_hours=72.0)
+    sig = agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN)
+    assert sig is None  # gate still enforced
+
+
+def test_vix_override_no_op_when_market_data_missing():
+    """No market_data → gate enforced normally (no VIX info to defer to)."""
+    agg = _agg(fb_max_level_age_hours=36.0, fb_macro_vix_threshold=20.0)
+    agg._market_data = None
+    pattern = _fb_pattern(level_age_hours=72.0)
+    sig = agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN)
+    assert sig is None
+
+
+def test_vix_override_handles_garbage_vix_value():
+    """If VIX field is missing or non-numeric, fall through to gate."""
+    agg = _agg(fb_max_level_age_hours=36.0, fb_macro_vix_threshold=20.0)
+    agg._market_data = {"vix": "not a number"}
+    pattern = _fb_pattern(level_age_hours=72.0)
+    sig = agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN)
+    assert sig is None  # garbage → gate enforced
+
+
+def test_fresh_level_still_passes_in_high_vix():
+    """Sanity: fresh level + high VIX → still passes (the override
+    just disables the freshness gate; it doesn't add new acceptance)."""
+    agg = _agg(fb_max_level_age_hours=36.0, fb_macro_vix_threshold=20.0)
+    agg._market_data = {"vix": 28.0}
+    pattern = _fb_pattern(level_age_hours=4.0)  # fresh
+    sig = agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN)
+    assert sig is not None
+
+
+# ---------------------------------------------------------------------------
 # Change 2 — acceptance_timeout_bars_shallow bumped 15 → 20
 # ---------------------------------------------------------------------------
 

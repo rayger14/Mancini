@@ -1390,35 +1390,58 @@ class SignalAggregator:
             return None
 
         # FB level freshness gate (Mancini's 24-36 hour rule). Older levels
-        # are "macro FBs" — rare, only work in elevated volatility. We don't
-        # try to take them in production; 0 disables the gate entirely.
+        # are "macro FBs" — rare, only work in elevated volatility per his
+        # own commentary. Skip the gate when VIX is elevated; enforce when
+        # calm. Set fb_max_level_age_hours=0 to disable entirely.
         max_age_hours = getattr(self.strategy_params, "fb_max_level_age_hours", 0.0)
         if (max_age_hours > 0
                 and signal_type == SignalType.FAILED_BREAKDOWN
                 and pattern.level is not None
                 and pattern.level.created_at is not None):
-            try:
-                age_seconds = (pattern.timestamp - pattern.level.created_at).total_seconds()
-                # Force to float — guards against mocked/non-datetime types
-                # silently returning unrelated objects through the arithmetic
-                age_hours = float(age_seconds) / 3600.0
-            except (AttributeError, TypeError, ValueError):
-                age_hours = 0.0  # can't compute → don't gate
-            if age_hours > max_age_hours:
-                logger.info(
-                    f"FB rejected: level age {age_hours:.1f}h > "
-                    f"{max_age_hours:.0f}h cap (level @ {pattern.level.price:.2f})"
+            # Macro-FB VIX override: in elevated volatility, allow older
+            # levels (Mancini explicitly: "when volatility hits, I get
+            # bigger Failed Breakdowns"). 0 disables the override.
+            vix_threshold = getattr(
+                self.strategy_params, "fb_macro_vix_threshold", 0.0,
+            )
+            current_vix = None
+            if vix_threshold > 0 and self._market_data:
+                try:
+                    current_vix = float(self._market_data.get("vix") or 0.0)
+                except (TypeError, ValueError):
+                    current_vix = None
+
+            if current_vix is not None and current_vix > vix_threshold:
+                # Elevated-vol regime — macro FB territory, skip the gate.
+                logger.debug(
+                    f"FB freshness gate skipped: VIX {current_vix:.1f} > "
+                    f"{vix_threshold:.1f} threshold (macro-FB regime)"
                 )
-                self.shadow_events.append({
-                    "feature": "fb_level_too_old",
-                    "bar_idx": pattern.bar_idx,
-                    "timestamp": str(pattern.timestamp),
-                    "signal_type": signal_type.name,
-                    "level_price": pattern.level.price,
-                    "level_age_hours": round(age_hours, 1),
-                    "max_age_hours": max_age_hours,
-                })
-                return None
+            else:
+                try:
+                    age_seconds = (pattern.timestamp - pattern.level.created_at).total_seconds()
+                    # Force to float — guards against mocked/non-datetime types
+                    # silently returning unrelated objects through the arithmetic
+                    age_hours = float(age_seconds) / 3600.0
+                except (AttributeError, TypeError, ValueError):
+                    age_hours = 0.0  # can't compute → don't gate
+                if age_hours > max_age_hours:
+                    logger.info(
+                        f"FB rejected: level age {age_hours:.1f}h > "
+                        f"{max_age_hours:.0f}h cap (level @ {pattern.level.price:.2f}, "
+                        f"VIX={current_vix})"
+                    )
+                    self.shadow_events.append({
+                        "feature": "fb_level_too_old",
+                        "bar_idx": pattern.bar_idx,
+                        "timestamp": str(pattern.timestamp),
+                        "signal_type": signal_type.name,
+                        "level_price": pattern.level.price,
+                        "level_age_hours": round(age_hours, 1),
+                        "max_age_hours": max_age_hours,
+                        "vix": current_vix,
+                    })
+                    return None
 
         # Volume confirmation check (opt-in)
         if self.require_volume_confirmation and not self._has_volume_confirmation():
