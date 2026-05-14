@@ -74,7 +74,7 @@ BASE_STRATEGY = replace(DEFAULT_STRATEGY,
 )
 BASE_EXIT = ExitParams(
     default_contracts=4, t1_exit_fraction=1.0,
-    trailing_stop_pts=7.0, fb_max_hold_bars=14,
+    trailing_stop_pts=7.0,
 )
 BASE_RISK = RiskParams(
     max_trades_per_day=4,

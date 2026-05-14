@@ -255,7 +255,6 @@ def build_params(trial):
         breakeven_buffer_pts=-3.0,
         trailing_stop_pts=12.0,
         runner_prior_day_low_buffer_pts=1.0,
-        fb_max_hold_bars=14,
     )
     risk_params = RiskParams(
         max_trades_per_day=999,

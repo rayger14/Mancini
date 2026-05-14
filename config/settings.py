@@ -130,9 +130,6 @@ class ExitParams:
     # Runner trail: buffer below the prior day's low for the overnight trail.
     # Mancini: "trail under the prior days low" — we add 1 pt buffer.
     runner_prior_day_low_buffer_pts: float = 1.0
-    # FB-specific max hold time (bars). FB returns happen in first 20 min
-    # or not at all. Sweep: 20 bars = best FB PF (1.53), +234 pts, 53% WR.
-    fb_max_hold_bars: int = 20
 
 
 @dataclass(frozen=True)
@@ -169,8 +166,9 @@ class StrategyParams:
     # Deep flush uses longer hold/timeout.
     # 5/13/2026 — shallow timeout raised 15→20 per FB near-miss audit:
     # 27 resolved near-misses at this gate had 63% WR, +6pt avg; many were
-    # rejected after achieving 7-10 hold bars. The downstream `fb_max_hold_bars=20`
-    # still bounds the actual trade life, so loosening this is safe.
+    # rejected after achieving 7-10 hold bars. Loosening this from 15→20
+    # captures that cohort while the downstream prior-day-low runner trail
+    # still bounds total trade duration.
     acceptance_min_hold_bars_deep: int = 4
     acceptance_timeout_bars_shallow: int = 20
     acceptance_timeout_bars_deep: int = 60

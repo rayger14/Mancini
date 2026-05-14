@@ -55,7 +55,6 @@ def main():
     )
 
     exit_params = ExitParams(
-        fb_max_hold_bars=14,
     )
 
     risk_params = RiskParams(
