@@ -1,0 +1,118 @@
+{
+  "trading_date": "2025-03-21",
+  "levels": [
+    {
+      "price": 5564.0,
+      "role": "mentioned",
+      "context": "e flushed last Tuesdays multi-day low at 5586, sold down to 5564, recovered 5586, then longs triggered. I wrote last Thursda"
+    },
+    {
+      "price": 5586.0,
+      "role": "mentioned",
+      "context": "e got a big one . We flushed last Tuesdays multi-day low at 5586, sold down to 5564, recovered 5586, then longs triggered. I"
+    },
+    {
+      "price": 5686.0,
+      "role": "mentioned",
+      "context": "(and if that does fail, bulls want to see a quick flush to 5686 then recover). This would allow ES to continue accepting th"
+    },
+    {
+      "price": 5699.0,
+      "role": "range",
+      "context": "5699-5704"
+    },
+    {
+      "price": 5704.0,
+      "role": "range",
+      "context": "5699-5704"
+    },
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5750-55"
+    },
+    {
+      "price": 5755.0,
+      "role": "level",
+      "context": "5755 level"
+    },
+    {
+      "price": 5762.0,
+      "role": "range",
+      "context": "5755-62"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5564.0,
+      "role": "mentioned",
+      "context": "e flushed last Tuesdays multi-day low at 5586, sold down to 5564, recovered 5586, then longs triggered. I wrote last Thursda"
+    },
+    {
+      "price": 5586.0,
+      "role": "mentioned",
+      "context": "e got a big one . We flushed last Tuesdays multi-day low at 5586, sold down to 5564, recovered 5586, then longs triggered. I"
+    },
+    {
+      "price": 5686.0,
+      "role": "mentioned",
+      "context": "(and if that does fail, bulls want to see a quick flush to 5686 then recover). This would allow ES to continue accepting th"
+    },
+    {
+      "price": 5699.0,
+      "role": "range",
+      "context": "5699-5704"
+    },
+    {
+      "price": 5704.0,
+      "role": "range",
+      "context": "5699-5704"
+    },
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5750-55"
+    },
+    {
+      "price": 5755.0,
+      "role": "level",
+      "context": "5755 level"
+    },
+    {
+      "price": 5762.0,
+      "role": "range",
+      "context": "5755-62"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can re-test 5610."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "After selling Tuesday, I was looking for ES to take another crack at that 5755 level for FOMC day yesterday, writing on Tuesday at 4pm: \u201cMy general lean is we can do a little back-testing."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes are caused by my core setup: The Failed Breakdown, and last Thursday, we got a big one ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Thursday -1 week ago - at 4pm by writing: \u201c We have an active Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the setup that caused yesterdays FOMC squeeze (my core setup, the Failed Breakdown) and I\u2019ll also touch on some of my rarer short setups."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "After 4 Red Weeks In A Row, Can SPX Close This Week Green? March 21 Plan",
+  "post_date": "2025-03-20",
+  "post_slug": "after-4-red-weeks-in-a-row-can-spx-e63",
+  "parsed_at": "2026-04-16T15:44:57.251608",
+  "body_length": 2543
+}

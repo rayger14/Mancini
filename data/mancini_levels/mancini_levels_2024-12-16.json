@@ -1,0 +1,135 @@
+{
+  "trading_date": "2024-12-16",
+  "levels": [
+    {
+      "price": 6055.0,
+      "role": "range",
+      "context": "6055-60"
+    },
+    {
+      "price": 6060.0,
+      "role": "level",
+      "context": "6060 level"
+    },
+    {
+      "price": 6063.0,
+      "role": "level",
+      "context": "6063 level"
+    },
+    {
+      "price": 6075.0,
+      "role": "target",
+      "context": "target 6075"
+    },
+    {
+      "price": 6080.0,
+      "role": "range",
+      "context": "6075-80"
+    },
+    {
+      "price": 6087.0,
+      "role": "mentioned",
+      "context": "l simply work back up the range. This would target 6075-80, 6087, then 6101\u201d. By this morning we had hit ~6087, before revis"
+    },
+    {
+      "price": 6100.0,
+      "role": "resistance",
+      "context": "6100 resistance"
+    },
+    {
+      "price": 6101.0,
+      "role": "mentioned",
+      "context": "rk back up the range. This would target 6075-80, 6087, then 6101\u201d. By this morning we had hit ~6087, before revisiting the 6"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6055.0,
+      "role": "range",
+      "context": "6055-60"
+    },
+    {
+      "price": 6060.0,
+      "role": "level",
+      "context": "6060 level"
+    },
+    {
+      "price": 6063.0,
+      "role": "level",
+      "context": "6063 level"
+    },
+    {
+      "price": 6080.0,
+      "role": "range",
+      "context": "6075-80"
+    },
+    {
+      "price": 6087.0,
+      "role": "mentioned",
+      "context": "l simply work back up the range. This would target 6075-80, 6087, then 6101\u201d. By this morning we had hit ~6087, before revis"
+    },
+    {
+      "price": 6101.0,
+      "role": "mentioned",
+      "context": "rk back up the range. This would target 6075-80, 6087, then 6101\u201d. By this morning we had hit ~6087, before revisiting the 6"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6075.0,
+      "role": "target",
+      "context": "target 6075"
+    },
+    {
+      "price": 6100.0,
+      "role": "resistance",
+      "context": "6100 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A range must form to setup the next move and these ranges are absolute goldmines for my core setup (the Failed Breakdown) and level to level trading."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We tested 6060 Monday, put in a huge Failed Breakdown down to 6040 on Tuesday, then recovered Wednesday, getting us long for a run to to 6100 resistance."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into how my core setups (Failed Breakdown and Back-tests) apply to this level (you will see these setups at a magnet level virtually every week for the rst of of your career)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "As readers know, ES is highly predictable and after strong trend moves, comes consolidation or base building around a magnet level which we can play over and over ."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote last Friday: \u201cIt would not shock me if this 6063 level turned into a \u201cmagnet level\u201d which we trap below over over for several days and build a new base\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "On Wednesday at 4pm however (when we were 6090s) , I warned readers that we were probably not done with the 6055-60 magnet, writing : \u201cWe remain inside the Mode 2 range discussed in the Daily Summary above, with resistance roughly 6102 and support down at 6060-55."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This range could easily fill out and morph for many more days (including several more tests of the 6060-55 magnet)\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "By this morning we had hit ~6087, before revisiting the 6055-60 magnet by 10am today, flushing it, and closing a little below the 6060 level."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 6,
+  "resistance_count": 2,
+  "post_title": "First Red Week In Four Weeks For SPX, But Is Holiday Strength Coming? Dec 16 Plan",
+  "post_date": "2024-12-15",
+  "post_slug": "first-red-week-in-four-weeks-for",
+  "parsed_at": "2026-04-16T15:46:17.656967",
+  "body_length": 2512
+}

@@ -1,0 +1,149 @@
+{
+  "trading_date": "2025-02-25",
+  "levels": [
+    {
+      "price": 6014.0,
+      "role": "resistance",
+      "context": "Below 6014"
+    },
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6038-42"
+    },
+    {
+      "price": 6042.0,
+      "role": "range",
+      "context": "6038-42"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-72"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6072.0,
+      "role": "range",
+      "context": "6068-72"
+    },
+    {
+      "price": 6116.0,
+      "role": "range",
+      "context": "6123-6116"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6038-42"
+    },
+    {
+      "price": 6042.0,
+      "role": "range",
+      "context": "6038-42"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-72"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6072.0,
+      "role": "range",
+      "context": "6068-72"
+    },
+    {
+      "price": 6116.0,
+      "role": "range",
+      "context": "6123-6116"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6014.0,
+      "role": "resistance",
+      "context": "Below 6014"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201c Given we sold all day without any bounce, my general lean for Monday ES can try a relief pop."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Buy dips Mode in ES generally begins when it puts in my core setup: The Failed Breakdown, which is the footprint of institutional accumulation."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Most recently, back on Sunday February 9th - over two weeks ago now - ES put in a macro Failed Breakdown of 6020, and this got us long with a runner that lasted nearly two weeks and over 100 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Friday at 4pm: \u201cBelow 6014-20 we head for another hard elevator down leg and there is nothing of interest for me until 5993.\u201d We lost 6020 after the open, sold to 5994 low of day, rallied 45 points back to 6038-42, then returned there into the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Is buy the dip taking a breather?"
+    }
+  ],
+  "level_count": 11,
+  "support_count": 10,
+  "resistance_count": 1,
+  "post_title": "Is \"Buy The Dip\"Taking A Break In SPX? Feb 25 Plan",
+  "post_date": "2025-02-24",
+  "post_slug": "is-buy-the-diptaking-a-break-in-spx",
+  "parsed_at": "2026-04-16T15:45:19.838796",
+  "body_length": 2866
+}

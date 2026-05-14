@@ -1,0 +1,131 @@
+{
+  "trading_date": "2024-10-28",
+  "levels": [
+    {
+      "price": 5800.0,
+      "role": "mentioned",
+      "context": "s largest selloff since September 6th where we sold down to 5800. As always though, this dip was bought. Remember that in ES"
+    },
+    {
+      "price": 5820.0,
+      "role": "mentioned",
+      "context": "terday we rallied to 5864. From there we got another dip to 5820. What happened with this dip? Again, it should be no surpri"
+    },
+    {
+      "price": 5825.0,
+      "role": "range",
+      "context": "5825-5865"
+    },
+    {
+      "price": 5855.0,
+      "role": "range",
+      "context": "5855-57"
+    },
+    {
+      "price": 5857.0,
+      "role": "range",
+      "context": "5855-57"
+    },
+    {
+      "price": 5864.0,
+      "role": "mentioned",
+      "context": "backtest the breakdown zones now. This means 5855-57, then 5864. This is the dip zone\u201d. We got this, and yesterday we ralli"
+    },
+    {
+      "price": 5865.0,
+      "role": "range",
+      "context": "5825-5865"
+    },
+    {
+      "price": 5868.0,
+      "role": "range",
+      "context": "5865-68"
+    },
+    {
+      "price": 5882.0,
+      "role": "target",
+      "context": "target 5882"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "ows). From there, we break out, and this would target 5882, 5892\u201d. By 10am today, we got to 5892+ target - completed all ups"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5800.0,
+      "role": "mentioned",
+      "context": "s largest selloff since September 6th where we sold down to 5800. As always though, this dip was bought. Remember that in ES"
+    },
+    {
+      "price": 5820.0,
+      "role": "mentioned",
+      "context": "terday we rallied to 5864. From there we got another dip to 5820. What happened with this dip? Again, it should be no surpri"
+    },
+    {
+      "price": 5825.0,
+      "role": "range",
+      "context": "5825-5865"
+    },
+    {
+      "price": 5855.0,
+      "role": "range",
+      "context": "5855-57"
+    },
+    {
+      "price": 5857.0,
+      "role": "range",
+      "context": "5855-57"
+    },
+    {
+      "price": 5864.0,
+      "role": "mentioned",
+      "context": "backtest the breakdown zones now. This means 5855-57, then 5864. This is the dip zone\u201d. We got this, and yesterday we ralli"
+    },
+    {
+      "price": 5865.0,
+      "role": "range",
+      "context": "5825-5865"
+    },
+    {
+      "price": 5868.0,
+      "role": "range",
+      "context": "5865-68"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "ows). From there, we break out, and this would target 5882, 5892\u201d. By 10am today, we got to 5892+ target - completed all ups"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5882.0,
+      "role": "target",
+      "context": "target 5882"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Readers were well prepared for this, and I wrote Wednesday at 4pm: \u201cMy general lean is we can backtest the breakdown zones now."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cI am still holding my 10% long runner from this afternoons ~5828 long \u2026 The short-term bull case tomorrow is that ES is stuck in a new range 5825-5865, and that this range breaks to the upside\u2026 generally the bull case would probably look something like pop to 5865-68, perhaps one more dip (could be a huge dip, could be a quick one, nobody knows)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that in ES, there is no such thing as an \u201celevator down\u201d move without a short squeeze - one always follows the other."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 9,
+  "resistance_count": 1,
+  "post_title": "SPX Snaps Its 6 Green Week Streak. More Red Ahead? Oct 28 Plan",
+  "post_date": "2024-10-27",
+  "post_slug": "spx-snaps-its-6-green-week-streak-e24",
+  "parsed_at": "2026-04-16T15:47:02.459988",
+  "body_length": 2481
+}

@@ -1,0 +1,107 @@
+{
+  "trading_date": "2025-07-22",
+  "levels": [
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target. Above there, its back to 6309, 6324, then"
+    },
+    {
+      "price": 6309.0,
+      "role": "mentioned",
+      "context": "ucture with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d What did we see last"
+    },
+    {
+      "price": 6324.0,
+      "role": "mentioned",
+      "context": "with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d What did we see last Wedne"
+    },
+    {
+      "price": 6326.0,
+      "role": "range",
+      "context": "6333-26"
+    },
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    },
+    {
+      "price": 6362.0,
+      "role": "mentioned",
+      "context": "ut as good as it gets, and by 10am this morning, we were at 6362. We went to 6372ish, then dipped into the close. Can bulls"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target. Above there, its back to 6309, 6324, then"
+    },
+    {
+      "price": 6309.0,
+      "role": "mentioned",
+      "context": "ucture with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d What did we see last"
+    },
+    {
+      "price": 6324.0,
+      "role": "mentioned",
+      "context": "with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d What did we see last Wedne"
+    },
+    {
+      "price": 6326.0,
+      "role": "range",
+      "context": "6333-26"
+    },
+    {
+      "price": 6362.0,
+      "role": "mentioned",
+      "context": "ut as good as it gets, and by 10am this morning, we were at 6362. We went to 6372ish, then dipped into the close. Can bulls"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Tuesday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend (because 90-95% of the time, price resolves with the trend, and we can\u2019t predict the 5-10%)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Two of those core building blocks are 1) My core entry setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A core feature of Mode 2 is that is that price puts in extensive Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As long as the triangle support holds (or failed breakdown and quick recover), ES can work back up the structure with 6301 being 1st target."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We put in a massive Failed Breakdown of the triangle around 11am, sold to 6241, trapped bears, we got long, and we got to triangle resistance at 6333 by Thursday, and broke it out, rallying to 6357 high of week last week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a powerful variant of my core setup which I call the \u201cdouble dip Failed Breakdown\u201d."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "Liftoff Day For SPX, But Can Bulls Keep The Momentum Up? July 22 Plan",
+  "post_date": "2025-07-21",
+  "post_slug": "liftoff-day-for-spx-but-can-bulls",
+  "parsed_at": "2026-04-16T15:43:10.919997",
+  "body_length": 3027
+}

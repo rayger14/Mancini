@@ -1,0 +1,234 @@
+{
+  "trading_date": "2025-11-28",
+  "levels": [
+    {
+      "price": 6525.0,
+      "role": "mentioned",
+      "context": "set a low at 6540. Thursday evening, we flushed it down to 6525. Friday morning, 6540 recovered and we were off. I wrote on"
+    },
+    {
+      "price": 6540.0,
+      "role": "range",
+      "context": "6540-42"
+    },
+    {
+      "price": 6542.0,
+      "role": "range",
+      "context": "6540-42"
+    },
+    {
+      "price": 6638.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6675.0,
+      "role": "mentioned",
+      "context": "e saw exactly this yesterday: At 9:40AM, we flushed 6701 to 6675, trapped below, Failed Breakdown, and recovered. We then ra"
+    },
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "the trend. As long as bulls hold 6701 (or quick trap below) 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824,"
+    },
+    {
+      "price": 6751.0,
+      "role": "support",
+      "context": "holds 6751"
+    },
+    {
+      "price": 6764.0,
+      "role": "mentioned",
+      "context": "end. As long as bulls hold 6701 (or quick trap below) 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824, then 6"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "level",
+      "context": "6785 zone"
+    },
+    {
+      "price": 6802.0,
+      "role": "mentioned",
+      "context": "hough. As long as ES holds 6751 the parabola continues with 6802, 6816, 6831, then 6851 next target slate.\u201d We got right to"
+    },
+    {
+      "price": 6816.0,
+      "role": "mentioned",
+      "context": "As long as ES holds 6751 the parabola continues with 6802, 6816, 6831, then 6851 next target slate.\u201d We got right to work o"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": ") 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this yesterday: At 9:40AM, we f"
+    },
+    {
+      "price": 6831.0,
+      "role": "mentioned",
+      "context": "ng as ES holds 6751 the parabola continues with 6802, 6816, 6831, then 6851 next target slate.\u201d We got right to work on this"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "4, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this yesterday: At 9:40AM, we flushed 6701"
+    },
+    {
+      "price": 6851.0,
+      "role": "mentioned",
+      "context": "14th. The task for bulls today was to clear it and head to 6851 which is the magnet for this leg up. I wrote yesterday at 4"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6525.0,
+      "role": "mentioned",
+      "context": "set a low at 6540. Thursday evening, we flushed it down to 6525. Friday morning, 6540 recovered and we were off. I wrote on"
+    },
+    {
+      "price": 6540.0,
+      "role": "range",
+      "context": "6540-42"
+    },
+    {
+      "price": 6542.0,
+      "role": "range",
+      "context": "6540-42"
+    },
+    {
+      "price": 6638.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6675.0,
+      "role": "mentioned",
+      "context": "e saw exactly this yesterday: At 9:40AM, we flushed 6701 to 6675, trapped below, Failed Breakdown, and recovered. We then ra"
+    },
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "the trend. As long as bulls hold 6701 (or quick trap below) 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824,"
+    },
+    {
+      "price": 6751.0,
+      "role": "support",
+      "context": "holds 6751"
+    },
+    {
+      "price": 6764.0,
+      "role": "mentioned",
+      "context": "end. As long as bulls hold 6701 (or quick trap below) 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824, then 6"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "level",
+      "context": "6785 zone"
+    },
+    {
+      "price": 6802.0,
+      "role": "mentioned",
+      "context": "hough. As long as ES holds 6751 the parabola continues with 6802, 6816, 6831, then 6851 next target slate.\u201d We got right to"
+    },
+    {
+      "price": 6816.0,
+      "role": "mentioned",
+      "context": "As long as ES holds 6751 the parabola continues with 6802, 6816, 6831, then 6851 next target slate.\u201d We got right to work o"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": ") 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this yesterday: At 9:40AM, we f"
+    },
+    {
+      "price": 6831.0,
+      "role": "mentioned",
+      "context": "ng as ES holds 6751 the parabola continues with 6802, 6816, 6831, then 6851 next target slate.\u201d We got right to work on this"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "4, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this yesterday: At 9:40AM, we flushed 6701"
+    },
+    {
+      "price": 6851.0,
+      "role": "mentioned",
+      "context": "14th. The task for bulls today was to clear it and head to 6851 which is the magnet for this leg up. I wrote yesterday at 4"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is ES can do more back-testing."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is always to defer to the trend though."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns are the footprint of institutional accumulation and occur when ES goes elevator down, flushes a low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cBulls attempted a recovery though today by putting in a big Failed Breakdown of 6540-42, and building a base."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this yesterday: At 9:40AM, we flushed 6701 to 6675, trapped below, Failed Breakdown, and recovered."
+    },
+    {
+      "type": "TARGETS",
+      "text": "The task for bulls today was to clear it and head to 6851 which is the magnet for this leg up."
+    },
+    {
+      "type": "TARGETS",
+      "text": "As long as ES holds 6751 the parabola continues with 6802, 6816, 6831, then 6851 next target slate.\u201d We got right to work on this, hitting ~6851 by noon today."
+    }
+  ],
+  "level_count": 18,
+  "support_count": 18,
+  "resistance_count": 0,
+  "post_title": "The Thanksgiving Week Rally Paid 300 Points in SPX. Is The Rally Done? Nov 27/28 Plan",
+  "post_date": "2025-11-27",
+  "post_slug": "the-thanksgiving-week-rally-paid-232",
+  "parsed_at": "2026-04-16T15:41:13.094357",
+  "body_length": 3022
+}

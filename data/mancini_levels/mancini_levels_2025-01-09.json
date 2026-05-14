@@ -1,0 +1,73 @@
+{
+  "trading_date": "2025-01-09",
+  "levels": [
+    {
+      "price": 5997.0,
+      "role": "target",
+      "context": "target 5997"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "w up this rally more. This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d By Monday, we sque"
+    },
+    {
+      "price": 6070.0,
+      "role": "mentioned",
+      "context": "one of these infamous squeezes to head into this week with ~6070 likely target. I re-affirmed Friday at 4pm: \u201cMy general lea"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "w up this rally more. This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d By Monday, we sque"
+    },
+    {
+      "price": 6070.0,
+      "role": "mentioned",
+      "context": "one of these infamous squeezes to head into this week with ~6070 likely target. I re-affirmed Friday at 4pm: \u201cMy general lea"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5997.0,
+      "role": "target",
+      "context": "target 5997"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I re-affirmed Friday at 4pm: \u201cMy general lean is that ES can try to follow up this rally more."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Secondly, it means ES alternates between two types of price action: Deep, \u201celevator down\u201d sells, and vicious short squeezes (which typically just end up getting sold)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d By Monday, we squeezed 190 points to 6070, then began another deep \u201celevator down\u201d sell, which took us to 5928 by this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down, short squeeze, repeat."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I\u2019d need to see a failed breakdown of todays 5935 low, ideally down to 5928, then recovery to get long\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This Failed Breakdown setup played out multiple times today to put in a small green day."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 2,
+  "resistance_count": 1,
+  "post_title": "SPX Manages A Small Green Day, But Will It Get Sold Like All The Others? Jan 9th/10th Plan",
+  "post_date": "2025-01-08",
+  "post_slug": "spx-manages-a-small-green-day-but",
+  "parsed_at": "2026-04-16T15:45:57.779126",
+  "body_length": 2299
+}

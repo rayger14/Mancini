@@ -1,0 +1,116 @@
+{
+  "trading_date": "2024-10-30",
+  "levels": [
+    {
+      "price": 5834.0,
+      "role": "range",
+      "context": "5838-34"
+    },
+    {
+      "price": 5838.0,
+      "role": "range",
+      "context": "5838-34"
+    },
+    {
+      "price": 5842.0,
+      "role": "mentioned",
+      "context": "to readers on Thursday at 4pm where I wrote: \u201cFor tomorrow 5842 is first down. If we can dip to 5838 then reclaim it I\u2019ll p"
+    },
+    {
+      "price": 5843.0,
+      "role": "support",
+      "context": "hold 5843"
+    },
+    {
+      "price": 5882.0,
+      "role": "mentioned",
+      "context": "fill the Sunday gap), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We dipped a little under 5843 this morn"
+    },
+    {
+      "price": 5885.0,
+      "role": "mentioned",
+      "context": "riday. What happened there? No shock, the dip was bought to 5885 yesterday, and that Friday low held all week until today. T"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "he Sunday gap), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We dipped a little under 5843 this morning, f"
+    },
+    {
+      "price": 5900.0,
+      "role": "mentioned",
+      "context": "p), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We dipped a little under 5843 this morning, filled the Su"
+    },
+    {
+      "price": 5902.0,
+      "role": "mentioned",
+      "context": "ajor dip before today was Friday morning where we sold from 5902 down to 5836 low of day of 2pm Friday. What happened there?"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5834.0,
+      "role": "range",
+      "context": "5838-34"
+    },
+    {
+      "price": 5838.0,
+      "role": "range",
+      "context": "5838-34"
+    },
+    {
+      "price": 5842.0,
+      "role": "mentioned",
+      "context": "to readers on Thursday at 4pm where I wrote: \u201cFor tomorrow 5842 is first down. If we can dip to 5838 then reclaim it I\u2019ll p"
+    },
+    {
+      "price": 5843.0,
+      "role": "support",
+      "context": "hold 5843"
+    },
+    {
+      "price": 5882.0,
+      "role": "mentioned",
+      "context": "fill the Sunday gap), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We dipped a little under 5843 this morn"
+    },
+    {
+      "price": 5885.0,
+      "role": "mentioned",
+      "context": "riday. What happened there? No shock, the dip was bought to 5885 yesterday, and that Friday low held all week until today. T"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "he Sunday gap), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We dipped a little under 5843 this morning, f"
+    },
+    {
+      "price": 5900.0,
+      "role": "mentioned",
+      "context": "p), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We dipped a little under 5843 this morning, filled the Su"
+    },
+    {
+      "price": 5902.0,
+      "role": "mentioned",
+      "context": "ajor dip before today was Friday morning where we sold from 5902 down to 5836 low of day of 2pm Friday. What happened there?"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this dip buy to readers in yesterdays 4pm newsletter, writing: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into Friday afternoons Failed Breakdown which set the low we saw until today - this was a very classic example of the setup I trade every single day almost and its essential to see quality, real-time examples of it to learn."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Big Earnings Incoming. Will SPX Break Its Range? Oct 30th Plan",
+  "post_date": "2024-10-29",
+  "post_slug": "big-earnings-incoming-will-spx-break",
+  "parsed_at": "2026-04-16T15:46:59.362484",
+  "body_length": 2197
+}

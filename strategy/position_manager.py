@@ -59,6 +59,8 @@ class TradeRecord:
     exit_date: object = None        # date when trade was closed
     days_held: int = 1              # number of trading days held
     is_runner: bool = False         # True if position reached AFTER_T1+
+    is_double_dip: bool = False     # True if trade was a double-dip re-entry
+    lqs: int = 0                    # Level Quality Score (0-100)
 
 
 @dataclass
@@ -112,10 +114,12 @@ class PositionManager:
     - Never let a green day go red
     """
 
-    def __init__(self, risk_params: RiskParams = DEFAULT_RISK, point_value: float = 50.0):
+    def __init__(self, risk_params: RiskParams = DEFAULT_RISK, point_value: float = 50.0,
+                 bypass_loss_limits: bool = False):
         self.risk_params = risk_params
         self.point_value = point_value
         self.session: Optional[DaySession] = None
+        self.bypass_loss_limits = bypass_loss_limits
 
     def start_session(self, date: datetime) -> DaySession:
         """Initialize a new trading day session."""
@@ -168,6 +172,7 @@ class PositionManager:
         signal: Optional['Signal'] = None,
         entry_bar_idx: int = 0,
         exit_bar_idx: int = 0,
+        entry_time: Optional[datetime] = None,
     ) -> Optional[TradeRecord]:
         """Record a closed trade and update session state.
 
@@ -186,7 +191,7 @@ class PositionManager:
 
         direction = getattr(pos, "direction", "long")
         record = TradeRecord(
-            entry_time=timestamp,  # approximate
+            entry_time=entry_time if entry_time is not None else timestamp,
             exit_time=timestamp,
             entry_price=pos.entry_price,
             avg_exit_price=exit_price,
@@ -212,6 +217,8 @@ class PositionManager:
             record.level_type = signal.pattern.level.level_type.name
             record.level_price = signal.pattern.level.price
             record.sweep_depth_pts = signal.pattern.sweep_depth_pts
+            record.is_double_dip = getattr(signal.pattern, 'is_double_dip', False)
+            record.lqs = getattr(signal, 'lqs', 0)
             if signal.pattern.elevator_event is not None:
                 ev = signal.pattern.elevator_event
                 record.elevator_peak_velocity = ev.peak_velocity
@@ -298,6 +305,10 @@ class PositionManager:
     def _update_session_state(self, trade_pnl_pts: float) -> None:
         """Update session state after a trade closes."""
         assert self.session is not None
+
+        # In data collection mode, never shut down — keep trading
+        if self.bypass_loss_limits:
+            return
 
         if trade_pnl_pts > 0:
             # Winner

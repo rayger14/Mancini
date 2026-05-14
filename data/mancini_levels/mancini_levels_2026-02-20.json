@@ -1,0 +1,202 @@
+{
+  "trading_date": "2026-02-20",
+  "levels": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "day\u2019s 6808 daily low.\u201d Yesterday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again. The tas"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "daily low at 6808"
+    },
+    {
+      "price": 6843.0,
+      "role": "support",
+      "context": "hold 6843"
+    },
+    {
+      "price": 6849.0,
+      "role": "mentioned",
+      "context": "4, 6925, 6939, 6954 target. The lowest bulls want to see is 6849 , below there we flush.\u201d Today, we held 6849 all day as the"
+    },
+    {
+      "price": 6860.0,
+      "role": "mentioned",
+      "context": "flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again. The task for yesterday would be for bulls to keep i"
+    },
+    {
+      "price": 6876.0,
+      "role": "mentioned",
+      "context": "ulls need to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this yeste"
+    },
+    {
+      "price": 6877.0,
+      "role": "support",
+      "context": "hold 6877"
+    },
+    {
+      "price": 6893.0,
+      "role": "mentioned",
+      "context": "eed to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this yesterday g"
+    },
+    {
+      "price": 6904.0,
+      "role": "mentioned",
+      "context": "ld 6877 ideally (or quick trap below) and from there we see 6904, 6925, 6939, 6954 target. The lowest bulls want to see is 6"
+    },
+    {
+      "price": 6923.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "7 ideally (or quick trap below) and from there we see 6904, 6925, 6939, 6954 target. The lowest bulls want to see is 6849 ,"
+    },
+    {
+      "price": 6926.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6939.0,
+      "role": "mentioned",
+      "context": "lly (or quick trap below) and from there we see 6904, 6925, 6939, 6954 target. The lowest bulls want to see is 6849 , below"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "ally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this yesterday getting to 6923-26 wh"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "day\u2019s 6808 daily low.\u201d Yesterday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again. The tas"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "daily low at 6808"
+    },
+    {
+      "price": 6843.0,
+      "role": "support",
+      "context": "hold 6843"
+    },
+    {
+      "price": 6849.0,
+      "role": "mentioned",
+      "context": "4, 6925, 6939, 6954 target. The lowest bulls want to see is 6849 , below there we flush.\u201d Today, we held 6849 all day as the"
+    },
+    {
+      "price": 6860.0,
+      "role": "mentioned",
+      "context": "flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again. The task for yesterday would be for bulls to keep i"
+    },
+    {
+      "price": 6876.0,
+      "role": "mentioned",
+      "context": "ulls need to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this yeste"
+    },
+    {
+      "price": 6877.0,
+      "role": "support",
+      "context": "hold 6877"
+    },
+    {
+      "price": 6893.0,
+      "role": "mentioned",
+      "context": "eed to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this yesterday g"
+    },
+    {
+      "price": 6904.0,
+      "role": "mentioned",
+      "context": "ld 6877 ideally (or quick trap below) and from there we see 6904, 6925, 6939, 6954 target. The lowest bulls want to see is 6"
+    },
+    {
+      "price": 6923.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "7 ideally (or quick trap below) and from there we see 6904, 6925, 6939, 6954 target. The lowest bulls want to see is 6849 ,"
+    },
+    {
+      "price": 6926.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6939.0,
+      "role": "mentioned",
+      "context": "lly (or quick trap below) and from there we see 6904, 6925, 6939, 6954 target. The lowest bulls want to see is 6849 , below"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "ally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this yesterday getting to 6923-26 wh"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is bulls need to hold 6843 ideally."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "There are a few of these cycles, but the foundation of them is what I call the two siblings: Elevator down (sibling 1) , into Failed Breakdown, into short squeeze (sibling 2) ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator Down refers to vertical red candles where no support matters."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These short squeezes are caused by one thing: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We saw precisely this on Tuesday In the morning we went elevator down 70+ points down to 6791."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cIf this is the case, the obvious entry is to wait for 6795 to defend (doesn\u2019t need to be exact) then recover today\u2019s 6808 daily low.\u201d Yesterday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cIn summary for tomorrow: ES put in a big Failed Breakdown today by trapping under Friday\u2019s 6808 low down to 6791, and recovering 6808."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cIn summary for tomorrow: Yesterday we had a monster Failed Breakdown where ES flushed the Friday 6808 low, sold down to 6791, recovered, and ripped 130 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "In doing so, ES lost Friday\u2019s daily low at 6808."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 14,
+  "resistance_count": 0,
+  "post_title": "SPX Is Again Coiled Tightly. Move Incoming. What Way? Feb 20th Plan",
+  "post_date": "2026-02-19",
+  "post_slug": "spx-is-again-coiled-tightly-move",
+  "parsed_at": "2026-04-16T15:38:52.999602",
+  "body_length": 2499
+}

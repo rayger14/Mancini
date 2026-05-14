@@ -1,0 +1,125 @@
+{
+  "trading_date": "2026-03-18",
+  "levels": [
+    {
+      "price": 6689.0,
+      "role": "support",
+      "context": "recover 6689"
+    },
+    {
+      "price": 6690.0,
+      "role": "range",
+      "context": "6689-90"
+    },
+    {
+      "price": 6735.0,
+      "role": "resistance",
+      "context": "below 6735"
+    },
+    {
+      "price": 6743.0,
+      "role": "support",
+      "context": "hold 6743"
+    },
+    {
+      "price": 6808.0,
+      "role": "mentioned",
+      "context": "st evening, we trapped below 6735, recovered, and ripped to 6808 high of day. Tomorrow, however, is FOMC. Will it spoil this"
+    },
+    {
+      "price": 6819.0,
+      "role": "support",
+      "context": "6819 support"
+    },
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6689.0,
+      "role": "support",
+      "context": "recover 6689"
+    },
+    {
+      "price": 6690.0,
+      "role": "range",
+      "context": "6689-90"
+    },
+    {
+      "price": 6743.0,
+      "role": "support",
+      "context": "hold 6743"
+    },
+    {
+      "price": 6808.0,
+      "role": "mentioned",
+      "context": "st evening, we trapped below 6735, recovered, and ripped to 6808 high of day. Tomorrow, however, is FOMC. Will it spoil this"
+    },
+    {
+      "price": 6819.0,
+      "role": "support",
+      "context": "6819 support"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6735.0,
+      "role": "resistance",
+      "context": "below 6735"
+    },
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "It is also why I wrote last Wednesday at 4pm: \u201cBear Case Thursday: Begins on the failure of 6819\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is ES can try and recover 6689 to generate a rally to 6743, 6754, 6766, then 6819\u201d We got started right on this after 6pm Sunday and by 7pm we recovered 6689 and ran to 6743+ yesterday, exactly per plan."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201c The bull case for tomorrow is that ES can keep up the momentum from last evenings 6689-90 Failed Breakdown, and run to backtest 6819."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I discussed entries for this leg above, but in a strong bull case, ES will hold 6743 (or quick trap below 6735) then head up direct.\u201d We got right to work here."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Thursday morning, price picked its path, and down we went going elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every elevator down sell sees an equally violent squeeze the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Those squeezes however, only occur when price triggers my core setup: The Failed Breakdown which occurs when price flushes a major low, traps shorts, then reverses."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "1) To start a squeeze, they\u2019d need to put in a Failed Breakdown and to do this, theyd need to recover 6689 which was a big shelf all day Friday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 7,
+  "support_count": 5,
+  "resistance_count": 2,
+  "post_title": "FOMC Tomorrow. Can The New SPX Rally Survive? March 18 Plan",
+  "post_date": "2026-03-17",
+  "post_slug": "fomc-tomorrow-can-the-new-spx-rally",
+  "parsed_at": "2026-04-16T15:38:29.954279",
+  "body_length": 2329
+}

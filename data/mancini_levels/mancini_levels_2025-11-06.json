@@ -1,0 +1,75 @@
+{
+  "trading_date": "2025-11-06",
+  "levels": [
+    {
+      "price": 6815.0,
+      "role": "range",
+      "context": "6815-18"
+    },
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6815-18"
+    },
+    {
+      "price": 6851.0,
+      "role": "mentioned",
+      "context": "overnight, trapped shorts, we got long, then we squeezed to 6851 today. The back-test completed, and we dipped into the clos"
+    },
+    {
+      "price": 6948.0,
+      "role": "resistance",
+      "context": "6948 resistance"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6815.0,
+      "role": "range",
+      "context": "6815-18"
+    },
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6815-18"
+    },
+    {
+      "price": 6851.0,
+      "role": "mentioned",
+      "context": "overnight, trapped shorts, we got long, then we squeezed to 6851 today. The back-test completed, and we dipped into the clos"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6948.0,
+      "role": "resistance",
+      "context": "6948 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "It failed Monday evening, and Readers were prepared because for the 1st time in weeks my Bear Case triggered."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Monday at 4pm: \u201cBear case tomorrow: Begins under 6857\u2026 I t will probably be 6850 trigger."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Its why bears don\u2019t make money even in bear markets, because ES alternates between elevator down sells, then it short squeezes, and those squeezes are caused by Failed Breakdowns or Level Reclaims."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss a quality example of my core setup: The Failed Breakdown which we had on Friday and gave us the 60+ point run into this weeks highs."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "Bulls Bought The Dip, Is It A Dead Cat Bounce, Or Bottom In? November 6 Plan",
+  "post_date": "2025-11-05",
+  "post_slug": "bulls-bought-the-dip-is-it-a-dead",
+  "parsed_at": "2026-04-16T15:41:33.558924",
+  "body_length": 2376
+}

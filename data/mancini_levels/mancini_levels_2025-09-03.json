@@ -1,0 +1,122 @@
+{
+  "trading_date": "2025-09-03",
+  "levels": [
+    {
+      "price": 6384.0,
+      "role": "mentioned",
+      "context": "night flush we got it at 9:50AM. I tweeted before then that 6384 reclaim would squeeze us, and up we went. Was that it for t"
+    },
+    {
+      "price": 6453.0,
+      "role": "range",
+      "context": "6453-6461"
+    },
+    {
+      "price": 6461.0,
+      "role": "range",
+      "context": "6453-6461"
+    },
+    {
+      "price": 6474.0,
+      "role": "mentioned",
+      "context": "id we do last Wednesday? Literally exactly this. We flushed 6474 after Nvda, recovered in a Failed Breakdown and squeezed. I"
+    },
+    {
+      "price": 6501.0,
+      "role": "mentioned",
+      "context": "a Failed Breakdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This playe"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ed Breakdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out"
+    },
+    {
+      "price": 6523.0,
+      "role": "mentioned",
+      "context": "akdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out well a"
+    },
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": "squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out well and we got t"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6384.0,
+      "role": "mentioned",
+      "context": "night flush we got it at 9:50AM. I tweeted before then that 6384 reclaim would squeeze us, and up we went. Was that it for t"
+    },
+    {
+      "price": 6453.0,
+      "role": "range",
+      "context": "6453-6461"
+    },
+    {
+      "price": 6461.0,
+      "role": "range",
+      "context": "6453-6461"
+    },
+    {
+      "price": 6474.0,
+      "role": "mentioned",
+      "context": "id we do last Wednesday? Literally exactly this. We flushed 6474 after Nvda, recovered in a Failed Breakdown and squeezed. I"
+    },
+    {
+      "price": 6501.0,
+      "role": "mentioned",
+      "context": "a Failed Breakdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This playe"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ed Breakdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out"
+    },
+    {
+      "price": 6523.0,
+      "role": "mentioned",
+      "context": "akdown and squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out well a"
+    },
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": "squeezed. I wrote that targets were \u201c6501, 6507, 6523, then 6542/47 megaphone resistance.\u201d This played out well and we got t"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday: \u201cBear case Monday: Shorter-term, ES can dip on the failure of 6453\u2026For the 6453 short ideally one needs to see either a test there and strong bounce first."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Most the strength last week was driven by my core setup (the Failed Breakdown) which occurred after Nvidia earning last Wednesday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote at 3:20pm last Wednesday prior to NVDA earnings: \u201cThe Failed Breakdown is obvious: It is of today\u2019s 6474 low.\u201d What did we do last Wednesday?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We flushed 6474 after Nvda, recovered in a Failed Breakdown and squeezed."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know though, every \u201celevator down\u201d sell in ES *always* sees an equally powerful squeeze and after the overnight flush we got it at 9:50AM."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the powerful Failed Breakdown we had after Nvda earnings (this was absolutely textbook and we will see this sequence many, many more times this year)."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Fall Trading Starts With An SPX Flush and It Was Bought. Dead Cat Bounce, Or Bottom? September 3rd Plan",
+  "post_date": "2025-09-02",
+  "post_slug": "fall-trading-starts-with-an-spx-flush",
+  "parsed_at": "2026-04-16T15:42:30.631398",
+  "body_length": 2568
+}

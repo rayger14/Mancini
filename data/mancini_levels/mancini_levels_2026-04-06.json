@@ -1,0 +1,152 @@
+{
+  "trading_date": "2026-04-06",
+  "levels": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm Mond"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "Last evening, the Presidential Speech caused a dip down to 6505 this morning. I wrote yesterday at 4pm: \u201c6525-30 is next su"
+    },
+    {
+      "price": 6525.0,
+      "role": "range",
+      "context": "6525-30"
+    },
+    {
+      "price": 6530.0,
+      "role": "support",
+      "context": "recover 6530"
+    },
+    {
+      "price": 6592.0,
+      "role": "support",
+      "context": "hold 6592"
+    },
+    {
+      "price": 6645.0,
+      "role": "mentioned",
+      "context": "here, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls bought the dip - something we have"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "92 though (or quick trap below). From there we resume up to 6647. Perhaps final dip there, then breakout sees 6677, 6688, 67"
+    },
+    {
+      "price": 6677.0,
+      "role": "mentioned",
+      "context": "ume up to 6647. Perhaps final dip there, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls"
+    },
+    {
+      "price": 6688.0,
+      "role": "mentioned",
+      "context": "to 6647. Perhaps final dip there, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls bought"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "47. Perhaps final dip there, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls bought the d"
+    },
+    {
+      "price": 6765.0,
+      "role": "mentioned",
+      "context": "rhaps final dip there, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls bought the dip - s"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm Mond"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "Last evening, the Presidential Speech caused a dip down to 6505 this morning. I wrote yesterday at 4pm: \u201c6525-30 is next su"
+    },
+    {
+      "price": 6525.0,
+      "role": "range",
+      "context": "6525-30"
+    },
+    {
+      "price": 6530.0,
+      "role": "support",
+      "context": "recover 6530"
+    },
+    {
+      "price": 6592.0,
+      "role": "support",
+      "context": "hold 6592"
+    },
+    {
+      "price": 6645.0,
+      "role": "mentioned",
+      "context": "here, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls bought the dip - something we have"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "92 though (or quick trap below). From there we resume up to 6647. Perhaps final dip there, then breakout sees 6677, 6688, 67"
+    },
+    {
+      "price": 6677.0,
+      "role": "mentioned",
+      "context": "ume up to 6647. Perhaps final dip there, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls"
+    },
+    {
+      "price": 6688.0,
+      "role": "mentioned",
+      "context": "to 6647. Perhaps final dip there, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls bought"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "47. Perhaps final dip there, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls bought the d"
+    },
+    {
+      "price": 6765.0,
+      "role": "mentioned",
+      "context": "rhaps final dip there, then breakout sees 6677, 6688, 6716, 6765.\u201d We got to 6645 or so by 10:30AM. Bulls bought the dip - s"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I also wrote yesterday at 4pm: \u201cMy general lean is that ES can hold 6592 though (or quick trap below)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The catch though, is they only occur when my core setup - the Failed Breakdown - triggers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES plunged to 6353 last evening going elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "An alternative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm Monday evening, and were off to 6647 Wednesday high of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "This is a good support in its own right but instead of buying it direct (you can, but its riskier) wait for 6525 to hold and recover 6530.\u201d By 930AM, we had recovered 6530, and the rip began."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "Bulls Bought The Dip Today In SPX. Can They Run It Now? April 6 Plan",
+  "post_date": "2026-04-05",
+  "post_slug": "bulls-bought-the-dip-today-in-spx-9c4",
+  "parsed_at": "2026-04-16T15:38:13.053880",
+  "body_length": 2522
+}

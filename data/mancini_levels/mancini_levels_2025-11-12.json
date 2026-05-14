@@ -1,0 +1,130 @@
+{
+  "trading_date": "2025-11-12",
+  "levels": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "of the October 22nd 6690 low. If we can flush this down at 6680 and recover 6690, this is a very high quality long.\u201d We got"
+    },
+    {
+      "price": 6690.0,
+      "role": "support",
+      "context": "recover 6690"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": ".\u201d We got this at 1:21PM Friday and began a vertical rip to 6766 to close last week. This setup (the loss and recovery of a"
+    },
+    {
+      "price": 6834.0,
+      "role": "support",
+      "context": "6834 support"
+    },
+    {
+      "price": 6851.0,
+      "role": "mentioned",
+      "context": "t 4pm yesterday: \u201cMy general lean is to defer to the trend. 6851/6834 supports tomorrow. Keeps 6877, 6889 (perhaps dip there"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "s to defer to the trend. 6851/6834 supports tomorrow. Keeps 6877, 6889 (perhaps dip there) then onto 6918+ live.\u201d We saw exa"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "efer to the trend. 6851/6834 supports tomorrow. Keeps 6877, 6889 (perhaps dip there) then onto 6918+ live.\u201d We saw exactly t"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "ts tomorrow. Keeps 6877, 6889 (perhaps dip there) then onto 6918+ live.\u201d We saw exactly this today and afer a brief dip to ~"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "of the October 22nd 6690 low. If we can flush this down at 6680 and recover 6690, this is a very high quality long.\u201d We got"
+    },
+    {
+      "price": 6690.0,
+      "role": "support",
+      "context": "recover 6690"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": ".\u201d We got this at 1:21PM Friday and began a vertical rip to 6766 to close last week. This setup (the loss and recovery of a"
+    },
+    {
+      "price": 6834.0,
+      "role": "support",
+      "context": "6834 support"
+    },
+    {
+      "price": 6851.0,
+      "role": "mentioned",
+      "context": "t 4pm yesterday: \u201cMy general lean is to defer to the trend. 6851/6834 supports tomorrow. Keeps 6877, 6889 (perhaps dip there"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "s to defer to the trend. 6851/6834 supports tomorrow. Keeps 6877, 6889 (perhaps dip there) then onto 6918+ live.\u201d We saw exa"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "efer to the trend. 6851/6834 supports tomorrow. Keeps 6877, 6889 (perhaps dip there) then onto 6918+ live.\u201d We saw exactly t"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "ts tomorrow. Keeps 6877, 6889 (perhaps dip there) then onto 6918+ live.\u201d We saw exactly this today and afer a brief dip to ~"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "If government reopens, it could be a \u201cgap and go\u201d scenario to those upside targets instantly without any retrace or pause\u2026 My lean as long as those hold we work higher to 6806, 6815, then 6851.\u201d Gap and go it was and we hit 6851 yesterday afternoon."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These siblings are elevator down , and short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Case in point: Friday morning ES went elevator down selling 115 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When you see an elevator down move like this, we know an equivalently (at minimum) powerful short squeeze is loading."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The same thing: A Failed Breakdown (my core setup) where price flushes a major low, traps shorts, and recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Thursday at 4pm: \u201cIt is much smarter to wait for the Failed Breakdown of the October 22nd 6690 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into three Failed Breakdowns on Thursday and Friday."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "After Friday's Bottoming Trigger, Today Was Day 3 of Squeeze For SPX. How Many More Are Left? November 12 Plan",
+  "post_date": "2025-11-11",
+  "post_slug": "after-fridays-bottoming-trigger-today",
+  "parsed_at": "2026-04-16T15:41:28.490543",
+  "body_length": 2963
+}

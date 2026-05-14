@@ -1,0 +1,64 @@
+{
+  "trading_date": "2024-11-06",
+  "levels": [
+    {
+      "price": 5733.0,
+      "role": "mentioned",
+      "context": "failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered. This means it go time and if bu"
+    },
+    {
+      "price": 5798.0,
+      "role": "range",
+      "context": "5798-5802"
+    },
+    {
+      "price": 5802.0,
+      "role": "range",
+      "context": "5798-5802"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5733.0,
+      "role": "mentioned",
+      "context": "failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered. This means it go time and if bu"
+    },
+    {
+      "price": 5798.0,
+      "role": "range",
+      "context": "5798-5802"
+    },
+    {
+      "price": 5802.0,
+      "role": "range",
+      "context": "5798-5802"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Generally, the bull case for tomorrow would be that this zone holds."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers recall, the active setup heading into today was my core setup: A picture perfect bullish failed breakdown which triggered yesterday when we lost Thursdays 5734 lows, and recovered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday: \u201cThere is an active failed breakdown present where we lost the Thursday lows at 5733, flushed it, and recovered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "You are going to need to know how to trade Failed Breakdowns"
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "Election Results Incoming. Expect Volatility For SPX. Plan for November 6th.",
+  "post_date": "2024-11-05",
+  "post_slug": "election-results-incoming-expect",
+  "parsed_at": "2026-04-16T15:46:53.116464",
+  "body_length": 1640
+}

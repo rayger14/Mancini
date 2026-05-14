@@ -1,0 +1,148 @@
+{
+  "trading_date": "2025-10-06",
+  "levels": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6782 by yesterday m"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6699.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6705.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6769.0,
+      "role": "mentioned",
+      "context": "er, 6699-6705 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this yesterday"
+    },
+    {
+      "price": 6776.0,
+      "role": "mentioned",
+      "context": "99-6705 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this yesterday, we s"
+    },
+    {
+      "price": 6784.0,
+      "role": "mentioned",
+      "context": "r, stating yesterday: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to 6800 high of day, then dipped. ES i"
+    },
+    {
+      "price": 6787.0,
+      "role": "mentioned",
+      "context": "5 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this yesterday, we sold do"
+    },
+    {
+      "price": 6789.0,
+      "role": "mentioned",
+      "context": "ting yesterday: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to 6800 high of day, then dipped. ES is in a"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "S is ready next leg up targets 6784, 6789, 6802.\u201d We got to 6800 high of day, then dipped. ES is in a parabolic uptrend. Wil"
+    },
+    {
+      "price": 6802.0,
+      "role": "mentioned",
+      "context": "esterday: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to 6800 high of day, then dipped. ES is in a parab"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6782 by yesterday m"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6699.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6705.0,
+      "role": "range",
+      "context": "6699-6705"
+    },
+    {
+      "price": 6769.0,
+      "role": "mentioned",
+      "context": "er, 6699-6705 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this yesterday"
+    },
+    {
+      "price": 6776.0,
+      "role": "mentioned",
+      "context": "99-6705 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this yesterday, we s"
+    },
+    {
+      "price": 6784.0,
+      "role": "mentioned",
+      "context": "r, stating yesterday: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to 6800 high of day, then dipped. ES i"
+    },
+    {
+      "price": 6787.0,
+      "role": "mentioned",
+      "context": "5 ultimate). We flag out, then next leg targets 6769, 6776, 6787+ when this work is done.\u201d We saw this yesterday, we sold do"
+    },
+    {
+      "price": 6789.0,
+      "role": "mentioned",
+      "context": "ting yesterday: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to 6800 high of day, then dipped. ES is in a"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "S is ready next leg up targets 6784, 6789, 6802.\u201d We got to 6800 high of day, then dipped. ES is in a parabolic uptrend. Wil"
+    },
+    {
+      "price": 6802.0,
+      "role": "mentioned",
+      "context": "esterday: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to 6800 high of day, then dipped. ES is in a parab"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close Wednesday (when we were at 6770): \u201cMy general lean is we correct/consolidate."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I call it \u201celevator down-into-short squeeze\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We saw this on Tuesday where ES back-tested the 6745 shelf we broke down last week that caused the late September collapse, and we went \u201celevator down\u201d into Wednesday morning to 6680."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes are all caused by the same thing: A Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cAnother option to long is the Failed Breakdown of today\u2019s daily low at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6782 by yesterday morning."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "October Begins With A Bang. Can The Parabola Continue Next Week In SPX, Or Cool-Off Needed? Oct 6 Plan",
+  "post_date": "2025-10-05",
+  "post_slug": "october-begins-with-a-bang-can-the-e89",
+  "parsed_at": "2026-04-16T15:42:02.736646",
+  "body_length": 3135
+}

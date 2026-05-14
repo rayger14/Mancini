@@ -1,0 +1,157 @@
+{
+  "trading_date": "2025-07-08",
+  "levels": [
+    {
+      "price": 5970.0,
+      "role": "support",
+      "context": "5970 support"
+    },
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6081.0,
+      "role": "resistance",
+      "context": "6081 resistance"
+    },
+    {
+      "price": 6227.0,
+      "role": "range",
+      "context": "6227-32"
+    },
+    {
+      "price": 6232.0,
+      "role": "range",
+      "context": "6227-32"
+    },
+    {
+      "price": 6250.0,
+      "role": "mentioned",
+      "context": "dip.\u201d We lost it around 12:20PM today, and down we went to 6250 before a late day bounce. After 10 green days, ES finally p"
+    },
+    {
+      "price": 6281.0,
+      "role": "resistance",
+      "context": "lose 6281"
+    },
+    {
+      "price": 6320.0,
+      "role": "range",
+      "context": "6320-25"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6320-25"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5970.0,
+      "role": "support",
+      "context": "5970 support"
+    },
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6227.0,
+      "role": "range",
+      "context": "6227-32"
+    },
+    {
+      "price": 6232.0,
+      "role": "range",
+      "context": "6227-32"
+    },
+    {
+      "price": 6250.0,
+      "role": "mentioned",
+      "context": "dip.\u201d We lost it around 12:20PM today, and down we went to 6250 before a late day bounce. After 10 green days, ES finally p"
+    },
+    {
+      "price": 6320.0,
+      "role": "range",
+      "context": "6320-25"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6320-25"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6081.0,
+      "role": "resistance",
+      "context": "6081 resistance"
+    },
+    {
+      "price": 6281.0,
+      "role": "resistance",
+      "context": "lose 6281"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on F riday June 20th at 4pm, when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Last Monday June 30th (when we were 6250), I warned to expect this, stating: \u201cMy general lean is always to defer to the trend until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was it could and its why I entitled my last newsletter After A Parabolic 10 Green Days, SPX Puts In A Red Day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "and I wrote Friday at 4pm: \u201c We should not be surprised *At all* to see more complex corrective (pullback) or consolidative action as the market digests and resets after this leg up ..Its been an incredible leg up, 9 green days in a row, 350+ points.\u201d To start a sell today, bears would need to lose 6281 and I wrote on Friday: \u201cBear case Monday: For Monday, 6281 failure though could provoke an actionable lvl to lvl dip.\u201d We lost it around 12:20PM today, and down we went to 6250 before a late day bounce."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a powerful setup I use called the \u201cFailed Breakdown Re-Test\u201d which originated much of the strength we saw last week."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 9,
+  "resistance_count": 2,
+  "post_title": "SPX Finally Snaps Its Win Streak. Buyable Dip, Or More Red Ahead? July 8 Plan",
+  "post_date": "2025-07-07",
+  "post_slug": "spx-finally-snaps-its-win-streak",
+  "parsed_at": "2026-04-16T15:43:23.717465",
+  "body_length": 2982
+}

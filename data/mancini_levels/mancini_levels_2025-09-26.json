@@ -1,0 +1,69 @@
+{
+  "trading_date": "2025-09-26",
+  "levels": [
+    {
+      "price": 6683.0,
+      "role": "resistance",
+      "context": "below 6683"
+    },
+    {
+      "price": 6699.0,
+      "role": "resistance",
+      "context": "below 6699"
+    },
+    {
+      "price": 6705.0,
+      "role": "range",
+      "context": "6699-6705"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6705.0,
+      "role": "range",
+      "context": "6699-6705"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6683.0,
+      "role": "resistance",
+      "context": "below 6683"
+    },
+    {
+      "price": 6699.0,
+      "role": "resistance",
+      "context": "below 6699"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "For the last three days, we saw this and for the first time in weeks my \u201cBear Case\u201d triggered three days in a row."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I stated on Monday at 4pm: \u201cBear case tomorrow: Begins below 6699-6705 We lost 6699, and sold to low of day to 6670s, before returning to 6699 by the close."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I stated yesterday that: \u201cBear case tomorrow: It resumes below 6683.\u201d Overnight we lost 6683, and down we went to 6631 by 10am."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that in ES every \u201celevator down\u201d sell, resolves in a squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll talk the distinction between my core setup (The Failed Breakdown) and its more complex, messy, but prevalent sibling (The Level Reclaim)."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 1,
+  "resistance_count": 2,
+  "post_title": "Bulls Try To Buy The Three Day Dip. Can They Stick It This Time? Sept 26 Plan ",
+  "post_date": "2025-09-25",
+  "post_slug": "bulls-try-to-buy-the-three-day-dip",
+  "parsed_at": "2026-04-16T15:42:09.033958",
+  "body_length": 2545
+}

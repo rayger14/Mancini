@@ -1,0 +1,159 @@
+{
+  "trading_date": "2025-02-27",
+  "levels": [
+    {
+      "price": 5958.0,
+      "role": "range",
+      "context": "5958-62"
+    },
+    {
+      "price": 5962.0,
+      "role": "range",
+      "context": "5958-62"
+    },
+    {
+      "price": 5982.0,
+      "role": "resistance",
+      "context": "below 5982"
+    },
+    {
+      "price": 5988.0,
+      "role": "mentioned",
+      "context": "\u201cMy general lean if I is that ES can try to recover the big 5988, 5996, 6004 resistance shelf. This would target 6020, 6042,"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "neral lean if I is that ES can try to recover the big 5988, 5996, 6004 resistance shelf. This would target 6020, 6042, then"
+    },
+    {
+      "price": 6004.0,
+      "role": "resistance",
+      "context": "6004 resistance"
+    },
+    {
+      "price": 6020.0,
+      "role": "target",
+      "context": "target 6020"
+    },
+    {
+      "price": 6042.0,
+      "role": "mentioned",
+      "context": "5988, 5996, 6004 resistance shelf. This would target 6020, 6042, then 6064-68+. If 5958-62 fails though, we need to see mor"
+    },
+    {
+      "price": 6064.0,
+      "role": "range",
+      "context": "6064-68"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6064-68"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "6116 support"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5958.0,
+      "role": "range",
+      "context": "5958-62"
+    },
+    {
+      "price": 5962.0,
+      "role": "range",
+      "context": "5958-62"
+    },
+    {
+      "price": 5988.0,
+      "role": "mentioned",
+      "context": "\u201cMy general lean if I is that ES can try to recover the big 5988, 5996, 6004 resistance shelf. This would target 6020, 6042,"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "neral lean if I is that ES can try to recover the big 5988, 5996, 6004 resistance shelf. This would target 6020, 6042, then"
+    },
+    {
+      "price": 6042.0,
+      "role": "mentioned",
+      "context": "5988, 5996, 6004 resistance shelf. This would target 6020, 6042, then 6064-68+. If 5958-62 fails though, we need to see mor"
+    },
+    {
+      "price": 6064.0,
+      "role": "range",
+      "context": "6064-68"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6064-68"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "6116 support"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5982.0,
+      "role": "resistance",
+      "context": "below 5982"
+    },
+    {
+      "price": 6004.0,
+      "role": "resistance",
+      "context": "6004 resistance"
+    },
+    {
+      "price": 6020.0,
+      "role": "target",
+      "context": "target 6020"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Today, I was looking for that momentum to continue a little higher, stating yesterday: \u201cMy general lean if I is that ES can try to recover the big 5988, 5996, 6004 resistance shelf."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I\u2019ve discussed at length, what I call \u2018elevator down\u2019 sells in ES begin when it loses a significant, previously heavily defended support shelf."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Just like how sells in ES are caused by major support shelves failing, bounces/squeezes are caused when ES puts in my core setup: The Failed Breakdown (bear trap)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I like this level better particularly if we can put in a Failed Breakdown of the February 2nd multi-week low which at 5935 now.\u201d Yesterday morning, we sold down to 5934, put in a big Failed Breakdown of the February 2nd multi-week low, and we were off to the races to 5996 by yesterdays close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the setup that caused yesterday mornings hard sell (my third setup type, the Breakdown Short) and yesterday/into todays violent squeeze (my core setup, the Failed Breakdown)."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 9,
+  "resistance_count": 3,
+  "post_title": "Can Nvidia Earnings Break The \"Sell Bounces\" Streak For SPX? Feb 27 Plan",
+  "post_date": "2025-02-26",
+  "post_slug": "can-nvidia-earnings-break-the-sell",
+  "parsed_at": "2026-04-16T15:45:17.312990",
+  "body_length": 2155
+}

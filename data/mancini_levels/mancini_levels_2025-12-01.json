@@ -1,0 +1,156 @@
+{
+  "trading_date": "2025-12-01",
+  "levels": [
+    {
+      "price": 6525.0,
+      "role": "mentioned",
+      "context": "t 6540 and bounced. Thursday evening, we flushed it down to 6525. Friday morning, 6540 recovered and we were off. I wrote la"
+    },
+    {
+      "price": 6540.0,
+      "role": "range",
+      "context": "6540-42"
+    },
+    {
+      "price": 6542.0,
+      "role": "range",
+      "context": "6540-42"
+    },
+    {
+      "price": 6638.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "the trend. As long as bulls hold 6701 (or quick trap below) 6733, 6780-85 next up. Perhaps dip there, then onto 6824, then 6"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "below) 6733, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. On Tuesday at 9"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "3, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. On Tuesday at 9:40AM Tuesd"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6525.0,
+      "role": "mentioned",
+      "context": "t 6540 and bounced. Thursday evening, we flushed it down to 6525. Friday morning, 6540 recovered and we were off. I wrote la"
+    },
+    {
+      "price": 6540.0,
+      "role": "range",
+      "context": "6540-42"
+    },
+    {
+      "price": 6542.0,
+      "role": "range",
+      "context": "6540-42"
+    },
+    {
+      "price": 6638.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "the trend. As long as bulls hold 6701 (or quick trap below) 6733, 6780-85 next up. Perhaps dip there, then onto 6824, then 6"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "below) 6733, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. On Tuesday at 9"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "3, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. On Tuesday at 9:40AM Tuesd"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns are the footprint of institutional accumulation and occur when ES goes elevator down and flushes a low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Friday November 21st at 4pm: \u201cBulls attempted a recovery though today by putting in a big Failed Breakdown of 6540-42, and building a base."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I was looking for more upside for the rest of the week, but we would need another Failed Breakdown to propel it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Tuesday at 9:40AM Tuesday, we flushed 6701 (there was a big shelf of lows there set on Monday/early Tuesday) to 6675, then recovered 6701 for a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into Failed Breakdowns we had on Monday and Tuesday that fueled this leg up (both were great quality and good to learn from)."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "5 Green Days In A Row For SPX. Will SPX Return To Reality Next Week? Dec 1st Plan",
+  "post_date": "2025-11-30",
+  "post_slug": "5-green-days-in-a-row-for-spx-will-b1d",
+  "parsed_at": "2026-04-16T15:41:11.843982",
+  "body_length": 2596
+}

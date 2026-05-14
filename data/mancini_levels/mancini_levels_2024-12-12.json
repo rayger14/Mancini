@@ -1,0 +1,54 @@
+{
+  "trading_date": "2024-12-12",
+  "levels": [
+    {
+      "price": 6060.0,
+      "role": "level",
+      "context": "6060 level"
+    },
+    {
+      "price": 6063.0,
+      "role": "level",
+      "context": "6063 level"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6060.0,
+      "role": "level",
+      "context": "6060 level"
+    },
+    {
+      "price": 6063.0,
+      "role": "level",
+      "context": "6063 level"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201c We are in a mild dip now and for tomorrow the bull case is quite simple: 6060 has to recover, which would squeeze us up to 6074, 6092."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "The magnet for this pullback was the low 6060s, and as I wrote on Friday at 4pm, this region was a critical zone which back-tests the area we broke out from on December 6th (which triggered the most recent, leg up to 6111)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote then: \u201cIt would not shock me if this 6063 level turned into a \u201cmagnet level\u201d which we trap below over over for several days and build a new base\u201d, and we spent all day yesterday essentially testing this level, putting in over 8 tests between Monday and Tuesday, before flushing it late day yesterday."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This is essential to know as we see this type of action several times a month around a magnet level."
+    }
+  ],
+  "level_count": 2,
+  "support_count": 2,
+  "resistance_count": 0,
+  "post_title": "The Dip Was (as usual) Bought In SPX. ATHs Next? Not So Fast. Dec 12 Plan",
+  "post_date": "2024-12-11",
+  "post_slug": "the-dip-was-as-usual-bought-in-spx",
+  "parsed_at": "2026-04-16T15:46:20.146961",
+  "body_length": 2232
+}

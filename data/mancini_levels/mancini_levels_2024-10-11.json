@@ -1,0 +1,80 @@
+{
+  "trading_date": "2024-10-11",
+  "levels": [
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5795.0,
+      "role": "range",
+      "context": "5805-5795"
+    },
+    {
+      "price": 5805.0,
+      "role": "range",
+      "context": "5805-5795"
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "the entire structure yesterday. By Wednesdays close, we hit 5846.50 target, which remains the current ATH. Today, CPI hit an"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5795.0,
+      "role": "range",
+      "context": "5805-5795"
+    },
+    {
+      "price": 5805.0,
+      "role": "range",
+      "context": "5805-5795"
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "the entire structure yesterday. By Wednesdays close, we hit 5846.50 target, which remains the current ATH. Today, CPI hit an"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We saw this for over a week and on Monday at 4pm (when we were 5734) I wrote to readers: \u201cBull case tomorrow: No change."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Prior to breakout, ES will typically put in multiple failed breakdowns of support, which is the footprint of institutional accumulation."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll talk about the setup that initially triggered todays long back on Monday at 630pm (a classic Failed Breakdown), followed by an additional setup yesterday morning at 5795 that triggered the breakout squeeze (a Level Reclaim, the advanced sibling setup of the Failed Breakdown)."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "SPX Has Made It *22nd* New All Time In 2024, Will It Stick Though? Oct 11 Plan",
+  "post_date": "2024-10-10",
+  "post_slug": "spx-has-made-it-22nd-new-all-time",
+  "parsed_at": "2026-04-16T15:47:16.948951",
+  "body_length": 2030
+}

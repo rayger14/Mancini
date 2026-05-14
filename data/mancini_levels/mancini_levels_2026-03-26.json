@@ -1,0 +1,110 @@
+{
+  "trading_date": "2026-03-26",
+  "levels": [
+    {
+      "price": 6524.0,
+      "role": "support",
+      "context": "6524 daily low"
+    },
+    {
+      "price": 6575.0,
+      "role": "mentioned",
+      "context": "nt elevator down and trapped below support of this range to 6575, recovered, and ripped back into it (Failed Breakdown). The"
+    },
+    {
+      "price": 6593.0,
+      "role": "mentioned",
+      "context": "ting the move. The bounds of this consolidation were mostly 6593 to 6690 with 6623 being a pivot inside. Yesterday morning,"
+    },
+    {
+      "price": 6623.0,
+      "role": "mentioned",
+      "context": "bounds of this consolidation were mostly 6593 to 6690 with 6623 being a pivot inside. Yesterday morning, ES went elevator d"
+    },
+    {
+      "price": 6690.0,
+      "role": "range",
+      "context": "6690-95"
+    },
+    {
+      "price": 6695.0,
+      "role": "range",
+      "context": "6690-95"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6524.0,
+      "role": "support",
+      "context": "6524 daily low"
+    },
+    {
+      "price": 6575.0,
+      "role": "mentioned",
+      "context": "nt elevator down and trapped below support of this range to 6575, recovered, and ripped back into it (Failed Breakdown). The"
+    },
+    {
+      "price": 6593.0,
+      "role": "mentioned",
+      "context": "ting the move. The bounds of this consolidation were mostly 6593 to 6690 with 6623 being a pivot inside. Yesterday morning,"
+    },
+    {
+      "price": 6623.0,
+      "role": "mentioned",
+      "context": "bounds of this consolidation were mostly 6593 to 6690 with 6623 being a pivot inside. Yesterday morning, ES went elevator d"
+    },
+    {
+      "price": 6690.0,
+      "role": "range",
+      "context": "6690-95"
+    },
+    {
+      "price": 6695.0,
+      "role": "range",
+      "context": "6690-95"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is ES can fill this out."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of the most powerful building blocks is elevator down sell (building block 1) into Failed Breakdown (building block 2), into short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down sell refers to a short period of time where ES flushes every support violently."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES went elevator down to 6484 by 3am."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Friday at 4pm: \u201cThis is where I get interested, and an obvious trade is the Failed Breakdown of today\u2019s 6524 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Yesterday morning, ES went elevator down and trapped below support of this range to 6575, recovered, and ripped back into it (Failed Breakdown)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "The bounds of this consolidation were mostly 6593 to 6690 with 6623 being a pivot inside."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Tight Still. Big Move Incoming. What Way? March 26 Plan",
+  "post_date": "2026-03-25",
+  "post_slug": "spx-is-coiled-tight-still-big-move",
+  "parsed_at": "2026-04-16T15:38:22.242429",
+  "body_length": 2870
+}

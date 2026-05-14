@@ -1,0 +1,117 @@
+{
+  "trading_date": "2025-08-07",
+  "levels": [
+    {
+      "price": 6240.0,
+      "role": "mentioned",
+      "context": "f day. We had the full sequence here: ES lost 6374, sold to 6240, put in a Failed Breakdown, backtested 6374, then sold yest"
+    },
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6352.0,
+      "role": "mentioned",
+      "context": "lean is always to defer to the trend. 6333 reclaim targets 6352, then 6361 backtest (this could extend to 6371). Build stru"
+    },
+    {
+      "price": 6361.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6333 reclaim targets 6352, then 6361 backtest (this could extend to 6371). Build structure there"
+    },
+    {
+      "price": 6371.0,
+      "role": "mentioned",
+      "context": "laim targets 6352, then 6361 backtest (this could extend to 6371). Build structure there, then 6400+ above. If 6305 fails, E"
+    },
+    {
+      "price": 6374.0,
+      "role": "resistance",
+      "context": "Below 6374"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6240.0,
+      "role": "mentioned",
+      "context": "f day. We had the full sequence here: ES lost 6374, sold to 6240, put in a Failed Breakdown, backtested 6374, then sold yest"
+    },
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6352.0,
+      "role": "mentioned",
+      "context": "lean is always to defer to the trend. 6333 reclaim targets 6352, then 6361 backtest (this could extend to 6371). Build stru"
+    },
+    {
+      "price": 6361.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6333 reclaim targets 6352, then 6361 backtest (this could extend to 6371). Build structure there"
+    },
+    {
+      "price": 6371.0,
+      "role": "mentioned",
+      "context": "laim targets 6352, then 6361 backtest (this could extend to 6371). Build structure there, then 6400+ above. If 6305 fails, E"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6374.0,
+      "role": "resistance",
+      "context": "Below 6374"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cThe bull case Monday is that ES can do some back-testing of the zones we broke down yesterday and today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201c My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It then goes \u201celevator down\u201d and sells hard through every level, for minutes to hours."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then, it puts in my core setup: The Failed Breakdown, which in turn ignites a short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Friday at 230PM, ES put in a massive Failed Breakdown of a low at 6245."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We had the full sequence here: ES lost 6374, sold to 6240, put in a Failed Breakdown, backtested 6374, then sold yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a Failed Breakdown we had right off the Sunday open at 6255 (provided in advance) which caused the 120+ point Monday rally."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "Is SPX Heading Back To The Highs Again? August 7 Plan",
+  "post_date": "2025-08-06",
+  "post_slug": "is-spx-heading-back-to-the-highs",
+  "parsed_at": "2026-04-16T15:42:55.311260",
+  "body_length": 2838
+}

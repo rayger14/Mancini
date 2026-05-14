@@ -1,0 +1,64 @@
+{
+  "trading_date": "2025-04-24",
+  "levels": [
+    {
+      "price": 5425.0,
+      "role": "range",
+      "context": "5425-28"
+    },
+    {
+      "price": 5428.0,
+      "role": "range",
+      "context": "5425-28"
+    },
+    {
+      "price": 5499.0,
+      "role": "mentioned",
+      "context": "p open last night, rallying to 5377 then 5425-28+ and up to 5499 this morning, before dipping and closing around 5425 This w"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5425.0,
+      "role": "range",
+      "context": "5425-28"
+    },
+    {
+      "price": 5428.0,
+      "role": "range",
+      "context": "5425-28"
+    },
+    {
+      "price": 5499.0,
+      "role": "mentioned",
+      "context": "p open last night, rallying to 5377 then 5425-28+ and up to 5499 this morning, before dipping and closing around 5425 This w"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Because as readers know, late in the session on Monday ES put in a massive Failed Breakdown of the 5155-50 zone (this was a 1.5 week low set on April 10th) and on Monday we flushed it and recovered, triggering long and I wrote on Monday at 4pm that I was long, stating: \u201c I am holding a 10% long runner from the 5156 reclaim setup\u2026 I will let this work.\u201d I was looking for a rally to 5248-52 and beyond from there, also writing on Monday at 4pm: \u201cMy general lean is ES can try to backtest 5231, then 5248-52."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Heading into today, I was looking for more on this, and I wrote at the close yesterday: \u201cMy general lean is to defer to the immediate trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Face ripping short squeezes are caused by my core setup: The Failed Breakdown, which refers to when price flushes a major low, traps bears, recovers, and squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go into detail the setup that caused this monster squeeze (Failed Breakdown off 5155 on Monday)."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "[Re-Send With Chart] How Much Does This SPX Rally Have Left In The Tank? April 24 Plan",
+  "post_date": "2025-04-23",
+  "post_slug": "re-send-with-chart-how-much-does",
+  "parsed_at": "2026-04-16T15:44:27.152978",
+  "body_length": 2731
+}

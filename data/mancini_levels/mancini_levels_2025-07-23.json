@@ -1,0 +1,161 @@
+{
+  "trading_date": "2025-07-23",
+  "levels": [
+    {
+      "price": 6282.0,
+      "role": "mentioned",
+      "context": "ending triangle with resistance at 6333 and support down at 6282 now. Last Wednesday, we got the buy signal: ES flushed supp"
+    },
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target. Above there, its back to 6309, 6324, then"
+    },
+    {
+      "price": 6309.0,
+      "role": "mentioned",
+      "context": "ucture with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d By last Wednesday, w"
+    },
+    {
+      "price": 6324.0,
+      "role": "mentioned",
+      "context": "with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d By last Wednesday, we hit"
+    },
+    {
+      "price": 6326.0,
+      "role": "range",
+      "context": "6333-26"
+    },
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    },
+    {
+      "price": 6363.0,
+      "role": "mentioned",
+      "context": "to 6319 if it fails) . Bulls want to see ES build structure 6363/73 to 6333. After working this range, next leg up targets 6"
+    },
+    {
+      "price": 6373.0,
+      "role": "mentioned",
+      "context": "p.\u201d This played out incredibly well yesterday and we got to 6373 high of day, before a late day dip. Bulls would have the sa"
+    },
+    {
+      "price": 6387.0,
+      "role": "range",
+      "context": "6387-89"
+    },
+    {
+      "price": 6389.0,
+      "role": "range",
+      "context": "6387-89"
+    },
+    {
+      "price": 6400.0,
+      "role": "mentioned",
+      "context": "333. After working this range, next leg up targets 6387-89, 6400+.\u201d This morning, we saw just this. We sold down to 6319 exa"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6282.0,
+      "role": "mentioned",
+      "context": "ending triangle with resistance at 6333 and support down at 6282 now. Last Wednesday, we got the buy signal: ES flushed supp"
+    },
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target. Above there, its back to 6309, 6324, then"
+    },
+    {
+      "price": 6309.0,
+      "role": "mentioned",
+      "context": "ucture with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d By last Wednesday, w"
+    },
+    {
+      "price": 6324.0,
+      "role": "mentioned",
+      "context": "with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d By last Wednesday, we hit"
+    },
+    {
+      "price": 6326.0,
+      "role": "range",
+      "context": "6333-26"
+    },
+    {
+      "price": 6363.0,
+      "role": "mentioned",
+      "context": "to 6319 if it fails) . Bulls want to see ES build structure 6363/73 to 6333. After working this range, next leg up targets 6"
+    },
+    {
+      "price": 6373.0,
+      "role": "mentioned",
+      "context": "p.\u201d This played out incredibly well yesterday and we got to 6373 high of day, before a late day dip. Bulls would have the sa"
+    },
+    {
+      "price": 6387.0,
+      "role": "range",
+      "context": "6387-89"
+    },
+    {
+      "price": 6389.0,
+      "role": "range",
+      "context": "6387-89"
+    },
+    {
+      "price": 6400.0,
+      "role": "mentioned",
+      "context": "333. After working this range, next leg up targets 6387-89, 6400+.\u201d This morning, we saw just this. We sold down to 6319 exa"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Tuesday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend (because 90-95% of the time, price resolves with the trend)."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "With regards to how we actually trade this, it is done via my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As long as the triangle support holds (or failed breakdown and quick recover), ES can work back up the structure with 6301 being 1st target."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Bulls would have the same challenge for today, and they\u2019d have to defend the breakout again and if it failed, quickly buy it up in a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was the Failed Breakdown at work."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll talk about the difference between my core setup (the Failed Breakdown) and an important but complex/rare variant of the Failed Breakdown which I call a \u201cLevel Reclaim.\u201d It was this setup that triggered long for readers off the Sunday open when we recovered 6333, but it takes some extra study to understand."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 10,
+  "resistance_count": 1,
+  "post_title": "The Dip Was Bought Again Today, But Can Bulls Follow Through To New Highs? July 23 Plan",
+  "post_date": "2025-07-22",
+  "post_slug": "the-dip-was-bought-again-today-but",
+  "parsed_at": "2026-04-16T15:43:09.652241",
+  "body_length": 3507
+}

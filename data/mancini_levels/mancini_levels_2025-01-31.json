@@ -1,0 +1,114 @@
+{
+  "trading_date": "2025-01-31",
+  "levels": [
+    {
+      "price": 5997.0,
+      "role": "mentioned",
+      "context": "pen, ES saw a macro Failed Breakdown - flushing last weeks ~5997 low to down to 5940s and recovering - triggering us long fo"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6105.0,
+      "role": "mentioned",
+      "context": "pong this range more then head higher. Next leg up targets 6105, then the 6120 gap fill.\u201d Today, we worked up those targets"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5997.0,
+      "role": "mentioned",
+      "context": "pen, ES saw a macro Failed Breakdown - flushing last weeks ~5997 low to down to 5940s and recovering - triggering us long fo"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6105.0,
+      "role": "mentioned",
+      "context": "pong this range more then head higher. Next leg up targets 6105, then the 6120 gap fill.\u201d Today, we worked up those targets"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I then wrote Monday at 4pm: \u201c For now though, the bull case is that we got a short squeeze trigger on the Failed Breakdown of 5997 this morning at 8am, which triggered longs ."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case ES can now begin back-testing with 6068-71 1st up."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I call these types of moves \u201celevator down\u201d sells and they are somewhat rare."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Be it a bull market, or a bear market; after an Elevator Down sell, ES loves to short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes are caused by my core setup: The Failed Breakdown, and this week has been a masterclass for them."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Monday morning right off the open, ES saw a macro Failed Breakdown - flushing last weeks ~5997 low to down to 5940s and recovering - triggering us long for the week and as readers know, I\u2019ve been long since."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "FOMC yesterday gave us another Failed Breakdown right afterwards at 2pm, to try again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a very deep dive into what has been a very unusual few days due to FOMC: We saw all three of my setup types in the last two days and in particular, multiple quality Failed Breakdowns which ultimately triggered todays upside."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "Are New All Time Highs Coming For SPX? Jan 31st Plan",
+  "post_date": "2025-01-30",
+  "post_slug": "are-new-all-time-highs-coming-for",
+  "parsed_at": "2026-04-16T15:45:39.978114",
+  "body_length": 2219
+}

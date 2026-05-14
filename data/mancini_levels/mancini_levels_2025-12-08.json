@@ -1,0 +1,195 @@
+{
+  "trading_date": "2025-12-08",
+  "levels": [
+    {
+      "price": 6836.0,
+      "role": "mentioned",
+      "context": "they did it again . ES went elevator down from 6877 down to 6836. In doing so, it swept a key low at 6841, trapped shorts, a"
+    },
+    {
+      "price": 6837.0,
+      "role": "support",
+      "context": "hold 6837"
+    },
+    {
+      "price": 6841.0,
+      "role": "support",
+      "context": "recover 6841"
+    },
+    {
+      "price": 6856.0,
+      "role": "mentioned",
+      "context": "ay: \u201cOne option would be waiting for it to flush perhaps to 6856 and trading a level reclaim long of 6860.\u201d This morning we"
+    },
+    {
+      "price": 6857.0,
+      "role": "mentioned",
+      "context": "im long of 6860.\u201d This morning we flushed 25 points fast to 6857, recovered 6856, and were off. I stated yesterday \u201cMy lean"
+    },
+    {
+      "price": 6860.0,
+      "role": "mentioned",
+      "context": "o flush perhaps to 6856 and trading a level reclaim long of 6860.\u201d This morning we flushed 25 points fast to 6857, recovered"
+    },
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    },
+    {
+      "price": 6868.0,
+      "role": "mentioned",
+      "context": "t swept a key low at 6841, trapped shorts, and we ripped to 6868 by the close yesterday. I gave this entry Wednesday at 4pm:"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6880.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "y lean is we fill it out then we breakout. It targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM, then"
+    },
+    {
+      "price": 6902.0,
+      "role": "mentioned",
+      "context": "is we fill it out then we breakout. It targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM, then dipped"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "ut then we breakout. It targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM, then dipped. For nearly two"
+    },
+    {
+      "price": 6931.0,
+      "role": "mentioned",
+      "context": "n we breakout. It targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM, then dipped. For nearly two weeks"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6836.0,
+      "role": "mentioned",
+      "context": "they did it again . ES went elevator down from 6877 down to 6836. In doing so, it swept a key low at 6841, trapped shorts, a"
+    },
+    {
+      "price": 6837.0,
+      "role": "support",
+      "context": "hold 6837"
+    },
+    {
+      "price": 6841.0,
+      "role": "support",
+      "context": "recover 6841"
+    },
+    {
+      "price": 6856.0,
+      "role": "mentioned",
+      "context": "ay: \u201cOne option would be waiting for it to flush perhaps to 6856 and trading a level reclaim long of 6860.\u201d This morning we"
+    },
+    {
+      "price": 6857.0,
+      "role": "mentioned",
+      "context": "im long of 6860.\u201d This morning we flushed 25 points fast to 6857, recovered 6856, and were off. I stated yesterday \u201cMy lean"
+    },
+    {
+      "price": 6860.0,
+      "role": "mentioned",
+      "context": "o flush perhaps to 6856 and trading a level reclaim long of 6860.\u201d This morning we flushed 25 points fast to 6857, recovered"
+    },
+    {
+      "price": 6868.0,
+      "role": "mentioned",
+      "context": "t swept a key low at 6841, trapped shorts, and we ripped to 6868 by the close yesterday. I gave this entry Wednesday at 4pm:"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6880.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "y lean is we fill it out then we breakout. It targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM, then"
+    },
+    {
+      "price": 6902.0,
+      "role": "mentioned",
+      "context": "is we fill it out then we breakout. It targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM, then dipped"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "ut then we breakout. It targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM, then dipped. For nearly two"
+    },
+    {
+      "price": 6931.0,
+      "role": "mentioned",
+      "context": "n we breakout. It targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM, then dipped. For nearly two weeks"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I stated yesterday \u201cMy lean is we fill it out then we breakout."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions leave their footprint on the chart when they long, because they do so the same way everytime: They wait for a deep elevator down sell, they wait for price to undercut a low, they then trap shorts, price recovers the low, and we squeeze the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is the Failed Breakdown, and my edge is simply following them."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In addition, the size of the squeeze is roughly proportionate to the elevator down sell that precedes it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "To get more upside though, institutions would need to recharge and they do so by trapping another batch of shorts via a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Tuesday at 4pm: \u201cThe Failed Breakdown of the 11:30AM 6818 low is also actionable.\u201d We got exactly this Wednesday - ES went elevator down from 6865 resistance down to 6817."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES went elevator down from 6877 down to 6836."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I gave this entry Wednesday at 4pm: \u201cA possible long is if we hold 6837 and recover 6841."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the aforementioned Failed Breakdowns we saw this week (these are key to learn from) and I\u2019ll talk the actionable plan for Monday with entries."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 13,
+  "resistance_count": 1,
+  "post_title": "SPX Racks Up Two Weeks With Only One Red Day. Will It Run Out of Steam Next Week? Dec 8 Plan",
+  "post_date": "2025-12-07",
+  "post_slug": "spx-racks-up-two-weeks-with-only-280",
+  "parsed_at": "2026-04-16T15:41:05.717594",
+  "body_length": 2852
+}

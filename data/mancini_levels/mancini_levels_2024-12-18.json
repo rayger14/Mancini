@@ -1,0 +1,146 @@
+{
+  "trading_date": "2024-12-18",
+  "levels": [
+    {
+      "price": 6060.0,
+      "role": "mentioned",
+      "context": "shock me if this 6130-33 level turned into a magnet level (6060 on the old December contract) which we trap below over over"
+    },
+    {
+      "price": 6106.0,
+      "role": "range",
+      "context": "6106-09"
+    },
+    {
+      "price": 6108.0,
+      "role": "range",
+      "context": "6108-13"
+    },
+    {
+      "price": 6109.0,
+      "role": "range",
+      "context": "6106-09"
+    },
+    {
+      "price": 6113.0,
+      "role": "range",
+      "context": "6108-13"
+    },
+    {
+      "price": 6129.0,
+      "role": "support",
+      "context": "recover 6129"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6130-33"
+    },
+    {
+      "price": 6132.0,
+      "role": "range",
+      "context": "6129-32"
+    },
+    {
+      "price": 6133.0,
+      "role": "level",
+      "context": "6133 level"
+    },
+    {
+      "price": 6171.0,
+      "role": "mentioned",
+      "context": "mately in a large range which I would characterize as being 6171 to 6108 now, with 6133 being a magnet in the middle. Since"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6060.0,
+      "role": "mentioned",
+      "context": "shock me if this 6130-33 level turned into a magnet level (6060 on the old December contract) which we trap below over over"
+    },
+    {
+      "price": 6106.0,
+      "role": "range",
+      "context": "6106-09"
+    },
+    {
+      "price": 6108.0,
+      "role": "range",
+      "context": "6108-13"
+    },
+    {
+      "price": 6109.0,
+      "role": "range",
+      "context": "6106-09"
+    },
+    {
+      "price": 6113.0,
+      "role": "range",
+      "context": "6108-13"
+    },
+    {
+      "price": 6129.0,
+      "role": "support",
+      "context": "recover 6129"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6130-33"
+    },
+    {
+      "price": 6132.0,
+      "role": "range",
+      "context": "6129-32"
+    },
+    {
+      "price": 6133.0,
+      "role": "level",
+      "context": "6133 level"
+    },
+    {
+      "price": 6171.0,
+      "role": "mentioned",
+      "context": "mately in a large range which I would characterize as being 6171 to 6108 now, with 6133 being a magnet in the middle. Since"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Since we are in an uptrend, the bull case is simple: That this structure is a bull flag, which is setting up a late year squeeze."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Therefore, for Monday the bull case is that 6108-13 holds (or even better, doesn\u2019t even test)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown (my core setup) we got right off the open Sunday of 6133 which produced a 30+ point long yesterday - this was a great example of a low volatility, \u201cslower\u201d Failed Breakdown and its a great opportunity to talk specifically about how the entry trigger for Failed Breakdowns works."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I warned readers on Friday November 6th that \u201cIt would not shock me if this 6130-33 level turned into a magnet level (6060 on the old December contract) which we trap below over over for several days and build a new base\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Its called a magnet for a reason: We would rally above it, return to it."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote on Friday at 4pm: \u201cWe are ultimately in a large range which I would characterize as being 6171 to 6108 now, with 6133 being a magnet in the middle."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "In terms of spots to add on strength, bulls will need to recover 6129-32 to get things started on Monday\u20266133 reclaim would trigger it back to 6148, then 6171.\u201d We got this setup at the Sunday open, and this week started with a reclaim of the 6133 level and we rallied to 6160s yesterday before returning to the magnet this and spending all day around here."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "FOMC Tomorrow: The Final Catalyst of 2024 For SPX. Volatility Coming? Dec 18 Plan",
+  "post_date": "2024-12-17",
+  "post_slug": "fomc-tomorrow-the-final-catalyst",
+  "parsed_at": "2026-04-16T15:46:15.165402",
+  "body_length": 2412
+}

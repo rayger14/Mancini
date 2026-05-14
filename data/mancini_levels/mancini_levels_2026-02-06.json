@@ -1,0 +1,74 @@
+{
+  "trading_date": "2026-02-06",
+  "levels": [
+    {
+      "price": 6897.0,
+      "role": "support",
+      "context": "hold 6897"
+    },
+    {
+      "price": 6900.0,
+      "role": "range",
+      "context": "6897-6900"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6897.0,
+      "role": "support",
+      "context": "hold 6897"
+    },
+    {
+      "price": 6900.0,
+      "role": "range",
+      "context": "6897-6900"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201c Bear case tomorrow: We likely sell if 6900-6897 fails.\u201d By 8am this morning, this was lost, and we got a major flush down to low 6800s from which we ripped (elevator down, short squeeze)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The core I exploit I call the two siblings: The first sibling is ES suddenly goes elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This always follows the elevator down sell - never any exception in recorded history."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, the short squeeze only occurs when ES puts in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips by waiting for a news driven elevator down flush/trap , waiting for a low to be taken out in the process, trapping shorts beneath the low, using that liquidity to fund their longs, and then price rips when the low recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Yesterday morning ES sold off 100 points from 6964 down to 6862 low of day in a dramatic elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This has been a key horizontal zone since January 29th and its failure would give ES its next elevator down leg."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "In doing so, ES lost the 6864 massive Monday daily low."
+    }
+  ],
+  "level_count": 2,
+  "support_count": 2,
+  "resistance_count": 0,
+  "post_title": "3 Big Red Days In A Row For SPX. Will The Week End Green? February 6th Plan",
+  "post_date": "2026-02-05",
+  "post_slug": "3-big-red-days-in-a-row-for-spx-will",
+  "parsed_at": "2026-04-16T15:40:13.104745",
+  "body_length": 2182
+}

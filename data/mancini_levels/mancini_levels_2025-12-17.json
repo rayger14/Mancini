@@ -1,0 +1,80 @@
+{
+  "trading_date": "2025-12-17",
+  "levels": [
+    {
+      "price": 6832.0,
+      "role": "range",
+      "context": "6832-36"
+    },
+    {
+      "price": 6836.0,
+      "role": "support",
+      "context": "recover 6836"
+    },
+    {
+      "price": 6838.0,
+      "role": "range",
+      "context": "6836-38"
+    },
+    {
+      "price": 6875.0,
+      "role": "mentioned",
+      "context": "se dips last evening. Around 8:30PM ES flushed rapidly from 6875 down 6838 where it based out for hours forming a shelf. Thi"
+    },
+    {
+      "price": 6890.0,
+      "role": "mentioned",
+      "context": "lti-hour shelf down to 6832 exact, recovered, and ripped to 6890 this morning. We then spent all morning selling back to 683"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6832.0,
+      "role": "range",
+      "context": "6832-36"
+    },
+    {
+      "price": 6836.0,
+      "role": "support",
+      "context": "recover 6836"
+    },
+    {
+      "price": 6838.0,
+      "role": "range",
+      "context": "6836-38"
+    },
+    {
+      "price": 6875.0,
+      "role": "mentioned",
+      "context": "se dips last evening. Around 8:30PM ES flushed rapidly from 6875 down 6838 where it based out for hours forming a shelf. Thi"
+    },
+    {
+      "price": 6890.0,
+      "role": "mentioned",
+      "context": "lti-hour shelf down to 6832 exact, recovered, and ripped to 6890 this morning. We then spent all morning selling back to 683"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "That footprint is the Failed Breakdown and its how institutions long: They wait for a vicious sell lower and for price to flush a low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was a rapid, elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter, I\u2019ll talk this, I\u2019ll do a deep dive into some of the fantastic Failed Breakdowns we\u2019ve seen the last few days - its been a goldmine for learning."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "A Rare 3 Red Days For SPX. Can Bulls Step Back In? December 17 Plan",
+  "post_date": "2025-12-16",
+  "post_slug": "a-rare-3-red-days-for-spx-can-bulls",
+  "parsed_at": "2026-04-16T15:40:56.817095",
+  "body_length": 2173
+}

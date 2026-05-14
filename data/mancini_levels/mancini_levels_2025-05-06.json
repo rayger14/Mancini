@@ -1,0 +1,128 @@
+{
+  "trading_date": "2025-05-06",
+  "levels": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "d it in that same newsletter, stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (b"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5623.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5628.0,
+      "role": "mentioned",
+      "context": "refore, we flushed down to 5600 by 4pm Thursday, losing the 5628 Thursday daily low in the process. I wrote in my Thursday 2"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "me newsletter, stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the"
+    },
+    {
+      "price": 5655.0,
+      "role": "mentioned",
+      "context": "ght, we sold to 5665, built out a base there, flushed it to 5655, recovered it and 5672 at 10am, and longs triggered to 5706"
+    },
+    {
+      "price": 5665.0,
+      "role": "mentioned",
+      "context": "s yes, at least to start. I wrote on Friday that: \u201c5672 and 5665 are key supports. It was the clearance of this shelf that t"
+    },
+    {
+      "price": 5672.0,
+      "role": "support",
+      "context": "recover 5672"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "down - and were off for another ~100 point leg up Friday to 5720+ target. The question for today, was would the dip be bough"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "d it in that same newsletter, stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (b"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5623.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5628.0,
+      "role": "mentioned",
+      "context": "refore, we flushed down to 5600 by 4pm Thursday, losing the 5628 Thursday daily low in the process. I wrote in my Thursday 2"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "me newsletter, stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the"
+    },
+    {
+      "price": 5655.0,
+      "role": "mentioned",
+      "context": "ght, we sold to 5665, built out a base there, flushed it to 5655, recovered it and 5672 at 10am, and longs triggered to 5706"
+    },
+    {
+      "price": 5665.0,
+      "role": "mentioned",
+      "context": "s yes, at least to start. I wrote on Friday that: \u201c5672 and 5665 are key supports. It was the clearance of this shelf that t"
+    },
+    {
+      "price": 5672.0,
+      "role": "support",
+      "context": "recover 5672"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "down - and were off for another ~100 point leg up Friday to 5720+ target. The question for today, was would the dip be bough"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions tell us, by putting in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote the day before that, \u201cFailed Breakdowns of 5493 would be of interest\u201d to long."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote in my Thursday 2:30PM newsletter that: \u201cOne setup is if we put in a Failed Breakdown of today\u2019s 10:20AM low at 5628.\u201d We recovered it Thursday evening - putting in a Failed Breakdown - and were off for another ~100 point leg up Friday to 5720+ target."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The question for today, was would the dip be bought again with another Failed Breakdown?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown setup we had Thursday evening on the recovery of 5628 that gave us Friday\u2019s monster squeeze, and I\u2019ll also discuss my Trailing Stop Methodology in detail."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "SPX Finally Snaps Its 9 Green Day Streak. More Red Ahead? May 6 Plan ",
+  "post_date": "2025-05-05",
+  "post_slug": "spx-finally-snaps-its-9-green-day",
+  "parsed_at": "2026-04-16T15:44:17.106098",
+  "body_length": 2982
+}

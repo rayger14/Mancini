@@ -1,0 +1,103 @@
+{
+  "trading_date": "2025-05-20",
+  "levels": [
+    {
+      "price": 5882.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5885.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5925.0,
+      "role": "resistance",
+      "context": "5925 resistance"
+    },
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    },
+    {
+      "price": 5970.0,
+      "role": "resistance",
+      "context": "lose 5970"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5882.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5885.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5925.0,
+      "role": "resistance",
+      "context": "5925 resistance"
+    },
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    },
+    {
+      "price": 5970.0,
+      "role": "resistance",
+      "context": "lose 5970"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Specifically, they put in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Thursday, ES put in a massive bear trap, lost the prior days low at 5890 down to 5868, recovered, longs triggered via Failed Breakdown, and we began a squeeze into Thursday\u2019s close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The core setup today would be the Failed Breakdown of 5925, which was the Friday low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Ideally, I\u2019d look for a Failed Breakdown of today\u2019s low to long here.\u201d After losing it overnight, we recovered it this morning, triggering that Failed Breakdown squeeze that took us to new highs."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll the setup that caused the Thursday/Friday squeeze as while as today\u2019s sqeeze as we saw perfect examples of Failed Breakdowns in action."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 3,
+  "resistance_count": 3,
+  "post_title": "The Dip Was Bought Again In SPX, But Will It Stick? May 20th Plan",
+  "post_date": "2025-05-19",
+  "post_slug": "the-dip-was-bought-again-in-spx-but",
+  "parsed_at": "2026-04-16T15:44:04.630370",
+  "body_length": 2873
+}

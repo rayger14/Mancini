@@ -1,0 +1,60 @@
+{
+  "trading_date": "2024-11-19",
+  "levels": [
+    {
+      "price": 5934.0,
+      "role": "mentioned",
+      "context": "n zones from yesterday. This would mean 5948-50\u201d. We got to 5934 today before running out of steam. Is the relief bounce alr"
+    },
+    {
+      "price": 5948.0,
+      "role": "range",
+      "context": "5948-50"
+    },
+    {
+      "price": 5950.0,
+      "role": "range",
+      "context": "5948-50"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5934.0,
+      "role": "mentioned",
+      "context": "n zones from yesterday. This would mean 5948-50\u201d. We got to 5934 today before running out of steam. Is the relief bounce alr"
+    },
+    {
+      "price": 5948.0,
+      "role": "range",
+      "context": "5948-50"
+    },
+    {
+      "price": 5950.0,
+      "role": "range",
+      "context": "5948-50"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Last week, that short below zone was the obvious shelf at 5998 and its why I wrote Wednesdsay at 4pm: \u201cBear case tomorrow: Begins on the failure of 5998...below there we could unwind quite hard and go into \u201cknife catch mode\u201d where we could sell for many hours or potentially a full session\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is that we can try a bounce to back-test some of the breakdown zones from yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After \u201celevator down\u201d red days like Friday though, price always sees a short squeeze to back-test some of the zones that failed on the way down."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "Is This A Dead Cat Bounce For SPX, Or Bottom? Nov 19 Plan",
+  "post_date": "2024-11-18",
+  "post_slug": "is-this-a-dead-cat-bounce-for-spx",
+  "parsed_at": "2026-04-16T15:46:41.977242",
+  "body_length": 2002
+}

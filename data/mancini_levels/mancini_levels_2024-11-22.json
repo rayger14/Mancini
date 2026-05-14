@@ -1,0 +1,88 @@
+{
+  "trading_date": "2024-11-22",
+  "levels": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5943.0,
+      "role": "mentioned",
+      "context": "it has a few obvious magnets. Since we broke down a base at 5943 to start today\u2019s sell, the backtest of this would be the fi"
+    },
+    {
+      "price": 5972.0,
+      "role": "mentioned",
+      "context": "st magnet. After a reaction there, we can work up higher to 5972, then 5980-88 which is resistance of the yellow flag struct"
+    },
+    {
+      "price": 5980.0,
+      "role": "range",
+      "context": "5980-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5980-88"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5943.0,
+      "role": "mentioned",
+      "context": "it has a few obvious magnets. Since we broke down a base at 5943 to start today\u2019s sell, the backtest of this would be the fi"
+    },
+    {
+      "price": 5972.0,
+      "role": "mentioned",
+      "context": "st magnet. After a reaction there, we can work up higher to 5972, then 5980-88 which is resistance of the yellow flag struct"
+    },
+    {
+      "price": 5980.0,
+      "role": "range",
+      "context": "5980-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5980-88"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "As discussed since last Friday, for this week, it would be the 5886 level which held last Friday, held on Monday, put in a huge Failed Breakdown Tuesday which produced a 100+ point rally, then re-tested again yesterday morning, culminating in today\u2019s rally."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I was prepared for another test of 5886, writing on Tuesday at 4pm: \u201cWe may not be done with 5886 yet - it is common for these magnet levels to test many times and even though we tested it Friday, yesterday, and put in two failed breakdowns today, do not be shocked if it makes a few more appearances this week\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a further deep dive into some of the recent action we had at the 5886 magnet level (given we have magnet levels 1-2x every month, its essential to know the various ways in which engages them via Failed Breakdowns and routine tests)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I\u2019ve spent plenty of time in my last 3 newsletters talking about the concept of \u201cmagnet levels\u201d or \u201cATM Machine Levels\u201d, which refers to a zone we see often once or two times a month that pays out over and over again."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Since we broke down a base at 5943 to start today\u2019s sell, the backtest of this would be the first magnet."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Is SPX Headed For New All Time Highs? Not So Fast. Nov 22 Plan",
+  "post_date": "2024-11-21",
+  "post_slug": "is-spx-headed-for-new-all-time-highs",
+  "parsed_at": "2026-04-16T15:46:38.061628",
+  "body_length": 1990
+}

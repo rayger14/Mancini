@@ -1,0 +1,167 @@
+{
+  "trading_date": "2026-02-25",
+  "levels": [
+    {
+      "price": 6822.0,
+      "role": "mentioned",
+      "context": "which is at 6832 now. If we can flush that (perhaps down to 6822) and recover, this is a possible long.\u201d At 9:30AM, we swept"
+    },
+    {
+      "price": 6828.0,
+      "role": "mentioned",
+      "context": "this is a possible long.\u201d At 9:30AM, we swept 6832 down to 6828, recovered, it and ripped back up the range. I wrote yester"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "swept 6832"
+    },
+    {
+      "price": 6847.0,
+      "role": "mentioned",
+      "context": "ng we swept the Thursday daily low by half a point (down to 6847.25), recovered, and ripped all day. I wrote on Thursday at"
+    },
+    {
+      "price": 6848.0,
+      "role": "support",
+      "context": "6848 daily low"
+    },
+    {
+      "price": 6849.0,
+      "role": "support",
+      "context": "6849 support"
+    },
+    {
+      "price": 6884.0,
+      "role": "mentioned",
+      "context": "sday at 4pm that the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big ma"
+    },
+    {
+      "price": 6898.0,
+      "role": "mentioned",
+      "context": "the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "arget for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted"
+    },
+    {
+      "price": 6925.0,
+      "role": "resistance",
+      "context": "6925 resistance"
+    },
+    {
+      "price": 6930.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted no time on this, ge"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6822.0,
+      "role": "mentioned",
+      "context": "which is at 6832 now. If we can flush that (perhaps down to 6822) and recover, this is a possible long.\u201d At 9:30AM, we swept"
+    },
+    {
+      "price": 6828.0,
+      "role": "mentioned",
+      "context": "this is a possible long.\u201d At 9:30AM, we swept 6832 down to 6828, recovered, it and ripped back up the range. I wrote yester"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "swept 6832"
+    },
+    {
+      "price": 6847.0,
+      "role": "mentioned",
+      "context": "ng we swept the Thursday daily low by half a point (down to 6847.25), recovered, and ripped all day. I wrote on Thursday at"
+    },
+    {
+      "price": 6848.0,
+      "role": "support",
+      "context": "6848 daily low"
+    },
+    {
+      "price": 6849.0,
+      "role": "support",
+      "context": "6849 support"
+    },
+    {
+      "price": 6884.0,
+      "role": "mentioned",
+      "context": "sday at 4pm that the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big ma"
+    },
+    {
+      "price": 6898.0,
+      "role": "mentioned",
+      "context": "the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "arget for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted"
+    },
+    {
+      "price": 6930.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted no time on this, ge"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6925.0,
+      "role": "resistance",
+      "context": "6925 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of those cycles is ES goes elevator down in a vertical flush cutting through every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Thursday at 4pm: \u201cThe very obvious trade here is the Failed Breakdown of today\u2019s 6848 daily low.\u201d Around 9:30AM on Friday morning we swept the Thursday daily low by half a point (down to 6847.25), recovered, and ripped all day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The task today was for ES to fill out this range more, but as always, we\u2019d need a Failed Breakdown to provide us our entries."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cThe only possible option here would be a Failed Breakdown of today\u2019s daily low which is at 6832 now."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "I wrote on Thursday at 4pm that the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted no time on this, getting to 6925-30 by 10:05AM Friday and we were stuck up there until yesterday morning from which point we sold back to 6849 range support."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 11,
+  "resistance_count": 1,
+  "post_title": "Another Day In The Same Range For SPX. Are We Close To Breakout? February 25 Plan",
+  "post_date": "2026-02-24",
+  "post_slug": "another-day-in-the-same-range-for",
+  "parsed_at": "2026-04-16T15:38:49.158345",
+  "body_length": 2086
+}

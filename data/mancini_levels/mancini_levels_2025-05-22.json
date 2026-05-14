@@ -1,0 +1,83 @@
+{
+  "trading_date": "2025-05-22",
+  "levels": [
+    {
+      "price": 5905.0,
+      "role": "mentioned",
+      "context": "ght? Its Deja Vu again from Monday: We flushed 5925 down to 5905, by 10am today, had recovered to trigger long to 5957. From"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    },
+    {
+      "price": 5957.0,
+      "role": "mentioned",
+      "context": "got slammed with a strong sell. I wrote yesterday at 4pm: \u201c5957 backtest is a possible short\u201d and for those who like the sh"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5905.0,
+      "role": "mentioned",
+      "context": "ght? Its Deja Vu again from Monday: We flushed 5925 down to 5905, by 10am today, had recovered to trigger long to 5957. From"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5957.0,
+      "role": "mentioned",
+      "context": "got slammed with a strong sell. I wrote yesterday at 4pm: \u201c5957 backtest is a possible short\u201d and for those who like the sh"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions do so via my core setup: The Failed Breakdown, and my task as a Failed Breakdown trader is to wait for these."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Back on Friday at 4pm, I wrote that Failed Breakdowns of 5925 would be the actionable setup, stating: \u201cBelow 5945 we work back down to that 5925 level again, and this is a big one\u2026 Ideally, I\u2019d look for a Failed Breakdown of today\u2019s low to long here.\u201d On Monday we flushed 5925 down to 5890s, recovered it, and longs were triggered for a monster leg to 5990 which is the weekly high."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As a Failed Breakdown trader, this means I would be watching for that level to flush and recover to initiate longs, stating yesterday at 4pm: \u201c[5925] has been tested to death now as mentioned above\u2026For this reason if we head down there again I\u2019ll say the same thing as yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It would be best to see it flush and recover for a Failed Breakdown.\u201d What did we see overnight?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the monster Failed Breakdown we had on Monday of 5925 that resulted in a 65 point squeeze into the current weekly high (this is an important setup to know)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "5925 had been a critical magnet level for a week now."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "A Rare Two Red Days In A Row For SPX. Will The Dip Get Bought? May 22 Plan",
+  "post_date": "2025-05-21",
+  "post_slug": "a-rare-two-red-days-in-a-row-for-342",
+  "parsed_at": "2026-04-16T15:44:01.989978",
+  "body_length": 2621
+}

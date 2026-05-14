@@ -1,0 +1,132 @@
+{
+  "trading_date": "2025-07-03",
+  "levels": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5979.0,
+      "role": "support",
+      "context": "support at 5979"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "is always to defer to the trend, until it ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet insid"
+    },
+    {
+      "price": 6227.0,
+      "role": "range",
+      "context": "6227-32"
+    },
+    {
+      "price": 6232.0,
+      "role": "range",
+      "context": "6227-32"
+    },
+    {
+      "price": 6320.0,
+      "role": "range",
+      "context": "6320-25"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6320-25"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5979.0,
+      "role": "support",
+      "context": "support at 5979"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "is always to defer to the trend, until it ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet insid"
+    },
+    {
+      "price": 6227.0,
+      "role": "range",
+      "context": "6227-32"
+    },
+    {
+      "price": 6232.0,
+      "role": "range",
+      "context": "6227-32"
+    },
+    {
+      "price": 6320.0,
+      "role": "range",
+      "context": "6320-25"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6320-25"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on Friday June 20th at 4pm, when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I expanded on this at the close Monday/yesterday stating: \u201cMy general lean is always to defer to the trend until it ends."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Above there, we can try breakout to 6099, 6124, 6143+\u201d As readers know, the initial trigger for this long was back on Sunday June 22nd, via my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This lead to a long that lasted for over a week (thanks to my trailing stop never hitting), something I\u2019ve verified at the close each day including yesterday by stating: \u201cI am still holding my 10% long runner from the Sunday June 22nd 5979 Failed Breakdown and this is getting a little absurd at this point with this runner now staying alive for 7 full trading days and 290 points, as ES simply has not seen a dip large enough yet (taken out the prior days low) to exit it."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "8 Green Days In A Row For SPX. Will It Run Out Of Steam Before July 4th? July 3/4 Plan",
+  "post_date": "2025-07-02",
+  "post_slug": "8-green-days-in-a-row-for-spx-will",
+  "parsed_at": "2026-04-16T15:43:26.260819",
+  "body_length": 2928
+}

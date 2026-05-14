@@ -1,0 +1,141 @@
+{
+  "trading_date": "2025-06-02",
+  "levels": [
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "uldn\u2019t stick it, and we flushed 5877 around 12:30PM down to 5850. What happened from there? You guessed it. The dip was boug"
+    },
+    {
+      "price": 5877.0,
+      "role": "mentioned",
+      "context": "s to buy the daily dip up again. I wrote yesterday at 4pm: \u201c5877 is below there. This is a very important level. Instead of"
+    },
+    {
+      "price": 5884.0,
+      "role": "mentioned",
+      "context": "terday, ES threw another dip at us. We sold from 6k down to 5884. Yet again, the dip was bought up, we put in a Failed Break"
+    },
+    {
+      "price": 5910.0,
+      "role": "resistance",
+      "context": "below 5910"
+    },
+    {
+      "price": 5920.0,
+      "role": "range",
+      "context": "5920-25"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5945.0,
+      "role": "range",
+      "context": "5945-5910"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "uldn\u2019t stick it, and we flushed 5877 around 12:30PM down to 5850. What happened from there? You guessed it. The dip was boug"
+    },
+    {
+      "price": 5877.0,
+      "role": "mentioned",
+      "context": "s to buy the daily dip up again. I wrote yesterday at 4pm: \u201c5877 is below there. This is a very important level. Instead of"
+    },
+    {
+      "price": 5884.0,
+      "role": "mentioned",
+      "context": "terday, ES threw another dip at us. We sold from 6k down to 5884. Yet again, the dip was bought up, we put in a Failed Break"
+    },
+    {
+      "price": 5920.0,
+      "role": "range",
+      "context": "5920-25"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5945.0,
+      "role": "range",
+      "context": "5945-5910"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5910.0,
+      "role": "resistance",
+      "context": "below 5910"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I sent my newsletter out early at 2:45PM Wednesday, stating: \u201cMy general lean is that ES can continue building out structure 5945-5910 and as long as 5910 holds (or traps below) 5945, 5957, then 5970-75 remain in play.\u201d We trapped below 5910, sold to ~5890 Wednesday low of day, then by 420PM Wednesday, Nvidia earnings hit, and we recovered it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Specifically, they put in Failed Breakdowns: They find a low (usually the prior days low), flush it, grab liquidity/trap shorts, then price rallies."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This week, ES has thrown plenty of dips at ES and every single day, it was bought with a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Yet again, the dip was bought up, we put in a Failed Breakdown of Wednesday\u2019s 5890 low, and rallied to 5925+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Instead of bidding it, the obvious setup is to wait for it to test then recover today\u2019s daily low which is at 5884 now.\u201d At 8:15AM, we saw exactly this and tested 5877, recovered 5884, then rallied to 5920-25."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The dip was bought, we recovered 5877, the Failed Breakdown was put in, and we squeezed to 5925+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the action we\u2019ve seen this week as there\u2019s been an enormous multitude of Failed Breakdowns of different varieties."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If you understood this weeks Failed Breakdowns, you understand Failed Breakdowns."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "SPX Spent All Week Basing. Is It Ready To Trend Now? June 2nd Plan",
+  "post_date": "2025-06-01",
+  "post_slug": "spx-spent-all-week-basing-is-it-ready",
+  "parsed_at": "2026-04-16T15:43:54.347307",
+  "body_length": 2664
+}

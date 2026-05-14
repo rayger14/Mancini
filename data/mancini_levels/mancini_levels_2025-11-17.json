@@ -1,0 +1,116 @@
+{
+  "trading_date": "2025-11-17",
+  "levels": [
+    {
+      "price": 6685.0,
+      "role": "mentioned",
+      "context": "day: \u201cThere is not much below there of interest to me until 6685.\u201d We held 6685 exact at 730AM, bounced, swept it, right aft"
+    },
+    {
+      "price": 6796.0,
+      "role": "range",
+      "context": "6796-6801"
+    },
+    {
+      "price": 6801.0,
+      "role": "range",
+      "context": "6796-6801"
+    },
+    {
+      "price": 6820.0,
+      "role": "mentioned",
+      "context": "general lean is bulls can do some back-testing. 6796-6801, 6820, then 6847-50 are key back-test points.\u201d By noon, we got to"
+    },
+    {
+      "price": 6847.0,
+      "role": "support",
+      "context": "recover 6847"
+    },
+    {
+      "price": 6850.0,
+      "role": "range",
+      "context": "6847-50"
+    },
+    {
+      "price": 6852.0,
+      "role": "range",
+      "context": "6847-52"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6685.0,
+      "role": "mentioned",
+      "context": "day: \u201cThere is not much below there of interest to me until 6685.\u201d We held 6685 exact at 730AM, bounced, swept it, right aft"
+    },
+    {
+      "price": 6796.0,
+      "role": "range",
+      "context": "6796-6801"
+    },
+    {
+      "price": 6801.0,
+      "role": "range",
+      "context": "6796-6801"
+    },
+    {
+      "price": 6820.0,
+      "role": "mentioned",
+      "context": "general lean is bulls can do some back-testing. 6796-6801, 6820, then 6847-50 are key back-test points.\u201d By noon, we got to"
+    },
+    {
+      "price": 6847.0,
+      "role": "support",
+      "context": "recover 6847"
+    },
+    {
+      "price": 6850.0,
+      "role": "range",
+      "context": "6847-50"
+    },
+    {
+      "price": 6852.0,
+      "role": "range",
+      "context": "6847-52"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 4pm: \u201cBear case tomorrow: Short term though, the loss of 6847 could provoke a dip\u2026."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cMy general lean is bulls can do some back-testing."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember institutions accumulate via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Thursday at 4pm: \u201cIt is much smarter to wait for the Failed Breakdown of the October 22nd 6690 low.\u201d We got this at 1:21PM last Friday and we began what ended up being a 200+ point leg higher into this weeks 6900 high."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This flush continued elevator down into this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know though - because I say it 5x a day - that after every every elevator down sell in ES comes an equally violent squeeze but the catch is we need to wait for the trigger: A Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the final big long setup we had on Tuesday that took us into the weekly high (Failed Breakdown) and then the short setup that took us lower yesterday."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "SPX Bulls Bought The Dip Today After Biggest Sell Since Oct 10th. Is The Low In? Nov 17 Plan",
+  "post_date": "2025-11-16",
+  "post_slug": "spx-bulls-bought-the-dip-today-after-cba",
+  "parsed_at": "2026-04-16T15:41:24.624694",
+  "body_length": 3075
+}

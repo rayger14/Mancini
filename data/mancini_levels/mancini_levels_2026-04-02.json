@@ -1,0 +1,142 @@
+{
+  "trading_date": "2026-04-02",
+  "levels": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last"
+    },
+    {
+      "price": 6412.0,
+      "role": "range",
+      "context": "6412-15"
+    },
+    {
+      "price": 6415.0,
+      "role": "range",
+      "context": "6412-15"
+    },
+    {
+      "price": 6447.0,
+      "role": "mentioned",
+      "context": "lean is ES can push to 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last"
+    },
+    {
+      "price": 6467.0,
+      "role": "mentioned",
+      "context": "is ES can push to 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last evenin"
+    },
+    {
+      "price": 6524.0,
+      "role": "mentioned",
+      "context": "o 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last evening, recovering 64"
+    },
+    {
+      "price": 6592.0,
+      "role": "mentioned",
+      "context": "s move, retrace per the above instructions, then head up to 6592, 6622, then 6673 magnet.\u201d We ran nicely hitting 6622 by 3am"
+    },
+    {
+      "price": 6622.0,
+      "role": "mentioned",
+      "context": ", retrace per the above instructions, then head up to 6592, 6622, then 6673 magnet.\u201d We ran nicely hitting 6622 by 3am and p"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "73 magnet.\u201d We ran nicely hitting 6622 by 3am and pushed to 6647 high of day. Thats two big green days for ES. Can it do 3?"
+    },
+    {
+      "price": 6673.0,
+      "role": "mentioned",
+      "context": "er the above instructions, then head up to 6592, 6622, then 6673 magnet.\u201d We ran nicely hitting 6622 by 3am and pushed to 66"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last"
+    },
+    {
+      "price": 6412.0,
+      "role": "range",
+      "context": "6412-15"
+    },
+    {
+      "price": 6415.0,
+      "role": "range",
+      "context": "6412-15"
+    },
+    {
+      "price": 6447.0,
+      "role": "mentioned",
+      "context": "lean is ES can push to 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last"
+    },
+    {
+      "price": 6467.0,
+      "role": "mentioned",
+      "context": "is ES can push to 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last evenin"
+    },
+    {
+      "price": 6524.0,
+      "role": "mentioned",
+      "context": "o 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last evening, recovering 64"
+    },
+    {
+      "price": 6592.0,
+      "role": "mentioned",
+      "context": "s move, retrace per the above instructions, then head up to 6592, 6622, then 6673 magnet.\u201d We ran nicely hitting 6622 by 3am"
+    },
+    {
+      "price": 6622.0,
+      "role": "mentioned",
+      "context": ", retrace per the above instructions, then head up to 6592, 6622, then 6673 magnet.\u201d We ran nicely hitting 6622 by 3am and p"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "73 magnet.\u201d We ran nicely hitting 6622 by 3am and pushed to 6647 high of day. Thats two big green days for ES. Can it do 3?"
+    },
+    {
+      "price": 6673.0,
+      "role": "mentioned",
+      "context": "er the above instructions, then head up to 6592, 6622, then 6673 magnet.\u201d We ran nicely hitting 6622 by 3am and pushed to 66"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My targets were (as stated Monday at 4pm): \u201cMy general lean is ES can push to 6412-15."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201c My general lean now is that ES can digest this move, retrace per the above instructions, then head up to 6592, 6622, then 6673 magnet.\u201d We ran nicely hitting 6622 by 3am and pushed to 6647 high of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The catch though, is they only occur when my core setup - the Failed Breakdown - triggers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES plunged to 6353 last evening going elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "An alternative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last evening, and were off."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "Two Big Green Days For SPX. Can It Manage A Third? April 2nd Plan",
+  "post_date": "2026-04-01",
+  "post_slug": "two-big-green-days-for-spx-can-it",
+  "parsed_at": "2026-04-16T15:38:15.696592",
+  "body_length": 2209
+}

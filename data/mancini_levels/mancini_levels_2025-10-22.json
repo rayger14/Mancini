@@ -1,0 +1,200 @@
+{
+  "trading_date": "2025-10-22",
+  "levels": [
+    {
+      "price": 6572.0,
+      "role": "mentioned",
+      "context": "tup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 early Friday morning, then ripped all day."
+    },
+    {
+      "price": 6593.0,
+      "role": "support",
+      "context": "6593 daily low"
+    },
+    {
+      "price": 6694.0,
+      "role": "mentioned",
+      "context": "ripped all day. Targets specified on Thursday at 4pm were: \u201c6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 671"
+    },
+    {
+      "price": 6702.0,
+      "role": "mentioned",
+      "context": "d all day. Targets specified on Thursday at 4pm were: \u201c6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm"
+    },
+    {
+      "price": 6715.0,
+      "role": "mentioned",
+      "context": "ets specified on Thursday at 4pm were: \u201c6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday. Given"
+    },
+    {
+      "price": 6731.0,
+      "role": "mentioned",
+      "context": "n Thursday at 4pm were: \u201c6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday. Given the magnitude o"
+    },
+    {
+      "price": 6732.0,
+      "role": "mentioned",
+      "context": "g my target on Friday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6766/83.\u201d This could not worked out better and"
+    },
+    {
+      "price": 6756.0,
+      "role": "support",
+      "context": "above 6756"
+    },
+    {
+      "price": 6760.0,
+      "role": "range",
+      "context": "6756-60"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "this case, it will just flag out again below today\u2019s highs (6782) and above 6756-60. From there, the next leg up targets 679"
+    },
+    {
+      "price": 6783.0,
+      "role": "mentioned",
+      "context": "triangle pattern. 6588 is support, and resistance was up at 6783. Failed breakdowns tend to magnetize towards major pattern"
+    },
+    {
+      "price": 6792.0,
+      "role": "mentioned",
+      "context": "782) and above 6756-60. From there, the next leg up targets 6792, 6801, then 6812-15.\u201d ES spent today resting, holding 6756-"
+    },
+    {
+      "price": 6801.0,
+      "role": "mentioned",
+      "context": "nd above 6756-60. From there, the next leg up targets 6792, 6801, then 6812-15.\u201d ES spent today resting, holding 6756-60 exa"
+    },
+    {
+      "price": 6812.0,
+      "role": "range",
+      "context": "6812-15"
+    },
+    {
+      "price": 6815.0,
+      "role": "range",
+      "context": "6812-15"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6572.0,
+      "role": "mentioned",
+      "context": "tup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 early Friday morning, then ripped all day."
+    },
+    {
+      "price": 6593.0,
+      "role": "support",
+      "context": "6593 daily low"
+    },
+    {
+      "price": 6694.0,
+      "role": "mentioned",
+      "context": "ripped all day. Targets specified on Thursday at 4pm were: \u201c6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 671"
+    },
+    {
+      "price": 6702.0,
+      "role": "mentioned",
+      "context": "d all day. Targets specified on Thursday at 4pm were: \u201c6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm"
+    },
+    {
+      "price": 6715.0,
+      "role": "mentioned",
+      "context": "ets specified on Thursday at 4pm were: \u201c6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday. Given"
+    },
+    {
+      "price": 6731.0,
+      "role": "mentioned",
+      "context": "n Thursday at 4pm were: \u201c6694/6702 first up, 6715 2nd, then 6731 above.\u201d We ripped to 6715 3pm Friday. Given the magnitude o"
+    },
+    {
+      "price": 6732.0,
+      "role": "mentioned",
+      "context": "g my target on Friday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6766/83.\u201d This could not worked out better and"
+    },
+    {
+      "price": 6756.0,
+      "role": "support",
+      "context": "above 6756"
+    },
+    {
+      "price": 6760.0,
+      "role": "range",
+      "context": "6756-60"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "this case, it will just flag out again below today\u2019s highs (6782) and above 6756-60. From there, the next leg up targets 679"
+    },
+    {
+      "price": 6783.0,
+      "role": "mentioned",
+      "context": "triangle pattern. 6588 is support, and resistance was up at 6783. Failed breakdowns tend to magnetize towards major pattern"
+    },
+    {
+      "price": 6792.0,
+      "role": "mentioned",
+      "context": "782) and above 6756-60. From there, the next leg up targets 6792, 6801, then 6812-15.\u201d ES spent today resting, holding 6756-"
+    },
+    {
+      "price": 6801.0,
+      "role": "mentioned",
+      "context": "nd above 6756-60. From there, the next leg up targets 6792, 6801, then 6812-15.\u201d ES spent today resting, holding 6756-60 exa"
+    },
+    {
+      "price": 6812.0,
+      "role": "range",
+      "context": "6812-15"
+    },
+    {
+      "price": 6815.0,
+      "role": "range",
+      "context": "6812-15"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Given the magnitude of this Failed Breakdown, I was looking for this to continue into this week, stating my target on Friday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6766/83.\u201d This could not worked out better and right off the open Sunday we began the trek upwards, hitting 6783 by yesterday afternoon to set the high of day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As I wrote yesterday: \u201cIn a parabolic bull case though, ES won\u2019t even dip that low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know the answer to this: ES follows a standardized cycle where it alternates between elevator down sells (these are vicious drops lower that knife every support), and short squeezes (this is where ES snaps back the other way with equal or more velocity)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The squeezes are caused by Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Early Friday morning, ES went elevator down selling 90 points rapidly down to 6573."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Thursday at 4pm: \u201cObvious setup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 early Friday morning, then ripped all day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed breakdowns tend to magnetize towards major pattern resistances, and we saw this yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive review into this Friday Failed Breakdown that gave us the monster 190+ point Monday rally."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 15,
+  "resistance_count": 0,
+  "post_title": "After a 200 Point Squeeze, SPX Rested and Coiled Today. Another Big Move Coming? Oct 22 Plan",
+  "post_date": "2025-10-21",
+  "post_slug": "after-a-200-point-squeeze-spx-rested",
+  "parsed_at": "2026-04-16T15:41:47.347992",
+  "body_length": 3021
+}

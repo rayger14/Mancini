@@ -1,0 +1,171 @@
+{
+  "trading_date": "2025-05-01",
+  "levels": [
+    {
+      "price": 5457.0,
+      "role": "mentioned",
+      "context": "and down we went. Like every other dip though, this sold to 5457, triggered a Failed Breakdown long above the Monday 5492 lo"
+    },
+    {
+      "price": 5485.0,
+      "role": "resistance",
+      "context": "lose 5485"
+    },
+    {
+      "price": 5492.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5493.0,
+      "role": "range",
+      "context": "5485-93"
+    },
+    {
+      "price": 5534.0,
+      "role": "resistance",
+      "context": "below 5534"
+    },
+    {
+      "price": 5565.0,
+      "role": "range",
+      "context": "5565-67"
+    },
+    {
+      "price": 5567.0,
+      "role": "range",
+      "context": "5565-67"
+    },
+    {
+      "price": 5582.0,
+      "role": "mentioned",
+      "context": "dips. As long as we are above it, next targets are 5565-67, 5582, 5620-25, 5650, then 5679.\u201d What did we see on Monday? We s"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "s we are above it, next targets are 5565-67, 5582, 5620-25, 5650, then 5679.\u201d What did we see on Monday? We sold to 5492-85,"
+    },
+    {
+      "price": 5679.0,
+      "role": "mentioned",
+      "context": "ove it, next targets are 5565-67, 5582, 5620-25, 5650, then 5679.\u201d What did we see on Monday? We sold to 5492-85, exact, put"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5457.0,
+      "role": "mentioned",
+      "context": "and down we went. Like every other dip though, this sold to 5457, triggered a Failed Breakdown long above the Monday 5492 lo"
+    },
+    {
+      "price": 5492.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5493.0,
+      "role": "range",
+      "context": "5485-93"
+    },
+    {
+      "price": 5565.0,
+      "role": "range",
+      "context": "5565-67"
+    },
+    {
+      "price": 5567.0,
+      "role": "range",
+      "context": "5565-67"
+    },
+    {
+      "price": 5582.0,
+      "role": "mentioned",
+      "context": "dips. As long as we are above it, next targets are 5565-67, 5582, 5620-25, 5650, then 5679.\u201d What did we see on Monday? We s"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "s we are above it, next targets are 5565-67, 5582, 5620-25, 5650, then 5679.\u201d What did we see on Monday? We sold to 5492-85,"
+    },
+    {
+      "price": 5679.0,
+      "role": "mentioned",
+      "context": "ove it, next targets are 5565-67, 5582, 5620-25, 5650, then 5679.\u201d What did we see on Monday? We sold to 5492-85, exact, put"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5485.0,
+      "role": "resistance",
+      "context": "lose 5485"
+    },
+    {
+      "price": 5534.0,
+      "role": "resistance",
+      "context": "below 5534"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Nobody should be remotely surprised or shocked if we get a Mode 1 red day (or at the very least, an extremely deep sell) at some point this week on the right headline where every support just collapses through.\u201d The trigger for this sell was the failure of 5565, and I also wrote yesterday: \u201c Bear case tomorrow: Needs to lose 5485-93 which is much lower."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Dip buys occur when ES puts in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Price flushes hard, loses a support, then instantly springs back up to put in a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Price sells, puts in a Failed Breakdown, builds sideways structure, breaks out, then repeats."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We sold to 5492-85, exact, put in a Failed Breakdown of a shelf of lows from Sunday evening at 5515, recovered, then rallied to 5565 then 5582+ by yesterday\u2019s close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Like every other dip though, this sold to 5457, triggered a Failed Breakdown long above the Monday 5492 low (provided explicitly to readers yesterday) and back up we went to 5565."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we saw on Monday (referenced above) as well as an additional Failed Breakdown we had on Tuesday 930AM below 5534 which setup yesterdays squeeze."
+    },
+    {
+      "type": "TARGETS",
+      "text": "As long as we are above it, next targets are 5565-67, 5582, 5620-25, 5650, then 5679.\u201d What did we see on Monday?"
+    }
+  ],
+  "level_count": 12,
+  "support_count": 10,
+  "resistance_count": 2,
+  "post_title": "Will Today's Dip Buy Sustain In SPX, Like The Others Have? May 1st Plan",
+  "post_date": "2025-04-30",
+  "post_slug": "will-todays-dip-buy-sustain-in-spx",
+  "parsed_at": "2026-04-16T15:44:20.836650",
+  "body_length": 2958
+}

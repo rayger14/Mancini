@@ -1,0 +1,137 @@
+{
+  "trading_date": "2025-11-24",
+  "levels": [
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": "A little before 11am today, we saw exactly this. ES tested 6542, held, recovered 6553, and we ripped. I wrote that yesterda"
+    },
+    {
+      "price": 6553.0,
+      "role": "resistance",
+      "context": "Below 6553"
+    },
+    {
+      "price": 6638.0,
+      "role": "support",
+      "context": "reclaim 6638"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6643.0,
+      "role": "range",
+      "context": "6638-43"
+    },
+    {
+      "price": 6701.0,
+      "role": "range",
+      "context": "6701-03"
+    },
+    {
+      "price": 6703.0,
+      "role": "range",
+      "context": "6701-03"
+    },
+    {
+      "price": 6790.0,
+      "role": "range",
+      "context": "6790-6801"
+    },
+    {
+      "price": 6801.0,
+      "role": "range",
+      "context": "6790-6801"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": "A little before 11am today, we saw exactly this. ES tested 6542, held, recovered 6553, and we ripped. I wrote that yesterda"
+    },
+    {
+      "price": 6638.0,
+      "role": "support",
+      "context": "reclaim 6638"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6643.0,
+      "role": "range",
+      "context": "6638-43"
+    },
+    {
+      "price": 6701.0,
+      "role": "range",
+      "context": "6701-03"
+    },
+    {
+      "price": 6703.0,
+      "role": "range",
+      "context": "6701-03"
+    },
+    {
+      "price": 6790.0,
+      "role": "range",
+      "context": "6790-6801"
+    },
+    {
+      "price": 6801.0,
+      "role": "range",
+      "context": "6790-6801"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6553.0,
+      "role": "resistance",
+      "context": "Below 6553"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in Wednesday\u2019s 2:40PM newsletter: \u201cMy lean is bulls can reclaim 6638-43 to try and pop to 6664, 6685, then 6701-03."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES only does a few things, and it cycles these things over and over: 1) It goes elevator down and it sells violently These are short, sharp sells that cut through every support and looks like a vertical red bar on te chart."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "2) It puts in Failed Breakdowns and squeezes back the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "3) It then back-tests key shelves the loss of which that caused the original elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After rallying to 6701 Wednesday morning ES went elevator down to 6623 by 12:40PM prior to Nvidia earnings."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This means the squeeze and Failed Breakdown is incoming."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After a sell like yesterday, it would mean we should be on the lookout for the Failed Breakdown and short squeeze today."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "After This Weeks Collapse, Bulls Bought The Dip. Dead Cat Bounce, or Bottom? Nov 24 Plan ",
+  "post_date": "2025-11-23",
+  "post_slug": "after-this-weeks-collapse-bulls-bought",
+  "parsed_at": "2026-04-16T15:41:18.179776",
+  "body_length": 3090
+}

@@ -1,0 +1,132 @@
+{
+  "trading_date": "2025-11-20",
+  "levels": [
+    {
+      "price": 6593.0,
+      "role": "mentioned",
+      "context": "ote yesterday: \u201cSome supports to watch would be 6605-10 and 6593.\u201d We hit 6593 by 11am to set the low of day, recovered 6605"
+    },
+    {
+      "price": 6605.0,
+      "role": "range",
+      "context": "6605-10"
+    },
+    {
+      "price": 6610.0,
+      "role": "range",
+      "context": "6605-10"
+    },
+    {
+      "price": 6638.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6677.0,
+      "role": "mentioned",
+      "context": ".\u201d Today we ran those targets hitting 6638-42 last evening, 6677 this morning, then 6701 by 10am before dipping. We have Nvi"
+    },
+    {
+      "price": 6701.0,
+      "role": "mentioned",
+      "context": "rgets hitting 6638-42 last evening, 6677 this morning, then 6701 by 10am before dipping. We have Nvidia earnings at 4:20PM."
+    }
+  ],
+  "supports": [
+    {
+      "price": 6593.0,
+      "role": "mentioned",
+      "context": "ote yesterday: \u201cSome supports to watch would be 6605-10 and 6593.\u201d We hit 6593 by 11am to set the low of day, recovered 6605"
+    },
+    {
+      "price": 6605.0,
+      "role": "range",
+      "context": "6605-10"
+    },
+    {
+      "price": 6610.0,
+      "role": "range",
+      "context": "6605-10"
+    },
+    {
+      "price": 6638.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6677.0,
+      "role": "mentioned",
+      "context": ".\u201d Today we ran those targets hitting 6638-42 last evening, 6677 this morning, then 6701 by 10am before dipping. We have Nvi"
+    },
+    {
+      "price": 6701.0,
+      "role": "mentioned",
+      "context": "rgets hitting 6638-42 last evening, 6677 this morning, then 6701 by 10am before dipping. We have Nvidia earnings at 4:20PM."
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean today we head higher to contest some of these."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I specified these yesterday, stating: \u201cMy general lean for tomorrow is bears control."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is because follows the same cycle which I call the two siblings: Elevator down sell (the first sibling)-into-short squeeze (the second sibling)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES cycles between two types of price action over and over: 1) Elevator down sells (this is where ES sells in a non-stop straight line)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These occur after elevator down sells and see ES put in a face-ripping squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These are caused by my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Monday at 4pm that: \u201c If we lose today\u2019s lows and don\u2019t recover very quickly, we begin a leg down that should see 6605-10 minimum but take it level to level.\u201d We lost this Monday evening and went to elevator down 50 points by 10am Tuesday morning, we hit 6605-10."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was a deep elevator down sell, so readers know what comes next."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The Failed Breakdown and short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday: \u201cSome supports to watch would be 6605-10 and 6593.\u201d We hit 6593 by 11am to set the low of day, recovered 6605-10 (Failed Breakdown), and put in the short squeeze to 6690ish yesterday before dipping last evening."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Shockingly, we had 5 Failed Breakdowns and one Breakdown Short just from Friday into yesterday."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Nvidia Earnings After 4pm. Volatility Coming For SPX, But What Way? November 20th Plan",
+  "post_date": "2025-11-19",
+  "post_slug": "nvidia-earnings-after-4pm-volatility",
+  "parsed_at": "2026-04-16T15:41:20.783570",
+  "body_length": 2678
+}

@@ -1,0 +1,205 @@
+{
+  "trading_date": "2025-05-19",
+  "levels": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "00-5925 range more. Breakout targets 5945, 5970, 5983, then 5600\u201d. Yesterday we got exactly this. We dipped under the flag,"
+    },
+    {
+      "price": 5606.0,
+      "role": "mentioned",
+      "context": "ive Failed Breakdown where we flushed the prior days low at 5606, recovered, and I was long since then for what turned into"
+    },
+    {
+      "price": 5815.0,
+      "role": "mentioned",
+      "context": "he trend until it ends. This means bulls want to hold 5850, 5815 on any CPI flushes (I\u2019ll be watching for failed breakdowns)"
+    },
+    {
+      "price": 5850.0,
+      "role": "support",
+      "context": "hold 5850"
+    },
+    {
+      "price": 5882.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5885.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5890.0,
+      "role": "range",
+      "context": "5890-5900"
+    },
+    {
+      "price": 5900.0,
+      "role": "range",
+      "context": "5900-5925"
+    },
+    {
+      "price": 5910.0,
+      "role": "mentioned",
+      "context": "watching for failed breakdowns). Next target slate is 5890, 5910, 5926.\u201d By Tuesday, we tagged 5926 exact, and spent the res"
+    },
+    {
+      "price": 5925.0,
+      "role": "resistance",
+      "context": "resistance at 5925"
+    },
+    {
+      "price": 5926.0,
+      "role": "mentioned",
+      "context": "ng for failed breakdowns). Next target slate is 5890, 5910, 5926.\u201d By Tuesday, we tagged 5926 exact, and spent the rest of t"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "we can fill out the 5900-5925 range more. Breakout targets 5945, 5970, 5983, then 5600\u201d. Yesterday we got exactly this. We"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5983.0,
+      "role": "mentioned",
+      "context": "out the 5900-5925 range more. Breakout targets 5945, 5970, 5983, then 5600\u201d. Yesterday we got exactly this. We dipped under"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "00-5925 range more. Breakout targets 5945, 5970, 5983, then 5600\u201d. Yesterday we got exactly this. We dipped under the flag,"
+    },
+    {
+      "price": 5606.0,
+      "role": "mentioned",
+      "context": "ive Failed Breakdown where we flushed the prior days low at 5606, recovered, and I was long since then for what turned into"
+    },
+    {
+      "price": 5815.0,
+      "role": "mentioned",
+      "context": "he trend until it ends. This means bulls want to hold 5850, 5815 on any CPI flushes (I\u2019ll be watching for failed breakdowns)"
+    },
+    {
+      "price": 5850.0,
+      "role": "support",
+      "context": "hold 5850"
+    },
+    {
+      "price": 5882.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5885.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5890.0,
+      "role": "range",
+      "context": "5890-5900"
+    },
+    {
+      "price": 5900.0,
+      "role": "range",
+      "context": "5900-5925"
+    },
+    {
+      "price": 5910.0,
+      "role": "mentioned",
+      "context": "watching for failed breakdowns). Next target slate is 5890, 5910, 5926.\u201d By Tuesday, we tagged 5926 exact, and spent the res"
+    },
+    {
+      "price": 5926.0,
+      "role": "mentioned",
+      "context": "ng for failed breakdowns). Next target slate is 5890, 5910, 5926.\u201d By Tuesday, we tagged 5926 exact, and spent the rest of t"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "we can fill out the 5900-5925 range more. Breakout targets 5945, 5970, 5983, then 5600\u201d. Yesterday we got exactly this. We"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5983.0,
+      "role": "mentioned",
+      "context": "out the 5900-5925 range more. Breakout targets 5945, 5970, 5983, then 5600\u201d. Yesterday we got exactly this. We dipped under"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5925.0,
+      "role": "resistance",
+      "context": "resistance at 5925"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Heading into CPI on Tuesday, I was looking for this rally to continue and I stated at Monday\u2019s close that: \u201cIts been a hugely profitable run and I am +250 points now on my most recent long..My general lean is always to defer to the trend until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I concluded yesterday by writing: \u201cMy general lean is to defer to it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They put in my core setup, the Failed Breakdown, whereby they flush a major low, trap shorts, recover the low, then squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Wednesday after FOMC, we saw a massive Failed Breakdown where we flushed the prior days low at 5606, recovered, and I was long since then for what turned into a 300+ point rally, one of the largest of the year."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This means bulls want to hold 5850, 5815 on any CPI flushes (I\u2019ll be watching for failed breakdowns)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For yesterday, it was the same drill: Bulls would want to to put in Failed Breakdowns, defend the flag, then break it out."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We dipped under the flag, recovered it by yesterday to put in my core setup: The Failed Breakdown, and ran to 5945 1st target which was the high of day yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss a variant of my core setup (the Failed Breakdown) I call the \"double/triple dip\u201d Failed Breakdown which refers to when price puts in multiple Failed Breakdowns at the same level , representing high-level institutional accumulation."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Next target slate is 5890, 5910, 5926.\u201d By Tuesday, we tagged 5926 exact, and spent the rest of the day Tuesday and yesterday building out another bull flag, which had resistance at 5925."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 14,
+  "resistance_count": 1,
+  "post_title": "Will Next Week Bring A Pullback For SPX? May 19th Plan",
+  "post_date": "2025-05-18",
+  "post_slug": "will-next-week-bring-a-pullback-for",
+  "parsed_at": "2026-04-16T15:44:05.873092",
+  "body_length": 3381
+}

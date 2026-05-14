@@ -1,0 +1,122 @@
+{
+  "trading_date": "2026-01-21",
+  "levels": [
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "heir first big test of 2026, when we flushed ~100 points to 6925 low of day Wednesday. As always, this elevator down sell wo"
+    },
+    {
+      "price": 6961.0,
+      "role": "mentioned",
+      "context": "tested again with yet another dip, which took price down to 6961. In putting in this sell, ES lost 6969 which was a huge low"
+    },
+    {
+      "price": 6967.0,
+      "role": "range",
+      "context": "6969-67"
+    },
+    {
+      "price": 6969.0,
+      "role": "support",
+      "context": "recover 6969"
+    },
+    {
+      "price": 6981.0,
+      "role": "mentioned",
+      "context": "end. Bulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exa"
+    },
+    {
+      "price": 6993.0,
+      "role": "mentioned",
+      "context": "ulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly t"
+    },
+    {
+      "price": 7003.0,
+      "role": "mentioned",
+      "context": "ust recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly this ye"
+    },
+    {
+      "price": 7017.0,
+      "role": "mentioned",
+      "context": "hich targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly this yesterday and ES rallied to 7017 high"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "heir first big test of 2026, when we flushed ~100 points to 6925 low of day Wednesday. As always, this elevator down sell wo"
+    },
+    {
+      "price": 6961.0,
+      "role": "mentioned",
+      "context": "tested again with yet another dip, which took price down to 6961. In putting in this sell, ES lost 6969 which was a huge low"
+    },
+    {
+      "price": 6967.0,
+      "role": "range",
+      "context": "6969-67"
+    },
+    {
+      "price": 6969.0,
+      "role": "support",
+      "context": "recover 6969"
+    },
+    {
+      "price": 6981.0,
+      "role": "mentioned",
+      "context": "end. Bulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exa"
+    },
+    {
+      "price": 6993.0,
+      "role": "mentioned",
+      "context": "ulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly t"
+    },
+    {
+      "price": 7003.0,
+      "role": "mentioned",
+      "context": "ust recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly this ye"
+    },
+    {
+      "price": 7017.0,
+      "role": "mentioned",
+      "context": "hich targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d We saw exactly this yesterday and ES rallied to 7017 high"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I then wrote at the close Wednesday: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cBear case Monday/Tuesday: Bear case tomorrow: 6969 needs to fail.\u201d Right off the futures open on Sunday, ES lost that, and we began a hard into yesterday morning that continued into today as Tariff/Geopolitical headlines flowed."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We buy dips when institutions do, and institutions buy them via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns occur when price goes elevator down and flushes a low, institutions trap shorts/grab long stops beneath the low, then price recovers the low, we go parabolic, and short covering initiates a rip."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, this elevator down sell would resolve with a short squeeze higher, but ONLY when we get a Failed breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "SPX Erases Its 2026 Gains. Will Bulls Buy The Dip? Jan 21st Plan",
+  "post_date": "2026-01-20",
+  "post_slug": "spx-erases-its-2026-gains-will-bulls",
+  "parsed_at": "2026-04-16T15:40:28.564775",
+  "body_length": 2879
+}

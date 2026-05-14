@@ -1,0 +1,88 @@
+{
+  "trading_date": "2025-03-19",
+  "levels": [
+    {
+      "price": 5564.0,
+      "role": "mentioned",
+      "context": "where we flushed the last Tuesday low at 5585, sold down to 5564, then recovered. This got us long last Thursday at 2pm. I c"
+    },
+    {
+      "price": 5585.0,
+      "role": "mentioned",
+      "context": "t just this at 2pm where we flushed the last Tuesday low at 5585, sold down to 5564, then recovered. This got us long last T"
+    },
+    {
+      "price": 5755.0,
+      "role": "range",
+      "context": "5755-62"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5755-57"
+    },
+    {
+      "price": 5762.0,
+      "role": "range",
+      "context": "5755-62"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5564.0,
+      "role": "mentioned",
+      "context": "where we flushed the last Tuesday low at 5585, sold down to 5564, then recovered. This got us long last Thursday at 2pm. I c"
+    },
+    {
+      "price": 5585.0,
+      "role": "mentioned",
+      "context": "t just this at 2pm where we flushed the last Tuesday low at 5585, sold down to 5564, then recovered. This got us long last T"
+    },
+    {
+      "price": 5755.0,
+      "role": "range",
+      "context": "5755-62"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5755-57"
+    },
+    {
+      "price": 5762.0,
+      "role": "range",
+      "context": "5755-62"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can re-test 5610."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "What happens after deep \u201celevator down\u201d selloffs like last week?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Price always puts in my core setup, the Failed Breakdown, and we saw last Thursday, we got just this at 2pm where we flushed the last Tuesday low at 5585, sold down to 5564, then recovered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I concluded last Thursday at 4pm by writing: \u201c We have an active Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the quality Failed Breakdowns (my core setup) we had both Thursday and yesterday which allowed us to enter for this recent move, and add exposure to it."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "FOMC Day Tomorrow. Volatility Incoming, Can Bulls Keep The Bounce Going? March 19 Plan",
+  "post_date": "2025-03-18",
+  "post_slug": "fomc-day-tomorrow-volatility-incoming-64c",
+  "parsed_at": "2026-04-16T15:44:59.726222",
+  "body_length": 1945
+}

@@ -1,0 +1,52 @@
+{
+  "trading_date": "2025-04-11",
+  "levels": [
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    }
+  ],
+  "supports": [],
+  "resistances": [
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote that price in the context of a downtrend typically does two things, it \u201cgoes elevator down , then it short squeezes .\u201d We certainly saw that tendency this week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My edge is to trade the latter: The Short Squeezes, and all short squeezes are caused by my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Tuesday a big \u201celevator down\u201d sell, flushing from 5300 to 4875 at 1:30AM Wednesday morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "With a squeeze yesterday though, that would mean \u201celevator down\u201d was likely to start today."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday: \u201cI will warn now, there will be a deep elevator down sell after this squeeze that retraces a massive chunk of it.\u201d We got this today, seeing a good flush back down to 5155 major support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of massive Failed Breakdowns we\u2019ve had this week (one Monday to squeeze 300+ points in minutes and one yesterday to squeeze 600+ points in hours)."
+    }
+  ],
+  "level_count": 1,
+  "support_count": 0,
+  "resistance_count": 1,
+  "post_title": "Yesterdays Monster SPX Squeeze Was Sold, But Will The Weekly Low Hold? April 11 Plan",
+  "post_date": "2025-04-10",
+  "post_slug": "yesterdays-monster-spx-squeeze-was",
+  "parsed_at": "2026-04-16T15:44:38.338840",
+  "body_length": 2664
+}

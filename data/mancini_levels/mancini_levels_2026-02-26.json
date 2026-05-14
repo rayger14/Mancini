@@ -1,0 +1,129 @@
+{
+  "trading_date": "2026-02-26",
+  "levels": [
+    {
+      "price": 6822.0,
+      "role": "mentioned",
+      "context": "which is at 6832 now. If we can flush that (perhaps down to 6822) and recover, this is a possible long.\u201d At 9:30AM Tuesday,"
+    },
+    {
+      "price": 6828.0,
+      "role": "mentioned",
+      "context": "a possible long.\u201d At 9:30AM Tuesday, we swept 6832 down to 6828, recovered, it and ripped back up the range. Targets for th"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "swept 6832"
+    },
+    {
+      "price": 6849.0,
+      "role": "support",
+      "context": "recover 6849"
+    },
+    {
+      "price": 6850.0,
+      "role": "range",
+      "context": "6850-53"
+    },
+    {
+      "price": 6853.0,
+      "role": "range",
+      "context": "6850-53"
+    },
+    {
+      "price": 6925.0,
+      "role": "resistance",
+      "context": "6925 resistance"
+    },
+    {
+      "price": 6935.0,
+      "role": "mentioned",
+      "context": "resistance. Perhaps a final dip there, then head higher to 6935, 6953.\u201d By noon today, we tagged 6953. Can bulls maintain t"
+    },
+    {
+      "price": 6953.0,
+      "role": "mentioned",
+      "context": "tance. Perhaps a final dip there, then head higher to 6935, 6953.\u201d By noon today, we tagged 6953. Can bulls maintain this br"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6822.0,
+      "role": "mentioned",
+      "context": "which is at 6832 now. If we can flush that (perhaps down to 6822) and recover, this is a possible long.\u201d At 9:30AM Tuesday,"
+    },
+    {
+      "price": 6828.0,
+      "role": "mentioned",
+      "context": "a possible long.\u201d At 9:30AM Tuesday, we swept 6832 down to 6828, recovered, it and ripped back up the range. Targets for th"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "swept 6832"
+    },
+    {
+      "price": 6849.0,
+      "role": "support",
+      "context": "recover 6849"
+    },
+    {
+      "price": 6850.0,
+      "role": "range",
+      "context": "6850-53"
+    },
+    {
+      "price": 6853.0,
+      "role": "range",
+      "context": "6850-53"
+    },
+    {
+      "price": 6935.0,
+      "role": "mentioned",
+      "context": "resistance. Perhaps a final dip there, then head higher to 6935, 6953.\u201d By noon today, we tagged 6953. Can bulls maintain t"
+    },
+    {
+      "price": 6953.0,
+      "role": "mentioned",
+      "context": "tance. Perhaps a final dip there, then head higher to 6935, 6953.\u201d By noon today, we tagged 6953. Can bulls maintain this br"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6925.0,
+      "role": "resistance",
+      "context": "6925 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Targets for this move given at 4pm Monday were: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is can head back up to 6925 range resistance."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of those cycles is ES goes elevator down in a vertical flush cutting through every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Monday at 4pm: \u201cThe only possible option here would be a Failed Breakdown of Monday\u2019s daily low which is at 6832 now."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "Massive Trend Move Up Finally For SPX. How Much Fuel Do Bulls Have? Feb 26 Plan",
+  "post_date": "2026-02-25",
+  "post_slug": "massive-trend-move-up-finally-for",
+  "parsed_at": "2026-04-16T15:38:47.892153",
+  "body_length": 1843
+}

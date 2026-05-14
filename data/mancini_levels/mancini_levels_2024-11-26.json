@@ -1,0 +1,77 @@
+{
+  "trading_date": "2024-11-26",
+  "levels": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5980.0,
+      "role": "range",
+      "context": "5980-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5980-88"
+    },
+    {
+      "price": 6002.0,
+      "role": "mentioned",
+      "context": "nce of a major 2 week bull flag\u201d and \u201cTargets from here are 6002, 6017, then 6026. Dip there, then all time highs.\u201d By the o"
+    },
+    {
+      "price": 6017.0,
+      "role": "mentioned",
+      "context": "a major 2 week bull flag\u201d and \u201cTargets from here are 6002, 6017, then 6026. Dip there, then all time highs.\u201d By the open to"
+    },
+    {
+      "price": 6026.0,
+      "role": "mentioned",
+      "context": "week bull flag\u201d and \u201cTargets from here are 6002, 6017, then 6026. Dip there, then all time highs.\u201d By the open today, we hit"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5980.0,
+      "role": "range",
+      "context": "5980-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5980-88"
+    },
+    {
+      "price": 6002.0,
+      "role": "mentioned",
+      "context": "nce of a major 2 week bull flag\u201d and \u201cTargets from here are 6002, 6017, then 6026. Dip there, then all time highs.\u201d By the o"
+    },
+    {
+      "price": 6017.0,
+      "role": "mentioned",
+      "context": "a major 2 week bull flag\u201d and \u201cTargets from here are 6002, 6017, then 6026. Dip there, then all time highs.\u201d By the open to"
+    },
+    {
+      "price": 6026.0,
+      "role": "mentioned",
+      "context": "week bull flag\u201d and \u201cTargets from here are 6002, 6017, then 6026. Dip there, then all time highs.\u201d By the open today, we hit"
+    }
+  ],
+  "resistances": [],
+  "highlights": [],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "Is SPX Headed For A Thanksgiving Leg To All Time Highs? Nov 26 Plan.",
+  "post_date": "2024-11-25",
+  "post_slug": "is-spx-headed-for-a-thanksgiving",
+  "parsed_at": "2026-04-16T15:46:35.476830",
+  "body_length": 2056
+}

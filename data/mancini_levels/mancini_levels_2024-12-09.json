@@ -1,0 +1,112 @@
+{
+  "trading_date": "2024-12-09",
+  "levels": [
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6065.0,
+      "role": "support",
+      "context": "hold 6065"
+    },
+    {
+      "price": 6074.0,
+      "role": "mentioned",
+      "context": "8. As long as this structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d By We"
+    },
+    {
+      "price": 6080.0,
+      "role": "mentioned",
+      "context": "points is a large dip for that time span ). This took us to 6080 or so, but like every other dip, this was bought. I wrote y"
+    },
+    {
+      "price": 6082.0,
+      "role": "mentioned",
+      "context": "is structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d By Wednesday, we ran"
+    },
+    {
+      "price": 6088.0,
+      "role": "level",
+      "context": "6088 zone"
+    },
+    {
+      "price": 6102.0,
+      "role": "range",
+      "context": "6102-06"
+    },
+    {
+      "price": 6106.0,
+      "role": "range",
+      "context": "6102-06"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6065.0,
+      "role": "support",
+      "context": "hold 6065"
+    },
+    {
+      "price": 6074.0,
+      "role": "mentioned",
+      "context": "8. As long as this structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d By We"
+    },
+    {
+      "price": 6080.0,
+      "role": "mentioned",
+      "context": "points is a large dip for that time span ). This took us to 6080 or so, but like every other dip, this was bought. I wrote y"
+    },
+    {
+      "price": 6082.0,
+      "role": "mentioned",
+      "context": "is structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d By Wednesday, we ran"
+    },
+    {
+      "price": 6088.0,
+      "role": "level",
+      "context": "6088 zone"
+    },
+    {
+      "price": 6102.0,
+      "role": "range",
+      "context": "6102-06"
+    },
+    {
+      "price": 6106.0,
+      "role": "range",
+      "context": "6102-06"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cMy general lean is always to defer to the trend."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Another Day, Another All Time High For SPX. Volatility This Week? Dec 9 Plan",
+  "post_date": "2024-12-08",
+  "post_slug": "another-day-another-all-time-high-ce4",
+  "parsed_at": "2026-04-16T15:46:24.050308",
+  "body_length": 2178
+}

@@ -1,0 +1,197 @@
+{
+  "trading_date": "2025-05-13",
+  "levels": [
+    {
+      "price": 5597.0,
+      "role": "range",
+      "context": "5597-5600"
+    },
+    {
+      "price": 5600.0,
+      "role": "range",
+      "context": "5597-5600"
+    },
+    {
+      "price": 5605.0,
+      "role": "range",
+      "context": "5605-07"
+    },
+    {
+      "price": 5607.0,
+      "role": "range",
+      "context": "5605-07"
+    },
+    {
+      "price": 5608.0,
+      "role": "range",
+      "context": "5605-08"
+    },
+    {
+      "price": 5620.0,
+      "role": "resistance",
+      "context": "Below 5620"
+    },
+    {
+      "price": 5646.0,
+      "role": "range",
+      "context": "5646-51"
+    },
+    {
+      "price": 5651.0,
+      "role": "range",
+      "context": "5646-51"
+    },
+    {
+      "price": 5734.0,
+      "role": "range",
+      "context": "5734-36"
+    },
+    {
+      "price": 5736.0,
+      "role": "range",
+      "context": "5734-36"
+    },
+    {
+      "price": 5745.0,
+      "role": "range",
+      "context": "5745-48"
+    },
+    {
+      "price": 5748.0,
+      "role": "range",
+      "context": "5745-48"
+    },
+    {
+      "price": 5771.0,
+      "role": "mentioned",
+      "context": "ghly be at 5646-51 Monday\u2026.the next leg up targets 5745-48, 5771, 5796-5802.\u201d We got to 5802 and beyond to start this week."
+    },
+    {
+      "price": 5796.0,
+      "role": "range",
+      "context": "5796-5802"
+    },
+    {
+      "price": 5802.0,
+      "role": "range",
+      "context": "5796-5802"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5597.0,
+      "role": "range",
+      "context": "5597-5600"
+    },
+    {
+      "price": 5600.0,
+      "role": "range",
+      "context": "5597-5600"
+    },
+    {
+      "price": 5605.0,
+      "role": "range",
+      "context": "5605-07"
+    },
+    {
+      "price": 5607.0,
+      "role": "range",
+      "context": "5605-07"
+    },
+    {
+      "price": 5608.0,
+      "role": "range",
+      "context": "5605-08"
+    },
+    {
+      "price": 5646.0,
+      "role": "range",
+      "context": "5646-51"
+    },
+    {
+      "price": 5651.0,
+      "role": "range",
+      "context": "5646-51"
+    },
+    {
+      "price": 5734.0,
+      "role": "range",
+      "context": "5734-36"
+    },
+    {
+      "price": 5736.0,
+      "role": "range",
+      "context": "5734-36"
+    },
+    {
+      "price": 5745.0,
+      "role": "range",
+      "context": "5745-48"
+    },
+    {
+      "price": 5748.0,
+      "role": "range",
+      "context": "5745-48"
+    },
+    {
+      "price": 5771.0,
+      "role": "mentioned",
+      "context": "ghly be at 5646-51 Monday\u2026.the next leg up targets 5745-48, 5771, 5796-5802.\u201d We got to 5802 and beyond to start this week."
+    },
+    {
+      "price": 5796.0,
+      "role": "range",
+      "context": "5796-5802"
+    },
+    {
+      "price": 5802.0,
+      "role": "range",
+      "context": "5796-5802"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5620.0,
+      "role": "resistance",
+      "context": "Below 5620"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, I had been long since last Wednesday at 5605-07, something I verified at the close on Friday, stating: \u201cI am still holding my 10% long runner from the 5684 Failed Breakdown last evening (discussed above) but this is ultimately still going from the FOMC day failed breakdown of 5605-08 discussed above as well."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This produces - on the chart - my core setup and edge: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Wednesday after FOMC, we saw the mother of all Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Instead of just buying this, a safer bet is to wait for the Failed Breakdown of today\u2019s low which is just a little above at 5607.\u201d We saw exactly this last Wednesday, we sold down to 5597-5600, put in a Failed Breakdown of last Tuesdays lows at 5607-05 in the process, and the leg up began."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This trigger occurred in the context of a 1 week bull flag pattern that ES spent the first half of last week building, and I was looking for this Failed Breakdown to be the final trigger for an ultimate breakout, with 5736 being my first major target."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "CPI tomorrow likely decides.In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown on Thursday/Friday that ultimately was the final trigger for this leg up."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 14,
+  "resistance_count": 1,
+  "post_title": "Monster Breakout For SPX. Will CPI Tomorrow Spoil The Rally? May 13 Plan",
+  "post_date": "2025-05-12",
+  "post_slug": "monster-breakout-for-spx-will-cpi",
+  "parsed_at": "2026-04-16T15:44:10.878478",
+  "body_length": 3169
+}

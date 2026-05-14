@@ -1,0 +1,88 @@
+{
+  "trading_date": "2024-12-23",
+  "levels": [
+    {
+      "price": 5866.0,
+      "role": "support",
+      "context": "5866 support"
+    },
+    {
+      "price": 6001.0,
+      "role": "range",
+      "context": "6001-03"
+    },
+    {
+      "price": 6003.0,
+      "role": "range",
+      "context": "6001-03"
+    },
+    {
+      "price": 6105.0,
+      "role": "range",
+      "context": "6115-05"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-05"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5866.0,
+      "role": "support",
+      "context": "5866 support"
+    },
+    {
+      "price": 6001.0,
+      "role": "range",
+      "context": "6001-03"
+    },
+    {
+      "price": 6003.0,
+      "role": "range",
+      "context": "6001-03"
+    },
+    {
+      "price": 6105.0,
+      "role": "range",
+      "context": "6115-05"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-05"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Tuesday at 4pm: \u201cBear case tomorrow: Begins on the fail of 6105\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They are triggered by my core supet: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I warned about this originally on Wednesday, writing: \u201cAs readers who followed closely during previous sells this year or during the 2022 bear market know, elevator down days like today have a close sibling: The short squeeze, and they are often just as ferocious as the leg down, but it only occurs when a significant resistance reclaims\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers will know what setup I\u2019d be tracking here: The Failed Breakdown of Wednesdays 5907 low.\u201d Overnight into this morning, we got this full sequence."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We lost 5927, made a massive new low to 5866 support, then started today with a huge Failed Breakdown of the 5907 low."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Is SPX Setting Up A Santa Claus Rally? Dec 23 Plan",
+  "post_date": "2024-12-22",
+  "post_slug": "is-spx-setting-up-a-santa-claus-rally",
+  "parsed_at": "2026-04-16T15:46:11.487053",
+  "body_length": 2347
+}

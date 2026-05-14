@@ -1,0 +1,128 @@
+{
+  "trading_date": "2025-12-03",
+  "levels": [
+    {
+      "price": 6540.0,
+      "role": "support",
+      "context": "6540 daily low"
+    },
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6811.0,
+      "role": "mentioned",
+      "context": "range as being 6811 to 6843, stating: \u201cES is consolidating 6811 to 6843 with a 6825 magnet in the middle. This range will m"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "k trap below) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at"
+    },
+    {
+      "price": 6825.0,
+      "role": "mentioned",
+      "context": "to 6843, stating: \u201cES is consolidating 6811 to 6843 with a 6825 magnet in the middle. This range will morph and trap. My ge"
+    },
+    {
+      "price": 6843.0,
+      "role": "mentioned",
+      "context": "s being 6811 to 6843, stating: \u201cES is consolidating 6811 to 6843 with a 6825 magnet in the middle. This range will morph and"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "w) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at 9:40AM, we"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6540.0,
+      "role": "support",
+      "context": "6540 daily low"
+    },
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6811.0,
+      "role": "mentioned",
+      "context": "range as being 6811 to 6843, stating: \u201cES is consolidating 6811 to 6843 with a 6825 magnet in the middle. This range will m"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "k trap below) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at"
+    },
+    {
+      "price": 6825.0,
+      "role": "mentioned",
+      "context": "to 6843, stating: \u201cES is consolidating 6811 to 6843 with a 6825 magnet in the middle. This range will morph and trap. My ge"
+    },
+    {
+      "price": 6843.0,
+      "role": "mentioned",
+      "context": "s being 6811 to 6843, stating: \u201cES is consolidating 6811 to 6843 with a 6825 magnet in the middle. This range will morph and"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "w) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at 9:40AM, we"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is as long as bulls hold support then we simply resume up to 6843, 6852, then 6877+.\u201d Today we filled this out exactly."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "That footprint is the Failed Breakdown and occurs when institutions trap shorts by faking below a low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Tuesday at 9:40AM, we flushed 6701 (there was a big shelf of lows there set on Monday/early Tuesday) to 6675, then recovered 6701 for a Failed Breakdown."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "At the close yesterday, I defined the range as being 6811 to 6843, stating: \u201cES is consolidating 6811 to 6843 with a 6825 magnet in the middle."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "After Last Weeks Non-Stop Rally, SPX is Resting, Coiled Tight. A Move Is Coming. What Way? Dec 3rd Plan",
+  "post_date": "2025-12-02",
+  "post_slug": "after-last-weeks-non-stop-rally-spx",
+  "parsed_at": "2026-04-16T15:41:09.409197",
+  "body_length": 2819
+}

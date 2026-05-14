@@ -1,0 +1,153 @@
+{
+  "trading_date": "2024-10-29",
+  "levels": [
+    {
+      "price": 5820.0,
+      "role": "mentioned",
+      "context": "always - bought. Last Thursday for example, ES sold down to 5820. What happened to this dip? It was bought. I wrote in my la"
+    },
+    {
+      "price": 5835.0,
+      "role": "mentioned",
+      "context": "We rallied to 5892+ or so Friday morning, then sold hard to 5835 Friday afternoon. What happened to this dip? The usual, it"
+    },
+    {
+      "price": 5836.0,
+      "role": "mentioned",
+      "context": "long again\u201d. We saw this on 2pm Friday, where we dipped to ~5836 low of day, recovered 5844. As readers know, I held this lo"
+    },
+    {
+      "price": 5838.0,
+      "role": "mentioned",
+      "context": "wrote: \u201c For tomorrow 5842 is first down. If we can dip to 5838 then reclaim it I\u2019ll probably try a long again\u201d. We saw thi"
+    },
+    {
+      "price": 5842.0,
+      "role": "mentioned",
+      "context": "up in Thursdays 4pm newsletter when I wrote: \u201c For tomorrow 5842 is first down. If we can dip to 5838 then reclaim it I\u2019ll p"
+    },
+    {
+      "price": 5844.0,
+      "role": "mentioned",
+      "context": "2pm Friday, where we dipped to ~5836 low of day, recovered 5844. As readers know, I held this long over the weekend and we"
+    },
+    {
+      "price": 5865.0,
+      "role": "range",
+      "context": "5865-68"
+    },
+    {
+      "price": 5868.0,
+      "role": "range",
+      "context": "5865-68"
+    },
+    {
+      "price": 5882.0,
+      "role": "target",
+      "context": "target 5882"
+    },
+    {
+      "price": 5885.0,
+      "role": "range",
+      "context": "5865-5885"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "dip. From there, we break out, and this would target 5882, 5892\u201d. We rallied to 5892+ or so Friday morning, then sold hard"
+    },
+    {
+      "price": 5900.0,
+      "role": "range",
+      "context": "5900-5910"
+    },
+    {
+      "price": 5910.0,
+      "role": "range",
+      "context": "5900-5910"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5820.0,
+      "role": "mentioned",
+      "context": "always - bought. Last Thursday for example, ES sold down to 5820. What happened to this dip? It was bought. I wrote in my la"
+    },
+    {
+      "price": 5835.0,
+      "role": "mentioned",
+      "context": "We rallied to 5892+ or so Friday morning, then sold hard to 5835 Friday afternoon. What happened to this dip? The usual, it"
+    },
+    {
+      "price": 5836.0,
+      "role": "mentioned",
+      "context": "long again\u201d. We saw this on 2pm Friday, where we dipped to ~5836 low of day, recovered 5844. As readers know, I held this lo"
+    },
+    {
+      "price": 5838.0,
+      "role": "mentioned",
+      "context": "wrote: \u201c For tomorrow 5842 is first down. If we can dip to 5838 then reclaim it I\u2019ll probably try a long again\u201d. We saw thi"
+    },
+    {
+      "price": 5842.0,
+      "role": "mentioned",
+      "context": "up in Thursdays 4pm newsletter when I wrote: \u201c For tomorrow 5842 is first down. If we can dip to 5838 then reclaim it I\u2019ll p"
+    },
+    {
+      "price": 5844.0,
+      "role": "mentioned",
+      "context": "2pm Friday, where we dipped to ~5836 low of day, recovered 5844. As readers know, I held this long over the weekend and we"
+    },
+    {
+      "price": 5865.0,
+      "role": "range",
+      "context": "5865-68"
+    },
+    {
+      "price": 5868.0,
+      "role": "range",
+      "context": "5865-68"
+    },
+    {
+      "price": 5885.0,
+      "role": "range",
+      "context": "5865-5885"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "dip. From there, we break out, and this would target 5882, 5892\u201d. We rallied to 5892+ or so Friday morning, then sold hard"
+    },
+    {
+      "price": 5900.0,
+      "role": "range",
+      "context": "5900-5910"
+    },
+    {
+      "price": 5910.0,
+      "role": "range",
+      "context": "5900-5910"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5882.0,
+      "role": "target",
+      "context": "target 5882"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my last Thursday newsletter at 4pm: \u201cThe bull case now would probably look something like pop to 5865-68, perhaps one more dip."
+    }
+  ],
+  "level_count": 13,
+  "support_count": 12,
+  "resistance_count": 1,
+  "post_title": "The Calm Before The Storm In SPX? Big Catalysts This Week. Oct 29 Plan",
+  "post_date": "2024-10-28",
+  "post_slug": "the-calm-before-the-storm-in-spx",
+  "parsed_at": "2026-04-16T15:47:01.053155",
+  "body_length": 1958
+}

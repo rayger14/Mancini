@@ -1,0 +1,70 @@
+{
+  "trading_date": "2025-06-16",
+  "levels": [
+    {
+      "price": 5925.0,
+      "role": "mentioned",
+      "context": "eadlines broke out earlier, and ES flushed below 6k down to 5925. Readers recall from Feb-April high volatility window thoug"
+    },
+    {
+      "price": 6029.0,
+      "role": "mentioned",
+      "context": "\u2019s 5929 low, and longs triggered for a 100+ point leg up to 6029, before dipping again. Bulls managed to hold the lows, but"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5925.0,
+      "role": "mentioned",
+      "context": "eadlines broke out earlier, and ES flushed below 6k down to 5925. Readers recall from Feb-April high volatility window thoug"
+    },
+    {
+      "price": 6029.0,
+      "role": "mentioned",
+      "context": "\u2019s 5929 low, and longs triggered for a 100+ point leg up to 6029, before dipping again. Bulls managed to hold the lows, but"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I also wrote Wednesday at 4pm: \u201cMy lean is we work up to 6047 again.\u201d By 11am yesterday, we got to 6047 then spent the rest of the day basing below."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know well as Failed Breakdown traders, the types of sharp dips we saw last night are an absolute gift, and result in the strongest squeezes Some context first: One week ago last Friday, ES broke out a massive multi-week inverse head and shoulders pattern with a 6k \u201cneckline\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In this regard, readers know I trade one setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Wednesday at 4pm (when we were 6020s) that: \u201cOne possible trade would be if we could test 5987 then put in a Failed Breakdown of the 5992 Tuesday daily low.\u201d What did we see yesterday?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers recall from Feb-April high volatility window though that after every \u201celevator down\u201d sell comes a short squeeze, caused by my core setup (the Failed Breakdown)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote back on Tuesday at 4pm: \u201cI especially like the Failed Breakdown of last Thursdays 5929 low especially if we tag 5926 first.\u201d Last night, we tagged 5927, recovered last Thursday\u2019s 5929 low, and longs triggered for a 100+ point leg up to 6029, before dipping again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a few powerful Failed Breakdowns we had this week, including the monster Failed Breakdown last night that took us +100 points from 5926 to 6029."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "I wrote at 4pm yesterday: \u201cThere is some geopolitical headline risk this weekend so as always, I never hold full positions over the weekend.\u201d This was in preparation for the weekend, but headlines broke out earlier, and ES flushed below 6k down to 5925."
+    }
+  ],
+  "level_count": 2,
+  "support_count": 2,
+  "resistance_count": 0,
+  "post_title": "The War Dip Was Bought in SPX, But Will The Low Hold? June 16th Plan",
+  "post_date": "2025-06-15",
+  "post_slug": "the-war-dip-was-bought-in-spx-but-dab",
+  "parsed_at": "2026-04-16T15:43:41.744224",
+  "body_length": 3272
+}

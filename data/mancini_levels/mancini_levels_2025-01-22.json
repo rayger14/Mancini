@@ -1,0 +1,145 @@
+{
+  "trading_date": "2025-01-22",
+  "levels": [
+    {
+      "price": 5845.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5850.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5934.0,
+      "role": "target",
+      "context": "target 5934"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "aphone support, and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thur"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "ort, and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thursday, we ha"
+    },
+    {
+      "price": 6004.0,
+      "role": "mentioned",
+      "context": "and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thursday, we had tag"
+    },
+    {
+      "price": 6005.0,
+      "role": "support",
+      "context": "hold 6005"
+    },
+    {
+      "price": 6016.0,
+      "role": "target",
+      "context": "target 6016"
+    },
+    {
+      "price": 6033.0,
+      "role": "mentioned",
+      "context": "lear to start the next leg up which would target 6016, then 6033+\u201d. By Friday, we got 6033+ Putting a green week in is one t"
+    },
+    {
+      "price": 6087.0,
+      "role": "mentioned",
+      "context": "7.\u201d This played to perfection, and by today, we got to that 6087 target. Its been 6 days of now upside in ES with bulls broa"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5845.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5850.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "aphone support, and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thur"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "ort, and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thursday, we ha"
+    },
+    {
+      "price": 6004.0,
+      "role": "mentioned",
+      "context": "and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thursday, we had tag"
+    },
+    {
+      "price": 6005.0,
+      "role": "support",
+      "context": "hold 6005"
+    },
+    {
+      "price": 6033.0,
+      "role": "mentioned",
+      "context": "lear to start the next leg up which would target 6016, then 6033+\u201d. By Friday, we got 6033+ Putting a green week in is one t"
+    },
+    {
+      "price": 6087.0,
+      "role": "mentioned",
+      "context": "7.\u201d This played to perfection, and by today, we got to that 6087 target. Its been 6 days of now upside in ES with bulls broa"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5934.0,
+      "role": "target",
+      "context": "target 5934"
+    },
+    {
+      "price": 6016.0,
+      "role": "target",
+      "context": "target 6016"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Its why I wrote last Tuesday at 4pm (when we were 5880s): \u201cMy general lean is that a relief bounce leg began on Monday by testing megaphone support, and is underway."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking for this to break and I wrote last Thursday at 4pm: \u201cFor tomorrow, the bull case is that ES is constructing a bull flag."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As readers know, my lean was yes, and I wrote on Friday at 4pm: \u201c If I had to provide a lean though, its always to defer to momentum: As long bulls can hold 6005 lowest we can 6066, 6074, then 6087.\u201d This played to perfection, and by today, we got to that 6087 target."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a very classic Failed Breakdown (my core setup) we had on last day Thursday which triggered Friday\u2019s squeeze."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 9,
+  "resistance_count": 2,
+  "post_title": "6 Days Of Upside For SPX. How Much Gas Does It Have Left? Jan 22nd Plan",
+  "post_date": "2025-01-21",
+  "post_slug": "6-days-of-upside-for-spx-how-much",
+  "parsed_at": "2026-04-16T15:45:48.900516",
+  "body_length": 2253
+}

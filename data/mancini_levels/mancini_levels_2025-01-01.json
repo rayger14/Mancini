@@ -1,0 +1,120 @@
+{
+  "trading_date": "2025-01-01",
+  "levels": [
+    {
+      "price": 5920.0,
+      "role": "mentioned",
+      "context": "the 6098 major backtest zone\u201d. We sold from 6099 down to a 5920 low yesterday. There were numerous setups between 6099 and"
+    },
+    {
+      "price": 5928.0,
+      "role": "range",
+      "context": "5928-32"
+    },
+    {
+      "price": 5932.0,
+      "role": "range",
+      "context": "5928-32"
+    },
+    {
+      "price": 5986.0,
+      "role": "support",
+      "context": "support at 5986"
+    },
+    {
+      "price": 5987.0,
+      "role": "support",
+      "context": "recover 5987"
+    },
+    {
+      "price": 6095.0,
+      "role": "range",
+      "context": "6095-6100"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "Christmas Eve: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone\u201d. We sold from 6099 down to a 5920 low"
+    },
+    {
+      "price": 6099.0,
+      "role": "mentioned",
+      "context": "shorts would be the 6098 major backtest zone\u201d. We sold from 6099 down to a 5920 low yesterday. There were numerous setups be"
+    },
+    {
+      "price": 6100.0,
+      "role": "range",
+      "context": "6095-6100"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5920.0,
+      "role": "mentioned",
+      "context": "the 6098 major backtest zone\u201d. We sold from 6099 down to a 5920 low yesterday. There were numerous setups between 6099 and"
+    },
+    {
+      "price": 5928.0,
+      "role": "range",
+      "context": "5928-32"
+    },
+    {
+      "price": 5932.0,
+      "role": "range",
+      "context": "5928-32"
+    },
+    {
+      "price": 5986.0,
+      "role": "support",
+      "context": "support at 5986"
+    },
+    {
+      "price": 5987.0,
+      "role": "support",
+      "context": "recover 5987"
+    },
+    {
+      "price": 6095.0,
+      "role": "range",
+      "context": "6095-6100"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "Christmas Eve: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone\u201d. We sold from 6099 down to a 5920 low"
+    },
+    {
+      "price": 6099.0,
+      "role": "mentioned",
+      "context": "shorts would be the 6098 major backtest zone\u201d. We sold from 6099 down to a 5920 low yesterday. There were numerous setups be"
+    },
+    {
+      "price": 6100.0,
+      "role": "range",
+      "context": "6095-6100"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Its why I wrote on December 20th: \u201cMy general lean is that ES can make its way up to the back-test of 6099\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I then wrote on Christmas Eve: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "There were numerous setups between 6099 and the current lows however, and yesterdays selloff in particular was caused by ES losing a critical support at 5986 which was a major low zone from last Friday."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Will The New Year Start Off Better For SPX Bulls Than It Ended? Jan 2nd Plan",
+  "post_date": "2024-12-31",
+  "post_slug": "will-the-new-year-start-off-better",
+  "parsed_at": "2026-04-16T15:46:04.070661",
+  "body_length": 2210
+}

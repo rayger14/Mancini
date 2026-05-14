@@ -1,0 +1,116 @@
+{
+  "trading_date": "2025-06-26",
+  "levels": [
+    {
+      "price": 5970.0,
+      "role": "mentioned",
+      "context": "his took us to triangle support. We then flushed Thursday\u2019s 5970 low, trapped shorts, recovered, and longs were triggered fo"
+    },
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "is always to defer to the trend, until it ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet insid"
+    },
+    {
+      "price": 6143.0,
+      "role": "mentioned",
+      "context": "up being a 175 point move. By yesterday morning, we tagged 6143 target. Breakouts are all well and good, but afterwards, th"
+    },
+    {
+      "price": 6160.0,
+      "role": "mentioned",
+      "context": "l, testing it last evening after the newsletter, rallied to 6160, tested it at 11:30AM today, flushed it once at 1:40PM, the"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5970.0,
+      "role": "mentioned",
+      "context": "his took us to triangle support. We then flushed Thursday\u2019s 5970 low, trapped shorts, recovered, and longs were triggered fo"
+    },
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "is always to defer to the trend, until it ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet insid"
+    },
+    {
+      "price": 6143.0,
+      "role": "mentioned",
+      "context": "up being a 175 point move. By yesterday morning, we tagged 6143 target. Breakouts are all well and good, but afterwards, th"
+    },
+    {
+      "price": 6160.0,
+      "role": "mentioned",
+      "context": "l, testing it last evening after the newsletter, rallied to 6160, tested it at 11:30AM today, flushed it once at 1:40PM, the"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "5978 was support (we set big lows here on June 5th, June 12th, then put in 10 point Failed Breakdowns on June 19th and this Sunday), with resistance being up at 6081 (declining trendline connecting the June 11th and June 16h lower highs)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "To do that, we need a setup, and for me, its always the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Where do Failed Breakdowns most often occur?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "\u201d I also wrote on Friday at 4pm: \u201c\u2026Wait for a Failed Breakdown of Thursdays 5970 low."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Yesterday SPX Broke Out Its 2 Week Range. All Time Highs Next, Or Pullback? June 26th ",
+  "post_date": "2025-06-25",
+  "post_slug": "yesterday-spx-broke-out-its-2-week",
+  "parsed_at": "2026-04-16T15:43:32.768388",
+  "body_length": 2960
+}

@@ -1,0 +1,112 @@
+{
+  "trading_date": "2025-03-31",
+  "levels": [
+    {
+      "price": 5699.0,
+      "role": "support",
+      "context": "defend 5699"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "e targets for the next leg.\u201d Last Sunday, we gapped up from 5720 to 5755, tested it one more time, then squeezed to 5836 thi"
+    },
+    {
+      "price": 5745.0,
+      "role": "range",
+      "context": "5745-57"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5745-57"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "ck up to 5745-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next l"
+    },
+    {
+      "price": 5795.0,
+      "role": "mentioned",
+      "context": "to 5745-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d L"
+    },
+    {
+      "price": 5809.0,
+      "role": "mentioned",
+      "context": "5-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Last Su"
+    },
+    {
+      "price": 5824.0,
+      "role": "mentioned",
+      "context": "Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Last Sunday,"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "inal dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Last Sunday, we gapped u"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5699.0,
+      "role": "support",
+      "context": "defend 5699"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "e targets for the next leg.\u201d Last Sunday, we gapped up from 5720 to 5755, tested it one more time, then squeezed to 5836 thi"
+    },
+    {
+      "price": 5745.0,
+      "role": "range",
+      "context": "5745-57"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5745-57"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "ck up to 5745-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next l"
+    },
+    {
+      "price": 5795.0,
+      "role": "mentioned",
+      "context": "to 5745-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d L"
+    },
+    {
+      "price": 5809.0,
+      "role": "mentioned",
+      "context": "5-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Last Su"
+    },
+    {
+      "price": 5824.0,
+      "role": "mentioned",
+      "context": "Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Last Sunday,"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "inal dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Last Sunday, we gapped u"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "We saw all three of my of my core setup types (Failed Breakdowns, Back-Tests, Breakdown Short) and I\u2019ll discuss the relatively standardized manner that price cycles through these setups with repetitive tests of a single level (price often starts with Back-Tests, then sees Failed Breakdowns, then Breakdown Shorts into deep sells like today.)."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Is the Relief Rally Done In SPX? March 31 Plan",
+  "post_date": "2025-03-30",
+  "post_slug": "is-the-relief-rally-done-in-spx-march-ec9",
+  "parsed_at": "2026-04-16T15:44:49.642861",
+  "body_length": 2495
+}

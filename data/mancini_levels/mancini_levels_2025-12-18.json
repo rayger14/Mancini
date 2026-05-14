@@ -1,0 +1,98 @@
+{
+  "trading_date": "2025-12-18",
+  "levels": [
+    {
+      "price": 6829.0,
+      "role": "range",
+      "context": "6832-29"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "6832 zone"
+    },
+    {
+      "price": 6836.0,
+      "role": "support",
+      "context": "recover 6836"
+    },
+    {
+      "price": 6838.0,
+      "role": "range",
+      "context": "6836-38"
+    },
+    {
+      "price": 6875.0,
+      "role": "mentioned",
+      "context": "onday evening. Around 8:30PM Monday ES flushed rapidly from 6875 down 6838 where it based out for hours forming a shelf. Thi"
+    },
+    {
+      "price": 6890.0,
+      "role": "mentioned",
+      "context": "lti-hour shelf down to 6832 exact, recovered, and ripped to 6890 yesterday morning. Then, all day yesterday, ES kept testing"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6829.0,
+      "role": "range",
+      "context": "6832-29"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "6832 zone"
+    },
+    {
+      "price": 6836.0,
+      "role": "support",
+      "context": "recover 6836"
+    },
+    {
+      "price": 6838.0,
+      "role": "range",
+      "context": "6836-38"
+    },
+    {
+      "price": 6875.0,
+      "role": "mentioned",
+      "context": "onday evening. Around 8:30PM Monday ES flushed rapidly from 6875 down 6838 where it based out for hours forming a shelf. Thi"
+    },
+    {
+      "price": 6890.0,
+      "role": "mentioned",
+      "context": "lti-hour shelf down to 6832 exact, recovered, and ripped to 6890 yesterday morning. Then, all day yesterday, ES kept testing"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: ES needs to lose 6832-29.\u201d We lost it this morning, and flushed all day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know ES behaves in a highly predictable manner, alternating between vertical \u201celevator down\u201d flushes, and equally violent squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The squeezes are caused by my core setup: The Failed Breakdown which is when price flushes a low, traps shorts, recovers it, squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was a rapid, elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the distinction between a Failed Breakdown (my core setup) and its complex sibling (the Level Reclaim)."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "CPI Tomorrow For SPX. Can It End The Slide Lower? Dec 18 Plan",
+  "post_date": "2025-12-17",
+  "post_slug": "cpi-tomorrow-for-spx-can-it-end-the",
+  "parsed_at": "2026-04-16T15:40:55.564915",
+  "body_length": 2535
+}

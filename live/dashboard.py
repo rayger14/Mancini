@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from socketserver import ThreadingMixIn
 from pathlib import Path
 from string import Template
 
@@ -332,6 +333,48 @@ HTML_TEMPLATE = Template(r"""<!DOCTYPE html>
   .pnl-chart-wrap { margin-top: 16px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; }
   .pnl-chart-title { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 600; }
 
+  /* Shadow Mode tab */
+  .shadow-banner { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .shadow-banner-title { font-size: 16px; font-weight: 700; color: #58a6ff; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .shadow-banner-text { font-size: 13px; color: #8b949e; line-height: 1.6; }
+  .shadow-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+  @media (max-width: 900px) { .shadow-cards { grid-template-columns: 1fr; } }
+  .shadow-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; }
+  .shadow-card-sweep { border-top: 3px solid #58a6ff; }
+  .shadow-card-mode1 { border-top: 3px solid #d29922; }
+  .shadow-card-velocity { border-top: 3px solid #f85149; }
+  .shadow-card-icon { font-size: 20px; margin-bottom: 4px; }
+  .shadow-card-name { font-size: 14px; font-weight: 700; color: #f0f6fc; margin-bottom: 2px; }
+  .shadow-card-tagline { font-size: 11px; color: #8b949e; font-style: italic; margin-bottom: 12px; }
+  .shadow-card-desc { font-size: 12px; color: #c9d1d9; line-height: 1.5; margin-bottom: 14px; }
+  .shadow-card-status { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
+  .shadow-card-status strong { color: #f0f6fc; font-family: 'SF Mono', monospace; }
+  .shadow-card-latest { font-size: 11px; color: #c9d1d9; line-height: 1.5; background: #0d1117; border-radius: 6px; padding: 10px 12px; margin-top: auto; }
+  .shadow-card-latest .lbl { font-size: 10px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .shadow-card-impact { font-size: 11px; color: #3fb950; margin-top: 8px; font-weight: 600; }
+  .shadow-card-impact.neg { color: #f85149; }
+  .shadow-timeline { margin-bottom: 20px; }
+  .shadow-timeline-title { font-size: 13px; font-weight: 700; color: #f0f6fc; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .shadow-timeline-wrap { max-height: 500px; overflow-y: auto; border: 1px solid #30363d; border-radius: 8px; background: #161b22; }
+  .shadow-tl-day { font-size: 11px; font-weight: 700; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 16px 6px; background: #0d1117; border-bottom: 1px solid #21262d; position: sticky; top: 0; z-index: 1; }
+  .shadow-tl-row { display: flex; align-items: flex-start; padding: 10px 16px; border-bottom: 1px solid #21262d; transition: background 0.1s; }
+  .shadow-tl-row:hover { background: #1c2128; }
+  .shadow-tl-time { flex: 0 0 90px; font-size: 12px; font-family: 'SF Mono', monospace; color: #8b949e; padding-top: 1px; }
+  .shadow-tl-icon { flex: 0 0 28px; font-size: 16px; }
+  .shadow-tl-body { flex: 1; font-size: 12px; color: #c9d1d9; line-height: 1.5; }
+  .shadow-tl-headline { color: #f0f6fc; font-weight: 600; }
+  .shadow-tl-detail { color: #8b949e; font-size: 11px; margin-top: 2px; }
+  .shadow-tl-result { font-weight: 600; }
+  .shadow-tl-result.win { color: #3fb950; }
+  .shadow-tl-result.loss { color: #f85149; }
+  .shadow-statsbar { display: flex; gap: 16px; flex-wrap: wrap; background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px 20px; align-items: center; }
+  .shadow-statsbar-item { font-size: 12px; color: #8b949e; }
+  .shadow-statsbar-item strong { color: #f0f6fc; font-family: 'SF Mono', monospace; }
+  .shadow-statsbar-sep { color: #30363d; }
+  .shadow-empty { text-align: center; padding: 60px 20px; color: #8b949e; }
+  .shadow-empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+  .shadow-empty-text { font-size: 14px; }
+
   /* Bypass mode banner */
   .bypass-banner {
     background: #d2992215; border: 1px solid #d2992240; border-radius: 6px;
@@ -440,6 +483,8 @@ HTML_TEMPLATE = Template(r"""<!DOCTYPE html>
   <button class="tab-btn" data-tab="strategy" onclick="switchTab('strategy')">Strategy</button>
   <button class="tab-btn" data-tab="chart" onclick="switchTab('chart')">Chart</button>
   <button class="tab-btn" data-tab="history" onclick="switchTab('history')">Trade History</button>
+  <button class="tab-btn" data-tab="shadow" onclick="switchTab('shadow')">Shadow Mode</button>
+  <button class="tab-btn" data-tab="report" onclick="switchTab('report')">Daily Report</button>
 </div>
 
 <!-- ==================== OVERVIEW TAB ==================== -->
@@ -472,6 +517,22 @@ $bypass_banner_html
   <div class="ticker-stat">
     <div class="ticker-stat-label">Last Bar (ET)</div>
     <div class="ticker-stat-value dim" id="tk-bar-et">$last_bar_et</div>
+  </div>
+</div>
+
+<!-- Market correlation data (VIX, SPY, 10Y) -->
+<div id="market-data-strip" class="ticker-strip" style="margin-bottom:12px; display:none;">
+  <div class="ticker-stat">
+    <div class="ticker-stat-label">VIX</div>
+    <div class="ticker-stat-value" id="mk-vix">--</div>
+  </div>
+  <div class="ticker-stat">
+    <div class="ticker-stat-label">SPY</div>
+    <div class="ticker-stat-value" id="mk-spy">--</div>
+  </div>
+  <div class="ticker-stat">
+    <div class="ticker-stat-label">10Y Yield</div>
+    <div class="ticker-stat-value" id="mk-yield">--</div>
   </div>
 </div>
 
@@ -731,20 +792,28 @@ $bypass_banner_html
     Automated ES/MES futures day trading engine based on the Mancini Method
     (David Mancini, Substack). The strategy uses <strong>pure price action</strong> &mdash;
     zero indicators &mdash; to identify key support/resistance levels and trade
-    bounces off those levels. The engine detects levels in real time using swing
-    point analysis, tracks acceptance/rejection behavior, and enters trades
-    with bracket orders (stop + target) through Interactive Brokers.
+    bounces (FB Long) and confirmed breakdowns (BD Short) at those levels.
+    Levels are detected in real time using swing point analysis. Entries use
+    bracket orders (stop + target) through Interactive Brokers.
+    <strong>Mancini thesis: &ldquo;The bigger the sell, the bigger the squeeze.&rdquo;</strong>
   </p>
   <div style="margin-top:12px; display:flex; gap:16px; flex-wrap:wrap;">
-    <div class="pattern-stat"><div class="pattern-stat-val blue">303</div><div class="pattern-stat-lbl">Trades (5yr)</div></div>
-    <div class="pattern-stat"><div class="pattern-stat-val green">1.34</div><div class="pattern-stat-lbl">Profit Factor</div></div>
-    <div class="pattern-stat"><div class="pattern-stat-val green">+1,453</div><div class="pattern-stat-lbl">Total Pts</div></div>
-    <div class="pattern-stat"><div class="pattern-stat-val">41.9%</div><div class="pattern-stat-lbl">Win Rate</div></div>
+    <div class="pattern-stat"><div class="pattern-stat-val blue">2,279</div><div class="pattern-stat-lbl">Trades (5yr)</div></div>
+    <div class="pattern-stat"><div class="pattern-stat-val">0.91</div><div class="pattern-stat-lbl">Profit Factor</div></div>
+    <div class="pattern-stat"><div class="pattern-stat-val red">-2,232</div><div class="pattern-stat-lbl">Total Pts (all hrs)</div></div>
+    <div class="pattern-stat"><div class="pattern-stat-val">41.3%</div><div class="pattern-stat-lbl">Win Rate</div></div>
+  </div>
+  <div style="margin-top:8px; display:flex; gap:16px; flex-wrap:wrap;">
+    <div class="pattern-stat"><div class="pattern-stat-val green">+4,432</div><div class="pattern-stat-lbl">RTH Only (9:30-4)</div></div>
+    <div class="pattern-stat"><div class="pattern-stat-val red">-6,689</div><div class="pattern-stat-lbl">Late Night 12-4AM</div></div>
+    <div class="pattern-stat"><div class="pattern-stat-val green">55%</div><div class="pattern-stat-lbl">Morning WR</div></div>
+    <div class="pattern-stat"><div class="pattern-stat-val green">63%</div><div class="pattern-stat-lbl">Afternoon WR</div></div>
   </div>
   <div class="backtest-note">
-    Stats from 5-year full-session backtest (Jan 2021 - Feb 2026) using Optuna-optimized
-    Trial 47 parameters. This is the same configuration running on the live engine.
-    Backtest uses 1-min ES data (1.69M bars).
+    5-year full-session backtest (Jan 2021 - Feb 2026), Optuna v2 params, 1.69M bars.
+    Currently running in <strong>data collection mode</strong> (all time gates bypassed, quality gates enforced).
+    Key validated finding: Late night LR trades (12-4 AM) account for nearly all losses.
+    RTH hours are profitable. Deep sweeps get 40-bar recovery window (Mancini: bigger sell = bigger squeeze).
   </div>
 </div>
 
@@ -755,24 +824,30 @@ $bypass_banner_html
     <div class="pattern-name">Failed Breakdown (FB)</div>
     <div class="pattern-type green">LONG</div>
     <div class="pattern-desc">
-      Price sweeps below a key support level during a fast sell-off (elevator down),
-      then quickly recovers back above the level. The sweep traps shorts and exhausts
-      sellers. Entry is on the recovery above the swept level. This is the highest-conviction
-      Mancini pattern.
+      Price sweeps below a key support level (PDL, MHL, Cluster), then recovers above.
+      Four entry paths: <strong>Elevator FB</strong> (fast selloff + sweep + bounce),
+      <strong>Level Sweep FB</strong> (3+ bars below, then recovery &mdash; no elevator needed),
+      <strong>Double Dip</strong> (re-sweep after stop-out), and <strong>Deep Sell Recovery</strong> (crash bottoms).
+      Confirmation: acceptance (7 bars above level) or non-acceptance (fast 5+ pt recovery held 3 bars).
+      Deep sweeps get 40-bar recovery window before abort. Sweep depth unlimited.
     </div>
     <div class="flow-steps">
-      <span class="flow-step">Support holds</span><span class="flow-arrow">&rarr;</span>
-      <span class="flow-step">Elevator sweep below</span><span class="flow-arrow">&rarr;</span>
-      <span class="flow-step">Quick recovery above</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Support level identified</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Sweep &ge;2 pts below</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Recovery + acceptance/non-acceptance</span><span class="flow-arrow">&rarr;</span>
       <span class="flow-step">LONG entry</span>
     </div>
     <div class="pattern-stats">
-      <div class="pattern-stat"><div class="pattern-stat-val green">54.1%</div><div class="pattern-stat-lbl">Win Rate</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val green">1.61</div><div class="pattern-stat-lbl">Profit Factor</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val green">+211</div><div class="pattern-stat-lbl">Total Pts</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val">74</div><div class="pattern-stat-lbl">Trades</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val green">49.4%</div><div class="pattern-stat-lbl">Win Rate</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val">1,315</div><div class="pattern-stat-lbl">Trades (5yr)</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val red">-691</div><div class="pattern-stat-lbl">Total Pts (all hrs)</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val green">+2,855</div><div class="pattern-stat-lbl">Morning RTH</div></div>
     </div>
-    <div class="backtest-note">5yr full-session backtest, Trial 47 params. Stop: level - 7.0 pts. Max hold: 24 bars.</div>
+    <div class="backtest-note">
+      Stop: sweep_low - 6.0 pts (deep sweeps &gt;20 pts use level - 6.0 to cap risk).
+      Max hold: 14 bars. True breakdown abort: 40 bars (was 20). Sweep 5-10 pts = 63% WR (sweet spot).
+      Targets: first resistance &ge;8 pts away, capped at 30 pts.
+    </div>
   </div>
 
   <div class="pattern-card $lr_card_class">
@@ -780,24 +855,28 @@ $bypass_banner_html
     <div class="pattern-name">Level Reclaim (LR)</div>
     <div class="pattern-type green">LONG</div>
     <div class="pattern-desc">
-      Price dips to a key support level and holds (acceptance), then reclaims
-      the level with a higher low formation. No sweep is needed &mdash; the level
-      simply holds and price resumes its uptrend. Lower win rate but much higher
-      frequency than FB.
+      Price dips below a HORIZONTAL_SR level (4+ touches), then closes back above on the same bar.
+      Confirmation via acceptance (7 bars above) or non-acceptance (3 bars &ge;5 pts above).
+      Uses horizontal S/R levels only (not PDL/MHL/Cluster). <strong>Weakest pattern historically</strong>
+      &mdash; 29% WR, largest source of losses. Late night LR at HORIZONTAL_SR = 7% WR, -8,713 pts (black hole).
+      LR only fires when FB is idle (FB has priority).
     </div>
     <div class="flow-steps">
-      <span class="flow-step">Dip to support</span><span class="flow-arrow">&rarr;</span>
-      <span class="flow-step">Level holds (acceptance)</span><span class="flow-arrow">&rarr;</span>
-      <span class="flow-step">Higher low forms</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">HORIZONTAL_SR (4+ touches)</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Dip below + close above</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Hold 7 bars above</span><span class="flow-arrow">&rarr;</span>
       <span class="flow-step">LONG entry</span>
     </div>
     <div class="pattern-stats">
-      <div class="pattern-stat"><div class="pattern-stat-val">36.7%</div><div class="pattern-stat-lbl">Win Rate</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val green">1.25</div><div class="pattern-stat-lbl">Profit Factor</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val green">+824</div><div class="pattern-stat-lbl">Total Pts</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val">177</div><div class="pattern-stat-lbl">Trades</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val red">29.2%</div><div class="pattern-stat-lbl">Win Rate</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val">870</div><div class="pattern-stat-lbl">Trades (5yr)</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val red">-1,549</div><div class="pattern-stat-lbl">Total Pts</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val green">+928</div><div class="pattern-stat-lbl">RTH Midday+PM</div></div>
     </div>
-    <div class="backtest-note">5yr full-session backtest, Trial 47 params. Stop: level - 3.0 pts.</div>
+    <div class="backtest-note">
+      Stop: level - 4.0 pts. Avg win +49 pts, avg loss -23 pts (wins big but rarely).
+      Late night 12-4AM LR = 7% WR, -8,713 pts. Consider disabling LR outside RTH or entirely.
+    </div>
   </div>
 </div>
 
@@ -808,24 +887,30 @@ $bypass_banner_html
     <div class="pattern-name">Breakdown Short (BD)</div>
     <div class="pattern-type red">SHORT</div>
     <div class="pattern-desc">
-      Price breaks below a key support level and <em>holds below</em> for a
-      confirmation period. Unlike Failed Breakdown where the break fails,
-      here the break succeeds &mdash; the level flips from support to resistance.
-      Entry is short after confirmed hold below. Only active in bearish regimes.
+      Price breaks below a <strong>major</strong> support level (PRIOR_DAY_LOW or MULTI_HOUR_LOW only &mdash;
+      CLUSTER_LOW excluded as noise) and <em>holds below</em> for 21 consecutive bars.
+      Unlike FB where the break fails, here it succeeds &mdash; the level flips to resistance.
+      Entry short at confirmation. Fires at ALL hours (exempt from chop zone).
+      <strong>BD @ PRIOR_DAY_LOW = validated edge (+199 pts, 44% WR, 75 trades).</strong>
+      BD @ MULTI_HOUR_LOW = net loser (-191 pts, 19 trades).
     </div>
     <div class="flow-steps">
-      <span class="flow-step">Break below support</span><span class="flow-arrow">&rarr;</span>
-      <span class="flow-step">Hold below (8 bars)</span><span class="flow-arrow">&rarr;</span>
-      <span class="flow-step">No recovery</span><span class="flow-arrow">&rarr;</span>
-      <span class="flow-step">SHORT entry</span>
+      <span class="flow-step">Major support (PDL/MHL)</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Break &ge;1 pt + close below</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Hold below 21 bars</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">SHORT entry (if depth &le;17 pts)</span>
     </div>
     <div class="pattern-stats">
-      <div class="pattern-stat"><div class="pattern-stat-val">42.3%</div><div class="pattern-stat-lbl">Win Rate</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val green">1.59</div><div class="pattern-stat-lbl">Profit Factor</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val green">+419</div><div class="pattern-stat-lbl">Total Pts</div></div>
-      <div class="pattern-stat"><div class="pattern-stat-val">52</div><div class="pattern-stat-lbl">Trades</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val">41.5%</div><div class="pattern-stat-lbl">Win Rate</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val">94</div><div class="pattern-stat-lbl">Trades (5yr)</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val green">+8</div><div class="pattern-stat-lbl">Total Pts</div></div>
+      <div class="pattern-stat"><div class="pattern-stat-val green">+199</div><div class="pattern-stat-lbl">@ PDL only</div></div>
     </div>
-    <div class="backtest-note">5yr full-session backtest. Only fires in BEARISH regime. Stop buffer: 4.0 pts.</div>
+    <div class="backtest-note">
+      Stop: level + 6.0 pts (above broken level). Timeout: 35 bars. Max depth: 17 pts (reject late entries).
+      Regime filter OFF (data collection). R:R 1.0-1.5 = best bucket (71% WR, 14 trades).
+      Avg win +49 pts, avg loss -34 pts. Live winner: +29 pts BD Short @ PDL 6750 on Mar 11.
+    </div>
   </div>
 
   <div class="pattern-card disabled">
@@ -848,30 +933,95 @@ $bypass_banner_html
   </div>
 </div>
 
+<h3 style="color:#8b949e; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Exit Strategy (Mancini 50/50 on 2 MES)</h3>
+<div class="grid-2" style="margin-bottom:24px;">
+  <div class="card">
+    <div class="card-header">Position Management</div>
+    <div class="stat-row"><span class="stat-label">Contracts</span><span class="stat-value">2 MES</span></div>
+    <div class="stat-row"><span class="stat-label">T1 Exit</span><span class="stat-value">1 contract (50%)</span></div>
+    <div class="stat-row"><span class="stat-label">Runner</span><span class="stat-value">1 contract (50%)</span></div>
+    <div class="stat-row"><span class="stat-label">After T1 Stop</span><span class="stat-value">Breakeven - 3 pts</span></div>
+    <div class="stat-row"><span class="stat-label">Runner Trail</span><span class="stat-value">Prior day low - 1 pt</span></div>
+    <div class="stat-row"><span class="stat-label">Runner Duration</span><span class="stat-value green">Multi-day (never flatten on restart)</span></div>
+    <div class="stat-row"><span class="stat-label">FB Time Exit</span><span class="stat-value">14 bars max hold</span></div>
+    <div class="stat-row"><span class="stat-label">EOD Flatten</span><span class="stat-value">3:58 PM ET (runners exempt)</span></div>
+  </div>
+  <div class="card">
+    <div class="card-header">Exit Priority (each bar)</div>
+    <div style="padding:8px 0; color:#8b949e; font-size:12px; line-height:1.8;">
+      <div><span style="color:#f85149;font-weight:600;">1.</span> <strong>Stop loss</strong> &mdash; highest priority. Long: low &le; stop. Short: high &ge; stop.</div>
+      <div><span style="color:#d29922;font-weight:600;">2.</span> <strong>T1 target</strong> &mdash; exit 1 of 2 contracts. Move stop to breakeven - 3 pts.</div>
+      <div><span style="color:#3fb950;font-weight:600;">3.</span> <strong>T2 target</strong> &mdash; if reached, runner trails under prior day low.</div>
+      <div><span style="color:#58a6ff;font-weight:600;">4.</span> <strong>Runner trail</strong> &mdash; updated at EOD. Carries overnight/multi-day until prior day low lost.</div>
+      <div style="margin-top:8px;border-top:1px solid #21262d;padding-top:8px;">
+        <strong>Mancini:</strong> &ldquo;75% at T1, 15% at T2, 10% runner.&rdquo;
+        With 2 MES: 50/50 split (closest approximation). Runners documented +125 to +280 pts.
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 style="color:#8b949e; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Validated Findings (5yr Hypothesis Testing)</h3>
+<div class="grid-2" style="margin-bottom:24px;">
+  <div class="card">
+    <div class="card-header" style="color:#3fb950;">Confirmed Edge (large sample)</div>
+    <div style="padding:8px 0; color:#8b949e; font-size:12px; line-height:1.8;">
+      <div><strong>Time of day is everything</strong> &mdash; Morning RTH +4,866 pts, Afternoon +927 pts. Late night LR = -8,713 pts.</div>
+      <div><strong>FB &gt; LR</strong> &mdash; FB 49% WR vs LR 29% WR on 2,185 trades.</div>
+      <div><strong>R:R 1.0-1.5 sweet spot</strong> &mdash; +232 pts, 53% WR (246 trades).</div>
+      <div><strong>BD Short @ PDL = real edge</strong> &mdash; +199 pts, 44% WR (75 trades).</div>
+      <div><strong>Sweep 5-10 pts = strongest FB</strong> &mdash; 63% WR (40 trades).</div>
+      <div><strong>Non-acceptance slightly better</strong> &mdash; 48% vs 41% WR.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" style="color:#f85149;">Overfit (reversed historically)</div>
+    <div style="padding:8px 0; color:#8b949e; font-size:12px; line-height:1.8;">
+      <div><strong>PRIOR_DAY_LOW is NOT best level</strong> &mdash; CLUSTER_LOW is the workhorse (1,285 trades, 50% WR).</div>
+      <div><strong>&ldquo;One trade per level&rdquo; rule wrong</strong> &mdash; 2nd trade at level = 46% WR vs 41% for 1st.</div>
+      <div><strong>R:R 0.5-1.0 &ldquo;paradox&rdquo; was noise</strong> &mdash; 5 live trades, not replicable on 816 historical.</div>
+      <div><strong>15-pt stop cap wrong</strong> &mdash; 15-20 pt stops = 51% WR (best bucket).</div>
+      <div><strong>BD Short R:R &gt; 1.5 wrong</strong> &mdash; R:R 1.0-1.5 = 71% WR (best, 14 trades).</div>
+    </div>
+  </div>
+</div>
+
 <h3 style="color:#8b949e; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Risk Management &amp; Configuration</h3>
 <div class="grid-3">
   <div class="card">
-    <div class="card-header">Risk Rules</div>
-    <div class="stat-row"><span class="stat-label">Max Trades/Day</span><span class="stat-value">Unlimited</span></div>
-    <div class="stat-row"><span class="stat-label">Min R:R Ratio</span><span class="stat-value">1.0</span></div>
-    <div class="stat-row"><span class="stat-label">FB Stop</span><span class="stat-value">7.0 pts</span></div>
-    <div class="stat-row"><span class="stat-label">LR Stop</span><span class="stat-value">3.0 pts</span></div>
-    <div class="stat-row"><span class="stat-label">BD Stop Buffer</span><span class="stat-value">4.0 pts</span></div>
-    <div class="stat-row"><span class="stat-label">Max Target Dist</span><span class="stat-value">15.0 pts</span></div>
+    <div class="card-header">Risk &amp; Quality Gates (Optuna v2)</div>
+    <div class="stat-row"><span class="stat-label">Max Trades/Day</span><span class="stat-value">999 (data collection)</span></div>
+    <div class="stat-row"><span class="stat-label">Min R:R Ratio</span><span class="stat-value">0.8</span></div>
+    <div class="stat-row"><span class="stat-label">Max Stop Distance</span><span class="stat-value">20.0 pts</span></div>
+    <div class="stat-row"><span class="stat-label">FB Stop Buffer</span><span class="stat-value">6.0 pts</span></div>
+    <div class="stat-row"><span class="stat-label">LR Stop Buffer</span><span class="stat-value">4.0 pts</span></div>
+    <div class="stat-row"><span class="stat-label">BD Stop Buffer</span><span class="stat-value">6.0 pts</span></div>
+    <div class="stat-row"><span class="stat-label">Max Target Dist</span><span class="stat-value">30.0 pts</span></div>
+    <div class="stat-row"><span class="stat-label">Max Sweep Depth</span><span class="stat-value">999 (unlimited)</span></div>
+    <div class="stat-row"><span class="stat-label">Deep Sweep Level Stop</span><span class="stat-value">&gt;20 pts: use level stop</span></div>
+    <div class="stat-row"><span class="stat-label">True BD Abort</span><span class="stat-value">40 bars (was 20)</span></div>
+    <div class="stat-row"><span class="stat-label">Signal Cooldown</span><span class="stat-value">15 bars</span></div>
   </div>
   <div class="card">
-    <div class="card-header">Session Windows</div>
-    <div class="stat-row"><span class="stat-label">Globex Evening</span><span class="stat-value yellow">6-10PM ET (data)</span></div>
-    <div class="stat-row"><span class="stat-label">European Session</span><span class="stat-value yellow">2-6AM ET (data)</span></div>
-    <div class="stat-row"><span class="stat-label">RTH Chop Zone</span><span class="stat-value yellow">1-3PM ET (data)</span></div>
-    <div class="stat-row"><span class="stat-label">Globex Overnight</span><span class="stat-value green">10PM-2AM</span></div>
-    <div class="stat-row"><span class="stat-label">RTH Morning (Prime)</span><span class="stat-value green">9:30-11AM</span></div>
-    <div class="stat-row"><span class="stat-label">RTH Late Day (FB only)</span><span class="stat-value yellow">3-4PM</span></div>
+    <div class="card-header">Session Windows (Bypass Mode)</div>
+    <div class="stat-row"><span class="stat-label">Mode</span><span class="stat-value yellow">DATA COLLECTION</span></div>
+    <div class="stat-row"><span class="stat-label">All Time Gates</span><span class="stat-value yellow">Bypassed (logged)</span></div>
+    <div class="stat-row"><span class="stat-label">Quality Gates</span><span class="stat-value green">Enforced</span></div>
+    <div class="stat-row"><span class="stat-label">Loss Limits</span><span class="stat-value yellow">Bypassed</span></div>
+    <div class="stat-row" style="margin-top:8px;border-top:1px solid #30363d;padding-top:8px;"><span class="stat-label" style="color:#58a6ff;">5yr Validated Edge</span><span class="stat-value"></span></div>
+    <div class="stat-row"><span class="stat-label">Morning 9-12 ET</span><span class="stat-value green">+2,855 pts (55% WR)</span></div>
+    <div class="stat-row"><span class="stat-label">Afternoon 2-4 ET</span><span class="stat-value green">+927 pts (58% WR)</span></div>
+    <div class="stat-row"><span class="stat-label">Midday 12-2 ET</span><span class="stat-value green">+650 pts (63% WR)</span></div>
+    <div class="stat-row"><span class="stat-label">Late Night 12-4 AM</span><span class="stat-value red">-6,689 pts (22% WR)</span></div>
+    <div class="stat-row"><span class="stat-label">Evening 6-11 PM</span><span class="stat-value green">+452 pts (77% WR)</span></div>
   </div>
   <div class="card">
     <div class="card-header">Regime Filter <span class="regime-clickable" onclick="showRegimeModal()" style="font-size:10px">[explain]</span></div>
+    <div class="stat-row"><span class="stat-label">Status</span><span class="stat-value yellow">DISABLED (data collection)</span></div>
     <div class="stat-row"><span class="stat-label">Mode</span><span class="stat-value">EMA Slope</span></div>
-    <div class="stat-row"><span class="stat-label">EMA Span</span><span class="stat-value">80 days</span></div>
+    <div class="stat-row"><span class="stat-label">EMA Span</span><span class="stat-value">30 days</span></div>
+    <div class="stat-row"><span class="stat-label">Slope Lookback</span><span class="stat-value">10 days</span></div>
+    <div class="stat-row"><span class="stat-label">Threshold</span><span class="stat-value">ATR &times; 0.325</span></div>
     <div class="stat-row"><span class="stat-label">Daily Bars</span><span class="stat-value blue">$regime_daily_bars</span></div>
     <div class="stat-row"><span class="stat-label">Current Regime</span><span class="stat-value $regime_css regime-clickable" onclick="showRegimeModal()">$regime</span></div>
     <div class="stat-row"><span class="stat-label">Longs</span><span class="stat-value $longs_css">$longs_enabled</span></div>
@@ -943,6 +1093,80 @@ $bypass_banner_html
   <svg id="pnl-chart" width="100%" height="120" preserveAspectRatio="none"></svg>
 </div>
 
+</div>
+</div>
+
+<!-- ==================== SHADOW MODE TAB ==================== -->
+<div id="tab-shadow" class="tab-content">
+<div class="main">
+
+<!-- Header Banner -->
+<div class="shadow-banner">
+  <div class="shadow-banner-title">SHADOW MODE</div>
+  <div class="shadow-banner-text">
+    Testing 3 new features without risking real trades.<br>
+    These features run silently and log what they <strong style="color:#f0f6fc;">would have done</strong> differently.
+    When we're confident they improve performance, we'll activate them for real.
+  </div>
+</div>
+
+<!-- Three Feature Cards -->
+<div class="shadow-cards" id="shadow-cards">
+  <div class="shadow-card shadow-card-sweep">
+    <div class="shadow-card-icon">&#x1F4CF;</div>
+    <div class="shadow-card-name">Sweep Depth Sizing</div>
+    <div class="shadow-card-tagline">"Bigger sweep = bigger position"</div>
+    <div class="shadow-card-desc">Sizes your position based on how deep price sweeps below the level. Shallow sweep = small size, deep sweep = full size.</div>
+    <div class="shadow-card-status">Status: <strong id="sc-sweep-status">--</strong></div>
+    <div class="shadow-card-latest" id="sc-sweep-latest"><div class="lbl">Latest</div>Waiting for events...</div>
+    <div class="shadow-card-impact" id="sc-sweep-impact"></div>
+  </div>
+  <div class="shadow-card shadow-card-mode1">
+    <div class="shadow-card-icon">&#x1F534;</div>
+    <div class="shadow-card-name">Mode 1 Red Detection</div>
+    <div class="shadow-card-tagline">"Detect trend days that destroy FB Longs"</div>
+    <div class="shadow-card-desc">When 3+ support levels break and stay broken, it's a trend day &mdash; not a bounce day. Cuts size to 25%.</div>
+    <div class="shadow-card-status">Status: <strong id="sc-mode1-status">--</strong></div>
+    <div class="shadow-card-latest" id="sc-mode1-latest"><div class="lbl">Latest</div>Waiting for events...</div>
+    <div class="shadow-card-impact" id="sc-mode1-impact"></div>
+  </div>
+  <div class="shadow-card shadow-card-velocity">
+    <div class="shadow-card-icon">&#x26A1;</div>
+    <div class="shadow-card-name">Velocity Breakdown Short</div>
+    <div class="shadow-card-tagline">"Catch single-bar news-driven breaks"</div>
+    <div class="shadow-card-desc">When a major level breaks on one bar with 3x+ volume, enters a short at 25% size. Catches moves the normal BD Short detector is too slow for.</div>
+    <div class="shadow-card-status">Status: <strong id="sc-vshort-status">--</strong></div>
+    <div class="shadow-card-latest" id="sc-vshort-latest"><div class="lbl">Latest</div>Waiting for events...</div>
+    <div class="shadow-card-impact" id="sc-vshort-impact"></div>
+  </div>
+</div>
+
+<!-- Event Timeline -->
+<div class="shadow-timeline">
+  <div class="shadow-timeline-title">Event Timeline</div>
+  <div class="shadow-timeline-wrap" id="shadow-timeline">
+    <div class="shadow-empty"><div class="shadow-empty-text">Loading shadow events...</div></div>
+  </div>
+</div>
+
+<!-- Summary Stats Bar -->
+<div class="shadow-statsbar" id="shadow-statsbar">
+  <div class="shadow-statsbar-item">Shadow Features Active: <strong>3/3</strong></div>
+  <div class="shadow-statsbar-sep">|</div>
+  <div class="shadow-statsbar-item">Events Today: <strong id="ss-total">--</strong></div>
+  <div class="shadow-statsbar-sep">|</div>
+  <div class="shadow-statsbar-item">Potential Savings: <strong id="ss-savings">--</strong></div>
+  <div class="shadow-statsbar-sep">|</div>
+  <div class="shadow-statsbar-item">Velocity Signals: <strong id="ss-vsignals">--</strong></div>
+</div>
+
+</div>
+</div>
+
+<!-- ==================== DAILY REPORT TAB ==================== -->
+<div id="tab-report" class="tab-content">
+<div class="main">
+  <div id="report-content" style="color:#8b949e;text-align:center;padding:40px;">Loading daily reports...</div>
 </div>
 </div>
 
@@ -1037,6 +1261,8 @@ function switchTab(name) {
   window.location.hash = name;
   if (name === 'chart') initChart();
   if (name === 'history') loadTradeHistory();
+  if (name === 'shadow') loadShadowEvents();
+  if (name === 'report') loadDailyReports();
 }
 
 // Restore tab from URL hash on load
@@ -1193,6 +1419,19 @@ function updateDashboard() {
       el = document.getElementById('tk-bar-et');
       if (el) el.textContent = s.last_bar_et || '\u2014';
 
+      // Market correlation data (VIX, SPY, 10Y)
+      var md = s.market_data;
+      var mdStrip = document.getElementById('market-data-strip');
+      if (md && mdStrip) {
+        mdStrip.style.display = '';
+        el = document.getElementById('mk-vix');
+        if (el && md.vix != null) el.textContent = md.vix.toFixed(1);
+        el = document.getElementById('mk-spy');
+        if (el && md.spy != null) el.textContent = md.spy.toFixed(2);
+        el = document.getElementById('mk-yield');
+        if (el && md.yield_10y != null) el.textContent = md.yield_10y.toFixed(2) + '%';
+      }
+
       el = document.getElementById('hdr-update');
       if (el) el.textContent = s.last_update_pst || '\u2014';
 
@@ -1339,7 +1578,7 @@ function loadTradeHistory() {
 
 function getFiltered() {
   var filtered = _allTrades.slice();
-  if (_filterDate !== 'all') filtered = filtered.filter(function(t) { return t.date === _filterDate; });
+  if (_filterDate !== 'all') filtered = filtered.filter(function(t) { return getDatePT(t) === _filterDate; });
   if (_filterProd) filtered = filtered.filter(function(t) { return t.production_would_take && !(t.gate_bypassed && t.gate_bypassed.length); });
   filtered.sort(function(a, b) {
     var va = a[_sortCol], vb = b[_sortCol];
@@ -1384,11 +1623,15 @@ function updateHistorySummary(trades) {
   el = document.getElementById('hs-avg'); if (el) { el.textContent = avg !== '--' ? (parseFloat(avg) > 0 ? '+' : '') + avg : '--'; el.className = 'history-stat-val ' + (parseFloat(avg) > 0 ? 'green' : parseFloat(avg) < 0 ? 'red' : 'dim'); }
 }
 
+function getDatePT(t) {
+  return fmtDatePT(t.entry_time);
+}
+
 function updateDatePills() {
   var dates = {};
   for (var i = 0; i < _allTrades.length; i++) {
-    var d = _allTrades[i].date;
-    if (d) dates[d] = (dates[d] || 0) + 1;
+    var d = getDatePT(_allTrades[i]);
+    if (d && d !== '--') dates[d] = (dates[d] || 0) + 1;
   }
   var sorted = Object.keys(dates).sort().reverse();
   var html = '<span class="filter-pill ' + (_filterDate === 'all' ? 'active' : '') + '" onclick="setDateFilter(\'all\')">All (' + _allTrades.length + ')</span> ';
@@ -1433,8 +1676,19 @@ function fmtTime(ts) {
       s += '-05:00';  // naive timestamps are ET (container TZ=America/New_York)
     }
     var d = new Date(s);
-    return d.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', timeZone:'America/New_York'}) + ' ET';
+    return d.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', timeZone:'America/Los_Angeles'}) + ' PT';
   } catch(e) { return ts.slice(11, 16); }
+}
+
+function fmtDatePT(ts) {
+  if (!ts) return '--';
+  try {
+    var s = String(ts);
+    var hasOffset = /[+-]\d{2}:\d{2}$$/.test(s) || s.endsWith('Z');
+    if (!hasOffset && s.length >= 19) { s += '-05:00'; }
+    var d = new Date(s);
+    return d.toLocaleDateString('en-US', {month:'2-digit', day:'2-digit', timeZone:'America/Los_Angeles'});
+  } catch(e) { return ts.slice(0, 10); }
 }
 
 function fmtDuration(entry, exit) {
@@ -1468,7 +1722,7 @@ function renderHistoryTable(trades) {
     var expanded = i === _expandedIdx;
 
     html += '<tr class="' + (expanded ? 'expanded' : '') + '" onclick="toggleTradeDetail(' + i + ')">'
-      + '<td>' + (t.date || '--') + '</td>'
+      + '<td>' + fmtDatePT(t.entry_time) + '</td>'
       + '<td>' + fmtTime(t.entry_time) + '</td>'
       + '<td>' + fmtTime(t.exit_time) + '</td>'
       + '<td class="' + dirCss + '">' + (t.direction === 'long' ? 'L' : 'S') + '</td>'
@@ -1573,6 +1827,434 @@ function renderPnlChart(trades) {
 
   svg.innerHTML = svgHtml;
 }
+
+// ==================== DAILY REPORT ====================
+var _reportLoaded = false;
+function loadDailyReports() {
+  var container = document.getElementById('report-content');
+  if (!container) return;
+  if (!_reportLoaded) container.innerHTML = '<div style="color:#8b949e;text-align:center;padding:40px;">Loading reports...</div>';
+  fetch('/api/reports')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      _reportLoaded = true;
+      renderDailyReports(data.reports || []);
+    })
+    .catch(function(err) {
+      container.innerHTML = '<div style="color:#f85149;text-align:center;padding:40px;">Failed to load reports: ' + err + '</div>';
+    });
+}
+
+function renderDailyReports(reports) {
+  var container = document.getElementById('report-content');
+  if (!container) return;
+  if (reports.length === 0) {
+    container.innerHTML = '<div style="color:#8b949e;text-align:center;padding:40px;">No reports yet. First report generates at 2:10 AM ET.</div>';
+    return;
+  }
+  var latest = reports[reports.length - 1];
+  var html = '';
+
+  // Latest report header
+  html += '<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:16px;">';
+  html += '<h3 style="color:#58a6ff;margin:0 0 12px 0;">Latest Report: ' + (latest.session_date || '?') + '</h3>';
+
+  // Trades summary
+  var tr = latest.trades || {};
+  var pnlColor = (tr.total_pnl || 0) >= 0 ? '#3fb950' : '#f85149';
+  html += '<div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:12px;">';
+  html += '<div><span style="color:#8b949e;">Trades</span><br><span style="font-size:20px;font-weight:700;color:#f0f6fc;">' + (tr.count || 0) + '</span></div>';
+  html += '<div><span style="color:#8b949e;">W/L</span><br><span style="font-size:20px;font-weight:700;color:#f0f6fc;">' + (tr.wins || 0) + '/' + (tr.losses || 0) + '</span></div>';
+  html += '<div><span style="color:#8b949e;">PnL</span><br><span style="font-size:20px;font-weight:700;color:' + pnlColor + ';">' + ((tr.total_pnl || 0) >= 0 ? '+' : '') + (tr.total_pnl || 0).toFixed(1) + ' pts</span></div>';
+  html += '</div>';
+
+  // Winners
+  var win = latest.winners || {};
+  if (win.count > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#3fb950;">Winner Patterns (' + win.count + ')</strong><br>';
+    var factors = win.common_factors || [];
+    for (var i = 0; i < factors.length; i++) {
+      html += '<span style="color:#c9d1d9;font-size:13px;">&#x1F3C6; ' + factors[i] + '</span><br>';
+    }
+    html += '</div>';
+  }
+
+  // Losers
+  var los = latest.losers || {};
+  if (los.count > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#f85149;">Loser Warning Signs (' + los.count + ')</strong><br>';
+    var warnings = los.warning_signs || [];
+    for (var i = 0; i < warnings.length; i++) {
+      html += '<span style="color:#c9d1d9;font-size:13px;">&#x26A0;&#xFE0F; ' + warnings[i] + '</span><br>';
+    }
+    html += '</div>';
+  }
+
+  // Near misses
+  var nm = latest.near_misses || {};
+  if (nm.count > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#d29922;">Near-Misses (' + nm.count + ')</strong><br>';
+    html += '<span style="color:#c9d1d9;font-size:13px;">Would-have-won: ' + (nm.would_have_won || 0) + ' | Would-have-lost: ' + (nm.would_have_lost || 0) + '</span><br>';
+    var netGate = (nm.net_gate_value || 0);
+    var gateColor = netGate >= 0 ? '#3fb950' : '#f85149';
+    html += '<span style="color:' + gateColor + ';font-size:13px;">Net gate value: ' + (netGate >= 0 ? '+' : '') + netGate.toFixed(0) + ' pts</span>';
+    html += '</div>';
+  }
+
+  // Blind spots
+  var bs = latest.blind_spots || [];
+  if (bs.length > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#f85149;">Mancini Blind Spots (' + bs.length + ')</strong><br>';
+    for (var i = 0; i < Math.min(bs.length, 5); i++) {
+      html += '<span style="color:#c9d1d9;font-size:13px;">' + (bs[i].price || '?') + ' (' + (bs[i].side || '?') + ')</span><br>';
+    }
+    html += '</div>';
+  }
+
+  // Recommendations
+  var recs = latest.recommendations || [];
+  if (recs.length > 0) {
+    html += '<div style="border-top:1px solid #21262d;padding-top:8px;margin-top:8px;">';
+    html += '<strong style="color:#58a6ff;">Recommendations</strong><br>';
+    for (var i = 0; i < recs.length; i++) {
+      html += '<span style="color:#c9d1d9;font-size:13px;">&#x1F4A1; ' + recs[i] + '</span><br>';
+    }
+    html += '</div>';
+  }
+
+  html += '</div>';
+
+  // History table
+  if (reports.length > 1) {
+    html += '<h3 style="color:#8b949e;margin:16px 0 8px;">Report History</h3>';
+    html += '<table style="width:100%;border-collapse:collapse;">';
+    html += '<tr style="border-bottom:1px solid #30363d;">';
+    html += '<th style="text-align:left;padding:6px;color:#8b949e;font-size:11px;">Date</th>';
+    html += '<th style="text-align:center;padding:6px;color:#8b949e;font-size:11px;">Trades</th>';
+    html += '<th style="text-align:center;padding:6px;color:#8b949e;font-size:11px;">W/L</th>';
+    html += '<th style="text-align:right;padding:6px;color:#8b949e;font-size:11px;">PnL</th>';
+    html += '<th style="text-align:right;padding:6px;color:#8b949e;font-size:11px;">Gate Value</th>';
+    html += '<th style="text-align:center;padding:6px;color:#8b949e;font-size:11px;">Blind Spots</th>';
+    html += '</tr>';
+    for (var i = reports.length - 1; i >= 0; i--) {
+      var r = reports[i];
+      var rt = r.trades || {};
+      var rnm = r.near_misses || {};
+      var rpnl = rt.total_pnl || 0;
+      var rpnlColor = rpnl >= 0 ? '#3fb950' : '#f85149';
+      var rgv = rnm.net_gate_value || 0;
+      var rgvColor = rgv >= 0 ? '#3fb950' : '#f85149';
+      html += '<tr style="border-bottom:1px solid #21262d;">';
+      html += '<td style="padding:6px;color:#c9d1d9;font-size:12px;">' + (r.session_date || '?') + '</td>';
+      html += '<td style="text-align:center;padding:6px;color:#c9d1d9;font-size:12px;">' + (rt.count || 0) + '</td>';
+      html += '<td style="text-align:center;padding:6px;color:#c9d1d9;font-size:12px;">' + (rt.wins || 0) + '/' + (rt.losses || 0) + '</td>';
+      html += '<td style="text-align:right;padding:6px;color:' + rpnlColor + ';font-size:12px;">' + (rpnl >= 0 ? '+' : '') + rpnl.toFixed(1) + '</td>';
+      html += '<td style="text-align:right;padding:6px;color:' + rgvColor + ';font-size:12px;">' + (rgv >= 0 ? '+' : '') + rgv.toFixed(0) + '</td>';
+      html += '<td style="text-align:center;padding:6px;color:#c9d1d9;font-size:12px;">' + (r.blind_spots || []).length + '</td>';
+      html += '</tr>';
+    }
+    html += '</table>';
+  }
+
+  container.innerHTML = html;
+}
+
+// ==================== SHADOW MODE ====================
+var _shadowEvents = [];
+var _shadowLoaded = false;
+var _shadowInterval = null;
+
+function loadShadowEvents() {
+  var timeline = document.getElementById('shadow-timeline');
+  if (!_shadowLoaded && timeline) {
+    timeline.innerHTML = '<div class="shadow-empty"><div class="shadow-empty-text">Loading shadow events...</div></div>';
+  }
+  fetch('/api/shadow')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      _shadowEvents = data.events || [];
+      _shadowLoaded = true;
+      renderShadowCards(data);
+      renderShadowTimeline(_shadowEvents);
+      renderShadowStatsBar(data);
+    })
+    .catch(function(err) {
+      if (timeline) timeline.innerHTML = '<div class="shadow-empty"><div class="shadow-empty-text" style="color:#f85149;">Failed to load shadow events: ' + err + '</div></div>';
+    });
+
+  // Set up auto-refresh every 30s
+  if (!_shadowInterval) {
+    _shadowInterval = setInterval(function() {
+      var activeTab = document.querySelector('.tab-btn.active');
+      if (activeTab && activeTab.getAttribute('data-tab') === 'shadow') {
+        loadShadowEvents();
+      }
+    }, 30000);
+  }
+}
+
+function formatShadowTimePT(ts) {
+  if (!ts) return '--';
+  try {
+    var d = new Date(ts);
+    return d.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/Los_Angeles'}) + ' PT';
+  } catch(e) {
+    var m = String(ts).match(/(\d{2}):(\d{2})/);
+    return m ? m[0] : ts;
+  }
+}
+
+function formatShadowDatePT(ts) {
+  if (!ts) return '';
+  try {
+    var d = new Date(ts);
+    return d.toLocaleDateString('en-US', {timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit'});
+  } catch(e) {
+    return String(ts).substring(0, 10);
+  }
+}
+
+function describeSweepEvent(ev) {
+  var level = ev.level_price ? ev.level_price.toFixed(1) : '?';
+  var sweep = (ev.sweep_depth_pts != null) ? ev.sweep_depth_pts.toFixed(1) : '0.0';
+  var curPct = (ev.current_size_factor != null) ? Math.round(ev.current_size_factor * 100) : '?';
+  var sugPct = (ev.shadow_size_factor != null) ? Math.round(ev.shadow_size_factor * 100) : '?';
+  var sigType = ev.signal_type || 'FB Long';
+  var headline = sigType.replace('LONG_QUALIFY','FB Long').replace('BREAKDOWN_SHORT','BD Short').replace('VELOCITY_SHORT','Velocity Short') + ' at ' + level + ': sweep was ' + sweep + ' pts';
+  var detail = 'Current size: ' + curPct + '% &rarr; Shadow recommends: ' + sugPct + '%';
+  if (curPct !== '?' && sugPct !== '?' && curPct > sugPct) {
+    detail += ' (would reduce risk by ' + (curPct - sugPct) + '%)';
+  } else if (curPct !== '?' && sugPct !== '?' && sugPct > curPct) {
+    detail += ' (would increase size by ' + (sugPct - curPct) + '%)';
+  }
+  return {headline: headline, detail: detail};
+}
+
+function describeMode1Event(ev) {
+  var broken = ev.levels_broken || ev.bars_in_mode1 || '?';
+  var headline = ev.details || ('Mode 1 detected &mdash; ' + broken + ' support levels broken');
+  var detail = 'Would cut FB Long size to 25%';
+  if (ev.would_have_done) detail = ev.would_have_done;
+  return {headline: headline, detail: detail};
+}
+
+function describeVelocityEvent(ev) {
+  var levelType = ev.level_type || '?';
+  var levelPrice = ev.level_price ? ev.level_price.toFixed(0) : '?';
+  var price = ev.entry_price ? ev.entry_price.toFixed(2) : '?';
+  var vol = ev.volume ? Math.round(ev.volume) : '?';
+  var avgVol = ev.avg_volume_20 ? Math.round(ev.avg_volume_20) : '?';
+  var volRatio = (ev.volume && ev.avg_volume_20) ? (ev.volume / ev.avg_volume_20).toFixed(1) + 'x' : '?';
+  var headline = levelType + ' ' + levelPrice + ' broke with ' + volRatio + ' volume (' + vol + ' vs avg ' + avgVol + ')';
+  var detail = 'Would SHORT at ' + price;
+  if (ev.stop_price) detail += ', stop ' + ev.stop_price.toFixed(2);
+  if (ev.rr_ratio_t1) detail += ', R:R ' + ev.rr_ratio_t1.toFixed(1);
+  return {headline: headline, detail: detail};
+}
+
+function renderShadowCards(data) {
+  var stats = data.summary || {};
+  var sweep = stats.sweep_depth || {};
+  var mode1 = stats.mode1 || {};
+  var vshort = stats.velocity_short || {};
+  var events = data.events || [];
+
+  // Sweep card
+  var el = document.getElementById('sc-sweep-status');
+  if (el) el.textContent = (sweep.count || 0) + ' events today';
+  var sweepLatest = document.getElementById('sc-sweep-latest');
+  var lastSweep = null;
+  for (var i = events.length - 1; i >= 0; i--) { if (events[i].feature === 'sweep_depth') { lastSweep = events[i]; break; } }
+  if (sweepLatest) {
+    if (lastSweep) {
+      var sd = describeSweepEvent(lastSweep);
+      sweepLatest.innerHTML = '<div class="lbl">Latest</div>' + sd.headline + '<br>' + sd.detail;
+    } else {
+      sweepLatest.innerHTML = '<div class="lbl">Latest</div>No sweep events yet today';
+    }
+  }
+  var sweepImpact = document.getElementById('sc-sweep-impact');
+  if (sweepImpact) {
+    if (sweep.count > 0 && sweep.avg_size != null) {
+      sweepImpact.textContent = 'Avg recommended size: ' + Math.round(sweep.avg_size * 100) + '%';
+      sweepImpact.className = 'shadow-card-impact';
+    } else { sweepImpact.textContent = ''; }
+  }
+
+  // Mode1 card
+  el = document.getElementById('sc-mode1-status');
+  if (el) {
+    if ((mode1.count || 0) > 0) {
+      el.innerHTML = (mode1.count || 0) + ' detections today';
+    } else {
+      el.innerHTML = 'No trend day detected &#x2705;';
+    }
+  }
+  var mode1Latest = document.getElementById('sc-mode1-latest');
+  var lastMode1 = null;
+  for (var i = events.length - 1; i >= 0; i--) { if (events[i].feature === 'mode1') { lastMode1 = events[i]; break; } }
+  if (mode1Latest) {
+    if (lastMode1) {
+      var md = describeMode1Event(lastMode1);
+      mode1Latest.innerHTML = '<div class="lbl">Latest</div>' + md.headline + '<br>' + md.detail;
+    } else {
+      mode1Latest.innerHTML = '<div class="lbl">Latest</div>Market is in normal Mode 2 \\u2014 bounces working as expected';
+    }
+  }
+  var mode1Impact = document.getElementById('sc-mode1-impact');
+  if (mode1Impact) {
+    if (mode1.total_bars != null && mode1.total_bars > 0) {
+      mode1Impact.textContent = mode1.total_bars + ' bars spent in Mode 1 today';
+      mode1Impact.className = 'shadow-card-impact neg';
+    } else { mode1Impact.textContent = ''; }
+  }
+
+  // Velocity card
+  el = document.getElementById('sc-vshort-status');
+  if (el) el.textContent = (vshort.count || 0) + ' signals today';
+  var vshortLatest = document.getElementById('sc-vshort-latest');
+  var lastVshort = null;
+  for (var i = events.length - 1; i >= 0; i--) { if (events[i].feature === 'velocity_short') { lastVshort = events[i]; break; } }
+  if (vshortLatest) {
+    if (lastVshort) {
+      var vd = describeVelocityEvent(lastVshort);
+      vshortLatest.innerHTML = '<div class="lbl">Latest</div>' + vd.headline + '<br>' + vd.detail;
+    } else {
+      vshortLatest.innerHTML = '<div class="lbl">Latest</div>No velocity signals yet today';
+    }
+  }
+  var vshortImpact = document.getElementById('sc-vshort-impact');
+  if (vshortImpact) {
+    if (vshort.total_pnl != null) {
+      var pnlStr = (vshort.total_pnl >= 0 ? '+' : '') + vshort.total_pnl.toFixed(1) + ' pts total';
+      vshortImpact.textContent = 'Would-have PnL: ' + pnlStr;
+      vshortImpact.className = 'shadow-card-impact' + (vshort.total_pnl < 0 ? ' neg' : '');
+    } else { vshortImpact.textContent = ''; }
+  }
+}
+
+function renderShadowTimeline(events) {
+  var container = document.getElementById('shadow-timeline');
+  if (!container) return;
+  if (!events || events.length === 0) {
+    container.innerHTML = '<div class="shadow-empty">'
+      + '<div class="shadow-empty-icon">&#x1f441;</div>'
+      + '<div class="shadow-empty-text">No shadow events yet.<br>Events will appear here as shadow features fire during market hours.</div>'
+      + '</div>';
+    return;
+  }
+
+  // Group events by date (PT), newest first
+  var sorted = events.slice().reverse();
+  var groups = {};
+  var groupOrder = [];
+  for (var i = 0; i < sorted.length; i++) {
+    var ev = sorted[i];
+    var dateStr = formatShadowDatePT(ev.timestamp);
+    if (!groups[dateStr]) { groups[dateStr] = []; groupOrder.push(dateStr); }
+    groups[dateStr].push(ev);
+  }
+
+  // Determine today/yesterday labels
+  var now = new Date();
+  var todayPT = now.toLocaleDateString('en-US', {timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit'});
+  var yesterday = new Date(now.getTime() - 86400000);
+  var yesterdayPT = yesterday.toLocaleDateString('en-US', {timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit'});
+
+  var html = '';
+  for (var g = 0; g < groupOrder.length; g++) {
+    var dateKey = groupOrder[g];
+    var label = dateKey === todayPT ? 'TODAY' : dateKey === yesterdayPT ? 'YESTERDAY' : dateKey;
+    html += '<div class="shadow-tl-day">' + label + '</div>';
+    var evs = groups[dateKey];
+    for (var j = 0; j < evs.length; j++) {
+      var ev = evs[j];
+      var feature = ev.feature || 'unknown';
+      var icon = feature === 'sweep_depth' ? '&#x1F4CF;' : feature === 'mode1' ? '&#x1F534;' : feature === 'velocity_short' ? '&#x26A1;' : '&#x1F50D;';
+      var desc;
+      if (feature === 'sweep_depth') {
+        desc = describeSweepEvent(ev);
+      } else if (feature === 'mode1') {
+        desc = describeMode1Event(ev);
+      } else if (feature === 'velocity_short') {
+        desc = describeVelocityEvent(ev);
+      } else {
+        desc = {headline: ev.details || feature, detail: ev.would_have_done || ''};
+      }
+
+      var resultClass = '';
+      if (feature === 'velocity_short' && ev.would_have_pnl != null) {
+        resultClass = ev.would_have_pnl >= 0 ? 'win' : 'loss';
+      }
+
+      html += '<div class="shadow-tl-row">';
+      html += '<div class="shadow-tl-time">' + formatShadowTimePT(ev.timestamp) + '</div>';
+      html += '<div class="shadow-tl-icon">' + icon + '</div>';
+      html += '<div class="shadow-tl-body">';
+      html += '<div class="shadow-tl-headline">' + desc.headline + '</div>';
+      html += '<div class="shadow-tl-detail">' + desc.detail + '</div>';
+
+      // Show outcome if available
+      if (ev.outcome) {
+        var pnl = ev.outcome_pnl || 0;
+        var outcomeIcon, outcomeText, outcomeColor;
+        if (ev.outcome === 'target_hit') {
+          outcomeIcon = '&#x1F3AF;';
+          outcomeText = 'TARGET HIT';
+          outcomeColor = '#3fb950';
+        } else if (ev.outcome === 'stop_hit') {
+          outcomeIcon = '&#x1F6D1;';
+          outcomeText = 'STOP HIT';
+          outcomeColor = '#f85149';
+        } else {
+          outcomeIcon = '&#x23F0;';
+          outcomeText = 'TIMED OUT';
+          outcomeColor = '#8b949e';
+        }
+        var pnlStr = (pnl >= 0 ? '+' : '') + pnl.toFixed(1) + ' pts';
+        var pnlColor = pnl >= 0 ? '#3fb950' : '#f85149';
+        html += '<div style="margin-top:4px;padding:4px 8px;border-radius:4px;background:#21262d;display:inline-block;">'
+          + '<span>' + outcomeIcon + ' ' + outcomeText + '</span>'
+          + '<span style="color:' + pnlColor + ';font-weight:700;margin-left:8px;">' + pnlStr + '</span>'
+          + (ev.outcome_bars ? '<span style="color:#8b949e;margin-left:8px;">(' + ev.outcome_bars + ' bars)</span>' : '')
+          + '</div>';
+      } else if (ev.entry_price && ev.stop_price) {
+        html += '<div style="margin-top:4px;color:#8b949e;font-size:11px;">&#x23F3; Tracking outcome...</div>';
+      }
+
+      html += '</div></div>';
+    }
+  }
+  container.innerHTML = html;
+}
+
+function renderShadowStatsBar(data) {
+  var stats = data.summary || {};
+  var total = stats.total_today || 0;
+  var vshort = stats.velocity_short || {};
+  var sweep = stats.sweep_depth || {};
+
+  var el = document.getElementById('ss-total');
+  if (el) el.textContent = total;
+
+  var vsEl = document.getElementById('ss-vsignals');
+  if (vsEl) vsEl.textContent = (vshort.count || 0) + (vshort.total_pnl != null ? ' (' + (vshort.total_pnl >= 0 ? '+' : '') + vshort.total_pnl.toFixed(1) + ' pts)' : '');
+
+  var savEl = document.getElementById('ss-savings');
+  if (savEl) {
+    // Estimate savings from sweep depth sizing reductions
+    if (sweep.count > 0 && sweep.avg_size != null) {
+      var avgReduction = Math.round((1 - sweep.avg_size) * 100);
+      savEl.textContent = '~' + avgReduction + '% size reduction avg';
+    } else {
+      savEl.textContent = '--';
+    }
+  }
+}
 </script>
 </body>
 </html>""")
@@ -1651,17 +2333,47 @@ def render_position(status: dict) -> str:
     risk = pos.get("risk_pts", 0)
     reward = pos.get("reward_pts", 0)
     rr = reward / risk if risk > 0 else 0
+    phase = pos.get("phase", "INITIAL")
+    t1_hit = pos.get("t1_hit", False)
+    mfe = pos.get("mfe_pts", 0)
+    mae = pos.get("mae_pts", 0)
+    trail_stop = pos.get("trail_stop")
+    trail_dist = pos.get("trail_distance_pts")
+
+    # Phase badge
+    if phase == "AFTER_T1":
+        phase_badge = '<span style="background:#238636;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;">RUNNER (T1 HIT)</span>'
+    elif phase == "AFTER_T2":
+        phase_badge = '<span style="background:#1f6feb;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;">RUNNER (T2 HIT)</span>'
+    elif phase == "RUNNER":
+        phase_badge = '<span style="background:#d29922;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;">RUNNER</span>'
+    else:
+        phase_badge = ""
+
+    # Trail stop display
+    trail_html = ""
+    if trail_stop is not None and trail_dist is not None:
+        trail_html = f"""
+    <div class="stat-row"><span class="stat-label">Trail Stop</span><span class="stat-value yellow" style="font-size:16px;font-weight:700;">📏 {trail_stop:.2f}</span></div>
+    <div class="stat-row"><span class="stat-label">Trail Distance</span><span class="stat-value">{trail_dist:.1f} pts from price</span></div>"""
+
+    # MFE/MAE display
+    mfe_mae_html = ""
+    if mfe > 0 or mae > 0:
+        mfe_mae_html = f"""
+    <div class="stat-row"><span class="stat-label">Best (MFE)</span><span class="stat-value green">+{mfe:.1f} pts</span></div>
+    <div class="stat-row"><span class="stat-label">Worst (MAE)</span><span class="stat-value red">-{mae:.1f} pts</span></div>"""
 
     return f"""
     <div class="position-banner {css}">
       <span class="pos-direction">{direction.upper()} x{contracts}</span>
-      <span class="pos-pattern">{pattern}</span>
+      <span class="pos-pattern">{pattern} {phase_badge}</span>
     </div>
     <div class="stat-row"><span class="stat-label">Entry</span><span class="stat-value">{entry:.2f}</span></div>
-    <div class="stat-row"><span class="stat-label">Stop</span><span class="stat-value red">{stop:.2f} ({risk:.1f} pts)</span></div>
-    <div class="stat-row"><span class="stat-label">Target</span><span class="stat-value green">{target:.2f} ({reward:.1f} pts)</span></div>
+    <div class="stat-row"><span class="stat-label">{"Trail Stop" if trail_stop else "Stop"}</span><span class="stat-value {"yellow" if trail_stop else "red"}" style="font-size:16px">{stop:.2f} ({risk:.1f} pts)</span></div>
+    <div class="stat-row"><span class="stat-label">Target</span><span class="stat-value green">{target:.2f} {"✅ HIT" if t1_hit else f"({reward:.1f} pts)"}</span></div>
     <div class="stat-row"><span class="stat-label">R:R</span><span class="stat-value">{rr:.1f}</span></div>
-    <div class="stat-row"><span class="stat-label">Unrealized</span><span class="stat-value {pnl_css}" style="font-size:18px">{unrealized:+.1f} pts</span></div>
+    <div class="stat-row"><span class="stat-label">Unrealized</span><span class="stat-value {pnl_css}" style="font-size:18px">{unrealized:+.1f} pts</span></div>{trail_html}{mfe_mae_html}
     """
 
 
@@ -2268,9 +2980,14 @@ def read_all_trades() -> list:
                     "new_stop": 0,
                 })
                 total_contracts = entry_rec.get("contracts", None) or entry_rec.get("total_contracts", None) or rec.get("contracts", 1)
+                # Use actual entry timestamp for the date column (not session_date)
+                # so evening Globex trades show the correct calendar date
+                _entry_ts = entry_rec.get("timestamp", "")
+                _trade_date = _entry_ts[:10] if len(_entry_ts) >= 10 else rec.get("session_date", "")
                 trades.append({
-                    "date": rec.get("session_date", ""),
-                    "entry_time": entry_rec.get("timestamp", ""),
+                    "date": _trade_date,
+                    "session_date": rec.get("session_date", ""),
+                    "entry_time": _entry_ts,
                     "exit_time": rec.get("timestamp", ""),
                     "direction": entry_rec.get("direction", rec.get("direction", "long")),
                     "pattern": entry_rec.get("pattern_type", rec.get("pattern_type", "?")),
@@ -2295,6 +3012,118 @@ def read_all_trades() -> list:
     except OSError:
         return []
     return sorted(trades, key=lambda t: t.get("exit_time", ""), reverse=True)
+
+
+def read_nightly_reports() -> dict:
+    """Read nightly_reports.jsonl and return last 14 reports."""
+    log_dir = os.environ.get("LOG_PATH", os.environ.get("LOG_FILE", "/app/logs/bot.log"))
+    log_dir_path = Path(log_dir)
+    if log_dir_path.suffix:
+        log_dir_path = log_dir_path.parent
+    report_path = log_dir_path / "nightly_reports.jsonl"
+
+    reports = []
+    if report_path.exists():
+        try:
+            for line in report_path.read_text().splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    reports.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+        except OSError:
+            pass
+
+    return {"reports": reports[-14:]}
+
+
+def read_shadow_events() -> dict:
+    """Read shadow_trades.jsonl and return last 100 events with summary stats."""
+    log_dir = os.environ.get("LOG_PATH", os.environ.get("LOG_FILE", "/app/logs/bot.log"))
+    # LOG_PATH or LOG_FILE points to a file; get the parent directory
+    log_dir_path = Path(log_dir)
+    if log_dir_path.suffix:  # it's a file path, get parent
+        log_dir_path = log_dir_path.parent
+    shadow_path = log_dir_path / "shadow_trades.jsonl"
+
+    events = []
+    if shadow_path.exists():
+        try:
+            for line in shadow_path.read_text().splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    events.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+        except OSError:
+            pass
+
+    # Separate outcomes from signal events and attach outcomes to their signals
+    outcomes = [e for e in events if e.get("event") == "shadow_outcome"]
+    signal_events = [e for e in events if e.get("event") != "shadow_outcome"]
+
+    # Match outcomes to signals by feature + timestamp
+    for sig in signal_events:
+        sig_ts = sig.get("timestamp", "")
+        sig_feat = sig.get("feature", "")
+        for out in outcomes:
+            if out.get("feature") == sig_feat and out.get("timestamp") == sig_ts:
+                sig["outcome"] = out.get("outcome")
+                sig["outcome_pnl"] = out.get("pnl_pts")
+                sig["outcome_price"] = out.get("outcome_price")
+                sig["outcome_bars"] = out.get("bars_tracked")
+                sig["outcome_mfe"] = out.get("mfe_pts")
+                break
+
+    # Only return last 100 signal events (not raw outcomes)
+    events = signal_events[-100:]
+
+    # Compute today's summary
+    from datetime import datetime, timezone
+    try:
+        from zoneinfo import ZoneInfo
+        et = ZoneInfo("America/New_York")
+    except ImportError:
+        import pytz
+        et = pytz.timezone("America/New_York")
+    today_str = datetime.now(tz=et).strftime("%Y-%m-%d")
+
+    today_events = []
+    for ev in events:
+        ts = ev.get("timestamp", "")
+        if ts.startswith(today_str):
+            today_events.append(ev)
+
+    # Aggregate by feature
+    sweep_events = [e for e in today_events if e.get("feature") == "sweep_depth"]
+    mode1_events = [e for e in today_events if e.get("feature") == "mode1"]
+    vshort_events = [e for e in today_events if e.get("feature") == "velocity_short"]
+
+    sweep_sizes = [e.get("suggested_size", 0) for e in sweep_events if e.get("suggested_size")]
+    mode1_bars = [e.get("bars_in_mode1", 0) for e in mode1_events if e.get("bars_in_mode1")]
+    vshort_pnls = [e.get("would_have_pnl", 0) for e in vshort_events if e.get("would_have_pnl") is not None]
+
+    summary = {
+        "total_today": len(today_events),
+        "sweep_depth": {
+            "count": len(sweep_events),
+            "avg_size": sum(sweep_sizes) / len(sweep_sizes) if sweep_sizes else None,
+        },
+        "mode1": {
+            "count": len(mode1_events),
+            "total_bars": sum(mode1_bars) if mode1_bars else None,
+        },
+        "velocity_short": {
+            "count": len(vshort_events),
+            "total_pnl": sum(vshort_pnls) if vshort_pnls else None,
+        },
+    }
+
+    return {"events": events, "summary": summary}
 
 
 def build_page() -> str:
@@ -2429,43 +3258,75 @@ class DashboardHandler(BaseHTTPRequestHandler):
     """HTTP handler for the dashboard."""
 
     def do_GET(self):
-        if self.path == "/" or self.path == "/dashboard":
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.end_headers()
-            self.wfile.write(build_page().encode())
-        elif self.path == "/api/status":
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps(read_status(), indent=2).encode())
-        elif self.path == "/api/fragments":
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Cache-Control", "no-cache")
-            self.end_headers()
-            self.wfile.write(json.dumps(build_fragments()).encode())
-        elif self.path == "/api/trades":
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Cache-Control", "no-cache")
-            self.end_headers()
-            self.wfile.write(json.dumps(read_all_trades(), default=str).encode())
-        elif self.path == "/health":
-            self.send_response(200)
-            self.send_header("Content-Type", "text/plain")
-            self.end_headers()
-            self.wfile.write(b"ok")
-        else:
-            self.send_response(404)
-            self.end_headers()
+        try:
+            if self.path == "/" or self.path == "/dashboard":
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(build_page().encode())
+            elif self.path == "/api/status":
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(read_status(), indent=2).encode())
+            elif self.path == "/api/fragments":
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Cache-Control", "no-cache")
+                self.end_headers()
+                self.wfile.write(json.dumps(build_fragments()).encode())
+            elif self.path == "/api/trades":
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Cache-Control", "no-cache")
+                self.end_headers()
+                self.wfile.write(json.dumps(read_all_trades(), default=str).encode())
+            elif self.path == "/api/shadow":
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Cache-Control", "no-cache")
+                self.end_headers()
+                self.wfile.write(json.dumps(read_shadow_events(), default=str).encode())
+            elif self.path == "/api/reports":
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Cache-Control", "no-cache")
+                self.end_headers()
+                self.wfile.write(json.dumps(read_nightly_reports(), default=str).encode())
+            elif self.path == "/health":
+                self.send_response(200)
+                self.send_header("Content-Type", "text/plain")
+                self.end_headers()
+                self.wfile.write(b"ok")
+            else:
+                self.send_response(404)
+                self.end_headers()
+        except (ConnectionResetError, BrokenPipeError, ConnectionAbortedError):
+            # Browser closed connection before we finished writing — harmless
+            pass
+        except Exception as e:
+            # Catch-all so the server thread never dies on unexpected errors
+            try:
+                self.send_response(500)
+                self.send_header("Content-Type", "text/plain")
+                self.end_headers()
+                self.wfile.write(f"Internal error: {e}".encode())
+            except (ConnectionResetError, BrokenPipeError, ConnectionAbortedError):
+                pass
 
     def log_message(self, format, *args):
         pass
 
 
+class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
+    """Handle each request in a new thread so concurrent browser requests
+    (HTML page + API calls) don't block each other and cause
+    ConnectionResetError crashes."""
+    daemon_threads = True
+
+
 def main():
-    server = HTTPServer(("0.0.0.0", PORT), DashboardHandler)
+    server = ThreadingHTTPServer(("0.0.0.0", PORT), DashboardHandler)
     print(f"Dashboard running on http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()

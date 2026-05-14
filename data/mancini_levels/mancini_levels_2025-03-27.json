@@ -1,0 +1,158 @@
+{
+  "trading_date": "2025-03-27",
+  "levels": [
+    {
+      "price": 5585.0,
+      "role": "mentioned",
+      "context": "e triggered. ES flushed the Tuesday March 11th major low at 5585, trapped shorts, recovered, and a relief rally began. I wro"
+    },
+    {
+      "price": 5699.0,
+      "role": "support",
+      "context": "defend 5699"
+    },
+    {
+      "price": 5740.0,
+      "role": "range",
+      "context": "5740-50"
+    },
+    {
+      "price": 5745.0,
+      "role": "range",
+      "context": "5745-57"
+    },
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5740-50"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5745-57"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "ck up to 5745-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next l"
+    },
+    {
+      "price": 5795.0,
+      "role": "mentioned",
+      "context": "to 5745-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d W"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "e gap fill. Short-term though, we can get a good retrace if 5797 fails. \u201d We lost 5797 at 11am, and down we went to backtest"
+    },
+    {
+      "price": 5809.0,
+      "role": "mentioned",
+      "context": "5-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d We test"
+    },
+    {
+      "price": 5824.0,
+      "role": "mentioned",
+      "context": "Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d We tested 575"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "inal dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d We tested 5750 1 final t"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5585.0,
+      "role": "mentioned",
+      "context": "e triggered. ES flushed the Tuesday March 11th major low at 5585, trapped shorts, recovered, and a relief rally began. I wro"
+    },
+    {
+      "price": 5699.0,
+      "role": "support",
+      "context": "defend 5699"
+    },
+    {
+      "price": 5740.0,
+      "role": "range",
+      "context": "5740-50"
+    },
+    {
+      "price": 5745.0,
+      "role": "range",
+      "context": "5745-57"
+    },
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5740-50"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5745-57"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "ck up to 5745-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next l"
+    },
+    {
+      "price": 5795.0,
+      "role": "mentioned",
+      "context": "to 5745-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d W"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "e gap fill. Short-term though, we can get a good retrace if 5797 fails. \u201d We lost 5797 at 11am, and down we went to backtest"
+    },
+    {
+      "price": 5809.0,
+      "role": "mentioned",
+      "context": "5-57. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d We test"
+    },
+    {
+      "price": 5824.0,
+      "role": "mentioned",
+      "context": "Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d We tested 575"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "inal dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d We tested 5750 1 final t"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can re-test 5610."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday that: \u201cBear case tomorrow: No bear case until we are sub 5720 below the gap fill."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Rallies begin with my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on March 13th: \u201c We have an active Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, while Failed Breakdowns start rallies, in order to sustain and propel them , ES needs to recover a major prior breakdown zone and on Sunday/early Monday, it just did that."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "Decision Time For SPX: Will Today's Dip Get Bought? March 27 Plan",
+  "post_date": "2025-03-26",
+  "post_slug": "decision-time-for-spx-will-todays",
+  "parsed_at": "2026-04-16T15:44:52.122373",
+  "body_length": 2336
+}

@@ -1,0 +1,130 @@
+{
+  "trading_date": "2025-12-12",
+  "levels": [
+    {
+      "price": 6830.0,
+      "role": "support",
+      "context": "6830 daily low"
+    },
+    {
+      "price": 6835.0,
+      "role": "support",
+      "context": "6835 daily low"
+    },
+    {
+      "price": 6893.0,
+      "role": "range",
+      "context": "6893-96"
+    },
+    {
+      "price": 6896.0,
+      "role": "range",
+      "context": "6893-96"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "an option.\u201d After this trigger, we were off to the races to 6900+ today. As I stated yesterday, next targets up were \u201c6915,"
+    },
+    {
+      "price": 6915.0,
+      "role": "mentioned",
+      "context": "o 6900+ today. As I stated yesterday, next targets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We made grea"
+    },
+    {
+      "price": 6924.0,
+      "role": "mentioned",
+      "context": "+ today. As I stated yesterday, next targets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We made great prog"
+    },
+    {
+      "price": 6948.0,
+      "role": "mentioned",
+      "context": "argets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We made great progress here, getting to ~6910 by the clo"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6830.0,
+      "role": "support",
+      "context": "6830 daily low"
+    },
+    {
+      "price": 6835.0,
+      "role": "support",
+      "context": "6835 daily low"
+    },
+    {
+      "price": 6893.0,
+      "role": "range",
+      "context": "6893-96"
+    },
+    {
+      "price": 6896.0,
+      "role": "range",
+      "context": "6893-96"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "an option.\u201d After this trigger, we were off to the races to 6900+ today. As I stated yesterday, next targets up were \u201c6915,"
+    },
+    {
+      "price": 6915.0,
+      "role": "mentioned",
+      "context": "o 6900+ today. As I stated yesterday, next targets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We made grea"
+    },
+    {
+      "price": 6924.0,
+      "role": "mentioned",
+      "context": "+ today. As I stated yesterday, next targets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We made great prog"
+    },
+    {
+      "price": 6948.0,
+      "role": "mentioned",
+      "context": "argets up were \u201c6915, 6924/31. Perhaps dip there, then onto 6948+.\u201d We made great progress here, getting to ~6910 by the clo"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions leave their footprint on the chart when they buy a dip and it comes in the form of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cOne could wait for a Failed Breakdown of Monday\u2019s 6835 daily low.\u201d We recovered 6835 at 9:40PM, and we were off to the races."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Unfortunately closing at the high of days yesterday, there was little to do but wait for the next flush and insitutional accumulation event (Failed Breakdown)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I stated at 4pm yesterday: \u201cMy job is to wait for ES to flush, get everyone bearish, trap below a low, then I get long with institutions on the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cBelow there, a Failed Breakdown of today\u2019s 6830 daily low is an option.\u201d After this trigger, we were off to the races to 6900+ today."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the variety of Failed Breakdowns we had Friday-yesterday that setup the FOMC squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions often accumulate via multiple Failed Breakdowns over time and it is essential to spot them."
+    },
+    {
+      "type": "TARGETS",
+      "text": "As I stated yesterday, next targets up were \u201c6915, 6924/31."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Bulls Keep Buying Every Dip. Can They Finish The Job and Take SPX To All Time Highs Now? December 12 Plan",
+  "post_date": "2025-12-11",
+  "post_slug": "bulls-keep-buying-every-dip-can-they",
+  "parsed_at": "2026-04-16T15:41:00.544558",
+  "body_length": 2675
+}

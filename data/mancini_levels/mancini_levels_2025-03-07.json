@@ -1,0 +1,104 @@
+{
+  "trading_date": "2025-03-07",
+  "levels": [
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5750-60"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5757-63"
+    },
+    {
+      "price": 5760.0,
+      "role": "range",
+      "context": "5750-60"
+    },
+    {
+      "price": 5763.0,
+      "role": "support",
+      "context": "recover 5763"
+    },
+    {
+      "price": 5822.0,
+      "role": "mentioned",
+      "context": "efended this zone exactly, and back up the range we went to 5822 by 11am, before flushing 100+ points to new lows. I also st"
+    },
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5750-60"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5757-63"
+    },
+    {
+      "price": 5760.0,
+      "role": "range",
+      "context": "5750-60"
+    },
+    {
+      "price": 5763.0,
+      "role": "support",
+      "context": "recover 5763"
+    },
+    {
+      "price": 5822.0,
+      "role": "mentioned",
+      "context": "efended this zone exactly, and back up the range we went to 5822 by 11am, before flushing 100+ points to new lows. I also st"
+    },
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote back on Sunday (when we were 5960s) that the \u201cBear case Monday: The real bear case begins if 5870-75 fails.\u201d 5875 is a major uptrend channel that began in October 2023, ran through the August 2024 lows, and contained all action since."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember after \u201celevator down\u201d flushes, ES always short squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday: \u201cIf we melt down to range support again, I\u2019d be interested in a final long at 5757-63."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown setup that took us +100 yesterday into today, and I\u2019ll discuss the actionable trade plan for tomorrow."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "After 9 of last 11 Days Red, SPX Arrives At A Major Inflection Point. Can It Bounce? March 7 plan",
+  "post_date": "2025-03-06",
+  "post_slug": "after-9-of-last-11-days-red-spx-arrives",
+  "parsed_at": "2026-04-16T15:45:09.820138",
+  "body_length": 2261
+}

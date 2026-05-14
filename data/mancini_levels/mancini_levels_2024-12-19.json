@@ -1,0 +1,76 @@
+{
+  "trading_date": "2024-12-19",
+  "levels": [
+    {
+      "price": 5900.0,
+      "role": "mentioned",
+      "context": "g\u201d any longs\u201d. Substantial flush it was, and we got down to 5900 near the close. The question is, now what? Will this dip ge"
+    },
+    {
+      "price": 6105.0,
+      "role": "range",
+      "context": "6105-6115"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6105-6115"
+    },
+    {
+      "price": 6168.0,
+      "role": "range",
+      "context": "6168-75"
+    },
+    {
+      "price": 6175.0,
+      "role": "range",
+      "context": "6168-75"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5900.0,
+      "role": "mentioned",
+      "context": "g\u201d any longs\u201d. Substantial flush it was, and we got down to 5900 near the close. The question is, now what? Will this dip ge"
+    },
+    {
+      "price": 6105.0,
+      "role": "range",
+      "context": "6105-6115"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6105-6115"
+    },
+    {
+      "price": 6168.0,
+      "role": "range",
+      "context": "6168-75"
+    },
+    {
+      "price": 6175.0,
+      "role": "range",
+      "context": "6168-75"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday that \u201cBear case tomorrow: Begins on the fail of 6105\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "ES took the bear case very literally and as I wrote yesterday: \u201c If 6105 fails, then the bull flag also fails (6105 is support of the flag)."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Biggest Melt-Down Since August For SPX. Buyable Dip, Or More To Come? Dec 19 Plan",
+  "post_date": "2024-12-18",
+  "post_slug": "biggest-melt-down-since-august-for",
+  "parsed_at": "2026-04-16T15:46:13.913192",
+  "body_length": 1698
+}

@@ -1,0 +1,108 @@
+{
+  "trading_date": "2024-09-17",
+  "levels": [
+    {
+      "price": 5585.0,
+      "role": "mentioned",
+      "context": "My general lean is always to defer to the trend. As long as 5585 holds (or recovers quickly on any flushes) we simply contin"
+    },
+    {
+      "price": 5619.0,
+      "role": "support",
+      "context": "above 5619"
+    },
+    {
+      "price": 5622.0,
+      "role": "range",
+      "context": "5619-22"
+    },
+    {
+      "price": 5630.0,
+      "role": "level",
+      "context": "5630 level"
+    },
+    {
+      "price": 5642.0,
+      "role": "mentioned",
+      "context": "e ES building a new base which would be below todays highs (5642) and above 5619-22 (with any dips below quickly grabbed). T"
+    },
+    {
+      "price": 5660.0,
+      "role": "range",
+      "context": "5660-64"
+    },
+    {
+      "price": 5664.0,
+      "role": "range",
+      "context": "5660-64"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5585.0,
+      "role": "mentioned",
+      "context": "My general lean is always to defer to the trend. As long as 5585 holds (or recovers quickly on any flushes) we simply contin"
+    },
+    {
+      "price": 5619.0,
+      "role": "support",
+      "context": "above 5619"
+    },
+    {
+      "price": 5622.0,
+      "role": "range",
+      "context": "5619-22"
+    },
+    {
+      "price": 5630.0,
+      "role": "level",
+      "context": "5630 level"
+    },
+    {
+      "price": 5642.0,
+      "role": "mentioned",
+      "context": "e ES building a new base which would be below todays highs (5642) and above 5619-22 (with any dips below quickly grabbed). T"
+    },
+    {
+      "price": 5660.0,
+      "role": "range",
+      "context": "5660-64"
+    },
+    {
+      "price": 5664.0,
+      "role": "range",
+      "context": "5660-64"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This rally took us back to the 5630 level was a massive magnet for the last two weeks of August, and I was looking for a run here in my last Thursday newsletter at 4pm, writing: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll talk about short squeezes and how they relate to my core setup (the failed breakdown) - this is what caused the recent monster leg up."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "We spent all day Friday and the start of today at that 5630 magnet zone before dipping this morning."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This would form another choppy flag around that 5630 mid-pivot, then just push higher\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "We saw this choppy action today, dipping below 5619 over and over, and spending time around the 5630 mid-pivot."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "The Calm Before The Storm For SPX? September 17 Plan",
+  "post_date": "2024-09-16",
+  "post_slug": "the-calm-before-the-storm-for-spx-740",
+  "parsed_at": "2026-04-16T15:47:40.364333",
+  "body_length": 2228
+}

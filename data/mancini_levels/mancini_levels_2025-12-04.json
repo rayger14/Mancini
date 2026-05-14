@@ -1,0 +1,162 @@
+{
+  "trading_date": "2025-12-04",
+  "levels": [
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6805.0,
+      "role": "mentioned",
+      "context": "ull flag. I wrote yesterday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle. My general lean is to"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "k trap below) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at"
+    },
+    {
+      "price": 6825.0,
+      "role": "range",
+      "context": "6825-30"
+    },
+    {
+      "price": 6830.0,
+      "role": "range",
+      "context": "6825-30"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "w) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at 9:40AM, we"
+    },
+    {
+      "price": 6853.0,
+      "role": "mentioned",
+      "context": "into a bull flag. I wrote yesterday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle. My general lea"
+    },
+    {
+      "price": 6863.0,
+      "role": "mentioned",
+      "context": "to defer to the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d I also wrote: \u201c"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "er to the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d I also wrote: \u201cThe Fa"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d I also wrote: \u201cThe Failed B"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6805.0,
+      "role": "mentioned",
+      "context": "ull flag. I wrote yesterday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle. My general lean is to"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "k trap below) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at"
+    },
+    {
+      "price": 6825.0,
+      "role": "range",
+      "context": "6825-30"
+    },
+    {
+      "price": 6830.0,
+      "role": "range",
+      "context": "6825-30"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "w) 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. Last Tuesday at 9:40AM, we"
+    },
+    {
+      "price": 6853.0,
+      "role": "mentioned",
+      "context": "into a bull flag. I wrote yesterday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle. My general lea"
+    },
+    {
+      "price": 6863.0,
+      "role": "mentioned",
+      "context": "to defer to the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d I also wrote: \u201c"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "er to the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d I also wrote: \u201cThe Fa"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "the trend. This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d I also wrote: \u201cThe Failed B"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is how institutions long: They wait for an elevator down sell, wait for a low to be lost, trap shorts below the low, and we rally."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Tuesday at 9:40AM, we flushed 6701 (there was a big shelf of lows there set on Monday/early Tuesday) to 6675, trapped shorts then recovered 6701 for a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This can fill out then next leg sees 6863, 6877, 6889 as the first slate of targets.\u201d I also wrote: \u201cThe Failed Breakdown of the 11:30AM 6818 low is also actionable.\u201d We got exactly this today - put in the 6818 Failed Breakdown at 9:25AM, filled out the flag, then rallied to 6863+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the quality Failed Breakdowns and Level Reclaim\u2019s we\u2019ve had in this 6805 to 6853 range since late last week - ranges like this are a goldmine for those who trade the traps as I do, since there are so many traps."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote yesterday at 4pm: \u201cES is flagging 6853 to 6805 with a 6825-30 magnet in the middle."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "SPX Makes A Weekly High - But Are All Time Highs Coming? Dec 4th Plan",
+  "post_date": "2025-12-03",
+  "post_slug": "spx-makes-a-weekly-high-but-are-all",
+  "parsed_at": "2026-04-16T15:41:08.184842",
+  "body_length": 2487
+}

@@ -1,0 +1,131 @@
+{
+  "trading_date": "2025-07-18",
+  "levels": [
+    {
+      "price": 6268.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6271.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "nd quickly recover), ES can work back up the structure with 6301 being 1st target.\u201d We saw exactly this yesterday. Tuesday e"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "trend, and as readers know my target for this breakout was ~6325. We hit that on July 2nd. Since July 2nd, ES has returned i"
+    },
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    },
+    {
+      "price": 6341.0,
+      "role": "mentioned",
+      "context": "sistance. Fill out, then when ES is ready, breakout targets 6341, 6348, 6372.\u201d This played out incredibly well, and we hit 6"
+    },
+    {
+      "price": 6348.0,
+      "role": "mentioned",
+      "context": "ce. Fill out, then when ES is ready, breakout targets 6341, 6348, 6372.\u201d This played out incredibly well, and we hit 6333 tr"
+    },
+    {
+      "price": 6372.0,
+      "role": "mentioned",
+      "context": "ll out, then when ES is ready, breakout targets 6341, 6348, 6372.\u201d This played out incredibly well, and we hit 6333 triangle"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6268.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6271.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "nd quickly recover), ES can work back up the structure with 6301 being 1st target.\u201d We saw exactly this yesterday. Tuesday e"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "trend, and as readers know my target for this breakout was ~6325. We hit that on July 2nd. Since July 2nd, ES has returned i"
+    },
+    {
+      "price": 6341.0,
+      "role": "mentioned",
+      "context": "sistance. Fill out, then when ES is ready, breakout targets 6341, 6348, 6372.\u201d This played out incredibly well, and we hit 6"
+    },
+    {
+      "price": 6348.0,
+      "role": "mentioned",
+      "context": "ce. Fill out, then when ES is ready, breakout targets 6341, 6348, 6372.\u201d This played out incredibly well, and we hit 6333 tr"
+    },
+    {
+      "price": 6372.0,
+      "role": "mentioned",
+      "context": "ll out, then when ES is ready, breakout targets 6341, 6348, 6372.\u201d This played out incredibly well, and we hit 6333 triangle"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As long as the triangle support holds (or failed breakdown and quickly recover), ES can work back up the structure with 6301 being 1st target.\u201d We saw exactly this yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "At 3am Wednesday, we put in a quick Failed Breakdown, trapped bears, and rallied to 6301 by 930AM."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From there, we flushed back down the triangle and put in another Failed Breakdown down to 6240, trapped bears again, and headed back up to 6301 to close yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the quality Failed Breakdown\u2019s we\u2019ve had this week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When it comes to entries, all my entries are Failed Breakdowns, and we typically get 1-3 per day, but this week has been more prevalent."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They are all given in advance, but I\u2019ll recap in further detail Monday\u2019s Failed Breakdowns, Tuesday\u2019s, and yesterday\u2019s which gave us a monster run from 6240\u2019s to today\u2019s high."
+    },
+    {
+      "type": "TARGETS",
+      "text": "This means we head to 6311, 6319, then triangle resistance."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "SPX Breaks Out Its Two Week Range. Time To Run, Or Will It Fail? July 18 Plan",
+  "post_date": "2025-07-17",
+  "post_slug": "spx-breaks-out-its-two-week-range",
+  "parsed_at": "2026-04-16T15:43:13.480019",
+  "body_length": 2712
+}

@@ -1,0 +1,158 @@
+{
+  "trading_date": "2025-08-01",
+  "levels": [
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6374-71"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6374-71"
+    },
+    {
+      "price": 6396.0,
+      "role": "mentioned",
+      "context": "low of day at ~6408 and on Tuesday ES set its low of day at 6396, rallying into the 6420-30 range, and dipping. This set us"
+    },
+    {
+      "price": 6398.0,
+      "role": "mentioned",
+      "context": "e backtesting and work on structure\u2026.Shorter term, 6407 and 6398 are key supports next week.\u201d This is what we spent Monday a"
+    },
+    {
+      "price": 6404.0,
+      "role": "range",
+      "context": "6404-07"
+    },
+    {
+      "price": 6407.0,
+      "role": "range",
+      "context": "6404-07"
+    },
+    {
+      "price": 6415.0,
+      "role": "mentioned",
+      "context": "the trend. 6404-07 to 6438=a new consolidation range, with 6415 magnet in the middle. My lean is work this range more, and"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6420-30"
+    },
+    {
+      "price": 6430.0,
+      "role": "range",
+      "context": "6420-30"
+    },
+    {
+      "price": 6438.0,
+      "role": "mentioned",
+      "context": "4pm: \u201cMy general lean is to defer to the trend. 6404-07 to 6438=a new consolidation range, with 6415 magnet in the middle."
+    }
+  ],
+  "supports": [
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6374-71"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6374-71"
+    },
+    {
+      "price": 6396.0,
+      "role": "mentioned",
+      "context": "low of day at ~6408 and on Tuesday ES set its low of day at 6396, rallying into the 6420-30 range, and dipping. This set us"
+    },
+    {
+      "price": 6398.0,
+      "role": "mentioned",
+      "context": "e backtesting and work on structure\u2026.Shorter term, 6407 and 6398 are key supports next week.\u201d This is what we spent Monday a"
+    },
+    {
+      "price": 6404.0,
+      "role": "range",
+      "context": "6404-07"
+    },
+    {
+      "price": 6407.0,
+      "role": "range",
+      "context": "6404-07"
+    },
+    {
+      "price": 6415.0,
+      "role": "mentioned",
+      "context": "the trend. 6404-07 to 6438=a new consolidation range, with 6415 magnet in the middle. My lean is work this range more, and"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6420-30"
+    },
+    {
+      "price": 6430.0,
+      "role": "range",
+      "context": "6420-30"
+    },
+    {
+      "price": 6438.0,
+      "role": "mentioned",
+      "context": "4pm: \u201cMy general lean is to defer to the trend. 6404-07 to 6438=a new consolidation range, with 6415 magnet in the middle."
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I warned about this on Friday at 4pm, stating: \u201cAfter a move like this, ES often needs to digest the move\u2026My general lean if I had to give one though is that ES can cooloff now and do some backtesting and work on structure\u2026.Shorter term, 6407 and 6398 are key supports next week.\u201d This is what we spent Monday and Tuesday doing exactly, working on a range mostly ~6400 to 6430s."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm Tuesday \u201cMy general lean is always defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is any traps under are bought, then we head up to 6415, 6428, 6436\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is work this range more, and when ready to break we see 6450, 6457.\u201d This played out, and we tagged 6457 by midnight last night overshot by about 10 points, then from there, retraced the entire rally from yesterday, selling to a new low by 2:20PM."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Two of those building blocks are 1) My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, the core feature of FOMC days are traps/Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If we are drifting into it, one can buy it, but if not, just wait for the Failed Breakdown of today\u2019s low.\u201d We flushed yesterdays low, trapped shorts, and up we went."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some quality Failed Breakdowns we had on Monday/Tuesday, and I\u2019ll also discuss the setup that caused yesterday\u2019s FOMC squeeze (it was a hybrid Back-Test/Level Reclaim setup, rare)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6404-07 to 6438=a new consolidation range, with 6415 magnet in the middle."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "The FOMC Day Squeeze Gets Retraced In SPX. Will The Dip Get Bought? August 1st Plan",
+  "post_date": "2025-07-31",
+  "post_slug": "the-fomc-day-squeeze-gets-retraced",
+  "parsed_at": "2026-04-16T15:43:00.370666",
+  "body_length": 3442
+}

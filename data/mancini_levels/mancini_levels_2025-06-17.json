@@ -1,0 +1,62 @@
+{
+  "trading_date": "2025-06-17",
+  "levels": [
+    {
+      "price": 6027.0,
+      "role": "support",
+      "context": "above 6027"
+    },
+    {
+      "price": 6099.0,
+      "role": "mentioned",
+      "context": "d longs triggered. We hit all the above targets, getting to 6099 by 10am this morning. While the war dip was bought, ES is u"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6027.0,
+      "role": "support",
+      "context": "above 6027"
+    },
+    {
+      "price": 6099.0,
+      "role": "mentioned",
+      "context": "d longs triggered. We hit all the above targets, getting to 6099 by 10am this morning. While the war dip was bought, ES is u"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The mission for bulls this week was to defend Friday\u2019s low and my lean was that they would, to trigger a Failed Breakdown long."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cIn a strong bull case, ES won\u2019t even re-test 5977."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My edge is to trade alongside the institutions and enter at the same point."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As a Failed Breakdown trader though, dips like we saw Thursday are what pay my bills, because I know they will result in powerful short squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm that \u201cI especially like the Failed Breakdown of last Thursdays 5981 low especially if we tag 5978 first.\u201d What did we see Thursday evening?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into two quality Failed Breakdowns we had last week (both were provided to readers) : One on Thursday that resulted in the 60 point squeeze we saw from Thursdays low of day to Thursdays high of day, and one on Thursday evening which set the low that lasted into today."
+    }
+  ],
+  "level_count": 2,
+  "support_count": 2,
+  "resistance_count": 0,
+  "post_title": "The Entire \"War Dip\" Was Retraced In SPX. Can It Make News Highs Though? June 17 Plan",
+  "post_date": "2025-06-16",
+  "post_slug": "the-entire-war-dip-was-retraced-in",
+  "parsed_at": "2026-04-16T15:43:40.529953",
+  "body_length": 2750
+}

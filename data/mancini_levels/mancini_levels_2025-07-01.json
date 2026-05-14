@@ -1,0 +1,127 @@
+{
+  "trading_date": "2025-07-01",
+  "levels": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5979.0,
+      "role": "support",
+      "context": "support at 5979"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6081.0,
+      "role": "resistance",
+      "context": "resistance at 6081"
+    },
+    {
+      "price": 6140.0,
+      "role": "support",
+      "context": "hold 6140"
+    },
+    {
+      "price": 6162.0,
+      "role": "range",
+      "context": "6162-72"
+    },
+    {
+      "price": 6172.0,
+      "role": "range",
+      "context": "6162-72"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5979.0,
+      "role": "support",
+      "context": "support at 5979"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6140.0,
+      "role": "support",
+      "context": "hold 6140"
+    },
+    {
+      "price": 6162.0,
+      "role": "range",
+      "context": "6162-72"
+    },
+    {
+      "price": 6172.0,
+      "role": "range",
+      "context": "6162-72"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6081.0,
+      "role": "resistance",
+      "context": "resistance at 6081"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on Friday June 20th at 4pm, when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking higher from there, and I wrote last Wednesday, \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cMy lean is, as always, to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I hunt this pattern everyday, and its called the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We got long at this point (and the setup was provided to readers both in advance, and in real time)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "6 Green Days In A Row For SPX. Can July 4th Bullish Seasonals Keep It Going? July 1st Plan",
+  "post_date": "2025-06-30",
+  "post_slug": "6-green-days-in-a-row-for-spx-can",
+  "parsed_at": "2026-04-16T15:43:28.863787",
+  "body_length": 2870
+}

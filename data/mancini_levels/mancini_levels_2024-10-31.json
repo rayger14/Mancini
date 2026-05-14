@@ -1,0 +1,96 @@
+{
+  "trading_date": "2024-10-31",
+  "levels": [
+    {
+      "price": 5843.0,
+      "role": "support",
+      "context": "hold 5843"
+    },
+    {
+      "price": 5882.0,
+      "role": "mentioned",
+      "context": "fill the Sunday gap), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We saw exactly this and we dipped a lit"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "he Sunday gap), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We saw exactly this and we dipped a little un"
+    },
+    {
+      "price": 5895.0,
+      "role": "range",
+      "context": "5895-5900"
+    },
+    {
+      "price": 5896.0,
+      "role": "mentioned",
+      "context": "4pm newsletter yesterday: \u201cMy general lean is we can run to 5896 flag resistance, perhaps dip again there to fill out the ra"
+    },
+    {
+      "price": 5900.0,
+      "role": "range",
+      "context": "5895-5900"
+    },
+    {
+      "price": 5902.0,
+      "role": "mentioned",
+      "context": "long, often to the top of the range. Friday, we rallied to 5902 and sold to 5830s into the close. What happened? The dip wa"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5843.0,
+      "role": "support",
+      "context": "hold 5843"
+    },
+    {
+      "price": 5882.0,
+      "role": "mentioned",
+      "context": "fill the Sunday gap), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We saw exactly this and we dipped a lit"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "he Sunday gap), ES can just push back up the range to 5882, 5892, then ~5900\u201d. We saw exactly this and we dipped a little un"
+    },
+    {
+      "price": 5895.0,
+      "role": "range",
+      "context": "5895-5900"
+    },
+    {
+      "price": 5896.0,
+      "role": "mentioned",
+      "context": "4pm newsletter yesterday: \u201cMy general lean is we can run to 5896 flag resistance, perhaps dip again there to fill out the ra"
+    },
+    {
+      "price": 5900.0,
+      "role": "range",
+      "context": "5895-5900"
+    },
+    {
+      "price": 5902.0,
+      "role": "mentioned",
+      "context": "long, often to the top of the range. Friday, we rallied to 5902 and sold to 5830s into the close. What happened? The dip wa"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking for this price action action today, and I wrote in 4pm newsletter yesterday: \u201cMy general lean is we can run to 5896 flag resistance, perhaps dip again there to fill out the range again, then try a breakout to 5915+.\u201d We ran to range resistance, sold this morning to 5840s, and then popped."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into yesterdays long setup which produces a 50 point rally (Hint: It was caused by my core setup, the Failed Breakdown)."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "*13 Days* Of Basing For SPX. Huge Move Ahead. Can Earnings Trigger It? Oct 31 Plan",
+  "post_date": "2024-10-30",
+  "post_slug": "13-days-of-basing-for-spx-huge-move",
+  "parsed_at": "2026-04-16T15:46:58.123371",
+  "body_length": 2371
+}

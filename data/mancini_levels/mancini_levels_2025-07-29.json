@@ -1,0 +1,117 @@
+{
+  "trading_date": "2025-07-29",
+  "levels": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    },
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6388.0,
+      "role": "support",
+      "context": "above 6388"
+    },
+    {
+      "price": 6415.0,
+      "role": "resistance",
+      "context": "below 6415"
+    },
+    {
+      "price": 6424.0,
+      "role": "mentioned",
+      "context": "w 6415. This sets up a retest of 6415, then if that clears, 6424, 6432+.\u201d We got to 6432 high of day Friday, then dipped. Th"
+    },
+    {
+      "price": 6432.0,
+      "role": "mentioned",
+      "context": ". This sets up a retest of 6415, then if that clears, 6424, 6432+.\u201d We got to 6432 high of day Friday, then dipped. This squ"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6388.0,
+      "role": "support",
+      "context": "above 6388"
+    },
+    {
+      "price": 6424.0,
+      "role": "mentioned",
+      "context": "w 6415. This sets up a retest of 6415, then if that clears, 6424, 6432+.\u201d We got to 6432 high of day Friday, then dipped. Th"
+    },
+    {
+      "price": 6432.0,
+      "role": "mentioned",
+      "context": ". This sets up a retest of 6415, then if that clears, 6424, 6432+.\u201d We got to 6432 high of day Friday, then dipped. This squ"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    },
+    {
+      "price": 6415.0,
+      "role": "resistance",
+      "context": "below 6415"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Monday at 4pm (when we were 6340s): \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The trap was in and we went parabolic after this, I wrote last Tuesday at 4pm after this back-test was complete that: \u201cThe bull case though is that ES can fill it out the upside and test 6360, 6366, then 6371-74."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "A move like we saw last week takes time to digest and I wrote on Friday that: \u201cMy general lean if I had to give one though is that ES can cooloff now and do some backtesting and work on structure.\u201d and \u201cAfter a move like this, ES often needs to digest the move.\u201d We spent today consolidating, resting, and grinding lower."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "To do that, we need a setup, and I trade 1: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The Failed Breakdown is how institutions accumulate; they flush lows, trap shorts, and price rallies."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When you marry the Failed Breakdown, with macro chart patterns, magic happens, and we saw that this week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a couple quality Failed Breakdowns we had on Tuesday and Wednesday last week which helped propel last weeks rally."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 5,
+  "resistance_count": 2,
+  "post_title": "SPX Puts In Its First Dip Since July 15th. Will It Get Bought? July 29 Plan",
+  "post_date": "2025-07-28",
+  "post_slug": "spx-puts-in-its-first-dip-since-july",
+  "parsed_at": "2026-04-16T15:43:04.418531",
+  "body_length": 3196
+}

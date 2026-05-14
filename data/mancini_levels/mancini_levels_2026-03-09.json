@@ -1,0 +1,100 @@
+{
+  "trading_date": "2026-03-09",
+  "levels": [
+    {
+      "price": 6718.0,
+      "role": "support",
+      "context": "6718 daily low"
+    },
+    {
+      "price": 6768.0,
+      "role": "mentioned",
+      "context": "7th major low.\u201d Early Monday we swept that 6791 low down to 6768, trapped bears, and ripped over 150 Points into Monday\u2019s 69"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "ee a Failed Breakdown and rip. I wrote last Friday at 4pm: \u201c6782 is under there and instead of buying this, wait for it to h"
+    },
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "e 6791 February 17th major low.\u201d Early Monday we swept that 6791 low down to 6768, trapped bears, and ripped over 150 Points"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "68, trapped bears, and ripped over 150 Points into Monday\u2019s 6913 highs. This remained the high of week but ES couldn\u2019t leave"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6718.0,
+      "role": "support",
+      "context": "6718 daily low"
+    },
+    {
+      "price": 6768.0,
+      "role": "mentioned",
+      "context": "7th major low.\u201d Early Monday we swept that 6791 low down to 6768, trapped bears, and ripped over 150 Points into Monday\u2019s 69"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "ee a Failed Breakdown and rip. I wrote last Friday at 4pm: \u201c6782 is under there and instead of buying this, wait for it to h"
+    },
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "e 6791 February 17th major low.\u201d Early Monday we swept that 6791 low down to 6768, trapped bears, and ripped over 150 Points"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "68, trapped bears, and ripped over 150 Points into Monday\u2019s 6913 highs. This remained the high of week but ES couldn\u2019t leave"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know I trade mostly one setup: The Failed Breakdown, and we\u2019ve seen it lots."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns start usually when price goes elevator down in a vertical flush cutting through every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, the gap down will result in a Failed Breakdown/squeeze but I would not hold any size over the weekend.\u201d This was highly prescient, and on early Saturday morning, this risk materialized and we gapped down Sunday 45 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Like all gap downs/elevator down sells in ES though, this did not take long to see a Failed Breakdown and rip."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This morning, it failed and we went elevator down to 6715."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In doing so though, ES lost Tuesday\u2019s major 6718 low (which was the low of week) and recovered for a powerful Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I provided this yesterday at 4pm: \u201cWatch for the Failed Breakdown of Tuesday\u2019s 6718 daily low.\u201d We ripped from there back to ~6782 which held."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "SPX Makes New Lows, But Bounced. Will This Dip Get Bought? March 9 Plan",
+  "post_date": "2026-03-08",
+  "post_slug": "spx-makes-new-lows-but-bounced-will-f44",
+  "parsed_at": "2026-04-16T15:38:39.102577",
+  "body_length": 2497
+}

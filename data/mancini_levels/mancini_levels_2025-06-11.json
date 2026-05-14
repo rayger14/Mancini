@@ -1,0 +1,142 @@
+{
+  "trading_date": "2025-06-11",
+  "levels": [
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "n Friday May 30th (when we were sub 5900 after a big dip to 5850), I wrote that I was looking for ES to buy that dip, fill o"
+    },
+    {
+      "price": 5900.0,
+      "role": "mentioned",
+      "context": "y all get bought. Back on Friday May 30th (when we were sub 5900 after a big dip to 5850), I wrote that I was looking for ES"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5975.0,
+      "role": "support",
+      "context": "hold 5975"
+    },
+    {
+      "price": 6020.0,
+      "role": "mentioned",
+      "context": "6k (with 6k flushes below being traps), then we fill out to 6020. Above there, we see 6029, 6038, then 6055+. If 5975 fails,"
+    },
+    {
+      "price": 6029.0,
+      "role": "mentioned",
+      "context": "S will just consolidate around 6k). The next leg up targets 6029, 6047-50, then 6072.\u201d Yesterday morning, we held 6k exact,"
+    },
+    {
+      "price": 6047.0,
+      "role": "range",
+      "context": "6047-50"
+    },
+    {
+      "price": 6050.0,
+      "role": "range",
+      "context": "6047-50"
+    },
+    {
+      "price": 6072.0,
+      "role": "mentioned",
+      "context": "ate around 6k). The next leg up targets 6029, 6047-50, then 6072.\u201d Yesterday morning, we held 6k exact, ran to ~6029 high of"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "n Friday May 30th (when we were sub 5900 after a big dip to 5850), I wrote that I was looking for ES to buy that dip, fill o"
+    },
+    {
+      "price": 5900.0,
+      "role": "mentioned",
+      "context": "y all get bought. Back on Friday May 30th (when we were sub 5900 after a big dip to 5850), I wrote that I was looking for ES"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5975.0,
+      "role": "support",
+      "context": "hold 5975"
+    },
+    {
+      "price": 6020.0,
+      "role": "mentioned",
+      "context": "6k (with 6k flushes below being traps), then we fill out to 6020. Above there, we see 6029, 6038, then 6055+. If 5975 fails,"
+    },
+    {
+      "price": 6029.0,
+      "role": "mentioned",
+      "context": "S will just consolidate around 6k). The next leg up targets 6029, 6047-50, then 6072.\u201d Yesterday morning, we held 6k exact,"
+    },
+    {
+      "price": 6047.0,
+      "role": "range",
+      "context": "6047-50"
+    },
+    {
+      "price": 6050.0,
+      "role": "range",
+      "context": "6047-50"
+    },
+    {
+      "price": 6072.0,
+      "role": "mentioned",
+      "context": "ate around 6k). The next leg up targets 6029, 6047-50, then 6072.\u201d Yesterday morning, we held 6k exact, ran to ~6029 high of"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I closed out my Friday May 30th newsletter by stating: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy lean is we flag out above 6k (with 6k flushes below being traps), then we fill out to 6020."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, these traps are how I pay my bills as a Failed Breakdown trader."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a very interesting variation of my core setup: The Failed Breakdown, that we had on Friday morning at 8:30AM when we recovered a major resistance shelf at 5975, and this caused the monster leg up we\u2019ve seen since."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was a great example of a deep Failed Breakdown, and provided a very clear example of a core concept I call \u201cAcceptance\u201d and acceptance is the tool we use to judge when a level has truly recovered as opposed to a fakeout."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "CPI Tomorrow. Will It Endanger The Rally? June 11th Plan",
+  "post_date": "2025-06-10",
+  "post_slug": "cpi-tomorrow-will-it-endanger-the",
+  "parsed_at": "2026-04-16T15:43:45.462846",
+  "body_length": 3030
+}

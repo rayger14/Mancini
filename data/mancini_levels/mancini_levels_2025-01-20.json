@@ -1,0 +1,101 @@
+{
+  "trading_date": "2025-01-20",
+  "levels": [
+    {
+      "price": 5917.0,
+      "role": "target",
+      "context": "target 5917"
+    },
+    {
+      "price": 5934.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "support, and is underway. This would target 5917, 5934-36, 5965, then 6004 if bulls really want to move\u201d. By yesterday, we"
+    },
+    {
+      "price": 6004.0,
+      "role": "mentioned",
+      "context": "nd is underway. This would target 5917, 5934-36, 5965, then 6004 if bulls really want to move\u201d. By yesterday, we made the th"
+    },
+    {
+      "price": 6016.0,
+      "role": "mentioned",
+      "context": "trigger. Today\u2019s targets for this long as readers know were 6016, then 6033+ and we got it. This has been a good week for cl"
+    },
+    {
+      "price": 6033.0,
+      "role": "mentioned",
+      "context": "day\u2019s targets for this long as readers know were 6016, then 6033+ and we got it. This has been a good week for classical cha"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5934.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "support, and is underway. This would target 5917, 5934-36, 5965, then 6004 if bulls really want to move\u201d. By yesterday, we"
+    },
+    {
+      "price": 6004.0,
+      "role": "mentioned",
+      "context": "nd is underway. This would target 5917, 5934-36, 5965, then 6004 if bulls really want to move\u201d. By yesterday, we made the th"
+    },
+    {
+      "price": 6016.0,
+      "role": "mentioned",
+      "context": "trigger. Today\u2019s targets for this long as readers know were 6016, then 6033+ and we got it. This has been a good week for cl"
+    },
+    {
+      "price": 6033.0,
+      "role": "mentioned",
+      "context": "day\u2019s targets for this long as readers know were 6016, then 6033+ and we got it. This has been a good week for classical cha"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5917.0,
+      "role": "target",
+      "context": "target 5917"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I warned everyday afterwards that this rally likely had legs, writing on Tuesday at 4pm (when we were 5880s): \u201cMy general lean is that a relief bounce leg began on Monday by testing megaphone support, and is underway."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cFor tomorrow, the bull case is that ES is constructing a bull flag (one can see the flag quite clearly containing all todays action)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Firstly, after \u201celevator down\u201d sells like we had last Friday, ES always sees a short squeeze."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "A Big Green Week For SPX. Now The Big Question. Can It Sustain? Jan 20/21 Plan",
+  "post_date": "2025-01-19",
+  "post_slug": "a-big-green-week-for-spx-now-the-4b1",
+  "parsed_at": "2026-04-16T15:45:50.150044",
+  "body_length": 2338
+}

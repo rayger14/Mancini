@@ -1,0 +1,71 @@
+{
+  "trading_date": "2025-04-25",
+  "levels": [
+    {
+      "price": 5475.0,
+      "role": "mentioned",
+      "context": "at 4pm: \u201cMy general lean is we can fill out the 5377/87 to 5475 range more. Breakout of this would target 5515, 5529+\u201d. We"
+    },
+    {
+      "price": 5510.0,
+      "role": "range",
+      "context": "5510-15"
+    },
+    {
+      "price": 5515.0,
+      "role": "target",
+      "context": "target 5515"
+    },
+    {
+      "price": 5529.0,
+      "role": "mentioned",
+      "context": "/87 to 5475 range more. Breakout of this would target 5515, 5529+\u201d. We saw exactly this today, we held 5377/87 this morning"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5475.0,
+      "role": "mentioned",
+      "context": "at 4pm: \u201cMy general lean is we can fill out the 5377/87 to 5475 range more. Breakout of this would target 5515, 5529+\u201d. We"
+    },
+    {
+      "price": 5510.0,
+      "role": "range",
+      "context": "5510-15"
+    },
+    {
+      "price": 5529.0,
+      "role": "mentioned",
+      "context": "/87 to 5475 range more. Breakout of this would target 5515, 5529+\u201d. We saw exactly this today, we held 5377/87 this morning"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5515.0,
+      "role": "target",
+      "context": "target 5515"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Monday at 4pm (when we were 5160s): \u201cMy general lean is ES can try to backtest 5231, then 5248-52."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is we can fill out the 5377/87 to 5475 range more."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes are caused by my core setup: The Failed Breakdown, and we had one at the close on Monday where ES lost the April 10th low a 5155, sold down to 5129, recovered it, and squeezed."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "Three Green Days In A Row For First Time In April. Can Bulls Manage 4? April 25 Plan",
+  "post_date": "2025-04-24",
+  "post_slug": "three-green-days-in-a-row-for-first",
+  "parsed_at": "2026-04-16T15:44:25.919338",
+  "body_length": 2288
+}

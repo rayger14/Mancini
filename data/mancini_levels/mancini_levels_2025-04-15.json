@@ -1,0 +1,128 @@
+{
+  "trading_date": "2025-04-15",
+  "levels": [
+    {
+      "price": 5416.0,
+      "role": "mentioned",
+      "context": "can retrace today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d Friday morning at 10:30AM, we held 5248-52 exa"
+    },
+    {
+      "price": 5428.0,
+      "role": "mentioned",
+      "context": "ral lean based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets and 5505-15 is a bi"
+    },
+    {
+      "price": 5468.0,
+      "role": "mentioned",
+      "context": "today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d Friday morning at 10:30AM, we held 5248-52 exact - put in"
+    },
+    {
+      "price": 5484.0,
+      "role": "mentioned",
+      "context": "an based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets and 5505-15 is a big test"
+    },
+    {
+      "price": 5495.0,
+      "role": "mentioned",
+      "context": "targets and 5505-15 is a big test for bulls.\u201d and we got to 5495 by this morning. Since the Sunday April 6th low, dips are b"
+    },
+    {
+      "price": 5505.0,
+      "role": "range",
+      "context": "5505-15"
+    },
+    {
+      "price": 5515.0,
+      "role": "range",
+      "context": "5505-15"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5416.0,
+      "role": "mentioned",
+      "context": "can retrace today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d Friday morning at 10:30AM, we held 5248-52 exa"
+    },
+    {
+      "price": 5428.0,
+      "role": "mentioned",
+      "context": "ral lean based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets and 5505-15 is a bi"
+    },
+    {
+      "price": 5468.0,
+      "role": "mentioned",
+      "context": "today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d Friday morning at 10:30AM, we held 5248-52 exact - put in"
+    },
+    {
+      "price": 5484.0,
+      "role": "mentioned",
+      "context": "an based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets and 5505-15 is a big test"
+    },
+    {
+      "price": 5495.0,
+      "role": "mentioned",
+      "context": "targets and 5505-15 is a big test for bulls.\u201d and we got to 5495 by this morning. Since the Sunday April 6th low, dips are b"
+    },
+    {
+      "price": 5505.0,
+      "role": "range",
+      "context": "5505-15"
+    },
+    {
+      "price": 5515.0,
+      "role": "range",
+      "context": "5505-15"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm: \u201c[My general lean] is that ES can defend 5248-52 and consolidate more 5340-5252."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This week, I was looking for more upside stating on Friday: \u201cMy general lean based purely on technicals is that we continue up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I simplify my trading by doubling down on my core edge: As readers know I am a Failed Breakdown trader, and the hyper volatile and down-trending conditions we have had for most this year are the most fertile grounds for Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This may sound contradictory to new traders since Failed Breakdowns are a long setup, but one has to remember that the sharpest intraday longs occur not in clean uptrends like 2024, but volatile downtrends like 2025."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Almost all squeezes are triggered by Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If its an organized sell into it, I may give it a bid, but if we are melting down on yet another trade war headline, let it flush perhaps down to 4875 and recover to attempt longs.\u201d On Wednesday at 130AM, we hit 4875 exact, put in a Failed Breakdown of 4896, and squeezed 650 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From there, we can retrace today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d Friday morning at 10:30AM, we held 5248-52 exact - put in a Failed Breakdown of a low about an hour earlier- and rallied to 5416 which was the high of day Friday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Is buy the dip temporarily back?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some high quality Failed Breakdowns we had Thursday and Friday, including one we had on Thursday evening which set up the massive squeeze we had all Friday into today."
+    },
+    {
+      "type": "TARGETS",
+      "text": "5428, 5484, then 5505-15 are initial targets and 5505-15 is a big test for bulls.\u201d and we got to 5495 by this morning."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Is Buy The Dip Temporarily Back In SPX? April 15 Plan",
+  "post_date": "2025-04-14",
+  "post_slug": "is-buy-the-dip-temporarily-back-in-9f4",
+  "parsed_at": "2026-04-16T15:44:35.853201",
+  "body_length": 2717
+}

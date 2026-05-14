@@ -1,0 +1,87 @@
+{
+  "trading_date": "2024-10-08",
+  "levels": [
+    {
+      "price": 5734.0,
+      "role": "mentioned",
+      "context": "though, it is to defer to the macro trend. As long as 5744, 5734 holds, we head higher. This would target 5772 1st, then 578"
+    },
+    {
+      "price": 5740.0,
+      "role": "mentioned",
+      "context": "at we saw today and while it took its time, we sold down to 5740 by 2:45PM, filling out the whole range. Is today\u2019s dip to r"
+    },
+    {
+      "price": 5744.0,
+      "role": "mentioned",
+      "context": "lean though, it is to defer to the macro trend. As long as 5744, 5734 holds, we head higher. This would target 5772 1st, th"
+    },
+    {
+      "price": 5772.0,
+      "role": "target",
+      "context": "target 5772"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "734 holds, we head higher. This would target 5772 1st, then 5782 2nd. Maybe dip there if bears want, then on to 5800+\u201d. We s"
+    },
+    {
+      "price": 5800.0,
+      "role": "mentioned",
+      "context": "t, then 5782 2nd. Maybe dip there if bears want, then on to 5800+\u201d. We saw exactly this on Friday. Friday morning at 3:30AM"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5734.0,
+      "role": "mentioned",
+      "context": "though, it is to defer to the macro trend. As long as 5744, 5734 holds, we head higher. This would target 5772 1st, then 578"
+    },
+    {
+      "price": 5740.0,
+      "role": "mentioned",
+      "context": "at we saw today and while it took its time, we sold down to 5740 by 2:45PM, filling out the whole range. Is today\u2019s dip to r"
+    },
+    {
+      "price": 5744.0,
+      "role": "mentioned",
+      "context": "lean though, it is to defer to the macro trend. As long as 5744, 5734 holds, we head higher. This would target 5772 1st, th"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "734 holds, we head higher. This would target 5772 1st, then 5782 2nd. Maybe dip there if bears want, then on to 5800+\u201d. We s"
+    },
+    {
+      "price": 5800.0,
+      "role": "mentioned",
+      "context": "t, then 5782 2nd. Maybe dip there if bears want, then on to 5800+\u201d. We saw exactly this on Friday. Friday morning at 3:30AM"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5772.0,
+      "role": "target",
+      "context": "target 5772"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This was not a shock to newsletter readers and I wrote in my Thursday 4pm newsletter: \u201cIf I had to provide a general lean though, it is to defer to the macro trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the setup on Thursday that caused the Friday squeeze as this was a great example of a variant of my core setup: The Failed Breakdown (I call this variant the compound failed breakdown), provided to readers in advance."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "Will Todays Dip In SPX Get Bought Like All The Others? Oct 8 Plan",
+  "post_date": "2024-10-07",
+  "post_slug": "will-todays-dip-in-spx-get-bought-759",
+  "parsed_at": "2026-04-16T15:47:20.811153",
+  "body_length": 2128
+}

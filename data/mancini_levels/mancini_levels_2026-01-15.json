@@ -1,0 +1,127 @@
+{
+  "trading_date": "2026-01-15",
+  "levels": [
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "ing, and finally got the first proper flush of 2026 down to 6925 after which we ripped back to 6969-72 to close. Can bulls b"
+    },
+    {
+      "price": 6945.0,
+      "role": "mentioned",
+      "context": "n of this low is an obvious long entry. Bonus if we can tag 6945 on this.\u201d We flushed that Friday 6955 daily low early Monda"
+    },
+    {
+      "price": 6955.0,
+      "role": "support",
+      "context": "6955 daily low"
+    },
+    {
+      "price": 6969.0,
+      "role": "support",
+      "context": "hold 6969"
+    },
+    {
+      "price": 6972.0,
+      "role": "range",
+      "context": "6969-72"
+    },
+    {
+      "price": 6986.0,
+      "role": "resistance",
+      "context": "below 6986"
+    },
+    {
+      "price": 6993.0,
+      "role": "support",
+      "context": "recover 6993"
+    },
+    {
+      "price": 7020.0,
+      "role": "mentioned",
+      "context": "arly Monday morning, recovered, and a violent rip began to ~7020 high of day Monday. Yesterday we saw the sequence again. We"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "ing, and finally got the first proper flush of 2026 down to 6925 after which we ripped back to 6969-72 to close. Can bulls b"
+    },
+    {
+      "price": 6945.0,
+      "role": "mentioned",
+      "context": "n of this low is an obvious long entry. Bonus if we can tag 6945 on this.\u201d We flushed that Friday 6955 daily low early Monda"
+    },
+    {
+      "price": 6955.0,
+      "role": "support",
+      "context": "6955 daily low"
+    },
+    {
+      "price": 6969.0,
+      "role": "support",
+      "context": "hold 6969"
+    },
+    {
+      "price": 6972.0,
+      "role": "range",
+      "context": "6969-72"
+    },
+    {
+      "price": 6993.0,
+      "role": "support",
+      "context": "recover 6993"
+    },
+    {
+      "price": 7020.0,
+      "role": "mentioned",
+      "context": "arly Monday morning, recovered, and a violent rip began to ~7020 high of day Monday. Yesterday we saw the sequence again. We"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6986.0,
+      "role": "resistance",
+      "context": "below 6986"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: Generally 6972-69 has to fail.\u201d After basing out here all night, we lost it this morning, and finally got the first proper flush of 2026 down to 6925 after which we ripped back to 6969-72 to close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We buy dips when institutions do, and institutions buy them via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns occur when price goes elevator down flushes a low, traps shorts, then we go parabolic."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We set an enormous low at 6955 this morning (from which we rallied to 7k+) and the Failed Breakdown of this low is an obvious long entry."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We rallied to 7034 after CPI then went elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Instead, wait for 6986 to hold and recover 6993 to try long.\u201d Yesterday late day ES went elevator down trapped below 6986 (there was a big shelf of lows there), recovered 6993, and we ripped to 7k+ into the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "Largest Sell Of 2026 For SPX. Will Bulls Buy The Dip?",
+  "post_date": "2026-01-14",
+  "post_slug": "largest-sell-of-2026-for-spx-will",
+  "parsed_at": "2026-04-16T15:40:32.522216",
+  "body_length": 2173
+}

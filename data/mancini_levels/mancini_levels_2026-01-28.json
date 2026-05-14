@@ -1,0 +1,187 @@
+{
+  "trading_date": "2026-01-28",
+  "levels": [
+    {
+      "price": 6879.0,
+      "role": "mentioned",
+      "context": ".\u201d We saw exactly this, on Sunday evening ES gapped down to 6879, recovered 6923 last evening, and we ripped yesterday to ne"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6952.0,
+      "role": "range",
+      "context": "6923-6952"
+    },
+    {
+      "price": 6964.0,
+      "role": "resistance",
+      "context": "resistance at 6964"
+    },
+    {
+      "price": 6970.0,
+      "role": "mentioned",
+      "context": "this range out (or quick trap below) then next leg targets 6970, 6978-81, 6998-7002. Above there ES can gun for all time hi"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6981.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6982.0,
+      "role": "support",
+      "context": "hold 6982"
+    },
+    {
+      "price": 6997.0,
+      "role": "mentioned",
+      "context": "ick trap below) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, the"
+    },
+    {
+      "price": 6998.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7002.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7014.0,
+      "role": "mentioned",
+      "context": "ap below) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, then we r"
+    },
+    {
+      "price": 7032.0,
+      "role": "mentioned",
+      "context": "ow) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, then we ran nic"
+    },
+    {
+      "price": 7049.0,
+      "role": "mentioned",
+      "context": "en continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, then we ran nicely to"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6879.0,
+      "role": "mentioned",
+      "context": ".\u201d We saw exactly this, on Sunday evening ES gapped down to 6879, recovered 6923 last evening, and we ripped yesterday to ne"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6952.0,
+      "role": "range",
+      "context": "6923-6952"
+    },
+    {
+      "price": 6970.0,
+      "role": "mentioned",
+      "context": "this range out (or quick trap below) then next leg targets 6970, 6978-81, 6998-7002. Above there ES can gun for all time hi"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6981.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6982.0,
+      "role": "support",
+      "context": "hold 6982"
+    },
+    {
+      "price": 6997.0,
+      "role": "mentioned",
+      "context": "ick trap below) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, the"
+    },
+    {
+      "price": 6998.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7002.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7014.0,
+      "role": "mentioned",
+      "context": "ap below) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, then we r"
+    },
+    {
+      "price": 7032.0,
+      "role": "mentioned",
+      "context": "ow) then continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, then we ran nic"
+    },
+    {
+      "price": 7049.0,
+      "role": "mentioned",
+      "context": "en continue up. Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, then we ran nicely to"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6964.0,
+      "role": "resistance",
+      "context": "resistance at 6964"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was they would be able to."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cIn a strong bull case tomorrow though, ES won\u2019t even backtest 6952."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I\u2019ve specified at length, insitutions in ES buy dips in a very particular way: Via my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, this trap down would setup a strong squeeze, but only on the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Next slate of targets are 6997, 7014, 7032, 7049.\u201d We trapped below 6982 last evening, then we ran nicely to 7014 by this morning."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 13,
+  "resistance_count": 1,
+  "post_title": "FOMC & Earnings Tomorrow. Can Bulls Survive It? Jan 28th Plan",
+  "post_date": "2026-01-27",
+  "post_slug": "fomc-and-earnings-tomorrow-can-bulls",
+  "parsed_at": "2026-04-16T15:40:21.939274",
+  "body_length": 2156
+}

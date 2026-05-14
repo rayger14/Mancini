@@ -1,0 +1,94 @@
+{
+  "trading_date": "2025-01-03",
+  "levels": [
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5912.0,
+      "role": "mentioned",
+      "context": "er the open last night, we got **exactly **this, dipping to 5912, recovering 5917, and squeezing 70+ points into this mornin"
+    },
+    {
+      "price": 5917.0,
+      "role": "mentioned",
+      "context": "night, we got **exactly **this, dipping to 5912, recovering 5917, and squeezing 70+ points into this morning. Like all squee"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "December 24th: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone to grab some points.\u201d After the back-te"
+    },
+    {
+      "price": 6100.0,
+      "role": "level",
+      "context": "6100 level"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5912.0,
+      "role": "mentioned",
+      "context": "er the open last night, we got **exactly **this, dipping to 5912, recovering 5917, and squeezing 70+ points into this mornin"
+    },
+    {
+      "price": 5917.0,
+      "role": "mentioned",
+      "context": "night, we got **exactly **this, dipping to 5912, recovering 5917, and squeezing 70+ points into this morning. Like all squee"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "December 24th: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone to grab some points.\u201d After the back-te"
+    },
+    {
+      "price": 6100.0,
+      "role": "level",
+      "context": "6100 level"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Its why I wrote back on December 20th: \u201cMy general lean is that ES can make its way up to the back-test of 6099\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote in my last newsletter: \u201c If we can put in a failed breakdown of today\u2019s 5917 lows (perhaps down to 5912) and recover, I\u2019d be interested in longing\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Its why I wrote Tuesday December 24th: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone to grab some points.\u201d After the back-test, we sold 4 days straight."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "I also wrote in my last newsletter that: \u201cPossible zones for high risk knife catches though would be 5870-75 (as always don\u2019t rush, wait a little to see the reaction)\u201d."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "2025 Starts The Way It Ended For SPX: Red. Is A Relief Bounce Coming? Jan 3rd Plan",
+  "post_date": "2025-01-02",
+  "post_slug": "2025-starts-the-way-it-ended-for",
+  "parsed_at": "2026-04-16T15:46:02.830478",
+  "body_length": 2288
+}

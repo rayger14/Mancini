@@ -1,0 +1,104 @@
+{
+  "trading_date": "2025-02-12",
+  "levels": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "hold 6066"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6093.0,
+      "role": "mentioned",
+      "context": "undays open, we sold down to 6016-20 exact, then rallied to 6093 high of day yesterday. Today repeated the same script, and"
+    },
+    {
+      "price": 6125.0,
+      "role": "range",
+      "context": "6125-30"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6125-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "hold 6066"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6093.0,
+      "role": "mentioned",
+      "context": "undays open, we sold down to 6016-20 exact, then rallied to 6093 high of day yesterday. Today repeated the same script, and"
+    },
+    {
+      "price": 6125.0,
+      "role": "range",
+      "context": "6125-30"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6125-30"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Wednesday at 4pm (when we were 6070s): \u201cMy general lean is always to defer to the trend until proven otherwise."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As we know, most deep, headline driven sells in ES result in my core setup, the Failed Breakdown to trigger long."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know I inordinately focus on Failed Breakdowns (because they work the best) but a small % of my trades are my other two, and they are worth knowing."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Not only that, but ES has also spent this duration mostly in the same range (largely 6020 to 6125, with a 6070 magnet with a few excursions above and below)."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "CPI Tomorrow: Volatility Incoming For SPX. Can Bulls Keep The Run Going? Feb 12 Plan",
+  "post_date": "2025-02-11",
+  "post_slug": "cpi-tomorrow-volatility-incoming-ce0",
+  "parsed_at": "2026-04-16T15:45:29.836232",
+  "body_length": 2213
+}

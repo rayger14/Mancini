@@ -1,0 +1,134 @@
+{
+  "trading_date": "2025-04-16",
+  "levels": [
+    {
+      "price": 5408.0,
+      "role": "mentioned",
+      "context": "elief bounce now for a week. For tomorrow, ES is rangebound 5408 to 5469/5485. We could ping pong this, but my general lean"
+    },
+    {
+      "price": 5416.0,
+      "role": "mentioned",
+      "context": "can retrace today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d. 5251 was the exact low on Friday from which w"
+    },
+    {
+      "price": 5428.0,
+      "role": "mentioned",
+      "context": "ral lean based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ h"
+    },
+    {
+      "price": 5468.0,
+      "role": "mentioned",
+      "context": "today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d. 5251 was the exact low on Friday from which we rallied t"
+    },
+    {
+      "price": 5484.0,
+      "role": "mentioned",
+      "context": "an based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ high ye"
+    },
+    {
+      "price": 5485.0,
+      "role": "mentioned",
+      "context": "to 5408 range support, then by 10:30AM today, we rallied to 5485 range resistance before dipping. Can the dip buys continue?"
+    },
+    {
+      "price": 5505.0,
+      "role": "range",
+      "context": "5505-15"
+    },
+    {
+      "price": 5515.0,
+      "role": "range",
+      "context": "5505-15"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5408.0,
+      "role": "mentioned",
+      "context": "elief bounce now for a week. For tomorrow, ES is rangebound 5408 to 5469/5485. We could ping pong this, but my general lean"
+    },
+    {
+      "price": 5416.0,
+      "role": "mentioned",
+      "context": "can retrace today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d. 5251 was the exact low on Friday from which w"
+    },
+    {
+      "price": 5428.0,
+      "role": "mentioned",
+      "context": "ral lean based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ h"
+    },
+    {
+      "price": 5468.0,
+      "role": "mentioned",
+      "context": "today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d. 5251 was the exact low on Friday from which we rallied t"
+    },
+    {
+      "price": 5484.0,
+      "role": "mentioned",
+      "context": "an based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ high ye"
+    },
+    {
+      "price": 5485.0,
+      "role": "mentioned",
+      "context": "to 5408 range support, then by 10:30AM today, we rallied to 5485 range resistance before dipping. Can the dip buys continue?"
+    },
+    {
+      "price": 5505.0,
+      "role": "range",
+      "context": "5505-15"
+    },
+    {
+      "price": 5515.0,
+      "role": "range",
+      "context": "5505-15"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Thursday at 4pm: \u201c[My general lean is] that ES can defend 5248-52."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking for this rally to extend to 5485+ yesterday writing on Friday at 4pm: \u201cMy general lean based purely on technicals is that we continue up."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We could ping pong this, but my general lean is as long as support holds, the next leg up sees 5503, 5525, then 5558/65."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My newsletter yesterday was entitled: \u201cIs Buy The Dip Temporarily Back In SPX\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Dips are bought and short squeezes occur when ES puts in my core setup: The Failed Breakdown, and every single day since the Sunday April 6th low ES saw at least one Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This Friday morning 5251 low was immediately followed by a Failed Breakdown of a low at 5258 set a few hours earlier on Friday to trigger longs and off we went."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today's newsletter I'll talk this, I'll do a deep dive into the quality Failed Breakdown we had Friday to set the multi hundred point lows at 5250, and also discuss a more unorthodox setup we had yesterday (a variant of the Failed Breakdown called a level reclaim)."
+    },
+    {
+      "type": "TARGETS",
+      "text": "5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ high yesterday before dipping again into the close yesterday."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "For tomorrow, ES is rangebound 5408 to 5469/5485."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Have Bears Lost Control In SPX? April 16 Plan",
+  "post_date": "2025-04-15",
+  "post_slug": "have-bears-lost-control-in-spx-april",
+  "parsed_at": "2026-04-16T15:44:34.606749",
+  "body_length": 2321
+}

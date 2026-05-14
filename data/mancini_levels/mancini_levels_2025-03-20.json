@@ -1,0 +1,124 @@
+{
+  "trading_date": "2025-03-20",
+  "levels": [
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5651.0,
+      "role": "support",
+      "context": "defend 5651"
+    },
+    {
+      "price": 5699.0,
+      "role": "range",
+      "context": "5699-5704"
+    },
+    {
+      "price": 5704.0,
+      "role": "range",
+      "context": "5699-5704"
+    },
+    {
+      "price": 5706.0,
+      "role": "mentioned",
+      "context": "ls want to defend 5651. This would setup the next leg up to 5706, 5710, then 5755 \u201d. Last Thursday, ES flushed the last Tues"
+    },
+    {
+      "price": 5710.0,
+      "role": "mentioned",
+      "context": "t to defend 5651. This would setup the next leg up to 5706, 5710, then 5755 \u201d. Last Thursday, ES flushed the last Tuesday lo"
+    },
+    {
+      "price": 5755.0,
+      "role": "range",
+      "context": "5755-57"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5755-57"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5651.0,
+      "role": "support",
+      "context": "defend 5651"
+    },
+    {
+      "price": 5699.0,
+      "role": "range",
+      "context": "5699-5704"
+    },
+    {
+      "price": 5704.0,
+      "role": "range",
+      "context": "5699-5704"
+    },
+    {
+      "price": 5706.0,
+      "role": "mentioned",
+      "context": "ls want to defend 5651. This would setup the next leg up to 5706, 5710, then 5755 \u201d. Last Thursday, ES flushed the last Tues"
+    },
+    {
+      "price": 5710.0,
+      "role": "mentioned",
+      "context": "t to defend 5651. This would setup the next leg up to 5706, 5710, then 5755 \u201d. Last Thursday, ES flushed the last Tuesday lo"
+    },
+    {
+      "price": 5755.0,
+      "role": "range",
+      "context": "5755-57"
+    },
+    {
+      "price": 5757.0,
+      "role": "range",
+      "context": "5755-57"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is bulls can correct/consolidate on Monday and ideally bulls want to defend 5651."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cMy general lean is we can do a little back-testing."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After a deep selloff ES does two things: 1) It puts in my core setup - the Failed Breakdown - which generates a short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the difference between a high quality Failed Breakdown and a Low Quality Failed Breakdown (and will also touch on some recent shorts the last few days)."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Is This A Dead Cat Bounce For SPX? Or Bottoms In? March 20th Plan",
+  "post_date": "2025-03-19",
+  "post_slug": "is-this-a-dead-cat-bounce-for-spx-6ed",
+  "parsed_at": "2026-04-16T15:44:58.492647",
+  "body_length": 2290
+}

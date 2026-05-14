@@ -1,0 +1,147 @@
+{
+  "trading_date": "2025-05-30",
+  "levels": [
+    {
+      "price": 5809.0,
+      "role": "support",
+      "context": "hold 5809"
+    },
+    {
+      "price": 5815.0,
+      "role": "support",
+      "context": "recover 5815"
+    },
+    {
+      "price": 5820.0,
+      "role": "range",
+      "context": "5815-20"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": ", we recovered 5815-20, longs triggered. We then rallied to 5850, cleared it, then ran to 5925+ target Tuesday. Yesterday we"
+    },
+    {
+      "price": 5893.0,
+      "role": "mentioned",
+      "context": "idia earnings. Prior to Nvidia earnings, ES flushed down to 5893. This teed up the next bear trap/Failed Breakdown. I sent m"
+    },
+    {
+      "price": 5910.0,
+      "role": "resistance",
+      "context": "below 5910"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5945.0,
+      "role": "range",
+      "context": "5945-5910"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5809.0,
+      "role": "support",
+      "context": "hold 5809"
+    },
+    {
+      "price": 5815.0,
+      "role": "support",
+      "context": "recover 5815"
+    },
+    {
+      "price": 5820.0,
+      "role": "range",
+      "context": "5815-20"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": ", we recovered 5815-20, longs triggered. We then rallied to 5850, cleared it, then ran to 5925+ target Tuesday. Yesterday we"
+    },
+    {
+      "price": 5893.0,
+      "role": "mentioned",
+      "context": "idia earnings. Prior to Nvidia earnings, ES flushed down to 5893. This teed up the next bear trap/Failed Breakdown. I sent m"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5945.0,
+      "role": "range",
+      "context": "5945-5910"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5970-75"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5910.0,
+      "role": "resistance",
+      "context": "below 5910"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Friday at 4pm: \u201cIn a strong bull case for Monday, ES won\u2019t even head back to support of this range, and will rather just hold 5809 or 5794, recover 5815-20, then head back on up to 5843 then 5850\u2026After 5850 recovers, 5877, 5900, then 5925 are the next big stops on the upside as we work back towards the highs.\u201d On Sunday, Monday, and yesterday, we saw exactly this."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I sent my newsletter out early at 2:45PM yesterday, stating: \u201cMy general lean is that ES can continue building out structure 5945-5910 and as long as 5910 holds (or traps below) 5945, 5957, then 5970-75 remain in play.\u201d We trapped below 5910, sold to 5893, then by 420PM, Nvidia earnings hit, and we recovered it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, I am a Failed Breakdown trader."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns work in all conditions."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Specifically, institutions buy them via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This teed up the next bear trap/Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into three quality Failed Breakdowns we had this week (one Sunday to start the rally, one Tuesday, one Wednesday)."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 9,
+  "resistance_count": 1,
+  "post_title": "[Re-Send With Chart] Yesterdays Parabolic Melt-Up In SPX Was Sold. Is This Sell Just Another Dip To Buy? May 30 Plan",
+  "post_date": "2025-05-29",
+  "post_slug": "re-send-with-chart-yesterdays-parabolic",
+  "parsed_at": "2026-04-16T15:43:55.650837",
+  "body_length": 2795
+}

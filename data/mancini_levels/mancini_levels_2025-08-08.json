@@ -1,0 +1,180 @@
+{
+  "trading_date": "2025-08-08",
+  "levels": [
+    {
+      "price": 6315.0,
+      "role": "support",
+      "context": "6315 daily low"
+    },
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6352.0,
+      "role": "mentioned",
+      "context": "lean is always to defer to the trend. 6333 reclaim targets 6352, then 6361 backtest (this could extend to 6371). Build stru"
+    },
+    {
+      "price": 6361.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6333 reclaim targets 6352, then 6361 backtest (this could extend to 6371). Build structure there"
+    },
+    {
+      "price": 6371.0,
+      "role": "mentioned",
+      "context": "laim targets 6352, then 6361 backtest (this could extend to 6371). Build structure there, then 6400+ above.\u201d Yesterday we ra"
+    },
+    {
+      "price": 6384.0,
+      "role": "mentioned",
+      "context": "ent as per the above instructions, then next leg up targets 6384, 6402-06, 6416, then the full backtest at 6452.\u201d Overnight,"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6402-06"
+    },
+    {
+      "price": 6406.0,
+      "role": "range",
+      "context": "6402-06"
+    },
+    {
+      "price": 6416.0,
+      "role": "mentioned",
+      "context": "above instructions, then next leg up targets 6384, 6402-06, 6416, then the full backtest at 6452.\u201d Overnight, we squeezed to"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "g up targets 6384, 6402-06, 6416, then the full backtest at 6452.\u201d Overnight, we squeezed to 6416+, before restarting the cy"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6315.0,
+      "role": "support",
+      "context": "6315 daily low"
+    },
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6352.0,
+      "role": "mentioned",
+      "context": "lean is always to defer to the trend. 6333 reclaim targets 6352, then 6361 backtest (this could extend to 6371). Build stru"
+    },
+    {
+      "price": 6361.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6333 reclaim targets 6352, then 6361 backtest (this could extend to 6371). Build structure there"
+    },
+    {
+      "price": 6371.0,
+      "role": "mentioned",
+      "context": "laim targets 6352, then 6361 backtest (this could extend to 6371). Build structure there, then 6400+ above.\u201d Yesterday we ra"
+    },
+    {
+      "price": 6384.0,
+      "role": "mentioned",
+      "context": "ent as per the above instructions, then next leg up targets 6384, 6402-06, 6416, then the full backtest at 6452.\u201d Overnight,"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6402-06"
+    },
+    {
+      "price": 6406.0,
+      "role": "range",
+      "context": "6402-06"
+    },
+    {
+      "price": 6416.0,
+      "role": "mentioned",
+      "context": "above instructions, then next leg up targets 6384, 6402-06, 6416, then the full backtest at 6452.\u201d Overnight, we squeezed to"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "g up targets 6384, 6402-06, 6416, then the full backtest at 6452.\u201d Overnight, we squeezed to 6416+, before restarting the cy"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cThe bull case Monday is that ES can do some back-testing of the zones we broke down yesterday and today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Tuesday at 4pm: \u201c My general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was yes, stating yesterday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I call this \u201celevator down\u201d and it sees ES lose many supports rapidly."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "2) All \u201celevator down\u201d sells in ES resolve with a violent short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These short squeezes are caused by my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A Failed Breakdown is when price sweeps a low, traps shorts, then recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As a result we went elevator down into Friday\u2019s 6240 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdown, then short squeeze to revisit 6374."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Friday at 230PM, ES put in a massive Failed Breakdown of a low at 6245."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then the cycle restarts, on Tuesday ES went \u201celevator down\u201d down to 6315 low of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Step 2: The Short Squeeze, caused by a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "You get the drill: Hard sell, Failed Breakdown, Short Squeeze, Back-Test, repeat."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "For 4 Days Now, SPX Has Gone Nowhere. Can It Crack The Range Tomorrow? August 8 Plan",
+  "post_date": "2025-08-07",
+  "post_slug": "for-4-days-now-spx-has-gone-nowhere",
+  "parsed_at": "2026-04-16T15:42:54.101352",
+  "body_length": 3513
+}

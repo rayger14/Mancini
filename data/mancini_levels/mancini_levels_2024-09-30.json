@@ -1,0 +1,146 @@
+{
+  "trading_date": "2024-09-30",
+  "levels": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5740.0,
+      "role": "mentioned",
+      "context": "current consolidation represents a mature bull flag 5790 to 5740, with 5770-72 key mid-pivot. This would likely see 5803, 58"
+    },
+    {
+      "price": 5767.0,
+      "role": "level",
+      "context": "5767 level"
+    },
+    {
+      "price": 5770.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5772.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "as this range is in tact though, it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thurs"
+    },
+    {
+      "price": 5790.0,
+      "role": "mentioned",
+      "context": "at this current consolidation represents a mature bull flag 5790 to 5740, with 5770-72 key mid-pivot. This would likely see"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thursday, we tagged 5797 exact. The fin"
+    },
+    {
+      "price": 5803.0,
+      "role": "mentioned",
+      "context": "to 5740, with 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. Yesterday we got to 5823+ dippe"
+    },
+    {
+      "price": 5808.0,
+      "role": "mentioned",
+      "context": "40, with 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. Yesterday we got to 5823+ dipped, bac"
+    },
+    {
+      "price": 5823.0,
+      "role": "mentioned",
+      "context": "th 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. Yesterday we got to 5823+ dipped, backteste"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5740.0,
+      "role": "mentioned",
+      "context": "current consolidation represents a mature bull flag 5790 to 5740, with 5770-72 key mid-pivot. This would likely see 5803, 58"
+    },
+    {
+      "price": 5767.0,
+      "role": "level",
+      "context": "5767 level"
+    },
+    {
+      "price": 5770.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5772.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "as this range is in tact though, it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thurs"
+    },
+    {
+      "price": 5790.0,
+      "role": "mentioned",
+      "context": "at this current consolidation represents a mature bull flag 5790 to 5740, with 5770-72 key mid-pivot. This would likely see"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thursday, we tagged 5797 exact. The fin"
+    },
+    {
+      "price": 5803.0,
+      "role": "mentioned",
+      "context": "to 5740, with 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. Yesterday we got to 5823+ dippe"
+    },
+    {
+      "price": 5808.0,
+      "role": "mentioned",
+      "context": "40, with 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. Yesterday we got to 5823+ dipped, bac"
+    },
+    {
+      "price": 5823.0,
+      "role": "mentioned",
+      "context": "th 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. Yesterday we got to 5823+ dipped, backteste"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The final step was to make a new ATH above that one, and I wrote in my Wednesday newsletter this week: \u201cThe short term bull case is that this current consolidation represents a mature bull flag 5790 to 5740, with 5770-72 key mid-pivot."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over how a singular level can (and usually does) provide multiple failed breakdowns (my core setup)."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "[RE-SEND] 3 Green Weeks In A Row For SPX. Can October Start Red? Sept 30 Plan",
+  "post_date": "2024-09-29",
+  "post_slug": "re-send-3-green-weeks-in-a-row-for",
+  "parsed_at": "2026-04-16T15:47:28.636284",
+  "body_length": 2772
+}

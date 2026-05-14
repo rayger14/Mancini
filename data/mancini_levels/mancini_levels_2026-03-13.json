@@ -1,0 +1,140 @@
+{
+  "trading_date": "2026-03-13",
+  "levels": [
+    {
+      "price": 6769.0,
+      "role": "mentioned",
+      "context": "at 4pm: \u201cToday, we spent it consolidating in a range mostly 6769 to 6815, with 6778-82 being a key pivot in between. My gene"
+    },
+    {
+      "price": 6778.0,
+      "role": "range",
+      "context": "6778-82"
+    },
+    {
+      "price": 6782.0,
+      "role": "range",
+      "context": "6778-82"
+    },
+    {
+      "price": 6804.0,
+      "role": "mentioned",
+      "context": "between. My general lean is bulls can fill this out more to 6804, 6813, then 6832. Perhaps last dip there, then breakout to"
+    },
+    {
+      "price": 6813.0,
+      "role": "mentioned",
+      "context": "n. My general lean is bulls can fill this out more to 6804, 6813, then 6832. Perhaps last dip there, then breakout to 6862-6"
+    },
+    {
+      "price": 6815.0,
+      "role": "mentioned",
+      "context": "\u201cToday, we spent it consolidating in a range mostly 6769 to 6815, with 6778-82 being a key pivot in between. My general lean"
+    },
+    {
+      "price": 6832.0,
+      "role": "mentioned",
+      "context": "al lean is bulls can fill this out more to 6804, 6813, then 6832. Perhaps last dip there, then breakout to 6862-66+.\u201d What d"
+    },
+    {
+      "price": 6862.0,
+      "role": "range",
+      "context": "6862-66"
+    },
+    {
+      "price": 6866.0,
+      "role": "range",
+      "context": "6862-66"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6769.0,
+      "role": "mentioned",
+      "context": "at 4pm: \u201cToday, we spent it consolidating in a range mostly 6769 to 6815, with 6778-82 being a key pivot in between. My gene"
+    },
+    {
+      "price": 6778.0,
+      "role": "range",
+      "context": "6778-82"
+    },
+    {
+      "price": 6782.0,
+      "role": "range",
+      "context": "6778-82"
+    },
+    {
+      "price": 6804.0,
+      "role": "mentioned",
+      "context": "between. My general lean is bulls can fill this out more to 6804, 6813, then 6832. Perhaps last dip there, then breakout to"
+    },
+    {
+      "price": 6813.0,
+      "role": "mentioned",
+      "context": "n. My general lean is bulls can fill this out more to 6804, 6813, then 6832. Perhaps last dip there, then breakout to 6862-6"
+    },
+    {
+      "price": 6815.0,
+      "role": "mentioned",
+      "context": "\u201cToday, we spent it consolidating in a range mostly 6769 to 6815, with 6778-82 being a key pivot in between. My general lean"
+    },
+    {
+      "price": 6832.0,
+      "role": "mentioned",
+      "context": "al lean is bulls can fill this out more to 6804, 6813, then 6832. Perhaps last dip there, then breakout to 6862-66+.\u201d What d"
+    },
+    {
+      "price": 6862.0,
+      "role": "range",
+      "context": "6862-66"
+    },
+    {
+      "price": 6866.0,
+      "role": "range",
+      "context": "6862-66"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is bulls can fill this out more to 6804, 6813, then 6832."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The first of these is what I call an \u201celevator down\u201d sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After an elevator down sell, ES then squeezes back the other way, with the speed and ferocity of the squeeze proportionate to that of the sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The trigger for this is my core setup: The Failed Breakdown which occurs when price flushes a major low, traps shorts, then reverses."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We went elevator down off the futures open Sunday evening due to more bearish war headlines, selling down to 6588 from 6700+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always though, every elevator down sell in ES resolves in a squeeze, and Sunday evening was no different."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote Tuesday at 4pm: \u201cToday, we spent it consolidating in a range mostly 6769 to 6815, with 6778-82 being a key pivot in between."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "SPX Breaks Down, But Is It Another Bear Trap? March 13 Plan",
+  "post_date": "2026-03-12",
+  "post_slug": "spx-breaks-down-but-is-it-another",
+  "parsed_at": "2026-04-16T15:38:33.878277",
+  "body_length": 2425
+}

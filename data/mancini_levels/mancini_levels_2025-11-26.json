@@ -1,0 +1,161 @@
+{
+  "trading_date": "2025-11-26",
+  "levels": [
+    {
+      "price": 6553.0,
+      "role": "resistance",
+      "context": "Below 6553"
+    },
+    {
+      "price": 6638.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6675.0,
+      "role": "mentioned",
+      "context": ".\u201d We saw exactly this today: At 9:40AM, we flushed 6701 to 6675, trapped below, recovered. We then rallied to 6780-85 by th"
+    },
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "the trend. As long as bulls hold 6701 (or quick trap below) 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824,"
+    },
+    {
+      "price": 6764.0,
+      "role": "mentioned",
+      "context": "end. As long as bulls hold 6701 (or quick trap below) 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824, then 6"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": ") 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this today: At 9:40AM, we flush"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "4, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this today: At 9:40AM, we flushed 6701 to"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6638.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6642.0,
+      "role": "range",
+      "context": "6638-42"
+    },
+    {
+      "price": 6675.0,
+      "role": "mentioned",
+      "context": ".\u201d We saw exactly this today: At 9:40AM, we flushed 6701 to 6675, trapped below, recovered. We then rallied to 6780-85 by th"
+    },
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "the trend. As long as bulls hold 6701 (or quick trap below) 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824,"
+    },
+    {
+      "price": 6764.0,
+      "role": "mentioned",
+      "context": "end. As long as bulls hold 6701 (or quick trap below) 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824, then 6"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": ") 6733, 6764, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this today: At 9:40AM, we flush"
+    },
+    {
+      "price": 6850.0,
+      "role": "mentioned",
+      "context": "4, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d We saw exactly this today: At 9:40AM, we flushed 6701 to"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6553.0,
+      "role": "resistance",
+      "context": "Below 6553"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking for this rip to continue into yestrerday, writing on Friday at 4pm: \u201cMy general lean is ES can do more back-testing."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "While seasonals may have given this rally an extra tailwind, it had a clear technical cause as well, and its the same sequence I have discussed everyday in this newsletter for years and the same sequence that produces every parabolic rally in ES: What I call the two siblings or \u201celevator down\u201d into \u201cshort squeeze\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I call this elevator down , and we saw it Thursday where ES sold 250 points in a session."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The trigger for this squeeze is always the same: A Failed Breakdown or Level Reclaim."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Friday at 10:40AM we tested 6543, recovered 6553 shortly after, and were off to the races (this setup was a re-test of a big Failed Breakdown that occurred at 5:30AM Friday morning - which I discussed extensively on Friday)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today, I was looking for more - but we\u2019d need that elevator down sell first to trap bears and fuel the move."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll talk the sequence of Failed Breakdowns that produced the squeeze we saw this week."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 10,
+  "resistance_count": 1,
+  "post_title": "The Seasonal Thanksgiving SPX Rally Has Delivered. Can Bulls Keep It Going Until Friday? Nov 26 Plan",
+  "post_date": "2025-11-25",
+  "post_slug": "the-seasonal-thanksgiving-spx-rally",
+  "parsed_at": "2026-04-16T15:41:15.701924",
+  "body_length": 2994
+}

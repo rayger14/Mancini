@@ -6,3 +6,6 @@ pydantic
 pytz
 ib_async
 pyarrow
+requests
+discord.py
+anthropic

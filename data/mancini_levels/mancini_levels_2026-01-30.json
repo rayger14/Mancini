@@ -1,0 +1,160 @@
+{
+  "trading_date": "2026-01-30",
+  "levels": [
+    {
+      "price": 6879.0,
+      "role": "mentioned",
+      "context": ".\u201d We saw exactly this, on Sunday evening ES gapped down to 6879, recovered 6923 Sunday evening, and we ripped Monday to 703"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "d recovery of it is actionable.\u201d By 11:20AM, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6970.0,
+      "role": "mentioned",
+      "context": "this range out (or quick trap below) then next leg targets 6970, 6978-81, 6998-7002. Above there ES can gun for all time hi"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6979.0,
+      "role": "mentioned",
+      "context": "r this, one can short below the low of that bounce. Perhaps 6979 trigger.\u201d We hit that 6979 sell trigger, and down we went."
+    },
+    {
+      "price": 6981.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6982.0,
+      "role": "level",
+      "context": "6982 zone"
+    },
+    {
+      "price": 6998.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7002.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "879, recovered 6923 Sunday evening, and we ripped Monday to 7036+ high of week. Today, ES was tested with another deep eleva"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6879.0,
+      "role": "mentioned",
+      "context": ".\u201d We saw exactly this, on Sunday evening ES gapped down to 6879, recovered 6923 Sunday evening, and we ripped Monday to 703"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "d recovery of it is actionable.\u201d By 11:20AM, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6970.0,
+      "role": "mentioned",
+      "context": "this range out (or quick trap below) then next leg targets 6970, 6978-81, 6998-7002. Above there ES can gun for all time hi"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6979.0,
+      "role": "mentioned",
+      "context": "r this, one can short below the low of that bounce. Perhaps 6979 trigger.\u201d We hit that 6979 sell trigger, and down we went."
+    },
+    {
+      "price": 6981.0,
+      "role": "range",
+      "context": "6978-81"
+    },
+    {
+      "price": 6982.0,
+      "role": "level",
+      "context": "6982 zone"
+    },
+    {
+      "price": 6998.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7002.0,
+      "role": "range",
+      "context": "6998-7002"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "879, recovered 6923 Sunday evening, and we ripped Monday to 7036+ high of week. Today, ES was tested with another deep eleva"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Friday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This morning around 9:30AM, for the first time in a few weeks it felt like, my \u201cbear case\u201d triggered."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cBear case tomorrow/today: Begins under 6982\u2026 For the 6982 short ideally one sees a final bounce there and/or Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, we buy dips the exact same way institutions do: Institutions buy dips by waiting for a news driven elevator down flush/trap , waiting for a low to be taken out in the process, trapping shorts beneath the low, using that liquidity to fund their longs, and then price rips when the low recovers We saw this dynamic nearly everyday the last week and it started right off Sunday\u2019s open."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today, ES was tested with another deep elevator down flush/trap."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 3pm: \u201cThere is some support at 6923 but instead of buying this wait for the Failed Breakdown of 6923."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We set a huge low Monday morning at 4:45AM at 6923 and the flush and recovery of it is actionable.\u201d By 11:20AM, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we ripped to 6970+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "Deep Flush For SPX. Will Bulls Buy This Dip? Jan 30th Plan",
+  "post_date": "2026-01-29",
+  "post_slug": "deep-flush-for-spx-will-bulls-buy",
+  "parsed_at": "2026-04-16T15:40:19.427832",
+  "body_length": 2206
+}

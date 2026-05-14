@@ -1,0 +1,121 @@
+{
+  "trading_date": "2025-09-10",
+  "levels": [
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": "end the supports mentioned above on any dips (no lower than 6461 or trap below) .\u201d On Friday at 11am we trapped under 6461,"
+    },
+    {
+      "price": 6495.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cMy general lean is always to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. This will morph. As"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. This will morph. As long as range support holds (wi"
+    },
+    {
+      "price": 6518.0,
+      "role": "target",
+      "context": "target 6518"
+    },
+    {
+      "price": 6531.0,
+      "role": "mentioned",
+      "context": "holds (with any quick traps below bought), we target 6518, 6531. Final reaction there, then onto ATHs.\u201d What did we do toda"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": "end the supports mentioned above on any dips (no lower than 6461 or trap below) .\u201d On Friday at 11am we trapped under 6461,"
+    },
+    {
+      "price": 6495.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cMy general lean is always to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. This will morph. As"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. This will morph. As long as range support holds (wi"
+    },
+    {
+      "price": 6531.0,
+      "role": "mentioned",
+      "context": "holds (with any quick traps below bought), we target 6518, 6531. Final reaction there, then onto ATHs.\u201d What did we do toda"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6518.0,
+      "role": "target",
+      "context": "target 6518"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Monday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Two of those building blocks are what I call \u201celevator down\u201d and \u201cshort squeeze\u201d and these are always paired together back-to-back."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down refers to how when ES sells, does not just grind lower."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When it sells, it is always vertical, and \u201celevator down\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Often, to backtest the region that caused the \u201celevator down\u201d move."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Therefore, a common cycle goes a little like this: ES goes elevator down, it puts in a failed breakdown, it short squeezes, it backtests."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Friday, NFP hit and ES lost a major shelf at 6518 and 6505, going \u201celevator down\u201d selling to 6452 low of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The Failed Breakdown/short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on on Thursday at 4pm that \u201cBulls want to see us defend the supports mentioned above on any dips (no lower than 6461 or trap below) .\u201d On Friday at 11am we trapped under 6461, Failed Breakdown, rallied to 6490 to close last week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We sold this morning rapidly (elevator down), lost 6495 by a few points, Failed Breakdown, then squeezed to 6518, then pushed into the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the Failed Breakdown on Friday that gave us the Monday squeeze (this is important to know), then I\u2019ll talk the actionable trade plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6495 to 6518= a chop range with 6505 magnet."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "Data Catalysts Incoming. Can SPX Make Another All Time High? Sept 10th Plan",
+  "post_date": "2025-09-09",
+  "post_slug": "data-catalysts-incoming-can-spx-make",
+  "parsed_at": "2026-04-16T15:42:24.134090",
+  "body_length": 3165
+}

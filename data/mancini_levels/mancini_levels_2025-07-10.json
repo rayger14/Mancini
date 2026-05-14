@@ -1,0 +1,163 @@
+{
+  "trading_date": "2025-07-10",
+  "levels": [
+    {
+      "price": 5970.0,
+      "role": "support",
+      "context": "support at 5970"
+    },
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6081.0,
+      "role": "resistance",
+      "context": "resistance at 6081"
+    },
+    {
+      "price": 6250.0,
+      "role": "range",
+      "context": "6250-6288"
+    },
+    {
+      "price": 6271.0,
+      "role": "support",
+      "context": "hold 6271"
+    },
+    {
+      "price": 6288.0,
+      "role": "range",
+      "context": "6250-6288"
+    },
+    {
+      "price": 6303.0,
+      "role": "range",
+      "context": "6303-05"
+    },
+    {
+      "price": 6305.0,
+      "role": "range",
+      "context": "6303-05"
+    },
+    {
+      "price": 6315.0,
+      "role": "mentioned",
+      "context": "recovered, then hit 6288 exact by 830AM this morning, then 6315 by 10am, from which point we dipped. ES is still working of"
+    },
+    {
+      "price": 6320.0,
+      "role": "range",
+      "context": "6320-25"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6320-25"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5970.0,
+      "role": "support",
+      "context": "support at 5970"
+    },
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6250.0,
+      "role": "range",
+      "context": "6250-6288"
+    },
+    {
+      "price": 6271.0,
+      "role": "support",
+      "context": "hold 6271"
+    },
+    {
+      "price": 6288.0,
+      "role": "range",
+      "context": "6250-6288"
+    },
+    {
+      "price": 6303.0,
+      "role": "range",
+      "context": "6303-05"
+    },
+    {
+      "price": 6305.0,
+      "role": "range",
+      "context": "6303-05"
+    },
+    {
+      "price": 6315.0,
+      "role": "mentioned",
+      "context": "recovered, then hit 6288 exact by 830AM this morning, then 6315 by 10am, from which point we dipped. ES is still working of"
+    },
+    {
+      "price": 6320.0,
+      "role": "range",
+      "context": "6320-25"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6320-25"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6081.0,
+      "role": "resistance",
+      "context": "resistance at 6081"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on F riday June 20th at 4pm, when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The traditional \u201cmeasured move\u201d target for a rally of this size was roughly 6325, and I wrote last Monday June 30th (when we were 6250) that: \u201cMy general lean is always to defer to the trend until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "In the most extreme bull case, ES will hold 6271 (or trap below), then head to 6281, 6288."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I\u2019ll also discuss some quality Failed Breakdowns we\u2019ve had this week, before talking my actionable trade plan for tomorrow."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 11,
+  "resistance_count": 1,
+  "post_title": "Dips Keep Getting Bought In SPX, Is It Ready For Next Leg Up? Or Pullback 1st? July 10 Plan",
+  "post_date": "2025-07-09",
+  "post_slug": "dips-keep-getting-bought-in-spx-is",
+  "parsed_at": "2026-04-16T15:43:21.111389",
+  "body_length": 3047
+}

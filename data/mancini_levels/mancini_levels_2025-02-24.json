@@ -1,0 +1,96 @@
+{
+  "trading_date": "2025-02-24",
+  "levels": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "6116 support"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    },
+    {
+      "price": 6129.0,
+      "role": "mentioned",
+      "context": "0, put in a monster macro Failed Breakdown , and rallied to 6129. Two Friday\u2019s later, 6129 was still a key level even into t"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "6116 support"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    },
+    {
+      "price": 6129.0,
+      "role": "mentioned",
+      "context": "0, put in a monster macro Failed Breakdown , and rallied to 6129. Two Friday\u2019s later, 6129 was still a key level even into t"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "On the Sunday right after that Friday, ES gapped down, sold to 6016-20, put in a monster macro Failed Breakdown , and rallied to 6129."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We also saw Back-Test Shorts (my secondary setup type), and of course, Failed Breakdowns (my core setup type)."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "SPX Puts In Its Largest Sell Since Jan 31st. More Red Ahead? Feb 24th Plan",
+  "post_date": "2025-02-23",
+  "post_slug": "spx-puts-in-its-largest-sell-since-7f3",
+  "parsed_at": "2026-04-16T15:45:21.128096",
+  "body_length": 2519
+}

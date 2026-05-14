@@ -134,7 +134,9 @@ class EntryManager:
     ) -> int:
         """Determine number of contracts.
 
-        In profit protection mode, size down to risk only current profits.
+        Applies position_size_factor from the signal (e.g., Mancini stop-based
+        sizing, Mode 1 reduction). In profit protection mode, size down to
+        risk only current profits.
         """
         base_contracts = self.exit_params.default_contracts
 
@@ -144,6 +146,13 @@ class EntryManager:
             if risk_per_contract <= 0:
                 return 0
             max_contracts = int(daily_pnl_pts / risk_per_contract)
-            return min(max(max_contracts, 1), base_contracts)
+            contracts = min(max(max_contracts, 1), base_contracts)
+        else:
+            contracts = min(base_contracts, self.risk_params.max_position_contracts)
 
-        return min(base_contracts, self.risk_params.max_position_contracts)
+        # Apply signal-level size factor (stop-based sizing, Mode 1 reduction, etc.)
+        size_factor = getattr(signal, "position_size_factor", 1.0)
+        if size_factor < 1.0:
+            contracts = max(1, int(contracts * size_factor))
+
+        return contracts

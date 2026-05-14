@@ -1,0 +1,108 @@
+{
+  "trading_date": "2026-02-02",
+  "levels": [
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "d recovery of it is actionable.\u201d By 11:20AM, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "\u201cA possible entry is if ES can flush 6935 (ideally down to 6925) then recover 6935, and this is a clear Failed Breakdown.\u201d"
+    },
+    {
+      "price": 6935.0,
+      "role": "level",
+      "context": "flush 6935"
+    },
+    {
+      "price": 6990.0,
+      "role": "mentioned",
+      "context": "6923, the Failed Breakdown was triggered, and we ripped to 6990+ yesterday. Then today? We saw the same sequence. I wrote y"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "d recovery of it is actionable.\u201d By 11:20AM, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we"
+    },
+    {
+      "price": 6923.0,
+      "role": "support",
+      "context": "support at 6923"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "\u201cA possible entry is if ES can flush 6935 (ideally down to 6925) then recover 6935, and this is a clear Failed Breakdown.\u201d"
+    },
+    {
+      "price": 6935.0,
+      "role": "level",
+      "context": "flush 6935"
+    },
+    {
+      "price": 6990.0,
+      "role": "mentioned",
+      "context": "6923, the Failed Breakdown was triggered, and we ripped to 6990+ yesterday. Then today? We saw the same sequence. I wrote y"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 3pm: \u201cBear case tomorrow/today: Begins under 6982\u2026 Perhaps 6979 trigger.\u201d We hit that 6979 sell trigger early Thursday morning, and down we went to 6900 elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The most common of these is what I call the two siblings: The first sibling is ES suddenly goes elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This always follows the elevator down sell - never any exception in recorded history."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, the short squeeze only occurs when ES puts in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips by waiting for a news driven elevator down flush/trap , waiting for a low to be taken out in the process, trapping shorts beneath the low, using that liquidity to fund their longs, and then price rips when the low recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This would mean a Failed Breakdown and short squeeze was coming From there, institutions stepped in as always."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote also Wednesday at 3pm: \u201cThere is some support at 6923 but instead of buying this wait for the Failed Breakdown of 6923."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We set a huge low Monday morning at 4:45AM at 6923 and the flush and recovery of it is actionable.\u201d By 11:20AM, we bounced at ~6900, recovered 6923, the Failed Breakdown was triggered, and we ripped to 6990+ yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cA possible entry is if ES can flush 6935 (ideally down to 6925) then recover 6935, and this is a clear Failed Breakdown.\u201d We saw exactly this around 1pm today: We flushed 6935 down to 6920ish, recovered 6935, and ripped."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "SPX Is Yet Again Coiled Tight. Break Coming. What Way? Feb 2nd Plan",
+  "post_date": "2026-02-01",
+  "post_slug": "spx-is-yet-again-coiled-tight-break-72b",
+  "parsed_at": "2026-04-16T15:40:18.217269",
+  "body_length": 2236
+}

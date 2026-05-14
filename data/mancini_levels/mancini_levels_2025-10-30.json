@@ -1,0 +1,160 @@
+{
+  "trading_date": "2025-10-30",
+  "levels": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "exactly this at 2pm Wednesday. We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began whic"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "mentioned",
+      "context": "at 6605\u2026..At 2pm today, ES put in a Failed Breakdown under 6698 and ripped us higher. The bull case tomorrow is that ES can"
+    },
+    {
+      "price": 6766.0,
+      "role": "support",
+      "context": "above 6766"
+    },
+    {
+      "price": 6901.0,
+      "role": "level",
+      "context": "swept 6901"
+    },
+    {
+      "price": 6903.0,
+      "role": "mentioned",
+      "context": "todays low(s). These are a cluster at 6901 from 4:30AM and 6903 from 11:30AM and waiting for that whole shelf to sweep and"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "ay: \u201cI defer to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 yesterday, then"
+    },
+    {
+      "price": 6928.0,
+      "role": "mentioned",
+      "context": "defer to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 yesterday, then dipped"
+    },
+    {
+      "price": 6942.0,
+      "role": "mentioned",
+      "context": "to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 yesterday, then dipped into"
+    },
+    {
+      "price": 6959.0,
+      "role": "range",
+      "context": "6959-62"
+    },
+    {
+      "price": 6962.0,
+      "role": "range",
+      "context": "6959-62"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "exactly this at 2pm Wednesday. We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began whic"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "mentioned",
+      "context": "at 6605\u2026..At 2pm today, ES put in a Failed Breakdown under 6698 and ripped us higher. The bull case tomorrow is that ES can"
+    },
+    {
+      "price": 6766.0,
+      "role": "support",
+      "context": "above 6766"
+    },
+    {
+      "price": 6901.0,
+      "role": "level",
+      "context": "swept 6901"
+    },
+    {
+      "price": 6903.0,
+      "role": "mentioned",
+      "context": "todays low(s). These are a cluster at 6901 from 4:30AM and 6903 from 11:30AM and waiting for that whole shelf to sweep and"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "ay: \u201cI defer to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 yesterday, then"
+    },
+    {
+      "price": 6928.0,
+      "role": "mentioned",
+      "context": "defer to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 yesterday, then dipped"
+    },
+    {
+      "price": 6942.0,
+      "role": "mentioned",
+      "context": "to the trend. The next batch of targets up are 6918, 6928, 6942, then 6959-62.\u201d We got to 6942 yesterday, then dipped into"
+    },
+    {
+      "price": 6959.0,
+      "role": "range",
+      "context": "6959-62"
+    },
+    {
+      "price": 6962.0,
+      "role": "range",
+      "context": "6959-62"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Readers were well prepared and I wrote last Wednesday at 4pm: \u201c \u201cBull case tomorrow: The macro pattern remains a large triangle pattern shown in bolded yellow below with resistance just a little above 6766 and support down at 6605\u2026..At 2pm today, ES put in a Failed Breakdown under 6698 and ripped us higher."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case tomorrow is that ES can resume up to backtest 6766 again."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close Monday: \u201cI defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When it comes to entries, it is always the same for me: I trade Failed Breakdowns (these represent institutional accumulation), then I leave runners."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm (over one week ago): \u201cThe best setup here is to wait for the Failed Breakdown of Sunday\u2019s 6694 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began which then broke us out the triangle."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday: \u201cOtherwise, the obvious setup is the Failed Breakdown of todays low(s)."
+    },
+    {
+      "type": "TARGETS",
+      "text": "After that if bulls have the momentum, we can head higher to 6782, then we likely head to all time highs after .\u201d We certainly got to all time highs."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "FOMC Brings The First SPX Dip In 1 Week. Was That It, Or More Red Ahead? Oct 30 Plan",
+  "post_date": "2025-10-29",
+  "post_slug": "fomc-brings-the-first-spx-dip-in",
+  "parsed_at": "2026-04-16T15:41:39.795339",
+  "body_length": 3043
+}

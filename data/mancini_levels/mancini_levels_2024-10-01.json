@@ -1,0 +1,100 @@
+{
+  "trading_date": "2024-10-01",
+  "levels": [
+    {
+      "price": 5770.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5772.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5773.0,
+      "role": "support",
+      "context": "5773 support"
+    },
+    {
+      "price": 5790.0,
+      "role": "mentioned",
+      "context": "at this current consolidation represents a mature bull flag 5790 with 5770-72 key mid-pivot. This would likely see 5803, 580"
+    },
+    {
+      "price": 5803.0,
+      "role": "mentioned",
+      "context": "flag 5790 with 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. By Thursday morning, we had tag"
+    },
+    {
+      "price": 5808.0,
+      "role": "mentioned",
+      "context": "790 with 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. By Thursday morning, we had tagged 58"
+    },
+    {
+      "price": 5823.0,
+      "role": "mentioned",
+      "context": "th 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. By Thursday morning, we had tagged 5823+ an"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5770.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5772.0,
+      "role": "range",
+      "context": "5770-72"
+    },
+    {
+      "price": 5773.0,
+      "role": "support",
+      "context": "5773 support"
+    },
+    {
+      "price": 5790.0,
+      "role": "mentioned",
+      "context": "at this current consolidation represents a mature bull flag 5790 with 5770-72 key mid-pivot. This would likely see 5803, 580"
+    },
+    {
+      "price": 5803.0,
+      "role": "mentioned",
+      "context": "flag 5790 with 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. By Thursday morning, we had tag"
+    },
+    {
+      "price": 5808.0,
+      "role": "mentioned",
+      "context": "790 with 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. By Thursday morning, we had tagged 58"
+    },
+    {
+      "price": 5823.0,
+      "role": "mentioned",
+      "context": "th 5770-72 key mid-pivot. This would likely see 5803, 5808, 5823+ for tomorrow\u201d. By Thursday morning, we had tagged 5823+ an"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my Wednesday newsletter last week: \u201cThe short term bull case is that this current consolidation represents a mature bull flag 5790 with 5770-72 key mid-pivot."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This afternoon, ES returned to the level, flushed it, put in another monster failed breakdown to rally into the close back to 5820 range resistance."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over multiple quality (and not so quality) examples of my core setup (the failed breakdown) we have had over the last few days."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Bulls Win September In SPX. Can Momentum Continue Into October? Oct 1st Plan",
+  "post_date": "2024-09-30",
+  "post_slug": "bulls-win-september-in-spx-can-momentum",
+  "parsed_at": "2026-04-16T15:47:27.317703",
+  "body_length": 2446
+}

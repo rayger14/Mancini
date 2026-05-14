@@ -1,0 +1,74 @@
+{
+  "trading_date": "2025-01-06",
+  "levels": [
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5918.0,
+      "role": "support",
+      "context": "recover 5918"
+    },
+    {
+      "price": 5922.0,
+      "role": "range",
+      "context": "5918-22"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5918.0,
+      "role": "support",
+      "context": "recover 5918"
+    },
+    {
+      "price": 5922.0,
+      "role": "range",
+      "context": "5918-22"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Then for today, my lean was that ES could recover 5918-22 (which had been a major bull/bear line all week), trigger longs, and put in a green day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the conclusion of my newsletter yesterday: \u201cIf I had to throw [my lean] out there, its that after 5 big red days, ES can try to recover the 5918-22 zone and put in a rally to 5951, 5973, 5988+\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the action we had at 5918-22 yesterday/today as its been a goldmine, in particular for my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "I wrote on Tuesday at 4pm: \u201cPossible zones for high risk knife catches though would be 5870-75\u201d."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "SPX Snaps A 5 Red Day Streak. Does This Bounce Have Legs? Jan 6th Plan",
+  "post_date": "2025-01-05",
+  "post_slug": "spx-snaps-a-5-red-day-streak-does-7dd",
+  "parsed_at": "2026-04-16T15:46:01.583514",
+  "body_length": 1649
+}

@@ -1,0 +1,52 @@
+{
+  "trading_date": "2024-11-21",
+  "levels": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "One of those cycles is that after \u201celevator down\u201d selloffs like we saw last Friday, ES usually follows with a vicious short squeeze or relief rally to re-test some of the levels that failed on the way down."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After last Friday\u2019s non-stop sell, I warned readers about a squeeze to start this week, writing on Friday at 4pm: \u201cAs readers know, elevator down days like today have a closely related sibling: The Short Squeeze and its inevitable will we retrace a good chunk of this sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm when we were 5740: \u201cWe may not be done with 5886 yet - it is common for these magnet levels to test many times and even though we tested it Friday, yesterday, and put in two failed breakdowns today, do not be shocked if it makes a few more appearances this week\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "As readers know, by \u201cthis general area\u201d I was referring to the 5886 level, which would be this weeks critical magnet to trade."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Every month typically has a magnet level that price operates around, and traps below over and over."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Unsurprisingly, sold back to the 5886 magnet by 10am this morning."
+    }
+  ],
+  "level_count": 1,
+  "support_count": 1,
+  "resistance_count": 0,
+  "post_title": "Will Nvidia Earnings Make Or Break The SPX Rally? Nov 21 Plan",
+  "post_date": "2024-11-20",
+  "post_slug": "will-nvidia-earnings-make-or-break",
+  "parsed_at": "2026-04-16T15:46:39.344313",
+  "body_length": 2080
+}

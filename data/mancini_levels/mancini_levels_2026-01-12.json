@@ -1,0 +1,134 @@
+{
+  "trading_date": "2026-01-12",
+  "levels": [
+    {
+      "price": 6866.0,
+      "role": "mentioned",
+      "context": "2pm last Friday January 2nd, ES flushed that shelf down to 6866, traped shorts, recovered, and we ripped all day and ultima"
+    },
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6940.0,
+      "role": "support",
+      "context": "hold 6940"
+    },
+    {
+      "price": 6945.0,
+      "role": "range",
+      "context": "6964-6945"
+    },
+    {
+      "price": 6964.0,
+      "role": "range",
+      "context": "6964-6945"
+    },
+    {
+      "price": 6977.0,
+      "role": "support",
+      "context": "recover 6977"
+    },
+    {
+      "price": 7006.0,
+      "role": "mentioned",
+      "context": "and we ripped all day and ultimately into this Wednesday\u2019s 7006 high of day. This squeeze was not a straight line and ES sp"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6866.0,
+      "role": "mentioned",
+      "context": "2pm last Friday January 2nd, ES flushed that shelf down to 6866, traped shorts, recovered, and we ripped all day and ultima"
+    },
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6940.0,
+      "role": "support",
+      "context": "hold 6940"
+    },
+    {
+      "price": 6945.0,
+      "role": "range",
+      "context": "6964-6945"
+    },
+    {
+      "price": 6964.0,
+      "role": "range",
+      "context": "6964-6945"
+    },
+    {
+      "price": 6977.0,
+      "role": "support",
+      "context": "recover 6977"
+    },
+    {
+      "price": 7006.0,
+      "role": "mentioned",
+      "context": "and we ripped all day and ultimately into this Wednesday\u2019s 7006 high of day. This squeeze was not a straight line and ES sp"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Wednesday at 4pm (over one week ago): \u201cMy general lean is ES can try some back-testing."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Today, bulls needed to run it off that, and my lean was they could."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close yesterday: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES behaves according to what I call the two siblings: Elevator down and short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down refers to a period where ES sells rapidly, ignoring supports in the process."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every point of elevator down sell is nearly paid back to bulls in the form of an equally or more violent short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, the rallies do not occur randomly, they only occur when ES puts in my core setup: The Failed Breakdown, and Failed Breakdowns represent institutional accumulation."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "New All Time Highs For SPX. Can Bulls Keep It Going? January 12th Plan",
+  "post_date": "2026-01-11",
+  "post_slug": "new-all-time-highs-for-spx-can-bulls-ae1",
+  "parsed_at": "2026-04-16T15:40:36.427688",
+  "body_length": 2948
+}

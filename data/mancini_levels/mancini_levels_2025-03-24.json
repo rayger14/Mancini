@@ -1,0 +1,90 @@
+{
+  "trading_date": "2025-03-24",
+  "levels": [
+    {
+      "price": 5586.0,
+      "role": "mentioned",
+      "context": "e got this last Thursday. Last Tuesday, ES set a big low at 5586 that lasted a couple days. Last Thursday, we flushed it by"
+    },
+    {
+      "price": 5686.0,
+      "role": "support",
+      "context": "5686 support"
+    },
+    {
+      "price": 5699.0,
+      "role": "mentioned",
+      "context": "\u201cThe ideal for bulls tomorrow is to retrace no deeper than 5699 (and if that does fail, bulls want to see a quick flush to"
+    },
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5750-55"
+    },
+    {
+      "price": 5755.0,
+      "role": "range",
+      "context": "5755-62"
+    },
+    {
+      "price": 5762.0,
+      "role": "range",
+      "context": "5755-62"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5586.0,
+      "role": "mentioned",
+      "context": "e got this last Thursday. Last Tuesday, ES set a big low at 5586 that lasted a couple days. Last Thursday, we flushed it by"
+    },
+    {
+      "price": 5686.0,
+      "role": "support",
+      "context": "5686 support"
+    },
+    {
+      "price": 5699.0,
+      "role": "mentioned",
+      "context": "\u201cThe ideal for bulls tomorrow is to retrace no deeper than 5699 (and if that does fail, bulls want to see a quick flush to"
+    },
+    {
+      "price": 5750.0,
+      "role": "range",
+      "context": "5750-55"
+    },
+    {
+      "price": 5755.0,
+      "role": "range",
+      "context": "5755-62"
+    },
+    {
+      "price": 5762.0,
+      "role": "range",
+      "context": "5755-62"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can re-test 5610."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In downtrends, relief rallies/short squeezes begin when ES sees a large Failed Breakdown (my core setup)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Thursday at 4pm: \u201c We have an active Failed Breakdown."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "After 4 Red Weeks In A Row, SPX Gets A Green Week. Is Another Incoming? March 24 Plan",
+  "post_date": "2025-03-23",
+  "post_slug": "after-4-red-weeks-in-a-row-spx-gets",
+  "parsed_at": "2026-04-16T15:44:55.996859",
+  "body_length": 2285
+}

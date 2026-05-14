@@ -1,0 +1,120 @@
+{
+  "trading_date": "2025-12-02",
+  "levels": [
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "the trend. As long as bulls hold 6701 (or quick trap below) 6733, 6780-85 next up. Perhaps dip there, then onto 6824, then 6"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "below) 6733, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. On Tuesday at 9"
+    },
+    {
+      "price": 6825.0,
+      "role": "mentioned",
+      "context": "lidation proccess today - we sold last night, flushed under 6825, recovered this morning, and rallied to 6850s. Ultimately t"
+    },
+    {
+      "price": 6850.0,
+      "role": "level",
+      "context": "6850 zone"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6701.0,
+      "role": "support",
+      "context": "hold 6701"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "the trend. As long as bulls hold 6701 (or quick trap below) 6733, 6780-85 next up. Perhaps dip there, then onto 6824, then 6"
+    },
+    {
+      "price": 6780.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6780-85"
+    },
+    {
+      "price": 6824.0,
+      "role": "mentioned",
+      "context": "below) 6733, 6780-85 next up. Perhaps dip there, then onto 6824, then 6850.\u201d This played out to perfection. On Tuesday at 9"
+    },
+    {
+      "price": 6825.0,
+      "role": "mentioned",
+      "context": "lidation proccess today - we sold last night, flushed under 6825, recovered this morning, and rallied to 6850s. Ultimately t"
+    },
+    {
+      "price": 6850.0,
+      "role": "level",
+      "context": "6850 zone"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean ES could spend some time consolidating and resting after this rally, before continuing up I wrote Friday at 4pm: \u201cAfter a large rally when the parabolic phase ends (it hasn\u2019t yet) price typically needs to digest the move and this is done either in time (price consolidates in a wide range) or in price (direct selloff)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In reality, there is only one thing that ever causes a rally or violent squeeze in ES: My core setup, The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns are the footprint of institutional accumulation and occur when ES goes elevator down and flushes a low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Red days like this don\u2019t come for free in ES and every elevator down sell resolves with a violent squeeze when a Failed Breakdown triggers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I was looking for more upside for the rest of the week, but we would need another Failed Breakdown to propel it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Tuesday at 9:40AM Tuesday, we flushed 6701 (there was a big shelf of lows there set on Monday/early Tuesday) to 6675, then recovered 6701 for a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we had last Tuesday of 6701 that gave us a clean 160 point leg up."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "After 5 Green Days In A Row, SPX Takes A Breather. Reset For More Upside, Or Top? Dec 2nd Plan",
+  "post_date": "2025-12-01",
+  "post_slug": "after-5-green-days-in-a-row-spx-takes",
+  "parsed_at": "2026-04-16T15:41:10.614307",
+  "body_length": 3170
+}

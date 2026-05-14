@@ -1,0 +1,89 @@
+{
+  "trading_date": "2024-11-01",
+  "levels": [
+    {
+      "price": 5838.0,
+      "role": "range",
+      "context": "5838-42"
+    },
+    {
+      "price": 5842.0,
+      "role": "range",
+      "context": "5838-42"
+    },
+    {
+      "price": 5843.0,
+      "role": "resistance",
+      "context": "below 5843"
+    },
+    {
+      "price": 5890.0,
+      "role": "range",
+      "context": "5890-5900"
+    },
+    {
+      "price": 5900.0,
+      "role": "range",
+      "context": "5890-5900"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5838.0,
+      "role": "range",
+      "context": "5838-42"
+    },
+    {
+      "price": 5842.0,
+      "role": "range",
+      "context": "5838-42"
+    },
+    {
+      "price": 5890.0,
+      "role": "range",
+      "context": "5890-5900"
+    },
+    {
+      "price": 5900.0,
+      "role": "range",
+      "context": "5890-5900"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5843.0,
+      "role": "resistance",
+      "context": "below 5843"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday in my newsletter sent out at 3pm: \u201cBear case tomorrow: Begins below 5843."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, I\u2019d need to see ES test 5843 and try and put in a Failed Breakdown of todays 5846 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last night after 4pm we saw exactly this: We tested 5843, put in a Failed Breakdown of yesterdays 5846 low, rallied to 5860, then after 6pm last night, ES lost the cluster of support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every support will fail until we get the routine post \u201celevator down\u201d short squeeze\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the setup that triggered last nights short (its my rarest trade type: The Breakdown Short), and contrast that with my most common setup, the Failed Breakdown."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "Biggest Crash For SPX In 2 Months. Buyable Dip? Or More Red Ahead? Nov 1 Plan",
+  "post_date": "2024-10-31",
+  "post_slug": "biggest-crash-for-spx-in-2-months",
+  "parsed_at": "2026-04-16T15:46:56.894752",
+  "body_length": 2062
+}

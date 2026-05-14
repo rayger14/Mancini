@@ -1,0 +1,131 @@
+{
+  "trading_date": "2025-10-31",
+  "levels": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "ly this at 2pm last Wednesday. We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began whic"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6766.0,
+      "role": "resistance",
+      "context": "6766 resistance"
+    },
+    {
+      "price": 6869.0,
+      "role": "mentioned",
+      "context": "ailed Breakdown of today\u2019s daily low at 6882. If we can tag 6869 on this, its a bonus. 6869 is an important support in its o"
+    },
+    {
+      "price": 6882.0,
+      "role": "support",
+      "context": "daily low at 6882"
+    },
+    {
+      "price": 6903.0,
+      "role": "mentioned",
+      "context": "todays low(s). These are a cluster at 6901 from 4:30AM and 6903 from 11:30AM and waiting for that whole shelf to sweep and"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "ly this at 2pm last Wednesday. We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began whic"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6869.0,
+      "role": "mentioned",
+      "context": "ailed Breakdown of today\u2019s daily low at 6882. If we can tag 6869 on this, its a bonus. 6869 is an important support in its o"
+    },
+    {
+      "price": 6882.0,
+      "role": "support",
+      "context": "daily low at 6882"
+    },
+    {
+      "price": 6903.0,
+      "role": "mentioned",
+      "context": "todays low(s). These are a cluster at 6901 from 4:30AM and 6903 from 11:30AM and waiting for that whole shelf to sweep and"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6766.0,
+      "role": "resistance",
+      "context": "6766 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "In this regard, I trade 1 setup: The Failed Breakdown, which is the price footprint of institutional accumulation."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns occur as the 2nd part of a two part sequence I call the two siblings."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The first part is price goes elevator down and flushes every nearby support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday October 21st at 4pm (over one week ago): \u201cThe best setup here is to wait for the Failed Breakdown of Sunday\u2019s 6694 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We flushed 90 points down to 6690, Failed Breakdown, recovered 6694 and the leg up began which then broke us out the triangle."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After FOMC yesterday the cycle restart, ES went elevator down selling 65 points rapidly."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "What comes after elevator down?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cThe obvious setup is the Failed Breakdown of todays low(s)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We went elevator down from 6950 to 6869 this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The Failed Breakdown/short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday \u201cThe obvious setup below here is the Failed Breakdown of today\u2019s daily low at 6882."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a series of quality Failed Breakdowns (given to readers in advance) that we saw both before FOMC to fuel the 250 point initial leg up, and after FOMC."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6869 is an important support in its own right.\u201d We saw exactly that this morning, selling to 6869 exact, recovering 6882, and squeezing to 6910."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "SPX Cools-Off Slightly After A 7 Day Parabolic Rally. Is This All Bears Will Get Though? Oct 31 Plan",
+  "post_date": "2025-10-30",
+  "post_slug": "spx-cools-off-slightly-after-a-7",
+  "parsed_at": "2026-04-16T15:41:38.553255",
+  "body_length": 3376
+}

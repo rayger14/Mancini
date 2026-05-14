@@ -1,0 +1,96 @@
+{
+  "trading_date": "2024-09-24",
+  "levels": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5738.0,
+      "role": "range",
+      "context": "5738-40"
+    },
+    {
+      "price": 5740.0,
+      "role": "range",
+      "context": "5738-40"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "as this range is in tact though, it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thurs"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "old (with any flushes below quickly bought), we can revisit 5782 1st target, perhaps dip, then make a new ATH\u201d. ES certainly"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thursday, we tagged 5797 exact. This to"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5738.0,
+      "role": "range",
+      "context": "5738-40"
+    },
+    {
+      "price": 5740.0,
+      "role": "range",
+      "context": "5738-40"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "as this range is in tact though, it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thurs"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "old (with any flushes below quickly bought), we can revisit 5782 1st target, perhaps dip, then make a new ATH\u201d. ES certainly"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "it targets AThs directly. 5775, then ultimately new ATHs to 5797+ are in play\u201d. Last Thursday, we tagged 5797 exact. This to"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my Friday 4pm newsletter: \u201c My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep into some variations of my core entry setup (the failed breakdown) that we saw the past couple days, including on Wednesday, and one Friday."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Tight For A Big Move. What Way? Sept 24 Plan",
+  "post_date": "2024-09-23",
+  "post_slug": "spx-is-coiled-tight-for-a-big-move-7a1",
+  "parsed_at": "2026-04-16T15:47:33.851987",
+  "body_length": 2095
+}

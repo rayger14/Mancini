@@ -1,0 +1,87 @@
+{
+  "trading_date": "2024-11-27",
+  "levels": [
+    {
+      "price": 5988.0,
+      "role": "resistance",
+      "context": "5988 resistance"
+    },
+    {
+      "price": 5993.0,
+      "role": "range",
+      "context": "5988-93"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "new ATHs which would target 6060, 6075, then 6100\u201d. We hit 6038 by the closed today. Tomorrow is the last day of trading be"
+    },
+    {
+      "price": 6060.0,
+      "role": "target",
+      "context": "target 6060"
+    },
+    {
+      "price": 6075.0,
+      "role": "mentioned",
+      "context": "S is ready, we can tackle new ATHs which would target 6060, 6075, then 6100\u201d. We hit 6038 by the closed today. Tomorrow is t"
+    },
+    {
+      "price": 6100.0,
+      "role": "mentioned",
+      "context": "we can tackle new ATHs which would target 6060, 6075, then 6100\u201d. We hit 6038 by the closed today. Tomorrow is the last day"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5993.0,
+      "role": "range",
+      "context": "5988-93"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "new ATHs which would target 6060, 6075, then 6100\u201d. We hit 6038 by the closed today. Tomorrow is the last day of trading be"
+    },
+    {
+      "price": 6075.0,
+      "role": "mentioned",
+      "context": "S is ready, we can tackle new ATHs which would target 6060, 6075, then 6100\u201d. We hit 6038 by the closed today. Tomorrow is t"
+    },
+    {
+      "price": 6100.0,
+      "role": "mentioned",
+      "context": "we can tackle new ATHs which would target 6060, 6075, then 6100\u201d. We hit 6038 by the closed today. Tomorrow is the last day"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5988.0,
+      "role": "resistance",
+      "context": "5988 resistance"
+    },
+    {
+      "price": 6060.0,
+      "role": "target",
+      "context": "target 6060"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cThe bull case from here is that ES can continue holding 5988-93."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over the setups that got me long for this recent leg as we got a good mix of my two core setups since Friday (the Failed Breakdown, and the Back-Test."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 4,
+  "resistance_count": 2,
+  "post_title": "Tomorrow Is The Final Full Day Of Trading For SPX. What Will Holidays Bring? Nov 27 Plan",
+  "post_date": "2024-11-26",
+  "post_slug": "tomorrow-is-the-final-full-day-of",
+  "parsed_at": "2026-04-16T15:46:34.231112",
+  "body_length": 2015
+}

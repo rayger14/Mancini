@@ -1,0 +1,220 @@
+{
+  "trading_date": "2025-08-13",
+  "levels": [
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6372.0,
+      "role": "mentioned",
+      "context": "ough is always to defer to the trend. This means as long as 6372 can only on any CPI dips, we can resume up. 6398-6402 start"
+    },
+    {
+      "price": 6387.0,
+      "role": "mentioned",
+      "context": "g as 6333 holds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d Last Friday, we sque"
+    },
+    {
+      "price": 6398.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6399.0,
+      "role": "mentioned",
+      "context": "333 holds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d Last Friday, we squeezed t"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6407.0,
+      "role": "mentioned",
+      "context": "lds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d Last Friday, we squeezed to 6415"
+    },
+    {
+      "price": 6415.0,
+      "role": "mentioned",
+      "context": "just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d Last Friday, we squeezed to 6415, and beyon"
+    },
+    {
+      "price": 6418.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6426.0,
+      "role": "mentioned",
+      "context": "e can resume up. 6398-6402 starts higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all tim"
+    },
+    {
+      "price": 6429.0,
+      "role": "mentioned",
+      "context": "g targets.\u201d Last Friday, we squeezed to 6415, and beyond to 6429, before selling off yesterday to 6397. This was one of thos"
+    },
+    {
+      "price": 6439.0,
+      "role": "mentioned",
+      "context": "higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and we tagg"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and we tagged 6452+ af"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6327.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6333.0,
+      "role": "range",
+      "context": "6327-33"
+    },
+    {
+      "price": 6372.0,
+      "role": "mentioned",
+      "context": "ough is always to defer to the trend. This means as long as 6372 can only on any CPI dips, we can resume up. 6398-6402 start"
+    },
+    {
+      "price": 6387.0,
+      "role": "mentioned",
+      "context": "g as 6333 holds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d Last Friday, we sque"
+    },
+    {
+      "price": 6398.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6399.0,
+      "role": "mentioned",
+      "context": "333 holds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d Last Friday, we squeezed t"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6407.0,
+      "role": "mentioned",
+      "context": "lds, ES can just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d Last Friday, we squeezed to 6415"
+    },
+    {
+      "price": 6415.0,
+      "role": "mentioned",
+      "context": "just keep working back uprange with 6387, 6399, 6407, then 6415 being targets.\u201d Last Friday, we squeezed to 6415, and beyon"
+    },
+    {
+      "price": 6418.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6426.0,
+      "role": "mentioned",
+      "context": "e can resume up. 6398-6402 starts higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all tim"
+    },
+    {
+      "price": 6429.0,
+      "role": "mentioned",
+      "context": "g targets.\u201d Last Friday, we squeezed to 6415, and beyond to 6429, before selling off yesterday to 6397. This was one of thos"
+    },
+    {
+      "price": 6439.0,
+      "role": "mentioned",
+      "context": "higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and we tagg"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and we tagged 6452+ af"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote way back on Friday August 1st at 4pm: \u201cThe bull case Monday is that ES can do some back-testing of the zones we broke down yesterday and today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Thursday at 4pm (when were 6360s): \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I got long at 420PM yesterday, stating in yesterdays newsletter at the same time : \u201cI have added long exposure a little after the close ~6396 as we put in a nice Failed Breakdown of the 6396 low set at 2:40PM.\u201d I also wrote: \u201cMy general lean though is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of those building blocks is my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns however do not occur in a vacuum."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They always require what I call an elevator down sell first, which is another building block."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This condition is then always followed by a Failed Breakdown, and subsequent squeeze higher."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Heading into August 1st, ES had seen the biggest \u201celevator down\u201d sell since May, selling 230 points down to 6240."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "There was the cycle: Elevator down, into Failed Breakdown, into squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We saw it again Thursday last week: ES saw an \u201celevator down\u201d sell, reversing from 6420s down to 6333."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Sentiment was bearish here, but we were longing, and last Thursday at around 2:50PM ES got a quality Failed Breakdown of a shelf of lows at 6344."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was one of those \u201celevator down\u201d sells, so we all know what was coming this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the quality Failed Breakdown we had last Thursday at 6344 which gave us the massive run into this weeks highs (this one was interesting because it occurred after a non-stop red day and when we get a bear market, you\u2019ll need to know these)."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 15,
+  "resistance_count": 0,
+  "post_title": "SPX Has Arrived At ATHs. Can It Sustain Now For More Upside? August 13 Plan",
+  "post_date": "2025-08-12",
+  "post_slug": "spx-has-arrived-at-aths-can-it-sustain",
+  "parsed_at": "2026-04-16T15:42:50.248572",
+  "body_length": 3335
+}

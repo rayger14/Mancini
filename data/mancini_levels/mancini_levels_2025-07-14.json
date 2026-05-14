@@ -1,0 +1,132 @@
+{
+  "trading_date": "2025-07-14",
+  "levels": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6252.0,
+      "role": "mentioned",
+      "context": "Wednesday, stating: \u201cES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. We could"
+    },
+    {
+      "price": 6263.0,
+      "role": "support",
+      "context": "6263 daily low"
+    },
+    {
+      "price": 6277.0,
+      "role": "mentioned",
+      "context": "ating: \u201cES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. We could fill this out"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "he close Wednesday, stating: \u201cES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. W"
+    },
+    {
+      "price": 6319.0,
+      "role": "mentioned",
+      "context": "ore but the bull case would be this breaks out, and targets 6319, 6325-30\u2026In an \u201cultra bull case\u201d tomorrow, we won\u2019t even fi"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6325-30"
+    },
+    {
+      "price": 6330.0,
+      "role": "range",
+      "context": "6325-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6252.0,
+      "role": "mentioned",
+      "context": "Wednesday, stating: \u201cES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. We could"
+    },
+    {
+      "price": 6263.0,
+      "role": "support",
+      "context": "6263 daily low"
+    },
+    {
+      "price": 6277.0,
+      "role": "mentioned",
+      "context": "ating: \u201cES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. We could fill this out"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "he close Wednesday, stating: \u201cES is building a new triangle 6311 to 6252 now with 6277 magnet. We are near resistance now. W"
+    },
+    {
+      "price": 6319.0,
+      "role": "mentioned",
+      "context": "ore but the bull case would be this breaks out, and targets 6319, 6325-30\u2026In an \u201cultra bull case\u201d tomorrow, we won\u2019t even fi"
+    },
+    {
+      "price": 6325.0,
+      "role": "range",
+      "context": "6325-30"
+    },
+    {
+      "price": 6330.0,
+      "role": "range",
+      "context": "6325-30"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on F riday June 20th at 4pm when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We could fill this out more but the bull case would be this breaks out, and targets 6319, 6325-30\u2026In an \u201cultra bull case\u201d tomorrow, we won\u2019t even fill this triangle out more and will instead just base out 6311 to 6288, then head up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cOne option I like is a Failed Breakdown of last nights [Thursday 3:15AM] 6288 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a quality Failed Breakdown we had on Tuesday evening (where we lost and recovered the Tuesday 6263 daily low), as this setup got us long for the rally into this weeks highs."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I confirmed at the close Wednesday, stating: \u201cES is building a new triangle 6311 to 6252 now with 6277 magnet."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "SPX Spent This Week Rangebound. Breakout Next Week? July 14 Plan",
+  "post_date": "2025-07-13",
+  "post_slug": "spx-spent-this-week-rangebound-breakout",
+  "parsed_at": "2026-04-16T15:43:18.574217",
+  "body_length": 3361
+}
