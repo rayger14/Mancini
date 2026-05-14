@@ -628,34 +628,17 @@ class ManciniLongStrategy:
         result = BarResult(bar_idx=bar_idx, timestamp=timestamp)
         current_time = timestamp.time()
 
-        # Step 1a: Check for exit on long position
+        # Step 1a: Check for exit on long position. Exit is fully driven by
+        # ExitManager (stop, T1, T2, prior-day-low runner trail). The old
+        # `fb_max_hold_bars` time-cap was removed — it never fired in live
+        # (IB bracket OCO is the only exit there) and forcibly truncated
+        # backtest winners at bar 20, systematically underestimating PnL
+        # vs. realized live outcomes. Mancini's 75/15/10 runner under PDL
+        # is the actual exit doctrine; no time cap belongs on top of it.
         if self._long_position is not None and self._long_position.is_open:
-            # FB time-based exit: force close after max hold bars
-            fb_time_exit = False
-            if (self._long_pattern_type == "failed_breakdown"
-                    and self._long_position.phase == ExitPhase.INITIAL
-                    and self.exit_params.fb_max_hold_bars > 0
-                    and bar_idx - self._long_entry_bar_idx >= self.exit_params.fb_max_hold_bars):
-                fb_time_exit = True
-
             exit_action = self.exit_manager.update(
                 self._long_position, high, low, close
             )
-
-            # If time exit triggered and no stop/target hit, force close at market
-            if fb_time_exit and (exit_action is None or self._long_position.is_open):
-                contracts = self._long_position.remaining_contracts
-                pnl = (close - self._long_position.entry_price) * contracts
-                self._long_position.realized_pnl_pts += pnl
-                self._long_position.remaining_contracts = 0
-                self._long_position.phase = ExitPhase.CLOSED
-                exit_action = ExitAction(
-                    contracts_to_close=contracts,
-                    exit_price=close,
-                    new_stop=0.0,
-                    new_phase=ExitPhase.CLOSED,
-                    reason=f"FB time exit ({self.exit_params.fb_max_hold_bars} bars)",
-                )
 
             if exit_action is not None:
                 result.exit_action = exit_action

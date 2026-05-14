@@ -12,6 +12,7 @@ data/*.png
 data/*.db
 data/*.json
 data/substack/all_posts.json
+data/training/
 
 # Environment
 .env

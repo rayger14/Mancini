@@ -141,7 +141,6 @@ PRODUCTION_EXIT = ExitParams(
     breakeven_buffer_pts=-3.0,  # Mancini: "several pts under breakeven"
     trailing_stop_pts=12.0,
     runner_prior_day_low_buffer_pts=1.0,
-    fb_max_hold_bars=14,        # Optuna v2: shorter hold = quicker exits (was 0)
 )
 PRODUCTION_RISK = RiskParams(max_trades_per_day=999, max_daily_loss_pts=9999.0, skip_tuesdays=False, min_rr_ratio=0.8)  # Optuna v2: 0.8 R:R filter (was 0.1)
 PRODUCTION_REGIME = RegimeParams(
@@ -475,14 +474,22 @@ class IBRunner:
                         f"(longs={'ON' if self.strategy._regime_state.longs_enabled else 'OFF'}, "
                         f"shorts={'ON' if self.strategy._regime_state.shorts_enabled else 'OFF'})")
         else:
+            # Filter disabled (or insufficient history) — install a placeholder
+            # RegimeState. Use NaN ema_slope so downstream JSONL records don't
+            # silently treat 0.0 as a real reading. The gates default to ON
+            # so trades aren't blocked when the filter is off intentionally.
             from core.regime_filter import RegimeState, Direction, VolRegime
             self.strategy._regime_state = RegimeState(
                 direction=Direction.NEUTRAL,
                 vol_regime=VolRegime.NORMAL,
                 longs_enabled=True,
                 shorts_enabled=True,
+                ema_slope=float("nan"),  # explicit sentinel — not "0 slope"
             )
-            logger.info("Regime: NEUTRAL (filter disabled or insufficient history)")
+            why = ("disabled"
+                   if not self.strategy.strategy_params.use_regime_filter
+                   else f"insufficient history ({len(self.strategy._daily_history) if self.strategy._daily_history is not None else 0} < 50 bars)")
+            logger.warning(f"Regime: NEUTRAL placeholder — {why}; ema_slope=NaN")
 
         # Daily structure detector — macro bias from daily chart
         if self.strategy.strategy_params.use_daily_structure:
