@@ -181,6 +181,12 @@ class StrategyParams:
     # they're rare and need elevated volatility to work. Setting to 0 disables
     # the gate (any age accepted).
     fb_max_level_age_hours: float = 36.0
+    # Macro-FB VIX override: when current VIX is above this, allow older levels.
+    # Mancini explicitly: "when volatility hits, I not only get more Failed
+    # Breakdowns, but I get bigger Failed Breakdowns" — macro FBs of week-old
+    # lows producing 100-170pt rallies happen in this regime. Set to 0 to
+    # disable the override (always enforce the 36h gate).
+    fb_macro_vix_threshold: float = 20.0
 
     # True breakdown abort: consecutive bars closing below level
     true_breakdown_abort_bars: int = 20
