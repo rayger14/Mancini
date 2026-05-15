@@ -1098,6 +1098,29 @@ class SignalAggregator:
         if self.require_volume_confirmation and not self._has_volume_confirmation():
             return None
 
+        # Mancini-aligned PDL short block. PRIOR_DAY_LOW is defined in
+        # Mancini's methodology as a "significant low" — the level his core
+        # Failed Breakdown long setup looks to buy on flush+recover. Shorting
+        # PDL positions the bot against his highest-conviction long pattern.
+        # Live data 2026-02-25 → 2026-05-12: 5/5 PDL shorts lost ($-813).
+        if getattr(self.strategy_params, 'block_pdl_shorts', True):
+            level = pattern.level
+            if level is not None and getattr(level.level_type, 'name', '') == 'PRIOR_DAY_LOW':
+                logger.info(
+                    f"PDL short blocked: {signal_type.name} at {pattern.entry_price:.2f} "
+                    f"on PRIOR_DAY_LOW {level.price:.2f} — Mancini PDL is a long-side "
+                    f"FB level, not a short trigger"
+                )
+                self.shadow_events.append({
+                    "feature": "block_pdl_shorts",
+                    "bar_idx": pattern.bar_idx,
+                    "timestamp": str(pattern.timestamp),
+                    "signal_type": signal_type.name,
+                    "entry_price": pattern.entry_price,
+                    "level_price": level.price,
+                })
+                return None
+
         # Confluence scoring gate (opt-in)
         confluence_score = 0
         if self.strategy_params.use_confluence_scoring:

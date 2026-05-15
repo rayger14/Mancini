@@ -75,6 +75,7 @@ def _agg(session_high: float, session_low: float,
         use_confluence_scoring=False,
         use_sweep_depth_sizing=False,
         block_capitulation_shorts=block_capitulation_shorts,
+        block_pdl_shorts=False,        # test the capitulation gate, not PDL
     )
     defaults.update(extra)
     params = StrategyParams(**defaults)
@@ -280,3 +281,86 @@ def test_vbd_max_break_zero_disables_cap():
         volume=10000, avg_volume_20=1000, level_store=store,
     )
     assert sig is not None
+
+
+# ---------------------------------------------------------------------------
+# Mancini-aligned PDL short block (Phase 1 of short-engine rewrite)
+# ---------------------------------------------------------------------------
+
+
+def test_pdl_short_blocked_by_default():
+    """PRIOR_DAY_LOW shorts should be rejected with the default
+    block_pdl_shorts=True flag. Live data 2026-02-25 → 2026-05-12:
+    5/5 PDL shorts lost ($-813). Mancini explicitly classifies PDL as
+    a long-side Failed Breakdown level."""
+    agg = _agg(session_high=7400.0, session_low=7370.0,
+               block_pdl_shorts=True)  # _agg helper defaults this False
+    # Use a non-capitulation entry so we know the PDL gate is what blocks
+    pattern = _short_pattern(level_price=7390.0, entry_price=7388.0,
+                             stop_price=7395.0)
+    # Confirm pattern level is PDL (default in helper)
+    assert pattern.level.level_type.name == "PRIOR_DAY_LOW"
+
+    signal = agg._qualify_short_signal(pattern, SignalType.BREAKDOWN_SHORT)
+    assert signal is None
+
+    pdl_events = [e for e in agg.shadow_events
+                  if e.get("feature") == "block_pdl_shorts"]
+    assert len(pdl_events) == 1
+    assert pdl_events[0]["signal_type"] == "BREAKDOWN_SHORT"
+    assert pdl_events[0]["level_price"] == 7390.0
+
+
+def test_pdl_short_blocks_velocity_short_too():
+    """The gate applies to both BREAKDOWN_SHORT and VELOCITY_SHORT —
+    they share the same _qualify_short_signal cascade."""
+    agg = _agg(session_high=7400.0, session_low=7370.0,
+               block_pdl_shorts=True)
+    pattern = _short_pattern(level_price=7390.0, entry_price=7388.0,
+                             stop_price=7395.0,
+                             signal_type_for_pattern="velocity_short")
+    signal = agg._qualify_short_signal(pattern, SignalType.VELOCITY_SHORT)
+    assert signal is None
+
+
+def test_pdl_short_block_allows_multi_hour_low():
+    """MULTI_HOUR_LOW remains a valid short level — the gate only fires
+    on PRIOR_DAY_LOW. Live data: BD shorts on MHL went 1W/1L (+$178).
+    """
+    agg = _agg(session_high=7400.0, session_low=7370.0,
+               block_pdl_shorts=True)
+    # Build a pattern with MULTI_HOUR_LOW level (not PDL)
+    level = Level(
+        price=7390.0,
+        level_type=LevelType.MULTI_HOUR_LOW,
+        created_at=_TS,
+        confirmed_at=_TS,
+        touch_count=3,
+    )
+    pattern = PatternSignal(
+        pattern_type="breakdown_short",
+        confirmation=ConfirmationType.ACCEPTANCE,
+        level=level,
+        sweep_low=7387.0,
+        entry_price=7388.0,
+        stop_price=7395.0,
+        bar_idx=200,
+        timestamp=_TS,
+        sweep_depth_pts=3.0,
+        direction="short",
+        sweep_high=7390.0,
+    )
+    signal = agg._qualify_short_signal(pattern, SignalType.BREAKDOWN_SHORT)
+    assert signal is not None
+
+
+def test_pdl_short_block_can_be_disabled():
+    """block_pdl_shorts=False lets PDL shorts through (for backtest sweeps
+    that want to measure baseline behavior or for diagnostic runs)."""
+    agg = _agg(session_high=7400.0, session_low=7370.0,
+               block_pdl_shorts=False)
+    pattern = _short_pattern(level_price=7390.0, entry_price=7388.0,
+                             stop_price=7395.0)
+    assert pattern.level.level_type.name == "PRIOR_DAY_LOW"
+    signal = agg._qualify_short_signal(pattern, SignalType.BREAKDOWN_SHORT)
+    assert signal is not None

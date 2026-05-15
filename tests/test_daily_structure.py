@@ -369,6 +369,7 @@ class TestShortSuppression:
             use_daily_structure=True,
             daily_bd_short_min_lqs=70,
             use_level_quality_scoring=False,
+            block_pdl_shorts=False,  # test LQS gate, not PDL gate
         )
         agg = SignalAggregator(strategy_params=params)
         agg._daily_bias = "DAILY_FB_BULL"

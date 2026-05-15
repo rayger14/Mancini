@@ -72,6 +72,7 @@ def _make_short_pattern(
 def _make_agg_with_levels(use_sweep_depth: bool = True, **extra_params):
     """Create a SignalAggregator with resistance/support levels pre-loaded."""
     from config.levels import LevelStore
+    extra_params.setdefault("block_pdl_shorts", False)  # test sizing, not PDL gate
     params = StrategyParams(use_sweep_depth_sizing=use_sweep_depth, **extra_params)
     agg = SignalAggregator(strategy_params=params)
     agg.level_store = LevelStore()

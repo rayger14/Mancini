@@ -293,6 +293,18 @@ class StrategyParams:
     short_capitulation_floor_pts: float = 10.0   # max (entry - session_low)
     short_capitulation_off_high_pts: float = 25.0  # min (session_high - entry)
 
+    # Mancini-aligned PDL short block. Per Mancini 2026-02-17: "A Failed
+    # Breakdown requires price to flush and recover a significant low.
+    # A significant low can be 1 of 3 things: 1.) The prior days low
+    # 2.) A multi-hour low/a low that goes 20+ points or 3.) A cluster
+    # or shelf of lows." Shorting PRIOR_DAY_LOW means positioning against
+    # his core long setup at the level where it triggers. Live data
+    # 2026-02-25 → 2026-05-12: 5/5 PDL shorts lost ($-813). Block them.
+    # MULTI_HOUR_LOW is also a Mancini-significant-low per his definition,
+    # but is the only short bucket with positive live signal (1/2 W,
+    # $+178) — kept open pending more samples.
+    block_pdl_shorts: bool = True
+
     # BD Short conviction-based confirmation (replaces flat bd_confirm_bars count).
     # Mancini reads conviction: velocity, depth, candle character, follow-through.
     # Each bar accumulates a score; confirmation when score >= threshold AND bars >= floor.

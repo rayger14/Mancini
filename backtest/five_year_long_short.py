@@ -497,6 +497,16 @@ def main():
         sessions, mancini_levels_dir=mancini_dir
     )
 
+    # Dump for downstream simulators (e.g., regime_backfill_sim.py)
+    out_path = Path(__file__).resolve().parent.parent / "data" / "backtest_5y_trades.jsonl"
+    with open(out_path, "w") as f:
+        for t in all_trades:
+            row = {k: (v.isoformat() if hasattr(v, "isoformat") else v)
+                   for k, v in t.items()
+                   if k not in ("nearby_levels",)}
+            f.write(json.dumps(row, default=str) + "\n")
+    print(f"\nDumped {len(all_trades)} trades → {out_path}")
+
     # ── Full period ─────────────────────────────────────────────────
     print(f"\n{'='*80}")
     print("FULL PERIOD: 5 Years Long + Short")

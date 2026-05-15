@@ -43,6 +43,7 @@ def _make_short_pattern(
 
 
 def _make_agg(**extra_params) -> SignalAggregator:
+    extra_params.setdefault("block_pdl_shorts", False)  # test other gates in isolation
     params = StrategyParams(
         allow_breakdown_short=True,
         bd_short_min_rr=0.5,  # low floor so R:R doesn't interfere
