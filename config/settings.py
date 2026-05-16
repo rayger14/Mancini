@@ -318,15 +318,34 @@ class StrategyParams:
     bd_conviction_candle_weight: float = 0.0    # max candle character bonus per bar (0=disabled)
     bd_conviction_new_low_weight: float = 0.0   # bonus for making new low (0=disabled)
 
-    # Backtest Short: broken resistance retested from below and fails → short
+    # Back-Test Short: Mancini-faithful pattern. Per Mancini 2024-10-09:
+    # "Price must have set a clearly defined support [shelf]. Price must
+    # break down that support decisively — forceful, deep, lasting hours+.
+    # Price must back-test the level from below. The FIRST retest from
+    # below is typically actionable; odds drop with each successive test."
+    # See core.patterns_short_v2.BacktestShort for the implementation.
     allow_backtest_short: bool = False
-    bt_breakout_confirm_bars: int = 5       # bars above resistance = breakout confirmed
-    bt_pullback_min_pts: float = 3.0        # min pullback from breakout high
-    bt_confirm_bars: int = 5                # bars below to confirm failed backtest
-    bt_timeout_bars: int = 20               # max time to confirm rejection
-    bt_stop_buffer_pts: float = 3.0         # stop above backtest high
-    bt_reclaim_abort_bars: int = 3          # abort if price reclaims level
-    bt_max_distance_from_level: float = 2.0 # max distance for backtest touch
+    bts_support_min_touches: int = 3        # min touches for HORIZONTAL_SR/CLUSTER_LOW shelf eligibility
+    bts_breakdown_confirm_bars: int = 5     # consecutive close-below bars to register breakdown
+    bts_min_flush_depth_pts: float = 15.0   # "deep" flush — pts price must drop below shelf
+    bts_max_distance_from_level: float = 2.0  # max distance for the retest touch
+    bts_confirm_bars: int = 3               # bars closing below after touch to confirm rejection
+    bts_reclaim_abort_bars: int = 3         # close-above bars that abort (level reclaimed)
+    bts_timeout_bars: int = 30              # give up waiting for rejection after this many bars
+    bts_stop_buffer_pts: float = 3.0        # stop above the back-test wick high
+    bts_first_touch_only: bool = True       # Mancini: first retest is best, odds drop
+    bts_breakout_expire_bars: int = 200     # forget broken supports after this many bars
+
+    # Legacy bt_* params (deprecated — old "broken resistance" semantics).
+    # Kept temporarily so any external script setting them doesn't crash.
+    # Remove after one release cycle if nothing else references them.
+    bt_breakout_confirm_bars: int = 5
+    bt_pullback_min_pts: float = 3.0
+    bt_confirm_bars: int = 5
+    bt_timeout_bars: int = 20
+    bt_stop_buffer_pts: float = 3.0
+    bt_reclaim_abort_bars: int = 3
+    bt_max_distance_from_level: float = 2.0
 
     # Deep sell recovery: detect intraday levels during massive selloffs.
     # Mancini: "The bigger the sell, the bigger the squeeze." After deep sells,

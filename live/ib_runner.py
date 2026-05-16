@@ -67,7 +67,6 @@ PRODUCTION_STRATEGY = StrategyParams(
     acceptance_min_hold_bars=11,           # Optuna v2: stricter confirmation (was 7)
     swing_low_order=15,
     allow_breakdown_short=True,
-    allow_backtest_short=False,
     fb_stop_buffer_pts=6.0,               # Optuna v2 (was 7.0)
     lr_stop_buffer_pts=4.0,               # Optuna v2 (was 3.0)
     max_target_distance_pts=30.0,         # Optuna v2 (was 15.0)
@@ -89,6 +88,11 @@ PRODUCTION_STRATEGY = StrategyParams(
     use_sweep_depth_sizing=True,          # Shadow: log sweep-depth-adjusted sizing
     use_mode1_detection=True,             # Shadow: log Mode 1 trend day detection
     allow_velocity_short=True,            # Shadow: log velocity breakdown shorts
+    # Back-Test Short (Mancini-faithful): broken support shelf retested from
+    # below after a deep flush. See core.patterns_short_v2.BacktestShort for
+    # the 3 Mancini criteria. PRIOR_DAY_LOW shelves excluded — Phase 1's
+    # block_pdl_shorts rejects ANY short at PDL.
+    allow_backtest_short=True,
     use_regime_filter=False,              # Data collection: don't block longs/shorts based on regime
     # BD Short validated: PDL = +199 pts/75T/44% WR (edge); MHL = -191 pts/19T/32% WR (loser)
     # bd_require_major_level=True keeps CLUSTER_LOW out. MHL exclusion needs future code change.

@@ -28,9 +28,9 @@ class ShortState(Enum):
     IDLE = auto()
     BREAK_DETECTED = auto()       # Price broke below support
     HOLDING_BELOW = auto()        # Counting bars below
-    BREAKOUT_TRACKED = auto()     # Resistance was broken upward (for BacktestShort)
-    PULLBACK_DETECTED = auto()    # Price pulled back after breakout
-    BACKTEST_WATCH = auto()       # Watching for failed backtest
+    BREAKOUT_TRACKED = auto()     # (legacy)
+    PULLBACK_DETECTED = auto()    # (legacy)
+    BACKTEST_WATCH = auto()       # Watching for failed backtest (broken support retested from below)
     CONFIRMED = auto()
 
 
@@ -419,54 +419,80 @@ class VelocityBreakdownShort:
 
 
 class BacktestShort:
-    """Detect failed backtests of previously broken resistance for short entries.
+    """Mancini-faithful Back-Test Short: failed retest of broken SUPPORT.
 
-    When a resistance level was previously broken above (breakout), then price
-    pulls back and retests it from below, and the retest fails — short.
+    Per Mancini (2024-10-09 post, 3 explicit criteria):
+      1. Price sets a clearly defined support — horizontal support with a few
+         touches, a trendline, or a "significant low".
+      2. Price breaks down that support decisively. "It must be a forceful,
+         deep breakdown that ideally lasts hours, days, or weeks." Example:
+         "we flushed 5805 and sold 80+ points in one flush."
+      3. Price back-tests the broken level from below. The FIRST retest of
+         the zone from below is typically an actionable short. "Sometimes the
+         second/third tests are actionable, but the odds drop with each
+         successive test. Eventually the level will be drained and price
+         will rip through and squeeze."
+
+    Also per Mancini (2025-01-16): "any level that was previously the trigger
+    point for a Breakdown Short will by default be a location to engage a
+    Back-Test Short when re-tested."
+
+    PRIOR_DAY_LOW is excluded from the support-shelf set even though Mancini
+    would qualify it — Phase 1 of the short-engine rewrite (block_pdl_shorts)
+    rejects ANY short at PDL because PDL is the primary Mancini long-side FB
+    level. Re-enable in a future PR if we get evidence it's profitable here.
 
     State machine:
-    1. Track breakouts (price closes above resistance for N bars)
-    2. Detect pullback (price drops back toward level)
-    3. Watch for backtest (price touches level from below)
-    4. Confirm rejection (price fails to hold above for N bars)
-
-    IDLE → BREAKOUT_TRACKED → PULLBACK_DETECTED → BACKTEST_WATCH → Signal
+      IDLE → (close below shelf for N bars) → tracking broken support
+        → (flush depth ≥ X pts reached) → eligible for back-test
+        → (high rallies back to shelf from below) → BACKTEST_WATCH
+        → (closes below for M bars after touch) → emit signal
+        → (closes above for K bars) → abort (reclaimed)
     """
 
-    _RESISTANCE_TYPES = frozenset({
-        LevelType.PRIOR_DAY_HIGH,
-        LevelType.MULTI_HOUR_HIGH,
-        LevelType.CLUSTER_HIGH,
+    _SHELF_TYPES = frozenset({
         LevelType.HORIZONTAL_SR,
-        LevelType.SWING_HIGH,
+        LevelType.CLUSTER_LOW,
+        LevelType.MULTI_HOUR_LOW,
+        LevelType.SWING_LOW,
+        # PRIOR_DAY_LOW intentionally excluded — see class docstring.
     })
 
     def __init__(self, params: StrategyParams = DEFAULT_STRATEGY):
         self.params = params
         self.state = ShortState.IDLE
-        # Track broken resistance levels (breakouts)
-        self._broken_resistances: list[tuple[Level, int, float]] = []
-        # (level, bar_idx_of_breakout, breakout_high)
+        # Tracking broken support shelves: level_price -> dict of state
+        # {"level": Level, "broken_bar": int, "lowest_low": float,
+        #  "deep_flush": bool, "touch_count": int}
+        self._broken_supports: dict[float, dict] = {}
+        # Per-level consecutive-close-below counter (to confirm breakdown)
+        self._bars_below: dict[float, int] = {}
+        # Per-level: was price recently above (for breakdown detection)
+        self._was_above: dict[float, bool] = {}
+        # Current back-test state
         self._target_level: Optional[Level] = None
+        self._target_lp: float = 0.0
         self._backtest_bar: int = -1
         self._backtest_high: float = float("-inf")
-        self._bars_below: int = 0
-        self._breakout_expire_bars: int = 200  # breakout memory window
-        # Track price relative to resistance levels for breakout detection
-        self._bars_above: dict[float, int] = {}  # level_price -> consecutive bars above
+        self._bars_below_after_touch: int = 0
+        self._bars_above_after_touch: int = 0
 
     def reset(self) -> None:
+        """Reset the active back-test watch only (preserves broken-support memory)."""
         self.state = ShortState.IDLE
         self._target_level = None
+        self._target_lp = 0.0
         self._backtest_bar = -1
         self._backtest_high = float("-inf")
-        self._bars_below = 0
+        self._bars_below_after_touch = 0
+        self._bars_above_after_touch = 0
 
     def full_reset(self) -> None:
-        """Full reset including breakout memory (for new session)."""
+        """Full reset for a new session — clears broken-support memory."""
         self.reset()
-        self._broken_resistances.clear()
-        self._bars_above.clear()
+        self._broken_supports.clear()
+        self._bars_below.clear()
+        self._was_above.clear()
 
     def update(
         self,
@@ -477,20 +503,21 @@ class BacktestShort:
         close: float,
         level_store: LevelStore,
     ) -> Optional[PatternSignal]:
-        """Process one bar. Returns PatternSignal if backtest rejection confirms."""
+        """Process one bar. Returns PatternSignal if back-test rejection confirms."""
 
-        # Always track breakouts (even while in other states)
-        self._track_breakouts(bar_idx, high, close, level_store, timestamp)
+        # 1. Track breakdowns of support shelves (always, even mid-watch)
+        self._track_breakdowns(bar_idx, low, close, level_store, timestamp)
 
-        # Expire old breakouts
-        self._broken_resistances = [
-            (lvl, bidx, bh)
-            for lvl, bidx, bh in self._broken_resistances
-            if bar_idx - bidx <= self._breakout_expire_bars
-        ]
+        # 2. Expire stale broken supports
+        expire_bars = self.params.bts_breakout_expire_bars
+        self._broken_supports = {
+            lp: state for lp, state in self._broken_supports.items()
+            if bar_idx - state["broken_bar"] <= expire_bars
+        }
 
+        # 3. State-machine processing
         if self.state == ShortState.IDLE:
-            self._scan_for_backtest(high, low, close, timestamp, bar_idx)
+            self._scan_for_backtest(bar_idx, high, low, close)
             return None
 
         elif self.state == ShortState.BACKTEST_WATCH:
@@ -498,72 +525,99 @@ class BacktestShort:
 
         return None
 
-    def _track_breakouts(
+    # --- Breakdown tracking ----------------------------------------------------
+
+    def _track_breakdowns(
         self,
         bar_idx: int,
-        high: float,
+        low: float,
         close: float,
         level_store: LevelStore,
         timestamp: datetime,
     ) -> None:
-        """Track when price breaks above resistance levels (potential future backtest targets)."""
-        confirm_bars = self.params.bt_breakout_confirm_bars
+        """Detect when price closes below a support shelf for N consecutive
+        bars (Mancini's "decisive breakdown" condition). Track lowest-low
+        afterward to confirm "forceful, deep" flush depth."""
+        confirm_bars = self.params.bts_breakdown_confirm_bars
+        min_touches = self.params.bts_support_min_touches
         confirmed = level_store.get_confirmed(timestamp)
 
         for level in confirmed:
-            if level.level_type not in self._RESISTANCE_TYPES:
+            if level.level_type not in self._SHELF_TYPES:
                 continue
+            # Shelf strength gate: cluster/horizontal must have enough touches
+            if level.level_type in (LevelType.HORIZONTAL_SR, LevelType.CLUSTER_LOW):
+                if (level.touch_count or 0) < min_touches:
+                    continue
 
             lp = round(level.price, 2)
 
-            if close > level.price:
-                self._bars_above[lp] = self._bars_above.get(lp, 0) + 1
-                if self._bars_above[lp] == confirm_bars:
-                    # Breakout confirmed — record it
-                    # Check not already recorded
-                    already = any(
-                        abs(lvl.price - level.price) < 1.0
-                        for lvl, _, _ in self._broken_resistances
-                    )
-                    if not already:
-                        self._broken_resistances.append((level, bar_idx, high))
-            else:
-                self._bars_above[lp] = 0
-
-    def _scan_for_backtest(
-        self,
-        high: float,
-        low: float,
-        close: float,
-        timestamp: datetime,
-        bar_idx: int,
-    ) -> None:
-        """Check if price is retesting a previously broken resistance from below.
-
-        Conditions:
-        - A breakout was recorded at this level
-        - Price pulled back (was below level)
-        - Current bar's high touches or exceeds the level
-        - Close is below the level (backtest failing)
-        """
-        max_dist = self.params.bt_max_distance_from_level
-
-        for level, breakout_bar, breakout_high in self._broken_resistances:
-            lp = level.price
-
-            # Price must have pulled back below the level first
-            pullback = breakout_high - close
-            if pullback < self.params.bt_pullback_min_pts:
+            # Already-broken shelves: just update lowest_low & flush flag
+            if lp in self._broken_supports:
+                state = self._broken_supports[lp]
+                if low < state["lowest_low"]:
+                    state["lowest_low"] = low
+                if not state["deep_flush"]:
+                    depth = level.price - state["lowest_low"]
+                    if depth >= self.params.bts_min_flush_depth_pts:
+                        state["deep_flush"] = True
                 continue
 
-            # Current bar touches or approaches the level from below
-            if high >= lp - max_dist and close < lp:
+            # New shelf: count consecutive closes below — but only after
+            # we've first seen price AT or ABOVE the level. Levels that
+            # form while price is already below them aren't "breakdowns"
+            # in Mancini's sense.
+            if close >= level.price:
+                self._was_above[lp] = True
+                self._bars_below[lp] = 0
+            elif self._was_above.get(lp, False):
+                self._bars_below[lp] = self._bars_below.get(lp, 0) + 1
+                if self._bars_below[lp] == confirm_bars:
+                    # Decisive breakdown confirmed — register the broken shelf
+                    self._broken_supports[lp] = {
+                        "level": level,
+                        "broken_bar": bar_idx,
+                        "lowest_low": low,
+                        "deep_flush": (level.price - low) >= self.params.bts_min_flush_depth_pts,
+                        "touch_count": 0,
+                    }
+
+    # --- Back-test scanning ----------------------------------------------------
+
+    def _scan_for_backtest(
+        self, bar_idx: int, high: float, low: float, close: float
+    ) -> None:
+        """When price rallies back up to within max_distance of a broken support
+        shelf (and that shelf had a deep flush), engage BACKTEST_WATCH."""
+        max_dist = self.params.bts_max_distance_from_level
+
+        for lp, state in self._broken_supports.items():
+            if not state["deep_flush"]:
+                continue  # Not yet a Mancini-grade breakdown
+            level_price = state["level"].price
+
+            # Skip if price is currently above the level — back-test is from
+            # below approaching up, not from above.
+            if close >= level_price:
+                continue
+
+            # High must reach the level from below (within max_dist)
+            if high >= level_price - max_dist:
+                # Touch counted. Apply first-touch-only rule.
+                state["touch_count"] += 1
+                if (self.params.bts_first_touch_only
+                        and state["touch_count"] > 1):
+                    continue
                 self.state = ShortState.BACKTEST_WATCH
-                self._target_level = level
+                self._target_level = state["level"]
+                self._target_lp = level_price
                 self._backtest_bar = bar_idx
                 self._backtest_high = high
-                self._bars_below = 1 if close < lp else 0
+                self._bars_below_after_touch = 0
+                self._bars_above_after_touch = 0
                 return
+
+    # --- Rejection confirmation -----------------------------------------------
 
     def _check_rejection(
         self,
@@ -573,36 +627,34 @@ class BacktestShort:
         low: float,
         close: float,
     ) -> Optional[PatternSignal]:
-        """Confirm the backtest rejection.
+        """After the back-test touch: confirm price rejects (closes back below
+        the broken shelf for N bars) before emitting a signal. If price
+        reclaims the shelf, abort."""
+        level_price = self._target_lp
 
-        Count bars closing below the level after the backtest touch.
-        If bt_confirm_bars reached, the backtest failed — emit short.
-        If close goes back above level for bt_reclaim_abort_bars, abort.
-        """
-        assert self._target_level is not None
-        level_price = self._target_level.price
-
-        # Track the highest point during the backtest
+        # Track post-touch highest
         if high > self._backtest_high:
             self._backtest_high = high
 
         if close < level_price:
-            self._bars_below += 1
+            self._bars_below_after_touch += 1
+            self._bars_above_after_touch = 0
         else:
-            # Price reclaimed the level — check if we should abort
-            self._bars_below = 0
-            # If price closes above for too many bars, the backtest succeeded
-            if bar_idx - self._backtest_bar > self.params.bt_reclaim_abort_bars:
+            self._bars_above_after_touch += 1
+            self._bars_below_after_touch = 0
+            if self._bars_above_after_touch >= self.params.bts_reclaim_abort_bars:
+                # Mancini's "level was drained, price will rip through and
+                # squeeze" — abort, no short.
                 self.reset()
                 return None
 
-        # Timeout
-        if bar_idx - self._backtest_bar > self.params.bt_timeout_bars:
+        # Timeout — give up waiting for rejection
+        if bar_idx - self._backtest_bar > self.params.bts_timeout_bars:
             self.reset()
             return None
 
-        # Confirmed! Backtest failed — price rejected from resistance
-        if self._bars_below >= self.params.bt_confirm_bars:
+        # Confirmed rejection
+        if self._bars_below_after_touch >= self.params.bts_confirm_bars:
             return self._emit_signal(bar_idx, timestamp, close)
 
         return None
@@ -613,17 +665,16 @@ class BacktestShort:
         timestamp: datetime,
         entry_price: float,
     ) -> PatternSignal:
-        """Emit a backtest_short PatternSignal."""
+        """Emit a backtest_short PatternSignal. Stop above the back-test high
+        (Mancini: 'stop above the rejection wick')."""
         assert self._target_level is not None
-
-        # Stop above the highest point of the backtest attempt
-        stop_price = self._backtest_high + self.params.bt_stop_buffer_pts
+        stop_price = self._backtest_high + self.params.bts_stop_buffer_pts
 
         signal = PatternSignal(
             pattern_type="backtest_short",
             confirmation=ConfirmationType.ACCEPTANCE,
             level=self._target_level,
-            sweep_low=entry_price,  # entry is the "sweep" point for shorts
+            sweep_low=entry_price,
             sweep_depth_pts=0.0,
             entry_price=entry_price,
             stop_price=stop_price,

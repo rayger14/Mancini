@@ -45,7 +45,7 @@ class SignalType(Enum):
     FAILED_RALLY = auto()       # deprecated (mirrored FR)
     LEVEL_REJECTION = auto()    # deprecated (mirrored LJ)
     BREAKDOWN_SHORT = auto()    # Mancini: support breaks and holds broken
-    BACKTEST_SHORT = auto()     # Mancini: failed retest of broken resistance
+    BACKTEST_SHORT = auto()     # Mancini: first retest of broken support shelf from below
     VELOCITY_SHORT = auto()     # Single-bar velocity breakdown (news-driven)
 
 
