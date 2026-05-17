@@ -253,17 +253,33 @@ class StrategyParams:
     short_candle_bias_bullish_threshold: float = 0.7
 
     # --- Mancini-faithful short patterns (v2) ---
-    # Breakdown Short: support breaks and HOLDS broken → short the confirmed breakdown
+    # Breakdown Short (Mancini-faithful Phase 3 rewrite). Per his 2025-08-24
+    # post: shorts the FAILURE of a Failed Breakdown long. Pattern triggers
+    # only when (1) an obvious support shelf exists, (2) price loses the
+    # shelf, recovers it, and rallies (an FB attempt), then (3) price comes
+    # BACK DOWN and breaks the lowest low of that FB. Short trigger is a
+    # few pts below the broken FB-low. See core.patterns_short_v2.BreakdownShort.
     allow_breakdown_short: bool = False
-    bd_min_break_depth_pts: float = 1.0     # min break below level to detect
-    bd_confirm_bars: int = 15               # bars closing below to confirm (< FB's 20-bar abort)
-    bd_timeout_bars: int = 40               # max wait for confirmation
-    bd_stop_buffer_pts: float = 3.0         # stop above broken level
-    bd_max_break_depth_pts: float = 15.0    # reject if already too far below (late entry)
-    # BD SHORT level quality gate: only trigger off high-quality levels.
-    # CLUSTER_LOW forms rapidly in consolidation and produces 97 noisy signals.
-    # Mancini only shorts breakdowns of major levels (prior day low, multi-hour low).
-    bd_require_major_level: bool = True     # if True, CLUSTER_LOW excluded from BD SHORT
+    bd_shelf_min_touches: int = 3           # CLUSTER_LOW/HORIZONTAL_SR shelf strength gate
+    bd_shelf_expire_bars: int = 480         # forget tracked shelves after ~8h (1-min bars)
+    bd_min_flush_depth_pts: float = 3.0     # min pts price must drop below shelf to count as "real" FB attempt
+    bd_max_flush_bars: int = 30             # max bars below shelf before declaring "not an FB" (just a trend leg)
+    bd_fb_fail_buffer_pts: float = 3.0      # pts below flush_low for the short trigger (Mancini: "few point buffer")
+    bd_fb_success_rally_pts: float = 20.0   # rally pts after recovery that classify the FB as having "succeeded" → abandon
+    bd_fb_success_timeout_bars: int = 60    # how long after recovery to wait before declaring success
+    bd_recovery_watch_bars: int = 120       # max time after recovery to keep watching for an FB failure
+    bd_stop_buffer_pts: float = 3.0         # pts above the recovery_high for the stop
+    # Note: older bd_* params (bd_confirm_bars, bd_max_break_depth_pts,
+    # bd_timeout_bars, bd_min_break_depth_pts, bd_require_major_level,
+    # bd_conviction_*, bd_min_bars_floor) are no longer used — the new
+    # state machine doesn't have the concept of "consecutive bars below"
+    # or "conviction score". Kept as no-op placeholders below to avoid
+    # crashing scripts that set them explicitly.
+    bd_min_break_depth_pts: float = 1.0     # DEPRECATED — no-op
+    bd_confirm_bars: int = 15               # DEPRECATED — no-op
+    bd_timeout_bars: int = 40               # DEPRECATED — no-op
+    bd_max_break_depth_pts: float = 15.0    # DEPRECATED — no-op
+    bd_require_major_level: bool = True     # DEPRECATED — no-op (new BD uses _SHELF_TYPES)
 
     # Velocity Breakdown Short: single-bar news-driven breakdown
     # Catches moves where a major level breaks on one 4000+ volume bar
@@ -318,18 +334,18 @@ class StrategyParams:
     # $+178) — kept open pending more samples.
     block_pdl_shorts: bool = True
 
-    # BD Short conviction-based confirmation (replaces flat bd_confirm_bars count).
-    # Mancini reads conviction: velocity, depth, candle character, follow-through.
-    # Each bar accumulates a score; confirmation when score >= threshold AND bars >= floor.
-    # With all weights=0.0, collapses to flat bar count (backward compatible).
-    bd_conviction_threshold: float = 21.0       # score to confirm (21 = backward compat with bd_confirm_bars)
-    bd_min_bars_floor: int = 5                  # absolute minimum bars below before confirming
-    bd_conviction_depth_norm_pts: float = 10.0  # depth normalizer (10 pts below = max bonus)
-    bd_conviction_depth_weight: float = 0.0     # max depth bonus per bar (0=disabled for safe default)
-    bd_conviction_velocity_norm: float = 2.0    # velocity normalizer (2 pts/bar selling = max bonus)
-    bd_conviction_velocity_weight: float = 0.0  # max velocity bonus per bar (0=disabled)
-    bd_conviction_candle_weight: float = 0.0    # max candle character bonus per bar (0=disabled)
-    bd_conviction_new_low_weight: float = 0.0   # bonus for making new low (0=disabled)
+    # DEPRECATED — conviction-scoring scaffold for the old "consecutive close-below"
+    # BD detector. The Phase 3 rewrite no longer uses these. Kept as no-op
+    # placeholders so PRODUCTION_STRATEGY / external scripts setting them
+    # don't crash. Safe to delete after one release cycle.
+    bd_conviction_threshold: float = 21.0
+    bd_min_bars_floor: int = 5
+    bd_conviction_depth_norm_pts: float = 10.0
+    bd_conviction_depth_weight: float = 0.0
+    bd_conviction_velocity_norm: float = 2.0
+    bd_conviction_velocity_weight: float = 0.0
+    bd_conviction_candle_weight: float = 0.0
+    bd_conviction_new_low_weight: float = 0.0
 
     # Back-Test Short: Mancini-faithful pattern. Per Mancini 2024-10-09:
     # "Price must have set a clearly defined support [shelf]. Price must

@@ -31,131 +31,191 @@ def _make_level_store(
 
 
 class TestBreakdownShort:
-    """Tests for BreakdownShort pattern."""
+    """Tests for the Mancini-faithful BreakdownShort.
 
-    def test_confirmed_breakdown(self):
-        """Price breaks below support and stays below for confirm_bars → signal."""
-        params = StrategyParams(
+    Per Mancini's 2025-08-24 post, BD short fires on the FAILURE of a
+    Failed Breakdown long attempt:
+      1. Obvious support shelf
+      2. Price loses the shelf, recovers it, rallies (FB attempt)
+      3. Price comes back down and breaks the FB's lowest low → short
+         trigger a few pts below.
+    """
+
+    def _params(self, **overrides):
+        defaults = dict(
             allow_breakdown_short=True,
-            bd_min_break_depth_pts=1.0,
-            bd_confirm_bars=5,
-            bd_timeout_bars=20,
+            bd_shelf_min_touches=3,
+            bd_shelf_expire_bars=480,
+            bd_min_flush_depth_pts=3.0,
+            bd_max_flush_bars=30,
+            bd_fb_fail_buffer_pts=3.0,
+            bd_fb_success_rally_pts=20.0,
+            bd_fb_success_timeout_bars=60,
+            bd_recovery_watch_bars=120,
             bd_stop_buffer_pts=3.0,
-            bd_max_break_depth_pts=15.0,
-            bd_conviction_threshold=5.0,  # match bd_confirm_bars (weights=0 → 1.0/bar)
-            bd_min_bars_floor=3,
         )
-        bd = BreakdownShort(params)
-        store = _make_level_store([(5000.0, LevelType.PRIOR_DAY_LOW)])
+        defaults.update(overrides)
+        return StrategyParams(**defaults)
 
-        # Bar 0: Break below level
-        sig = bd.update(0, _ts(0), high=5001.0, low=4998.0, close=4998.5, level_store=store)
+    def _shelf_store(self, price=5000.0, level_type=LevelType.PRIOR_DAY_LOW,
+                     touches=5):
+        return _make_level_store([(price, level_type)], touches=touches)
+
+    def test_failed_fb_emits_signal(self):
+        """Happy path: shelf → flush → recovery → re-break of flush_low →
+        BD short signal, with stop above the recovery_high."""
+        bd = BreakdownShort(self._params())
+        store = self._shelf_store(price=5000.0)
+
+        # Bar 0: price above shelf — shelf is discovered, state = watching
+        bd.update(0, _ts(0), high=5008.0, low=5002.0, close=5005.0, level_store=store)
+        assert 5000.0 in bd._shelves
+        assert bd._shelves[5000.0]["state"] == "watching"
+
+        # Bar 1: close below shelf — flush begins
+        bd.update(1, _ts(1), high=5001.0, low=4995.0, close=4996.0, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "flush"
+
+        # Bars 2-3: deeper flush
+        bd.update(2, _ts(2), high=4997.0, low=4990.0, close=4991.0, level_store=store)
+        bd.update(3, _ts(3), high=4993.0, low=4988.0, close=4989.0, level_store=store)
+        assert bd._shelves[5000.0]["flush_low"] == 4988.0
+
+        # Bar 4: recovery — close back above shelf
+        bd.update(4, _ts(4), high=5002.0, low=4990.0, close=5001.0, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "recovered"
+        assert bd._shelves[5000.0]["recovery_high"] == 5002.0
+
+        # Bar 5: rally a bit higher (the squeeze after FB)
+        bd.update(5, _ts(5), high=5010.0, low=5000.0, close=5008.0, level_store=store)
+        assert bd._shelves[5000.0]["recovery_high"] == 5010.0
+
+        # Bar 6: NO signal yet — price stays above flush_low - buffer
+        sig = bd.update(6, _ts(6), high=5009.0, low=4990.0, close=4992.0, level_store=store)
         assert sig is None
-        assert bd.state == ShortState.BREAK_DETECTED
 
-        # Bars 1-4: Stay below
-        for i in range(1, 5):
-            sig = bd.update(i, _ts(i), high=4999.5, low=4997.0, close=4998.0, level_store=store)
-            if i < 4:
-                assert sig is None
-
-        # Bar 4 is the 5th bar below (0-indexed: bars 0,1,2,3,4 = 5 bars)
+        # Bar 7: close breaks flush_low - buffer (4988 - 3 = 4985)
+        sig = bd.update(7, _ts(7), high=4990.0, low=4980.0, close=4984.0, level_store=store)
         assert sig is not None
         assert sig.pattern_type == "breakdown_short"
         assert sig.direction == "short"
-        assert sig.stop_price == 5000.0 + 3.0  # level + buffer
+        # Stop is recovery_high (5010) + bd_stop_buffer_pts (3)
+        assert sig.stop_price == 5013.0
+        # Synthetic level carries the broken flush_low, NOT the shelf —
+        # so Phase 1's PDL block doesn't apply even though the underlying
+        # shelf is PRIOR_DAY_LOW
+        assert sig.level.price == 4988.0
+        assert sig.level.level_type == LevelType.INTRADAY_LOW
 
-    def test_recovery_aborts(self):
-        """Price breaks below then recovers above → no signal (this is a FB)."""
-        params = StrategyParams(
-            allow_breakdown_short=True,
-            bd_min_break_depth_pts=1.0,
-            bd_confirm_bars=10,
-            bd_require_major_level=False,
-            bd_conviction_threshold=10.0,
-            bd_min_bars_floor=3,
-        )
-        bd = BreakdownShort(params)
-        store = _make_level_store([(5000.0, LevelType.CLUSTER_LOW)])
+    def test_no_signal_if_fb_succeeds(self):
+        """If the FB rally extends past bd_fb_success_rally_pts AND time
+        passes without a failure, abandon the shelf — Mancini's FB long
+        worked, no BD short available."""
+        bd = BreakdownShort(self._params(
+            bd_fb_success_rally_pts=10.0,
+            bd_fb_success_timeout_bars=5,
+        ))
+        store = self._shelf_store(price=5000.0)
 
-        # Break below
-        bd.update(0, _ts(0), high=5001.0, low=4998.0, close=4998.5, level_store=store)
-        assert bd.state == ShortState.BREAK_DETECTED
+        # Setup: above, flush, recovery
+        bd.update(0, _ts(0), high=5008.0, low=5002.0, close=5005.0, level_store=store)
+        bd.update(1, _ts(1), high=5001.0, low=4995.0, close=4996.0, level_store=store)
+        bd.update(2, _ts(2), high=4997.0, low=4988.0, close=4990.0, level_store=store)
+        bd.update(3, _ts(3), high=5002.0, low=4990.0, close=5001.0, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "recovered"
 
-        # Recover above level
-        sig = bd.update(1, _ts(1), high=5002.0, low=4999.0, close=5001.0, level_store=store)
-        assert sig is None
-        assert bd.state == ShortState.IDLE  # Reset — this was a failed breakdown
+        # Rally well above shelf for 6 bars — FB succeeded
+        for i in range(4, 10):
+            bd.update(i, _ts(i), high=5015.0 + i, low=5008.0,
+                      close=5012.0 + i, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "abandoned"
 
-    def test_max_depth_rejects(self):
-        """Price breaks too far below level → rejected (late entry)."""
-        params = StrategyParams(
-            allow_breakdown_short=True,
-            bd_min_break_depth_pts=1.0,
-            bd_confirm_bars=3,
-            bd_max_break_depth_pts=10.0,
-            bd_conviction_threshold=3.0,
-            bd_min_bars_floor=2,
-        )
-        bd = BreakdownShort(params)
-        store = _make_level_store([(5000.0, LevelType.MULTI_HOUR_LOW)])
+    def test_shallow_tag_resets_to_watching(self):
+        """If price dips below shelf by less than bd_min_flush_depth_pts
+        and recovers immediately, it's a tag, not an FB attempt. Shelf
+        should reset to watching."""
+        bd = BreakdownShort(self._params(bd_min_flush_depth_pts=10.0))
+        store = self._shelf_store(price=5000.0)
 
-        # Break with close already 12 pts below
-        bd.update(0, _ts(0), high=4995.0, low=4987.0, close=4988.0, level_store=store)
-        assert bd.state == ShortState.BREAK_DETECTED
+        bd.update(0, _ts(0), high=5008.0, low=5002.0, close=5005.0, level_store=store)
+        # Shallow tag — only 2pt below shelf
+        bd.update(1, _ts(1), high=5001.0, low=4998.0, close=4999.0, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "flush"
+        # Immediate recovery — flush_depth only 2pt < 10pt min
+        bd.update(2, _ts(2), high=5003.0, low=4999.0, close=5002.0, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "watching"
 
-        # Close moves even further — exceeds max depth
-        sig = bd.update(1, _ts(1), high=4990.0, low=4985.0, close=4988.0, level_store=store)
-        assert sig is None
-        assert bd.state == ShortState.IDLE  # Rejected: too far below
+    def test_long_flush_without_recovery_abandons(self):
+        """If price stays below shelf for bd_max_flush_bars without
+        recovering, that's a trend leg (not an FB failure setup)."""
+        bd = BreakdownShort(self._params(bd_max_flush_bars=5))
+        store = self._shelf_store(price=5000.0)
 
-    def test_timeout_resets(self):
-        """If breakdown doesn't confirm within timeout, reset."""
-        params = StrategyParams(
-            allow_breakdown_short=True,
-            bd_min_break_depth_pts=1.0,
-            bd_confirm_bars=50,  # Very high — will timeout first
-            bd_timeout_bars=10,
-            bd_conviction_threshold=50.0,
-            bd_min_bars_floor=5,
-        )
-        bd = BreakdownShort(params)
-        store = _make_level_store([(5000.0, LevelType.PRIOR_DAY_LOW)])
+        bd.update(0, _ts(0), high=5008.0, low=5002.0, close=5005.0, level_store=store)
+        # Flush begins
+        bd.update(1, _ts(1), high=5001.0, low=4995.0, close=4996.0, level_store=store)
+        # Stay below for 7 more bars without recovery
+        for i in range(2, 9):
+            bd.update(i, _ts(i), high=4998.0, low=4990.0 - i, close=4992.0, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "abandoned"
 
-        bd.update(0, _ts(0), high=5001.0, low=4998.0, close=4998.5, level_store=store)
-        assert bd.state == ShortState.BREAK_DETECTED
+    def test_recovery_watch_timeout_abandons(self):
+        """After recovery, if neither failure nor success criteria fire
+        within bd_recovery_watch_bars, abandon."""
+        bd = BreakdownShort(self._params(
+            bd_recovery_watch_bars=5,
+            bd_fb_success_rally_pts=999,  # never satisfied
+        ))
+        store = self._shelf_store(price=5000.0)
 
-        # 11 bars later → timeout
-        sig = bd.update(11, _ts(11), high=4999.0, low=4997.0, close=4998.0, level_store=store)
-        assert sig is None
-        assert bd.state == ShortState.IDLE
+        bd.update(0, _ts(0), high=5008.0, low=5002.0, close=5005.0, level_store=store)
+        bd.update(1, _ts(1), high=5001.0, low=4995.0, close=4996.0, level_store=store)
+        bd.update(2, _ts(2), high=4997.0, low=4988.0, close=4990.0, level_store=store)
+        bd.update(3, _ts(3), high=5002.0, low=4990.0, close=5001.0, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "recovered"
 
-    def test_only_significant_levels(self):
-        """SWING_LOW should NOT trigger a breakdown short."""
-        params = StrategyParams(
-            allow_breakdown_short=True,
-            bd_min_break_depth_pts=1.0,
-            bd_confirm_bars=3,
-        )
-        bd = BreakdownShort(params)
+        # 7 bars pass with price oscillating but never failing/succeeding
+        for i in range(4, 11):
+            bd.update(i, _ts(i), high=5002.0, low=4990.0, close=4995.0, level_store=store)
+        assert bd._shelves[5000.0]["state"] == "abandoned"
+
+    def test_swing_low_not_a_shelf(self):
+        """SWING_LOW is not in _SHELF_TYPES — should not be tracked."""
+        bd = BreakdownShort(self._params())
         store = _make_level_store([(5000.0, LevelType.SWING_LOW)])
+        bd.update(0, _ts(0), high=5008.0, low=5002.0, close=5005.0, level_store=store)
+        assert len(bd._shelves) == 0
 
-        bd.update(0, _ts(0), high=5001.0, low=4998.0, close=4998.5, level_store=store)
-        assert bd.state == ShortState.IDLE  # SWING_LOW not in _SUPPORT_TYPES
+    def test_cluster_with_few_touches_excluded(self):
+        """CLUSTER_LOW with touch_count < bd_shelf_min_touches is filtered."""
+        bd = BreakdownShort(self._params(bd_shelf_min_touches=5))
+        store = _make_level_store([(5000.0, LevelType.CLUSTER_LOW)], touches=2)
+        bd.update(0, _ts(0), high=5008.0, low=5002.0, close=5005.0, level_store=store)
+        assert len(bd._shelves) == 0
 
-    def test_min_depth_filter(self):
-        """Tiny break below level (< min_depth) should not trigger."""
-        params = StrategyParams(
-            allow_breakdown_short=True,
-            bd_min_break_depth_pts=2.0,
-            bd_confirm_bars=3,
-        )
-        bd = BreakdownShort(params)
-        store = _make_level_store([(5000.0, LevelType.PRIOR_DAY_LOW)])
+    def test_pdl_shelf_tracked_but_signal_uses_synthetic_level(self):
+        """PRIOR_DAY_LOW IS a valid shelf for BD — Mancini explicitly cites
+        it ('Monday daily low of 6456' in the 2025-08-24 example). The
+        Phase 1 block_pdl_shorts gate would block any short whose
+        pattern.level is PDL, so the emitted signal must carry the
+        synthetic INTRADAY_LOW representing the broken flush_low."""
+        bd = BreakdownShort(self._params())
+        store = self._shelf_store(price=5000.0, level_type=LevelType.PRIOR_DAY_LOW)
 
-        # Only 0.5 pts below — less than min_depth
-        bd.update(0, _ts(0), high=5001.0, low=4999.5, close=4999.7, level_store=store)
-        assert bd.state == ShortState.IDLE
+        # Full sequence to emit signal
+        bd.update(0, _ts(0), high=5008.0, low=5002.0, close=5005.0, level_store=store)
+        bd.update(1, _ts(1), high=5001.0, low=4995.0, close=4996.0, level_store=store)
+        bd.update(2, _ts(2), high=4997.0, low=4988.0, close=4990.0, level_store=store)
+        bd.update(3, _ts(3), high=5002.0, low=4990.0, close=5001.0, level_store=store)
+        bd.update(4, _ts(4), high=5010.0, low=5000.0, close=5008.0, level_store=store)
+        sig = bd.update(5, _ts(5), high=4990.0, low=4980.0, close=4984.0, level_store=store)
+
+        assert sig is not None
+        # Critical: pattern.level is the synthetic flush_low, NOT the PDL shelf
+        assert sig.level.level_type == LevelType.INTRADAY_LOW
+        assert sig.level.price == 4988.0
+        # Phase 1 would have blocked if level_type were PRIOR_DAY_LOW
+        assert sig.level.level_type != LevelType.PRIOR_DAY_LOW
 
 
 class TestBacktestShort:
