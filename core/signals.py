@@ -337,7 +337,9 @@ class SignalAggregator:
         self.elevator_up_detector.reset()
         self.failed_rally.reset()
         self.level_rejection.reset()
-        self.breakdown_short.reset()
+        # full_reset clears the per-shelf tracking dict; reset() alone
+        # only clears the state flag and leaks shelves across sessions.
+        self.breakdown_short.full_reset()
         self.backtest_short.full_reset()
         self.level_store.clear()
         self.signals.clear()

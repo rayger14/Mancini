@@ -150,6 +150,12 @@ class ManciniNautilusStrategy(Strategy):
         # Completed trades
         self._completed_trades: list[TradeRecord] = []
 
+        # Realized PnL accumulator — updated on every fill (T1, T2, stop).
+        # Each fill adds (fill_price - entry_price) * fill_qty for longs.
+        self._realized_pnl_pts: float = 0.0
+        self._final_exit_price: float = 0.0  # last fill that closed the position
+        self._exit_reason_hint: str = "Stop loss hit"  # updated based on which order fills last
+
         # Levels initialised flag
         self._levels_initialized = False
 
@@ -171,7 +177,10 @@ class ManciniNautilusStrategy(Strategy):
         if instrument is None:
             return
 
-        ts = pd.Timestamp(bar.ts_event, unit="ns").to_pydatetime()
+        # Bar timestamps from Nautilus are nanoseconds since epoch (UTC).
+        # Our level_store and pattern detectors compare against tz-aware
+        # timestamps from the source parquet (US/Eastern), so convert.
+        ts = pd.Timestamp(bar.ts_event, unit="ns", tz="UTC").tz_convert("US/Eastern").to_pydatetime()
         o = float(bar.open)
         h = float(bar.high)
         lo = float(bar.low)
@@ -365,44 +374,73 @@ class ManciniNautilusStrategy(Strategy):
         self.submit_order(stop_order)
 
     def _on_t1_filled(self, event: OrderFilled) -> None:
-        """T1 hit → move stop to breakeven, reduce stop qty."""
+        """T1 hit → record realized PnL, move stop to breakeven, reduce stop qty."""
         instrument = self.cache.instrument(self._instrument_id)
         filled_qty = int(event.last_qty)
+        fill_px = float(event.last_px)
+        # Accumulate realized PnL for the T1 partial exit
+        self._realized_pnl_pts += (fill_px - self._entry_price) * filled_qty
+        self._final_exit_price = fill_px
+        self._exit_reason_hint = "T1 target hit"
         self._remaining_contracts -= filled_qty
         self._phase = _Phase.AFTER_T1
 
-        # Move stop to breakeven + 1 tick
-        be_stop = self._entry_price + (
-            self._exit_params.breakeven_buffer_ticks * self._contract_spec.tick_size
-        )
+        # Move stop to breakeven (production: -3pt = entry - 3pt for long)
+        be_buf = getattr(self._exit_params, "breakeven_buffer_pts", 0.0)
+        be_stop = self._entry_price + be_buf  # buf is negative for "BE-3"
         self._stop_price = self._round_to_tick(be_stop)
+
+        # If T1 closed the whole position (rare — only if t1_exit_fraction=1.0)
+        if self._remaining_contracts <= 0:
+            self._cancel_order_if_active(self._t2_order_id)
+            self._cancel_order_if_active(self._stop_order_id)
+            self._close_trade(fill_px, event)
+            return
 
         # Cancel and resubmit stop with new qty and price
         self._replace_stop_order(instrument, self._remaining_contracts, self._stop_price)
 
     def _on_t2_filled(self, event: OrderFilled) -> None:
-        """T2 hit → switch to trailing stop on runner."""
+        """T2 hit → record realized PnL, switch to trailing stop on runner."""
         instrument = self.cache.instrument(self._instrument_id)
         filled_qty = int(event.last_qty)
+        fill_px = float(event.last_px)
+        self._realized_pnl_pts += (fill_px - self._entry_price) * filled_qty
+        self._final_exit_price = fill_px
+        self._exit_reason_hint = "T2 target hit"
         self._remaining_contracts -= filled_qty
         self._phase = _Phase.AFTER_T2
+
+        if self._remaining_contracts <= 0:
+            self._cancel_order_if_active(self._stop_order_id)
+            self._close_trade(fill_px, event)
+            return
 
         # Set initial trailing stop
         trail_stop = self._compute_trail_stop()
         self._stop_price = self._round_to_tick(trail_stop)
-
         self._replace_stop_order(instrument, self._remaining_contracts, self._stop_price)
 
     def _on_stop_filled(self, event: OrderFilled) -> None:
-        """Stop hit → cancel remaining limits, record trade."""
+        """Stop hit → record realized PnL on remaining contracts, close trade."""
         filled_qty = int(event.last_qty)
+        fill_px = float(event.last_px)
+        self._realized_pnl_pts += (fill_px - self._entry_price) * filled_qty
+        self._final_exit_price = fill_px
+        # Distinguish initial stop (loss) vs trailed stop (runner profit-stop)
+        if self._phase == _Phase.AFTER_T2:
+            self._exit_reason_hint = "Runner trailing stop"
+        elif self._phase == _Phase.AFTER_T1:
+            self._exit_reason_hint = "Breakeven stop after T1"
+        else:
+            self._exit_reason_hint = "Stop loss hit"
         self._remaining_contracts -= filled_qty
 
         # Cancel any remaining limit orders
         self._cancel_order_if_active(self._t1_order_id)
         self._cancel_order_if_active(self._t2_order_id)
 
-        self._close_trade(float(event.last_px), event)
+        self._close_trade(fill_px, event)
 
     def _replace_stop_order(self, instrument, new_qty: int, new_price: float) -> None:
         """Cancel existing stop and submit a new one."""
@@ -461,60 +499,44 @@ class ManciniNautilusStrategy(Strategy):
     # ------------------------------------------------------------------
 
     def _close_trade(self, exit_price: float, event: OrderFilled) -> None:
-        """Build TradeRecord from accumulated fills and reset state."""
-        exit_time = pd.Timestamp(event.ts_event, unit="ns").to_pydatetime()
+        """Build TradeRecord from accumulated realized PnL and reset state."""
+        exit_time = pd.Timestamp(event.ts_event, unit="ns",
+                                 tz="UTC").tz_convert("US/Eastern").to_pydatetime()
 
-        # Compute PnL (simple: avg_exit computed from actual fills via Nautilus)
-        # For simplicity, use the position manager's realized_pnl approach
-        _pnl_pts = exit_price - self._entry_price  # noqa: F841 approximate for the remaining
-        _total_pnl_pts = (exit_price - self._entry_price) * self._total_contracts  # noqa: F841
+        # PnL pts is the running accumulator built up across T1/T2/stop fills,
+        # divided by total contracts to get per-contract pts (matching the
+        # backtest/runner.py legacy convention of pts as per-contract).
+        if self._total_contracts > 0:
+            pnl_pts_per_contract = self._realized_pnl_pts / self._total_contracts
+        else:
+            pnl_pts_per_contract = 0.0
+        # Total dollar PnL: realized_pts_total × point_value − commissions
+        point_value = self._contract_spec.point_value
+        pnl_dollars = (self._realized_pnl_pts * point_value) - self._total_commission
 
-        # Better approach: let Nautilus position track PnL
-        # We approximate from the fills we have
-        # The stop fill closes whatever remains; earlier fills at T1/T2 are profits
-        # Use position manager to record
-        from strategy.exit_manager import ExitPhase
-
-        # Build a synthetic position to pass to PositionManager.close_position()
+        record = TradeRecord(
+            entry_time=self._entry_time or exit_time,
+            exit_time=exit_time,
+            entry_price=self._entry_price,
+            avg_exit_price=self._final_exit_price or exit_price,
+            contracts=self._total_contracts,
+            pnl_pts=pnl_pts_per_contract,
+            pnl_dollars=pnl_dollars,
+            pattern_type=self._pattern_type,
+            exit_reason=self._exit_reason_hint,
+        )
+        self._completed_trades.append(record)
+        # Best-effort sync with PositionManager (for daily PnL tracking)
         if self._pos_mgr.session and self._pos_mgr.session.active_position is not None:
-            pos = self._pos_mgr.session.active_position
-            # Compute realized PnL from bracket fills
-            # T1 fills at target_1, T2 fills at target_2, stop at exit_price
-            t1_qty = round(self._total_contracts * self._exit_params.t1_exit_fraction)
-            t2_qty = round(self._total_contracts * self._exit_params.t2_exit_fraction)
-            _runner_qty = self._total_contracts - t1_qty - t2_qty  # noqa: F841
-
-            _realized = 0.0  # noqa: F841
-            if self._phase == _Phase.CLOSED or self._remaining_contracts <= 0:
-                # Stop was the final exit
-                # Determine which targets were hit before the stop
-                pass
-
-            # Use position's actual state
-            pos.remaining_contracts = 0
-            pos.phase = ExitPhase.CLOSED
-
-            record = self._pos_mgr.close_position(
-                exit_price=exit_price,
-                timestamp=exit_time,
-                exit_reason="Stop loss hit",
-                pattern_type=self._pattern_type,
-            )
-
-            if record is not None:
-                # Adjust PnL for commissions
-                record = TradeRecord(
-                    entry_time=self._entry_time or exit_time,
-                    exit_time=exit_time,
-                    entry_price=self._entry_price,
-                    avg_exit_price=exit_price,
-                    contracts=self._total_contracts,
-                    pnl_pts=record.pnl_pts,
-                    pnl_dollars=record.pnl_dollars - self._total_commission,
-                    pattern_type=record.pattern_type,
-                    exit_reason=record.exit_reason,
+            try:
+                self._pos_mgr.close_position(
+                    exit_price=self._final_exit_price or exit_price,
+                    timestamp=exit_time,
+                    exit_reason=self._exit_reason_hint,
+                    pattern_type=self._pattern_type,
                 )
-                self._completed_trades.append(record)
+            except Exception:
+                pass
 
         self._reset_position_state()
 
@@ -535,6 +557,10 @@ class ManciniNautilusStrategy(Strategy):
         self._t1_order_id = None
         self._t2_order_id = None
         self._stop_order_id = None
+        # Realized-PnL accumulator and exit metadata
+        self._realized_pnl_pts = 0.0
+        self._final_exit_price = 0.0
+        self._exit_reason_hint = "Stop loss hit"
 
     # ------------------------------------------------------------------
     # Position closed event (catch-all cleanup)
