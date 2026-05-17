@@ -36,3 +36,7 @@ htmlcov/
 .DS_Store
 Thumbs.db
 data/backtest_5y_trades.jsonl
+
+# Local research artifacts
+data/substack/short_excerpts*.json
+.claude/scheduled_tasks.lock
