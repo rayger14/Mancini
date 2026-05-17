@@ -364,3 +364,84 @@ def test_pdl_short_block_can_be_disabled():
     assert pattern.level.level_type.name == "PRIOR_DAY_LOW"
     signal = agg._qualify_short_signal(pattern, SignalType.BREAKDOWN_SHORT)
     assert signal is not None
+
+
+# ---------------------------------------------------------------------------
+# short_size_factor — Mancini structural-asymmetry concession (Phase 4)
+# ---------------------------------------------------------------------------
+
+
+def _multi_hour_pattern():
+    """A clean MULTI_HOUR_LOW short pattern that passes all other gates."""
+    level = Level(
+        price=7340.0,
+        level_type=LevelType.MULTI_HOUR_LOW,
+        created_at=_TS,
+        confirmed_at=_TS,
+        touch_count=3,
+    )
+    return PatternSignal(
+        pattern_type="breakdown_short",
+        confirmation=ConfirmationType.ACCEPTANCE,
+        level=level,
+        sweep_low=7337.0,
+        entry_price=7339.0,
+        stop_price=7345.0,
+        bar_idx=200,
+        timestamp=_TS,
+        sweep_depth_pts=3.0,
+        direction="short",
+        sweep_high=7340.0,
+    )
+
+
+def test_short_size_factor_halves_default():
+    """With default short_size_factor=0.5, a short signal that would
+    otherwise size 1.0 (tight stop) gets cut to 0.5."""
+    agg = _agg(session_high=7400.0, session_low=7325.0,
+               short_size_factor=0.5)
+    pattern = _multi_hour_pattern()
+    signal = agg._qualify_short_signal(pattern, SignalType.BREAKDOWN_SHORT)
+    assert signal is not None
+    # Stop is 6pt wide (7345-7339), well under max_full_stop_pts → base 1.0,
+    # then * 0.5 short_size_factor = 0.5
+    assert signal.position_size_factor == 0.5
+
+
+def test_short_size_factor_quarter_compounds_with_stop_sizing():
+    """If short_size_factor=0.25 AND the stop is wider than max_full_stop,
+    the de-rating compounds with stop-distance sizing."""
+    agg = _agg(session_high=7400.0, session_low=7325.0,
+               short_size_factor=0.25)
+    # Build a wider-stop pattern: stop 7355 → 16pt wide, > max_full_stop=15
+    level = Level(price=7340.0, level_type=LevelType.MULTI_HOUR_LOW,
+                  created_at=_TS, confirmed_at=_TS, touch_count=3)
+    pattern = PatternSignal(
+        pattern_type="breakdown_short",
+        confirmation=ConfirmationType.ACCEPTANCE,
+        level=level,
+        sweep_low=7335.0,
+        entry_price=7339.0,
+        stop_price=7355.0,
+        bar_idx=200,
+        timestamp=_TS,
+        sweep_depth_pts=5.0,
+        direction="short",
+        sweep_high=7340.0,
+    )
+    signal = agg._qualify_short_signal(pattern, SignalType.BREAKDOWN_SHORT)
+    assert signal is not None
+    # Stop 16pt → base size_factor 0.5 (between max_full_stop and 2x),
+    # then * 0.25 short_size_factor = 0.125
+    assert signal.position_size_factor == 0.5 * 0.25
+
+
+def test_short_size_factor_one_disables_derate():
+    """short_size_factor=1.0 makes shorts size the same as longs — the knob
+    is fully opt-out. Backtest sweeps comparing pre/post may want this."""
+    agg = _agg(session_high=7400.0, session_low=7325.0,
+               short_size_factor=1.0)
+    pattern = _multi_hour_pattern()
+    signal = agg._qualify_short_signal(pattern, SignalType.BREAKDOWN_SHORT)
+    assert signal is not None
+    assert signal.position_size_factor == 1.0

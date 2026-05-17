@@ -293,6 +293,19 @@ class StrategyParams:
     short_capitulation_floor_pts: float = 10.0   # max (entry - session_low)
     short_capitulation_off_high_pts: float = 25.0  # min (session_high - entry)
 
+    # Mancini-aligned short size de-rating. Per Mancini 2026-02-04: shorts
+    # have "substantially lower win rate and lower R/R" — risk-management
+    # response is smaller size, not "tune harder until shorts WR matches
+    # longs". Applied multiplicatively to size_factor in _qualify_short_signal
+    # AFTER stop-distance and sweep-depth sizing. 1.0 (default) disables;
+    # 0.5 is half-size; 0.25 is quarter-size. Default left at 1.0 because
+    # the 5y backtest's max_daily_loss_pts=20 cap interacts with halved
+    # short losses by allowing more same-day chop-zone longs to fire (net
+    # -$6,844 in backtest, mostly artifact). Live PRODUCTION_RISK has
+    # max_daily_loss_pts=9999 so that dynamic doesn't apply — flip to 0.5
+    # in production once we have evidence the live impact is positive.
+    short_size_factor: float = 1.0
+
     # Mancini-aligned PDL short block. Per Mancini 2026-02-17: "A Failed
     # Breakdown requires price to flush and recover a significant low.
     # A significant low can be 1 of 3 things: 1.) The prior days low

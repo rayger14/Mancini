@@ -1199,6 +1199,16 @@ class SignalAggregator:
             else:
                 size_factor = sweep_depth_factor
 
+        # Mancini-aligned short size de-rating (Phase 4 of short-engine rewrite).
+        # Per Mancini 2026-02-04: "I still give short entries here for those who
+        # like them and don't mind having a substantially lower win rate and
+        # lower R/R - SPX is a structurally bullish asset class". This isn't a
+        # detector rule he states — it's the risk-management response to his
+        # own framing: lower-edge trades deserve smaller size. Default 0.5x.
+        short_factor = getattr(self.strategy_params, 'short_size_factor', 0.5)
+        if short_factor != 1.0:
+            size_factor *= short_factor
+
         # Move exhaustion: if session low already hit the target, the move is
         # done — don't short into a bounce.  Mancini: the flush IS the setup
         # for the long, not a short continuation.
