@@ -1,14 +1,6 @@
-"""Mancini-faithful short patterns: Breakdown Short & Backtest Short.
-
-Breakdown Short:
-  Support shelf breaks and HOLDS broken → short the confirmed breakdown.
-  This is the INVERSE of Failed Breakdown (FB watches break then recover;
-  BD watches break and STAY broken).
-
-Backtest Short:
-  Previously broken resistance retested from below and fails → short.
-  Entry at failed retest, stop above backtest high.
-"""
+"""Mancini-faithful short patterns: Breakdown Short, Backtest Short,
+Velocity Breakdown Short. See class docstrings for the per-pattern
+Mancini-quote groundings."""
 
 from __future__ import annotations
 
@@ -20,6 +12,7 @@ from typing import Optional
 from config.levels import Level, LevelStore, LevelType
 from config.settings import StrategyParams, DEFAULT_STRATEGY
 from core.patterns import PatternSignal, ConfirmationType
+from loguru import logger
 
 
 class ShortState(Enum):
@@ -189,6 +182,10 @@ class BreakdownShort:
                 "recovery_bar": -1,
                 "recovery_high": float("-inf"),
             }
+            logger.debug(
+                f"BD shelf tracked: {level.level_type.name}@{lp:.2f} "
+                f"(touches={level.touch_count}, bar={bar_idx})"
+            )
 
     def _advance_shelf(
         self,
@@ -210,6 +207,10 @@ class BreakdownShort:
                 shelf["state"] = "flush"
                 shelf["flush_start_bar"] = bar_idx
                 shelf["flush_low"] = low
+                logger.debug(
+                    f"BD flush begins: shelf {level_price:.2f} lost, "
+                    f"close={close:.2f} low={low:.2f} (bar={bar_idx})"
+                )
             return None
 
         if state == "flush":
@@ -226,11 +227,20 @@ class BreakdownShort:
                     shelf["state"] = "recovered"
                     shelf["recovery_bar"] = bar_idx
                     shelf["recovery_high"] = high
+                    logger.debug(
+                        f"BD FB recovery: shelf {level_price:.2f} reclaimed, "
+                        f"flush_low={shelf['flush_low']:.2f} ({flush_depth:.1f}pt) "
+                        f"recovery_high={high:.2f} (bar={bar_idx}) — watching for FB-failure"
+                    )
                 else:
                     # Shallow tag — not a real FB attempt; reset to watching
                     shelf["state"] = "watching"
                     shelf["flush_start_bar"] = -1
                     shelf["flush_low"] = float("inf")
+                    logger.debug(
+                        f"BD shallow tag reset: shelf {level_price:.2f} "
+                        f"flush only {flush_depth:.1f}pt < {min_depth:.1f}pt min"
+                    )
                 return None
 
             # Sat below too long without recovery — abandon (this shelf
@@ -239,6 +249,10 @@ class BreakdownShort:
             max_flush_bars = getattr(self.params, "bd_max_flush_bars", 30)
             if time_in_flush > max_flush_bars:
                 shelf["state"] = "abandoned"
+                logger.debug(
+                    f"BD flush abandoned: shelf {level_price:.2f} stayed "
+                    f"broken {time_in_flush} bars without recovery — trend leg"
+                )
             return None
 
         if state == "recovered":
@@ -253,6 +267,11 @@ class BreakdownShort:
             flush_low = shelf["flush_low"]
             buffer = getattr(self.params, "bd_fb_fail_buffer_pts", 3.0)
             if close <= flush_low - buffer:
+                logger.info(
+                    f"BD signal: shelf {level_price:.2f}, flush_low {flush_low:.2f}, "
+                    f"recovery_high {shelf['recovery_high']:.2f}, "
+                    f"entry {close:.2f}, stop {shelf['recovery_high'] + buffer:.2f}"
+                )
                 return self._emit_signal(shelf, bar_idx, timestamp, close)
 
             # FB succeeded — meaningful rally and no failure → abandon
@@ -262,12 +281,20 @@ class BreakdownShort:
             if (rally_pts >= success_rally
                     and time_since_recovery > success_timeout):
                 shelf["state"] = "abandoned"
+                logger.debug(
+                    f"BD shelf abandoned (FB won): shelf {level_price:.2f} rallied "
+                    f"{rally_pts:.1f}pt for {time_since_recovery} bars, no failure"
+                )
                 return None
 
             # General timeout — no resolution within window
             watch_bars = getattr(self.params, "bd_recovery_watch_bars", 120)
             if time_since_recovery > watch_bars:
                 shelf["state"] = "abandoned"
+                logger.debug(
+                    f"BD shelf abandoned (watch timeout): shelf {level_price:.2f} "
+                    f"recovered but unresolved after {time_since_recovery} bars"
+                )
             return None
 
         # "abandoned" — wait for expiry cleanup
