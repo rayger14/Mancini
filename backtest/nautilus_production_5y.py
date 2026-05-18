@@ -72,28 +72,65 @@ def build_daily_sessions(df: pd.DataFrame) -> dict[date, pd.DataFrame]:
     return sessions
 
 
-def build_runner(longs_only: bool = False) -> NautilusBacktestRunner:
-    """Build the Nautilus runner. If longs_only=True, disables all short
-    pattern flags — the existing nautilus_strategy.py scaffolding only
-    submits BUY entry / SELL exits and would reject SHORT signals' stops
-    as 'wrong side of market'. Fixing the scaffolding for shorts is a
-    separate workstream."""
+def build_runner(longs_only: bool = False,
+                 legacy_params: bool = False,
+                 legacy_exit: bool = False) -> NautilusBacktestRunner:
+    """Build the Nautilus runner.
+
+    - longs_only=True disables all short pattern flags (the existing
+      scaffolding doesn't yet handle short order submission).
+    - legacy_params=True overlays the long-side Optuna v2 drift with the
+      legacy tight tuning that produced +$93K in the old harness:
+        acceptance_max_dip_pts:   15  → 4
+        acceptance_min_hold_bars: 11  → 7
+        max_fb_sweep_depth_pts:   999 → 10
+        true_breakdown_abort_bars: 40 → 20
+        fb_stop_buffer_pts:       6.0 → 5.5
+        lr_stop_buffer_pts:       4.0 → 5.0
+        mancini_t1_at_first_resistance: True → False
+      Scientific control: if this reproduces ~+$93K through Nautilus,
+      we've isolated the regression to PRODUCTION_STRATEGY's params.
+    """
+    from dataclasses import replace  # noqa: used below
     strategy_params = PRODUCTION_STRATEGY
     if longs_only:
-        from dataclasses import replace
         strategy_params = replace(
-            PRODUCTION_STRATEGY,
+            strategy_params,
             allow_breakdown_short=False,
             allow_velocity_short=False,
             allow_backtest_short=False,
             allow_short_fr=False,
             allow_short_lj=False,
         )
+    if legacy_params:
+        strategy_params = replace(
+            strategy_params,
+            acceptance_max_dip_pts=4.0,
+            acceptance_min_hold_bars=7,
+            max_fb_sweep_depth_pts=10.0,
+            true_breakdown_abort_bars=20,
+            fb_stop_buffer_pts=5.5,
+            lr_stop_buffer_pts=5.0,
+            mancini_t1_at_first_resistance=False,
+        )
+
+    exit_params = PRODUCTION_EXIT
+    if legacy_exit:
+        # Legacy harness used: t1_exit_fraction=1.0, trailing_stop_pts=7.0,
+        # default_contracts=4. NO runner. Mirror those defaults so we
+        # isolate the exit-mechanics effect from the strategy-params effect.
+        exit_params = replace(
+            exit_params,
+            t1_exit_fraction=1.0,
+            t2_exit_fraction=0.0,
+            runner_fraction=0.0,
+            trailing_stop_pts=7.0,
+        )
 
     cfg = NautilusBacktestConfig(
         strategy_params=strategy_params,
         elevator_params=PRODUCTION_ELEVATOR,
-        exit_params=PRODUCTION_EXIT,
+        exit_params=exit_params,
         risk_params=PRODUCTION_RISK,
         min_rr_ratio=PRODUCTION_RISK.min_rr_ratio,
     )
@@ -132,17 +169,49 @@ def smoke_test(sessions: dict[date, pd.DataFrame], longs_only: bool = True) -> N
 
 
 def full_run(sessions: dict[date, pd.DataFrame],
-             skip_mondays: bool = True) -> None:
-    runner = build_runner()
+             skip_mondays: bool = True,
+             longs_only: bool = True,
+             legacy_params: bool = False,
+             legacy_exit: bool = False) -> None:
+    runner = build_runner(
+        longs_only=longs_only,
+        legacy_params=legacy_params,
+        legacy_exit=legacy_exit,
+    )
     daily_dfs = {}
     for d in sorted(sessions):
         if skip_mondays and d.weekday() == 0:
             continue
         daily_dfs[d] = sessions[d]
     print(f"\nFull run: {len(daily_dfs)} sessions "
-          f"({sorted(daily_dfs)[0]} → {sorted(daily_dfs)[-1]})")
+          f"({sorted(daily_dfs)[0]} → {sorted(daily_dfs)[-1]})  longs_only={longs_only}",
+          flush=True)
 
-    result = runner.run_multi_day(daily_dfs=daily_dfs)
+    # Manual loop so we get progress output (run_multi_day uses loguru,
+    # which is silenced for this harness).
+    sorted_dates = sorted(daily_dfs)
+    from backtest.runner import BacktestResult
+    result = BacktestResult()
+    prior_day_df = None
+    for i, d in enumerate(sorted_dates):
+        df = daily_dfs[d]
+        if len(df) < 10:
+            continue
+        try:
+            day_result = runner.run_single_day(df, prior_day_df=prior_day_df, day=d)
+            result.days.append(day_result)
+            result.all_trades.extend(day_result.trade_records)
+            if (i + 1) % 25 == 0 or day_result.num_trades > 0:
+                cum_pnl = sum(t.pnl_pts for t in result.all_trades)
+                cum_n = len(result.all_trades)
+                print(f"  [{i+1:>4}/{len(sorted_dates)}] {d}  "
+                      f"day_trades={day_result.num_trades}  day_pnl={day_result.pnl_pts:+.1f}  "
+                      f"cum_n={cum_n}  cum_pnl={cum_pnl:+.1f}",
+                      flush=True)
+            prior_day_df = df
+        except Exception as e:
+            print(f"  ERROR on {d}: {e}", flush=True)
+            continue
 
     print("\n" + "=" * 80)
     print("NAUTILUS PRODUCTION-STRATEGY BACKTEST — 5 YEAR")
@@ -190,6 +259,11 @@ def main():
                     help="Run only a single-session smoke test")
     ap.add_argument("--keep-mondays", action="store_true",
                     help="Don't skip Mondays (default skips per Optuna v2 convention)")
+    ap.add_argument("--legacy-params", action="store_true",
+                    help="Overlay legacy tight params on PRODUCTION_STRATEGY")
+    ap.add_argument("--legacy-exit", action="store_true",
+                    help="Use legacy exit (t1_exit_fraction=1.0, no runner, "
+                         "trailing_stop_pts=7.0). Isolate exit-mechanics effect.")
     args = ap.parse_args()
 
     print("Loading 5y ES data…")
@@ -207,10 +281,19 @@ def main():
     print(f"  t1/runner fractions:              {PRODUCTION_EXIT.t1_exit_fraction}/{PRODUCTION_EXIT.runner_fraction}")
     print(f"  max_daily_loss_pts:               {PRODUCTION_RISK.max_daily_loss_pts}")
 
+    if args.legacy_params or args.legacy_exit:
+        print(f"\n*** OVERLAYS ACTIVE — legacy_params={args.legacy_params}, "
+              f"legacy_exit={args.legacy_exit} ***")
+
     if args.smoke:
         smoke_test(sessions)
     else:
-        full_run(sessions, skip_mondays=not args.keep_mondays)
+        full_run(
+            sessions,
+            skip_mondays=not args.keep_mondays,
+            legacy_params=args.legacy_params,
+            legacy_exit=args.legacy_exit,
+        )
 
 
 if __name__ == "__main__":
