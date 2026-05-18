@@ -69,3 +69,17 @@ data/            Parquet files, live trade logs, Optuna results
 - Deploy: scp files -> `docker build --no-cache` -> stop/rm/run container
 - Always check for open positions before restarting: `docker logs ... | grep ENTRY`
 - Data and logs mounted from `/home/ubuntu/mancini/{data,logs}` to `/app/{data,logs}`
+
+## Mancini Substack Plan Loading
+- **Cookie format matters**: `SUBSTACK_COOKIE` env var must be sent as `Cookie: substack.sid={value}` (the `live/substack_compare.py` wrapper handles this automatically since the 2026-05-18 fix). Sending the raw value without the `substack.sid=` name serves only paywall preview (~2.5KB body) instead of full paid content (~30KB+). Silently breaks LLM extraction.
+- **Posts published ~4pm ET** the day BEFORE the trading session they describe. The "May 19 Plan" is posted Monday May 18 evening for Tuesday May 19 trading. ES globex session starts 6pm ET, so the plan must be loaded BEFORE then.
+- **Cron schedule (host crontab)**:
+  - `0 17 * * *` — primary scraper (5pm ET)
+  - `30 17 * * *` — primary LLM extractor (5:30pm ET)
+  - `0 20 * * *` — backup scraper (8pm ET, in case Mancini publishes late)
+  - `30 20 * * *` — backup LLM extractor (8:30pm ET)
+- **Trading date convention**: `run_mancini_llm_cron.sh` uses `TZ=America/New_York date -d "tomorrow"` to determine the trading_date for the plan file. So evening cron at 17:30 writes `mancini_plan_<next_day>.json`. Aligns correctly when running before midnight ET.
+- **Verifying a fetch worked**: body length should be 15,000-50,000+ chars. If it's 2,000-3,000 chars, the cookie is broken (paywall preview only). Check `data/mancini_plan_<date>.json` — a healthy plan has 5+ `planned_setups` and 1+ `danger_zones`; a paywalled one has 0-1 setups.
+- **Two extraction systems run in parallel**:
+  - `live/substack_compare.py` (heuristic regex) writes `data/mancini_levels_<date>.json` — read by engine when `use_mancini_levels=True` (currently False).
+  - `live/mancini_llm_extract.py` (Claude Opus) writes `data/mancini_plan_<date>.json` — read by engine when `use_mancini_llm_plan=True` (currently True).
