@@ -42,6 +42,15 @@ def fetch_latest_post() -> dict | None:
         print("No SUBSTACK_COOKIE set, skipping live fetch")
         return None
 
+    # Substack's session cookie must be sent with its NAME (substack.sid).
+    # If the env var holds only the raw value (no "name=" prefix), wrap it.
+    # Without the name, Substack treats the request as anonymous and serves
+    # only the paywall preview (~2KB body). With the name, paid subscribers
+    # get the full body (~200KB+). This silent failure mode caused the bot
+    # to operate on preview-only content for weeks.
+    if "=" not in cookie.split(";")[0]:
+        cookie = f"substack.sid={cookie}"
+
     try:
         # Step 1: Get latest post metadata
         url = f"{SUBSTACK_BASE}/api/v1/posts?limit=1"
