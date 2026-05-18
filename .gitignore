@@ -41,3 +41,4 @@ data/backtest_5y_trades.jsonl
 data/substack/short_excerpts*.json
 .claude/scheduled_tasks.lock
 data/backtest_5y_production_trades.jsonl
+data/optuna_nautilus.db
