@@ -106,14 +106,18 @@ STUDIES: dict[str, dict[str, Any]] = {
     "fb-exits": {
         "description": (
             "Exit mechanics. Production has t1_exit_fraction=0.75 + 25% runner "
-            "with BE-3 trail. Legacy used 100% T1 exit. Nautilus showed legacy "
-            "exit = +$144K vs production exit on same params. Find the sweet "
-            "spot — does some runner help if managed differently?"
+            "BUT MISSING T2 STAGE. Mancini's literal rule (2025-08-05): "
+            "'lock in 75% at first level, leave 25% runner, then lock in more "
+            "at second level up, and let a 10% runner go'. Three stages, not two. "
+            "This study adds t2_exit_fraction to the search so we can validate "
+            "the missing stage. Note: structure-based trailing + multi-session "
+            "runners are CODE changes Mancini also requires — not tunable here."
         ),
         "strategy_params": {},
         "exit_params": {
             "t1_exit_fraction":   ("float", 0.5, 1.0, 0.05),
-            "runner_fraction":    ("float", 0.0, 0.5, 0.05),
+            "t2_exit_fraction":   ("float", 0.0, 0.30, 0.05),  # Mancini: 0.15 typical (25% → 10%)
+            "runner_fraction":    ("float", 0.05, 0.30, 0.05),  # Mancini: 0.10 final
             "trailing_stop_pts":  ("float", 5.0, 18.0, 0.5),
             "breakeven_buffer_pts": ("float", -10.0, 2.0, 0.5),
         },
@@ -391,6 +395,9 @@ def main():
                     help="Report on a study without running trials")
     ap.add_argument("--resume", action="store_true",
                     help="Resume an existing study (load_if_exists)")
+    ap.add_argument("--n-jobs", type=int, default=1,
+                    help="Parallel trials (uses joblib threading). 4 on a Mac M-series "
+                         "gives ~3x speedup. 8+ may thrash on memory.")
     args = ap.parse_args()
 
     if args.list:
@@ -454,13 +461,19 @@ def main():
 
     print(f"\nRunning {args.trials} trials (existing: {len(study.trials)})...")
     print(f"  Each trial ~15-20 min (Nautilus 5y backtest)")
-    print(f"  ETA: ~{args.trials * 17} minutes")
+    if args.n_jobs > 1:
+        wall_min = (args.trials * 17) // args.n_jobs
+        print(f"  n_jobs={args.n_jobs} parallelism → ETA ~{wall_min} min wall time "
+              f"({args.trials * 17} CPU-min)")
+    else:
+        print(f"  ETA: ~{args.trials * 17} minutes")
     print()
 
     try:
         study.optimize(
             lambda t: _objective(t, args.study, training_dfs, validation_dfs),
             n_trials=args.trials,
+            n_jobs=args.n_jobs,
             show_progress_bar=True,
         )
     except KeyboardInterrupt:
