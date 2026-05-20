@@ -1151,12 +1151,21 @@ class SignalAggregator:
             and l.level_type.name not in ('CLUSTER_LOW', 'CLUSTER_HIGH')
         ]
         below.reverse()  # nearest first
-        if len(below) >= 2:
+        # T2 must be a DISTINCT level below T1 (different level types can share
+        # an identical price — LevelStore.add only merges within-type, so a
+        # collision would otherwise yield T1 == T2). Require >= min_dist
+        # separation so the staged exit bracket has actual room.
+        if len(below) >= 1:
             t1 = below[0].price
-            t2 = below[1].price
-        elif len(below) == 1:
-            t1 = below[0].price
-            t2 = entry - risk * 3
+            t2 = None
+            for level in below[1:]:
+                if t1 - level.price >= min_dist:
+                    t2 = level.price
+                    break
+            if t2 is None:
+                # No second distinct level: fall back to risk-multiple, but
+                # ensure T2 is at least min_dist below T1.
+                t2 = min(entry - risk * 3, t1 - min_dist)
         else:
             t1 = entry - risk * 2
             t2 = entry - risk * 3
@@ -1167,6 +1176,11 @@ class SignalAggregator:
             t1 = entry - max_dist
         if entry - t2 > max_dist * 1.5:
             t2 = entry - max_dist * 1.5
+
+        # Final guard: capping (or upstream collisions surviving the loop)
+        # can still leave T2 >= T1. Force T2 strictly below T1 by min_dist.
+        if t1 - t2 < min_dist:
+            t2 = t1 - min_dist
 
         reward_t1 = entry - t1
         reward_t2 = entry - t2
@@ -1509,12 +1523,22 @@ class SignalAggregator:
             if l.price - entry >= min_dist
             and l.level_type.name not in ('CLUSTER_LOW', 'CLUSTER_HIGH')
         ]
-        if len(above) >= 2:
+        # T2 must be a DISTINCT level above T1 (different level types can sit at
+        # identical prices since LevelStore.add only merges within-type — that
+        # collision would otherwise yield T1 == T2 and break the staged exit).
+        # Require at least `min_dist` separation between T1 and T2 so the
+        # bracket actually has room for the runner.
+        if len(above) >= 1:
             t1 = above[0].price
-            t2 = above[1].price
-        elif len(above) == 1:
-            t1 = above[0].price
-            t2 = entry + risk * 3  # fallback: 3R target
+            t2 = None
+            for level in above[1:]:
+                if level.price - t1 >= min_dist:
+                    t2 = level.price
+                    break
+            if t2 is None:
+                # No second distinct level: fall back to risk-multiple, but
+                # ensure T2 is at least min_dist above T1.
+                t2 = max(entry + risk * 3, t1 + min_dist)
         else:
             t1 = entry + risk * 2
             t2 = entry + risk * 3
@@ -1527,6 +1551,11 @@ class SignalAggregator:
             t1 = entry + max_dist
         if t2 - entry > max_dist * 1.5:
             t2 = entry + max_dist * 1.5
+
+        # Final guard: capping (or upstream collisions surviving the loop)
+        # can still leave T2 <= T1. Force T2 strictly above T1 by min_dist.
+        if t2 - t1 < min_dist:
+            t2 = t1 + min_dist
 
         reward_t1 = t1 - entry
         reward_t2 = t2 - entry
