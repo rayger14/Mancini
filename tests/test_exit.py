@@ -94,19 +94,28 @@ class TestExitManager:
         assert action is None  # already at runner size, just phase change
         assert sample_position.phase == ExitPhase.AFTER_T2
 
-    def test_trailing_stop_uses_base_for_runners(self, exit_manager, sample_position):
-        """Runner trailing stop uses base trailing_stop_pts (no aggressive tightening)."""
-        sample_position.remaining_contracts = 1
-        sample_position.phase = ExitPhase.AFTER_T2
-        sample_position.stop_price = 5027.0
+    def test_trailing_stop_uses_base_for_runners(self):
+        """Runner trailing stop uses base trailing_stop_pts (no aggressive tightening).
+
+        Structure trail is the new post-T2 default — disable it here so we
+        can verify the legacy fixed-distance trail still behaves correctly.
+        Coverage for the new structure trail lives in
+        tests/test_t2_scale_and_structure_trail.py.
+        """
+        params = ExitParams(structure_trail_enabled=False)
+        mgr = ExitManager(params=params)
+        pos = mgr.create_position(
+            entry_price=5020.0, stop_price=5015.0,
+            target_1=5030.0, target_2=5040.0, contracts=4,
+        )
+        pos.remaining_contracts = 1
+        pos.phase = ExitPhase.AFTER_T2
+        pos.stop_price = 5027.0
 
         # Runner at 5045 → uses base trailing_stop_pts=12.0 (not tightened 2.0)
-        exit_manager.update(
-            sample_position,
-            high=5045.0, low=5043.0, close=5044.0
-        )
+        mgr.update(pos, high=5045.0, low=5043.0, close=5044.0)
         expected_stop = 5045.0 - 12.0  # base trailing, not tightened
-        assert sample_position.stop_price == expected_stop
+        assert pos.stop_price == expected_stop
 
     def test_pnl_tracking_75pct(self, exit_manager, sample_position):
         """Realized P&L accumulates: 75% at T1 = 3 contracts * 10 pts."""
