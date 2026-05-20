@@ -131,6 +131,36 @@ class ExitParams:
     # Mancini: "trail under the prior days low" — we add 1 pt buffer.
     runner_prior_day_low_buffer_pts: float = 1.0
 
+    # --- Structure-based runner trail (Mancini 2025-05-14) ---
+    # After T2, instead of trailing a fixed `trailing_stop_pts` distance, find
+    # the most recent significant swing low (for long runners) and place the
+    # stop a few points below it. Mancini: "I typically move my stop up, often
+    # to below wherever structure is." Per his 2025-08-05 quote, when T2 is hit
+    # he leaves a 10% runner and "initiates the trailing stop methodology".
+    structure_trail_enabled: bool = True
+    structure_trail_buffer_pts: float = 3.0      # pts below swing low for stop
+    structure_trail_lookback_bars: int = 30      # how far back to look for swings
+    structure_trail_swing_order: int = 3         # bars on each side for a local extremum
+
+    # Multi-session runner hold (Mancini 2025-10-12): "I am still holding my
+    # 10% long runner from the Tuesday noon 6754 Failed Breakdown." Mancini
+    # carries the 10% runner across multiple sessions to catch trend moves,
+    # only exiting when the runner's structural trail stop is taken out.
+    #
+    # When True, AFTER_T2 runners (the 10% slice — already past T1 *and* T2)
+    # are NOT flattened at EOD. They persist across the Globex rollover, the
+    # exit_manager continues to update the structural trail at each new EOD,
+    # and the runner only flattens when its stop is hit or the safety cap
+    # (multi_session_runner_max_days) trips.
+    #
+    # IMPORTANT: this ONLY applies AFTER T2 has fired. AFTER_T1 positions
+    # still hold the 25% (15% + 10%) tranche which is too much overnight
+    # exposure for Mancini's method — they still flatten at EOD.
+    multi_session_runner: bool = True
+    # Safety cap: force-flatten if the runner has been alive this many
+    # sessions. Prevents a forgotten runner from bleeding indefinitely.
+    multi_session_runner_max_days: int = 5
+
 
 @dataclass(frozen=True)
 class StrategyParams:

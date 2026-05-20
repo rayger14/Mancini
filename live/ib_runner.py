@@ -297,6 +297,12 @@ class IBRunner:
         self._running: bool = False
         self._session_date: date = date.today()
 
+        # Multi-session runner state: tracks how many EOD rolls a runner has
+        # survived. Reset to 0 every time a new position opens; incremented
+        # once per session-rollover when AFTER_T2 runner is kept alive.
+        # Compared against multi_session_runner_max_days to enforce safety cap.
+        self._runner_sessions_held: int = 0
+
         # Phantom trade tracking — signals that fired but were filtered out
         self._phantom_positions: list[dict] = []
 
@@ -992,6 +998,8 @@ class IBRunner:
         self._last_entry_monotonic = _time.monotonic()
         self._current_gate_bypass = self._pending_gate_bypass
         self._pending_gate_bypass = None
+        # Reset multi-session runner counter — new position, new clock.
+        self._runner_sessions_held = 0
         self.position_manager.open_position(self._position, timestamp, self._pattern_type)
 
         logger.info(
@@ -2252,6 +2260,25 @@ class IBRunner:
             self._session_date = trading_date
             # Preserve open position reference before reset
             open_pos = self._position if (self._position is not None and self._position.is_open) else None
+            # Multi-session runner accounting: bump the survived-sessions
+            # counter for AFTER_T2 runners. We only increment when the
+            # position is AFTER_T2 — AFTER_T1 should have flattened at EOD
+            # if multi_session was enabled, so seeing one here is either
+            # legacy state or multi_session=False (no need to track).
+            if (
+                open_pos is not None
+                and open_pos.phase == ExitPhase.AFTER_T2
+                and getattr(self.exit_params, "multi_session_runner", False)
+            ):
+                self._runner_sessions_held += 1
+                logger.info(
+                    f"MULTI-SESSION RUNNER ROLLOVER: now on session "
+                    f"{self._runner_sessions_held}/"
+                    f"{getattr(self.exit_params, 'multi_session_runner_max_days', 5)} "
+                    f"(entry={open_pos.entry_price:.2f}, stop={open_pos.stop_price:.2f}, "
+                    f"contracts={open_pos.remaining_contracts}, "
+                    f"pattern={self._pattern_type})"
+                )
             self.strategy.reset()
             self.position_manager.start_session(now)
             # Transfer open position to new session so it isn't lost
@@ -2285,9 +2312,24 @@ class IBRunner:
     def _check_eod(self, bar: dict) -> None:
         """Check for EOD: update runner trail or flatten non-runners.
 
-        Mancini's method: runners carry overnight with stop under today's
-        daily low. Non-runners (INITIAL phase) get flattened at EOD.
-        At session break (17:00-18:00), archive and stop.
+        Mancini's method (2025-10-12: "still holding my 10% long runner from
+        the Tuesday noon 6754 Failed Breakdown"): the 10% AFTER_T2 runner
+        carries across sessions to catch trend moves; INITIAL and AFTER_T1
+        slices flatten at EOD.
+
+        Behavior selector — controlled by exit_params.multi_session_runner:
+          - INITIAL phase: always flatten at EOD.
+          - AFTER_T1 phase (still 25% — pre-T2): always flatten at EOD,
+            even with multi_session_runner=True. Only the 10% post-T2
+            slice is allowed to hold cross-session.
+          - AFTER_T2 phase (10% runner):
+              * multi_session_runner=False: flatten at EOD (legacy).
+              * multi_session_runner=True: update structural trail, leave
+                position open. The runner persists until its trailing stop
+                is hit OR until multi_session_runner_max_days sessions have
+                elapsed (safety cap).
+
+        At session break (17:00-18:00), archive and stop the bot.
         """
         ts_str = bar.get("timestamp", "")
         try:
@@ -2300,8 +2342,26 @@ class IBRunner:
 
             if session.past_eod_flatten(t):
                 if self._position is not None and self._position.is_open:
-                    # Runners (AFTER_T1, AFTER_T2) carry overnight — update trail
-                    if self._position.phase in (ExitPhase.AFTER_T1, ExitPhase.AFTER_T2):
+                    phase = self._position.phase
+                    multi_session_enabled = getattr(
+                        self.exit_params, "multi_session_runner", False
+                    )
+                    max_days = getattr(
+                        self.exit_params, "multi_session_runner_max_days", 5
+                    )
+
+                    # Determine whether to flatten or hold.
+                    # AFTER_T2 + multi_session_runner=True is the ONLY path
+                    # that holds across EOD. Everything else flattens.
+                    hold_across_eod = (
+                        multi_session_enabled
+                        and phase == ExitPhase.AFTER_T2
+                        and self._runner_sessions_held < max_days
+                    )
+
+                    if hold_across_eod:
+                        # 10% runner — update structural trail under today's
+                        # session low and let it ride into the next session.
                         daily_low = self._get_session_low()
                         daily_high = self._get_session_high()
                         if daily_low > 0:
@@ -2317,14 +2377,34 @@ class IBRunner:
                                     reason=action.reason,
                                 )
                             logger.info(
-                                f"RUNNER EOD: trailing stop → {self._position.stop_price:.2f} "
-                                f"(daily low={daily_low:.2f}, {self._position.remaining_contracts} contracts)"
+                                f"MULTI-SESSION RUNNER EOD (day {self._runner_sessions_held + 1}/"
+                                f"{max_days}): trailing stop → {self._position.stop_price:.2f} "
+                                f"(daily low={daily_low:.2f}, "
+                                f"{self._position.remaining_contracts} contracts, "
+                                f"pattern={self._pattern_type})"
                             )
                     else:
-                        # Non-runner positions (still in INITIAL): flatten
-                        self.bridge.flatten(reason="eod_flatten")
-                        flatten_time = session.eod_flatten_time.strftime("%H:%M")
-                        logger.info(f"EOD flatten sent ({flatten_time} ET)")
+                        # Force-flatten path: INITIAL, AFTER_T1, or AFTER_T2
+                        # where multi-session is off OR the max-days cap is hit.
+                        if (
+                            multi_session_enabled
+                            and phase == ExitPhase.AFTER_T2
+                            and self._runner_sessions_held >= max_days
+                        ):
+                            flatten_reason = "eod_flatten_max_days"
+                            log_label = (
+                                f"MULTI-SESSION RUNNER MAX DAYS HIT "
+                                f"({self._runner_sessions_held}/{max_days}): "
+                                "force-flattening"
+                            )
+                        else:
+                            flatten_reason = "eod_flatten"
+                            log_label = (
+                                f"EOD flatten sent ({session.eod_flatten_time.strftime('%H:%M')} ET, "
+                                f"phase={phase.name})"
+                            )
+                        self.bridge.flatten(reason=flatten_reason)
+                        logger.info(log_label)
                         exit_price = float(bar.get("close", 0))
                         # Compute PnL before closing
                         if self._position.direction == "short":
@@ -2333,10 +2413,15 @@ class IBRunner:
                             self._position.realized_pnl_pts += (exit_price - self._position.entry_price) * self._position.remaining_contracts
                         self._position.remaining_contracts = 0
                         self._position.phase = ExitPhase.CLOSED
+                        exit_reason_label = (
+                            "EOD flatten (max-days cap)"
+                            if flatten_reason == "eod_flatten_max_days"
+                            else "EOD flatten"
+                        )
                         trade_rec = self.position_manager.close_position(
                             exit_price=exit_price,
                             timestamp=timestamp,
-                            exit_reason="EOD flatten",
+                            exit_reason=exit_reason_label,
                             pattern_type=self._pattern_type,
                             entry_time=self._entry_timestamp,
                         )
@@ -2344,6 +2429,7 @@ class IBRunner:
                             self._log_trade(trade_rec, self._current_signal, "exit")
                         self._position = None
                         self._trade_id = None
+                        self._runner_sessions_held = 0
 
             # Check if session break (17:00-18:00) — archive and stop
             if time(17, 0) <= t < time(18, 0):
