@@ -362,7 +362,41 @@ class ManciniLongStrategy:
             )
             results.append(result)
 
-        # EOD processing: flatten non-runners, leave runners for carry
+        # EOD processing — mirrors live/ib_runner.py::_check_eod.
+        #
+        # Mancini's method (2025-10-12: "still holding my 10% long runner from
+        # the Tuesday noon 6754 Failed Breakdown"):
+        #   - INITIAL phase: always flatten at EOD.
+        #   - AFTER_T1 phase (still 25% — pre-T2): always flatten at EOD.
+        #     The 25% tranche is too much overnight exposure for Mancini's
+        #     method (only the 10% post-T2 slice rides cross-session).
+        #   - AFTER_T2 phase (10% runner):
+        #       * exit_params.multi_session_runner=False → flatten (legacy).
+        #       * multi_session_runner=True AND sessions_held < max_days →
+        #         hold across EOD. Update the structural trail under THIS
+        #         session's low (mirrors live's _get_session_low() call) so
+        #         the carried stop reflects the just-finished day. Bump the
+        #         per-position survived-sessions counter.
+        #       * multi_session_runner=True AND sessions_held >= max_days →
+        #         force-flatten with a distinct "max days" reason.
+        #
+        # The per-position counter (`_runner_sessions_held`, attached to the
+        # TradePosition via setattr) survives the carry because RunnerCarryState
+        # holds a live reference to the same position object. It's initialized
+        # to 0 at entry (Step 8 in _process_bar) and reset to 0 whenever a
+        # new position is opened.
+        multi_session_enabled = getattr(
+            self.exit_params, "multi_session_runner", False
+        )
+        max_days = getattr(
+            self.exit_params, "multi_session_runner_max_days", 5
+        )
+
+        # Just-finished session's low/high used to ratchet the structural
+        # runner trail when the AFTER_T2 position is held cross-session.
+        session_low = float(lows.min()) if n > 0 else 0.0
+        session_high = float(highs.max()) if n > 0 else 0.0
+
         for pos, ptype, sig, entry_idx, direction in [
             (self._long_position, self._long_pattern_type, self._long_signal,
              self._long_entry_bar_idx, "long"),
@@ -371,33 +405,77 @@ class ManciniLongStrategy:
         ]:
             if pos is None or not pos.is_open:
                 continue
-            if pos.phase in (ExitPhase.AFTER_T1, ExitPhase.AFTER_T2):
-                # Runner survives EOD — BacktestRunner will extract it
-                pass
-            else:
-                # Non-runner: flatten at last close
-                last_close = float(closes[-1])
-                contracts = pos.remaining_contracts
-                if direction == "long":
-                    pnl = (last_close - pos.entry_price) * contracts
-                else:
-                    pnl = (pos.entry_price - last_close) * contracts
-                pos.realized_pnl_pts += pnl
-                pos.remaining_contracts = 0
-                pos.phase = ExitPhase.CLOSED
-                record = self.position_manager.close_position(
-                    exit_price=last_close, timestamp=timestamps[-1],
-                    exit_reason="EOD flatten",
-                    pattern_type=ptype, signal=sig,
-                    entry_bar_idx=entry_idx, exit_bar_idx=n - 1,
+
+            sessions_held = int(getattr(pos, "_runner_sessions_held", 0))
+            hold_across_eod = (
+                multi_session_enabled
+                and pos.phase == ExitPhase.AFTER_T2
+                and sessions_held < max_days
+            )
+
+            if hold_across_eod:
+                # AFTER_T2 + multi-session: update structural trail under
+                # today's session low (longs) / above today's session high
+                # (shorts) and let the runner ride into the next session.
+                if direction == "long" and session_low > 0:
+                    self.exit_manager.update_prior_day_low(pos, session_low)
+                elif direction == "short" and session_high > 0:
+                    pos.prior_day_high = session_high
+                    # update_prior_day_low picks up prior_day_high for shorts.
+                    self.exit_manager.update_prior_day_low(pos, session_low)
+
+                # Bump the per-position survived-sessions counter so the
+                # max-days cap accumulates across rollovers.
+                pos._runner_sessions_held = sessions_held + 1
+                logger.debug(
+                    f"MULTI-SESSION RUNNER EOD ({direction}, day "
+                    f"{pos._runner_sessions_held}/{max_days}): "
+                    f"trail → {pos.stop_price:.2f}, "
+                    f"{pos.remaining_contracts} contracts, pattern={ptype}"
                 )
-                if record is not None:
-                    record.direction = direction
-                if direction == "long":
-                    self._long_position = None
-                    self._current_position = None
-                else:
-                    self._short_position = None
+                continue
+
+            # Flatten path: INITIAL, AFTER_T1, AFTER_T2-with-flag-off, or
+            # AFTER_T2 where the max-days cap is hit.
+            if (
+                multi_session_enabled
+                and pos.phase == ExitPhase.AFTER_T2
+                and sessions_held >= max_days
+            ):
+                exit_reason = "EOD flatten (max-days cap)"
+                logger.info(
+                    f"MULTI-SESSION RUNNER MAX DAYS HIT "
+                    f"({sessions_held}/{max_days}, {direction}): force-flattening"
+                )
+            else:
+                exit_reason = "EOD flatten"
+
+            last_close = float(closes[-1])
+            contracts = pos.remaining_contracts
+            if direction == "long":
+                pnl = (last_close - pos.entry_price) * contracts
+            else:
+                pnl = (pos.entry_price - last_close) * contracts
+            pos.realized_pnl_pts += pnl
+            pos.remaining_contracts = 0
+            pos.phase = ExitPhase.CLOSED
+            record = self.position_manager.close_position(
+                exit_price=last_close, timestamp=timestamps[-1],
+                exit_reason=exit_reason,
+                pattern_type=ptype, signal=sig,
+                entry_bar_idx=entry_idx, exit_bar_idx=n - 1,
+            )
+            if record is not None:
+                record.direction = direction
+            # Clear the per-position counter — defensive (the position is
+            # closed so it won't be re-read, but mirror the live runner's
+            # reset-on-flatten semantics).
+            pos._runner_sessions_held = 0
+            if direction == "long":
+                self._long_position = None
+                self._current_position = None
+            else:
+                self._short_position = None
 
         # Score existing persistent levels based on today's price action, then snapshot
         if self.strategy_params.level_memory_days > 0:
@@ -1023,6 +1101,9 @@ class ManciniLongStrategy:
                     direction=direction,
                     is_double_dip=getattr(signal.pattern, 'is_double_dip', False),
                 )
+                # Reset multi-session runner counter — new position, new clock.
+                # Mirrors live/ib_runner.py::_open_position behaviour.
+                position._runner_sessions_held = 0
                 accepted = self.position_manager.open_position(
                     position, timestamp, signal.pattern.pattern_type
                 )
