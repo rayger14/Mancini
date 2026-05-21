@@ -265,6 +265,10 @@ class StrategyParams:
 
     # Level reclaim
     level_reclaim_min_touches: int = 4  # S/R line touches required
+    # Master switch: disable LR entirely (FB-only mode). LR has historically
+    # had ~18% WR and may be the dominant bleed source; disabling lets us
+    # isolate FB longs cleanly in backtest sweeps and live operation.
+    allow_level_reclaim: bool = True
 
     # Legacy short-side parameters (Failed Rally + Level Rejection) — DEPRECATED
     # Use allow_breakdown_short / allow_backtest_short instead.

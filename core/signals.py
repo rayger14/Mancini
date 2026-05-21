@@ -560,11 +560,14 @@ class SignalAggregator:
                     self._log_bar_signal(SignalType.FAILED_BREAKDOWN, fb_signal, "rr_rejected")
 
         # 4. Level Reclaim detection (deferred if FB is actively tracking)
-        # FB is the primary Mancini setup; LR should not steal position slots
+        # FB is the primary Mancini setup; LR should not steal position slots.
+        # Master switch: allow_level_reclaim=False disables LR entirely
+        # (FB-only mode for backtest sweeps and post-mortem analysis).
         from core.patterns import PatternState
         fb_active = self.failed_breakdown.state != PatternState.IDLE
+        lr_allowed = getattr(self.strategy_params, "allow_level_reclaim", True)
 
-        if not fb_active:
+        if not fb_active and lr_allowed:
             lr_signal = self.level_reclaim.update(
                 bar_idx=bar_idx,
                 timestamp=timestamp,

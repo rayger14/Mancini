@@ -103,6 +103,29 @@ STUDIES: dict[str, dict[str, Any]] = {
         "exit_params": {},
         "longs_only": True,
     },
+    "fb-only-acceptance": {
+        "description": (
+            "FB ONLY (LR disabled). Acceptance gate tuning per Mancini's "
+            "'2-3 minute hold' rule. The fb-exits v2 sweep (12 trials) "
+            "showed every config has every year red regardless of exit "
+            "tuning — the issue is entry quality, not exit. This study "
+            "disables LR (allow_level_reclaim=False) and tunes ONLY the "
+            "FB entry-side acceptance gate. Tests whether tighter entries "
+            "alone can flip the strategy positive."
+        ),
+        "strategy_params": {
+            "acceptance_min_hold_bars":       ("int",   2, 15),
+            "acceptance_max_dip_pts":         ("float", 2.0, 20.0, 0.5),
+            "acceptance_min_hold_bars_deep":  ("int",   2, 12),
+            "non_acceptance_min_recovery_pts":("float", 3.0, 10.0, 0.5),
+            "true_breakdown_abort_bars":      ("int",   15, 50),
+        },
+        "fixed": {
+            "allow_level_reclaim": False,  # FB-only
+        },
+        "exit_params": {},
+        "longs_only": True,
+    },
     "fb-exits": {
         "description": (
             "Exit mechanics. Production has t1_exit_fraction=0.75 + 25% runner "
@@ -205,10 +228,19 @@ def _build_configs(trial: optuna.Trial, study: dict) -> tuple[Any, Any, dict]:
             allow_short_fr=False,
             allow_short_lj=False,
         )
+    # "fixed" overrides applied BEFORE per-trial overrides so trial params
+    # win on collision. Used for FB-only mode (allow_level_reclaim=False) etc.
+    fixed = study.get("fixed", {}) or {}
+    fixed_sp = {k: v for k, v in fixed.items() if hasattr(PRODUCTION_STRATEGY, k)}
+    fixed_ep = {k: v for k, v in fixed.items() if hasattr(PRODUCTION_EXIT, k)}
+    if fixed_sp:
+        strategy_params = replace(strategy_params, **fixed_sp)
     if sp_overrides:
         strategy_params = replace(strategy_params, **sp_overrides)
 
     exit_params = PRODUCTION_EXIT
+    if fixed_ep:
+        exit_params = replace(exit_params, **fixed_ep)
     if ep_overrides:
         exit_params = replace(exit_params, **ep_overrides)
 
@@ -396,8 +428,12 @@ def main():
     ap.add_argument("--resume", action="store_true",
                     help="Resume an existing study (load_if_exists)")
     ap.add_argument("--n-jobs", type=int, default=1,
-                    help="Parallel trials (uses joblib threading). 4 on a Mac M-series "
-                         "gives ~3x speedup. 8+ may thrash on memory.")
+                    help="Parallel trials within ONE process (threading; GIL-limited).")
+    ap.add_argument("--seed", type=int, default=42,
+                    help="TPE sampler seed. For true multi-process parallelism, "
+                         "launch N worker processes each with a different seed "
+                         "but the same --db / --study. Each will sample distinct "
+                         "regions of param space, all writing to the shared SQLite DB.")
     args = ap.parse_args()
 
     if args.list:
@@ -451,7 +487,7 @@ def main():
         study_name=study_full_name,
         storage=storage,
         direction="maximize",
-        sampler=optuna.samplers.TPESampler(seed=42, multivariate=True),
+        sampler=optuna.samplers.TPESampler(seed=args.seed, multivariate=True),
         load_if_exists=args.resume or args.report,
     )
 
