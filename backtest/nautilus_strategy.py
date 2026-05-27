@@ -452,20 +452,32 @@ class ManciniNautilusStrategy(Strategy):
 
     def _on_session_rollover(self, prior_date: date) -> None:
         """Day boundary detected. Bump the runner survived-sessions counter
-        for AFTER_T2 holds, then reset session high/low for the new day.
+        for any held position (so max-days cap accumulates), then reset
+        session high/low for the new day.
 
         Mirrors live/ib_runner.py._check_session_rollover for the part that
         matters for exits — we don't need pattern-state snapshotting here
         because Nautilus runs each backtest config as one engine pass.
+
+        When eod_flatten_enabled=False (new default), ANY held position
+        bumps the counter — INITIAL/AFTER_T1/AFTER_T2 all participate.
+        When eod_flatten_enabled=True (legacy), only AFTER_T2 with
+        multi_session_runner=True holds, so only that case bumps.
         """
         pos = self._position
-        if (
-            pos is not None
-            and pos.is_open
-            and pos.phase == ExitPhase.AFTER_T2
-            and getattr(self._exit_params, "multi_session_runner", False)
-        ):
-            self._runner_sessions_held += 1
+        if pos is not None and pos.is_open:
+            eod_flatten_enabled = getattr(
+                self._exit_params, "eod_flatten_enabled", False
+            )
+            multi_session_enabled = getattr(
+                self._exit_params, "multi_session_runner", False
+            )
+            should_bump = (
+                (not eod_flatten_enabled) or
+                (pos.phase == ExitPhase.AFTER_T2 and multi_session_enabled)
+            )
+            if should_bump:
+                self._runner_sessions_held += 1
 
         # Reset session extremes — they only ever describe one ET date.
         self._session_low = float("inf")
@@ -476,6 +488,14 @@ class ManciniNautilusStrategy(Strategy):
         """If we're past 15:55 ET, run the EOD branch once per session.
 
         Mirrors live/ib_runner.py._check_eod:
+
+        Default (eod_flatten_enabled=False):
+          - INITIAL / AFTER_T1 / AFTER_T2 all HOLD across EOD via their
+            existing stops, up to the multi_session_runner_max_days cap.
+          - update_prior_day_low() is called so the runner trail ratchets
+            for AFTER_T1/AFTER_T2 (no-op for INITIAL).
+
+        Legacy (eod_flatten_enabled=True):
           - INITIAL / AFTER_T1 → flatten.
           - AFTER_T2 + multi_session_runner + under cap → update PDL trail,
             keep position open.
@@ -492,20 +512,27 @@ class ManciniNautilusStrategy(Strategy):
         if self._eod_processed_for_date == bar_date:
             return  # already ran for this session
 
+        eod_flatten_enabled = getattr(
+            self._exit_params, "eod_flatten_enabled", False
+        )
         multi_session_enabled = getattr(
             self._exit_params, "multi_session_runner", False
         )
         max_days = getattr(
             self._exit_params, "multi_session_runner_max_days", 5
         )
-        hold_across_eod = (
-            multi_session_enabled
-            and pos.phase == ExitPhase.AFTER_T2
-            and self._runner_sessions_held < max_days
-        )
+        if not eod_flatten_enabled:
+            hold_across_eod = self._runner_sessions_held < max_days
+        else:
+            hold_across_eod = (
+                multi_session_enabled
+                and pos.phase == ExitPhase.AFTER_T2
+                and self._runner_sessions_held < max_days
+            )
 
         if hold_across_eod:
             # Update the structural trail under today's session low.
+            # No-op for INITIAL (update_prior_day_low ignores pre-T1 phases).
             if self._session_low < float("inf") and self._session_low > 0:
                 action = self._exit_mgr.update_prior_day_low(
                     pos, self._session_low
@@ -517,12 +544,10 @@ class ManciniNautilusStrategy(Strategy):
             self._eod_processed_for_date = bar_date
             return
 
-        # Flatten path — INITIAL, AFTER_T1, or AFTER_T2 with cap hit.
-        if (
-            multi_session_enabled
-            and pos.phase == ExitPhase.AFTER_T2
-            and self._runner_sessions_held >= max_days
-        ):
+        # Flatten path:
+        #   - eod_flatten_enabled=False with max-days cap hit (any phase)
+        #   - eod_flatten_enabled=True legacy semantics
+        if self._runner_sessions_held >= max_days:
             reason = "EOD flatten (max-days cap)"
         else:
             reason = f"EOD flatten ({pos.phase.name})"

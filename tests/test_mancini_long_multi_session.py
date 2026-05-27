@@ -46,12 +46,20 @@ from strategy.mancini_long import ManciniLongStrategy
 # ---------------------------------------------------------------------------
 
 
-def _make_strategy(multi_session: bool = True, max_days: int = 5) -> ManciniLongStrategy:
+def _make_strategy(
+    multi_session: bool = True,
+    max_days: int = 5,
+    eod_flatten_enabled: bool = True,
+) -> ManciniLongStrategy:
     """Build a ManciniLongStrategy with the requested multi-session config.
 
     Disables features that would otherwise trigger entries during the bar
     loop — we want the EOD logic to be the only thing exercised by tests
     that inject a position via runner_state.
+
+    These tests cover LEGACY semantics (eod_flatten_enabled=True). The new
+    default (eod_flatten_enabled=False) is covered in
+    tests/test_eod_flatten_optional.py.
     """
     strategy_params = StrategyParams(
         use_regime_filter=False,
@@ -68,6 +76,7 @@ def _make_strategy(multi_session: bool = True, max_days: int = 5) -> ManciniLong
         runner_fraction=0.10,
         multi_session_runner=multi_session,
         multi_session_runner_max_days=max_days,
+        eod_flatten_enabled=eod_flatten_enabled,
     )
     return ManciniLongStrategy(
         strategy_params=strategy_params,

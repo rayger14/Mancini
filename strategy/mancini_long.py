@@ -364,27 +364,34 @@ class ManciniLongStrategy:
 
         # EOD processing — mirrors live/ib_runner.py::_check_eod.
         #
-        # Mancini's method (2025-10-12: "still holding my 10% long runner from
-        # the Tuesday noon 6754 Failed Breakdown"):
-        #   - INITIAL phase: always flatten at EOD.
-        #   - AFTER_T1 phase (still 25% — pre-T2): always flatten at EOD.
-        #     The 25% tranche is too much overnight exposure for Mancini's
-        #     method (only the 10% post-T2 slice rides cross-session).
-        #   - AFTER_T2 phase (10% runner):
-        #       * exit_params.multi_session_runner=False → flatten (legacy).
+        # Controlled by exit_params.eod_flatten_enabled (master switch) and
+        # exit_params.multi_session_runner (legacy mode).
+        #
+        # Default (eod_flatten_enabled=False):
+        #   - All phases (INITIAL / AFTER_T1 / AFTER_T2) HOLD across EOD via
+        #     their existing stops.
+        #   - update_prior_day_low() is called so the structural trail
+        #     ratchets for AFTER_T1/AFTER_T2 (no-op for INITIAL).
+        #   - multi_session_runner_max_days still caps total held sessions.
+        #     The per-position survived-sessions counter is bumped for ANY
+        #     held position (not just AFTER_T2).
+        #
+        # Legacy (eod_flatten_enabled=True), per Mancini 2025-10-12:
+        #   - INITIAL / AFTER_T1: always flatten at EOD.
+        #   - AFTER_T2 (10% runner):
+        #       * multi_session_runner=False → flatten.
         #       * multi_session_runner=True AND sessions_held < max_days →
-        #         hold across EOD. Update the structural trail under THIS
-        #         session's low (mirrors live's _get_session_low() call) so
-        #         the carried stop reflects the just-finished day. Bump the
-        #         per-position survived-sessions counter.
-        #       * multi_session_runner=True AND sessions_held >= max_days →
-        #         force-flatten with a distinct "max days" reason.
+        #         hold across EOD, update structural trail, bump counter.
+        #       * sessions_held >= max_days → force-flatten ("max days" reason).
         #
         # The per-position counter (`_runner_sessions_held`, attached to the
         # TradePosition via setattr) survives the carry because RunnerCarryState
         # holds a live reference to the same position object. It's initialized
         # to 0 at entry (Step 8 in _process_bar) and reset to 0 whenever a
         # new position is opened.
+        eod_flatten_enabled = getattr(
+            self.exit_params, "eod_flatten_enabled", False
+        )
         multi_session_enabled = getattr(
             self.exit_params, "multi_session_runner", False
         )
@@ -393,7 +400,7 @@ class ManciniLongStrategy:
         )
 
         # Just-finished session's low/high used to ratchet the structural
-        # runner trail when the AFTER_T2 position is held cross-session.
+        # runner trail when the position is held cross-session.
         session_low = float(lows.min()) if n > 0 else 0.0
         session_high = float(highs.max()) if n > 0 else 0.0
 
@@ -407,16 +414,23 @@ class ManciniLongStrategy:
                 continue
 
             sessions_held = int(getattr(pos, "_runner_sessions_held", 0))
-            hold_across_eod = (
-                multi_session_enabled
-                and pos.phase == ExitPhase.AFTER_T2
-                and sessions_held < max_days
-            )
+            if not eod_flatten_enabled:
+                # New default: hold ANY phase across EOD up to the safety cap.
+                hold_across_eod = sessions_held < max_days
+            else:
+                # Legacy: only AFTER_T2 + multi_session_runner=True holds.
+                hold_across_eod = (
+                    multi_session_enabled
+                    and pos.phase == ExitPhase.AFTER_T2
+                    and sessions_held < max_days
+                )
 
             if hold_across_eod:
-                # AFTER_T2 + multi-session: update structural trail under
-                # today's session low (longs) / above today's session high
-                # (shorts) and let the runner ride into the next session.
+                # Update structural trail under today's session low (longs)
+                # / above today's session high (shorts) and let the position
+                # ride into the next session.
+                # update_prior_day_low is a no-op for INITIAL — the initial
+                # stop continues to protect the position.
                 if direction == "long" and session_low > 0:
                     self.exit_manager.update_prior_day_low(pos, session_low)
                 elif direction == "short" and session_high > 0:
@@ -428,24 +442,22 @@ class ManciniLongStrategy:
                 # max-days cap accumulates across rollovers.
                 pos._runner_sessions_held = sessions_held + 1
                 logger.debug(
-                    f"MULTI-SESSION RUNNER EOD ({direction}, day "
+                    f"EOD HOLD ({direction}, phase={pos.phase.name}, day "
                     f"{pos._runner_sessions_held}/{max_days}): "
-                    f"trail → {pos.stop_price:.2f}, "
+                    f"stop={pos.stop_price:.2f}, "
                     f"{pos.remaining_contracts} contracts, pattern={ptype}"
                 )
                 continue
 
-            # Flatten path: INITIAL, AFTER_T1, AFTER_T2-with-flag-off, or
-            # AFTER_T2 where the max-days cap is hit.
-            if (
-                multi_session_enabled
-                and pos.phase == ExitPhase.AFTER_T2
-                and sessions_held >= max_days
-            ):
+            # Force-flatten path:
+            #   - eod_flatten_enabled=False with max-days cap hit (any phase)
+            #   - eod_flatten_enabled=True legacy semantics
+            if sessions_held >= max_days:
                 exit_reason = "EOD flatten (max-days cap)"
                 logger.info(
-                    f"MULTI-SESSION RUNNER MAX DAYS HIT "
-                    f"({sessions_held}/{max_days}, {direction}): force-flattening"
+                    f"EOD MAX-DAYS CAP HIT "
+                    f"({sessions_held}/{max_days}, {direction}, "
+                    f"phase={pos.phase.name}): force-flattening"
                 )
             else:
                 exit_reason = "EOD flatten"

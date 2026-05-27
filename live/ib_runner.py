@@ -2305,22 +2305,35 @@ class IBRunner:
             self._session_date = trading_date
             # Preserve open position reference before reset
             open_pos = self._position if (self._position is not None and self._position.is_open) else None
-            # Multi-session runner accounting: bump the survived-sessions
-            # counter for AFTER_T2 runners. We only increment when the
-            # position is AFTER_T2 — AFTER_T1 should have flattened at EOD
-            # if multi_session was enabled, so seeing one here is either
-            # legacy state or multi_session=False (no need to track).
-            if (
-                open_pos is not None
-                and open_pos.phase == ExitPhase.AFTER_T2
-                and getattr(self.exit_params, "multi_session_runner", False)
-            ):
+            # Survived-sessions counter accounting.
+            #
+            # New default (eod_flatten_enabled=False): EOD flatten is off, so
+            # ANY phase that's still open at rollover counts toward the
+            # multi_session_runner_max_days safety cap. Without this bump,
+            # INITIAL/AFTER_T1 positions could ride forever once the EOD
+            # flatten was disabled.
+            #
+            # Legacy (eod_flatten_enabled=True): only AFTER_T2 runners with
+            # multi_session_runner=True survive EOD, so only those need
+            # counter bumps.
+            eod_flatten_enabled = getattr(
+                self.exit_params, "eod_flatten_enabled", False
+            )
+            multi_session_enabled = getattr(
+                self.exit_params, "multi_session_runner", False
+            )
+            should_bump_counter = open_pos is not None and (
+                (not eod_flatten_enabled) or
+                (open_pos.phase == ExitPhase.AFTER_T2 and multi_session_enabled)
+            )
+            if should_bump_counter:
                 self._runner_sessions_held += 1
                 logger.info(
-                    f"MULTI-SESSION RUNNER ROLLOVER: now on session "
+                    f"EOD HOLD ROLLOVER: now on session "
                     f"{self._runner_sessions_held}/"
                     f"{getattr(self.exit_params, 'multi_session_runner_max_days', 5)} "
-                    f"(entry={open_pos.entry_price:.2f}, stop={open_pos.stop_price:.2f}, "
+                    f"(phase={open_pos.phase.name}, "
+                    f"entry={open_pos.entry_price:.2f}, stop={open_pos.stop_price:.2f}, "
                     f"contracts={open_pos.remaining_contracts}, "
                     f"pattern={self._pattern_type})"
                 )
@@ -2366,16 +2379,26 @@ class IBRunner:
 
         Mancini's method (2025-10-12: "still holding my 10% long runner from
         the Tuesday noon 6754 Failed Breakdown"): the 10% AFTER_T2 runner
-        carries across sessions to catch trend moves; INITIAL and AFTER_T1
-        slices flatten at EOD.
+        carries across sessions to catch trend moves.
 
-        Behavior selector — controlled by exit_params.multi_session_runner:
+        Behavior selector — controlled by exit_params.eod_flatten_enabled
+        (master switch) and exit_params.multi_session_runner (legacy mode).
+
+        Default (eod_flatten_enabled=False):
+          - INITIAL / AFTER_T1 / AFTER_T2 all HOLD across EOD via their
+            existing stops (initial stop / BE-3 / structure trail).
+          - update_prior_day_low() is invoked so the runner trail ratchets
+            for any AFTER_T1/AFTER_T2 position (no-op for INITIAL).
+          - multi_session_runner_max_days safety cap still applies to ALL
+            phases — once sessions_held >= max_days, the next EOD flattens.
+
+        Legacy (eod_flatten_enabled=True), driven by multi_session_runner:
           - INITIAL phase: always flatten at EOD.
           - AFTER_T1 phase (still 25% — pre-T2): always flatten at EOD,
             even with multi_session_runner=True. Only the 10% post-T2
             slice is allowed to hold cross-session.
           - AFTER_T2 phase (10% runner):
-              * multi_session_runner=False: flatten at EOD (legacy).
+              * multi_session_runner=False: flatten at EOD.
               * multi_session_runner=True: update structural trail, leave
                 position open. The runner persists until its trailing stop
                 is hit OR until multi_session_runner_max_days sessions have
@@ -2395,6 +2418,9 @@ class IBRunner:
             if session.past_eod_flatten(t):
                 if self._position is not None and self._position.is_open:
                     phase = self._position.phase
+                    eod_flatten_enabled = getattr(
+                        self.exit_params, "eod_flatten_enabled", False
+                    )
                     multi_session_enabled = getattr(
                         self.exit_params, "multi_session_runner", False
                     )
@@ -2402,18 +2428,26 @@ class IBRunner:
                         self.exit_params, "multi_session_runner_max_days", 5
                     )
 
-                    # Determine whether to flatten or hold.
-                    # AFTER_T2 + multi_session_runner=True is the ONLY path
-                    # that holds across EOD. Everything else flattens.
-                    hold_across_eod = (
-                        multi_session_enabled
-                        and phase == ExitPhase.AFTER_T2
-                        and self._runner_sessions_held < max_days
-                    )
+                    # Determine whether to flatten or hold across EOD.
+                    #
+                    # New default (eod_flatten_enabled=False): hold ALL phases
+                    # across EOD, capped only by multi_session_runner_max_days.
+                    #
+                    # Legacy (eod_flatten_enabled=True): only AFTER_T2 +
+                    # multi_session_runner=True holds; everything else flattens.
+                    if not eod_flatten_enabled:
+                        hold_across_eod = self._runner_sessions_held < max_days
+                    else:
+                        hold_across_eod = (
+                            multi_session_enabled
+                            and phase == ExitPhase.AFTER_T2
+                            and self._runner_sessions_held < max_days
+                        )
 
                     if hold_across_eod:
-                        # 10% runner — update structural trail under today's
-                        # session low and let it ride into the next session.
+                        # Update structural trail under today's session low
+                        # (no-op for INITIAL — update_prior_day_low ignores
+                        # pre-T1 positions and they ride their initial stop).
                         daily_low = self._get_session_low()
                         daily_high = self._get_session_high()
                         if daily_low > 0:
@@ -2429,25 +2463,26 @@ class IBRunner:
                                     reason=action.reason,
                                 )
                             logger.info(
-                                f"MULTI-SESSION RUNNER EOD (day {self._runner_sessions_held + 1}/"
-                                f"{max_days}): trailing stop → {self._position.stop_price:.2f} "
+                                f"EOD HOLD (day {self._runner_sessions_held + 1}/"
+                                f"{max_days}, phase={phase.name}): "
+                                f"stop={self._position.stop_price:.2f} "
                                 f"(daily low={daily_low:.2f}, "
                                 f"{self._position.remaining_contracts} contracts, "
                                 f"pattern={self._pattern_type})"
                             )
                     else:
-                        # Force-flatten path: INITIAL, AFTER_T1, or AFTER_T2
-                        # where multi-session is off OR the max-days cap is hit.
-                        if (
-                            multi_session_enabled
-                            and phase == ExitPhase.AFTER_T2
-                            and self._runner_sessions_held >= max_days
-                        ):
+                        # Force-flatten path. Two sub-cases:
+                        #   1. eod_flatten_enabled=False with max-days cap hit
+                        #      (applies to any phase)
+                        #   2. eod_flatten_enabled=True legacy semantics
+                        #      (INITIAL/AFTER_T1 always; AFTER_T2 when cap or
+                        #       multi_session_runner=False)
+                        if self._runner_sessions_held >= max_days:
                             flatten_reason = "eod_flatten_max_days"
                             log_label = (
-                                f"MULTI-SESSION RUNNER MAX DAYS HIT "
-                                f"({self._runner_sessions_held}/{max_days}): "
-                                "force-flattening"
+                                f"EOD MAX-DAYS CAP HIT "
+                                f"({self._runner_sessions_held}/{max_days}, "
+                                f"phase={phase.name}): force-flattening"
                             )
                         else:
                             flatten_reason = "eod_flatten"

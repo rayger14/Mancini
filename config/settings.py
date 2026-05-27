@@ -161,6 +161,25 @@ class ExitParams:
     # sessions. Prevents a forgotten runner from bleeding indefinitely.
     multi_session_runner_max_days: int = 5
 
+    # Master switch for EOD flatten. Default OFF — all positions hold across
+    # the session boundary via their existing stops (initial / BE-3 / structure
+    # trail). The original intraday EOD flatten was throwing away upside on
+    # trades that hit T1 then got force-closed before T2.
+    #
+    # When False (default):
+    #   - INITIAL / AFTER_T1 / AFTER_T2 positions all hold across EOD.
+    #   - update_prior_day_low() is still called so the structural trail
+    #     ratchets correctly when a position has reached AFTER_T1/AFTER_T2.
+    #   - The multi_session_runner_max_days cap STILL applies as a safety
+    #     net — the _runner_sessions_held counter is bumped at session
+    #     rollover for ANY held position (not just AFTER_T2), and once it
+    #     hits the cap, the next EOD force-flattens regardless of phase.
+    #
+    # When True:
+    #   - Legacy behavior: INITIAL / AFTER_T1 flatten at EOD, AFTER_T2
+    #     honors the multi_session_runner flag.
+    eod_flatten_enabled: bool = False
+
 
 @dataclass(frozen=True)
 class StrategyParams:

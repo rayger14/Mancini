@@ -48,12 +48,17 @@ def _make_runner_stub(
     multi_session: bool = True,
     max_days: int = 5,
     sessions_held: int = 0,
+    eod_flatten_enabled: bool = True,
 ):
     """Build a minimal IBRunner with just enough surface to drive _check_eod
     and _check_session_rollover.
 
     Avoids invoking IBRunner.__init__ (which connects to IB Gateway). We
     bypass __init__ and wire the attributes the EOD path reads directly.
+
+    These tests cover LEGACY semantics (eod_flatten_enabled=True) — the new
+    default (eod_flatten_enabled=False) is covered in
+    tests/test_eod_flatten_optional.py.
     """
     from live.ib_runner import IBRunner
 
@@ -66,6 +71,7 @@ def _make_runner_stub(
         runner_fraction=0.10,
         multi_session_runner=multi_session,
         multi_session_runner_max_days=max_days,
+        eod_flatten_enabled=eod_flatten_enabled,
     )
     runner.exit_params = exit_params
 
