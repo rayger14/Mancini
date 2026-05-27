@@ -295,7 +295,9 @@ class IBRunner:
         self._entry_bar_count: int = 0  # bar_count at entry, for bars_held calc
         self._last_trade_bar: int = 0  # bar_count at last entry/exit, for time_since_last_trade
         self._running: bool = False
-        self._session_date: date = date.today()
+        # Globex-aware session date (the day the session CLOSES). After
+        # 18:00 ET we are already in the next calendar day's session.
+        self._session_date: date = self._compute_globex_trading_date(datetime.now(_ET))
 
         # Multi-session runner state: tracks how many EOD rolls a runner has
         # survived. Reset to 0 every time a new position opens; incremented
@@ -341,7 +343,12 @@ class IBRunner:
         os_signal.signal(os_signal.SIGINT, self._handle_shutdown)
         os_signal.signal(os_signal.SIGTERM, self._handle_shutdown)
 
-        self._session_date = date.today()
+        # Globex session boundary (18:00 ET): if we restart after the new
+        # session has already opened, the trading_date is the NEXT calendar
+        # day, not today's calendar date. Plan files, level snapshots and
+        # archives all key off this — using date.today() here would load
+        # yesterday's plan after a 18:00–midnight restart.
+        self._session_date = self._compute_globex_trading_date(datetime.now(_ET))
 
         # Connect to IB
         if not self.bridge.connect():
@@ -411,6 +418,69 @@ class IBRunner:
         logger.info("IB Runner stopped")
 
     # ── Session initialization ───────────────────────────────────────
+
+    @staticmethod
+    def _compute_globex_trading_date(now_et: datetime) -> date:
+        """Return the Globex trading_date for the given ET timestamp.
+
+        CME Globex ES sessions run 18:00 ET (previous day) -> 17:00 ET. The
+        "trading_date" labels the day the session CLOSES — so anything at or
+        after 18:00 ET belongs to the NEXT calendar day's session.
+
+        17:00–18:00 ET is the daily break. We attribute it to the next
+        session here (engine-side bookkeeping), matching how plan files and
+        levels for the upcoming session are usually staged during this
+        window. _check_session_rollover() has its own break-window handling
+        which short-circuits rather than rolling during the gap; that
+        difference is intentional — initialization just needs a date, while
+        rollover decides when to RESET daily state.
+
+        Args:
+            now_et: timezone-aware datetime in US/Eastern.
+
+        Returns:
+            date object representing the active trading session.
+        """
+        if now_et.time() >= time(18, 0):
+            from datetime import timedelta
+            return (now_et + timedelta(days=1)).date()
+        return now_et.date()
+
+    def _load_mancini_llm_plan(self) -> None:
+        """Load the nightly LLM-extracted Mancini plan for self._session_date.
+
+        Idempotent: safe to call from _initialize_session() and again from
+        _check_session_rollover(). Failures (missing file, corrupt JSON,
+        validation error) are swallowed — the bot runs without the plan.
+        """
+        self._mancini_llm_plan = None
+        sp = getattr(self.strategy, "strategy_params", None)
+        if sp is None or not getattr(sp, "use_mancini_llm_plan", False):
+            return
+        try:
+            from live.mancini_llm_extract import load_plan as _load_llm_plan
+
+            plan = _load_llm_plan(
+                self._session_date,
+                input_dir=Path(getattr(sp, "mancini_llm_plan_dir", "/app/data")),
+            )
+            if plan is not None:
+                self._mancini_llm_plan = plan
+                self.signal_aggregator.set_mancini_llm_plan(plan)
+                logger.info(
+                    f"Mancini LLM plan loaded for {self._session_date}: "
+                    f"lean={plan.lean} mode={plan.mode} "
+                    f"setups={len(plan.planned_setups)} "
+                    f"danger={len(plan.danger_zones)} "
+                    f"no_trade_above={plan.no_trade_above} "
+                    f"no_trade_below={plan.no_trade_below}"
+                )
+            else:
+                logger.info(
+                    f"Mancini LLM plan: no plan available for {self._session_date}"
+                )
+        except Exception as e:
+            logger.warning(f"Mancini LLM plan load failed (non-fatal): {e}")
 
     def _initialize_session(self) -> bool:
         """Initialize strategy from IB historical bars.
@@ -571,32 +641,7 @@ class IBRunner:
         # mode/danger_zones/no_trade_zones and boosts planned-setup matches.
         # Plan extraction runs nightly via cron regardless; this only loads
         # the JSON when use_mancini_llm_plan is on.
-        self._mancini_llm_plan = None
-        if getattr(sp, "use_mancini_llm_plan", False):
-            try:
-                from live.mancini_llm_extract import load_plan as _load_llm_plan
-
-                plan = _load_llm_plan(
-                    self._session_date,
-                    input_dir=Path(getattr(sp, "mancini_llm_plan_dir", "/app/data")),
-                )
-                if plan is not None:
-                    self._mancini_llm_plan = plan
-                    self.signal_aggregator.set_mancini_llm_plan(plan)
-                    logger.info(
-                        f"Mancini LLM plan loaded for {self._session_date}: "
-                        f"lean={plan.lean} mode={plan.mode} "
-                        f"setups={len(plan.planned_setups)} "
-                        f"danger={len(plan.danger_zones)} "
-                        f"no_trade_above={plan.no_trade_above} "
-                        f"no_trade_below={plan.no_trade_below}"
-                    )
-                else:
-                    logger.info(
-                        f"Mancini LLM plan: no plan available for {self._session_date}"
-                    )
-            except Exception as e:
-                logger.warning(f"Mancini LLM plan load failed (non-fatal): {e}")
+        self._load_mancini_llm_plan()
 
         # Catch up on current-day bars (update state, don't trade)
         if self._df is not None and len(self._df) > 0:
@@ -2304,8 +2349,15 @@ class IBRunner:
 
             # Restore pattern state from prior session (sweeps carry across)
             self.signal_aggregator.restore_pattern_state(pattern_snapshot)
+
+            # Reload the LLM-extracted Mancini plan for the new trading_date.
+            # Without this, a long-running bot that never restarts would keep
+            # using the prior session's plan after Globex rollover at 18:00 ET.
+            self._load_mancini_llm_plan()
+
             logger.info(f"New session {trading_date}: daily PnL reset, "
-                        f"trade count reset, levels re-initialized, pattern state restored")
+                        f"trade count reset, levels re-initialized, "
+                        f"pattern state restored, LLM plan reloaded")
 
     # ── EOD and session management ───────────────────────────────────
 
