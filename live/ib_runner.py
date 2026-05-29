@@ -139,9 +139,13 @@ PRODUCTION_ELEVATOR = ElevatorParams(
 )
 PRODUCTION_EXIT = ExitParams(
     default_contracts=4,
-    t1_exit_fraction=0.75,      # Mancini: "Lock in 75% profits at first level up" = 3 of 4
-    t2_exit_fraction=0.0,
-    runner_fraction=0.25,       # 1 contract runner (25%) — catches the rare trend days
+    # Mancini three-stage exits (2025-08-05 rule):
+    #   T1: 75% off at first resistance       (3 of 4 contracts)
+    #   T2: 15% off at second resistance      (rounded to ~1 of 4 — sub-contract granularity smoothed by ExitManager)
+    #   Runner: 10% trails structure          (~1 of 4)
+    t1_exit_fraction=0.75,
+    t2_exit_fraction=0.15,
+    runner_fraction=0.10,
     breakeven_buffer_pts=-3.0,  # Mancini: "several pts under breakeven"
     trailing_stop_pts=12.0,
     runner_prior_day_low_buffer_pts=1.0,
