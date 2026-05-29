@@ -1,0 +1,134 @@
+{
+  "trading_date": "2025-05-05",
+  "levels": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "y. I did so again on Tuesday, stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (b"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5623.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "in on Tuesday, stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the"
+    },
+    {
+      "price": 5672.0,
+      "role": "level",
+      "context": "5672 level"
+    },
+    {
+      "price": 5684.0,
+      "role": "mentioned",
+      "context": "lls want to accept the 5672 level, then next leg up targets 5684, 5699, 5711, then 5730-35.\u201d We got to 5711+ this morning. T"
+    },
+    {
+      "price": 5699.0,
+      "role": "mentioned",
+      "context": "nt to accept the 5672 level, then next leg up targets 5684, 5699, 5711, then 5730-35.\u201d We got to 5711+ this morning. The air"
+    },
+    {
+      "price": 5711.0,
+      "role": "mentioned",
+      "context": "accept the 5672 level, then next leg up targets 5684, 5699, 5711, then 5730-35.\u201d We got to 5711+ this morning. The air is ge"
+    },
+    {
+      "price": 5730.0,
+      "role": "range",
+      "context": "5730-35"
+    },
+    {
+      "price": 5735.0,
+      "role": "range",
+      "context": "5730-35"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "y. I did so again on Tuesday, stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (b"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5623.0,
+      "role": "range",
+      "context": "5620-23"
+    },
+    {
+      "price": 5650.0,
+      "role": "mentioned",
+      "context": "in on Tuesday, stating: \u201cNext leg up targets 5600, 5620-23, 5650, then 5672 which remains the macro target (back-test of the"
+    },
+    {
+      "price": 5672.0,
+      "role": "level",
+      "context": "5672 level"
+    },
+    {
+      "price": 5684.0,
+      "role": "mentioned",
+      "context": "lls want to accept the 5672 level, then next leg up targets 5684, 5699, 5711, then 5730-35.\u201d We got to 5711+ this morning. T"
+    },
+    {
+      "price": 5699.0,
+      "role": "mentioned",
+      "context": "nt to accept the 5672 level, then next leg up targets 5684, 5699, 5711, then 5730-35.\u201d We got to 5711+ this morning. The air"
+    },
+    {
+      "price": 5711.0,
+      "role": "mentioned",
+      "context": "accept the 5672 level, then next leg up targets 5684, 5699, 5711, then 5730-35.\u201d We got to 5711+ this morning. The air is ge"
+    },
+    {
+      "price": 5730.0,
+      "role": "range",
+      "context": "5730-35"
+    },
+    {
+      "price": 5735.0,
+      "role": "range",
+      "context": "5730-35"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cMy general lean is always to defer to the trend until it ends."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "All short squeezes and major legs up in ES are caused by my core setup : The Failed Breakdown and this is the footprint of institutional accumulation."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cFailed Breakdowns of 5493 [Mondays low] would be of interest.\u201d What did we do Wednesday morning?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into two major Failed Breakdowns that triggered this squeeze from Wednesday, as there is plenty to learn from them."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "9 Green Days In A Row For SPX. Pullback Next Week? May 5th Plan",
+  "post_date": "2025-05-04",
+  "post_slug": "9-green-days-in-a-row-for-spx-pullback",
+  "parsed_at": "2026-04-16T15:44:18.361457",
+  "body_length": 2397
+}

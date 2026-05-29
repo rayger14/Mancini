@@ -1,0 +1,118 @@
+{
+  "trading_date": "2025-09-17",
+  "levels": [
+    {
+      "price": 6644.0,
+      "role": "support",
+      "context": "defend 6644"
+    },
+    {
+      "price": 6648.0,
+      "role": "range",
+      "context": "6648-50"
+    },
+    {
+      "price": 6650.0,
+      "role": "range",
+      "context": "6648-50"
+    },
+    {
+      "price": 6666.0,
+      "role": "mentioned",
+      "context": "l lean is always to defer to the trend until supports fail. 6666 and 6648-50 (megaphone back-test) are key tomorrow. Bulls w"
+    },
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "m or trap below on any dips, which keeps the train going to 6690, 6704, 6716, then 6733.\u201d Today we dipped to 6666, spend the"
+    },
+    {
+      "price": 6704.0,
+      "role": "mentioned",
+      "context": "rap below on any dips, which keeps the train going to 6690, 6704, 6716, then 6733.\u201d Today we dipped to 6666, spend the day t"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "low on any dips, which keeps the train going to 6690, 6704, 6716, then 6733.\u201d Today we dipped to 6666, spend the day there,"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "dips, which keeps the train going to 6690, 6704, 6716, then 6733.\u201d Today we dipped to 6666, spend the day there, and defende"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6644.0,
+      "role": "support",
+      "context": "defend 6644"
+    },
+    {
+      "price": 6648.0,
+      "role": "range",
+      "context": "6648-50"
+    },
+    {
+      "price": 6650.0,
+      "role": "range",
+      "context": "6648-50"
+    },
+    {
+      "price": 6666.0,
+      "role": "mentioned",
+      "context": "l lean is always to defer to the trend until supports fail. 6666 and 6648-50 (megaphone back-test) are key tomorrow. Bulls w"
+    },
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "m or trap below on any dips, which keeps the train going to 6690, 6704, 6716, then 6733.\u201d Today we dipped to 6666, spend the"
+    },
+    {
+      "price": 6704.0,
+      "role": "mentioned",
+      "context": "rap below on any dips, which keeps the train going to 6690, 6704, 6716, then 6733.\u201d Today we dipped to 6666, spend the day t"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "low on any dips, which keeps the train going to 6690, 6704, 6716, then 6733.\u201d Today we dipped to 6666, spend the day there,"
+    },
+    {
+      "price": 6733.0,
+      "role": "mentioned",
+      "context": "dips, which keeps the train going to 6690, 6704, 6716, then 6733.\u201d Today we dipped to 6666, spend the day there, and defende"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday 4pm: \u201cMy general lean is ES can defend 6644 (or trap below and recover) which sets up 6655, consolidate, then 6670, 6688+.\u201d We saw saw exactly this yesterday."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is always to defer to the trend until supports fail."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On the chart, this \u201cprints\u201d as a Failed Breakdown, and its my core setup to trade it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Typically, we see 1 to 2 Failed Breakdowns every single day of the week, and we saw exactly this last week (which kept us long the whole week - we have been long since September 5th continuously)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a monster Failed Breakdown we had right after CPI last Thursday which gave us the nearly 100 point move up we saw into yesterday (this is key to know because we see this setup all the time)."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "FOMC Tomorrow. Expect Volatility. Can SPX Bulls Keep The Rally Going? Sept 17 Plan",
+  "post_date": "2025-09-16",
+  "post_slug": "fomc-tomorrow-expect-volatility-can",
+  "parsed_at": "2026-04-16T15:42:17.778712",
+  "body_length": 2649
+}

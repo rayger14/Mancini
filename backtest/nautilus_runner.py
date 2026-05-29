@@ -73,7 +73,13 @@ class NautilusBacktestRunner:
         self.config = config or NautilusBacktestConfig()
 
     def _create_es_instrument(self) -> FuturesContract:
-        """Create an ES futures contract instrument."""
+        """Create an ES futures contract instrument. Set activation/
+        expiration to a wide range (2000-2030) so the contract is
+        considered active during any historical backtest window."""
+        import pandas as _pd
+        activation_ns = int(_pd.Timestamp("2000-01-01", tz="UTC").value)
+        expiration_ns = int(_pd.Timestamp("2030-12-31", tz="UTC").value)
+
         instrument_id = InstrumentId(Symbol("ES"), Venue("GLBX"))
 
         return FuturesContract(
@@ -86,23 +92,27 @@ class NautilusBacktestRunner:
             multiplier=Quantity.from_int(50),
             lot_size=Quantity.from_int(1),
             underlying="ES",
-            activation_ns=0,
-            expiration_ns=0,
-            ts_event=0,
-            ts_init=0,
+            activation_ns=activation_ns,
+            expiration_ns=expiration_ns,
+            ts_event=activation_ns,
+            ts_init=activation_ns,
         )
 
     def _create_engine(self, instrument: FuturesContract) -> BacktestEngine:
         """Create and configure BacktestEngine with venue and fill model."""
+        # bypass_logging avoids the "logger already initialized" panic
+        # that hits when multiple BacktestEngines are created in the same
+        # Python process (multi-day backtest loop). Tradeoff: no Rust log
+        # output. Use log_level="WARNING" + omit bypass for single-day debugging.
         engine_config = BacktestEngineConfig(
-            logging=LoggingConfig(log_level="WARNING"),
+            logging=LoggingConfig(bypass_logging=True),
         )
         engine = BacktestEngine(config=engine_config)
 
-        # Add venue with fill model
+        # Add venue with fill model. NautilusTrader 1.226 dropped
+        # prob_fill_on_stop — stops always fill by default now.
         fill_model = FillModel(
             prob_fill_on_limit=1.0,
-            prob_fill_on_stop=1.0,
             prob_slippage=self.config.prob_slippage,
         )
 
@@ -123,12 +133,11 @@ class NautilusBacktestRunner:
         self, df: pd.DataFrame, instrument: FuturesContract
     ) -> list:
         """Convert OHLCV DataFrame to NautilusTrader Bar objects."""
-        bar_type = BarType(
-            instrument_id=instrument.id,
-            bar_spec=BarType.from_str(
-                f"{instrument.id}-1-MINUTE-LAST-EXTERNAL"
-            ).bar_spec,
-            aggregation_source=AggregationSource.EXTERNAL,
+        # NautilusTrader 1.226 renamed BarType.bar_spec → spec, and the
+        # easiest construction is via from_str which avoids passing the
+        # spec object directly.
+        bar_type = BarType.from_str(
+            f"{instrument.id}-1-MINUTE-LAST-EXTERNAL"
         )
         wrangler = BarDataWrangler(bar_type=bar_type, instrument=instrument)
 

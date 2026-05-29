@@ -1,0 +1,120 @@
+{
+  "trading_date": "2024-09-09",
+  "levels": [
+    {
+      "price": 5474.0,
+      "role": "mentioned",
+      "context": "flush and recover, and doing something like testing 5482 or 5474 and reclaiming would be an setup that is of interest\u201d. Over"
+    },
+    {
+      "price": 5482.0,
+      "role": "mentioned",
+      "context": "see it flush and recover, and doing something like testing 5482 or 5474 and reclaiming would be an setup that is of interes"
+    },
+    {
+      "price": 5492.0,
+      "role": "level",
+      "context": "5492 level"
+    },
+    {
+      "price": 5585.0,
+      "role": "support",
+      "context": "above 5585"
+    },
+    {
+      "price": 5590.0,
+      "role": "range",
+      "context": "5585-90"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5625-30"
+    },
+    {
+      "price": 5630.0,
+      "role": "range",
+      "context": "5625-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5474.0,
+      "role": "mentioned",
+      "context": "flush and recover, and doing something like testing 5482 or 5474 and reclaiming would be an setup that is of interest\u201d. Over"
+    },
+    {
+      "price": 5482.0,
+      "role": "mentioned",
+      "context": "see it flush and recover, and doing something like testing 5482 or 5474 and reclaiming would be an setup that is of interes"
+    },
+    {
+      "price": 5492.0,
+      "role": "level",
+      "context": "5492 level"
+    },
+    {
+      "price": 5585.0,
+      "role": "support",
+      "context": "above 5585"
+    },
+    {
+      "price": 5590.0,
+      "role": "range",
+      "context": "5585-90"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5625-30"
+    },
+    {
+      "price": 5630.0,
+      "role": "range",
+      "context": "5625-30"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This pullback was triggered on the loss of 5630 then 5585 back on Tuesday , and I provided this setup to readers last Friday at 4pm when I wrote: \u201cBear case Monday: There is no bear case until this flag breaks down at 5585-90."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As I wrote yesterday: \u201cBear case tomorrow: Begins on the fail of 5492."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was a classic example of my core setup and edge: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "5492 was not invicible though, and after 2 tests yesterday and a failed breakdown overnight, it finally cracked triggering a hard melt-down."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Generally, I\u2019d want to see 5493 tested/one more failed breakdown of the zone."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This selloff took us down to the 5492 level yesterday, and 5492 is where we broke out of back on August 15th, and this was a key pivot for the last two days."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote in yesterdays 4pm newsletter: \u201c5494 is major support still."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "I added: \u201cBelow 5492 I consider \u201cknife catch protocol\u201d to be activated and I\u2019d be careful with all longs."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "SPX Finally Snaps Its 4 Green Week In A Row Streak. Buyable Dip, Or More Red Ahead? Sept 9 Plan",
+  "post_date": "2024-09-08",
+  "post_slug": "spx-finally-snaps-its-4-green-week-e6f",
+  "parsed_at": "2026-04-16T15:47:48.236569",
+  "body_length": 2603
+}

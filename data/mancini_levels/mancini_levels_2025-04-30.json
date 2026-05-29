@@ -1,0 +1,112 @@
+{
+  "trading_date": "2025-04-30",
+  "levels": [
+    {
+      "price": 5485.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5492.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5565.0,
+      "role": "mentioned",
+      "context": "4pm: \u201c As long as the above supports hold (5492-85 lowest), 5565, 5582, then 5620-25 are next batch of targets.\u201d Yesterday w"
+    },
+    {
+      "price": 5582.0,
+      "role": "mentioned",
+      "context": "As long as the above supports hold (5492-85 lowest), 5565, 5582, then 5620-25 are next batch of targets.\u201d Yesterday we sold"
+    },
+    {
+      "price": 5610.0,
+      "role": "range",
+      "context": "5610-20"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5485.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5492.0,
+      "role": "range",
+      "context": "5492-85"
+    },
+    {
+      "price": 5565.0,
+      "role": "mentioned",
+      "context": "4pm: \u201c As long as the above supports hold (5492-85 lowest), 5565, 5582, then 5620-25 are next batch of targets.\u201d Yesterday w"
+    },
+    {
+      "price": 5582.0,
+      "role": "mentioned",
+      "context": "As long as the above supports hold (5492-85 lowest), 5565, 5582, then 5620-25 are next batch of targets.\u201d Yesterday we sold"
+    },
+    {
+      "price": 5610.0,
+      "role": "range",
+      "context": "5610-20"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I also discussed yesterday though, phrases like \u201cbuy the dip\u201d are fairly useless, because one has to know where and how."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My system answers this question but identifying the core footprint of institutional accumulation: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "All major rallies and squeezes are caused by a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Case in point: I wrote on Friday at 4pm: \u201c As long as the above supports hold (5492-85 lowest), 5565, 5582, then 5620-25 are next batch of targets.\u201d Yesterday we sold down to 5492-85 exact low of day, put in another Failed Breakdown of a big shelf of lows from Sunday evening at 5515, and squeezed into the close to 5565."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the recent Failed Breakdowns we had including Friday\u2019s & yesterday\u2019s; specifically emphasizing the entry trigger portion of the setup for education."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "An Incredible 6 Green Days In A Row For SPX. Can Bulls Really Do 7? April 30 Plan",
+  "post_date": "2025-04-29",
+  "post_slug": "an-incredible-6-green-days-in-a-row",
+  "parsed_at": "2026-04-16T15:44:22.036933",
+  "body_length": 2090
+}

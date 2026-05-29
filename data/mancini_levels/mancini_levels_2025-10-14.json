@@ -1,0 +1,164 @@
+{
+  "trading_date": "2025-10-14",
+  "levels": [
+    {
+      "price": 6605.0,
+      "role": "support",
+      "context": "recover 6605"
+    },
+    {
+      "price": 6623.0,
+      "role": "mentioned",
+      "context": "t back-testing on Monday. ES will need to recover 6605 then 6623 to get going on this. This targets 6653 1st stop, 6673 2nd"
+    },
+    {
+      "price": 6653.0,
+      "role": "mentioned",
+      "context": "o recover 6605 then 6623 to get going on this. This targets 6653 1st stop, 6673 2nd stop, then 6694. 6766 remains the full b"
+    },
+    {
+      "price": 6673.0,
+      "role": "mentioned",
+      "context": "then 6623 to get going on this. This targets 6653 1st stop, 6673 2nd stop, then 6694. 6766 remains the full back-test.\u201d We g"
+    },
+    {
+      "price": 6694.0,
+      "role": "mentioned",
+      "context": "ng on this. This targets 6653 1st stop, 6673 2nd stop, then 6694. 6766 remains the full back-test.\u201d We got right to work on"
+    },
+    {
+      "price": 6712.0,
+      "role": "range",
+      "context": "6712-16"
+    },
+    {
+      "price": 6716.0,
+      "role": "range",
+      "context": "6712-16"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "this. This targets 6653 1st stop, 6673 2nd stop, then 6694. 6766 remains the full back-test.\u201d We got right to work on this a"
+    },
+    {
+      "price": 6794.0,
+      "role": "mentioned",
+      "context": "57 to 6805-07 remains a massive flag. My lean is we work to 6794 to backtest where we broke down today, perhaps extend to 68"
+    },
+    {
+      "price": 6805.0,
+      "role": "range",
+      "context": "6805-07"
+    },
+    {
+      "price": 6807.0,
+      "role": "range",
+      "context": "6805-07"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6605.0,
+      "role": "support",
+      "context": "recover 6605"
+    },
+    {
+      "price": 6623.0,
+      "role": "mentioned",
+      "context": "t back-testing on Monday. ES will need to recover 6605 then 6623 to get going on this. This targets 6653 1st stop, 6673 2nd"
+    },
+    {
+      "price": 6653.0,
+      "role": "mentioned",
+      "context": "o recover 6605 then 6623 to get going on this. This targets 6653 1st stop, 6673 2nd stop, then 6694. 6766 remains the full b"
+    },
+    {
+      "price": 6673.0,
+      "role": "mentioned",
+      "context": "then 6623 to get going on this. This targets 6653 1st stop, 6673 2nd stop, then 6694. 6766 remains the full back-test.\u201d We g"
+    },
+    {
+      "price": 6694.0,
+      "role": "mentioned",
+      "context": "ng on this. This targets 6653 1st stop, 6673 2nd stop, then 6694. 6766 remains the full back-test.\u201d We got right to work on"
+    },
+    {
+      "price": 6712.0,
+      "role": "range",
+      "context": "6712-16"
+    },
+    {
+      "price": 6716.0,
+      "role": "range",
+      "context": "6712-16"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "this. This targets 6653 1st stop, 6673 2nd stop, then 6694. 6766 remains the full back-test.\u201d We got right to work on this a"
+    },
+    {
+      "price": 6794.0,
+      "role": "mentioned",
+      "context": "57 to 6805-07 remains a massive flag. My lean is we work to 6794 to backtest where we broke down today, perhaps extend to 68"
+    },
+    {
+      "price": 6805.0,
+      "role": "range",
+      "context": "6805-07"
+    },
+    {
+      "price": 6807.0,
+      "role": "range",
+      "context": "6805-07"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm before the carnage: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work to 6794 to backtest where we broke down today, perhaps extend to 6805.\u201d Friday morning, ES got to 6806 high of day exact."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "It was at this point that the tariff \u201ctape bomb\u201d hit the market, broke down the range, and triggered - for the first time in what felt like weeks - my Bear Case."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I also wrote Thursday at 4pm: \u201cBear case tomorrow: No bear case until sub 6712-16 (megaphone failure) but there is a short-term bear case on the failure of the range at 6757 now.\u201d We broke down the range, and down we went."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We don\u2019t predict when it will come - it comes whenever we get the Failed Breakdown.\u201d It didn\u2019t take long on Sunday, as I stated Friday: \u201cM y general lean is we can start back-testing on Monday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know though that \u201celevator down\u201d days like Friday have a sibling."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Just like in physics where every action has an equal and opposite reaction, every \u201celevator down\u201d sell in ES sees an equally violent snap back rally, induced by a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cWe also need to remember one of the core laws of ES, which is that after every \u201celevator down\u201d sell, comes an equally violent squeeze."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "By catalyst, readers know that ES spent all last week rangebound in a range mostly 6757 to 6805-07."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "Bulls Bought The Dip As Expected In SPX. Dead Cat Bounce, Or Bottom? October 14 Plan",
+  "post_date": "2025-10-13",
+  "post_slug": "bulls-bought-the-dip-as-expected",
+  "parsed_at": "2026-04-16T15:41:55.037453",
+  "body_length": 2613
+}

@@ -1,0 +1,153 @@
+{
+  "trading_date": "2025-12-23",
+  "levels": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote on W"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6832.0,
+      "role": "target",
+      "context": "target 6832"
+    },
+    {
+      "price": 6843.0,
+      "role": "mentioned",
+      "context": "olding 6818-22 My general lean is it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this"
+    },
+    {
+      "price": 6845.0,
+      "role": "mentioned",
+      "context": "recover that to take control which would then target 6832, 6845, then 6870.\u201d This trackd. Thursday morning we hit 6818-22,"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "6818-22 My general lean is it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Frida"
+    },
+    {
+      "price": 6870.0,
+      "role": "mentioned",
+      "context": "at to take control which would then target 6832, 6845, then 6870.\u201d This trackd. Thursday morning we hit 6818-22, then ran to"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "s it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Friday. ES held 6818-22 all nig"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "oes. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Friday. ES held 6818-22 all night Thu"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote on W"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6843.0,
+      "role": "mentioned",
+      "context": "olding 6818-22 My general lean is it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this"
+    },
+    {
+      "price": 6845.0,
+      "role": "mentioned",
+      "context": "recover that to take control which would then target 6832, 6845, then 6870.\u201d This trackd. Thursday morning we hit 6818-22,"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "6818-22 My general lean is it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Frida"
+    },
+    {
+      "price": 6870.0,
+      "role": "mentioned",
+      "context": "at to take control which would then target 6832, 6845, then 6870.\u201d This trackd. Thursday morning we hit 6818-22, then ran to"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "s it does. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Friday. ES held 6818-22 all nig"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "oes. This keeps 6832, 6843, 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Friday. ES held 6818-22 all night Thu"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6832.0,
+      "role": "target",
+      "context": "target 6832"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 4pm: \u201cMy general lean if I had to give one is ES can retest 6818-22 again."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm Thursday: \u201cES started a relief bounce leg today and its ability to continue depends on ES holding 6818-22 My general lean is it does."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Two of these building blocks are what I call the two siblings: \u201cElevator down sell\u201d being the first, and short squeeze being the second."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Wednesday we saw a substantial elevator down sell and ES - for the first time in a month - sold from open to close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The trick is the short squeeze only occurs when ES puts in my core setup: The Failed Breakdown."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 10,
+  "resistance_count": 1,
+  "post_title": "The Holiday Rally Has Begun In SPX. How Much More Gas Does It Have? December 23 Plan",
+  "post_date": "2025-12-22",
+  "post_slug": "the-holiday-rally-has-begun-in-spx",
+  "parsed_at": "2026-04-16T15:40:51.716475",
+  "body_length": 2687
+}

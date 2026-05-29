@@ -1,0 +1,129 @@
+{
+  "trading_date": "2025-07-17",
+  "levels": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6268.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6271.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target.\u201d We saw exactly this today, last evening"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "to July 3rd: 10 green days in a row. My target for this was 6325, and we hit it by July 2nd. After that stretch of 10 green"
+    },
+    {
+      "price": 6330.0,
+      "role": "resistance",
+      "context": "6330 resistance"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6268.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6271.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target.\u201d We saw exactly this today, last evening"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "to July 3rd: 10 green days in a row. My target for this was 6325, and we hit it by July 2nd. After that stretch of 10 green"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6330.0,
+      "role": "resistance",
+      "context": "6330 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on F riday June 20th at 4pm when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This took us into today, and the task for bulls was defend this structure or put in a quick Failed Breakdown)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As long as the triangle support holds (or failed breakdown and quick recover), ES can work back up the structure with 6301 being 1st target.\u201d We saw exactly this today, last evening we tested 6271-68 triangle support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "At 3am, we put in a quick Failed Breakdown, trapped bears, and rallied to 6301 by 930AM."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From there, we flushed back down the triangle and put in another Failed Breakdown, and headed back up to 6301 to close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll rewind a little to Thursday and discuss a very important series of follow up setups of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, Failed Breakdowns are rarely one and done, and they have two secondary entry opportunities that often follow the initials."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, there is no shortage of setups for Failed Breakdown traders."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "SPX Is Coiled In A Huge, 2 Week Triangle. Breakout Soon? June 17 Plan",
+  "post_date": "2025-07-16",
+  "post_slug": "spx-is-coiled-in-a-huge-2-week-triangle",
+  "parsed_at": "2026-04-16T15:43:14.844775",
+  "body_length": 3380
+}

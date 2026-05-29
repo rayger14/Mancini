@@ -1,0 +1,46 @@
+{
+  "trading_date": "2024-10-22",
+  "levels": [
+    {
+      "price": 5865.0,
+      "role": "mentioned",
+      "context": "xactly, then today, began to fill out the range downward to 5865, before the dip was bought as usual and we consolidated aro"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "fore the dip was bought as usual and we consolidated around 5892 into the close. As a result, ES put in a rare red day today"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5865.0,
+      "role": "mentioned",
+      "context": "xactly, then today, began to fill out the range downward to 5865, before the dip was bought as usual and we consolidated aro"
+    },
+    {
+      "price": 5892.0,
+      "role": "mentioned",
+      "context": "fore the dip was bought as usual and we consolidated around 5892 into the close. As a result, ES put in a rare red day today"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Readers of this newsletter were of course well prepared for this and October 7th when were 5734 I wrote: \u201cBull case tomorrow: No change."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go into some nuances on my core setup (the Failed Breakdown), specifically on how to seperate a high quality Failed Breakdown, from a low quality Failed Breakdown."
+    }
+  ],
+  "level_count": 2,
+  "support_count": 2,
+  "resistance_count": 0,
+  "post_title": "A Rare Red Day For SPX. Buyable Dip, or More Red Coming? Oct 22 Plan",
+  "post_date": "2024-10-21",
+  "post_slug": "a-rare-red-day-for-spx-buyable-dip",
+  "parsed_at": "2026-04-16T15:47:07.577393",
+  "body_length": 2303
+}

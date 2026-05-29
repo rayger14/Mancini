@@ -1,0 +1,124 @@
+{
+  "trading_date": "2024-09-10",
+  "levels": [
+    {
+      "price": 5372.0,
+      "role": "range",
+      "context": "5372-78"
+    },
+    {
+      "price": 5378.0,
+      "role": "range",
+      "context": "5372-78"
+    },
+    {
+      "price": 5400.0,
+      "role": "mentioned",
+      "context": "the corner\u2026 My general lean for Monday is we resume down to 5400, perhaps 5372-78. Those are both possible pivots to bounce"
+    },
+    {
+      "price": 5474.0,
+      "role": "range",
+      "context": "5474-78"
+    },
+    {
+      "price": 5478.0,
+      "role": "range",
+      "context": "5474-78"
+    },
+    {
+      "price": 5585.0,
+      "role": "range",
+      "context": "5585-90"
+    },
+    {
+      "price": 5590.0,
+      "role": "range",
+      "context": "5585-90"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5625-30"
+    },
+    {
+      "price": 5630.0,
+      "role": "range",
+      "context": "5625-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5372.0,
+      "role": "range",
+      "context": "5372-78"
+    },
+    {
+      "price": 5378.0,
+      "role": "range",
+      "context": "5372-78"
+    },
+    {
+      "price": 5400.0,
+      "role": "mentioned",
+      "context": "the corner\u2026 My general lean for Monday is we resume down to 5400, perhaps 5372-78. Those are both possible pivots to bounce"
+    },
+    {
+      "price": 5474.0,
+      "role": "range",
+      "context": "5474-78"
+    },
+    {
+      "price": 5478.0,
+      "role": "range",
+      "context": "5474-78"
+    },
+    {
+      "price": 5585.0,
+      "role": "range",
+      "context": "5585-90"
+    },
+    {
+      "price": 5590.0,
+      "role": "range",
+      "context": "5585-90"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5625-30"
+    },
+    {
+      "price": 5630.0,
+      "role": "range",
+      "context": "5625-30"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this short setup to readers back on August 30th (when we closed at 5666), writing: \u201cBear case Monday: There is no bear case until this flag breaks down at 5585-90."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We sold from this to 5493 last Thursday, then last Friday, took another leg down, I wrote last Thursday at 4pm: \u201cBear case tomorrow: Begins on the fail of 5493\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I warned about this on Friday at 4pm writing: \u201c Obviously a short squeeze is around the corner\u2026 My general lean for Monday is we resume down to 5400, perhaps 5372-78."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Those are both possible pivots to bounce us, with 5474-78 being an obvious backtest magnet \u201d."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Dead Cat Bounce, Or Bottom in SPX? Sept 10 Plan",
+  "post_date": "2024-09-09",
+  "post_slug": "dead-cat-bounce-or-bottom-in-spx",
+  "parsed_at": "2026-04-16T15:47:46.938893",
+  "body_length": 2065
+}

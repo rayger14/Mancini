@@ -1,0 +1,80 @@
+{
+  "trading_date": "2024-09-19",
+  "levels": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5700.0,
+      "role": "mentioned",
+      "context": "w this. We dipped to 5680-85, held exactly, then bounced to 5700+ before FOMC. Right after FOMC, we tagged 5680-85 again and"
+    },
+    {
+      "price": 5725.0,
+      "role": "level",
+      "context": "5725 level"
+    },
+    {
+      "price": 5760.0,
+      "role": "mentioned",
+      "context": "haps a final dip, then make the charge towards the ATH with 5760 en route. If 5680 fails, ES can try to snap its green day s"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5700.0,
+      "role": "mentioned",
+      "context": "w this. We dipped to 5680-85, held exactly, then bounced to 5700+ before FOMC. Right after FOMC, we tagged 5680-85 again and"
+    },
+    {
+      "price": 5725.0,
+      "role": "level",
+      "context": "5725 level"
+    },
+    {
+      "price": 5760.0,
+      "role": "mentioned",
+      "context": "haps a final dip, then make the charge towards the ATH with 5760 en route. If 5680 fails, ES can try to snap its green day s"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201c My general lean is always just to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter I\u2019l talk this, I\u2019ll talk about the action we saw around the 5680-85 level as this level demonstrated my core setup: The Failed Breakdown, multiple times this week."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Have SPX Bulls Finally Run Out Of Steam? September 19 Plan",
+  "post_date": "2024-09-18",
+  "post_slug": "have-spx-bulls-finally-run-out-of",
+  "parsed_at": "2026-04-16T15:47:37.643543",
+  "body_length": 2315
+}

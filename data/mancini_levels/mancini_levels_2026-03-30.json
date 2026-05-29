@@ -1,0 +1,87 @@
+{
+  "trading_date": "2026-03-30",
+  "levels": [
+    {
+      "price": 6524.0,
+      "role": "support",
+      "context": "6524 daily low"
+    },
+    {
+      "price": 6538.0,
+      "role": "mentioned",
+      "context": "neral lean is ES can try to backtest 6575. To do so though, 6538 must reclaim, otherwise we just keep grinding down.\u201d A quic"
+    },
+    {
+      "price": 6575.0,
+      "role": "mentioned",
+      "context": "sustain to end the selling. I was looking for a backtest of 6575 today. I wrote yesterday at 4pm: \u201cMy general lean is ES can"
+    },
+    {
+      "price": 6592.0,
+      "role": "resistance",
+      "context": "below 6592"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6524.0,
+      "role": "support",
+      "context": "6524 daily low"
+    },
+    {
+      "price": 6538.0,
+      "role": "mentioned",
+      "context": "neral lean is ES can try to backtest 6575. To do so though, 6538 must reclaim, otherwise we just keep grinding down.\u201d A quic"
+    },
+    {
+      "price": 6575.0,
+      "role": "mentioned",
+      "context": "sustain to end the selling. I was looking for a backtest of 6575 today. I wrote yesterday at 4pm: \u201cMy general lean is ES can"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6592.0,
+      "role": "resistance",
+      "context": "below 6592"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 4pm that: \u201cBear case tomorrow: Begins below 6592.\u201d We broke it down Thursday and sold to 6518 low of day yesterday ."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is ES can try to backtest 6575."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of the most powerful building blocks is elevator down sell (building block 1) into Failed Breakdown (building block 2), into short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down sell refers to a short period of time where ES flushes every support violently."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES went elevator down to 6484 by 3am."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Friday at 4pm: \u201cThis is where I get interested, and an obvious trade is the Failed Breakdown of today\u2019s 6524 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "4/5 Red Days This Week For SPX. Will Bulls Turn The Tide Next Week? March 30 Plan",
+  "post_date": "2026-03-29",
+  "post_slug": "45-red-days-this-week-for-spx-will-e1a",
+  "parsed_at": "2026-04-16T15:38:19.638251",
+  "body_length": 3812
+}

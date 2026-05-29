@@ -1,0 +1,113 @@
+{
+  "trading_date": "2025-05-21",
+  "levels": [
+    {
+      "price": 5882.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5885.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5893.0,
+      "role": "mentioned",
+      "context": "de. Cue the Black Monday calls, and ES flushed from 5970 to 5893 early Monday morning. This in turn, setup my core setup: Th"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    },
+    {
+      "price": 5970.0,
+      "role": "support",
+      "context": "hold 5970"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5882.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5885.0,
+      "role": "range",
+      "context": "5882-85"
+    },
+    {
+      "price": 5893.0,
+      "role": "mentioned",
+      "context": "de. Cue the Black Monday calls, and ES flushed from 5970 to 5893 early Monday morning. This in turn, setup my core setup: Th"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5970.0,
+      "role": "support",
+      "context": "hold 5970"
+    },
+    {
+      "price": 5975.0,
+      "role": "range",
+      "context": "5970-75"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend until it ends for tomorrow, bulls want to hold 5970/63 and 5925 if we get a slightly larger dip.\u201d We saw exactly this."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I have also stated very repetitiously though, institutions buy dips in a highly repetitive way, via my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This in turn, setup my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Friday at 4pm: \u201cBelow 5945 we work back down to that 5925 level again, and this is a big one\u2026 Ideally, I\u2019d look for a Failed Breakdown of today\u2019s low to long here.\u201d 5925 was Friday\u2019s daily low and we flushed it Sunday evening down to 5893, recovered it yesterday, and longs triggered for a large squeeze to 5990 last night."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we saw yesterday morning of 5925 which triggered yesterdays 60+ point squeeze, and I\u2019ll then discuss the actionable trade plan for tomorrow."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "[Re-Send With Chart] SPX Snaps Its 6 Green Day Win Streak. Will The Dip Get Bought? May 21 Plan",
+  "post_date": "2025-05-20",
+  "post_slug": "re-send-with-chart-spx-snaps-its",
+  "parsed_at": "2026-04-16T15:44:03.382296",
+  "body_length": 2776
+}

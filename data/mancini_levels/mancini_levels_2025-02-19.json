@@ -1,0 +1,133 @@
+{
+  "trading_date": "2025-02-19",
+  "levels": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "above 6116"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6116-20"
+    },
+    {
+      "price": 6138.0,
+      "role": "resistance",
+      "context": "below 6138"
+    },
+    {
+      "price": 6185.0,
+      "role": "range",
+      "context": "6185-88"
+    },
+    {
+      "price": 6188.0,
+      "role": "range",
+      "context": "6185-88"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "above 6116"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6116-20"
+    },
+    {
+      "price": 6185.0,
+      "role": "range",
+      "context": "6185-88"
+    },
+    {
+      "price": 6188.0,
+      "role": "range",
+      "context": "6185-88"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6138.0,
+      "role": "resistance",
+      "context": "below 6138"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking for more some upside into Monday/Tuesday afterwards, and I wrote on Friday at 4pm: \u201cThe ultra bull case for Monday Tuesday is that ES can defend the three week flag breakout at 6116-20 that we saw yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then - like 90% of selloffs in ES in an uptrend - those dips were bear traps and we got my core setup: The Failed Breakdown, the last three Sundays in a row shortly after the open leading to a rally that lasted until Friday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We gapped down to 6016-20 exactly off last Sundays open, put in a large Failed Breakdown of the prior Wednesdays 6020 and longs were triggered for the week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a massive Failed Breakdown we had on Thursday morning which propelled last Thursdays/Fridays rally (this was of the \u201ccomplex\u201d variety)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last week was a masterclass for Failed Breakdowns and we had at least one per day."
+    },
+    {
+      "type": "TARGETS",
+      "text": "I said we\u2019d be heading to 6129 and where did we close last week?"
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "Its Been A Week Straight Of Upside For SPX. How Much More Is In The Tank? Feb 19 Plan",
+  "post_date": "2025-02-18",
+  "post_slug": "its-been-a-week-straight-of-upside",
+  "parsed_at": "2026-04-16T15:45:24.820974",
+  "body_length": 2099
+}

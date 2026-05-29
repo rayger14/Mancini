@@ -1,0 +1,116 @@
+{
+  "trading_date": "2024-12-02",
+  "levels": [
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5993-88"
+    },
+    {
+      "price": 5993.0,
+      "role": "range",
+      "context": "5993-88"
+    },
+    {
+      "price": 6025.0,
+      "role": "range",
+      "context": "6025-28"
+    },
+    {
+      "price": 6028.0,
+      "role": "range",
+      "context": "6025-28"
+    },
+    {
+      "price": 6040.0,
+      "role": "range",
+      "context": "5993-6040"
+    },
+    {
+      "price": 6045.0,
+      "role": "range",
+      "context": "6045-50"
+    },
+    {
+      "price": 6050.0,
+      "role": "range",
+      "context": "6045-50"
+    },
+    {
+      "price": 6069.0,
+      "role": "mentioned",
+      "context": "a final one there . From there the next leg higher targets 6069, then 6089 as 1st stops\u201d. This played out to perfection, an"
+    },
+    {
+      "price": 6089.0,
+      "role": "mentioned",
+      "context": "e there . From there the next leg higher targets 6069, then 6089 as 1st stops\u201d. This played out to perfection, and we got to"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5993-88"
+    },
+    {
+      "price": 5993.0,
+      "role": "range",
+      "context": "5993-88"
+    },
+    {
+      "price": 6025.0,
+      "role": "range",
+      "context": "6025-28"
+    },
+    {
+      "price": 6028.0,
+      "role": "range",
+      "context": "6025-28"
+    },
+    {
+      "price": 6040.0,
+      "role": "range",
+      "context": "5993-6040"
+    },
+    {
+      "price": 6045.0,
+      "role": "range",
+      "context": "6045-50"
+    },
+    {
+      "price": 6050.0,
+      "role": "range",
+      "context": "6045-50"
+    },
+    {
+      "price": 6069.0,
+      "role": "mentioned",
+      "context": "a final one there . From there the next leg higher targets 6069, then 6089 as 1st stops\u201d. This played out to perfection, an"
+    },
+    {
+      "price": 6089.0,
+      "role": "mentioned",
+      "context": "e there . From there the next leg higher targets 6069, then 6089 as 1st stops\u201d. This played out to perfection, and we got to"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "I will also do a deep dive into the setup that caused the strength we saw since Monday, as we saw a rare \u201cA+\u201d example of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "You can use this failed breakdown as a standard through which to compare others."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Biggest Green Month Of 2024 For SPX. Can December Keep It Up? Dec 2nd Plan",
+  "post_date": "2024-12-01",
+  "post_slug": "biggest-green-month-of-2024-for-spx-e81",
+  "parsed_at": "2026-04-16T15:46:30.366954",
+  "body_length": 2470
+}

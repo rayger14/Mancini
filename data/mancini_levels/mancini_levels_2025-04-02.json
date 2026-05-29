@@ -1,0 +1,171 @@
+{
+  "trading_date": "2025-04-02",
+  "levels": [
+    {
+      "price": 5536.0,
+      "role": "mentioned",
+      "context": "we flushed 5565 (March 13th low), put in a big wick down to 5536, and recovered to trigger a monster 150+ point squeeze. For"
+    },
+    {
+      "price": 5565.0,
+      "role": "mentioned",
+      "context": "and this remains a strong zone .\u201d At 10am Monday we flushed 5565 (March 13th low), put in a big wick down to 5536, and recov"
+    },
+    {
+      "price": 5585.0,
+      "role": "resistance",
+      "context": "Below 5585"
+    },
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "we can flush it and recover with momentum (ideally down to 5600) I\u2019d long.\u201d Today at 10am, we got exactly this and we flush"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5650.0,
+      "role": "target",
+      "context": "target 5650"
+    },
+    {
+      "price": 5686.0,
+      "role": "mentioned",
+      "context": "To do this, 5620-25 has to recover. This would target 5650, 5686, then 5711/5728-30.\u201d We got to 5686+today. While its been a"
+    },
+    {
+      "price": 5711.0,
+      "role": "mentioned",
+      "context": "5620-25 has to recover. This would target 5650, 5686, then 5711/5728-30.\u201d We got to 5686+today. While its been a great rall"
+    },
+    {
+      "price": 5720.0,
+      "role": "level",
+      "context": "5720 level"
+    },
+    {
+      "price": 5728.0,
+      "role": "range",
+      "context": "5728-30"
+    },
+    {
+      "price": 5730.0,
+      "role": "range",
+      "context": "5728-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5536.0,
+      "role": "mentioned",
+      "context": "we flushed 5565 (March 13th low), put in a big wick down to 5536, and recovered to trigger a monster 150+ point squeeze. For"
+    },
+    {
+      "price": 5565.0,
+      "role": "mentioned",
+      "context": "and this remains a strong zone .\u201d At 10am Monday we flushed 5565 (March 13th low), put in a big wick down to 5536, and recov"
+    },
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "we can flush it and recover with momentum (ideally down to 5600) I\u2019d long.\u201d Today at 10am, we got exactly this and we flush"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5686.0,
+      "role": "mentioned",
+      "context": "To do this, 5620-25 has to recover. This would target 5650, 5686, then 5711/5728-30.\u201d We got to 5686+today. While its been a"
+    },
+    {
+      "price": 5711.0,
+      "role": "mentioned",
+      "context": "5620-25 has to recover. This would target 5650, 5686, then 5711/5728-30.\u201d We got to 5686+today. While its been a great rall"
+    },
+    {
+      "price": 5720.0,
+      "role": "level",
+      "context": "5720 level"
+    },
+    {
+      "price": 5728.0,
+      "role": "range",
+      "context": "5728-30"
+    },
+    {
+      "price": 5730.0,
+      "role": "range",
+      "context": "5728-30"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5585.0,
+      "role": "resistance",
+      "context": "Below 5585"
+    },
+    {
+      "price": 5650.0,
+      "role": "target",
+      "context": "target 5650"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I\u2019ll be watching the reaction here though and if we can flush it and recover with momentum (ideally down to 5600) I\u2019d long.\u201d Today at 10am, we got exactly this and we flushed down to 5600 to the tick, recovered 5620, and squeezed 70 points Back on Friday I stated: \u201cMy general lean is that ES can do some backtesting on Monday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know I frequently talk about how in the context of a downtrend ES does two things: It goes \u201celevator down\u201d and then it \u201cshort squeezes\u201d and each of those correlates to one of my three setup types."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Friday morning, we lost it, Breakdown Shorts were triggered, and we went \u201celevator down\u201d for nearly 200 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After \u201cElevator Down\u201d sells however comes violent short squeezes and short squeezes are caused by my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A Failed Breakdown here would be very much of interest and this remains a strong zone .\u201d At 10am Monday we flushed 5565 (March 13th low), put in a big wick down to 5536, and recovered to trigger a monster 150+ point squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For those who missed that squeeze though, today delivered another Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Since bears control I am in no rush to insta-buy this or any support (my preference is always high quality Failed Breakdowns)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today's newsletter I'll talk this, I'll discuss yesterday's Failed Breakdown in detail as its an excellent example of my core setup."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 10,
+  "resistance_count": 2,
+  "post_title": "\"Tariff Day\" Tomorrow. Can SPX Bulls Keep The Rally Going? April 2nd Plan",
+  "post_date": "2025-04-01",
+  "post_slug": "tariff-day-tomorrow-can-spx-bulls",
+  "parsed_at": "2026-04-16T15:44:47.087560",
+  "body_length": 2116
+}

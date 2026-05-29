@@ -1,0 +1,64 @@
+{
+  "trading_date": "2024-11-18",
+  "levels": [
+    {
+      "price": 5886.0,
+      "role": "mentioned",
+      "context": "d bull case in any way shape or form\u201d Today, we got down to 5886. The question now becomes, is this a buyable dip, or is mor"
+    },
+    {
+      "price": 5991.0,
+      "role": "mentioned",
+      "context": "ort below the lows of that bounce. It may be something like 5991 but could be higher\u2026.below there we could unwind quite hard"
+    },
+    {
+      "price": 5998.0,
+      "role": "mentioned",
+      "context": "esday at 4pm: \u201cBear case tomorrow: Begins on the failure of 5998\u2026.I\u2019d look short below the lows of that bounce. It may be so"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5886.0,
+      "role": "mentioned",
+      "context": "d bull case in any way shape or form\u201d Today, we got down to 5886. The question now becomes, is this a buyable dip, or is mor"
+    },
+    {
+      "price": 5991.0,
+      "role": "mentioned",
+      "context": "ort below the lows of that bounce. It may be something like 5991 but could be higher\u2026.below there we could unwind quite hard"
+    },
+    {
+      "price": 5998.0,
+      "role": "mentioned",
+      "context": "esday at 4pm: \u201cBear case tomorrow: Begins on the failure of 5998\u2026.I\u2019d look short below the lows of that bounce. It may be so"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Yesterday, we broke the 2 day structure down and I wrote at Wednesday at 4pm: \u201cBear case tomorrow: Begins on the failure of 5998\u2026.I\u2019d look short below the lows of that bounce."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As I\u2019ve said for days because of how substantial this rally has been we could easily pullback 100, or 200 or even 300 points and it wouldn\u2019t hurt the bull case at all."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I\u2019d see a pullback all the way down to 5886 or so as being very healthy and it wouldn\u2019t harm the broad bull case in any way shape or form\u201d Today, we got down to 5886."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is a rare setup type, and its entire purpose is to filter the real breakdowns out from the traps/Failed Breakdowns."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "Largest Red Week Since September 3rd For SPX. Buyable Dip, or More Red Ahead? November 18th Plan",
+  "post_date": "2024-11-17",
+  "post_slug": "largest-red-week-since-september-53b",
+  "parsed_at": "2026-04-16T15:46:43.212505",
+  "body_length": 2555
+}

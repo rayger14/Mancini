@@ -1,0 +1,36 @@
+{
+  "trading_date": "2024-12-30",
+  "levels": [
+    {
+      "price": 5907.0,
+      "role": "mentioned",
+      "context": "ger what ended up being the largest red day of 2024 down to 5907 that day. Break-down zones like this however, become magnet"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5907.0,
+      "role": "mentioned",
+      "context": "ger what ended up being the largest red day of 2024 down to 5907 that day. Break-down zones like this however, become magnet"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Friday Friday December 20th: \u201cMy general lean is that ES can make its way up to the back-test of 6099\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into one of the questions I get most often especially pertaining to my core setup: The Failed Breakdown."
+    }
+  ],
+  "level_count": 1,
+  "support_count": 1,
+  "resistance_count": 0,
+  "post_title": "Will The Holiday Crash In SPX Get Sustainably Bought? Dec 30 Plan",
+  "post_date": "2024-12-29",
+  "post_slug": "will-the-holiday-crash-in-spx-get-58b",
+  "parsed_at": "2026-04-16T15:46:06.539872",
+  "body_length": 1865
+}

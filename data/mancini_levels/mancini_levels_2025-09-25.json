@@ -1,0 +1,89 @@
+{
+  "trading_date": "2025-09-25",
+  "levels": [
+    {
+      "price": 6611.0,
+      "role": "mentioned",
+      "context": "FOMC last Wednesday where ES flushed violently 75 points to 6611 low of day. This setup the Failed Breakdown. I wrote way ba"
+    },
+    {
+      "price": 6699.0,
+      "role": "support",
+      "context": "6699 support"
+    },
+    {
+      "price": 6702.0,
+      "role": "resistance",
+      "context": "lose 6702"
+    },
+    {
+      "price": 6711.0,
+      "role": "range",
+      "context": "6714-11"
+    },
+    {
+      "price": 6714.0,
+      "role": "range",
+      "context": "6714-11"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6611.0,
+      "role": "mentioned",
+      "context": "FOMC last Wednesday where ES flushed violently 75 points to 6611 low of day. This setup the Failed Breakdown. I wrote way ba"
+    },
+    {
+      "price": 6699.0,
+      "role": "support",
+      "context": "6699 support"
+    },
+    {
+      "price": 6711.0,
+      "role": "range",
+      "context": "6714-11"
+    },
+    {
+      "price": 6714.0,
+      "role": "range",
+      "context": "6714-11"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6702.0,
+      "role": "resistance",
+      "context": "lose 6702"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cMy general lean is always just to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: Begins below 6699.\u201d We lost 6699, and sold 20 points rapidly."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that institutions buy dips via my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This setup the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Does the dip have more in the tank?In today\u2019s newsletter I\u2019ll discuss this, I\u2019ll run down multiple quality setups we\u2019ve had in the last week and we\u2019ve seen just in the past few days Failed Breakdowns, Failed Breakdown Re-Tests, and Level Reclaims, three variants of my core setup."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "A Rare Two Days In A Row For SPX - First In A Month. Will SPX Do 3? Sept 25 Plan",
+  "post_date": "2025-09-24",
+  "post_slug": "a-rare-two-days-in-a-row-for-spx",
+  "parsed_at": "2026-04-16T15:42:10.254515",
+  "body_length": 2420
+}

@@ -1,0 +1,139 @@
+{
+  "trading_date": "2025-06-19",
+  "levels": [
+    {
+      "price": 5979.0,
+      "role": "support",
+      "context": "5979 support"
+    },
+    {
+      "price": 6026.0,
+      "role": "mentioned",
+      "context": "y to ~6076 high of day. Then after FOMC, we flushed down to 6026. I wrote yesterday at 4pm: \u201c6034 is first down. This is alr"
+    },
+    {
+      "price": 6027.0,
+      "role": "support",
+      "context": "above 6027"
+    },
+    {
+      "price": 6034.0,
+      "role": "mentioned",
+      "context": "r FOMC, we flushed down to 6026. I wrote yesterday at 4pm: \u201c6034 is first down. This is already well tested this afternoon."
+    },
+    {
+      "price": 6045.0,
+      "role": "range",
+      "context": "6045-50"
+    },
+    {
+      "price": 6050.0,
+      "role": "support",
+      "context": "recover 6050"
+    },
+    {
+      "price": 6076.0,
+      "role": "mentioned",
+      "context": "chine today, recovering multiple times for a good rally to ~6076 high of day. Then after FOMC, we flushed down to 6026. I wr"
+    },
+    {
+      "price": 6099.0,
+      "role": "resistance",
+      "context": "6099 resistance"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5979.0,
+      "role": "support",
+      "context": "5979 support"
+    },
+    {
+      "price": 6026.0,
+      "role": "mentioned",
+      "context": "y to ~6076 high of day. Then after FOMC, we flushed down to 6026. I wrote yesterday at 4pm: \u201c6034 is first down. This is alr"
+    },
+    {
+      "price": 6027.0,
+      "role": "support",
+      "context": "above 6027"
+    },
+    {
+      "price": 6034.0,
+      "role": "mentioned",
+      "context": "r FOMC, we flushed down to 6026. I wrote yesterday at 4pm: \u201c6034 is first down. This is already well tested this afternoon."
+    },
+    {
+      "price": 6045.0,
+      "role": "range",
+      "context": "6045-50"
+    },
+    {
+      "price": 6050.0,
+      "role": "support",
+      "context": "recover 6050"
+    },
+    {
+      "price": 6076.0,
+      "role": "mentioned",
+      "context": "chine today, recovering multiple times for a good rally to ~6076 high of day. Then after FOMC, we flushed down to 6026. I wr"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6099.0,
+      "role": "resistance",
+      "context": "6099 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cIn a strong bull case, ES won\u2019t even re-test 5978."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I concluded yesterdays newsletter by stating: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "To do that, we need a setup, and for me, this means Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Thursday evening, the above two points and Failed Breakdown married together nicely."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm in preparation that \u201cI especially like the Failed Breakdown of last Thursdays 5981 low especially if we tag 5978 first.\u201d What did we see Thursday evening?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I\u2019d prefer to see a Failed Breakdown of this afternoons lows to long here, ideal would be if it can tag 6026 first.\u201d At 3pm, we hit 6026 *exact* recovered 6034, and rallied to 6045-50 again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a quality Failed Breakdown we had right off the Sunday open this week at 6028 (provided to readers on Friday) which triggered an 80 point leg up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Sunday Gap Down Failed Breakdowns are one of my favorite setups."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "2) Since June 5th, ES had found itself stuck in a range with 5979 support, 6099 resistance, and a 6050 magnet in between."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Today was a goldmine for level to level traders but ultimately we spent it mostly at the 6050 magnet."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "SPX Is Coiled Ultra Tight *Again* For A Move. What Way? June 19/20 Plan",
+  "post_date": "2025-06-18",
+  "post_slug": "spx-is-coiled-ultra-tight-again-for",
+  "parsed_at": "2026-04-16T15:43:37.941798",
+  "body_length": 3014
+}

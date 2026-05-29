@@ -1,0 +1,115 @@
+{
+  "trading_date": "2025-01-08",
+  "levels": [
+    {
+      "price": 5875.0,
+      "role": "mentioned",
+      "context": "elf which was critical all last week (we flushed it down to 5875 Thursday and recovered). We hit 5988 by Friday\u2019s close to b"
+    },
+    {
+      "price": 5918.0,
+      "role": "support",
+      "context": "5918 support"
+    },
+    {
+      "price": 5922.0,
+      "role": "range",
+      "context": "5918-22"
+    },
+    {
+      "price": 5988.0,
+      "role": "mentioned",
+      "context": "(we flushed it down to 5875 Thursday and recovered). We hit 5988 by Friday\u2019s close to break the 5 day red streak. Then to st"
+    },
+    {
+      "price": 5997.0,
+      "role": "target",
+      "context": "target 5997"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "he 1st green day in 6\u2026This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d We hit 6070 yester"
+    },
+    {
+      "price": 6043.0,
+      "role": "mentioned",
+      "context": "ilure of 5997\u201d and after a good pop to start the session to 6043, ES lost 5997 to trigger down. The New Year bounce was sold"
+    },
+    {
+      "price": 6070.0,
+      "role": "mentioned",
+      "context": "n day in 6\u2026This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d We hit 6070 yesterday, and ES"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5875.0,
+      "role": "mentioned",
+      "context": "elf which was critical all last week (we flushed it down to 5875 Thursday and recovered). We hit 5988 by Friday\u2019s close to b"
+    },
+    {
+      "price": 5918.0,
+      "role": "support",
+      "context": "5918 support"
+    },
+    {
+      "price": 5922.0,
+      "role": "range",
+      "context": "5918-22"
+    },
+    {
+      "price": 5988.0,
+      "role": "mentioned",
+      "context": "(we flushed it down to 5875 Thursday and recovered). We hit 5988 by Friday\u2019s close to break the 5 day red streak. Then to st"
+    },
+    {
+      "price": 6038.0,
+      "role": "mentioned",
+      "context": "he 1st green day in 6\u2026This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d We hit 6070 yester"
+    },
+    {
+      "price": 6043.0,
+      "role": "mentioned",
+      "context": "ilure of 5997\u201d and after a good pop to start the session to 6043, ES lost 5997 to trigger down. The New Year bounce was sold"
+    },
+    {
+      "price": 6070.0,
+      "role": "mentioned",
+      "context": "n day in 6\u2026This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d We hit 6070 yesterday, and ES"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5997.0,
+      "role": "target",
+      "context": "target 5997"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Due to this, I was looking for a relief rally to commence, starting Thursday at 4pm when I wrote: \u201cIf I had to throw [my lean] out there, its that after 5 big red days, ES can try to recover the 5918-22 zone and put in a rally to 5973, 5988+\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Then to start this week - with the above mentioned Failed Breakdown propelling price , I was looking for price to follow this up, writing Friday at 4pm: \u201cMy general lean is that ES can try to follow up this rally more given this was the 1st green day in 6\u2026This next leg would target 5997, then 6038, then 6070 if bulls really want to run.\u201d We hit 6070 yesterday, and ES managed to string together two green days in a row."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: Begins on the failure of 5997\u201d and after a good pop to start the session to 6043, ES lost 5997 to trigger down."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The setup which started this was my core setup: A massive Failed Breakdown of the 5918 support shelf which was critical all last week (we flushed it down to 5875 Thursday and recovered)."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "The New Year Relief Bounce Is SPX Has Been Sold. Now What? Jan 8th Plan",
+  "post_date": "2025-01-07",
+  "post_slug": "the-new-year-relief-bounce-is-spx",
+  "parsed_at": "2026-04-16T15:45:59.073391",
+  "body_length": 2043
+}

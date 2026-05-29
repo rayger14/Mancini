@@ -1,0 +1,66 @@
+{
+  "trading_date": "2024-12-31",
+  "levels": [
+    {
+      "price": 5942.0,
+      "role": "mentioned",
+      "context": "until 5942 from there.\u201d By the open today, we had sold into 5942, then deeper into 5920s. We remain in \u201csell the bounce\u201d mod"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "December 24th: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone to grab some points.\u201d We sold hard in p"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5942.0,
+      "role": "mentioned",
+      "context": "until 5942 from there.\u201d By the open today, we had sold into 5942, then deeper into 5920s. We remain in \u201csell the bounce\u201d mod"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "December 24th: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone to grab some points.\u201d We sold hard in p"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Its why I wrote back on December 20th: \u201cMy general lean is that ES can make its way up to the back-test of 6099\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Its why I wrote Tuesday December 24th: \u201cThe obvious zone to try shorts would be the 6098 major backtest zone to grab some points.\u201d We sold hard in particular on Friday off this back-test, but for those who missed the 6100 or so short, we had built a nice support shelf at 6066-70 on last Monday/Tuesday which would serve as a spot to add shorts, and I wrote Thursday at 4pm \u201c the fail of 6066 could give us a good sell \u201d."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "Will Today's Mini SPX Bounce Get Sold Like All The Others? Dec 31st Plan",
+  "post_date": "2024-12-30",
+  "post_slug": "will-todays-mini-spx-bounce-get-sold",
+  "parsed_at": "2026-04-16T15:46:05.325533",
+  "body_length": 1907
+}

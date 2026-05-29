@@ -1,0 +1,83 @@
+{
+  "trading_date": "2024-10-04",
+  "levels": [
+    {
+      "price": 5729.0,
+      "role": "mentioned",
+      "context": "ove 5734\u201d. We saw this setup yesterday where we flushed to ~5729, reclaimed 5734 and squeezed to 5770s. We saw it again over"
+    },
+    {
+      "price": 5734.0,
+      "role": "support",
+      "context": "above 5734"
+    },
+    {
+      "price": 5739.0,
+      "role": "resistance",
+      "context": "below 5739"
+    },
+    {
+      "price": 5777.0,
+      "role": "level",
+      "context": "5777 level"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5729.0,
+      "role": "mentioned",
+      "context": "ove 5734\u201d. We saw this setup yesterday where we flushed to ~5729, reclaimed 5734 and squeezed to 5770s. We saw it again over"
+    },
+    {
+      "price": 5734.0,
+      "role": "support",
+      "context": "above 5734"
+    },
+    {
+      "price": 5777.0,
+      "role": "level",
+      "context": "5777 level"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5739.0,
+      "role": "resistance",
+      "context": "below 5739"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Tuesday on the 1st day of October, ES gave the opportunity for my 1st short in 3 weeks, when we lost the 5777 level and I wrote back in my Monday newsletter: \u201cBear case tomorrow: Begins again on the fail of 5777\u2026."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "5777 failed Tuesday morning, shorts triggered, producing an elevator down move to 5730s on Wednesday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Namely, in ES all \u201celevator down\u201d selloffs have a sibling, and these siblings are never very far apart."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Below there, possible options include a failed breakdown of today\u2019s low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll talk a little about these failed breakdowns we saw that triggered yesterdays and today\u2019s longs, but I will also devote some time to going deeper into my other two setup types (Backtests and Breakdowns) that we saw earlier this week."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "I wrote in my Tuesday 4pm newsletter: \u201c5739 was a key support today, and it may have 1 bid left in it, but risky."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "SPX Is Coiled Tight To Make A Move. What Way? Oct 4 Plan",
+  "post_date": "2024-10-03",
+  "post_slug": "spx-is-coiled-tight-to-make-a-move",
+  "parsed_at": "2026-04-16T15:47:23.551708",
+  "body_length": 2261
+}

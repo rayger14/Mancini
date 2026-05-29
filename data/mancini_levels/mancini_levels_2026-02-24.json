@@ -1,0 +1,228 @@
+{
+  "trading_date": "2026-02-24",
+  "levels": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "\u2019s 6808 daily low.\u201d Last Tuesday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+. We saw the ex"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "daily low at 6808"
+    },
+    {
+      "price": 6847.0,
+      "role": "mentioned",
+      "context": "ng we swept the Thursday daily low by half a point (down to 6847.25), recovered, and ripped all day. I wrote on Thursday at"
+    },
+    {
+      "price": 6848.0,
+      "role": "support",
+      "context": "6848 daily low"
+    },
+    {
+      "price": 6849.0,
+      "role": "support",
+      "context": "support at 6849"
+    },
+    {
+      "price": 6860.0,
+      "role": "mentioned",
+      "context": "flushed down to 6791, recovered 6808, and we ripped hard to 6860+. We saw the exact same dynamic on Friday just passed. I wr"
+    },
+    {
+      "price": 6870.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cES is rangebound now 6849 to 6925, with 6894 and 6870 being pivots inside it. There is a million permutations on"
+    },
+    {
+      "price": 6884.0,
+      "role": "mentioned",
+      "context": "sday at 4pm that the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big ma"
+    },
+    {
+      "price": 6894.0,
+      "role": "mentioned",
+      "context": "on Friday at 4pm: \u201cES is rangebound now 6849 to 6925, with 6894 and 6870 being pivots inside it. There is a million permuta"
+    },
+    {
+      "price": 6898.0,
+      "role": "mentioned",
+      "context": "the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "arget for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted"
+    },
+    {
+      "price": 6925.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6930.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6935.0,
+      "role": "mentioned",
+      "context": "rend. ES can fill this range out, then breakout leg targets 6935, 6949-52 (to backtest where we broke down last Thursday).\u201d"
+    },
+    {
+      "price": 6949.0,
+      "role": "range",
+      "context": "6949-52"
+    },
+    {
+      "price": 6952.0,
+      "role": "range",
+      "context": "6949-52"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted no time on this, ge"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "\u2019s 6808 daily low.\u201d Last Tuesday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+. We saw the ex"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "daily low at 6808"
+    },
+    {
+      "price": 6847.0,
+      "role": "mentioned",
+      "context": "ng we swept the Thursday daily low by half a point (down to 6847.25), recovered, and ripped all day. I wrote on Thursday at"
+    },
+    {
+      "price": 6848.0,
+      "role": "support",
+      "context": "6848 daily low"
+    },
+    {
+      "price": 6849.0,
+      "role": "support",
+      "context": "support at 6849"
+    },
+    {
+      "price": 6860.0,
+      "role": "mentioned",
+      "context": "flushed down to 6791, recovered 6808, and we ripped hard to 6860+. We saw the exact same dynamic on Friday just passed. I wr"
+    },
+    {
+      "price": 6870.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cES is rangebound now 6849 to 6925, with 6894 and 6870 being pivots inside it. There is a million permutations on"
+    },
+    {
+      "price": 6884.0,
+      "role": "mentioned",
+      "context": "sday at 4pm that the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big ma"
+    },
+    {
+      "price": 6894.0,
+      "role": "mentioned",
+      "context": "on Friday at 4pm: \u201cES is rangebound now 6849 to 6925, with 6894 and 6870 being pivots inside it. There is a million permuta"
+    },
+    {
+      "price": 6898.0,
+      "role": "mentioned",
+      "context": "the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "arget for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted"
+    },
+    {
+      "price": 6925.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6930.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6935.0,
+      "role": "mentioned",
+      "context": "rend. ES can fill this range out, then breakout leg targets 6935, 6949-52 (to backtest where we broke down last Thursday).\u201d"
+    },
+    {
+      "price": 6949.0,
+      "role": "range",
+      "context": "6949-52"
+    },
+    {
+      "price": 6952.0,
+      "role": "range",
+      "context": "6949-52"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted no time on this, ge"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean though is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I\u2019ve discussed at length however, it is easy to say something like \u201cbuy a dip\u201d but knowing when and where is another story."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Fortunately, insitutions only buy dips in one way: Via my core setup - the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In the morning we went elevator down 70+ points down to 6791."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Friday February 13th at 4pm: \u201cIf this is the case, the obvious entry is to wait for 6795 to defend (doesn\u2019t need to be exact) then recover today\u2019s 6808 daily low.\u201d Last Tuesday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Thursday at 4pm: \u201cThe very obvious trade here is the Failed Breakdown of today\u2019s 6848 daily low.\u201d Around 9:30AM on Friday morning we swept the Thursday daily low by half a point (down to 6847.25), recovered, and ripped all day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "I wrote on Thursday at 4pm that the target for this rally was \u201cTargets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted no time on this, getting to 6925-30 by 10:05AM and topped out Friday there for the day."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "In doing so, ES lost Friday\u2019s daily low at 6808."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote on Friday at 4pm: \u201cES is rangebound now 6849 to 6925, with 6894 and 6870 being pivots inside it."
+    }
+  ],
+  "level_count": 17,
+  "support_count": 17,
+  "resistance_count": 0,
+  "post_title": "For 1 Week SPX Has Been Rangebound. Is It Ready To Leave? Feb 24 Plan",
+  "post_date": "2026-02-23",
+  "post_slug": "for-1-week-spx-has-been-rangebound",
+  "parsed_at": "2026-04-16T15:38:50.437093",
+  "body_length": 2350
+}

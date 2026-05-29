@@ -16,7 +16,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from config.levels import LevelStore
+from config.levels import LevelStore, LevelType
 from config.settings import ElevatorParams, DEFAULT_ELEVATOR
 
 
@@ -237,6 +237,17 @@ class ElevatorDownDetector:
         self.current_event = None
         return event
 
+    # Support-type levels: only these count as "broken" during an elevator down.
+    # Resistance levels above price are not broken supports.
+    _SUPPORT_TYPES = frozenset({
+        LevelType.PRIOR_DAY_LOW,
+        LevelType.MULTI_HOUR_LOW,
+        LevelType.SWING_LOW,
+        LevelType.CLUSTER_LOW,
+        LevelType.HORIZONTAL_SR,
+        LevelType.INTRADAY_LOW,
+    })
+
     def _count_broken_levels(
         self, price: float, level_store: LevelStore, as_of: datetime
     ) -> None:
@@ -244,7 +255,10 @@ class ElevatorDownDetector:
         if self.current_event is None:
             return
         confirmed = level_store.get_confirmed(as_of)
-        broken = sum(1 for l in confirmed if l.price > price)
+        broken = sum(
+            1 for l in confirmed
+            if l.price > price and l.level_type in self._SUPPORT_TYPES
+        )
         self.current_event.levels_broken = max(
             self.current_event.levels_broken, broken
         )

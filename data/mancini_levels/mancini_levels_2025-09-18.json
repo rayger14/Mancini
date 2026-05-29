@@ -1,0 +1,114 @@
+{
+  "trading_date": "2025-09-18",
+  "levels": [
+    {
+      "price": 6621.0,
+      "role": "mentioned",
+      "context": "eeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st down, a key back-test.\u201d Prior to FOMC, we sold to 6651"
+    },
+    {
+      "price": 6644.0,
+      "role": "support",
+      "context": "defend 6644"
+    },
+    {
+      "price": 6651.0,
+      "role": "support",
+      "context": "hold 6651"
+    },
+    {
+      "price": 6681.0,
+      "role": "mentioned",
+      "context": "s want to hold 6651 (or any traps below bought). This keeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st"
+    },
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "to hold 6651 (or any traps below bought). This keeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st down,"
+    },
+    {
+      "price": 6695.0,
+      "role": "mentioned",
+      "context": "defended 6644 off the 6pm Sunday futures open, then ran to 6695+ Monday, then dipped yesterday That took us into FOMC today"
+    },
+    {
+      "price": 6708.0,
+      "role": "mentioned",
+      "context": "ld 6651 (or any traps below bought). This keeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st down, a key"
+    },
+    {
+      "price": 6734.0,
+      "role": "mentioned",
+      "context": "1 (or any traps below bought). This keeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st down, a key back-t"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6621.0,
+      "role": "mentioned",
+      "context": "eeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st down, a key back-test.\u201d Prior to FOMC, we sold to 6651"
+    },
+    {
+      "price": 6644.0,
+      "role": "support",
+      "context": "defend 6644"
+    },
+    {
+      "price": 6651.0,
+      "role": "support",
+      "context": "hold 6651"
+    },
+    {
+      "price": 6681.0,
+      "role": "mentioned",
+      "context": "s want to hold 6651 (or any traps below bought). This keeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st"
+    },
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "to hold 6651 (or any traps below bought). This keeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st down,"
+    },
+    {
+      "price": 6695.0,
+      "role": "mentioned",
+      "context": "defended 6644 off the 6pm Sunday futures open, then ran to 6695+ Monday, then dipped yesterday That took us into FOMC today"
+    },
+    {
+      "price": 6708.0,
+      "role": "mentioned",
+      "context": "ld 6651 (or any traps below bought). This keeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st down, a key"
+    },
+    {
+      "price": 6734.0,
+      "role": "mentioned",
+      "context": "1 (or any traps below bought). This keeps 6681, 6690, 6708, 6734+ live. If 6651 fails, we dip to 6621 1st down, a key back-t"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday 4pm: \u201cThere is a small active Failed Breakdown right now\u2026my general lean is ES can defend 6644 which sets up 6655, consolidate, then 6670, 6688+.\u201d We saw saw exactly this Monday."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close yesterday: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On the chart, they leave behind a footprint when they do this, and that footprint is my core setup: The Failed Breakdown ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we had late day Friday/Sunday that gave us the squeeze into this weeks high (this is important to know because it is what I call a delayed entry Failed Breakdown)."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Massive FOMC Volatility To Go Nowhere For SPX. Are Bulls Safe? Sept 18 Plan",
+  "post_date": "2025-09-17",
+  "post_slug": "massive-fomc-volatility-to-go-nowhere",
+  "parsed_at": "2026-04-16T15:42:16.564634",
+  "body_length": 2771
+}

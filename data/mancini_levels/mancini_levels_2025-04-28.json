@@ -1,0 +1,125 @@
+{
+  "trading_date": "2025-04-28",
+  "levels": [
+    {
+      "price": 5475.0,
+      "role": "mentioned",
+      "context": "pm that: \u201cMy general lean is we can fill out the 5377/87 to 5475 range more. Breakout of this would target 5515, 5529+.\u201d Yes"
+    },
+    {
+      "price": 5493.0,
+      "role": "mentioned",
+      "context": "p sees 5515, 5532, then 5565-75.\u201d This morning we dipped to 5493, got the long trigger, and ran up the targets Dips were bou"
+    },
+    {
+      "price": 5515.0,
+      "role": "target",
+      "context": "target 5515"
+    },
+    {
+      "price": 5529.0,
+      "role": "mentioned",
+      "context": "/87 to 5475 range more. Breakout of this would target 5515, 5529+.\u201d Yesterday afternoon, we hit 5515 exact, which was the hi"
+    },
+    {
+      "price": 5532.0,
+      "role": "mentioned",
+      "context": "mentioned above [5493 was 1st down]. Next leg up sees 5515, 5532, then 5565-75.\u201d This morning we dipped to 5493, got the lon"
+    },
+    {
+      "price": 5565.0,
+      "role": "range",
+      "context": "5565-75"
+    },
+    {
+      "price": 5575.0,
+      "role": "range",
+      "context": "5565-75"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5475.0,
+      "role": "mentioned",
+      "context": "pm that: \u201cMy general lean is we can fill out the 5377/87 to 5475 range more. Breakout of this would target 5515, 5529+.\u201d Yes"
+    },
+    {
+      "price": 5493.0,
+      "role": "mentioned",
+      "context": "p sees 5515, 5532, then 5565-75.\u201d This morning we dipped to 5493, got the long trigger, and ran up the targets Dips were bou"
+    },
+    {
+      "price": 5529.0,
+      "role": "mentioned",
+      "context": "/87 to 5475 range more. Breakout of this would target 5515, 5529+.\u201d Yesterday afternoon, we hit 5515 exact, which was the hi"
+    },
+    {
+      "price": 5532.0,
+      "role": "mentioned",
+      "context": "mentioned above [5493 was 1st down]. Next leg up sees 5515, 5532, then 5565-75.\u201d This morning we dipped to 5493, got the lon"
+    },
+    {
+      "price": 5565.0,
+      "role": "range",
+      "context": "5565-75"
+    },
+    {
+      "price": 5575.0,
+      "role": "range",
+      "context": "5565-75"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5515.0,
+      "role": "target",
+      "context": "target 5515"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This got us long, and its why I wrote on Monday at 4pm (when we were 5160s): \u201cMy general lean is ES can try to backtest 5231, then 5248-52\u2026."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 4pm that: \u201cMy general lean is we can fill out the 5377/87 to 5475 range more."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My guess was yes, and I wrote yesterday: \u201c My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "All major short squeezes in ES are caused by Failed Breakdowns, which in turn, occur after deep, \u201cscary\u201d legs lower."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Monday afternoon however, ES put in a monster Failed Breakdown of the 5155 level which was a 1.5 week low set April 10th."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then yesterday, another Failed Breakdown would take us for another leg up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Early Thursday morning, we flushed it by 20 points and recovered (Failed Breakdown)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Is \u201cbuy the dip\u201d back for good?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into 1) Some of the quality long setups we had on yesterday at 5377 (including the Failed Breakdown that triggered the long that lasted into today and 2) I\u2019ll talk how I trail my stops and use runners."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "After 4 Green Days In A Row, Is \"Buy The Dip\" Here To Stay? Not So Fast. April 28 Plan",
+  "post_date": "2025-04-27",
+  "post_slug": "after-4-green-days-in-a-row-is-buy-eb3",
+  "parsed_at": "2026-04-16T15:44:24.611010",
+  "body_length": 2729
+}

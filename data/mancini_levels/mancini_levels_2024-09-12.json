@@ -1,0 +1,44 @@
+{
+  "trading_date": "2024-09-12",
+  "levels": [
+    {
+      "price": 5438.0,
+      "role": "mentioned",
+      "context": "48 lows. This set up the short squeeze. I wrote yesterday: \u201c5438 is a level we have not backtested yet, so this a spot on a"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5438.0,
+      "role": "mentioned",
+      "context": "48 lows. This set up the short squeeze. I wrote yesterday: \u201c5438 is a level we have not backtested yet, so this a spot on a"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "As I discussed yesterday though (and as anyone who has ever traded a downtrend or bear market in ES knows), f or every \u201celevator down\u201d move in ES, there is a correspondent short squeeze ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This concept would be key for today\u2019s CPI day as well as we saw another \u201celevator down\u201d move, followed by short squeeze ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Some days, they are very clean and one directional, but most often the first move, and often the second and third are traps.It is for this reason that I prefer to trade failed breakdowns on CPI days\u2026..Wait for a level to flush, run stops, and reclaim before entering.\u201d We saw this today, with an initial spike down to 5472, rally to 5505, followed by a monster sell down to 5414, losing yesterdays 5448 lows."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I will also discuss an important variation of my core setup: The Failed Breakdown."
+    }
+  ],
+  "level_count": 1,
+  "support_count": 1,
+  "resistance_count": 0,
+  "post_title": "Massive Bear Trap For SPX, Is A Bottom In? September 12 Plan",
+  "post_date": "2024-09-11",
+  "post_slug": "massive-bear-trap-for-spx-is-a-bottom",
+  "parsed_at": "2026-04-16T15:47:44.361430",
+  "body_length": 2422
+}

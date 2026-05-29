@@ -1,0 +1,96 @@
+{
+  "trading_date": "2025-04-17",
+  "levels": [
+    {
+      "price": 5408.0,
+      "role": "mentioned",
+      "context": "elief bounce now for a week. For tomorrow, ES is rangebound 5408 to 5469/5485.\u201d Yesterday, ES ping ponged this range exactly"
+    },
+    {
+      "price": 5428.0,
+      "role": "mentioned",
+      "context": "ral lean based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ h"
+    },
+    {
+      "price": 5484.0,
+      "role": "mentioned",
+      "context": "an based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ high on"
+    },
+    {
+      "price": 5505.0,
+      "role": "range",
+      "context": "5505-15"
+    },
+    {
+      "price": 5515.0,
+      "role": "range",
+      "context": "5505-15"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5408.0,
+      "role": "mentioned",
+      "context": "elief bounce now for a week. For tomorrow, ES is rangebound 5408 to 5469/5485.\u201d Yesterday, ES ping ponged this range exactly"
+    },
+    {
+      "price": 5428.0,
+      "role": "mentioned",
+      "context": "ral lean based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ h"
+    },
+    {
+      "price": 5484.0,
+      "role": "mentioned",
+      "context": "an based purely on technicals is that we continue up. 5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ high on"
+    },
+    {
+      "price": 5505.0,
+      "role": "range",
+      "context": "5505-15"
+    },
+    {
+      "price": 5515.0,
+      "role": "range",
+      "context": "5505-15"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this long setup to readers on Thursday, and after rallying all day Friday to 5416, I wrote Friday at 4pm that: \u201cMy general lean based purely on technicals is that we continue up."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: Begins on the failure of 5395.\u201d And we lost that at 6pm last night then sold to 5251 this afternoon before a squeeze into the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This relief rally has been occurring in the context of a downtrend and as I said yesterday: \u201cBig picture, we remain in a downtrend and this won\u2019t change until ES recovers the red megaphone in the above chart up at 5700ish.\u201d In ES, bounces and short squeezes are caused by my core setup: The Failed Breakdown (also known as the bear trap) and we\u2019ve essentially seen one per day for the past week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Friday at 10:30AM saw a particularly violent failed breakdown, where we sold off a few hundred points down to 5251 low of day - and in doing so, swept under a major low at 5258 set a few hours prior, recovered it, and squeezed."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this and I\u2019ll do a full rundown of every Failed Breakdown we have had for the last 5 days (1 per day)."
+    },
+    {
+      "type": "TARGETS",
+      "text": "5428, 5484, then 5505-15 are initial targets.\u201d We got to 5484+ high on Monday, and from Monday until yesterday at 6pm."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "For tomorrow, ES is rangebound 5408 to 5469/5485.\u201d Yesterday, ES ping ponged this range exactly selling to 5408 Monday at 430PM and rallying to 5485 high of day yesterday before selling."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Will Today's Dip In SPX Get Bought Like The Others? April 17th Plan",
+  "post_date": "2025-04-16",
+  "post_slug": "will-todays-dip-in-spx-get-bought-02c",
+  "parsed_at": "2026-04-16T15:44:33.243773",
+  "body_length": 2492
+}

@@ -1,0 +1,137 @@
+{
+  "trading_date": "2025-06-03",
+  "levels": [
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "iday, ES went back for seconds, flushing 5877 again down to 5850, trapping shorts, recovering it and squeezing to 5925 by Fr"
+    },
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5890-5870"
+    },
+    {
+      "price": 5877.0,
+      "role": "resistance",
+      "context": "below 5877"
+    },
+    {
+      "price": 5890.0,
+      "role": "range",
+      "context": "5890-5870"
+    },
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "Below 5893"
+    },
+    {
+      "price": 5920.0,
+      "role": "range",
+      "context": "5920-25"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "iday, ES went back for seconds, flushing 5877 again down to 5850, trapping shorts, recovering it and squeezing to 5925 by Fr"
+    },
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5890-5870"
+    },
+    {
+      "price": 5890.0,
+      "role": "range",
+      "context": "5890-5870"
+    },
+    {
+      "price": 5920.0,
+      "role": "range",
+      "context": "5920-25"
+    },
+    {
+      "price": 5925.0,
+      "role": "level",
+      "context": "5925 level"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5877.0,
+      "role": "resistance",
+      "context": "below 5877"
+    },
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "Below 5893"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I\u2019d be watching the reaction there and if we can flush it down to 5870 and recover, this would be ideal.\u201d and \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It is also important to remember how ES institutions buys dips: Specifically, they put in Failed Breakdowns (my core setup): They find a low (usually the prior days low), flush it, grab liquidity/trap shorts, then price rallies."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last week, ES settled into a sideways consolidation and as a result, we saw multiple Failed Breakdowns everyday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "5925 is a magnet in the middle.\u201d As a result, the task for bulls generally everyday has been the same: Wait for the trap/Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Instead of bidding it, the obvious setup is to wait for it to test then recover today\u2019s daily low which is at 5884 now.\u201d At 8:15AM Friday, we saw exactly this and tested 5877, recovered 5884, then rallied to 5920-25."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "That took us into today, and it would be the same script: Bulls would need to wait for the daily dip/Failed Breakdown which was again, below 5877."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep and educational dive into some of the quality Failed Breakdowns we had late last week (these were all provided to readers in advance), then I\u2019ll discuss the actionable trade plan for tomorrow."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 7,
+  "resistance_count": 2,
+  "post_title": "SPX Has Been Building A Pattern For 3 Weeks. Is It Ready To Break? June 3rd Plan",
+  "post_date": "2025-06-02",
+  "post_slug": "spx-has-been-building-a-pattern-for",
+  "parsed_at": "2026-04-16T15:43:53.038374",
+  "body_length": 3186
+}

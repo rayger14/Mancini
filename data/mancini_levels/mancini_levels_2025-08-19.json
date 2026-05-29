@@ -1,0 +1,213 @@
+{
+  "trading_date": "2025-08-19",
+  "levels": [
+    {
+      "price": 6388.0,
+      "role": "mentioned",
+      "context": "ast Monday ES put in a violent late day flush from 6430s to 6388. ES then promptly recovered a low at 6396 set a few hours e"
+    },
+    {
+      "price": 6398.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6418.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6426.0,
+      "role": "mentioned",
+      "context": "er to the trend. 6398-6402 starts higher with 6418-20, then 6426 targets. Then, all time highs.\u201d This worked, and by last We"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "recover 6461"
+    },
+    {
+      "price": 6469.0,
+      "role": "mentioned",
+      "context": "rsday at 4pm: \u201cA safer entry here is to wait for a flush of 6469 and recovery.\u201d We recovered 6469 at noon Friday, and squeez"
+    },
+    {
+      "price": 6477.0,
+      "role": "resistance",
+      "context": "Below 6477"
+    },
+    {
+      "price": 6478.0,
+      "role": "mentioned",
+      "context": "the structure defends after we simply work up the flag with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are n"
+    },
+    {
+      "price": 6500.0,
+      "role": "mentioned",
+      "context": "ure defends after we simply work up the flag with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are next.\u201d We s"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ailed Breakdown key low from Tuesday), and then squeezed to 6507 by Friday morning. Then Friday? Deja Vu: We started the day"
+    },
+    {
+      "price": 6510.0,
+      "role": "mentioned",
+      "context": "up the flag with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are next.\u201d We saw exactly this, we trapped unde"
+    },
+    {
+      "price": 6517.0,
+      "role": "mentioned",
+      "context": "e flag with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are next.\u201d We saw exactly this, we trapped under 6469"
+    },
+    {
+      "price": 6530.0,
+      "role": "mentioned",
+      "context": "with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are next.\u201d We saw exactly this, we trapped under 6469 at th"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6388.0,
+      "role": "mentioned",
+      "context": "ast Monday ES put in a violent late day flush from 6430s to 6388. ES then promptly recovered a low at 6396 set a few hours e"
+    },
+    {
+      "price": 6398.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6418.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6426.0,
+      "role": "mentioned",
+      "context": "er to the trend. 6398-6402 starts higher with 6418-20, then 6426 targets. Then, all time highs.\u201d This worked, and by last We"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "recover 6461"
+    },
+    {
+      "price": 6469.0,
+      "role": "mentioned",
+      "context": "rsday at 4pm: \u201cA safer entry here is to wait for a flush of 6469 and recovery.\u201d We recovered 6469 at noon Friday, and squeez"
+    },
+    {
+      "price": 6478.0,
+      "role": "mentioned",
+      "context": "the structure defends after we simply work up the flag with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are n"
+    },
+    {
+      "price": 6500.0,
+      "role": "mentioned",
+      "context": "ure defends after we simply work up the flag with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are next.\u201d We s"
+    },
+    {
+      "price": 6507.0,
+      "role": "mentioned",
+      "context": "ailed Breakdown key low from Tuesday), and then squeezed to 6507 by Friday morning. Then Friday? Deja Vu: We started the day"
+    },
+    {
+      "price": 6510.0,
+      "role": "mentioned",
+      "context": "up the flag with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are next.\u201d We saw exactly this, we trapped unde"
+    },
+    {
+      "price": 6517.0,
+      "role": "mentioned",
+      "context": "e flag with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are next.\u201d We saw exactly this, we trapped under 6469"
+    },
+    {
+      "price": 6530.0,
+      "role": "mentioned",
+      "context": "with 6478 then 6500 being targets. When ready, 6510, 6517, 6530 are next.\u201d We saw exactly this, we trapped under 6469 at th"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6477.0,
+      "role": "resistance",
+      "context": "Below 6477"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This got us long and I wrote at 4:20PM last Monday: \u201cI have added long exposure a little after the close ~6396 as we put in a nice Failed Breakdown of the 6396 low set at 2:40PM.\u201d I also wrote: \u201cMy general lean though is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The first part of this sequence is what I call \u201celevator down\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This squeeze is - in turn - always caused by my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Specifically ES undercuts a low rapidly during the \u201celevator down\u201d sell, traps shorts, then squeeze the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It then went \u201celevator down\u201d at 830AM to 6454."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We held 6454 exact at 830am Thursday, recovered 6461 (which was a Failed Breakdown key low from Tuesday), and then squeezed to 6507 by Friday morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Deja Vu: We started the day at 6507 and went \u201celevator down\u201d, selling to 6461 instantly."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down, failed breakdown, short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "While it could trap below once more (no lower than a Failed Breakdown of Thursday\u2019s low) as long as the structure defends after we simply work up the flag with 6478 then 6500 being targets."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the Failed Breakdowns we had last week as we had a large variety and its essential to be able to identify the different types."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 14,
+  "resistance_count": 1,
+  "post_title": "For 3 Days Straight, SPX is Coiled Into The Tighest Range In Months. Breakout Is Close. What Way? August 19th Plan",
+  "post_date": "2025-08-18",
+  "post_slug": "for-3-days-straight-spx-is-coiled",
+  "parsed_at": "2026-04-16T15:42:44.932718",
+  "body_length": 3537
+}

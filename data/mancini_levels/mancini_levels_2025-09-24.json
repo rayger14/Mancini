@@ -1,0 +1,88 @@
+{
+  "trading_date": "2025-09-24",
+  "levels": [
+    {
+      "price": 6611.0,
+      "role": "mentioned",
+      "context": "re price flushed the Friday September 12th 6633 low down to 6611, trapped shorts, and got us long. I wrote way back last Tue"
+    },
+    {
+      "price": 6633.0,
+      "role": "mentioned",
+      "context": "MC last week, where price flushed the Friday September 12th 6633 low down to 6611, trapped shorts, and got us long. I wrote"
+    },
+    {
+      "price": 6711.0,
+      "role": "range",
+      "context": "6714-11"
+    },
+    {
+      "price": 6714.0,
+      "role": "range",
+      "context": "6714-11"
+    },
+    {
+      "price": 6730.0,
+      "role": "support",
+      "context": "above 6730"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6611.0,
+      "role": "mentioned",
+      "context": "re price flushed the Friday September 12th 6633 low down to 6611, trapped shorts, and got us long. I wrote way back last Tue"
+    },
+    {
+      "price": 6633.0,
+      "role": "mentioned",
+      "context": "MC last week, where price flushed the Friday September 12th 6633 low down to 6611, trapped shorts, and got us long. I wrote"
+    },
+    {
+      "price": 6711.0,
+      "role": "range",
+      "context": "6714-11"
+    },
+    {
+      "price": 6714.0,
+      "role": "range",
+      "context": "6714-11"
+    },
+    {
+      "price": 6730.0,
+      "role": "support",
+      "context": "above 6730"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cMy general lean is always just to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last week aftetr FOMC, multiple institutions took an enormous long position and we saw it on the chart via a massive Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a powerful Failed Breakdown we had last Thursday morning that provided a secondary entry for those who missed last Wednesday\u2019s FOMC Day long."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We get 1 Failed Breakdown per day on average, and you need to learn to spot them."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "First Dip For SPX In A Week. Another Insta-Buy, or More Red Ahead? Sept 24th Plan",
+  "post_date": "2025-09-23",
+  "post_slug": "first-dip-for-spx-in-a-week-another",
+  "parsed_at": "2026-04-16T15:42:11.481353",
+  "body_length": 3021
+}

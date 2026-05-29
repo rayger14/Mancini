@@ -1,0 +1,212 @@
+{
+  "trading_date": "2026-02-23",
+  "levels": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "today\u2019s 6808 daily low.\u201d Tuesday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+. The task for"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "daily low at 6808"
+    },
+    {
+      "price": 6843.0,
+      "role": "support",
+      "context": "hold 6843"
+    },
+    {
+      "price": 6860.0,
+      "role": "mentioned",
+      "context": "flushed down to 6791, recovered 6808, and we ripped hard to 6860+. The task for Wednesday would be for bulls to keep it goin"
+    },
+    {
+      "price": 6876.0,
+      "role": "mentioned",
+      "context": "ulls need to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this Wedne"
+    },
+    {
+      "price": 6884.0,
+      "role": "range",
+      "context": "6884-88"
+    },
+    {
+      "price": 6888.0,
+      "role": "range",
+      "context": "6884-88"
+    },
+    {
+      "price": 6893.0,
+      "role": "mentioned",
+      "context": "eed to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this Wednesday g"
+    },
+    {
+      "price": 6898.0,
+      "role": "mentioned",
+      "context": "trap below), then continue up. Targets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "below), then continue up. Targets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted"
+    },
+    {
+      "price": 6923.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6925.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6926.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6930.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "ally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this Wednesday getting to 6923-26 wh"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "today\u2019s 6808 daily low.\u201d Tuesday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+. The task for"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "daily low at 6808"
+    },
+    {
+      "price": 6843.0,
+      "role": "support",
+      "context": "hold 6843"
+    },
+    {
+      "price": 6860.0,
+      "role": "mentioned",
+      "context": "flushed down to 6791, recovered 6808, and we ripped hard to 6860+. The task for Wednesday would be for bulls to keep it goin"
+    },
+    {
+      "price": 6876.0,
+      "role": "mentioned",
+      "context": "ulls need to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this Wedne"
+    },
+    {
+      "price": 6884.0,
+      "role": "range",
+      "context": "6884-88"
+    },
+    {
+      "price": 6888.0,
+      "role": "range",
+      "context": "6884-88"
+    },
+    {
+      "price": 6893.0,
+      "role": "mentioned",
+      "context": "eed to hold 6843 ideally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this Wednesday g"
+    },
+    {
+      "price": 6898.0,
+      "role": "mentioned",
+      "context": "trap below), then continue up. Targets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "below), then continue up. Targets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted"
+    },
+    {
+      "price": 6923.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6925.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6926.0,
+      "role": "range",
+      "context": "6923-26"
+    },
+    {
+      "price": 6930.0,
+      "role": "range",
+      "context": "6925-30"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "ally. From there next leg targets 6876, 6893, 6923-26, then 6954.\u201d We wasted no time on this Wednesday getting to 6923-26 wh"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is bulls need to hold 6843 ideally."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "There are a few of these cycles, but the foundation of them is what I call the two siblings: Elevator down (sibling 1) , into Failed Breakdown, into short squeeze (sibling 2) ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator Down refers to vertical red candles where no support matters."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These short squeezes are caused by one thing: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In the morning we went elevator down 70+ points down to 6791."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cIf this is the case, the obvious entry is to wait for 6795 to defend (doesn\u2019t need to be exact) then recover today\u2019s 6808 daily low.\u201d Tuesday morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cIn summary for tomorrow: ES put in a big Failed Breakdown today by trapping under Friday\u2019s 6808 low down to 6791, and recovering 6808."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Targets are 6884, dip, then 6898, 6913, 6925-30, then 6954 which is a big magnet.\u201d ES again wasted no time on this, getting to 6925-30 by 10:05AM."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "In doing so, ES lost Friday\u2019s daily low at 6808."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 15,
+  "resistance_count": 0,
+  "post_title": "Bulls Win The Week In SPX. Can They Seal The Deal Though? Feb 23 Plan",
+  "post_date": "2026-02-22",
+  "post_slug": "bulls-win-the-week-in-spx-can-they-f2e",
+  "parsed_at": "2026-04-16T15:38:51.756031",
+  "body_length": 2583
+}

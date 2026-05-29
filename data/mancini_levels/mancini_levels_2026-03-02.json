@@ -1,0 +1,92 @@
+{
+  "trading_date": "2026-03-02",
+  "levels": [
+    {
+      "price": 6822.0,
+      "role": "mentioned",
+      "context": "which is at 6832 now. If we can flush that (perhaps down to 6822) and recover, this is a possible long.\u201d At 9:30AM Tuesday,"
+    },
+    {
+      "price": 6828.0,
+      "role": "mentioned",
+      "context": "a possible long.\u201d At 9:30AM Tuesday, we swept 6832 down to 6828, recovered, it and ripped parabolically to 6980s by Wednesd"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "swept 6832"
+    },
+    {
+      "price": 6870.0,
+      "role": "support",
+      "context": "6870 daily low"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "r to yesterday, ES had been stuck in a range mostly 6850 to 6925 with 6925 being a strong ceiling all week. This flush to an"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6822.0,
+      "role": "mentioned",
+      "context": "which is at 6832 now. If we can flush that (perhaps down to 6822) and recover, this is a possible long.\u201d At 9:30AM Tuesday,"
+    },
+    {
+      "price": 6828.0,
+      "role": "mentioned",
+      "context": "a possible long.\u201d At 9:30AM Tuesday, we swept 6832 down to 6828, recovered, it and ripped parabolically to 6980s by Wednesd"
+    },
+    {
+      "price": 6832.0,
+      "role": "level",
+      "context": "swept 6832"
+    },
+    {
+      "price": 6870.0,
+      "role": "support",
+      "context": "6870 daily low"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "r to yesterday, ES had been stuck in a range mostly 6850 to 6925 with 6925 being a strong ceiling all week. This flush to an"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "One of those cycles is ES goes elevator down in a vertical flush cutting through every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Monday at 4pm: \u201cThe only possible option here would be a Failed Breakdown of Monday\u2019s daily low which is at 6832 now."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In doing so ES broke out that stubborn 6925 range it had been stuck in all week, but unfortunately, couldn\u2019t stick in on the first shot and yesterday we collapsed back into the range going elevator down into the low 6840s this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From an execution perspecive we would want to wait for a Failed Breakdown, as always."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cThe obvious trade here is the Failed Breakdown of today\u2019s daily low at ~6870.\u201d We recovered that, and rallied slowly the rest of the day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "All Week SPX Went Nowhere. Can We Leave The Range Monday? March 2nd Plan",
+  "post_date": "2026-03-01",
+  "post_slug": "all-week-spx-went-nowhere-can-we-fb3",
+  "parsed_at": "2026-04-16T15:38:45.409983",
+  "body_length": 2226
+}

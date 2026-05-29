@@ -94,19 +94,28 @@ class TestExitManager:
         assert action is None  # already at runner size, just phase change
         assert sample_position.phase == ExitPhase.AFTER_T2
 
-    def test_trailing_stop_uses_base_for_runners(self, exit_manager, sample_position):
-        """Runner trailing stop uses base trailing_stop_pts (no aggressive tightening)."""
-        sample_position.remaining_contracts = 1
-        sample_position.phase = ExitPhase.AFTER_T2
-        sample_position.stop_price = 5027.0
+    def test_trailing_stop_uses_base_for_runners(self):
+        """Runner trailing stop uses base trailing_stop_pts (no aggressive tightening).
+
+        Structure trail is the new post-T2 default — disable it here so we
+        can verify the legacy fixed-distance trail still behaves correctly.
+        Coverage for the new structure trail lives in
+        tests/test_t2_scale_and_structure_trail.py.
+        """
+        params = ExitParams(structure_trail_enabled=False)
+        mgr = ExitManager(params=params)
+        pos = mgr.create_position(
+            entry_price=5020.0, stop_price=5015.0,
+            target_1=5030.0, target_2=5040.0, contracts=4,
+        )
+        pos.remaining_contracts = 1
+        pos.phase = ExitPhase.AFTER_T2
+        pos.stop_price = 5027.0
 
         # Runner at 5045 → uses base trailing_stop_pts=12.0 (not tightened 2.0)
-        exit_manager.update(
-            sample_position,
-            high=5045.0, low=5043.0, close=5044.0
-        )
+        mgr.update(pos, high=5045.0, low=5043.0, close=5044.0)
         expected_stop = 5045.0 - 12.0  # base trailing, not tightened
-        assert sample_position.stop_price == expected_stop
+        assert pos.stop_price == expected_stop
 
     def test_pnl_tracking_75pct(self, exit_manager, sample_position):
         """Realized P&L accumulates: 75% at T1 = 3 contracts * 10 pts."""
@@ -182,4 +191,75 @@ class TestPriorDayLowTrail:
         action = exit_manager.update(pos, high=5035.0, low=5029.0, close=5030.0)
         assert action is not None
         assert action.contracts_to_close == 3
+        assert pos.phase == ExitPhase.AFTER_T1
+
+
+class TestManciniExitScaling:
+    """Test the mancini_exit_scaling flag overrides exit fractions."""
+
+    def test_mancini_scaling_overrides_fractions(self):
+        """When mancini_exit_scaling=True, ExitManager uses StrategyParams fractions."""
+        from config.settings import StrategyParams
+        sp = StrategyParams(
+            mancini_exit_scaling=True,
+            mancini_t1_exit_pct=0.75,
+            mancini_t2_exit_pct=0.15,
+            mancini_runner_pct=0.10,
+        )
+        mgr = ExitManager(strategy_params=sp)
+        assert mgr._t1_exit_fraction == 0.75
+        assert mgr._t2_exit_fraction == 0.15
+        assert mgr._runner_fraction == 0.10
+
+    def test_default_uses_exit_params_fractions(self):
+        """When mancini_exit_scaling=False (default), use ExitParams fractions."""
+        params = ExitParams(t1_exit_fraction=0.50, t2_exit_fraction=0.25, runner_fraction=0.25)
+        mgr = ExitManager(params=params)
+        assert mgr._t1_exit_fraction == 0.50
+        assert mgr._t2_exit_fraction == 0.25
+        assert mgr._runner_fraction == 0.25
+
+    def test_mancini_scaling_t1_exits_75pct(self):
+        """With mancini_exit_scaling, T1 exits 75% of 4 contracts = 3."""
+        from config.settings import StrategyParams
+        sp = StrategyParams(mancini_exit_scaling=True)
+        mgr = ExitManager(strategy_params=sp)
+        pos = mgr.create_position(
+            entry_price=5800.0, stop_price=5795.0,
+            target_1=5810.0, target_2=5820.0, contracts=4,
+        )
+        action = mgr.update(pos, high=5811.0, low=5808.0, close=5810.5)
+        assert action is not None
+        assert action.contracts_to_close == 3  # 75% of 4
+        assert pos.remaining_contracts == 1
+        assert pos.phase == ExitPhase.AFTER_T1
+
+    def test_custom_50_50_split_unaffected(self):
+        """With mancini_exit_scaling=False and custom ExitParams 50/50, T1 exits 50%."""
+        from config.settings import StrategyParams
+        params = ExitParams(t1_exit_fraction=0.50, runner_fraction=0.50)
+        sp = StrategyParams(mancini_exit_scaling=False)
+        mgr = ExitManager(params=params, strategy_params=sp)
+        pos = mgr.create_position(
+            entry_price=5800.0, stop_price=5795.0,
+            target_1=5810.0, target_2=5820.0, contracts=4,
+        )
+        action = mgr.update(pos, high=5811.0, low=5808.0, close=5810.5)
+        assert action is not None
+        assert action.contracts_to_close == 2  # 50% of 4
+        assert pos.remaining_contracts == 2
+
+    def test_mancini_scaling_short_t1_exits_75pct(self):
+        """Short side: mancini_exit_scaling exits 75% at T1."""
+        from config.settings import StrategyParams
+        sp = StrategyParams(mancini_exit_scaling=True)
+        mgr = ExitManager(strategy_params=sp)
+        pos = mgr.create_position(
+            entry_price=6000.0, stop_price=6005.0,
+            target_1=5990.0, target_2=5980.0, contracts=4,
+            direction="short",
+        )
+        action = mgr.update(pos, high=5995.0, low=5989.0, close=5991.0)
+        assert action is not None
+        assert action.contracts_to_close == 3  # 75% of 4
         assert pos.phase == ExitPhase.AFTER_T1

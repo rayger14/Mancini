@@ -1,0 +1,141 @@
+{
+  "trading_date": "2025-05-15",
+  "levels": [
+    {
+      "price": 5605.0,
+      "role": "range",
+      "context": "5605-08"
+    },
+    {
+      "price": 5606.0,
+      "role": "mentioned",
+      "context": "ive Failed Breakdown where we flushed the prior days low at 5606, recovered, and I was long since then for what turned into"
+    },
+    {
+      "price": 5608.0,
+      "role": "range",
+      "context": "5605-08"
+    },
+    {
+      "price": 5815.0,
+      "role": "mentioned",
+      "context": "he trend until it ends. This means bulls want to hold 5850, 5815 on any CPI flushes (I\u2019ll be watching for failed breakdowns)"
+    },
+    {
+      "price": 5850.0,
+      "role": "support",
+      "context": "hold 5850"
+    },
+    {
+      "price": 5890.0,
+      "role": "mentioned",
+      "context": "ll be watching for failed breakdowns). Next target slate is 5890, 5910, 5926. If 5815 fails we can see what bears have up th"
+    },
+    {
+      "price": 5910.0,
+      "role": "mentioned",
+      "context": "watching for failed breakdowns). Next target slate is 5890, 5910, 5926. If 5815 fails we can see what bears have up their sl"
+    },
+    {
+      "price": 5925.0,
+      "role": "resistance",
+      "context": "below 5925"
+    },
+    {
+      "price": 5926.0,
+      "role": "mentioned",
+      "context": "ng for failed breakdowns). Next target slate is 5890, 5910, 5926. If 5815 fails we can see what bears have up their sleeve.\u201d"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5605.0,
+      "role": "range",
+      "context": "5605-08"
+    },
+    {
+      "price": 5606.0,
+      "role": "mentioned",
+      "context": "ive Failed Breakdown where we flushed the prior days low at 5606, recovered, and I was long since then for what turned into"
+    },
+    {
+      "price": 5608.0,
+      "role": "range",
+      "context": "5605-08"
+    },
+    {
+      "price": 5815.0,
+      "role": "mentioned",
+      "context": "he trend until it ends. This means bulls want to hold 5850, 5815 on any CPI flushes (I\u2019ll be watching for failed breakdowns)"
+    },
+    {
+      "price": 5850.0,
+      "role": "support",
+      "context": "hold 5850"
+    },
+    {
+      "price": 5890.0,
+      "role": "mentioned",
+      "context": "ll be watching for failed breakdowns). Next target slate is 5890, 5910, 5926. If 5815 fails we can see what bears have up th"
+    },
+    {
+      "price": 5910.0,
+      "role": "mentioned",
+      "context": "watching for failed breakdowns). Next target slate is 5890, 5910, 5926. If 5815 fails we can see what bears have up their sl"
+    },
+    {
+      "price": 5926.0,
+      "role": "mentioned",
+      "context": "ng for failed breakdowns). Next target slate is 5890, 5910, 5926. If 5815 fails we can see what bears have up their sleeve.\u201d"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5925.0,
+      "role": "resistance",
+      "context": "below 5925"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I am still holding my 10% long runner from last Wednesday at 5605-08.\u201d ES still had more left in the tank for this and I stated at Monday\u2019s close that: \u201cIts been a hugely profitable run and I am +250 points now on my most recent long..My general lean is always to defer to the trend until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Heading into today, we simply continue riding the trend and as I wrote yesterday: \u201cMy general lean is always to defer to the trend until supports fail.\u201d This would mean base out, then continue up."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cMy general lean is that 5900/5889 is first support cluster, with 5850 below."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They put in my core setup, the Failed Breakdown, whereby they flush a major low, trap shorts, recover the low, then squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, last Wednesday after FOMC, we saw a massive Failed Breakdown where we flushed the prior days low at 5606, recovered, and I was long since then for what turned into a 300+ point rally, one of the largest of the year."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This Failed Breakdown was the final trigger as well for the breakout of a 1 week bull flag pattern we built into last Wednesday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This means bulls want to hold 5850, 5815 on any CPI flushes (I\u2019ll be watching for failed breakdowns)."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Next target slate is 5890, 5910, 5926."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan",
+  "post_date": "2025-05-14",
+  "post_slug": "spx-is-coiled-tight-another-move",
+  "parsed_at": "2026-04-16T15:44:08.468149",
+  "body_length": 2763
+}

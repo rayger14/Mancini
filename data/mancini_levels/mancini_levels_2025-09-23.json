@@ -1,0 +1,94 @@
+{
+  "trading_date": "2025-09-23",
+  "levels": [
+    {
+      "price": 6611.0,
+      "role": "mentioned",
+      "context": ", where price flushed the Friday September 12th low down to 6611, trapped shorts, and got us long. We saw it again on Friday"
+    },
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "Friday morning, ES lost the 6688 low from Thursday, sold to 6680, trapped shorts and ripped to ATH\u2019s. This meant ES closed l"
+    },
+    {
+      "price": 6683.0,
+      "role": "mentioned",
+      "context": "is could mean sweeping the 6688 3:40PM low (perhaps down to 6683), then recovering again, and this is something I\u2019d be more"
+    },
+    {
+      "price": 6688.0,
+      "role": "mentioned",
+      "context": "another Failed Breakdown here. This could mean sweeping the 6688 3:40PM low (perhaps down to 6683), then recovering again, a"
+    },
+    {
+      "price": 6711.0,
+      "role": "range",
+      "context": "6714-11"
+    },
+    {
+      "price": 6714.0,
+      "role": "range",
+      "context": "6714-11"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6611.0,
+      "role": "mentioned",
+      "context": ", where price flushed the Friday September 12th low down to 6611, trapped shorts, and got us long. We saw it again on Friday"
+    },
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "Friday morning, ES lost the 6688 low from Thursday, sold to 6680, trapped shorts and ripped to ATH\u2019s. This meant ES closed l"
+    },
+    {
+      "price": 6683.0,
+      "role": "mentioned",
+      "context": "is could mean sweeping the 6688 3:40PM low (perhaps down to 6683), then recovering again, and this is something I\u2019d be more"
+    },
+    {
+      "price": 6688.0,
+      "role": "mentioned",
+      "context": "another Failed Breakdown here. This could mean sweeping the 6688 3:40PM low (perhaps down to 6683), then recovering again, a"
+    },
+    {
+      "price": 6711.0,
+      "role": "range",
+      "context": "6714-11"
+    },
+    {
+      "price": 6714.0,
+      "role": "range",
+      "context": "6714-11"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cMy general lean is always just to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Thursday at 4pm: \u201cAn option is to wait for another Failed Breakdown here."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the monster Failed Breakdown we saw after FOMC last week which gave us a 120 point rally in two days."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "SPX Goes Parabolic To Start The Last Week Of September. How Much Gas Is In The Tank? Sept 23 Plan",
+  "post_date": "2025-09-22",
+  "post_slug": "spx-goes-parabolic-to-start-the-last",
+  "parsed_at": "2026-04-16T15:42:12.691153",
+  "body_length": 2479
+}

@@ -1,0 +1,102 @@
+{
+  "trading_date": "2026-01-06",
+  "levels": [
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "y general lean is bulls can try to do some backtesting with 6913, 6925, 6935/42 next up. They need to recover 6935/42 to sta"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "ices and no lower than 6872-69. This would mean rallying to 6925/6938 to backtest. Bulls need to recover or the sell bounces"
+    },
+    {
+      "price": 6935.0,
+      "role": "support",
+      "context": "recover 6935"
+    },
+    {
+      "price": 6938.0,
+      "role": "range",
+      "context": "6935-38"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "y general lean is bulls can try to do some backtesting with 6913, 6925, 6935/42 next up. They need to recover 6935/42 to sta"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "ices and no lower than 6872-69. This would mean rallying to 6925/6938 to backtest. Bulls need to recover or the sell bounces"
+    },
+    {
+      "price": 6935.0,
+      "role": "support",
+      "context": "recover 6935"
+    },
+    {
+      "price": 6938.0,
+      "role": "range",
+      "context": "6935-38"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Tuesday at 4pm : \u201cBear case tomorrow: Begins under 6935-38.\u201d We lost 6935 last Wednesday, and sold all day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Readers were prepared for this and I wrote last Wednesday at 4pm: \u201cMy general lean is ES can try some back-testing."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was bulls could do it ."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cMy general lean is bulls can try to do some backtesting with 6913, 6925, 6935/42 next up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Rallies on the other hand in ES occur when price puts in a Failed Breakdown (my core setup)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the multitude of Failed Breakdowns we had last week/Friday (including the one that caused Friday afternoons 40 point instant rip)."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "SPX Goes Green. Dead Cat Bounce, or Bottom? January 6th Plan",
+  "post_date": "2026-01-05",
+  "post_slug": "spx-goes-green-dead-cat-bounce-or",
+  "parsed_at": "2026-04-16T15:40:41.575475",
+  "body_length": 2524
+}

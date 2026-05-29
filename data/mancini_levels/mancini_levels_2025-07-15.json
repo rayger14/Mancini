@@ -1,0 +1,89 @@
+{
+  "trading_date": "2025-07-15",
+  "levels": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6298.0,
+      "role": "resistance",
+      "context": "resistance at 6298"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "then filled the triangle out to the upside this morning to 6311 target. We have a triangle, and we have CPI tomorrow. Are w"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "\u201cmeasured move\u201d target for a rally of this size was roughly 6325 as readers knew, and by July 4th, we hit 6333 which was the"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "then filled the triangle out to the upside this morning to 6311 target. We have a triangle, and we have CPI tomorrow. Are w"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "\u201cmeasured move\u201d target for a rally of this size was roughly 6325 as readers knew, and by July 4th, we hit 6333 which was the"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6298.0,
+      "role": "resistance",
+      "context": "resistance at 6298"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on F riday June 20th at 4pm when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As long as its structurally in tact though, my lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a quality Failed Breakdowns we had on on Thursday/Friday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I am a Failed Breakdown trader, and we typically get at least one per day."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "CPI Tomorrow, Will It Ruin Or Accelerate The SPX Rally? July 15 Plan",
+  "post_date": "2025-07-14",
+  "post_slug": "cpi-tomorrow-will-it-ruin-or-accelerate",
+  "parsed_at": "2026-04-16T15:43:17.297510",
+  "body_length": 2695
+}

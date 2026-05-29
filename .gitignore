@@ -12,6 +12,7 @@ data/*.png
 data/*.db
 data/*.json
 data/substack/all_posts.json
+data/training/
 
 # Environment
 .env
@@ -34,3 +35,10 @@ htmlcov/
 # OS
 .DS_Store
 Thumbs.db
+data/backtest_5y_trades.jsonl
+
+# Local research artifacts
+data/substack/short_excerpts*.json
+.claude/scheduled_tasks.lock
+data/backtest_5y_production_trades.jsonl
+data/optuna_nautilus.db

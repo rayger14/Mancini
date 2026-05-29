@@ -1,0 +1,107 @@
+{
+  "trading_date": "2024-10-21",
+  "levels": [
+    {
+      "price": 5871.0,
+      "role": "mentioned",
+      "context": "saw exactly thi s. We tested down to 5878-80, flushed it to 5871, trapped bears, then squeezed to 5923+ by the open yesterda"
+    },
+    {
+      "price": 5878.0,
+      "role": "range",
+      "context": "5878-80"
+    },
+    {
+      "price": 5880.0,
+      "role": "range",
+      "context": "5878-80"
+    },
+    {
+      "price": 5892.0,
+      "role": "support",
+      "context": "recover 5892"
+    },
+    {
+      "price": 5915.0,
+      "role": "mentioned",
+      "context": "uld be that ES can recover 5892 and spring directly back to 5915, perhaps dip, then breakout which would target 5930, 5938+\u201d"
+    },
+    {
+      "price": 5923.0,
+      "role": "mentioned",
+      "context": "878-80, flushed it to 5871, trapped bears, then squeezed to 5923+ by the open yesterday. Then today, the dip was bought agai"
+    },
+    {
+      "price": 5930.0,
+      "role": "target",
+      "context": "target 5930"
+    },
+    {
+      "price": 5938.0,
+      "role": "mentioned",
+      "context": "o 5915, perhaps dip, then breakout which would target 5930, 5938+\u201d. We reclaimed 5892, triggered longs, then rallied to 5915"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5871.0,
+      "role": "mentioned",
+      "context": "saw exactly thi s. We tested down to 5878-80, flushed it to 5871, trapped bears, then squeezed to 5923+ by the open yesterda"
+    },
+    {
+      "price": 5878.0,
+      "role": "range",
+      "context": "5878-80"
+    },
+    {
+      "price": 5880.0,
+      "role": "range",
+      "context": "5878-80"
+    },
+    {
+      "price": 5892.0,
+      "role": "support",
+      "context": "recover 5892"
+    },
+    {
+      "price": 5915.0,
+      "role": "mentioned",
+      "context": "uld be that ES can recover 5892 and spring directly back to 5915, perhaps dip, then breakout which would target 5930, 5938+\u201d"
+    },
+    {
+      "price": 5923.0,
+      "role": "mentioned",
+      "context": "878-80, flushed it to 5871, trapped bears, then squeezed to 5923+ by the open yesterday. Then today, the dip was bought agai"
+    },
+    {
+      "price": 5938.0,
+      "role": "mentioned",
+      "context": "o 5915, perhaps dip, then breakout which would target 5930, 5938+\u201d. We reclaimed 5892, triggered longs, then rallied to 5915"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5930.0,
+      "role": "target",
+      "context": "target 5930"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cThe \u201cultra bull case\u201d for tomorrow would be that ES can recover 5892 and spring directly back to 5915, perhaps dip, then breakout which would target 5930, 5938+\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the last two days price action where we saw high quality examples of all three of my core setups (The Failed Breakdown, The Regular Breakdown, and the Backtest)."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "7 Green Weeks In A Row For SPX. Pullback Coming? Oct 21 Plan",
+  "post_date": "2024-10-20",
+  "post_slug": "7-green-weeks-in-a-row-for-spx-pullback",
+  "parsed_at": "2026-04-16T15:47:08.870978",
+  "body_length": 2262
+}

@@ -1,0 +1,107 @@
+{
+  "trading_date": "2025-06-12",
+  "levels": [
+    {
+      "price": 6020.0,
+      "role": "mentioned",
+      "context": "6k (with 6k flushes below being traps), then we fill out to 6020. Above there, we see 6029, 6038, then 6055+\u201d This played ou"
+    },
+    {
+      "price": 6029.0,
+      "role": "support",
+      "context": "above 6029"
+    },
+    {
+      "price": 6047.0,
+      "role": "resistance",
+      "context": "below 6047"
+    },
+    {
+      "price": 6060.0,
+      "role": "mentioned",
+      "context": "m there, we can start the next leg\u2026.The next leg up targets 6060, 6072, then 6110 .\u201d We saw exactly this today, trapping bel"
+    },
+    {
+      "price": 6072.0,
+      "role": "mentioned",
+      "context": "e, we can start the next leg\u2026.The next leg up targets 6060, 6072, then 6110 .\u201d We saw exactly this today, trapping below 602"
+    },
+    {
+      "price": 6110.0,
+      "role": "mentioned",
+      "context": "tart the next leg\u2026.The next leg up targets 6060, 6072, then 6110 .\u201d We saw exactly this today, trapping below 6029 all last"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6020.0,
+      "role": "mentioned",
+      "context": "6k (with 6k flushes below being traps), then we fill out to 6020. Above there, we see 6029, 6038, then 6055+\u201d This played ou"
+    },
+    {
+      "price": 6029.0,
+      "role": "support",
+      "context": "above 6029"
+    },
+    {
+      "price": 6060.0,
+      "role": "mentioned",
+      "context": "m there, we can start the next leg\u2026.The next leg up targets 6060, 6072, then 6110 .\u201d We saw exactly this today, trapping bel"
+    },
+    {
+      "price": 6072.0,
+      "role": "mentioned",
+      "context": "e, we can start the next leg\u2026.The next leg up targets 6060, 6072, then 6110 .\u201d We saw exactly this today, trapping below 602"
+    },
+    {
+      "price": 6110.0,
+      "role": "mentioned",
+      "context": "tart the next leg\u2026.The next leg up targets 6060, 6072, then 6110 .\u201d We saw exactly this today, trapping below 6029 all last"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6047.0,
+      "role": "resistance",
+      "context": "below 6047"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I concluded my Monday newsletter at 4pm (when were 6005) by stating that bulls would be able to successfully defend this bullish inverse head and shoulders back-test then rally, stating: \u201cMy lean is we flag out above 6k (with 6k flushes below being traps), then we fill out to 6020."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was - as always - they would."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cIn an \u201cultra bull case\u201d tomorrow, ES won\u2019t even test 6k again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I am a day trader which means all I care about is ultimately waiting for my core setup (Failed Breakdown) grabbing my points, then shutting down the platform everyday, but the broad context is nonetheless important to keep in mind."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember though that ES rarely just back-tests levels cleanly, rather it puts in multiple traps (Failed Breakdown) which is how instititions accumulate."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From there, we can start the next leg\u2026.The next leg up targets 6060, 6072, then 6110 .\u201d We saw exactly this today, trapping below 6029 all last evening/into this morning (Failed Breakdowns to trigger long), then after CPI at 830AM, we rallied to 6072 target, set the high of day, then sold."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into how my trailing stop methodology works (this is a critical part of my system and is what allows me to stay onboard for extended runs), and I will also overview two quality Failed Breakdowns we had Monday overnight/early Tuesday morning."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "SPX Makes A New High, Then Sells. Will Today's Dip Get Bought? June 12th Plan",
+  "post_date": "2025-06-11",
+  "post_slug": "spx-makes-a-new-high-then-sells-will",
+  "parsed_at": "2026-04-16T15:43:44.211413",
+  "body_length": 2661
+}

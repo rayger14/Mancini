@@ -1,0 +1,200 @@
+{
+  "trading_date": "2025-08-15",
+  "levels": [
+    {
+      "price": 6398.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6418.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6426.0,
+      "role": "mentioned",
+      "context": "er to the trend. 6398-6402 starts higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all tim"
+    },
+    {
+      "price": 6439.0,
+      "role": "mentioned",
+      "context": "higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and by yest"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and by yesterday morni"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "recover 6461"
+    },
+    {
+      "price": 6467.0,
+      "role": "range",
+      "context": "6467-69"
+    },
+    {
+      "price": 6469.0,
+      "role": "range",
+      "context": "6467-69"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "My general lean is always to defer to the trend. 6467-69 to 6494=a new, preliminary range with 84 magnet inside. Bulls want"
+    },
+    {
+      "price": 6499.0,
+      "role": "mentioned",
+      "context": "d structure as per the above plan, then next leg sees 6490, 6499, then 6514.\u201d We got to 6499 Wednesday morning, before dippi"
+    },
+    {
+      "price": 6514.0,
+      "role": "mentioned",
+      "context": "as per the above plan, then next leg sees 6490, 6499, then 6514.\u201d We got to 6499 Wednesday morning, before dipping and spen"
+    },
+    {
+      "price": 6522.0,
+      "role": "range",
+      "context": "6522-26"
+    },
+    {
+      "price": 6526.0,
+      "role": "range",
+      "context": "6522-26"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6398.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6402.0,
+      "role": "range",
+      "context": "6398-6402"
+    },
+    {
+      "price": 6418.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6420.0,
+      "role": "range",
+      "context": "6418-20"
+    },
+    {
+      "price": 6426.0,
+      "role": "mentioned",
+      "context": "er to the trend. 6398-6402 starts higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all tim"
+    },
+    {
+      "price": 6439.0,
+      "role": "mentioned",
+      "context": "higher with 6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and by yest"
+    },
+    {
+      "price": 6452.0,
+      "role": "mentioned",
+      "context": "6418-20, then 6426 targets. Above there, off to 6439, then 6452. Then, all time highs.\u201d This worked, and by yesterday morni"
+    },
+    {
+      "price": 6461.0,
+      "role": "support",
+      "context": "recover 6461"
+    },
+    {
+      "price": 6467.0,
+      "role": "range",
+      "context": "6467-69"
+    },
+    {
+      "price": 6469.0,
+      "role": "range",
+      "context": "6467-69"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "My general lean is always to defer to the trend. 6467-69 to 6494=a new, preliminary range with 84 magnet inside. Bulls want"
+    },
+    {
+      "price": 6499.0,
+      "role": "mentioned",
+      "context": "d structure as per the above plan, then next leg sees 6490, 6499, then 6514.\u201d We got to 6499 Wednesday morning, before dippi"
+    },
+    {
+      "price": 6514.0,
+      "role": "mentioned",
+      "context": "as per the above plan, then next leg sees 6490, 6499, then 6514.\u201d We got to 6499 Wednesday morning, before dipping and spen"
+    },
+    {
+      "price": 6522.0,
+      "role": "range",
+      "context": "6522-26"
+    },
+    {
+      "price": 6526.0,
+      "role": "range",
+      "context": "6522-26"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This got us long and I wrote at 4:20PM Monday \u201cI have added long exposure a little after the close ~6396 as we put in a nice Failed Breakdown of the 6396 low set at 2:40PM.\u201d I also wrote: \u201cMy general lean though is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking for more after this, and I wrote on Tuesday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As I wrote yesterday: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Fortunately, my edge (Failed Breakdowns) is built around following institutions when they buy this dips, by exploiting a known footprint they leave on the chart when they do."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The question for today was if bulls could maintain those all time highs and survive any dips to put in a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This setup a Failed Breakdown of the Tuesday 6461 major low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we had at Monday\u2019s close which triggered the 100+ point leg up we saw this week, and I\u2019ll discuss the actionable trade plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6467-69 to 6494=a new, preliminary range with 84 magnet inside."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 15,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Tight Again. A Move Is Coming. What Way? August 15 Plan",
+  "post_date": "2025-08-14",
+  "post_slug": "spx-is-coiled-tight-again-a-move",
+  "parsed_at": "2026-04-16T15:42:47.638817",
+  "body_length": 3011
+}

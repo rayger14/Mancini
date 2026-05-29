@@ -1,0 +1,142 @@
+{
+  "trading_date": "2026-02-05",
+  "levels": [
+    {
+      "price": 6857.0,
+      "role": "range",
+      "context": "6861-57"
+    },
+    {
+      "price": 6861.0,
+      "role": "range",
+      "context": "6861-57"
+    },
+    {
+      "price": 6864.0,
+      "role": "support",
+      "context": "6864 daily low"
+    },
+    {
+      "price": 6899.0,
+      "role": "support",
+      "context": "6899 daily low"
+    },
+    {
+      "price": 6930.0,
+      "role": "mentioned",
+      "context": "864 Monday low by a couple points, recovered, and ripped to 6930 to close not far from where we opened. For a week now, ES h"
+    },
+    {
+      "price": 6964.0,
+      "role": "mentioned",
+      "context": "ger back up, and we got it late day yesterday and ripped to 6964 overnight. And today? The cycle repeated yet again. We went"
+    },
+    {
+      "price": 6986.0,
+      "role": "range",
+      "context": "6986-88"
+    },
+    {
+      "price": 6988.0,
+      "role": "range",
+      "context": "6986-88"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6857.0,
+      "role": "range",
+      "context": "6861-57"
+    },
+    {
+      "price": 6861.0,
+      "role": "range",
+      "context": "6861-57"
+    },
+    {
+      "price": 6864.0,
+      "role": "support",
+      "context": "6864 daily low"
+    },
+    {
+      "price": 6899.0,
+      "role": "support",
+      "context": "6899 daily low"
+    },
+    {
+      "price": 6930.0,
+      "role": "mentioned",
+      "context": "864 Monday low by a couple points, recovered, and ripped to 6930 to close not far from where we opened. For a week now, ES h"
+    },
+    {
+      "price": 6964.0,
+      "role": "mentioned",
+      "context": "ger back up, and we got it late day yesterday and ripped to 6964 overnight. And today? The cycle repeated yet again. We went"
+    },
+    {
+      "price": 6986.0,
+      "role": "range",
+      "context": "6986-88"
+    },
+    {
+      "price": 6988.0,
+      "role": "range",
+      "context": "6986-88"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "The core I exploit I call the two siblings: The first sibling is ES suddenly goes elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This always follows the elevator down sell - never any exception in recorded history."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, the short squeeze only occurs when ES puts in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips by waiting for a news driven elevator down flush/trap , waiting for a low to be taken out in the process, trapping shorts beneath the low, using that liquidity to fund their longs, and then price rips when the low recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The two siblings framework however dictates that a sell like this will always resolve with a violent squeeze higher, but ONLY when ES puts in a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I wrote on Friday at 4pm, it was: \u201cThe most obvious Failed Breakdown here is the Failed Breakdown of yesterday\u2019s 6899 daily low.\u201d We recovered that low early Monday morning, and were off to the races."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, this means a squeeze would come on a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We went elevator down from 6964 and flushed Monday\u2019s 6864 low in the process."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cIf this is happening, wait for 6861-57 to defend, then put in a Failed Breakdown of Monday\u2019s 6864 daily low.\u201d We flushed the 6864 Monday low by a couple points, recovered, and ripped to 6930 to close not far from where we opened."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Upside targets were: \u201cFrom there, ES can fill it out to 6986-88, perhaps final reaction, then onto 7002, 7014, then 7036+\u201d We ran to 7022 Monday evening."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Back and Forth Ping Pong For SPX. Will Bulls Win Out? February 5 Plan",
+  "post_date": "2026-02-04",
+  "post_slug": "back-and-forth-ping-pong-for-spx",
+  "parsed_at": "2026-04-16T15:40:14.325752",
+  "body_length": 2921
+}

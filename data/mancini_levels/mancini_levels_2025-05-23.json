@@ -1,0 +1,95 @@
+{
+  "trading_date": "2025-05-23",
+  "levels": [
+    {
+      "price": 5836.0,
+      "role": "mentioned",
+      "context": "k-testing. As long as 5850 holds (or recovers no lower than 5836 on trap downs), ES can try a bounce back to 5890, then 5910"
+    },
+    {
+      "price": 5850.0,
+      "role": "resistance",
+      "context": "lose 5850"
+    },
+    {
+      "price": 5890.0,
+      "role": "mentioned",
+      "context": "lower than 5836 on trap downs), ES can try a bounce back to 5890, then 5910.\u201d We got to 5890 high of day then sold. Will thi"
+    },
+    {
+      "price": 5905.0,
+      "role": "mentioned",
+      "context": "ing a shelf at 5957, before flushing it and selling hard to 5905 early yesterday morning. I wrote on Tuesday at 4pm that: \u201c5"
+    },
+    {
+      "price": 5910.0,
+      "role": "mentioned",
+      "context": "5836 on trap downs), ES can try a bounce back to 5890, then 5910.\u201d We got to 5890 high of day then sold. Will this was a goo"
+    },
+    {
+      "price": 5957.0,
+      "role": "mentioned",
+      "context": "ay. We spent from 2am to 2pm on Tuesday building a shelf at 5957, before flushing it and selling hard to 5905 early yesterda"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5836.0,
+      "role": "mentioned",
+      "context": "k-testing. As long as 5850 holds (or recovers no lower than 5836 on trap downs), ES can try a bounce back to 5890, then 5910"
+    },
+    {
+      "price": 5890.0,
+      "role": "mentioned",
+      "context": "lower than 5836 on trap downs), ES can try a bounce back to 5890, then 5910.\u201d We got to 5890 high of day then sold. Will thi"
+    },
+    {
+      "price": 5905.0,
+      "role": "mentioned",
+      "context": "ing a shelf at 5957, before flushing it and selling hard to 5905 early yesterday morning. I wrote on Tuesday at 4pm that: \u201c5"
+    },
+    {
+      "price": 5910.0,
+      "role": "mentioned",
+      "context": "5836 on trap downs), ES can try a bounce back to 5890, then 5910.\u201d We got to 5890 high of day then sold. Will this was a goo"
+    },
+    {
+      "price": 5957.0,
+      "role": "mentioned",
+      "context": "ay. We spent from 2am to 2pm on Tuesday building a shelf at 5957, before flushing it and selling hard to 5905 early yesterda"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5850.0,
+      "role": "resistance",
+      "context": "lose 5850"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I concluded yesterdays newsletter by stating: \u201cMy general lean is ES can try some back-testing."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Through my core setup: The Failed Breakdown where ES flushes a low, traps, and recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cOn an even shorter-term basis, if bulls are extremely motivated to buy this dip they won\u2019t even lose 5850 from here (or if it does fail, just a quick failed breakdown and recovery).\u201d We saw exactly that this morning, we flushed 5850 by 30 points, rapidly recovered by 8:50AM, and we were off."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll talk about today\u2019s Failed Breakdown long and the cause of yesterdays sell (it was my secondary setup type: The Backtest Short)."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "Yesterday Was Biggest Red Day In A Month For SPX. It Got Bought Today. Can Bulls Hold The Low? May 23 Plan",
+  "post_date": "2025-05-22",
+  "post_slug": "yesterday-was-biggest-red-day-in",
+  "parsed_at": "2026-04-16T15:44:00.718114",
+  "body_length": 2485
+}

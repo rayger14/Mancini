@@ -1,0 +1,64 @@
+{
+  "trading_date": "2024-10-03",
+  "levels": [
+    {
+      "price": 5734.0,
+      "role": "support",
+      "context": "above 5734"
+    },
+    {
+      "price": 5739.0,
+      "role": "mentioned",
+      "context": "queeze, and we saw one to start today. I wrote yesterday: \u201c 5739 was a key support today, and it may have 1 bid left in it,"
+    },
+    {
+      "price": 5777.0,
+      "role": "level",
+      "context": "5777 zone"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5734.0,
+      "role": "support",
+      "context": "above 5734"
+    },
+    {
+      "price": 5739.0,
+      "role": "mentioned",
+      "context": "queeze, and we saw one to start today. I wrote yesterday: \u201c 5739 was a key support today, and it may have 1 bid left in it,"
+    },
+    {
+      "price": 5777.0,
+      "role": "level",
+      "context": "5777 zone"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We got this right off the bat yesterday and I wrote in my Friday 4pm newsletter preparing readers for this: \u201cBear case tomorrow: Begins again on the fail of 5777\u2026."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Below there, possible options include a failed breakdown of today\u2019s low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is important as in this newsletter I spent 80% of the time talking about my core setup: The Failed Breakdown, yesterday we got a real breakdown and in downtrends, these are your best friend."
+    },
+    {
+      "type": "RISK / INVALIDATION",
+      "text": "I wrote yesterday: \u201c 5739 was a key support today, and it may have 1 bid left in it, but risky."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "Do SPX Bears Have More In The Tank? Oct 3rd Plan",
+  "post_date": "2024-10-02",
+  "post_slug": "do-spx-bears-have-more-in-the-tank",
+  "parsed_at": "2026-04-16T15:47:24.813534",
+  "body_length": 2071
+}

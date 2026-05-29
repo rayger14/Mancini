@@ -1,0 +1,163 @@
+{
+  "trading_date": "2025-09-11",
+  "levels": [
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": "end the supports mentioned above on any dips (no lower than 6461 or trap below) .\u201d On Friday at 11am we trapped under 6461,"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "erday: \u201cMy general is always to defer to the trend. 6518 to 6494 remains the range with 6505 magnet. React at 6531, fill out"
+    },
+    {
+      "price": 6495.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cMy general lean is always to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. As long as range su"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. As long as range support holds (with any quick trap"
+    },
+    {
+      "price": 6518.0,
+      "role": "target",
+      "context": "target 6518"
+    },
+    {
+      "price": 6523.0,
+      "role": "mentioned",
+      "context": "456 low in the process. Recovered, Failed Breakdown, ran to 6523 Monday evening. That took us into today and the script just"
+    },
+    {
+      "price": 6531.0,
+      "role": "mentioned",
+      "context": "holds (with any quick traps below bought), we target 6518, 6531. Final reaction there, then onto ATHs.\u201d What did we do yest"
+    },
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": "505 magnet. React at 6531, fill out the structure more then 6542, 6566-69, 6575 megaphone resistance next.\u201d By 9am, we got t"
+    },
+    {
+      "price": 6566.0,
+      "role": "range",
+      "context": "6566-69"
+    },
+    {
+      "price": 6569.0,
+      "role": "range",
+      "context": "6566-69"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6461.0,
+      "role": "mentioned",
+      "context": "end the supports mentioned above on any dips (no lower than 6461 or trap below) .\u201d On Friday at 11am we trapped under 6461,"
+    },
+    {
+      "price": 6494.0,
+      "role": "mentioned",
+      "context": "erday: \u201cMy general is always to defer to the trend. 6518 to 6494 remains the range with 6505 magnet. React at 6531, fill out"
+    },
+    {
+      "price": 6495.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cMy general lean is always to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. As long as range su"
+    },
+    {
+      "price": 6505.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. 6495 to 6518= a chop range with 6505 magnet. As long as range support holds (with any quick trap"
+    },
+    {
+      "price": 6523.0,
+      "role": "mentioned",
+      "context": "456 low in the process. Recovered, Failed Breakdown, ran to 6523 Monday evening. That took us into today and the script just"
+    },
+    {
+      "price": 6531.0,
+      "role": "mentioned",
+      "context": "holds (with any quick traps below bought), we target 6518, 6531. Final reaction there, then onto ATHs.\u201d What did we do yest"
+    },
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": "505 magnet. React at 6531, fill out the structure more then 6542, 6566-69, 6575 megaphone resistance next.\u201d By 9am, we got t"
+    },
+    {
+      "price": 6566.0,
+      "role": "range",
+      "context": "6566-69"
+    },
+    {
+      "price": 6569.0,
+      "role": "range",
+      "context": "6566-69"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6518.0,
+      "role": "target",
+      "context": "target 6518"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Monday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close yesterday: \u201cMy general is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Their footprint is standardized and takes the form of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Price sells rapidly in an \u201celevator down\u201d flush and loses a low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When you understand this, you realize your job is not to predict where price is going or how, but simply to respond when price puts in the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The Failed Breakdown/Short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Recovered, Failed Breakdown, ran to 6523 Monday evening."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We sold yesterday morning rapidly (elevator down), lost 6495 by a few points, Failed Breakdown, then squeezed to 6531 exact by the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the Failed Breakdown on Friday that gave us the monster 75 point squeeze into yesterday\u2019s highs (this is important to know), then I\u2019ll talk the actionable trade plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6495 to 6518= a chop range with 6505 magnet."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6518 to 6494 remains the range with 6505 magnet."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 9,
+  "resistance_count": 1,
+  "post_title": "SPX Makes Big New All Time Highs. Will CPI Tomorrow Ruin It? September 11 Plan",
+  "post_date": "2025-09-10",
+  "post_slug": "spx-makes-big-new-all-time-highs",
+  "parsed_at": "2026-04-16T15:42:22.882091",
+  "body_length": 2872
+}

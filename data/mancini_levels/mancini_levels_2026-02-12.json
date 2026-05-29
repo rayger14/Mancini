@@ -1,0 +1,212 @@
+{
+  "trading_date": "2026-02-12",
+  "levels": [
+    {
+      "price": 6751.0,
+      "role": "mentioned",
+      "context": "ints.\u201d We got this at 8pm Thursday. We flushed 6773 down to 6751, recovered 6773 and began a 200+ point leg up. The final bu"
+    },
+    {
+      "price": 6773.0,
+      "role": "mentioned",
+      "context": "allied 270 points.\u201d We got this at 8pm Thursday. We flushed 6773 down to 6751, recovered 6773 and began a 200+ point leg up."
+    },
+    {
+      "price": 6935.0,
+      "role": "support",
+      "context": "hold 6935"
+    },
+    {
+      "price": 6940.0,
+      "role": "range",
+      "context": "6935-40"
+    },
+    {
+      "price": 6960.0,
+      "role": "mentioned",
+      "context": "lls want to hold 6935-40, 6900 lowest next week. This keeps 6960, 6975-78, 6998, 7006 live. 7006 is a big magnet.\u201d Yesterday"
+    },
+    {
+      "price": 6970.0,
+      "role": "support",
+      "context": "recover 6970"
+    },
+    {
+      "price": 6975.0,
+      "role": "range",
+      "context": "6975-78"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6975-78"
+    },
+    {
+      "price": 6983.0,
+      "role": "mentioned",
+      "context": "We probed below late day. Bulls want to recover 6970 to see 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d"
+    },
+    {
+      "price": 6998.0,
+      "role": "range",
+      "context": "6970-6998"
+    },
+    {
+      "price": 7006.0,
+      "role": "mentioned",
+      "context": "6751 Thursday evening. What then happens after a big shelf (7006) breaks down? Typically, it becomes a magnet which then nee"
+    },
+    {
+      "price": 7014.0,
+      "role": "mentioned",
+      "context": "recover 6970 to see 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d We recovered 6970, ripped to 7006+ this"
+    },
+    {
+      "price": 7022.0,
+      "role": "mentioned",
+      "context": "er 6970 to see 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d We recovered 6970, ripped to 7006+ this morni"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "0 to see 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d We recovered 6970, ripped to 7006+ this morning aga"
+    },
+    {
+      "price": 7050.0,
+      "role": "mentioned",
+      "context": "ee 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d We recovered 6970, ripped to 7006+ this morning again, th"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6751.0,
+      "role": "mentioned",
+      "context": "ints.\u201d We got this at 8pm Thursday. We flushed 6773 down to 6751, recovered 6773 and began a 200+ point leg up. The final bu"
+    },
+    {
+      "price": 6773.0,
+      "role": "mentioned",
+      "context": "allied 270 points.\u201d We got this at 8pm Thursday. We flushed 6773 down to 6751, recovered 6773 and began a 200+ point leg up."
+    },
+    {
+      "price": 6935.0,
+      "role": "support",
+      "context": "hold 6935"
+    },
+    {
+      "price": 6940.0,
+      "role": "range",
+      "context": "6935-40"
+    },
+    {
+      "price": 6960.0,
+      "role": "mentioned",
+      "context": "lls want to hold 6935-40, 6900 lowest next week. This keeps 6960, 6975-78, 6998, 7006 live. 7006 is a big magnet.\u201d Yesterday"
+    },
+    {
+      "price": 6970.0,
+      "role": "support",
+      "context": "recover 6970"
+    },
+    {
+      "price": 6975.0,
+      "role": "range",
+      "context": "6975-78"
+    },
+    {
+      "price": 6978.0,
+      "role": "range",
+      "context": "6975-78"
+    },
+    {
+      "price": 6983.0,
+      "role": "mentioned",
+      "context": "We probed below late day. Bulls want to recover 6970 to see 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d"
+    },
+    {
+      "price": 6998.0,
+      "role": "range",
+      "context": "6970-6998"
+    },
+    {
+      "price": 7006.0,
+      "role": "mentioned",
+      "context": "6751 Thursday evening. What then happens after a big shelf (7006) breaks down? Typically, it becomes a magnet which then nee"
+    },
+    {
+      "price": 7014.0,
+      "role": "mentioned",
+      "context": "recover 6970 to see 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d We recovered 6970, ripped to 7006+ this"
+    },
+    {
+      "price": 7022.0,
+      "role": "mentioned",
+      "context": "er 6970 to see 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d We recovered 6970, ripped to 7006+ this morni"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "0 to see 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d We recovered 6970, ripped to 7006+ this morning aga"
+    },
+    {
+      "price": 7050.0,
+      "role": "mentioned",
+      "context": "ee 6983, 6998. Dip there, then onto 7006, 7014, 7022, 7036, 7050.\u201d We recovered 6970, ripped to 7006+ this morning again, th"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The first building block is the elevator down sell and this refers to a period where ES flushes every support with ease."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This occurs however only when ES puts in my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They firstly wait for a vertical, elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Thursday at 4pm: \u201cBelow there one very obvious trade is a Failed Breakdown of the December 17th 6773 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Where do big, successful Failed Breakdowns target?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "With all that done, the task for bulls would be to try and buy the dip again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Typically, it becomes a magnet which then needs to be back-tested."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "7006 is a big magnet.\u201d Yesterday, we hit 7006 almost exact, and dipped."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 15,
+  "resistance_count": 0,
+  "post_title": "The Tight Coil Continues In SPX. Is A Big Move Close? February 12th Plan",
+  "post_date": "2026-02-11",
+  "post_slug": "the-tight-coil-continues-in-spx-is",
+  "parsed_at": "2026-04-16T15:40:08.206391",
+  "body_length": 2670
+}

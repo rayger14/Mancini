@@ -1,0 +1,198 @@
+{
+  "trading_date": "2025-02-17",
+  "levels": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "support",
+      "context": "6020 support"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "t to defer to the trend though. Bulls want to hold 6120-23, 6098 (if this fails it needs to recover fast) on any dips tomorr"
+    },
+    {
+      "price": 6104.0,
+      "role": "mentioned",
+      "context": "ean is we can work up to range resistance. This means 6098, 6104, then 6125. Above there, we can work to the higher targets"
+    },
+    {
+      "price": 6120.0,
+      "role": "support",
+      "context": "hold 6120"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6120-23"
+    },
+    {
+      "price": 6125.0,
+      "role": "mentioned",
+      "context": "an work up to range resistance. This means 6098, 6104, then 6125. Above there, we can work to the higher targets in the bull"
+    },
+    {
+      "price": 6129.0,
+      "role": "mentioned",
+      "context": "ting last Wednesdays low in the process. We then rallied to 6129 by yesterday. This entry, and target, was given a week ago."
+    },
+    {
+      "price": 6139.0,
+      "role": "mentioned",
+      "context": "higher targets in the bull case\u2026.. Initial targets would be 6139, 6160-65, then 6184. Blue skies above\u201d. We got this on Thur"
+    },
+    {
+      "price": 6160.0,
+      "role": "range",
+      "context": "6160-65"
+    },
+    {
+      "price": 6165.0,
+      "role": "range",
+      "context": "6160-65"
+    },
+    {
+      "price": 6184.0,
+      "role": "mentioned",
+      "context": "e bull case\u2026.. Initial targets would be 6139, 6160-65, then 6184. Blue skies above\u201d. We got this on Thursday, getting to 612"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "support",
+      "context": "6020 support"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6098.0,
+      "role": "mentioned",
+      "context": "t to defer to the trend though. Bulls want to hold 6120-23, 6098 (if this fails it needs to recover fast) on any dips tomorr"
+    },
+    {
+      "price": 6104.0,
+      "role": "mentioned",
+      "context": "ean is we can work up to range resistance. This means 6098, 6104, then 6125. Above there, we can work to the higher targets"
+    },
+    {
+      "price": 6120.0,
+      "role": "support",
+      "context": "hold 6120"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6120-23"
+    },
+    {
+      "price": 6125.0,
+      "role": "mentioned",
+      "context": "an work up to range resistance. This means 6098, 6104, then 6125. Above there, we can work to the higher targets in the bull"
+    },
+    {
+      "price": 6129.0,
+      "role": "mentioned",
+      "context": "ting last Wednesdays low in the process. We then rallied to 6129 by yesterday. This entry, and target, was given a week ago."
+    },
+    {
+      "price": 6139.0,
+      "role": "mentioned",
+      "context": "higher targets in the bull case\u2026.. Initial targets would be 6139, 6160-65, then 6184. Blue skies above\u201d. We got this on Thur"
+    },
+    {
+      "price": 6160.0,
+      "role": "range",
+      "context": "6160-65"
+    },
+    {
+      "price": 6165.0,
+      "role": "range",
+      "context": "6160-65"
+    },
+    {
+      "price": 6184.0,
+      "role": "mentioned",
+      "context": "e bull case\u2026.. Initial targets would be 6139, 6160-65, then 6184. Blue skies above\u201d. We got this on Thursday, getting to 612"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm Wednesday: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can work up to range resistance."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Above there, we can work to the higher targets in the bull case\u2026.."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The job today for bulls would be to defend that breakout and I wrote yesterday at 4pm: \u201cMy general is always just to defer to the trend though."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, I largely trade 1 setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns are the footprint of institutional accumulation."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The last three weeks all saw massive insitutional accumulation right off the Sunday futures open, and this week - like the two before it, saw us get long on Sunday evening, and stay long for a 100+ point move."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I\u2019ll then do a deep dive into three major Failed Breakdowns we had this week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Like last week, we had a Failed Breakdown at least once per day, but on several occasions twice."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Initial targets would be 6139, 6160-65, then 6184."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 14,
+  "resistance_count": 0,
+  "post_title": "Is SPX Ready To Make/Sustain All Time Highs? Feb 17th and 18th Plan",
+  "post_date": "2025-02-16",
+  "post_slug": "is-spx-ready-to-makesustain-all-time-d66",
+  "parsed_at": "2026-04-16T15:45:26.115210",
+  "body_length": 3039
+}

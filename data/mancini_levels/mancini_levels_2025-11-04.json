@@ -1,0 +1,148 @@
+{
+  "trading_date": "2025-11-04",
+  "levels": [
+    {
+      "price": 6841.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6843.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6851.0,
+      "role": "support",
+      "context": "6851 daily low"
+    },
+    {
+      "price": 6869.0,
+      "role": "support",
+      "context": "hold 6869"
+    },
+    {
+      "price": 6893.0,
+      "role": "mentioned",
+      "context": "they can just hold 6869 then work up the flag. This targets 6893, 6907, then 6924. Above there is 6944-48 and bulls need to"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "it exact, recovered Thurday\u2019s 6851 daily low, and ripped to 6900 then sold into Friday\u2019s close. The task for bulls this week"
+    },
+    {
+      "price": 6907.0,
+      "role": "mentioned",
+      "context": "an just hold 6869 then work up the flag. This targets 6893, 6907, then 6924. Above there is 6944-48 and bulls need to clear"
+    },
+    {
+      "price": 6916.0,
+      "role": "mentioned",
+      "context": "6869 morning low, sold to 6851, recovered, and we ripped to 6916 Friday morning. Then Friday? Same drill. I wrote Thursday a"
+    },
+    {
+      "price": 6924.0,
+      "role": "mentioned",
+      "context": "d 6869 then work up the flag. This targets 6893, 6907, then 6924. Above there is 6944-48 and bulls need to clear that to sta"
+    },
+    {
+      "price": 6944.0,
+      "role": "range",
+      "context": "6944-48"
+    },
+    {
+      "price": 6948.0,
+      "role": "range",
+      "context": "6944-48"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6841.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6843.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6851.0,
+      "role": "support",
+      "context": "6851 daily low"
+    },
+    {
+      "price": 6869.0,
+      "role": "support",
+      "context": "hold 6869"
+    },
+    {
+      "price": 6893.0,
+      "role": "mentioned",
+      "context": "they can just hold 6869 then work up the flag. This targets 6893, 6907, then 6924. Above there is 6944-48 and bulls need to"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "it exact, recovered Thurday\u2019s 6851 daily low, and ripped to 6900 then sold into Friday\u2019s close. The task for bulls this week"
+    },
+    {
+      "price": 6907.0,
+      "role": "mentioned",
+      "context": "an just hold 6869 then work up the flag. This targets 6893, 6907, then 6924. Above there is 6944-48 and bulls need to clear"
+    },
+    {
+      "price": 6916.0,
+      "role": "mentioned",
+      "context": "6869 morning low, sold to 6851, recovered, and we ripped to 6916 Friday morning. Then Friday? Same drill. I wrote Thursday a"
+    },
+    {
+      "price": 6924.0,
+      "role": "mentioned",
+      "context": "d 6869 then work up the flag. This targets 6893, 6907, then 6924. Above there is 6944-48 and bulls need to clear that to sta"
+    },
+    {
+      "price": 6944.0,
+      "role": "range",
+      "context": "6944-48"
+    },
+    {
+      "price": 6948.0,
+      "role": "range",
+      "context": "6944-48"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was they could and I wrote Friday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For that, we need a setup and as readers know, I trade the same setup institutions use to accumulate: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote in my Thursday 2:30pm newsletter (before earnings): \u201cThe last ditch shot for bulls would to flush and put in a Failed Breakdown of today\u2019s 6869 or so low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Thursday at 2:30PM: \u201cOne can try the 6841-43 long if its a controlled dip.\u201d On Friday afternoon we sold to 6843, held it exact, recovered Thurday\u2019s 6851 daily low, and ripped to 6900 then sold into Friday\u2019s close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the multi-tude of Failed Breakdowns we had last week (5 since Wednesday alone)."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 11,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Tight (Again). Move Incoming. What Way? November 4 Plan",
+  "post_date": "2025-11-03",
+  "post_slug": "spx-is-coiled-tight-again-move-incoming",
+  "parsed_at": "2026-04-16T15:41:36.051602",
+  "body_length": 2634
+}

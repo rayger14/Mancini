@@ -1,0 +1,64 @@
+{
+  "trading_date": "2025-08-04",
+  "levels": [
+    {
+      "price": 6333.0,
+      "role": "mentioned",
+      "context": "week bullish triangle/flag the prior Thursday July 17th at 6333. My target was ~6425, and we got there last Friday. Rallies"
+    },
+    {
+      "price": 6374.0,
+      "role": "level",
+      "context": "6374 level"
+    },
+    {
+      "price": 6425.0,
+      "role": "mentioned",
+      "context": "e/flag the prior Thursday July 17th at 6333. My target was ~6425, and we got there last Friday. Rallies like this don\u2019t come"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6333.0,
+      "role": "mentioned",
+      "context": "week bullish triangle/flag the prior Thursday July 17th at 6333. My target was ~6425, and we got there last Friday. Rallies"
+    },
+    {
+      "price": 6374.0,
+      "role": "level",
+      "context": "6374 level"
+    },
+    {
+      "price": 6425.0,
+      "role": "mentioned",
+      "context": "e/flag the prior Thursday July 17th at 6333. My target was ~6425, and we got there last Friday. Rallies like this don\u2019t come"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: 6374 needs to fail to get a real dip going.\u201d and \u201cBelow 6374 we could sell quite dramatically\"."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "While its nice to expect a certain type of price action, trading it is a different matter, and as readers know, most my entries occur via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If we are knifing, wait for the Failed Breakdown of today\u2019s 6365 low (perhaps down to 6356 but doesn\u2019t need to go that deep).\u201d Before Apple earnings yesterday we lost 6374 again, sold to 6359, and rallied to 6400 yesterday afternoon."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss some of the setups we saw this week (we saw many Failed Breakdown variants including \u201cdouble dip\u201d Failed Breakdowns and \u201cLevel Reclaims\u201d) These are important to know."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 3,
+  "resistance_count": 0,
+  "post_title": "Biggest Red Week For SPX Since May 19th. Will It Get Bought? August 4th Plan",
+  "post_date": "2025-08-03",
+  "post_slug": "biggest-red-week-for-spx-since-may-286",
+  "parsed_at": "2026-04-16T15:42:59.115857",
+  "body_length": 3124
+}

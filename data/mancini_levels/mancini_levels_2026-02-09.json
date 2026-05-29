@@ -1,0 +1,102 @@
+{
+  "trading_date": "2026-02-09",
+  "levels": [
+    {
+      "price": 6854.0,
+      "role": "mentioned",
+      "context": "cktest. My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then"
+    },
+    {
+      "price": 6878.0,
+      "role": "mentioned",
+      "context": ". My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then 6900+"
+    },
+    {
+      "price": 6897.0,
+      "role": "range",
+      "context": "6897-6900"
+    },
+    {
+      "price": 6900.0,
+      "role": "range",
+      "context": "6897-6900"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6854.0,
+      "role": "mentioned",
+      "context": "cktest. My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then"
+    },
+    {
+      "price": 6878.0,
+      "role": "mentioned",
+      "context": ". My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then 6900+"
+    },
+    {
+      "price": 6897.0,
+      "role": "range",
+      "context": "6897-6900"
+    },
+    {
+      "price": 6900.0,
+      "role": "range",
+      "context": "6897-6900"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is ES can try to backtest this with 6854, 6878 en route.\u201d We saw exactly this, running to 6878, then 6900+ today to end the day up at 6960.180+ points of clean, no drawdown upside."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today saw the best long of 2026, readers were given it in advance, and it demonstrated why I only trade Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They mean fast, vicious elevator down sells, and correspondently, equally fast squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The core I exploit I call the two siblings: The first sibling is ES suddenly goes elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This always follows the elevator down sell - never any exception in recorded history."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, the short squeeze only occurs when ES puts in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips by waiting for a news driven elevator down flush/trap , waiting for a low to be taken out in the process, trapping shorts beneath the low, using that liquidity to fund their longs, and then price rips when the low recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last evening, ES sold off down to 6751 going viciously elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cBelow there one very obvious trade is a Failed Breakdown of the December 17th 6773 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Trades like this are why I only trade Failed Breakdowns, and readers were able to get onboard this one."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "Monster Squeeze For SPX. Will It Last? Feb 9th Plan",
+  "post_date": "2026-02-08",
+  "post_slug": "monster-squeeze-for-spx-will-it-last-e6a",
+  "parsed_at": "2026-04-16T15:40:11.872651",
+  "body_length": 3098
+}

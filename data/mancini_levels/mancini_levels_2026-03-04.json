@@ -1,0 +1,94 @@
+{
+  "trading_date": "2026-03-04",
+  "levels": [
+    {
+      "price": 6768.0,
+      "role": "mentioned",
+      "context": "y 17th major low.\u201d Overnight we swept that 6791 low down to 6768, trapped bears, and ripped over 150 Points into yesterday\u2019s"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "see a Failed Breakdown and rip. I wrote on Friday at 4pm: \u201c6782 is under there and instead of buying this, wait for it to h"
+    },
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "the 6791 February 17th major low.\u201d Overnight we swept that 6791 low down to 6768, trapped bears, and ripped over 150 Points"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "trapped bears, and ripped over 150 Points into yesterday\u2019s 6913 highs. The problem, however, is that - despite the big Fail"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6768.0,
+      "role": "mentioned",
+      "context": "y 17th major low.\u201d Overnight we swept that 6791 low down to 6768, trapped bears, and ripped over 150 Points into yesterday\u2019s"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "see a Failed Breakdown and rip. I wrote on Friday at 4pm: \u201c6782 is under there and instead of buying this, wait for it to h"
+    },
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "the 6791 February 17th major low.\u201d Overnight we swept that 6791 low down to 6768, trapped bears, and ripped over 150 Points"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "trapped bears, and ripped over 150 Points into yesterday\u2019s 6913 highs. The problem, however, is that - despite the big Fail"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: 6832 has to fail, but in advance of that there is is a complex short on the failure of 6873.\u201d We lost 6832 overnight, broke the range down and went elevator down into this morning down to 6718."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of those cycles is ES goes elevator down in a vertical flush cutting through every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These squeezes often backtest major resistances which were broken during the elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This flush of a big low, trap, and recover refers to my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, the gap down will result in a Failed Breakdown/squeeze but I would not hold any size over the weekend.\u201d This was highly prescient, and on early Saturday morning, this risk materialized and we gapped down Sunday 45 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Like all gap downs/elevator down sells in ES though, this did not take long to see a Failed Breakdown and rip."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The problem, however, is that - despite the big Failed Breakdown - ES remained stuck in the same range for 2 weeks."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Like every elevator down sell though, it would resolve with a short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "Another Big Dip In SPX That Was Again Bought. Was That The Bottom? March 4 Plan",
+  "post_date": "2026-03-03",
+  "post_slug": "another-big-dip-in-spx-that-was-again",
+  "parsed_at": "2026-04-16T15:38:42.905536",
+  "body_length": 3129
+}

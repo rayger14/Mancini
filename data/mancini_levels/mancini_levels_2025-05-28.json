@@ -1,0 +1,108 @@
+{
+  "trading_date": "2025-05-28",
+  "levels": [
+    {
+      "price": 5809.0,
+      "role": "support",
+      "context": "hold 5809"
+    },
+    {
+      "price": 5815.0,
+      "role": "support",
+      "context": "recover 5815"
+    },
+    {
+      "price": 5820.0,
+      "role": "range",
+      "context": "5815-20"
+    },
+    {
+      "price": 5843.0,
+      "role": "mentioned",
+      "context": "had to reclaim to start a rally, and we got that squeeze to 5843 high of day. The dip was again bought. The question for thi"
+    },
+    {
+      "price": 5877.0,
+      "role": "mentioned",
+      "context": "ed 5815-20, longs triggered, and we ran up those targets to 5877, 5900, then 5925.+ Its been a great run, but ultimately ES"
+    },
+    {
+      "price": 5900.0,
+      "role": "mentioned",
+      "context": "5-20, longs triggered, and we ran up those targets to 5877, 5900, then 5925.+ Its been a great run, but ultimately ES is in"
+    },
+    {
+      "price": 5925.0,
+      "role": "mentioned",
+      "context": "triggered, and we ran up those targets to 5877, 5900, then 5925.+ Its been a great run, but ultimately ES is in a big sidew"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5809.0,
+      "role": "support",
+      "context": "hold 5809"
+    },
+    {
+      "price": 5815.0,
+      "role": "support",
+      "context": "recover 5815"
+    },
+    {
+      "price": 5820.0,
+      "role": "range",
+      "context": "5815-20"
+    },
+    {
+      "price": 5843.0,
+      "role": "mentioned",
+      "context": "had to reclaim to start a rally, and we got that squeeze to 5843 high of day. The dip was again bought. The question for thi"
+    },
+    {
+      "price": 5877.0,
+      "role": "mentioned",
+      "context": "ed 5815-20, longs triggered, and we ran up those targets to 5877, 5900, then 5925.+ Its been a great run, but ultimately ES"
+    },
+    {
+      "price": 5900.0,
+      "role": "mentioned",
+      "context": "5-20, longs triggered, and we ran up those targets to 5877, 5900, then 5925.+ Its been a great run, but ultimately ES is in"
+    },
+    {
+      "price": 5925.0,
+      "role": "mentioned",
+      "context": "triggered, and we ran up those targets to 5877, 5900, then 5925.+ Its been a great run, but ultimately ES is in a big sidew"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Friday at 4pm: \u201cIn a strong bull case for Monday, ES won\u2019t even head back to support of this range, and will rather just hold 5809 or 5794, recover 5815-20, then head back on up to 5843 then 5850\u2026After 5850 recovers, 5877, 5900, then 5925 are the next big stops on the upside as we work back towards the highs.\u201d We saw exactly this and right after the newsletter came out Friday, we held 5809, at 6:05PM Sunday, we recovered 5815-20, longs triggered, and we ran up those targets to 5877, 5900, then 5925.+ Its been a great run, but ultimately ES is in a big sideways range since May 13th."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After every \u201celevator down\u201d sell in ES, comes an equally violent short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As a Failed Breakdown long trader, this is how I pay the bills and at 9:35AM Friday, I tweeted that 5788 had to reclaim to start a rally, and we got that squeeze to 5843 high of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the very interesting price action we had on Friday where we saw a deep \u201celevator down\u201d sell then equally violent \u201cshort squeeze\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If ES ever does get back to a bear market, we\u2019ll see this cycle daily and its caused by my two core setup types back to back: My third setup type (the breakdown short), and my primary setup type (the failed breakdown)."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "The Dip Was Again Bought In SPX. Are New Highs Coming? May 28 Plan",
+  "post_date": "2025-05-27",
+  "post_slug": "the-dip-was-again-bought-in-spx-are",
+  "parsed_at": "2026-04-16T15:43:58.136554",
+  "body_length": 2477
+}

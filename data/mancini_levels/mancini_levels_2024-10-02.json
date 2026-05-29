@@ -1,0 +1,42 @@
+{
+  "trading_date": "2024-10-02",
+  "levels": [
+    {
+      "price": 5777.0,
+      "role": "level",
+      "context": "5777 level"
+    },
+    {
+      "price": 5799.0,
+      "role": "mentioned",
+      "context": "nd moves)\u201d. ES got to work right off the open today, losing 5799 and starting a flush down. From there, ES then lost the cri"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5777.0,
+      "role": "level",
+      "context": "5777 level"
+    },
+    {
+      "price": 5799.0,
+      "role": "mentioned",
+      "context": "nd moves)\u201d. ES got to work right off the open today, losing 5799 and starting a flush down. From there, ES then lost the cri"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "From there, ES then lost the critical 5777 level, taking the sell into over-drive and putting bears formally in control , and I wrote yesterday: \u201cBear case tomorrow: Begins again on the fail of 5777\u2026."
+    }
+  ],
+  "level_count": 2,
+  "support_count": 2,
+  "resistance_count": 0,
+  "post_title": "October Starts With A Bang For SPX. More Red Ahead? Oct 2nd Plan",
+  "post_date": "2024-10-01",
+  "post_slug": "october-starts-with-a-bang-for-spx",
+  "parsed_at": "2026-04-16T15:47:26.071829",
+  "body_length": 2080
+}

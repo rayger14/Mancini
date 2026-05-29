@@ -1,0 +1,186 @@
+{
+  "trading_date": "2025-10-27",
+  "levels": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "e saw exactly this at 2pm Wednesday We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close Wednesda"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "mentioned",
+      "context": "g in here.\u201d We saw exactly this at 2pm Wednesday We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the c"
+    },
+    {
+      "price": 6740.0,
+      "role": "mentioned",
+      "context": "overed/Failed Breakdown, ripped into the close Wednesday to 6740. Where do these squeezes target? They Back-Test the zone th"
+    },
+    {
+      "price": 6766.0,
+      "role": "support",
+      "context": "above 6766"
+    },
+    {
+      "price": 6772.0,
+      "role": "support",
+      "context": "above 6772"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "the tick, dipped, then cleared it and closed the day at at 6782. Today was CPI day, and the task for bulls was to keep it g"
+    },
+    {
+      "price": 6787.0,
+      "role": "mentioned",
+      "context": "up direct\u2026.This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two"
+    },
+    {
+      "price": 6803.0,
+      "role": "mentioned",
+      "context": "rect\u2026.This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month"
+    },
+    {
+      "price": 6820.0,
+      "role": "mentioned",
+      "context": "This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month megaph"
+    },
+    {
+      "price": 6840.0,
+      "role": "mentioned",
+      "context": "ple below\u201d We got to 6820+ minutes after CPI, and ripped to 6840+. We broke out a big two week triangle pattern today in ES,"
+    },
+    {
+      "price": 6854.0,
+      "role": "mentioned",
+      "context": "up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month megaphone pattern"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "e saw exactly this at 2pm Wednesday We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close Wednesda"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "mentioned",
+      "context": "g in here.\u201d We saw exactly this at 2pm Wednesday We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the c"
+    },
+    {
+      "price": 6740.0,
+      "role": "mentioned",
+      "context": "overed/Failed Breakdown, ripped into the close Wednesday to 6740. Where do these squeezes target? They Back-Test the zone th"
+    },
+    {
+      "price": 6766.0,
+      "role": "support",
+      "context": "above 6766"
+    },
+    {
+      "price": 6772.0,
+      "role": "support",
+      "context": "above 6772"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "the tick, dipped, then cleared it and closed the day at at 6782. Today was CPI day, and the task for bulls was to keep it g"
+    },
+    {
+      "price": 6787.0,
+      "role": "mentioned",
+      "context": "up direct\u2026.This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two"
+    },
+    {
+      "price": 6803.0,
+      "role": "mentioned",
+      "context": "rect\u2026.This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month"
+    },
+    {
+      "price": 6820.0,
+      "role": "mentioned",
+      "context": "This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month megaph"
+    },
+    {
+      "price": 6840.0,
+      "role": "mentioned",
+      "context": "ple below\u201d We got to 6820+ minutes after CPI, and ripped to 6840+. We broke out a big two week triangle pattern today in ES,"
+    },
+    {
+      "price": 6854.0,
+      "role": "mentioned",
+      "context": "up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month megaphone pattern"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case tomorrow is simply that ES can resume up to backtest 6766 again."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was they could push through."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cIn the most severe bull case ES will hold above 6766 and flag out above 6772 and below today\u2019s highs."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I\u2019ve frequently talked in this regard about ES cycles between two things: Elevator down sells (these are violent, vertical flushes that cut every support), and short squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes are caused by Failed Breakdowns which is where price sweeps a low, traps shorts, and squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Those Failed Breakdowns typically target a Back-Test of where ES broke down from to start the elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The last two days were case in point here: On Wednesday, ES got hit with a China headline and went elevator down, selling rapidly 100 points from 6790 down to 6690."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The Failed Breakdown/short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If we are really melting down, the best setup here is to wait for the Failed Breakdown of Sunday\u2019s 6694 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Ideally wait for 6702 to recover before hopping in here.\u201d We saw exactly this at 2pm Wednesday We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close Wednesday to 6740."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Wednesday at 4pm: \u201cAt 2pm today, ES put in a Failed Breakdown under 6698 and ripped us higher."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed breakdown that caused Wednesday/Thursday\u2019s 90 point squeeze (this is important to know so you can spot it next time)."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "Huge Two Week Pattern Breakout For SPX, But Can It (and Bulls) Survive The Slew of Catalysts Next Week? October 27 Plan",
+  "post_date": "2025-10-26",
+  "post_slug": "huge-two-week-pattern-breakout-for",
+  "parsed_at": "2026-04-16T15:41:43.541291",
+  "body_length": 3445
+}

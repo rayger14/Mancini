@@ -1,0 +1,122 @@
+{
+  "trading_date": "2025-02-05",
+  "levels": [
+    {
+      "price": 6004.0,
+      "role": "support",
+      "context": "above 6004"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6056.0,
+      "role": "range",
+      "context": "6056-66"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6056-66"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6004.0,
+      "role": "support",
+      "context": "above 6004"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6056.0,
+      "role": "range",
+      "context": "6056-66"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6056-66"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The obvious target was to fill that gap and I wrote last Monday at 4pm: \u201cFor now though, the bull case is that we got a short squeeze trigger on the Failed Breakdown of 5997 this morning at 8am, which triggered longs."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case ES can now begin back-testing with 6068-71 1st up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Our job as traders is not try to and capture every random intraday gyration, but to wait for the core building blocks to present, and this is where my core setup: The Failed Breakdown comes in."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know that after all deep sells, comes my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From there, we put in my core setup: The Failed Breakdown, where we undercut last weeks low of 5949 and recovered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the setup that caused yesterday squeeze (Failed Breakdown), and I\u2019ll discuss the actionable trade plan for tomorrow."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Is SPX Gunning For Another Run At Its All Time High? Feb 5 Plan",
+  "post_date": "2025-02-04",
+  "post_slug": "is-spx-gunning-for-another-run-at",
+  "parsed_at": "2026-04-16T15:45:36.027106",
+  "body_length": 1980
+}

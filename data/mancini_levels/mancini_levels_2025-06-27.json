@@ -1,0 +1,121 @@
+{
+  "trading_date": "2025-06-27",
+  "levels": [
+    {
+      "price": 5978.0,
+      "role": "resistance",
+      "context": "below 5978"
+    },
+    {
+      "price": 5979.0,
+      "role": "range",
+      "context": "5979-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6081.0,
+      "role": "resistance",
+      "context": "6081 resistance"
+    },
+    {
+      "price": 6140.0,
+      "role": "support",
+      "context": "hold 6140"
+    },
+    {
+      "price": 6155.0,
+      "role": "range",
+      "context": "6140-6155"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5979.0,
+      "role": "range",
+      "context": "5979-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "t ends. 5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside. My lean is we work back up to 6050, th"
+    },
+    {
+      "price": 6140.0,
+      "role": "support",
+      "context": "hold 6140"
+    },
+    {
+      "price": 6155.0,
+      "role": "range",
+      "context": "6140-6155"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5978.0,
+      "role": "resistance",
+      "context": "below 5978"
+    },
+    {
+      "price": 6081.0,
+      "role": "resistance",
+      "context": "6081 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I specified this back on Friday at 4pm, when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was (obviously) they would."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "That footprint is my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201c\u2026Wait for a Failed Breakdown of Thursdays 5970 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a very deep dive into that Sunday 6pm Failed Breakdown, because it produced a 180+ point move."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "5978-82 to 6081= a range (descending triangle) with 6050 a key magnet inside."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 5,
+  "resistance_count": 2,
+  "post_title": "How Much Gas Does SPX Have Left In The Tank? June 27 Plan",
+  "post_date": "2025-06-26",
+  "post_slug": "how-much-gas-does-spx-have-left-in",
+  "parsed_at": "2026-04-16T15:43:31.508819",
+  "body_length": 2577
+}

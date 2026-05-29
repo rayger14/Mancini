@@ -1,0 +1,98 @@
+{
+  "trading_date": "2025-03-12",
+  "levels": [
+    {
+      "price": 5548.0,
+      "role": "range",
+      "context": "5548-50"
+    },
+    {
+      "price": 5550.0,
+      "role": "range",
+      "context": "5548-50"
+    },
+    {
+      "price": 5568.0,
+      "role": "mentioned",
+      "context": "akdown) of today\u2019s low is obviously of interest. A flush to 5568 or even down to 5548-50 and recover would be of interest.\u201d"
+    },
+    {
+      "price": 5643.0,
+      "role": "range",
+      "context": "5643-46"
+    },
+    {
+      "price": 5646.0,
+      "role": "range",
+      "context": "5643-46"
+    },
+    {
+      "price": 5720.0,
+      "role": "support",
+      "context": "support at 5720"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5548.0,
+      "role": "range",
+      "context": "5548-50"
+    },
+    {
+      "price": 5550.0,
+      "role": "range",
+      "context": "5548-50"
+    },
+    {
+      "price": 5568.0,
+      "role": "mentioned",
+      "context": "akdown) of today\u2019s low is obviously of interest. A flush to 5568 or even down to 5548-50 and recover would be of interest.\u201d"
+    },
+    {
+      "price": 5643.0,
+      "role": "range",
+      "context": "5643-46"
+    },
+    {
+      "price": 5646.0,
+      "role": "range",
+      "context": "5643-46"
+    },
+    {
+      "price": 5720.0,
+      "role": "support",
+      "context": "support at 5720"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm that for Monday: \u201cBear case Monday: Begins under 5720.\u201d On Monday morning at 8am, we lost this structure, and we got a selloff of corresponding magnitude: Down 160+ points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know though that after an elevator down sell like yesterday, a short squeeze is common, and it typically occurs on my core setup: The failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yestreday at 4pm: \u201cIf we head down to new lows tomorrow, the Failed Breakdown (my Failed Breakdown) of today\u2019s low is obviously of interest."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "While ES looked good to start the day, it was again sideswiped by Tariff remarks, causing a flush to new lows in the 5530s, then putting in the exact same Failed Breakdown discussed above at 2pm for a second time."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I call this a \u201cdouble dip Failed Breakdown\u201d."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "SPX Tries A Bounce But Can It Stick? CPI Tomorrow Decides. March 12 Plan",
+  "post_date": "2025-03-11",
+  "post_slug": "spx-tries-a-bounce-but-can-it-stick",
+  "parsed_at": "2026-04-16T15:45:06.074709",
+  "body_length": 2352
+}

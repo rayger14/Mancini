@@ -1,0 +1,166 @@
+{
+  "trading_date": "2025-06-10",
+  "levels": [
+    {
+      "price": 5850.0,
+      "role": "support",
+      "context": "support at 5850"
+    },
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5925.0,
+      "role": "support",
+      "context": "above 5925"
+    },
+    {
+      "price": 5948.0,
+      "role": "support",
+      "context": "recover 5948"
+    },
+    {
+      "price": 5951.0,
+      "role": "range",
+      "context": "5948-51"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5975.0,
+      "role": "support",
+      "context": "hold 5975"
+    },
+    {
+      "price": 6029.0,
+      "role": "mentioned",
+      "context": "S will just consolidate around 6k). The next leg up targets 6029, 6047-50, then 6072.\u201d We saw this today, and we held 6k all"
+    },
+    {
+      "price": 6047.0,
+      "role": "range",
+      "context": "6047-50"
+    },
+    {
+      "price": 6050.0,
+      "role": "range",
+      "context": "6047-50"
+    },
+    {
+      "price": 6072.0,
+      "role": "mentioned",
+      "context": "ate around 6k). The next leg up targets 6029, 6047-50, then 6072.\u201d We saw this today, and we held 6k all morning, then ralli"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5850.0,
+      "role": "support",
+      "context": "support at 5850"
+    },
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5925.0,
+      "role": "support",
+      "context": "above 5925"
+    },
+    {
+      "price": 5948.0,
+      "role": "support",
+      "context": "recover 5948"
+    },
+    {
+      "price": 5951.0,
+      "role": "range",
+      "context": "5948-51"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5975.0,
+      "role": "support",
+      "context": "hold 5975"
+    },
+    {
+      "price": 6029.0,
+      "role": "mentioned",
+      "context": "S will just consolidate around 6k). The next leg up targets 6029, 6047-50, then 6072.\u201d We saw this today, and we held 6k all"
+    },
+    {
+      "price": 6047.0,
+      "role": "range",
+      "context": "6047-50"
+    },
+    {
+      "price": 6050.0,
+      "role": "range",
+      "context": "6047-50"
+    },
+    {
+      "price": 6072.0,
+      "role": "mentioned",
+      "context": "ate around 6k). The next leg up targets 6029, 6047-50, then 6072.\u201d We saw this today, and we held 6k all morning, then ralli"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "One week and two days ago, we were down at support of this massive structure, I closed out my Friday May 30th newsletter by stating: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm (when we were around 5945): \u201c My general lean is as long as above 5925 (or can recover 5948-51), ES can work back to 5970-75 which was a big support all day today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup: The Failed Breakdown ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Thursday evening, ES cleared 5948-51 (Failed Breakdown #1), triggering long to 5970-75 by Friday Morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Friday at 830AM we cleared 5970-75 (Failed Breakdown #2), triggering to 6k."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into three massive Failed Breakdowns we had on Thursday/Friday last week (including the two discussed above) to readers can identify them better in the future."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "SPX Broke Out Its 3 Week Range, Summer Grind Up Underway, Will It Sustain? June 10th Plan",
+  "post_date": "2025-06-09",
+  "post_slug": "spx-broke-out-its-3-week-range-summer",
+  "parsed_at": "2026-04-16T15:43:46.719203",
+  "body_length": 2981
+}

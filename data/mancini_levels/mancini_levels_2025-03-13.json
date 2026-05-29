@@ -1,0 +1,100 @@
+{
+  "trading_date": "2025-03-13",
+  "levels": [
+    {
+      "price": 5533.0,
+      "role": "mentioned",
+      "context": "ere we lost a huge shelf of lows at 5568-72 flushed down to 5533, then recovered. I wrote Monday at 4pm: \u201cIf we head down to"
+    },
+    {
+      "price": 5548.0,
+      "role": "range",
+      "context": "5548-50"
+    },
+    {
+      "price": 5550.0,
+      "role": "range",
+      "context": "5548-50"
+    },
+    {
+      "price": 5568.0,
+      "role": "range",
+      "context": "5568-72"
+    },
+    {
+      "price": 5572.0,
+      "role": "range",
+      "context": "5568-72"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5533.0,
+      "role": "mentioned",
+      "context": "ere we lost a huge shelf of lows at 5568-72 flushed down to 5533, then recovered. I wrote Monday at 4pm: \u201cIf we head down to"
+    },
+    {
+      "price": 5548.0,
+      "role": "range",
+      "context": "5548-50"
+    },
+    {
+      "price": 5550.0,
+      "role": "range",
+      "context": "5548-50"
+    },
+    {
+      "price": 5568.0,
+      "role": "range",
+      "context": "5568-72"
+    },
+    {
+      "price": 5572.0,
+      "role": "range",
+      "context": "5568-72"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote back on Friday at 4pm: \u201cBear case Monday: Begins under 5720.\u201d On Monday morning at 8am, the market made up its mind."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know though, ES does not sell linearly and after all \u201celevator down\u201d sells, come short short squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My job each day is to wait for these Yesterday at 2pm we got a Failed Breakdown where we lost a huge shelf of lows at 5568-72 flushed down to 5533, then recovered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Monday at 4pm: \u201cIf we head down to new lows tomorrow, the Failed Breakdown of today\u2019s low is obviously of interest."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From there, we went \u201celevator down\u201d again to the 5550s this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cOne possible entry is the flush of 5568-72 and recover.\u201d At around 11:20AM today, we got this setup, longs triggered, and we rallied 60+ points again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Can it finally pull it off?In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the setups from my system we saw this week as its been a goldmine particularly for my core setup type (the Failed Breakdown which caused the recent rally) and my rarest setup type (the Breakdown Short) which caused the Monday sell."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "SPX Bulls Manage A Rare Green Day. Can They Follow Through Now? March 13 Plan",
+  "post_date": "2025-03-12",
+  "post_slug": "spx-bulls-manage-a-rare-green-day",
+  "parsed_at": "2026-04-16T15:45:04.799741",
+  "body_length": 2179
+}

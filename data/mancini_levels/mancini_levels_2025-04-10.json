@@ -1,0 +1,69 @@
+{
+  "trading_date": "2025-04-10",
+  "levels": [
+    {
+      "price": 5515.0,
+      "role": "range",
+      "context": "5515-20"
+    },
+    {
+      "price": 5520.0,
+      "role": "range",
+      "context": "5515-20"
+    },
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5515.0,
+      "role": "range",
+      "context": "5515-20"
+    },
+    {
+      "price": 5520.0,
+      "role": "range",
+      "context": "5515-20"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know, I specialize in one setup type: The Failed Breakdown which causes a short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Rewinding a little first though, I wrote on Friday at 4pm that in the context of a downtrend, ES only does two things: \u201cPrice goes elevator down , then it short squeezes .\u201d I n other words, every sharp flush in ES is followed by an equally or more vicious squeeze and these squeezes have a singular cause: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down sells - on the other hand - are caused by my third setup type, the Breakdown Short."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After selling 200+ points on Sunday down to 4836, at 9:50AM Monday morning, ES put in a Failed Breakdown of the 4910 level, which I tweeted out in real time."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From here, we got \u201cElevator down\u201d and we sold down to 4945 low of day yesterday, then lower into 4875 at 1:30AM this morning."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 2,
+  "resistance_count": 1,
+  "post_title": "Largest Intra-day Squeeze In The History of SPX, But Is It A Bottom? April 10th Plan",
+  "post_date": "2025-04-09",
+  "post_slug": "largest-intra-day-squeeze-in-the",
+  "parsed_at": "2026-04-16T15:44:39.527244",
+  "body_length": 2886
+}

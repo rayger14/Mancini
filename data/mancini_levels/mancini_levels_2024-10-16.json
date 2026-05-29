@@ -1,0 +1,139 @@
+{
+  "trading_date": "2024-10-16",
+  "levels": [
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "mentioned",
+      "context": "86-88, possible dip there, then tackle bull flag resistance 5805. If this flag breaks out, we see a new ATH to 5846\u201d. You wi"
+    },
+    {
+      "price": 5809.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5811.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "ulation as I wrote extensively last week. After trending to 5846 target by last Wednesdays close, ES formed another accumula"
+    },
+    {
+      "price": 5858.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5860.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "below 5893"
+    },
+    {
+      "price": 5895.0,
+      "role": "range",
+      "context": "5893-95"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "mentioned",
+      "context": "86-88, possible dip there, then tackle bull flag resistance 5805. If this flag breaks out, we see a new ATH to 5846\u201d. You wi"
+    },
+    {
+      "price": 5809.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5811.0,
+      "role": "range",
+      "context": "5809-11"
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "ulation as I wrote extensively last week. After trending to 5846 target by last Wednesdays close, ES formed another accumula"
+    },
+    {
+      "price": 5858.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5860.0,
+      "role": "range",
+      "context": "5858-60"
+    },
+    {
+      "price": 5895.0,
+      "role": "range",
+      "context": "5893-95"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "below 5893"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "From September 25th to October 9th, institutions were accumulating in a picture perfect flag and as I wrote on October 7th last Monday: \u201cBull case tomorrow: No change."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: For tomorrow, a short term dip may evolve below 5893-95\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over the setup that got us long on Friday morning at 5822."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "in a little more detail (this is a rare variant of my more core setup the Failed Breakdown known as Level Reclaim)."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 9,
+  "resistance_count": 1,
+  "post_title": "SPX *Finally* Pulls Back. But Will It Get Bought? October 16 Plan",
+  "post_date": "2024-10-15",
+  "post_slug": "spx-finally-pulls-back-but-will-it",
+  "parsed_at": "2026-04-16T15:47:12.853327",
+  "body_length": 2285
+}

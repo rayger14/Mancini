@@ -1,0 +1,187 @@
+{
+  "trading_date": "2025-07-16",
+  "levels": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6263.0,
+      "role": "resistance",
+      "context": "below 6263"
+    },
+    {
+      "price": 6268.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6271.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6282.0,
+      "role": "range",
+      "context": "6285-82"
+    },
+    {
+      "price": 6283.0,
+      "role": "resistance",
+      "context": "below 6283"
+    },
+    {
+      "price": 6285.0,
+      "role": "range",
+      "context": "6285-82"
+    },
+    {
+      "price": 6288.0,
+      "role": "resistance",
+      "context": "below 6288"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "We then filled the triangle out to the upside yesterday to 6311 target. That took us into CPI today, and CPI would determin"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "\u201cmeasured move\u201d target for a rally of this size was roughly 6325 as readers knew, and by July 3rd, we hit 6333, completing t"
+    },
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    },
+    {
+      "price": 6349.0,
+      "role": "mentioned",
+      "context": "ugh (or quick Failed Breakdown below). Leg up targets 6333, 6349, then 6366. If the triangle fails, we begin a leg down.\u201d Th"
+    },
+    {
+      "price": 6366.0,
+      "role": "mentioned",
+      "context": "ck Failed Breakdown below). Leg up targets 6333, 6349, then 6366. If the triangle fails, we begin a leg down.\u201d This tracked"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5978.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 5982.0,
+      "role": "range",
+      "context": "5978-82"
+    },
+    {
+      "price": 6268.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6271.0,
+      "role": "range",
+      "context": "6271-68"
+    },
+    {
+      "price": 6282.0,
+      "role": "range",
+      "context": "6285-82"
+    },
+    {
+      "price": 6285.0,
+      "role": "range",
+      "context": "6285-82"
+    },
+    {
+      "price": 6311.0,
+      "role": "mentioned",
+      "context": "We then filled the triangle out to the upside yesterday to 6311 target. That took us into CPI today, and CPI would determin"
+    },
+    {
+      "price": 6325.0,
+      "role": "mentioned",
+      "context": "\u201cmeasured move\u201d target for a rally of this size was roughly 6325 as readers knew, and by July 3rd, we hit 6333, completing t"
+    },
+    {
+      "price": 6349.0,
+      "role": "mentioned",
+      "context": "ugh (or quick Failed Breakdown below). Leg up targets 6333, 6349, then 6366. If the triangle fails, we begin a leg down.\u201d Th"
+    },
+    {
+      "price": 6366.0,
+      "role": "mentioned",
+      "context": "ck Failed Breakdown below). Leg up targets 6333, 6349, then 6366. If the triangle fails, we begin a leg down.\u201d This tracked"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6263.0,
+      "role": "resistance",
+      "context": "below 6263"
+    },
+    {
+      "price": 6283.0,
+      "role": "resistance",
+      "context": "below 6283"
+    },
+    {
+      "price": 6288.0,
+      "role": "resistance",
+      "context": "below 6288"
+    },
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this setup way back on F riday June 20th at 4pm when we were 6020, by stating: \u201cMy general lean is always to defer to the trend, until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we work back up to 6050, then 6081."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As long as its structurally in tact though, my lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As long as bulls defend support though (or quick Failed Breakdown below)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a quality Failed Breakdowns we had on Thursday evening below 6288 (that produced a 25 point rally), Friday Morning below 6283 (that produced a 35 point rally), then Sunday Evening below 6263 which produced a 56 point rally yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Patterns like triangles are all well and good, but to actually trade them, we need to use Failed Breakdowns (My core setup)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6271-68 to 6333 = an ascending triangle, with 6285-82 being a magnet inside."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 10,
+  "resistance_count": 4,
+  "post_title": "SPX Tries To Breakout Its Two Week Range, and Fails. What Now? July 16 Plan",
+  "post_date": "2025-07-15",
+  "post_slug": "spx-tries-to-breakout-its-two-week",
+  "parsed_at": "2026-04-16T15:43:16.067800",
+  "body_length": 3598
+}

@@ -1,0 +1,82 @@
+{
+  "trading_date": "2025-04-04",
+  "levels": [
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5720.0,
+      "role": "range",
+      "context": "5720-25"
+    },
+    {
+      "price": 5725.0,
+      "role": "range",
+      "context": "5720-25"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5720.0,
+      "role": "range",
+      "context": "5720-25"
+    },
+    {
+      "price": 5725.0,
+      "role": "range",
+      "context": "5720-25"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "In that, I wrote \u201cBear case tomorrow: Begans under 5620\u2026There is also an advanced short available under 5673.\u201d After spiking to 5770, we lost 5673, then 5620, giving full control back to bears, and we sold to 5485 last night, where we spent much of the day today before resuming down."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "While this action is headline driven entirely, the technicals still tell us where and how to engage and two of my setup types (The Failed Breakdown -my core setup - and the Backtest, my third setup type) were particularly valuable."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This level has been tested to absolute death today so I won\u2019t be insta-buying it, but if we can flush this afternoons 5625 low and recover, I\u2019d be looking at this.\u201d Yesterday morning, we flushed 5620, sold 10 points, recovered it, and got long for a monster squeeze via my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I wrote that same day: \u201cWe are in a rally leg that began on Monday with the failed breakdown of 5565\u2026We could fill this out in many different pathways but as long as 5620 holds, we continue up to 5695, 5720-25."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter, I\u2019ll talk this, I\u2019ll do a deep dive into yesterdays sequence of Failed Breakdown Long followed by Breakdown Short as this was a good opportunity for education."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Heading into Wednesday, 5620 was a key level, tested 5x in the last week and I wrote Tuesday at 4pm: \u201cBelow there is 5620-25 again."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "Deepest Selloff For SPX Since The 2020 COVID Crash. What Now? April 4th Plan",
+  "post_date": "2025-04-03",
+  "post_slug": "deepest-selloff-for-spx-since-the",
+  "parsed_at": "2026-04-16T15:44:44.523404",
+  "body_length": 2446
+}

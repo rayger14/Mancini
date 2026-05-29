@@ -1,0 +1,130 @@
+{
+  "trading_date": "2024-12-10",
+  "levels": [
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6064.0,
+      "role": "range",
+      "context": "6064-68"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6064-68"
+    },
+    {
+      "price": 6074.0,
+      "role": "mentioned",
+      "context": "8. As long as this structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d We hi"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "aphone pattern with support 6064-68, resistance 6117, and a 6081 mid-pivot. We could ping pong this for a while\u201d. Today, we"
+    },
+    {
+      "price": 6082.0,
+      "role": "mentioned",
+      "context": "is structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d We hit 6106 Wednesday"
+    },
+    {
+      "price": 6102.0,
+      "role": "range",
+      "context": "6102-6106"
+    },
+    {
+      "price": 6106.0,
+      "role": "range",
+      "context": "6102-6106"
+    },
+    {
+      "price": 6117.0,
+      "role": "mentioned",
+      "context": "a large megaphone pattern with support 6064-68, resistance 6117, and a 6081 mid-pivot. We could ping pong this for a while\u201d"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6064.0,
+      "role": "range",
+      "context": "6064-68"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6064-68"
+    },
+    {
+      "price": 6074.0,
+      "role": "mentioned",
+      "context": "8. As long as this structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d We hi"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "aphone pattern with support 6064-68, resistance 6117, and a 6081 mid-pivot. We could ping pong this for a while\u201d. Today, we"
+    },
+    {
+      "price": 6082.0,
+      "role": "mentioned",
+      "context": "is structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d We hit 6106 Wednesday"
+    },
+    {
+      "price": 6102.0,
+      "role": "range",
+      "context": "6102-6106"
+    },
+    {
+      "price": 6106.0,
+      "role": "range",
+      "context": "6102-6106"
+    },
+    {
+      "price": 6117.0,
+      "role": "mentioned",
+      "context": "a large megaphone pattern with support 6064-68, resistance 6117, and a 6081 mid-pivot. We could ping pong this for a while\u201d"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a great example of my core setup that we had on Friday (a Failed Breakdown) which ultimately caused the strength we saw Friday into today."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Its essential to see as many Failed Breakdowns as possible to internalize them."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "As long as this structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d We hit 6106 Wednesday, and since then have been building out a new pattern: A 3 day \u201cmegaphone\u201d pattern, and I wrote Friday at 4pm: \u201cAfter a big rally this week we are now consolidating in a large megaphone pattern with support 6064-68, resistance 6117, and a 6081 mid-pivot."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "Biggest Sell For SPX Since November 15th. Will It Get Bought? Dec 10 Plan",
+  "post_date": "2024-12-09",
+  "post_slug": "biggest-sell-for-spx-since-november",
+  "parsed_at": "2026-04-16T15:46:22.760101",
+  "body_length": 2225
+}

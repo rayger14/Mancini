@@ -1,0 +1,202 @@
+{
+  "trading_date": "2026-01-07",
+  "levels": [
+    {
+      "price": 6866.0,
+      "role": "mentioned",
+      "context": "ing out a shelf. Then at 2pm, ES flushed that shelf down to 6866, traped shorts, recovered, and we ripped all day. Heading i"
+    },
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6903.0,
+      "role": "range",
+      "context": "6903-05"
+    },
+    {
+      "price": 6905.0,
+      "role": "range",
+      "context": "6903-05"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "y general lean is bulls can try to do some backtesting with 6913, 6925, 6935/42 next up. They need to recover 6935/42 to sta"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "ral lean is bulls can try to do some backtesting with 6913, 6925, 6935/42 next up. They need to recover 6935/42 to start a l"
+    },
+    {
+      "price": 6935.0,
+      "role": "support",
+      "context": "recover 6935"
+    },
+    {
+      "price": 6943.0,
+      "role": "support",
+      "context": "hold 6943"
+    },
+    {
+      "price": 6945.0,
+      "role": "range",
+      "context": "6943-45"
+    },
+    {
+      "price": 6959.0,
+      "role": "support",
+      "context": "above 6959"
+    },
+    {
+      "price": 6965.0,
+      "role": "mentioned",
+      "context": "is today, with ES ripping to 6935/42 by 10am, and beyond to 6965 high of day. For today, the job for bulls would be to keep"
+    },
+    {
+      "price": 6970.0,
+      "role": "range",
+      "context": "6970-73"
+    },
+    {
+      "price": 6973.0,
+      "role": "range",
+      "context": "6970-73"
+    },
+    {
+      "price": 6989.0,
+      "role": "mentioned",
+      "context": "e ES can flag above 6959, then next leg up targets 6970-73, 6989, then 6999. If 6903-05 fails tomorrow, ES likely revisits F"
+    },
+    {
+      "price": 6999.0,
+      "role": "mentioned",
+      "context": "ag above 6959, then next leg up targets 6970-73, 6989, then 6999. If 6903-05 fails tomorrow, ES likely revisits Friday\u2019s low"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6866.0,
+      "role": "mentioned",
+      "context": "ing out a shelf. Then at 2pm, ES flushed that shelf down to 6866, traped shorts, recovered, and we ripped all day. Heading i"
+    },
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6903.0,
+      "role": "range",
+      "context": "6903-05"
+    },
+    {
+      "price": 6905.0,
+      "role": "range",
+      "context": "6903-05"
+    },
+    {
+      "price": 6913.0,
+      "role": "mentioned",
+      "context": "y general lean is bulls can try to do some backtesting with 6913, 6925, 6935/42 next up. They need to recover 6935/42 to sta"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "ral lean is bulls can try to do some backtesting with 6913, 6925, 6935/42 next up. They need to recover 6935/42 to start a l"
+    },
+    {
+      "price": 6935.0,
+      "role": "support",
+      "context": "recover 6935"
+    },
+    {
+      "price": 6943.0,
+      "role": "support",
+      "context": "hold 6943"
+    },
+    {
+      "price": 6945.0,
+      "role": "range",
+      "context": "6943-45"
+    },
+    {
+      "price": 6959.0,
+      "role": "support",
+      "context": "above 6959"
+    },
+    {
+      "price": 6965.0,
+      "role": "mentioned",
+      "context": "is today, with ES ripping to 6935/42 by 10am, and beyond to 6965 high of day. For today, the job for bulls would be to keep"
+    },
+    {
+      "price": 6970.0,
+      "role": "range",
+      "context": "6970-73"
+    },
+    {
+      "price": 6973.0,
+      "role": "range",
+      "context": "6970-73"
+    },
+    {
+      "price": 6989.0,
+      "role": "mentioned",
+      "context": "e ES can flag above 6959, then next leg up targets 6970-73, 6989, then 6999. If 6903-05 fails tomorrow, ES likely revisits F"
+    },
+    {
+      "price": 6999.0,
+      "role": "mentioned",
+      "context": "ag above 6959, then next leg up targets 6970-73, 6989, then 6999. If 6903-05 fails tomorrow, ES likely revisits Friday\u2019s low"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Wednesday at 4pm: \u201cMy general lean is ES can try some back-testing."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is bulls can try to do some backtesting with 6913, 6925, 6935/42 next up."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at the close: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Bulls want to hold 6943-45 in a strong bull case (or quick trap down to 6925)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always, the cause of yesterdays green day was not a surprise and it was caused by the same thing that causes every green day in ES: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the multitude of Failed Breakdowns we had last week/Friday (including the one that caused the rip from Friday into today.)."
+    }
+  ],
+  "level_count": 16,
+  "support_count": 16,
+  "resistance_count": 0,
+  "post_title": "2026 Starts With A Squeeze For SPX. Can Bulls Keep It Going? January 7th Plan",
+  "post_date": "2026-01-06",
+  "post_slug": "2026-starts-with-a-squeeze-for-spx",
+  "parsed_at": "2026-04-16T15:40:40.265078",
+  "body_length": 2211
+}

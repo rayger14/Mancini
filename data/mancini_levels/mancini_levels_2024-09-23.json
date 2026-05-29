@@ -1,0 +1,83 @@
+{
+  "trading_date": "2024-09-23",
+  "levels": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5685.0,
+      "role": "resistance",
+      "context": "lose 5685"
+    },
+    {
+      "price": 5724.0,
+      "role": "mentioned",
+      "context": "argets AThs directly. This could look something like pop to 5724, dip, return to 5736, perhaps final dip, then breakout. 577"
+    },
+    {
+      "price": 5736.0,
+      "role": "mentioned",
+      "context": "This could look something like pop to 5724, dip, return to 5736, perhaps final dip, then breakout. 5775, then ultimately ne"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "724, dip, return to 5736, perhaps final dip, then breakout. 5775, then ultimately new ATHs to 5797+ are in play\u201d This played"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "final dip, then breakout. 5775, then ultimately new ATHs to 5797+ are in play\u201d This played out fantastically well, and we ta"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5680.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5724.0,
+      "role": "mentioned",
+      "context": "argets AThs directly. This could look something like pop to 5724, dip, return to 5736, perhaps final dip, then breakout. 577"
+    },
+    {
+      "price": 5736.0,
+      "role": "mentioned",
+      "context": "This could look something like pop to 5724, dip, return to 5736, perhaps final dip, then breakout. 5775, then ultimately ne"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "724, dip, return to 5736, perhaps final dip, then breakout. 5775, then ultimately new ATHs to 5797+ are in play\u201d This played"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "final dip, then breakout. 5775, then ultimately new ATHs to 5797+ are in play\u201d This played out fantastically well, and we ta"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5685.0,
+      "role": "resistance",
+      "context": "lose 5685"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter, I\u2019ll talk this, I\u2019ll do a deep dive into the setup that got me long on Wednesday at the close 5685 (it was a picture perfect failed breakdown and a great example to learn from)."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "Will Today's Dip In SPX Get Bought Like The Others? Sept 23 Plan",
+  "post_date": "2024-09-22",
+  "post_slug": "will-todays-dip-in-spx-get-bought-e47",
+  "parsed_at": "2026-04-16T15:47:35.135373",
+  "body_length": 2216
+}

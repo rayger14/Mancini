@@ -1,0 +1,162 @@
+{
+  "trading_date": "2025-10-07",
+  "levels": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6788 by Thursday ev"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6748.0,
+      "role": "range",
+      "context": "6748-50"
+    },
+    {
+      "price": 6750.0,
+      "role": "range",
+      "context": "6748-50"
+    },
+    {
+      "price": 6765.0,
+      "role": "mentioned",
+      "context": "building the consolidation which is 6748-50 to 6782-85 with 6765 being a pivot in between. When ready, next leg up sees 6782"
+    },
+    {
+      "price": 6782.0,
+      "role": "range",
+      "context": "6782-85"
+    },
+    {
+      "price": 6784.0,
+      "role": "mentioned",
+      "context": "ting Thursday at 4pm: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to ~6801 high of day Friday, then sold"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6782-85"
+    },
+    {
+      "price": 6789.0,
+      "role": "mentioned",
+      "context": "hursday at 4pm: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to ~6801 high of day Friday, then sold into"
+    },
+    {
+      "price": 6795.0,
+      "role": "mentioned",
+      "context": "g a pivot in between. When ready, next leg up sees 6782-85, 6795, 6807, 6814.\u201d Today we continued to the push, running to 67"
+    },
+    {
+      "price": 6801.0,
+      "role": "mentioned",
+      "context": "is ready next leg up targets 6784, 6789, 6802.\u201d We got to ~6801 high of day Friday, then sold into Friday\u2019s close. Heading"
+    },
+    {
+      "price": 6802.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to ~6801 high of day Friday, then sold into Friday"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6788 by Thursday ev"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6748.0,
+      "role": "range",
+      "context": "6748-50"
+    },
+    {
+      "price": 6750.0,
+      "role": "range",
+      "context": "6748-50"
+    },
+    {
+      "price": 6765.0,
+      "role": "mentioned",
+      "context": "building the consolidation which is 6748-50 to 6782-85 with 6765 being a pivot in between. When ready, next leg up sees 6782"
+    },
+    {
+      "price": 6782.0,
+      "role": "range",
+      "context": "6782-85"
+    },
+    {
+      "price": 6784.0,
+      "role": "mentioned",
+      "context": "ting Thursday at 4pm: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to ~6801 high of day Friday, then sold"
+    },
+    {
+      "price": 6785.0,
+      "role": "range",
+      "context": "6782-85"
+    },
+    {
+      "price": 6789.0,
+      "role": "mentioned",
+      "context": "hursday at 4pm: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to ~6801 high of day Friday, then sold into"
+    },
+    {
+      "price": 6795.0,
+      "role": "mentioned",
+      "context": "g a pivot in between. When ready, next leg up sees 6782-85, 6795, 6807, 6814.\u201d Today we continued to the push, running to 67"
+    },
+    {
+      "price": 6801.0,
+      "role": "mentioned",
+      "context": "is ready next leg up targets 6784, 6789, 6802.\u201d We got to ~6801 high of day Friday, then sold into Friday\u2019s close. Heading"
+    },
+    {
+      "price": 6802.0,
+      "role": "mentioned",
+      "context": "y at 4pm: \u201cWhen ES is ready next leg up targets 6784, 6789, 6802.\u201d We got to ~6801 high of day Friday, then sold into Friday"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean for today was that ES could fill this out to the upside."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean for Monday is that ES can continue building the consolidation which is 6748-50 to 6782-85 with 6765 being a pivot in between."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips via Failed Breakdowns: They flush a low, grab liquidity underneath, squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm: \u201cAnother option to long is the Failed Breakdown of today\u2019s daily low at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6788 by Thursday evening."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the absolutely textbook Failed Breakdown we had last Wednesday that propelled last weeks 100+ point rush higher."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "When ready, next leg up sees 6782-85, 6795, 6807, 6814.\u201d Today we continued to the push, running to 6782-85 then 6795 by the open today, dipping back to that ~6765 pivot, then popping back to 6795 by the close."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Tight Yet Again. A Move Is Coming. What Way? Oct 7th Plan",
+  "post_date": "2025-10-06",
+  "post_slug": "spx-is-coiled-tight-yet-again-a-move",
+  "parsed_at": "2026-04-16T15:42:01.499351",
+  "body_length": 2536
+}

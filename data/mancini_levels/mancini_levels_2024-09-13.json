@@ -1,0 +1,104 @@
+{
+  "trading_date": "2024-09-13",
+  "levels": [
+    {
+      "price": 5437.0,
+      "role": "range",
+      "context": "5437-43"
+    },
+    {
+      "price": 5443.0,
+      "role": "range",
+      "context": "5437-43"
+    },
+    {
+      "price": 5537.0,
+      "role": "range",
+      "context": "5543-37"
+    },
+    {
+      "price": 5543.0,
+      "role": "range",
+      "context": "5543-37"
+    },
+    {
+      "price": 5560.0,
+      "role": "mentioned",
+      "context": ". After a monster trap down yesterday, we closed the day at 5560 yesterday Today, bulls continued dip buying and I concluded"
+    },
+    {
+      "price": 5585.0,
+      "role": "range",
+      "context": "5585-93"
+    },
+    {
+      "price": 5593.0,
+      "role": "range",
+      "context": "5585-93"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5437.0,
+      "role": "range",
+      "context": "5437-43"
+    },
+    {
+      "price": 5443.0,
+      "role": "range",
+      "context": "5437-43"
+    },
+    {
+      "price": 5537.0,
+      "role": "range",
+      "context": "5543-37"
+    },
+    {
+      "price": 5543.0,
+      "role": "range",
+      "context": "5543-37"
+    },
+    {
+      "price": 5560.0,
+      "role": "mentioned",
+      "context": ". After a monster trap down yesterday, we closed the day at 5560 yesterday Today, bulls continued dip buying and I concluded"
+    },
+    {
+      "price": 5585.0,
+      "role": "range",
+      "context": "5585-93"
+    },
+    {
+      "price": 5593.0,
+      "role": "range",
+      "context": "5585-93"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "After a monster trap down yesterday, we closed the day at 5560 yesterday Today, bulls continued dip buying and I concluded my newsletter yesterday by writing: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I\u2019ve spoken about for the last couple weeks, \u201cfor every action, there is an equal and opposite reaction\u201d in ES and for every \u201celevator down\u201d selloff, we get an equally violent short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Some days, they are very clean and one directional, but most often the first move, and often the second and third are traps.It is for this reason that I prefer to trade failed breakdowns on CPI days\u2026..Wait for a level to flush, run stops, and reclaim before entering\u201d, adding: \u201cIf I had to give a lean it is that ES simply continues this relief rally."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter I\u2019ll talk this, I\u2019ll do a full deep dive into yesterdays CPI action as we saw multiple quality examples of my core setups: A Breakdown Short initially to trigger us down to 5414, then a monster Failed Breakdown (my core setup) to trigger the short squeeze."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "4 Green Days In A Row For SPX. Are Bulls Running Out Of Steam? Sept 13 Plan",
+  "post_date": "2024-09-12",
+  "post_slug": "4-green-days-in-a-row-for-spx-are-fc0",
+  "parsed_at": "2026-04-16T15:47:43.030078",
+  "body_length": 2020
+}

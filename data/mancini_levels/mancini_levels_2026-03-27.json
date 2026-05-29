@@ -1,0 +1,127 @@
+{
+  "trading_date": "2026-03-27",
+  "levels": [
+    {
+      "price": 6524.0,
+      "role": "support",
+      "context": "6524 daily low"
+    },
+    {
+      "price": 6592.0,
+      "role": "resistance",
+      "context": "below 6592"
+    },
+    {
+      "price": 6593.0,
+      "role": "mentioned",
+      "context": "That was today. The last couple days this range was mostly 6593 to 6678 with 6623 and 6638 pivots inside. The job today was"
+    },
+    {
+      "price": 6623.0,
+      "role": "mentioned",
+      "context": "he last couple days this range was mostly 6593 to 6678 with 6623 and 6638 pivots inside. The job today was for bulls to main"
+    },
+    {
+      "price": 6638.0,
+      "role": "mentioned",
+      "context": "ouple days this range was mostly 6593 to 6678 with 6623 and 6638 pivots inside. The job today was for bulls to maintain this"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "My general lean is we can fill this out to the upside with 6647, 6672-78 being targets.\u201d Today we saw a little bit of every"
+    },
+    {
+      "price": 6672.0,
+      "role": "range",
+      "context": "6672-78"
+    },
+    {
+      "price": 6678.0,
+      "role": "range",
+      "context": "6672-78"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6524.0,
+      "role": "support",
+      "context": "6524 daily low"
+    },
+    {
+      "price": 6593.0,
+      "role": "mentioned",
+      "context": "That was today. The last couple days this range was mostly 6593 to 6678 with 6623 and 6638 pivots inside. The job today was"
+    },
+    {
+      "price": 6623.0,
+      "role": "mentioned",
+      "context": "he last couple days this range was mostly 6593 to 6678 with 6623 and 6638 pivots inside. The job today was for bulls to main"
+    },
+    {
+      "price": 6638.0,
+      "role": "mentioned",
+      "context": "ouple days this range was mostly 6593 to 6678 with 6623 and 6638 pivots inside. The job today was for bulls to maintain this"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "My general lean is we can fill this out to the upside with 6647, 6672-78 being targets.\u201d Today we saw a little bit of every"
+    },
+    {
+      "price": 6672.0,
+      "role": "range",
+      "context": "6672-78"
+    },
+    {
+      "price": 6678.0,
+      "role": "range",
+      "context": "6672-78"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6592.0,
+      "role": "resistance",
+      "context": "below 6592"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can fill this out to the upside with 6647, 6672-78 being targets.\u201d Today we saw a little bit of everything."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As I wrote yesterday: \u201cBear case tomorrow: Begins below 6592.\u201d Will today\u2019s dip get bought to recover this range?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of the most powerful building blocks is elevator down sell (building block 1) into Failed Breakdown (building block 2), into short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down sell refers to a short period of time where ES flushes every support violently."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES went elevator down to 6484 by 3am."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Friday at 4pm: \u201cThis is where I get interested, and an obvious trade is the Failed Breakdown of today\u2019s 6524 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "Will Today's SPX Dip Get Bought? March 27 Plan",
+  "post_date": "2026-03-26",
+  "post_slug": "will-todays-spx-dip-get-bought-march",
+  "parsed_at": "2026-04-16T15:38:20.966891",
+  "body_length": 3210
+}

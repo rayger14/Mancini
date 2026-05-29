@@ -1,0 +1,207 @@
+{
+  "trading_date": "2025-10-28",
+  "levels": [
+    {
+      "price": 6648.0,
+      "role": "mentioned",
+      "context": "g in here.\u201d We saw exactly this at 2pm Wednesday We flushed 6648 down to 6690, Failed Breakdown, ripped into the close last"
+    },
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "e saw exactly this at 2pm Wednesday We flushed 6648 down to 6690, Failed Breakdown, ripped into the close last Wednesday to"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6740.0,
+      "role": "mentioned",
+      "context": ", Failed Breakdown, ripped into the close last Wednesday to 6740. As readers know, all this price action took place inside a"
+    },
+    {
+      "price": 6766.0,
+      "role": "resistance",
+      "context": "resistance at 6766"
+    },
+    {
+      "price": 6772.0,
+      "role": "mentioned",
+      "context": "bull case ES will hold above 6766 and flag out above there/6772. This opens up the next leg higher which targets 6787, 6803"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "ednesday squeeze likely to therefore initially target? 6766/6782. On Wednesday at 4pm I wrote: \u201cThe bull case tomorrow is si"
+    },
+    {
+      "price": 6787.0,
+      "role": "mentioned",
+      "context": "there/6772. This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two"
+    },
+    {
+      "price": 6803.0,
+      "role": "mentioned",
+      "context": "6772. This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month"
+    },
+    {
+      "price": 6820.0,
+      "role": "mentioned",
+      "context": "This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month megaph"
+    },
+    {
+      "price": 6854.0,
+      "role": "mentioned",
+      "context": "up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month megaphone pattern"
+    },
+    {
+      "price": 6875.0,
+      "role": "range",
+      "context": "6875-77"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6875-77"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "to the next batch of upside targets were are 6875-77, then 6900.\u201d We got right to work on this last evening spending last e"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6648.0,
+      "role": "mentioned",
+      "context": "g in here.\u201d We saw exactly this at 2pm Wednesday We flushed 6648 down to 6690, Failed Breakdown, ripped into the close last"
+    },
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "e saw exactly this at 2pm Wednesday We flushed 6648 down to 6690, Failed Breakdown, ripped into the close last Wednesday to"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6740.0,
+      "role": "mentioned",
+      "context": ", Failed Breakdown, ripped into the close last Wednesday to 6740. As readers know, all this price action took place inside a"
+    },
+    {
+      "price": 6772.0,
+      "role": "mentioned",
+      "context": "bull case ES will hold above 6766 and flag out above there/6772. This opens up the next leg higher which targets 6787, 6803"
+    },
+    {
+      "price": 6782.0,
+      "role": "mentioned",
+      "context": "ednesday squeeze likely to therefore initially target? 6766/6782. On Wednesday at 4pm I wrote: \u201cThe bull case tomorrow is si"
+    },
+    {
+      "price": 6787.0,
+      "role": "mentioned",
+      "context": "there/6772. This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two"
+    },
+    {
+      "price": 6803.0,
+      "role": "mentioned",
+      "context": "6772. This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month"
+    },
+    {
+      "price": 6820.0,
+      "role": "mentioned",
+      "context": "This opens up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month megaph"
+    },
+    {
+      "price": 6854.0,
+      "role": "mentioned",
+      "context": "up the next leg higher which targets 6787, 6803, 6820, then 6854. 6854 is resistance of the huge two month megaphone pattern"
+    },
+    {
+      "price": 6875.0,
+      "role": "range",
+      "context": "6875-77"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6875-77"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "to the next batch of upside targets were are 6875-77, then 6900.\u201d We got right to work on this last evening spending last e"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6766.0,
+      "role": "resistance",
+      "context": "resistance at 6766"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "On Wednesday at 4pm I wrote: \u201cThe bull case tomorrow is simply that ES can resume up to backtest 6766 again."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was they could stating Thursday 4pm: \u201cIn the most severe bull case ES will hold above 6766 and flag out above there/6772."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This has been a squeeze for the ages - up 215 points now since last Wednesday\u2019s Failed Breakdown long/low - and we were on board for it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, there was a little interesting context that gave this squeeze an extra push, and that is the Failed Breakdown propelled ES to break out of a two week bullish triangle pattern."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As stated, this squeeze was routine in the sense it had the same cause that produces every single squeeze in ES: Price goes elevator down, sells rapidly, undercuts a low, institutions trap shorts beneath the low, take a massive position, then price squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I follow institutions in long after the low recovers and my core setup (the Failed Breakdown) prints on the chart."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm: \u201cThe best setup here is to wait for the Failed Breakdown of Sunday\u2019s 6694 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Ideally wait for 6702 to recover before hopping in here.\u201d We saw exactly this at 2pm Wednesday We flushed 6648 down to 6690, Failed Breakdown, ripped into the close last Wednesday to 6740."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we had last Wednesday that got us long for this ~200 point leg up (we\u2019ve got a very volatile week coming, and we will see plenty just like this)."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Then we likely head to all time highs after .\u201d This played out perfectly and we closed up Thursday at 6782."
+    },
+    {
+      "type": "TARGETS",
+      "text": "If it clears we can progress to the next batch of upside targets were are 6875-77, then 6900.\u201d We got right to work on this last evening spending last evening mostly at 6875 and pushing to 6900+ by the close."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 13,
+  "resistance_count": 1,
+  "post_title": "The Parabolic Breakout Rally Continues in SPX, But Will Earnings and FOMC De-Rail It? Oct 28 Plan.",
+  "post_date": "2025-10-27",
+  "post_slug": "the-parabolic-breakout-rally-continues",
+  "parsed_at": "2026-04-16T15:41:42.284280",
+  "body_length": 3045
+}

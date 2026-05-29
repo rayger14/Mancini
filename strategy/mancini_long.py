@@ -31,8 +31,10 @@ from config.settings import (
 )
 from config.levels import Level, LevelType
 from core.indicators import enrich_dataframe
+from core.mode1_detector import Mode1Detector
+from core.mode1_green_detector import Mode1GreenDetector
 from core.regime_filter import compute_regime, RegimeState, RegimeParams, Direction, VolRegime
-from core.signals import Signal, SignalAggregator
+from core.signals import Signal, SignalAggregator, SignalType
 from strategy.entry_manager import EntryManager, EntryDecision
 from strategy.exit_manager import ExitManager, ExitAction, ExitPhase, TradePosition
 from strategy.position_manager import PositionManager, TradeRecord
@@ -121,8 +123,18 @@ class ManciniLongStrategy:
         # Recent bars for candle bias filter (rolling 5-bar window)
         self._recent_bars: list[tuple[float, float, float, float]] = []  # [(o, h, l, c), ...]
 
+        # Mode 1 (trend day) detector
+        self.mode1_detector = Mode1Detector(strategy_params)
+        # Mode 1 Green (trend up day) detector — mirror
+        self.mode1_green_detector = Mode1GreenDetector(strategy_params)
+
         # Multi-day level persistence — survives reset() across days
         self._persistent_levels: list[Level] = []
+
+        # External levels to inject at session start (e.g., Mancini Substack overlay).
+        # Set this before calling run_day(); levels are injected after initialize_levels()
+        # and cleared at the end of run_day().
+        self._extra_levels: list[Level] = []
 
     def reset(self) -> None:
         """Reset all state for a new session.
@@ -131,6 +143,8 @@ class ManciniLongStrategy:
         It carries significant levels across days for multi-day memory.
         """
         self.signal_aggregator.reset()
+        self.mode1_detector.reset()
+        self.mode1_green_detector.reset()
         self._long_position = None
         self._long_pattern_type = ""
         self._long_signal = None
@@ -192,6 +206,13 @@ class ManciniLongStrategy:
         if session_date is None:
             session_date = df.index[0].to_pydatetime()
 
+        # Expire stale ATM level records at session rollover
+        if self.strategy_params.level_memory_days > 0:
+            session_str = session_date.strftime("%Y-%m-%d")
+            self.signal_aggregator.expire_atm_levels(
+                session_str, self.strategy_params.level_memory_days
+            )
+
         # Skip Tuesdays if configured (legacy — use regime filter instead)
         if self.risk_params.skip_tuesdays and session_date.weekday() == 1:
             return []
@@ -236,10 +257,27 @@ class ManciniLongStrategy:
             # Update persistent list to only keep non-expired
             self._persistent_levels = fresh_levels
 
+        # Inject external levels (e.g., Mancini Substack overlay)
+        if self._extra_levels:
+            self.signal_aggregator.level_store.inject_levels(self._extra_levels)
+            logger.debug(
+                f"Injecting {len(self._extra_levels)} external levels "
+                f"(prices: {[round(l.price, 2) for l in self._extra_levels[:5]]}...)"
+            )
+            self._extra_levels = []  # consumed
+
         # Set prior day range for volatility filter
         if prior_day_df is not None and len(prior_day_df) > 0:
             prior_range = float(prior_day_df["high"].max() - prior_day_df["low"].min())
             self.risk_manager.set_prior_day_range(prior_range)
+            # Set PDL for Mode 1 detector
+            if self.strategy_params.use_mode1_detection:
+                pdl = float(prior_day_df["low"].min())
+                self.mode1_detector.set_pdl(pdl)
+            # Set PDH for Mode 1 Green detector
+            if self.strategy_params.use_mode1_green_detection:
+                pdh = float(prior_day_df["high"].max())
+                self.mode1_green_detector.set_pdh(pdh)
         else:
             self.risk_manager.set_prior_day_range(0.0)
 
@@ -324,7 +362,48 @@ class ManciniLongStrategy:
             )
             results.append(result)
 
-        # EOD processing: flatten non-runners, leave runners for carry
+        # EOD processing — mirrors live/ib_runner.py::_check_eod.
+        #
+        # Controlled by exit_params.eod_flatten_enabled (master switch) and
+        # exit_params.multi_session_runner (legacy mode).
+        #
+        # Default (eod_flatten_enabled=False):
+        #   - All phases (INITIAL / AFTER_T1 / AFTER_T2) HOLD across EOD via
+        #     their existing stops.
+        #   - update_prior_day_low() is called so the structural trail
+        #     ratchets for AFTER_T1/AFTER_T2 (no-op for INITIAL).
+        #   - multi_session_runner_max_days still caps total held sessions.
+        #     The per-position survived-sessions counter is bumped for ANY
+        #     held position (not just AFTER_T2).
+        #
+        # Legacy (eod_flatten_enabled=True), per Mancini 2025-10-12:
+        #   - INITIAL / AFTER_T1: always flatten at EOD.
+        #   - AFTER_T2 (10% runner):
+        #       * multi_session_runner=False → flatten.
+        #       * multi_session_runner=True AND sessions_held < max_days →
+        #         hold across EOD, update structural trail, bump counter.
+        #       * sessions_held >= max_days → force-flatten ("max days" reason).
+        #
+        # The per-position counter (`_runner_sessions_held`, attached to the
+        # TradePosition via setattr) survives the carry because RunnerCarryState
+        # holds a live reference to the same position object. It's initialized
+        # to 0 at entry (Step 8 in _process_bar) and reset to 0 whenever a
+        # new position is opened.
+        eod_flatten_enabled = getattr(
+            self.exit_params, "eod_flatten_enabled", False
+        )
+        multi_session_enabled = getattr(
+            self.exit_params, "multi_session_runner", False
+        )
+        max_days = getattr(
+            self.exit_params, "multi_session_runner_max_days", 5
+        )
+
+        # Just-finished session's low/high used to ratchet the structural
+        # runner trail when the position is held cross-session.
+        session_low = float(lows.min()) if n > 0 else 0.0
+        session_high = float(highs.max()) if n > 0 else 0.0
+
         for pos, ptype, sig, entry_idx, direction in [
             (self._long_position, self._long_pattern_type, self._long_signal,
              self._long_entry_bar_idx, "long"),
@@ -333,33 +412,82 @@ class ManciniLongStrategy:
         ]:
             if pos is None or not pos.is_open:
                 continue
-            if pos.phase in (ExitPhase.AFTER_T1, ExitPhase.AFTER_T2):
-                # Runner survives EOD — BacktestRunner will extract it
-                pass
+
+            sessions_held = int(getattr(pos, "_runner_sessions_held", 0))
+            if not eod_flatten_enabled:
+                # New default: hold ANY phase across EOD up to the safety cap.
+                hold_across_eod = sessions_held < max_days
             else:
-                # Non-runner: flatten at last close
-                last_close = float(closes[-1])
-                contracts = pos.remaining_contracts
-                if direction == "long":
-                    pnl = (last_close - pos.entry_price) * contracts
-                else:
-                    pnl = (pos.entry_price - last_close) * contracts
-                pos.realized_pnl_pts += pnl
-                pos.remaining_contracts = 0
-                pos.phase = ExitPhase.CLOSED
-                record = self.position_manager.close_position(
-                    exit_price=last_close, timestamp=timestamps[-1],
-                    exit_reason="EOD flatten",
-                    pattern_type=ptype, signal=sig,
-                    entry_bar_idx=entry_idx, exit_bar_idx=n - 1,
+                # Legacy: only AFTER_T2 + multi_session_runner=True holds.
+                hold_across_eod = (
+                    multi_session_enabled
+                    and pos.phase == ExitPhase.AFTER_T2
+                    and sessions_held < max_days
                 )
-                if record is not None:
-                    record.direction = direction
-                if direction == "long":
-                    self._long_position = None
-                    self._current_position = None
-                else:
-                    self._short_position = None
+
+            if hold_across_eod:
+                # Update structural trail under today's session low (longs)
+                # / above today's session high (shorts) and let the position
+                # ride into the next session.
+                # update_prior_day_low is a no-op for INITIAL — the initial
+                # stop continues to protect the position.
+                if direction == "long" and session_low > 0:
+                    self.exit_manager.update_prior_day_low(pos, session_low)
+                elif direction == "short" and session_high > 0:
+                    pos.prior_day_high = session_high
+                    # update_prior_day_low picks up prior_day_high for shorts.
+                    self.exit_manager.update_prior_day_low(pos, session_low)
+
+                # Bump the per-position survived-sessions counter so the
+                # max-days cap accumulates across rollovers.
+                pos._runner_sessions_held = sessions_held + 1
+                logger.debug(
+                    f"EOD HOLD ({direction}, phase={pos.phase.name}, day "
+                    f"{pos._runner_sessions_held}/{max_days}): "
+                    f"stop={pos.stop_price:.2f}, "
+                    f"{pos.remaining_contracts} contracts, pattern={ptype}"
+                )
+                continue
+
+            # Force-flatten path:
+            #   - eod_flatten_enabled=False with max-days cap hit (any phase)
+            #   - eod_flatten_enabled=True legacy semantics
+            if sessions_held >= max_days:
+                exit_reason = "EOD flatten (max-days cap)"
+                logger.info(
+                    f"EOD MAX-DAYS CAP HIT "
+                    f"({sessions_held}/{max_days}, {direction}, "
+                    f"phase={pos.phase.name}): force-flattening"
+                )
+            else:
+                exit_reason = "EOD flatten"
+
+            last_close = float(closes[-1])
+            contracts = pos.remaining_contracts
+            if direction == "long":
+                pnl = (last_close - pos.entry_price) * contracts
+            else:
+                pnl = (pos.entry_price - last_close) * contracts
+            pos.realized_pnl_pts += pnl
+            pos.remaining_contracts = 0
+            pos.phase = ExitPhase.CLOSED
+            record = self.position_manager.close_position(
+                exit_price=last_close, timestamp=timestamps[-1],
+                exit_reason=exit_reason,
+                pattern_type=ptype, signal=sig,
+                entry_bar_idx=entry_idx, exit_bar_idx=n - 1,
+            )
+            if record is not None:
+                record.direction = direction
+            # Clear the per-position counter — defensive (the position is
+            # closed so it won't be re-read, but mirror the live runner's
+            # reset-on-flatten semantics).
+            pos._runner_sessions_held = 0
+            if direction == "long":
+                self._long_position = None
+                self._current_position = None
+            else:
+                self._short_position = None
 
         # Score existing persistent levels based on today's price action, then snapshot
         if self.strategy_params.level_memory_days > 0:
@@ -590,34 +718,17 @@ class ManciniLongStrategy:
         result = BarResult(bar_idx=bar_idx, timestamp=timestamp)
         current_time = timestamp.time()
 
-        # Step 1a: Check for exit on long position
+        # Step 1a: Check for exit on long position. Exit is fully driven by
+        # ExitManager (stop, T1, T2, prior-day-low runner trail). The old
+        # `fb_max_hold_bars` time-cap was removed — it never fired in live
+        # (IB bracket OCO is the only exit there) and forcibly truncated
+        # backtest winners at bar 20, systematically underestimating PnL
+        # vs. realized live outcomes. Mancini's 75/15/10 runner under PDL
+        # is the actual exit doctrine; no time cap belongs on top of it.
         if self._long_position is not None and self._long_position.is_open:
-            # FB time-based exit: force close after max hold bars
-            fb_time_exit = False
-            if (self._long_pattern_type == "failed_breakdown"
-                    and self._long_position.phase == ExitPhase.INITIAL
-                    and self.exit_params.fb_max_hold_bars > 0
-                    and bar_idx - self._long_entry_bar_idx >= self.exit_params.fb_max_hold_bars):
-                fb_time_exit = True
-
             exit_action = self.exit_manager.update(
                 self._long_position, high, low, close
             )
-
-            # If time exit triggered and no stop/target hit, force close at market
-            if fb_time_exit and (exit_action is None or self._long_position.is_open):
-                contracts = self._long_position.remaining_contracts
-                pnl = (close - self._long_position.entry_price) * contracts
-                self._long_position.realized_pnl_pts += pnl
-                self._long_position.remaining_contracts = 0
-                self._long_position.phase = ExitPhase.CLOSED
-                exit_action = ExitAction(
-                    contracts_to_close=contracts,
-                    exit_price=close,
-                    new_stop=0.0,
-                    new_phase=ExitPhase.CLOSED,
-                    reason=f"FB time exit ({self.exit_params.fb_max_hold_bars} bars)",
-                )
 
             if exit_action is not None:
                 result.exit_action = exit_action
@@ -644,8 +755,21 @@ class ManciniLongStrategy:
                         )
                         if "Stop" in exit_action.reason and self._long_signal is not None:
                             level_price = self._long_signal.pattern.level.price
+                            stop_price = self._long_signal.pattern.stop_price
+                            entry_price_val = self._long_signal.pattern.entry_price
+                            level_type = getattr(self._long_signal.pattern.level, 'level_type', None)
+                            level_type_str = level_type.name if level_type else ""
                             self.signal_aggregator.failed_breakdown.record_stop_out(
-                                level_price, bar_idx
+                                level_price, bar_idx, stop_price=stop_price,
+                                entry_price=entry_price_val, level_type=level_type_str
+                            )
+                        # ATM level tracking: record outcome at this level
+                        if self._long_signal is not None:
+                            session_str = timestamp.strftime("%Y-%m-%d")
+                            self.signal_aggregator.record_level_outcome(
+                                self._long_signal.pattern.level.price,
+                                record.pnl_pts,
+                                session_str,
                             )
                     self._long_position = None
                     self._long_signal = None
@@ -686,6 +810,14 @@ class ManciniLongStrategy:
                             self.signal_aggregator.failed_rally.record_stop_out(
                                 level_price, bar_idx
                             )
+                        # ATM level tracking: record outcome at this level
+                        if self._short_signal is not None:
+                            session_str = timestamp.strftime("%Y-%m-%d")
+                            self.signal_aggregator.record_level_outcome(
+                                self._short_signal.pattern.level.price,
+                                record.pnl_pts,
+                                session_str,
+                            )
                     self._short_position = None
                     self._short_signal = None
 
@@ -709,14 +841,172 @@ class ManciniLongStrategy:
             df=df,
         )
 
+        # Step 3b: Update Mode 1 detector (runs every bar regardless of signal)
+        if self.strategy_params.use_mode1_detection:
+            was_mode1 = self.mode1_detector.state.is_mode1_red
+            self.mode1_detector.update(
+                bar_idx=bar_idx,
+                close=close,
+                low=low,
+                level_store=self.signal_aggregator.level_store,
+                timestamp=timestamp,
+            )
+            # Shadow log on transition to MODE_1_RED
+            if self.mode1_detector.state.is_mode1_red and not was_mode1:
+                state = self.mode1_detector.state
+                self.signal_aggregator.shadow_events.append({
+                    "feature": "mode1",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_RED",
+                    "event": "transition",
+                    "levels_broken": state.levels_broken_sustained,
+                    "bars_below_pdl": state.bars_below_pdl,
+                    "bearish_pressure_bars": state.bearish_pressure_bars,
+                    "conditions_met": state.conditions_met,
+                })
+
+        # Step 3b-green: Update Mode 1 Green detector (trend up day)
+        if self.strategy_params.use_mode1_green_detection:
+            was_green = self.mode1_green_detector.state.is_mode1_green
+            self.mode1_green_detector.update(
+                bar_idx=bar_idx,
+                close=close,
+                high=high,
+                level_store=self.signal_aggregator.level_store,
+                timestamp=timestamp,
+            )
+            # Expose current Mode 1 Green status so _qualify_signal can apply
+            # the relaxed R:R floor. Only live mode (not shadow) takes effect.
+            self.signal_aggregator.mode1_green_active = (
+                self.mode1_green_detector.state.is_mode1_green
+            )
+            if self.mode1_green_detector.state.is_mode1_green and not was_green:
+                g = self.mode1_green_detector.state
+                self.signal_aggregator.shadow_events.append({
+                    "feature": "mode1_green",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_GREEN",
+                    "event": "transition",
+                    "resistances_broken": g.resistances_broken_sustained,
+                    "bars_above_pdh": g.bars_above_pdh,
+                    "bullish_pressure_bars": g.bullish_pressure_bars,
+                    "conditions_met": g.conditions_met,
+                })
+
         if signal is not None:
             result.signal = signal
             direction = signal.pattern.direction
+
+            # Flag risky trend-day FBs: fired within N pts of session high.
+            # Mancini Apr 15 2026: "FBs not far off major highs after big rally
+            # are dangerous — tend to fakeout unless parabolic rally sustains."
+            if (signal.signal_type == SignalType.FAILED_BREAKDOWN
+                    and direction == "long"):
+                session_high = self.signal_aggregator._session_high
+                if session_high != float('-inf'):
+                    dist = session_high - signal.entry_price
+                    if 0 <= dist <= self.strategy_params.risky_trend_fb_distance_from_high_pts:
+                        signal.pattern.is_risky_trend_fb = True
+                        logger.info(
+                            f"Bar {bar_idx}: Risky trend-day FB — {dist:.1f} pts "
+                            f"below session_high={session_high:.2f}"
+                        )
+
             logger.info(
                 f"Bar {bar_idx}: Signal - {signal.signal_type.name} ({direction}) "
                 f"entry={signal.entry_price:.2f} stop={signal.stop_price:.2f} "
                 f"R:R={signal.rr_ratio_t1:.2f}"
             )
+
+            # Step 3b-g: Mode 1 Green — relax R:R and apply size factor on
+            # confirmed trend-up days (FB LONG only). Ship in shadow mode first.
+            if (self.strategy_params.use_mode1_green_detection
+                    and self.mode1_green_detector.state.is_mode1_green
+                    and direction == "long"
+                    and signal.signal_type == SignalType.FAILED_BREAKDOWN):
+                g = self.mode1_green_detector.state
+                green_min_rr = self.strategy_params.mode1_green_fb_min_rr
+                green_size = self.strategy_params.mode1_green_size_factor
+                self.signal_aggregator.shadow_events.append({
+                    "feature": "mode1_green",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_GREEN",
+                    "signal_type": signal.signal_type.name,
+                    "rr_ratio": round(signal.rr_ratio_t1, 2),
+                    "would_relax_min_rr_to": green_min_rr,
+                    "would_apply_size_factor": green_size,
+                    "resistances_broken": g.resistances_broken_sustained,
+                    "bars_above_pdh": g.bars_above_pdh,
+                    "bullish_pressure_bars": g.bullish_pressure_bars,
+                    "conditions_met": g.conditions_met,
+                })
+                if not self.strategy_params.shadow_mode_features:
+                    # Live: apply size factor. The relaxed R:R floor
+                    # (mode1_green_fb_min_rr) is consumed upstream by
+                    # _qualify_signal via the Mode 1 Green hook — here we
+                    # just size the confirmed trend-day signal.
+                    signal.position_size_factor *= green_size
+                    logger.info(
+                        f"Bar {bar_idx}: MODE 1 GREEN — applying size_factor "
+                        f"{green_size:.2f} (new={signal.position_size_factor:.2f})"
+                    )
+                else:
+                    logger.info(
+                        f"SHADOW mode1_green @ bar {bar_idx}: MODE_1_GREEN "
+                        f"would apply size={green_size:.2f}, min_rr={green_min_rr:.2f} "
+                        f"(not acting)"
+                    )
+
+            # Step 3c: Mode 1 Red gating — reduce size or reject FB longs
+            if (self.strategy_params.use_mode1_detection
+                    and self.mode1_detector.state.is_mode1_red
+                    and direction == "long"):
+                state = self.mode1_detector.state
+                reduction = self.strategy_params.mode1_size_reduction
+                would_reject = (
+                    self.strategy_params.mode1_disable_fb_longs
+                    and signal.signal_type == SignalType.FAILED_BREAKDOWN
+                )
+                # Shadow log for Mode 1 (always emitted when Mode 1 triggers)
+                self.signal_aggregator.shadow_events.append({
+                    "feature": "mode1",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_RED",
+                    "signal_type": signal.signal_type.name,
+                    "would_reject": would_reject,
+                    "would_reduce_to": reduction if not would_reject else 0.0,
+                    "levels_broken": state.levels_broken_sustained,
+                    "bars_below_pdl": state.bars_below_pdl,
+                    "bearish_pressure_bars": state.bearish_pressure_bars,
+                    "conditions_met": state.conditions_met,
+                })
+                if not self.strategy_params.shadow_mode_features:
+                    # Live mode: actually reject or reduce
+                    if would_reject:
+                        logger.warning(
+                            f"Bar {bar_idx}: MODE 1 RED — FB long rejected "
+                            f"(mode1_disable_fb_longs=True)"
+                        )
+                        self._recent_bars.append((open_, high, low, close))
+                        if len(self._recent_bars) > 10:
+                            self._recent_bars = self._recent_bars[-10:]
+                        return result
+                    # Apply size reduction to the signal
+                    signal.position_size_factor *= reduction
+                    logger.warning(
+                        f"Bar {bar_idx}: MODE 1 RED detected — reducing long size "
+                        f"(factor={signal.position_size_factor:.2f})"
+                    )
+                else:
+                    logger.info(
+                        f"SHADOW mode1 @ bar {bar_idx}: MODE_1_RED "
+                        f"{'would REJECT' if would_reject else f'would reduce to {reduction:.0%}'} "
+                        f"{signal.signal_type.name} (not acting)"
+                    )
 
             # Step 4a: Regime filter gating
             if self._regime_state is not None:
@@ -740,7 +1030,30 @@ class ManciniLongStrategy:
                             self._recent_bars = self._recent_bars[-10:]
                         return result
 
-            # Step 4b: Check if we already have a position in this direction
+            # Step 4b: Intraday price action context gating
+            if self.strategy_params.use_intraday_context:
+                from core.intraday_context import IntradayState
+                idc_state = self.signal_aggregator.intraday_state
+                if direction == "long" and idc_state == IntradayState.BEARISH_PRESSURE:
+                    logger.debug(
+                        f"Bar {bar_idx}: Long {signal.signal_type.name} rejected by "
+                        f"intraday context (BEARISH_PRESSURE — LH/LL or weak bounces)"
+                    )
+                    self._recent_bars.append((open_, high, low, close))
+                    if len(self._recent_bars) > 10:
+                        self._recent_bars = self._recent_bars[-10:]
+                    return result
+                if direction == "short" and idc_state == IntradayState.BULLISH_PRESSURE:
+                    logger.debug(
+                        f"Bar {bar_idx}: Short {signal.signal_type.name} rejected by "
+                        f"intraday context (BULLISH_PRESSURE — HH/HL)"
+                    )
+                    self._recent_bars.append((open_, high, low, close))
+                    if len(self._recent_bars) > 10:
+                        self._recent_bars = self._recent_bars[-10:]
+                    return result
+
+            # Step 4c: Check if we already have a position in this direction
             if direction == "long" and self._long_position is not None and self._long_position.is_open:
                 self._recent_bars.append((open_, high, low, close))
                 if len(self._recent_bars) > 10:
@@ -798,7 +1111,11 @@ class ManciniLongStrategy:
                     target_2=signal.target_2,
                     contracts=entry.contracts,
                     direction=direction,
+                    is_double_dip=getattr(signal.pattern, 'is_double_dip', False),
                 )
+                # Reset multi-session runner counter — new position, new clock.
+                # Mirrors live/ib_runner.py::_open_position behaviour.
+                position._runner_sessions_held = 0
                 accepted = self.position_manager.open_position(
                     position, timestamp, signal.pattern.pattern_type
                 )

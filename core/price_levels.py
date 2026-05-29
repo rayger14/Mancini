@@ -68,12 +68,12 @@ class PriceLevelDetector:
         # 2. Multi-hour swing lows (argrelextrema)
         if len(df) > self.params.swing_low_order * 2:
             self._add_swing_lows(store, df)
-            if self.params.allow_short_fr or self.params.allow_short_lj:
+            if self.params.allow_short_fr or self.params.allow_short_lj or self.params.allow_breakdown_short or self.params.allow_backtest_short:
                 self._add_swing_highs(store, df)
 
         # 3. Cluster / shelf lows and highs
         self._add_cluster_lows(store, df)
-        if self.params.allow_short_fr or self.params.allow_short_lj:
+        if self.params.allow_short_fr or self.params.allow_short_lj or self.params.allow_breakdown_short or self.params.allow_backtest_short:
             self._add_cluster_highs(store, df)
 
         # 4. Horizontal S/R levels
@@ -84,6 +84,8 @@ class PriceLevelDetector:
     def detect_incremental(
         self, store: LevelStore, df: pd.DataFrame, bar_idx: int,
         hr_sr_interval: int = 10,
+        df_5min: Optional[pd.DataFrame] = None,
+        bar_idx_5min: Optional[int] = None,
     ) -> list[Level]:
         """Detect new levels based on bars up to bar_idx (lookahead-safe).
 
@@ -93,93 +95,62 @@ class PriceLevelDetector:
             Only run horizontal S/R and cluster detection every N bars
             (they change slowly, and the O(n) scan per call makes the
             overall day O(n²) if run every bar).
+        df_5min : pd.DataFrame, optional
+            5-minute resampled OHLCV bars. When provided with
+            ``use_5min_levels=True``, swing detection runs on 5-min data.
+        bar_idx_5min : int, optional
+            Current bar index into df_5min.
 
         Returns newly added levels.
         """
         new_levels: list[Level] = []
 
-        # Check for newly confirmed swing lows (cheap: single candidate check)
-        order = self.params.swing_low_order
-        if bar_idx >= order * 2:
-            candidate_idx = bar_idx - order  # the potential low was `order` bars ago
+        # Decide whether to use 5-min data for swing detection
+        use_5min = (
+            self.params.use_5min_levels
+            and df_5min is not None
+            and bar_idx_5min is not None
+            and len(df_5min) > 0
+        )
 
-            # RTH filter: only create levels from RTH bars
-            if not self._is_rth_time(df.index[candidate_idx].time()):
-                pass  # skip non-RTH swing low candidates
-            else:
-                lows = df["low"].values
-                # Check if candidate_idx is a local minimum within [candidate_idx - order, candidate_idx + order]
-                window_start = max(0, candidate_idx - order)
-                window_end = min(len(lows), candidate_idx + order + 1)
-                window = lows[window_start:window_end]
-                local_min = lows[candidate_idx]
+        # --- Always run 1-min swing low detection (preserves LR and all existing levels) ---
+        new_levels.extend(
+            self._detect_swing_lows_on_df(
+                store, df, bar_idx,
+                order=self.params.swing_low_order,
+                current_close_1min=float(df["close"].values[bar_idx]),
+                timestamp_1min=df.index[bar_idx],
+            )
+        )
 
-                if local_min == window.min() and local_min < window.mean():
-                    low_price = float(local_min)
-                    low_time = df.index[candidate_idx]
-                    confirmed_time = df.index[bar_idx]
+        if use_5min:
+            # --- Additionally run 5-min swing low detection (structural levels on top) ---
+            new_levels.extend(
+                self._detect_swing_lows_on_df(
+                    store, df_5min, bar_idx_5min,
+                    order=self.params.swing_low_order_5min,
+                    current_close_1min=float(df["close"].values[bar_idx]),
+                    timestamp_1min=df.index[bar_idx],
+                )
+            )
 
-                    # Check rally from this low
-                    rally = float(df["high"].values[candidate_idx:bar_idx + 1].max()) - low_price
+            # --- 5-min swing HIGH detection SKIPPED (Fix 4: longs only for 5-min levels) ---
+            # Existing 1-min swing high detection below handles shorts.
 
-                    if rally >= self.params.multi_hour_rally_min_pts:
-                        level = Level(
-                            price=low_price,
-                            level_type=LevelType.MULTI_HOUR_LOW,
-                            created_at=low_time,
-                            confirmed_at=confirmed_time,
-                            rally_from_low_pts=rally,
-                        )
-                    else:
-                        level = Level(
-                            price=low_price,
-                            level_type=LevelType.SWING_LOW,
-                            created_at=low_time,
-                            confirmed_at=confirmed_time,
-                        )
-
-                    store.add(level)
-                    new_levels.append(level)
+            # --- Shelf-of-lows detection on 5-min ---
+            if self.params.detect_shelf_levels:
+                new_levels.extend(
+                    self._detect_shelf_levels(store, df_5min, bar_idx_5min)
+                )
 
         # Check for newly confirmed swing highs (mirror of swing low detection)
-        # Only when short-side trading is enabled
-        if (self.params.allow_short_fr or self.params.allow_short_lj) and bar_idx >= order * 2:
-            candidate_idx = bar_idx - order
-            if not self._is_rth_time(df.index[candidate_idx].time()):
-                pass
-            else:
-                highs = df["high"].values
-                window_start = max(0, candidate_idx - order)
-                window_end = min(len(highs), candidate_idx + order + 1)
-                window = highs[window_start:window_end]
-                local_max = highs[candidate_idx]
-
-                if local_max == window.max() and local_max > window.mean():
-                    high_price = float(local_max)
-                    high_time = df.index[candidate_idx]
-                    confirmed_time = df.index[bar_idx]
-
-                    # Check selloff from this high
-                    selloff = high_price - float(df["low"].values[candidate_idx:bar_idx + 1].min())
-
-                    if selloff >= self.params.multi_hour_rally_min_pts:
-                        level = Level(
-                            price=high_price,
-                            level_type=LevelType.MULTI_HOUR_HIGH,
-                            created_at=high_time,
-                            confirmed_at=confirmed_time,
-                            rally_from_low_pts=selloff,
-                        )
-                    else:
-                        level = Level(
-                            price=high_price,
-                            level_type=LevelType.SWING_HIGH,
-                            created_at=high_time,
-                            confirmed_at=confirmed_time,
-                        )
-
-                    store.add(level)
-                    new_levels.append(level)
+        # Always uses 1-min data — 5-min swing highs are NOT added (Fix 4: longs only)
+        order_1min = self.params.swing_low_order
+        if (self.params.allow_short_fr or self.params.allow_short_lj
+                or self.params.allow_breakdown_short or self.params.allow_backtest_short) and bar_idx >= order_1min * 2:
+            new_levels.extend(
+                self._detect_swing_highs_on_df(store, df, bar_idx, order=order_1min)
+            )
 
         # Deep sell recovery: detect intraday levels with faster confirmation
         # when price is far below known support (Mancini: FB new levels during selloff)
@@ -217,7 +188,7 @@ class PriceLevelDetector:
                 new_levels.append(level)
 
         # Check for cluster highs (resistance) — only when short-side enabled
-        if self.params.allow_short_fr or self.params.allow_short_lj:
+        if self.params.allow_short_fr or self.params.allow_short_lj or self.params.allow_breakdown_short or self.params.allow_backtest_short:
             if self.rth_filter is not None:
                 recent_highs = df["high"].values[slice_start:slice_end][rth_mask]
             else:
@@ -435,6 +406,190 @@ class PriceLevelDetector:
                             touch_count=int(count),
                         )
                     )
+
+    def _detect_swing_lows_on_df(
+        self,
+        store: LevelStore,
+        df: pd.DataFrame,
+        bar_idx: int,
+        order: int,
+        current_close_1min: Optional[float] = None,
+        timestamp_1min: Optional[pd.Timestamp] = None,
+    ) -> list[Level]:
+        """Detect a swing low on the given DataFrame at ``bar_idx``.
+
+        Works identically on 1-min or 5-min data — the caller chooses
+        the order and DataFrame.  RTH and level-desert bypass logic use
+        the 1-min close when available (5-min path) or fall back to the
+        df close.
+        """
+        new_levels: list[Level] = []
+        if bar_idx < order * 2:
+            return new_levels
+
+        candidate_idx = bar_idx - order
+
+        # Determine current close for level-desert bypass
+        if current_close_1min is not None:
+            current_close = current_close_1min
+        else:
+            current_close = float(df["close"].values[bar_idx])
+
+        # Determine timestamp for confirmation
+        if timestamp_1min is not None:
+            confirm_ts = timestamp_1min
+        else:
+            confirm_ts = df.index[bar_idx]
+
+        confirmed = store.get_confirmed(confirm_ts)
+        has_nearby_level = any(
+            abs(l.price - current_close) <= self.params.deep_sell_threshold_pts
+            for l in confirmed
+        )
+        is_rth = self._is_rth_time(df.index[candidate_idx].time())
+        if not is_rth and has_nearby_level:
+            return new_levels
+
+        lows = df["low"].values
+        window_start = max(0, candidate_idx - order)
+        window_end = min(len(lows), candidate_idx + order + 1)
+        window = lows[window_start:window_end]
+        local_min = lows[candidate_idx]
+
+        if local_min == window.min() and local_min < window.mean():
+            low_price = float(local_min)
+            low_time = df.index[candidate_idx]
+            confirmed_time = confirm_ts
+
+            rally = float(df["high"].values[candidate_idx:bar_idx + 1].max()) - low_price
+
+            if rally >= self.params.multi_hour_rally_min_pts:
+                level = Level(
+                    price=low_price,
+                    level_type=LevelType.MULTI_HOUR_LOW,
+                    created_at=low_time,
+                    confirmed_at=confirmed_time,
+                    rally_from_low_pts=rally,
+                )
+            else:
+                level = Level(
+                    price=low_price,
+                    level_type=LevelType.SWING_LOW,
+                    created_at=low_time,
+                    confirmed_at=confirmed_time,
+                )
+
+            store.add(level)
+            new_levels.append(level)
+
+        return new_levels
+
+    def _detect_swing_highs_on_df(
+        self,
+        store: LevelStore,
+        df: pd.DataFrame,
+        bar_idx: int,
+        order: int,
+    ) -> list[Level]:
+        """Detect a swing high on the given DataFrame at ``bar_idx``."""
+        new_levels: list[Level] = []
+        if bar_idx < order * 2:
+            return new_levels
+
+        candidate_idx = bar_idx - order
+        if not self._is_rth_time(df.index[candidate_idx].time()):
+            return new_levels
+
+        highs = df["high"].values
+        window_start = max(0, candidate_idx - order)
+        window_end = min(len(highs), candidate_idx + order + 1)
+        window = highs[window_start:window_end]
+        local_max = highs[candidate_idx]
+
+        if local_max == window.max() and local_max > window.mean():
+            high_price = float(local_max)
+            high_time = df.index[candidate_idx]
+            confirmed_time = df.index[bar_idx]
+
+            selloff = high_price - float(df["low"].values[candidate_idx:bar_idx + 1].min())
+
+            if selloff >= self.params.multi_hour_rally_min_pts:
+                level = Level(
+                    price=high_price,
+                    level_type=LevelType.MULTI_HOUR_HIGH,
+                    created_at=high_time,
+                    confirmed_at=confirmed_time,
+                    rally_from_low_pts=selloff,
+                )
+            else:
+                level = Level(
+                    price=high_price,
+                    level_type=LevelType.SWING_HIGH,
+                    created_at=high_time,
+                    confirmed_at=confirmed_time,
+                )
+
+            store.add(level)
+            new_levels.append(level)
+
+        return new_levels
+
+    def _detect_shelf_levels(
+        self,
+        store: LevelStore,
+        df_5min: pd.DataFrame,
+        bar_idx_5min: int,
+    ) -> list[Level]:
+        """Detect shelf-of-lows: tight horizontal zones with 4+ touches on 5-min bars.
+
+        A shelf is a price range of <= shelf_proximity_pts where the low has been
+        tested shelf_min_touches times over shelf_min_bars bars.
+        """
+        new_levels: list[Level] = []
+        if bar_idx_5min < self.params.shelf_min_bars:
+            return new_levels
+
+        # Look at the last shelf_min_bars * 2 5-min bars
+        lookback = min(bar_idx_5min + 1, self.params.shelf_min_bars * 2)
+        start = max(0, bar_idx_5min + 1 - lookback)
+        recent_lows = df_5min["low"].values[start:bar_idx_5min + 1]
+
+        # Find the floor of the range
+        floor_price = float(recent_lows.min())
+        ceiling = floor_price + self.params.shelf_proximity_pts
+
+        # Count how many bars touched the shelf zone (low within proximity of floor)
+        touches = sum(1 for low in recent_lows if low <= ceiling)
+
+        if touches >= self.params.shelf_min_touches:
+            # Check it's not already tracked
+            too_close = any(
+                abs(l.price - floor_price) <= 1.0
+                for l in store.levels
+                if l.level_type in (
+                    LevelType.HORIZONTAL_SR,
+                    LevelType.SWING_LOW,
+                    LevelType.CLUSTER_LOW,
+                    LevelType.MULTI_HOUR_LOW,
+                )
+            )
+            if not too_close:
+                # Check rally from shelf (has price moved away from it?)
+                current_close = float(df_5min["close"].values[bar_idx_5min])
+                rally = current_close - floor_price
+
+                level = Level(
+                    price=floor_price,
+                    level_type=LevelType.HORIZONTAL_SR,
+                    created_at=df_5min.index[start],
+                    confirmed_at=df_5min.index[bar_idx_5min],
+                    touch_count=touches,
+                    rally_from_low_pts=rally if rally > 0 else 0,
+                )
+                store.add(level)
+                new_levels.append(level)
+
+        return new_levels
 
     def _detect_deep_sell_levels(
         self, store: LevelStore, df: pd.DataFrame, bar_idx: int,

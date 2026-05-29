@@ -1,0 +1,120 @@
+{
+  "trading_date": "2025-10-10",
+  "levels": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6750.0,
+      "role": "mentioned",
+      "context": ". Throughout this, ES had been building a large flag mostly 6750 to 6800 with 6765 being a key magnet in the middle, and Tue"
+    },
+    {
+      "price": 6756.0,
+      "role": "mentioned",
+      "context": "day, then failed back inside today. As I stated yesterday: \u201c6756 to 6800 remains a 4 day bull flag with 6765/6774 being key"
+    },
+    {
+      "price": 6765.0,
+      "role": "support",
+      "context": "recover 6765"
+    },
+    {
+      "price": 6774.0,
+      "role": "mentioned",
+      "context": "esterday: \u201c6756 to 6800 remains a 4 day bull flag with 6765/6774 being key pivots inside.\u201d We spent most the day today at 67"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "hout this, ES had been building a large flag mostly 6750 to 6800 with 6765 being a key magnet in the middle, and Tuesday\u2019s F"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6750.0,
+      "role": "mentioned",
+      "context": ". Throughout this, ES had been building a large flag mostly 6750 to 6800 with 6765 being a key magnet in the middle, and Tue"
+    },
+    {
+      "price": 6756.0,
+      "role": "mentioned",
+      "context": "day, then failed back inside today. As I stated yesterday: \u201c6756 to 6800 remains a 4 day bull flag with 6765/6774 being key"
+    },
+    {
+      "price": 6765.0,
+      "role": "support",
+      "context": "recover 6765"
+    },
+    {
+      "price": 6774.0,
+      "role": "mentioned",
+      "context": "esterday: \u201c6756 to 6800 remains a 4 day bull flag with 6765/6774 being key pivots inside.\u201d We spent most the day today at 67"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "hout this, ES had been building a large flag mostly 6750 to 6800 with 6765 being a key magnet in the middle, and Tuesday\u2019s F"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided targets at the close Tuesday, stating: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions buy dips in a very standardized way: They wait for price to put in a deep \u201celevator down\u201d sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Case in point last Wednesday: Last Tuesday late day ES went \u201celevator down\u201d 60 points down to 6680."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm: \u201cAnother option to long is the Failed Breakdown of today\u2019s daily low at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Case in point again this Tuesday: ES went \u201celevator down\u201d from 6800 down to 6747."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Monday at 4pm: \u201cTh e far safer option is to wait for it to hold then put in a Failed Breakdown of the Friday afternoon 6754 low .\u201d We got this around noon Tuesday, and longs triggered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Throughout this, ES had been building a large flag mostly 6750 to 6800 with 6765 being a key magnet in the middle, and Tuesday\u2019s Failed Breakdown took us to resistance yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into two quality Failed Breakdowns we had this week: One on Monday that gave us a 35 point leg up, and another on Tuesday that gave us a 60+ point leg up."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Will Today's Micro-Dip In SPX Get Bought Like Tuesday's? Oct 10th Plan",
+  "post_date": "2025-10-09",
+  "post_slug": "will-todays-micro-dip-in-spx-get",
+  "parsed_at": "2026-04-16T15:41:57.509156",
+  "body_length": 3019
+}

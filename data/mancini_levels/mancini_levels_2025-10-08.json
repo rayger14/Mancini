@@ -1,0 +1,98 @@
+{
+  "trading_date": "2025-10-08",
+  "levels": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6750.0,
+      "role": "mentioned",
+      "context": "timately though, ES found itself rangebound (mostly 6800 to 6750 with 6765 being a big pivot in the middle) sice late last w"
+    },
+    {
+      "price": 6760.0,
+      "role": "mentioned",
+      "context": "high last week. Late day Friday, ES saw another dip down to 6760 or so. Bearish calls were appearing, which meant it was tim"
+    },
+    {
+      "price": 6765.0,
+      "role": "support",
+      "context": "reclaim 6765"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "d 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week. Late day Friday, ES saw another dip down to"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6750.0,
+      "role": "mentioned",
+      "context": "timately though, ES found itself rangebound (mostly 6800 to 6750 with 6765 being a big pivot in the middle) sice late last w"
+    },
+    {
+      "price": 6760.0,
+      "role": "mentioned",
+      "context": "high last week. Late day Friday, ES saw another dip down to 6760 or so. Bearish calls were appearing, which meant it was tim"
+    },
+    {
+      "price": 6765.0,
+      "role": "support",
+      "context": "reclaim 6765"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "d 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week. Late day Friday, ES saw another dip down to"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm: \u201cAnother option to long is the Failed Breakdown of today\u2019s daily low at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Bearish calls were appearing, which meant it was time for institutions to buy the dip, and us to follow."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Ultimately though, ES found itself rangebound (mostly 6800 to 6750 with 6765 being a big pivot in the middle) sice late last week as it digests last Wednesday\u2019s parabolic run, and prepares for the next move."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "ES is rangebound in a big range 6750 to 6800, with 6765 being a big magnet/pivot in the middle."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "After 7 Green Days, SPX Cools Off Today. Will The Mini-Dip Get Bought? Oct 8th Plan",
+  "post_date": "2025-10-07",
+  "post_slug": "after-7-green-days-spx-cools-off",
+  "parsed_at": "2026-04-16T15:42:00.248570",
+  "body_length": 3016
+}

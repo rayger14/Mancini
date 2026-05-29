@@ -1,0 +1,162 @@
+{
+  "trading_date": "2025-12-24",
+  "levels": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote at 4"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "ES holding 6818-22. My general lean is it does. This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Frida"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "neral lean is it does. This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Friday. ES held 6818-22 all nig"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "lean is it does. This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Friday. ES held 6818-22 all night Thu"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "6962, 6973 as the next target slate.\u201d Overnight we defended 6925 all night, quick trap below this morning, then we got to wo"
+    },
+    {
+      "price": 6942.0,
+      "role": "mentioned",
+      "context": "6925, 6910 if bulls are extremely aggressive). This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we d"
+    },
+    {
+      "price": 6947.0,
+      "role": "mentioned",
+      "context": "6910 if bulls are extremely aggressive). This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we defende"
+    },
+    {
+      "price": 6962.0,
+      "role": "mentioned",
+      "context": "f bulls are extremely aggressive). This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we defended 6925"
+    },
+    {
+      "price": 6973.0,
+      "role": "mentioned",
+      "context": "s are extremely aggressive). This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we defended 6925 all n"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote at 4"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6818.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6818-22"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "ES holding 6818-22. My general lean is it does. This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Frida"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "neral lean is it does. This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Friday. ES held 6818-22 all nig"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "lean is it does. This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We saw exactly this Friday. ES held 6818-22 all night Thu"
+    },
+    {
+      "price": 6925.0,
+      "role": "mentioned",
+      "context": "6962, 6973 as the next target slate.\u201d Overnight we defended 6925 all night, quick trap below this morning, then we got to wo"
+    },
+    {
+      "price": 6942.0,
+      "role": "mentioned",
+      "context": "6925, 6910 if bulls are extremely aggressive). This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we d"
+    },
+    {
+      "price": 6947.0,
+      "role": "mentioned",
+      "context": "6910 if bulls are extremely aggressive). This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we defende"
+    },
+    {
+      "price": 6962.0,
+      "role": "mentioned",
+      "context": "f bulls are extremely aggressive). This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we defended 6925"
+    },
+    {
+      "price": 6973.0,
+      "role": "mentioned",
+      "context": "s are extremely aggressive). This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we defended 6925 all n"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I was looking for more upside today, stating yesterday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "That tendency is as follows and I call them the two siblings: \u201cElevator down sell\u201d being the first, and short squeeze being the second."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Wednesday we saw a substantial elevator down sell in ES -and for the first time in a month - sold from open to close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This would mean a squeeze is coming - a large one - but the trick is the short squeeze only occurs when ES puts in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss the setups that produced the squeeze since last Wednesday in detail (its a classic Failed Breakdown)."
+    },
+    {
+      "type": "TARGETS",
+      "text": "This sets up 6942, 6947, 6962, 6973 as the next target slate.\u201d Overnight we defended 6925 all night, quick trap below this morning, then we got to work on this today, arriving at 6962 exact almost to set the high of day."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "The Holiday Squeeze In SPX Arrived As Expected. Can It Continue Though? December 24/26 Plan",
+  "post_date": "2025-12-23",
+  "post_slug": "the-holiday-squeeze-in-spx-arrived",
+  "parsed_at": "2026-04-16T15:40:50.423522",
+  "body_length": 2651
+}

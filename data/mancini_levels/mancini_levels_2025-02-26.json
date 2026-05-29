@@ -1,0 +1,79 @@
+{
+  "trading_date": "2025-02-26",
+  "levels": [
+    {
+      "price": 5982.0,
+      "role": "resistance",
+      "context": "below 5982"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "y 13th. This put in 3 red in a row and this took us down to 5996 which was a key support all day yesterday. Bulls tried a re"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "above 6116"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6116-23"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "y 13th. This put in 3 red in a row and this took us down to 5996 which was a key support all day yesterday. Bulls tried a re"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "above 6116"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6116-23"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5982.0,
+      "role": "resistance",
+      "context": "below 5982"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: Begins below 5982\u2026."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For this entry ideally I\u2019d want to see a bounce/failed breakdown attempt at 5982."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After that bounce, there is a possible short under the lows.\u201d This morning, we lost 5982, and put in a deep 50 point, \u201celevator down\u201d sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, readers of this newsletter know though \u201celevator down\u201d sells in ES, are always followed by equally violent short squeezed, and those are caused by my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I like this level better particularly if we can put in a Failed Breakdown of the February 2nd multi-week low which at 5935 now.\u201d At 10:30AM, ES tagged 5933, put in a monster Failed Breakdown of the February 2nd low, and we were off to the races."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "After 4 Deep Red Days, Is SPX Ready To Bounce? Feb 26 Plan",
+  "post_date": "2025-02-25",
+  "post_slug": "after-4-deep-red-days-is-spx-ready",
+  "parsed_at": "2026-04-16T15:45:18.584216",
+  "body_length": 2748
+}

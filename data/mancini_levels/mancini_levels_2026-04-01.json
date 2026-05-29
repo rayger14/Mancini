@@ -1,0 +1,123 @@
+{
+  "trading_date": "2026-04-01",
+  "levels": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last"
+    },
+    {
+      "price": 6412.0,
+      "role": "range",
+      "context": "6412-15"
+    },
+    {
+      "price": 6415.0,
+      "role": "range",
+      "context": "6412-15"
+    },
+    {
+      "price": 6447.0,
+      "role": "mentioned",
+      "context": "lean is ES can push to 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last"
+    },
+    {
+      "price": 6467.0,
+      "role": "mentioned",
+      "context": "is ES can push to 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last evenin"
+    },
+    {
+      "price": 6524.0,
+      "role": "mentioned",
+      "context": "o 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last evening, recovering 64"
+    },
+    {
+      "price": 6575.0,
+      "role": "support",
+      "context": "support at 6575"
+    },
+    {
+      "price": 6592.0,
+      "role": "resistance",
+      "context": "below 6592"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last"
+    },
+    {
+      "price": 6412.0,
+      "role": "range",
+      "context": "6412-15"
+    },
+    {
+      "price": 6415.0,
+      "role": "range",
+      "context": "6412-15"
+    },
+    {
+      "price": 6447.0,
+      "role": "mentioned",
+      "context": "lean is ES can push to 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last"
+    },
+    {
+      "price": 6467.0,
+      "role": "mentioned",
+      "context": "is ES can push to 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last evenin"
+    },
+    {
+      "price": 6524.0,
+      "role": "mentioned",
+      "context": "o 6412-15. If that clears, we work to 6447, 6467. Dip, then 6524+.\u201d We got right to work on this last evening, recovering 64"
+    },
+    {
+      "price": 6575.0,
+      "role": "support",
+      "context": "support at 6575"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6592.0,
+      "role": "resistance",
+      "context": "below 6592"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "On Wednesday at 4pm, I wrote: \u201c Bear case tomorrow: Begins below 6592.\u201d We broke it down Thursday, and a two day grind lower commenced into 6360 by Sunday 7pm."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My targets were (as stated yesterday): \u201cMy general lean is ES can push to 6412-15."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The catch though, is they only occur when my core setup - the Failed Breakdown - triggers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES plunged to 6353 last evening going elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "An alternative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last evening, and were off."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 8,
+  "support_count": 7,
+  "resistance_count": 1,
+  "post_title": "SPX Snaps Its 5 Day Losing Streak. Is The Low In? April 1st Plan",
+  "post_date": "2026-03-31",
+  "post_slug": "spx-snaps-its-5-day-losing-streak",
+  "parsed_at": "2026-04-16T15:38:16.949737",
+  "body_length": 2163
+}

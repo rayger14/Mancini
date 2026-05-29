@@ -1,0 +1,137 @@
+{
+  "trading_date": "2025-01-17",
+  "levels": [
+    {
+      "price": 5807.0,
+      "role": "mentioned",
+      "context": "ulti-hour low at 5830 on Sunday evening, flushed it down to 5807, and recovered. This 5830 level also happened to be huge su"
+    },
+    {
+      "price": 5830.0,
+      "role": "level",
+      "context": "5830 level"
+    },
+    {
+      "price": 5845.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5850.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5917.0,
+      "role": "target",
+      "context": "target 5917"
+    },
+    {
+      "price": 5934.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "y coiling for more upside. This would target 5917, 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. This played"
+    },
+    {
+      "price": 5984.0,
+      "role": "support",
+      "context": "above 5984"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "or more upside. This would target 5917, 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. This played out well, a"
+    },
+    {
+      "price": 6004.0,
+      "role": "resistance",
+      "context": "6004 resistance"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5807.0,
+      "role": "mentioned",
+      "context": "ulti-hour low at 5830 on Sunday evening, flushed it down to 5807, and recovered. This 5830 level also happened to be huge su"
+    },
+    {
+      "price": 5830.0,
+      "role": "level",
+      "context": "5830 level"
+    },
+    {
+      "price": 5845.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5850.0,
+      "role": "range",
+      "context": "5845-50"
+    },
+    {
+      "price": 5934.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "y coiling for more upside. This would target 5917, 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. This played"
+    },
+    {
+      "price": 5984.0,
+      "role": "support",
+      "context": "above 5984"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "or more upside. This would target 5917, 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. This played out well, a"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5917.0,
+      "role": "target",
+      "context": "target 5917"
+    },
+    {
+      "price": 6004.0,
+      "role": "resistance",
+      "context": "6004 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Tuesday at 4pm (before CPI): \u201cMy general lean is that a relief bounce leg began on Monday by testing megaphone support, and is underway."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cAn ultra bull case for tomorrow would see ES get no dip."
+    }
+  ],
+  "level_count": 11,
+  "support_count": 9,
+  "resistance_count": 2,
+  "post_title": "After +200 Points, Is This Weeks SPX Rally Running Out Of Steam? Jan 17th Plan",
+  "post_date": "2025-01-16",
+  "post_slug": "after-200-points-is-this-weeks-spx",
+  "parsed_at": "2026-04-16T15:45:51.424136",
+  "body_length": 2363
+}

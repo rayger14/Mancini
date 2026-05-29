@@ -1,0 +1,97 @@
+{
+  "trading_date": "2025-12-11",
+  "levels": [
+    {
+      "price": 6835.0,
+      "role": "support",
+      "context": "6835 daily low"
+    },
+    {
+      "price": 6836.0,
+      "role": "support",
+      "context": "6836 daily low"
+    },
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    },
+    {
+      "price": 6893.0,
+      "role": "range",
+      "context": "6893-96"
+    },
+    {
+      "price": 6896.0,
+      "role": "range",
+      "context": "6893-96"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6835.0,
+      "role": "support",
+      "context": "6835 daily low"
+    },
+    {
+      "price": 6836.0,
+      "role": "support",
+      "context": "6836 daily low"
+    },
+    {
+      "price": 6893.0,
+      "role": "range",
+      "context": "6893-96"
+    },
+    {
+      "price": 6896.0,
+      "role": "range",
+      "context": "6893-96"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions leave their footprint on the chart when they buy a dip and it comes in the form of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions long by waiting for a deep elevator down sell, they wait for price to undercut a low, they then trap shorts (usually retail), price recovers the low, and we squeeze the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is the Failed Breakdown, and my edge is simply following them."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm: \u201cThe Failed Breakdown of the 11:30AM 6818 low is also actionable.\u201d We got exactly this Wednesday - ES went elevator down from 6865 resistance down to 6817."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The task for bulls today was to keep it going through FOMC but of course, we would need a dip to buy first and institutions buy dips by putting in a Failed Breakdown and trapping shorts."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cInstead of buying 6838, one could wait for a Failed Breakdown of Monday\u2019s 6835 daily low.\u201d We swept that down to 6830 this morning, recovered, shorts were trapped and longs triggered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the quality Failed Breakdown\u2019s we\u2019ve seen the last few days."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "Bulls Bought The FOMC Dip As Expected. Can They Run Now? December 11 Plan",
+  "post_date": "2025-12-10",
+  "post_slug": "bulls-bought-the-fomc-dip-as-expected",
+  "parsed_at": "2026-04-16T15:41:01.796928",
+  "body_length": 2598
+}

@@ -1,0 +1,94 @@
+{
+  "trading_date": "2024-12-11",
+  "levels": [
+    {
+      "price": 6040.0,
+      "role": "mentioned",
+      "context": "ing at 6060 all day, we lost the structure, and sold off to 6040. Will this dip get bought like all the others? CPI tomorrow"
+    },
+    {
+      "price": 6060.0,
+      "role": "range",
+      "context": "6060-63"
+    },
+    {
+      "price": 6063.0,
+      "role": "level",
+      "context": "6063 zone"
+    },
+    {
+      "price": 6064.0,
+      "role": "level",
+      "context": "6064 level"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "megaphone pattern with support 6064, resistance 6117, and a 6081 mid-pivot. We could ping pong this for a while.\u201d By 11am ye"
+    },
+    {
+      "price": 6117.0,
+      "role": "mentioned",
+      "context": "in a large megaphone pattern with support 6064, resistance 6117, and a 6081 mid-pivot. We could ping pong this for a while."
+    }
+  ],
+  "supports": [
+    {
+      "price": 6040.0,
+      "role": "mentioned",
+      "context": "ing at 6060 all day, we lost the structure, and sold off to 6040. Will this dip get bought like all the others? CPI tomorrow"
+    },
+    {
+      "price": 6060.0,
+      "role": "range",
+      "context": "6060-63"
+    },
+    {
+      "price": 6063.0,
+      "role": "level",
+      "context": "6063 zone"
+    },
+    {
+      "price": 6064.0,
+      "role": "level",
+      "context": "6064 level"
+    },
+    {
+      "price": 6081.0,
+      "role": "mentioned",
+      "context": "megaphone pattern with support 6064, resistance 6117, and a 6081 mid-pivot. We could ping pong this for a while.\u201d By 11am ye"
+    },
+    {
+      "price": 6117.0,
+      "role": "mentioned",
+      "context": "in a large megaphone pattern with support 6064, resistance 6117, and a 6081 mid-pivot. We could ping pong this for a while."
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: There are few options for breakdown shorts."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then finally, after 5 tests today of that support zone at 6060-63, we lost it, triggering short at 2pm."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Specifically, yesterday and Friday we saw all three of my setup types: A Failed Breakdown on Friday, a Regular Breakdown Short Yesterday, and a Back-Test Long, within the context of a multi-day megaphone."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "I wrote on Friday at 4pm (when we were 6095): \u201cAfter a big rally this week we are now consolidating in a large megaphone pattern with support 6064, resistance 6117, and a 6081 mid-pivot."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "CPI Tomorrow. Will This Dip Get Bought In SPX? Dec 11 Plan",
+  "post_date": "2024-12-10",
+  "post_slug": "cpi-tomorrow-will-this-dip-get-bought",
+  "parsed_at": "2026-04-16T15:46:21.468677",
+  "body_length": 2070
+}

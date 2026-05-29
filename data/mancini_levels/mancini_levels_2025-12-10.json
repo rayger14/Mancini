@@ -1,0 +1,137 @@
+{
+  "trading_date": "2025-12-10",
+  "levels": [
+    {
+      "price": 6836.0,
+      "role": "support",
+      "context": "6836 daily low"
+    },
+    {
+      "price": 6847.0,
+      "role": "support",
+      "context": "above 6847"
+    },
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6880.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "into Friday, stating on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday"
+    },
+    {
+      "price": 6902.0,
+      "role": "mentioned",
+      "context": "Friday, stating on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday and t"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday and this is the high."
+    },
+    {
+      "price": 6931.0,
+      "role": "mentioned",
+      "context": "rsday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday and this is the high. We sa"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6836.0,
+      "role": "support",
+      "context": "6836 daily low"
+    },
+    {
+      "price": 6847.0,
+      "role": "support",
+      "context": "above 6847"
+    },
+    {
+      "price": 6877.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6880.0,
+      "role": "range",
+      "context": "6877-80"
+    },
+    {
+      "price": 6889.0,
+      "role": "mentioned",
+      "context": "into Friday, stating on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday"
+    },
+    {
+      "price": 6902.0,
+      "role": "mentioned",
+      "context": "Friday, stating on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday and t"
+    },
+    {
+      "price": 6918.0,
+      "role": "mentioned",
+      "context": "on Thursday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday and this is the high."
+    },
+    {
+      "price": 6931.0,
+      "role": "mentioned",
+      "context": "rsday at 4pm: \u201cIt targets 6877, 6889, 6902, then onto 6918, 6931.\u201d We got to 6902 by 10AM Friday and this is the high. We sa"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6865.0,
+      "role": "resistance",
+      "context": "6865 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is always to defer to the trend until evidence is given otherwise."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions leave their footprint on the chart when they buy a dip and it comes in the form of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions long by waiting for a deep elevator down sell, they wait for price to undercut a low, they then trap shorts, price recovers the low, and we squeeze the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is the Failed Breakdown, and my edge is simply following them."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last week, bulls bought every dip via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm: \u201cThe Failed Breakdown of the 11:30AM 6818 low is also actionable.\u201d We got exactly this Wednesday - ES went elevator down from 6865 resistance down to 6817."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a series of quality Failed Breakdowns we had Thursday and Friday last week."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "FOMC Tomorrow. Is Volatility Coming For SPX? December 10th Plan",
+  "post_date": "2025-12-09",
+  "post_slug": "fomc-tomorrow-is-volatility-coming",
+  "parsed_at": "2026-04-16T15:41:03.196760",
+  "body_length": 2567
+}

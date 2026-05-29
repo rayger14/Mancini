@@ -1,0 +1,116 @@
+{
+  "trading_date": "2025-11-03",
+  "levels": [
+    {
+      "price": 6841.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6843.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6882.0,
+      "role": "support",
+      "context": "daily low of 6882"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "in a big Failed Breakdown of yesterday\u2019s low, and ripped to 6900 to close the week. Dips have been bought all week, but zoom"
+    },
+    {
+      "price": 6901.0,
+      "role": "mentioned",
+      "context": "We swept the 6901 Tuesday daily low down to 6882, recovered 6901, and squeezed to 6950 Wednesday eve. The second dip was ear"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "g, selling to 6869 exact, recovering 6882, and squeezing to 6910 . Today was the same drill : We flushed this afternoon down"
+    },
+    {
+      "price": 6950.0,
+      "role": "mentioned",
+      "context": "day daily low down to 6882, recovered 6901, and squeezed to 6950 Wednesday eve. The second dip was early yesterday morning ."
+    }
+  ],
+  "supports": [
+    {
+      "price": 6841.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6843.0,
+      "role": "range",
+      "context": "6841-43"
+    },
+    {
+      "price": 6882.0,
+      "role": "support",
+      "context": "daily low of 6882"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "in a big Failed Breakdown of yesterday\u2019s low, and ripped to 6900 to close the week. Dips have been bought all week, but zoom"
+    },
+    {
+      "price": 6901.0,
+      "role": "mentioned",
+      "context": "We swept the 6901 Tuesday daily low down to 6882, recovered 6901, and squeezed to 6950 Wednesday eve. The second dip was ear"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "g, selling to 6869 exact, recovering 6882, and squeezing to 6910 . Today was the same drill : We flushed this afternoon down"
+    },
+    {
+      "price": 6950.0,
+      "role": "mentioned",
+      "context": "day daily low down to 6882, recovered 6901, and squeezed to 6950 Wednesday eve. The second dip was early yesterday morning ."
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "This is the Failed Breakdown (my core setup)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cThe obvious setup is the Failed Breakdown of todays low at 6901.\u201d We saw exactly this after FOMC."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Wednesday at 4pm: \u201cThe obvious setup is the Failed Breakdown of today\u2019s daily low at 6882."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote in yesterday\u2019s newsletter: \u201cOne can try the 6841-43 if its a controlled dip.\u201d We held 6843 exact, put in a big Failed Breakdown of yesterday\u2019s low, and ripped to 6900 to close the week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the Failed Breakdowns we\u2019ve seen this week because its been a very active week for them."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If you understand the Failed Breakdowns we\u2019ve seen this week, you understand Failed Breakdowns."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "ES plunged 60 points again, losing Wednesday\u2019s daily low of 6882 down to 6869."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "After A 250+ Point Squeeze, SPX Is Coiling. Another Leg Up Coming, Or Are Bulls Done? Nov 3rd Plan",
+  "post_date": "2025-11-02",
+  "post_slug": "after-a-250-point-squeeze-spx-is",
+  "parsed_at": "2026-04-16T15:41:37.292039",
+  "body_length": 2674
+}

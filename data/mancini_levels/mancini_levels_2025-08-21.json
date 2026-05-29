@@ -1,0 +1,65 @@
+{
+  "trading_date": "2025-08-21",
+  "levels": [
+    {
+      "price": 6369.0,
+      "role": "range",
+      "context": "6369-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6369-74"
+    },
+    {
+      "price": 6453.0,
+      "role": "resistance",
+      "context": "below 6453"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6369.0,
+      "role": "range",
+      "context": "6369-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6369-74"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6453.0,
+      "role": "resistance",
+      "context": "below 6453"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Monday at 4pm that: \u201c Bear case tomorrow: Short-term, begins below 6453\u201d and \u201cIf 6453 fails, we start down.\u201d Yesterday morning, ES lost 6453 and instantly began a sell down to 6420 to set the low of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers know very well though, every \u201celevator down\u201d sell in ES (which is what we saw this morning) has a sibling: The short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When ES sells, it violently cuts through every level for a few minutes to a few hours, then it puts in a vertical squeeze on a Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll discuss a series of setups we\u2019ve had since Friday that span all my setup types: We had a Failed Breakdown Friday, A Level Reclaim Long Sunday (its key to know the difference between this and a Failed Breakdown), then a Breakdown Short yesterday."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 2,
+  "resistance_count": 1,
+  "post_title": "The Dip Was Bought in SPX. Dead Cat, or Bottom? August 21st Plan",
+  "post_date": "2025-08-20",
+  "post_slug": "the-dip-was-bought-in-spx-dead-cat-c96",
+  "parsed_at": "2026-04-16T15:42:42.391149",
+  "body_length": 2192
+}

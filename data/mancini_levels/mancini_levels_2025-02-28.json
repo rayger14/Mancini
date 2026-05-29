@@ -1,0 +1,74 @@
+{
+  "trading_date": "2025-02-28",
+  "levels": [
+    {
+      "price": 5934.0,
+      "role": "mentioned",
+      "context": "a long on this.\u201d This morning at 10am and we sold down to ~5934, recovered 5945 and squeezed to 5990s, before this bounce w"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "\u201d This morning at 10am and we sold down to ~5934, recovered 5945 and squeezed to 5990s, before this bounce was sold. I also"
+    },
+    {
+      "price": 6116.0,
+      "role": "range",
+      "context": "6123-6116"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5934.0,
+      "role": "mentioned",
+      "context": "a long on this.\u201d This morning at 10am and we sold down to ~5934, recovered 5945 and squeezed to 5990s, before this bounce w"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "\u201d This morning at 10am and we sold down to ~5934, recovered 5945 and squeezed to 5990s, before this bounce was sold. I also"
+    },
+    {
+      "price": 6116.0,
+      "role": "range",
+      "context": "6123-6116"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "Bounces occur when ES puts in my core setup: A Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 3pm: \u201cHowever, if we can put in a Failed Breakdown of this afternoons 5945 low (perhaps touching 5944 or 5934) then recovering 5945, I\u2019d consider a long on this.\u201d This morning at 10am and we sold down to ~5934, recovered 5945 and squeezed to 5990s, before this bounce was sold."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I also wrote yesterday at 3pm: \u201cThere is also an advanced breakdown short available if the 5945 Failed Breakdown discussed a bove triggers then fails."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown (my core setup_ we had on Tuesday which caused the rally from 5924 to this weeks highs so far (6020s) as this set a good two day low and it was a powerful example of what I call a macro Failed Breakdown."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "6 Red Days In A Row For SPX. First Time Since April 2024. Bounce Incoming? Feb 28 Plan",
+  "post_date": "2025-02-27",
+  "post_slug": "6-red-days-in-a-row-for-spx-first",
+  "parsed_at": "2026-04-16T15:45:16.072830",
+  "body_length": 2203
+}

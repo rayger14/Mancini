@@ -1,0 +1,102 @@
+{
+  "trading_date": "2025-11-18",
+  "levels": [
+    {
+      "price": 6670.0,
+      "role": "mentioned",
+      "context": "6900 high, then last Friday we retraced most of it down to 6670, then ripped into Friday\u2019s close to 6900 (and as we will se"
+    },
+    {
+      "price": 6685.0,
+      "role": "mentioned",
+      "context": "day: \u201cThere is not much below there of interest to me until 6685.\u201d We held 6685 exact at 730AM Friday, bounced, swept it, ri"
+    },
+    {
+      "price": 6794.0,
+      "role": "mentioned",
+      "context": "he open to 6670, recovered, and we ripped in short order to 6794 high of day Friday. I also tweeted this entry out a little"
+    },
+    {
+      "price": 6847.0,
+      "role": "range",
+      "context": "6847-51"
+    },
+    {
+      "price": 6851.0,
+      "role": "range",
+      "context": "6847-51"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "most of it down to 6670, then ripped into Friday\u2019s close to 6900 (and as we will see, we made the same trip back down today)"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6670.0,
+      "role": "mentioned",
+      "context": "6900 high, then last Friday we retraced most of it down to 6670, then ripped into Friday\u2019s close to 6900 (and as we will se"
+    },
+    {
+      "price": 6685.0,
+      "role": "mentioned",
+      "context": "day: \u201cThere is not much below there of interest to me until 6685.\u201d We held 6685 exact at 730AM Friday, bounced, swept it, ri"
+    },
+    {
+      "price": 6794.0,
+      "role": "mentioned",
+      "context": "he open to 6670, recovered, and we ripped in short order to 6794 high of day Friday. I also tweeted this entry out a little"
+    },
+    {
+      "price": 6847.0,
+      "role": "range",
+      "context": "6847-51"
+    },
+    {
+      "price": 6851.0,
+      "role": "range",
+      "context": "6847-51"
+    },
+    {
+      "price": 6900.0,
+      "role": "mentioned",
+      "context": "most of it down to 6670, then ripped into Friday\u2019s close to 6900 (and as we will see, we made the same trip back down today)"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 4pm: \u201cBear case tomorrow: Short term though, the loss of 6847 could provoke a dip\u2026."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I frequently talk about how ES cycles between two types of price action: 1) Elevator down sells (this is where ES sells in a non-stop straight line)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These occur after elevator down sells and see ES put in a face-ripping squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These are caused by my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Resistance is up at 6872.\u201d On Friday it was the big the Failed Breakdown here that caused the the 100 point squeeze, and the task for bulls today was to defend it."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Breakdown Shorts and Failed Breakdowns that caused last weeks big sells and Friday\u2019s rally."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "SPX Is At A Big Inflection Point. Can Bulls Buy Today's Dip? November 18 Plan",
+  "post_date": "2025-11-17",
+  "post_slug": "spx-is-at-a-big-inflection-point",
+  "parsed_at": "2026-04-16T15:41:23.394590",
+  "body_length": 2522
+}

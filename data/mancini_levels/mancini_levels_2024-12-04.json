@@ -1,0 +1,77 @@
+{
+  "trading_date": "2024-12-04",
+  "levels": [
+    {
+      "price": 5988.0,
+      "role": "resistance",
+      "context": "5988 resistance"
+    },
+    {
+      "price": 5993.0,
+      "role": "range",
+      "context": "5988-93"
+    },
+    {
+      "price": 6033.0,
+      "role": "range",
+      "context": "6033-35"
+    },
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6033-35"
+    },
+    {
+      "price": 6063.0,
+      "role": "mentioned",
+      "context": "6088+\u201d. Yesterday we back-tested 6033-35 exact, rallied to 6063+ target, where we spent most of today basing below and flag"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5993.0,
+      "role": "range",
+      "context": "5988-93"
+    },
+    {
+      "price": 6033.0,
+      "role": "range",
+      "context": "6033-35"
+    },
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6033-35"
+    },
+    {
+      "price": 6063.0,
+      "role": "mentioned",
+      "context": "6088+\u201d. Yesterday we back-tested 6033-35 exact, rallied to 6063+ target, where we spent most of today basing below and flag"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5988.0,
+      "role": "resistance",
+      "context": "5988 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown (my core setup) on Friday that caused this monster leg up."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is very important because it demonstrates how context factors in to determine the success or failure of any particular Failed Breakdown."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "2 Weeks Since The Last Pullback In SPX. How Much Is In The Tank? Dec 4 Plan",
+  "post_date": "2024-12-03",
+  "post_slug": "2-weeks-since-the-last-pullback-in",
+  "parsed_at": "2026-04-16T15:46:27.821622",
+  "body_length": 2061
+}

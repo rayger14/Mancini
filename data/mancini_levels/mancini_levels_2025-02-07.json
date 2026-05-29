@@ -1,0 +1,113 @@
+{
+  "trading_date": "2025-02-07",
+  "levels": [
+    {
+      "price": 6004.0,
+      "role": "support",
+      "context": "above 6004"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6020.0,
+      "role": "resistance",
+      "context": "below 6020"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "hold 6066"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6125.0,
+      "role": "range",
+      "context": "6125-30"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6125-30"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6004.0,
+      "role": "support",
+      "context": "above 6004"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6066.0,
+      "role": "support",
+      "context": "hold 6066"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6125.0,
+      "role": "range",
+      "context": "6125-30"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6125-30"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6020.0,
+      "role": "resistance",
+      "context": "below 6020"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend until proven otherwise."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know that my core edge is trading Failed Breakdowns, and as I warned explictly Sunday, we would see one right off the Sunday open."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that macro Failed Breakdowns like we had to start this week typically have legs, I was looking for ES to put in a full back-test of where we broke down last Friday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cIts been an incredible run and I am now up 130 points on my runner from Sundays macro Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into quality Failed Breakdowns (all provided to readers in advance) we had on Tuesday and Wednesday below 6020 and 6037 respectively that provided opportunities to add to this long."
+    },
+    {
+      "type": "TARGETS",
+      "text": "My initial target for this long was to fill the Sunday opening gap, and I wrote Monday 4pm: \u201cIf I had to give a lean it is always to defer to the immediate trend."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "Buy The Dip Is Back For Now, But Can SPX See All Time Highs? Feb 7th Plan",
+  "post_date": "2025-02-06",
+  "post_slug": "buy-the-dip-is-back-for-now-but-can",
+  "parsed_at": "2026-04-16T15:45:33.542245",
+  "body_length": 2083
+}

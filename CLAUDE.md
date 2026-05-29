@@ -1,5 +1,38 @@
 # Mancini Trading Engine — Claude Code Instructions
 
+## Calendar & Date Discipline
+
+**ALWAYS verify today's date before reasoning about trading:** run `TZ=America/New_York date "+%Y-%m-%d %A %Z"` at the start of any date-sensitive task. Do not trust the date from earlier conversation context — it may be stale.
+
+**Reference clock for this project**: all trading dates are **America/New_York (ET)**. Substack posts, IB bracket orders, session boundaries, cron jobs — every timestamp in this codebase normalizes to ET.
+
+**Trading week**:
+- Globex opens Sunday 6:00pm ET, closes Friday 5:00pm ET
+- One-hour daily break: 5:00pm-6:00pm ET (no trading)
+- Weekend = no ES futures (Friday 17:00 → Sunday 18:00 ET)
+- "Trading day" runs 18:00 ET previous calendar day → 16:59 ET current calendar day
+- Mondays are skipped by `--skip-mondays` (per Optuna v2; backtest convention)
+
+**Mancini post timing & naming**:
+| When Mancini posts | Post titled | Bot loads it for |
+|---|---|---|
+| Sunday ~4pm ET | "Monday Plan" | Monday session (starts Sun 6pm ET) |
+| Monday ~4pm ET | "Tuesday Plan" | Tuesday session (starts Mon 6pm ET) |
+| Friday ~4pm ET | "Monday Plan" (covers weekend) | Monday session next week |
+
+So the post posted "today evening" describes "tomorrow's trading day." Plan files are named `mancini_plan_<trading_date>.json` where trading_date = the day the session ENDS on (Mon 6pm Sun → Mon 17:00 Mon = trading_date Monday).
+
+**Disambiguation rules — when I (Claude) say "today":**
+- ALWAYS resolve to the actual ET calendar date by running `date`. Do not assume.
+- "Today's trade" = a trade that fired during the session ending today's date (which started 6pm yesterday ET)
+- "Today's plan" = the plan file named for today (loaded from yesterday evening's Mancini post)
+- "Tomorrow's plan" = the plan file for tomorrow's date (Mancini posts it this evening)
+
+**Common date confusion patterns to avoid**:
+1. Conversation context says "today is May 17" but it's now May 18 → ALWAYS re-check via `date`
+2. The plan file `mancini_plan_2026-05-19.json` describes Tuesday May 19 trading, sourced from a Monday May 18 evening post
+3. ES bar timestamps in UTC: subtract 4-5h for ET (4h EDT, 5h EST)
+
 ## Git Workflow
 
 ### Branching
@@ -69,3 +102,17 @@ data/            Parquet files, live trade logs, Optuna results
 - Deploy: scp files -> `docker build --no-cache` -> stop/rm/run container
 - Always check for open positions before restarting: `docker logs ... | grep ENTRY`
 - Data and logs mounted from `/home/ubuntu/mancini/{data,logs}` to `/app/{data,logs}`
+
+## Mancini Substack Plan Loading
+- **Cookie format matters**: `SUBSTACK_COOKIE` env var must be sent as `Cookie: substack.sid={value}` (the `live/substack_compare.py` wrapper handles this automatically since the 2026-05-18 fix). Sending the raw value without the `substack.sid=` name serves only paywall preview (~2.5KB body) instead of full paid content (~30KB+). Silently breaks LLM extraction.
+- **Posts published ~4pm ET** the day BEFORE the trading session they describe. The "May 19 Plan" is posted Monday May 18 evening for Tuesday May 19 trading. ES globex session starts 6pm ET, so the plan must be loaded BEFORE then.
+- **Cron schedule (host crontab)**:
+  - `0 17 * * *` — primary scraper (5pm ET)
+  - `30 17 * * *` — primary LLM extractor (5:30pm ET)
+  - `0 20 * * *` — backup scraper (8pm ET, in case Mancini publishes late)
+  - `30 20 * * *` — backup LLM extractor (8:30pm ET)
+- **Trading date convention**: `run_mancini_llm_cron.sh` uses `TZ=America/New_York date -d "tomorrow"` to determine the trading_date for the plan file. So evening cron at 17:30 writes `mancini_plan_<next_day>.json`. Aligns correctly when running before midnight ET.
+- **Verifying a fetch worked**: body length should be 15,000-50,000+ chars. If it's 2,000-3,000 chars, the cookie is broken (paywall preview only). Check `data/mancini_plan_<date>.json` — a healthy plan has 5+ `planned_setups` and 1+ `danger_zones`; a paywalled one has 0-1 setups.
+- **Two extraction systems run in parallel**:
+  - `live/substack_compare.py` (heuristic regex) writes `data/mancini_levels_<date>.json` — read by engine when `use_mancini_levels=True` (currently False).
+  - `live/mancini_llm_extract.py` (Claude Opus) writes `data/mancini_plan_<date>.json` — read by engine when `use_mancini_llm_plan=True` (currently True).

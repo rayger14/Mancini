@@ -1,0 +1,90 @@
+{
+  "trading_date": "2024-10-10",
+  "levels": [
+    {
+      "price": 5734.0,
+      "role": "range",
+      "context": "5734-40"
+    },
+    {
+      "price": 5740.0,
+      "role": "range",
+      "context": "5734-40"
+    },
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "mentioned",
+      "context": "86-88. Possible dip there, then tackle bull flag resistance 5805. If this flag breaks out, we see a new ATH to 5846 minimum"
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "ll round trip. Then today, we headed to ATHs and tagged the 5846 target . Tomorrow however, is CPI day, and CPI can notoriou"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5734.0,
+      "role": "range",
+      "context": "5734-40"
+    },
+    {
+      "price": 5740.0,
+      "role": "range",
+      "context": "5734-40"
+    },
+    {
+      "price": 5786.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5788.0,
+      "role": "range",
+      "context": "5786-88"
+    },
+    {
+      "price": 5805.0,
+      "role": "mentioned",
+      "context": "86-88. Possible dip there, then tackle bull flag resistance 5805. If this flag breaks out, we see a new ATH to 5846 minimum"
+    },
+    {
+      "price": 5846.0,
+      "role": "mentioned",
+      "context": "ll round trip. Then today, we headed to ATHs and tagged the 5846 target . Tomorrow however, is CPI day, and CPI can notoriou"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "On Tuesday I was looking for a push back up the range , writing Monday at 4pm: \u201cBull case tomorrow: No change."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case is that we just work this back up to the upside."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the classic failed breakdown - my core setup - we had on Monday evening at 630PM which got me long into today (provided to readers into advance)."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "[Re-Send] New ATHS For SPX, But Will CPI Tomorrow Spoil The Party? Oct 10 Plan",
+  "post_date": "2024-10-09",
+  "post_slug": "re-send-new-aths-for-spx-but-will",
+  "parsed_at": "2026-04-16T15:47:18.259536",
+  "body_length": 1932
+}

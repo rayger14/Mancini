@@ -1,0 +1,175 @@
+{
+  "trading_date": "2026-04-17",
+  "levels": [
+    {
+      "price": 6683.0,
+      "role": "mentioned",
+      "context": "me otherwise. 7075, 7093, 7131 are next batch up. 7016 and 6683 are key supports tomorrow if we finally retrace.\u201d Today, ES"
+    },
+    {
+      "price": 6760.0,
+      "role": "mentioned",
+      "context": "a clear Failed Breakdown and a powerful one.\u201d ES flushed to 6760\u2019s Sunday evening, recovered 6780 shortly after (Failed Brea"
+    },
+    {
+      "price": 6780.0,
+      "role": "mentioned",
+      "context": "arish, retail was chasing short. I wrote on Friday at 4pm: \u201c6780 is below there. This was Wednesday\u2019s low of day. A flush an"
+    },
+    {
+      "price": 6882.0,
+      "role": "mentioned",
+      "context": "d ripped. I wrote Friday that: \u201cFrom there next leg up sees 6882, 6902, then 6937.\u201d We got to 6937 Monday. I knew however th"
+    },
+    {
+      "price": 6983.0,
+      "role": "mentioned",
+      "context": "ooking for more, \u201cMy general lean is to defer to the trend. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 704"
+    },
+    {
+      "price": 7016.0,
+      "role": "mentioned",
+      "context": "nce tells me otherwise. 7075, 7093, 7131 are next batch up. 7016 and 6683 are key supports tomorrow if we finally retrace.\u201d"
+    },
+    {
+      "price": 7021.0,
+      "role": "mentioned",
+      "context": "the trend. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued ni"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "end. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued nicely t"
+    },
+    {
+      "price": 7048.0,
+      "role": "mentioned",
+      "context": "983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued nicely today,"
+    },
+    {
+      "price": 7075.0,
+      "role": "resistance",
+      "context": "below 7075"
+    },
+    {
+      "price": 7093.0,
+      "role": "mentioned",
+      "context": "defer to the trend until evidence tells me otherwise. 7075, 7093, 7131 are next batch up. 7016 and 6683 are key supports tom"
+    },
+    {
+      "price": 7131.0,
+      "role": "mentioned",
+      "context": "to the trend until evidence tells me otherwise. 7075, 7093, 7131 are next batch up. 7016 and 6683 are key supports tomorrow"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6683.0,
+      "role": "mentioned",
+      "context": "me otherwise. 7075, 7093, 7131 are next batch up. 7016 and 6683 are key supports tomorrow if we finally retrace.\u201d Today, ES"
+    },
+    {
+      "price": 6760.0,
+      "role": "mentioned",
+      "context": "a clear Failed Breakdown and a powerful one.\u201d ES flushed to 6760\u2019s Sunday evening, recovered 6780 shortly after (Failed Brea"
+    },
+    {
+      "price": 6780.0,
+      "role": "mentioned",
+      "context": "arish, retail was chasing short. I wrote on Friday at 4pm: \u201c6780 is below there. This was Wednesday\u2019s low of day. A flush an"
+    },
+    {
+      "price": 6882.0,
+      "role": "mentioned",
+      "context": "d ripped. I wrote Friday that: \u201cFrom there next leg up sees 6882, 6902, then 6937.\u201d We got to 6937 Monday. I knew however th"
+    },
+    {
+      "price": 6983.0,
+      "role": "mentioned",
+      "context": "ooking for more, \u201cMy general lean is to defer to the trend. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 704"
+    },
+    {
+      "price": 7016.0,
+      "role": "mentioned",
+      "context": "nce tells me otherwise. 7075, 7093, 7131 are next batch up. 7016 and 6683 are key supports tomorrow if we finally retrace.\u201d"
+    },
+    {
+      "price": 7021.0,
+      "role": "mentioned",
+      "context": "the trend. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued ni"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "end. 6983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued nicely t"
+    },
+    {
+      "price": 7048.0,
+      "role": "mentioned",
+      "context": "983 (watch traps) is support tomorrow. It keeps 7021, 7036, 7048, then 7058 live direct.\u201d The rally continued nicely today,"
+    },
+    {
+      "price": 7093.0,
+      "role": "mentioned",
+      "context": "defer to the trend until evidence tells me otherwise. 7075, 7093, 7131 are next batch up. 7016 and 6683 are key supports tom"
+    },
+    {
+      "price": 7131.0,
+      "role": "mentioned",
+      "context": "to the trend until evidence tells me otherwise. 7075, 7093, 7131 are next batch up. 7016 and 6683 are key supports tomorrow"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 7075.0,
+      "role": "resistance",
+      "context": "below 7075"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "On Tuesday at 4pm, I was looking for more, \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cMy general lean is always to defer to the trend until evidence tells me otherwise."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "NOTE: This is a resend of the newsletter for today as the first contained some incorrect numbers in the trade plan (typos) The last 2.5 weeks have seen staggering upside in ES and has been the best trade in a few years."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Institutions are always positioning in advance, and my edge is to recognize the pattern which prints on the chart when they do so: My core setup - the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I frequently discuss all major rallies in ES start on Failed Breakdowns, because Failed Breakdowns are how institutions accumulate ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A flush and recovery of this low is a clear Failed Breakdown and a powerful one.\u201d ES flushed to 6760\u2019s Sunday evening, recovered 6780 shortly after (Failed Breakdown) and ripped."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I knew however that this run was just getting started because not only did we see that big Failed Breakdown Sunday, but readers recall last Tuesday, ES broke out from a month long bull flag (shown in white below)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll expand on this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "7016 and 6683 are key supports tomorrow if we finally retrace.\u201d Today, ES spent the session mostly consolidating below 7075."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 11,
+  "resistance_count": 1,
+  "post_title": "[RE-SEND] 4 Green Days This Week For SPX. Can It Close Up With 5? April 17 Plan",
+  "post_date": "2026-04-16",
+  "post_slug": "re-send-4-green-days-this-week-for",
+  "parsed_at": "2026-04-16T15:38:01.870564",
+  "body_length": 2996
+}

@@ -1,0 +1,145 @@
+{
+  "trading_date": "2026-04-08",
+  "levels": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last"
+    },
+    {
+      "price": 6592.0,
+      "role": "support",
+      "context": "hold 6592"
+    },
+    {
+      "price": 6624.0,
+      "role": "resistance",
+      "context": "6624 resistance"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "ugh (or quick trap below). From there we resume up to 6624, 6647. Perhaps final dip there, then breakout sees 6677, 6688, 67"
+    },
+    {
+      "price": 6662.0,
+      "role": "mentioned",
+      "context": ": \u201c My general lean is this can keep going. Target slate is 6662, 6677, 6702, 6716+.\u201d Overnight, we hit 6662 almost exact, t"
+    },
+    {
+      "price": 6677.0,
+      "role": "mentioned",
+      "context": "to 6624, 6647. Perhaps final dip there, then breakout sees 6677, 6688, 6716.\u201d After the Sunday open we saw a quick trap bel"
+    },
+    {
+      "price": 6688.0,
+      "role": "mentioned",
+      "context": "24, 6647. Perhaps final dip there, then breakout sees 6677, 6688, 6716.\u201d After the Sunday open we saw a quick trap below 659"
+    },
+    {
+      "price": 6702.0,
+      "role": "mentioned",
+      "context": "al lean is this can keep going. Target slate is 6662, 6677, 6702, 6716+.\u201d Overnight, we hit 6662 almost exact, then spent th"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "47. Perhaps final dip there, then breakout sees 6677, 6688, 6716.\u201d After the Sunday open we saw a quick trap below 6592, rec"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6353.0,
+      "role": "mentioned",
+      "context": "ernative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last"
+    },
+    {
+      "price": 6592.0,
+      "role": "support",
+      "context": "hold 6592"
+    },
+    {
+      "price": 6647.0,
+      "role": "mentioned",
+      "context": "ugh (or quick trap below). From there we resume up to 6624, 6647. Perhaps final dip there, then breakout sees 6677, 6688, 67"
+    },
+    {
+      "price": 6662.0,
+      "role": "mentioned",
+      "context": ": \u201c My general lean is this can keep going. Target slate is 6662, 6677, 6702, 6716+.\u201d Overnight, we hit 6662 almost exact, t"
+    },
+    {
+      "price": 6677.0,
+      "role": "mentioned",
+      "context": "to 6624, 6647. Perhaps final dip there, then breakout sees 6677, 6688, 6716.\u201d After the Sunday open we saw a quick trap bel"
+    },
+    {
+      "price": 6688.0,
+      "role": "mentioned",
+      "context": "24, 6647. Perhaps final dip there, then breakout sees 6677, 6688, 6716.\u201d After the Sunday open we saw a quick trap below 659"
+    },
+    {
+      "price": 6702.0,
+      "role": "mentioned",
+      "context": "al lean is this can keep going. Target slate is 6662, 6677, 6702, 6716+.\u201d Overnight, we hit 6662 almost exact, then spent th"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "47. Perhaps final dip there, then breakout sees 6677, 6688, 6716.\u201d After the Sunday open we saw a quick trap below 6592, rec"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6624.0,
+      "role": "resistance",
+      "context": "6624 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Thursday at 4pm: \u201cMy general lean is that ES can hold 6592 though (or quick trap below)."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201c My general lean is this can keep going."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of those building blocks is the elevator down sell and this refers to a period of non-stop, rapid, headline driven selling."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every point of elevator down red WILL get paid back at least 50% but often considerably more in the form of a vicious squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The catch though, is these only occur when my core setup - the Failed Breakdown - triggers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We saw it last Monday March as stated: ES plunged to 6353 last Monday evening going elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "An alternative is to wait for it to flush and recover (perhaps to 6353) for a Failed Breakdown.\u201d We got this trigger at 830pm last Monday evening, and were off to 6647 last weeks 6650 high week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Target slate is 6662, 6677, 6702, 6716+.\u201d Overnight, we hit 6662 almost exact, then spent this morning trapping and putting in Failed Breakdowns of 6592 again, offering more entries for anyone who missed the Sunday entry."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 9,
+  "support_count": 8,
+  "resistance_count": 1,
+  "post_title": "SPX Is Coiled For A Trend Move. What Way? April 8th Plan",
+  "post_date": "2026-04-07",
+  "post_slug": "spx-is-coiled-for-a-trend-move-what",
+  "parsed_at": "2026-04-16T15:38:10.543793",
+  "body_length": 3002
+}

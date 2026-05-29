@@ -1,0 +1,109 @@
+{
+  "trading_date": "2024-10-07",
+  "levels": [
+    {
+      "price": 5734.0,
+      "role": "mentioned",
+      "context": "though, it is to defer to the macro trend. As long as 5744, 5734 holds, we head higher. This would target 5772 1st, then 578"
+    },
+    {
+      "price": 5740.0,
+      "role": "level",
+      "context": "5740 level"
+    },
+    {
+      "price": 5744.0,
+      "role": "mentioned",
+      "context": "lean though, it is to defer to the macro trend. As long as 5744, 5734 holds, we head higher. This would target 5772 1st, th"
+    },
+    {
+      "price": 5772.0,
+      "role": "target",
+      "context": "target 5772"
+    },
+    {
+      "price": 5777.0,
+      "role": "level",
+      "context": "5777 zone"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "734 holds, we head higher. This would target 5772 1st, then 5782 2nd. Maybe dip there if bears want, then on to 5800+\u201d. We h"
+    },
+    {
+      "price": 5800.0,
+      "role": "mentioned",
+      "context": "t, then 5782 2nd. Maybe dip there if bears want, then on to 5800+\u201d. We held 5744 exact overnight, rallied to 5800+ by the op"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5734.0,
+      "role": "mentioned",
+      "context": "though, it is to defer to the macro trend. As long as 5744, 5734 holds, we head higher. This would target 5772 1st, then 578"
+    },
+    {
+      "price": 5740.0,
+      "role": "level",
+      "context": "5740 level"
+    },
+    {
+      "price": 5744.0,
+      "role": "mentioned",
+      "context": "lean though, it is to defer to the macro trend. As long as 5744, 5734 holds, we head higher. This would target 5772 1st, th"
+    },
+    {
+      "price": 5777.0,
+      "role": "level",
+      "context": "5777 zone"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "734 holds, we head higher. This would target 5772 1st, then 5782 2nd. Maybe dip there if bears want, then on to 5800+\u201d. We h"
+    },
+    {
+      "price": 5800.0,
+      "role": "mentioned",
+      "context": "t, then 5782 2nd. Maybe dip there if bears want, then on to 5800+\u201d. We held 5744 exact overnight, rallied to 5800+ by the op"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5772.0,
+      "role": "target",
+      "context": "target 5772"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in my Monday 4pm newsletter: \u201cBear case tomorrow: Begins again on the fail of 5777\u2026."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was that we spike to 5800+ which is why I got long at 4pm yesterday as readers know."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cIf I had to provide a general lean though, it is to defer to the macro trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes are caused by my core setup: The Failed Breakdown when ES flushes a major support, traps, recovers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into multiple iterations of my core setup (the failed breakdown) that we had the past few days at the 5740 level and this has been one of the better examples of how this setup operates."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "Did Bears Drop The Ball This Week In SPX? Oct 7th Plan",
+  "post_date": "2024-10-06",
+  "post_slug": "did-bears-drop-the-ball-this-week-347",
+  "parsed_at": "2026-04-16T15:47:22.289719",
+  "body_length": 2296
+}

@@ -1,0 +1,122 @@
+{
+  "trading_date": "2025-03-28",
+  "levels": [
+    {
+      "price": 5699.0,
+      "role": "support",
+      "context": "defend 5699"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "s as long as bulls can hold the megaphone backtest at 5740 (5720 gap fill lowest) we can rally back to 5797, then above ther"
+    },
+    {
+      "price": 5740.0,
+      "role": "level",
+      "context": "5740 zone"
+    },
+    {
+      "price": 5745.0,
+      "role": "range",
+      "context": "5740-45"
+    },
+    {
+      "price": 5755.0,
+      "role": "mentioned",
+      "context": "would look something like defend 5699 then work back up to 5755. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "back up to 5755. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next l"
+    },
+    {
+      "price": 5795.0,
+      "role": "mentioned",
+      "context": "up to 5755. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d R"
+    },
+    {
+      "price": 5809.0,
+      "role": "mentioned",
+      "context": "5755. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right o"
+    },
+    {
+      "price": 5824.0,
+      "role": "mentioned",
+      "context": "Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right off the"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "inal dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right off the Sunday ope"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5699.0,
+      "role": "support",
+      "context": "defend 5699"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "s as long as bulls can hold the megaphone backtest at 5740 (5720 gap fill lowest) we can rally back to 5797, then above ther"
+    },
+    {
+      "price": 5740.0,
+      "role": "level",
+      "context": "5740 zone"
+    },
+    {
+      "price": 5745.0,
+      "role": "range",
+      "context": "5740-45"
+    },
+    {
+      "price": 5755.0,
+      "role": "mentioned",
+      "context": "would look something like defend 5699 then work back up to 5755. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809"
+    },
+    {
+      "price": 5782.0,
+      "role": "mentioned",
+      "context": "back up to 5755. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next l"
+    },
+    {
+      "price": 5795.0,
+      "role": "mentioned",
+      "context": "up to 5755. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d R"
+    },
+    {
+      "price": 5809.0,
+      "role": "mentioned",
+      "context": "5755. Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right o"
+    },
+    {
+      "price": 5824.0,
+      "role": "mentioned",
+      "context": "Perhaps 1 final dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right off the"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "inal dip there, then breakout. 5782, 5795, 5809, 5824, then 5850 are the targets for the next leg.\u201d Right off the Sunday ope"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 3pm: \u201cMy general lean is as long as bulls can hold the megaphone backtest at 5740 (5720 gap fill lowest) we can rally back to 5797, then above there, bulls are back in business and we resume higher to 5815, 5836, then 5850\u201d We saw exactly this today, we filled the Sunday opening gap down to 5720 to the exact tick at 9:40AM, which was the low of day."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "Tomorrow Decides If This Relief Rally Has Legs In SPX. Here's Why. March 28 Plan",
+  "post_date": "2025-03-27",
+  "post_slug": "tomorrow-decides-if-this-relief-rally",
+  "parsed_at": "2026-04-16T15:44:50.870145",
+  "body_length": 2567
+}

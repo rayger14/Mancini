@@ -1,0 +1,106 @@
+{
+  "trading_date": "2024-12-06",
+  "levels": [
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "a pullback hits. ES is flagging again 6066 to 6035-38 (with 6050 a key mid-pivot). As long as this structure is in tact, we"
+    },
+    {
+      "price": 6066.0,
+      "role": "mentioned",
+      "context": "et runners work until a pullback hits. ES is flagging again 6066 to 6035-38 (with 6050 a key mid-pivot). As long as this str"
+    },
+    {
+      "price": 6074.0,
+      "role": "mentioned",
+      "context": "). As long as this structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d After"
+    },
+    {
+      "price": 6082.0,
+      "role": "mentioned",
+      "context": "is structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d After bull flagging a"
+    },
+    {
+      "price": 6102.0,
+      "role": "range",
+      "context": "6102-6106"
+    },
+    {
+      "price": 6106.0,
+      "role": "range",
+      "context": "6102-6106"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6050.0,
+      "role": "mentioned",
+      "context": "a pullback hits. ES is flagging again 6066 to 6035-38 (with 6050 a key mid-pivot). As long as this structure is in tact, we"
+    },
+    {
+      "price": 6066.0,
+      "role": "mentioned",
+      "context": "et runners work until a pullback hits. ES is flagging again 6066 to 6035-38 (with 6050 a key mid-pivot). As long as this str"
+    },
+    {
+      "price": 6074.0,
+      "role": "mentioned",
+      "context": "). As long as this structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d After"
+    },
+    {
+      "price": 6082.0,
+      "role": "mentioned",
+      "context": "is structure is in tact, we are en route to 6074 target #1, 6082 target #2, then 6102-6106 target #3.\u201d After bull flagging a"
+    },
+    {
+      "price": 6102.0,
+      "role": "range",
+      "context": "6102-6106"
+    },
+    {
+      "price": 6106.0,
+      "role": "range",
+      "context": "6102-6106"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Tuesday at 4pm: \u201cI am still holding my 10% long runner from the Failed Breakdown last Monday November 25th - which I have updated here daily, and we have yet to have a dip large enough to trail it out\u201d I also wrote on Tuesday that ES was bull flagging yet again, for another push higher, stating: \u201cThere is nothing to do but let runners work until a pullback hits."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "ES is flagging again 6066 to 6035-38 (with 6050 a key mid-pivot)."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Parabolic: 13 Days In A Row of Higher Highs For SPX. Pullback Time? Dec 6th Plan",
+  "post_date": "2024-12-05",
+  "post_slug": "parabolic-13-days-in-a-row-of-higher",
+  "parsed_at": "2026-04-16T15:46:25.314342",
+  "body_length": 1859
+}

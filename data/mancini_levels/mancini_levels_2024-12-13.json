@@ -1,0 +1,82 @@
+{
+  "trading_date": "2024-12-13",
+  "levels": [
+    {
+      "price": 6055.0,
+      "role": "range",
+      "context": "6060-55"
+    },
+    {
+      "price": 6060.0,
+      "role": "range",
+      "context": "6060-6103"
+    },
+    {
+      "price": 6063.0,
+      "role": "level",
+      "context": "6063 level"
+    },
+    {
+      "price": 6103.0,
+      "role": "range",
+      "context": "6060-6103"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6055.0,
+      "role": "range",
+      "context": "6060-55"
+    },
+    {
+      "price": 6060.0,
+      "role": "range",
+      "context": "6060-6103"
+    },
+    {
+      "price": 6063.0,
+      "role": "level",
+      "context": "6063 level"
+    },
+    {
+      "price": 6103.0,
+      "role": "range",
+      "context": "6060-6103"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Tuesday at 4pm: \u201c We are in a mild dip now and for tomorrow the bull case is quite simple: 6060 has to recover, which would squeeze us up to 6074, 6092+."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is this fills out more tomorrow to the downside levels discussed above .\u201d We got right to work on this last evening, dipping from 6103 and getting to ~6060 by the close today."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "6060 tested over 8x and on Tuesday ES broke it down in the afternoon that day to 6040, setting up my core setup type: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the action we saw late day Tuesday and early Wednesday where we flushed 6063 by 20 points (breakdown), then recovered (failed breakdown), to trigger a monster squeeze yesterday."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Since last Thursday/Friday ES has done this, and I warned last Friday: \u201cIt would not shock me if this 6063 level turned into a \u201cmagnet level\u201d which we trap below over over for several days and build a new base\u201d."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This range could easily fill out and morph for many more days (including several more tests of the 6060-55 magnet)\u201d."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Tight For A Week Now. Trend Move Coming? Dec 13 Plan",
+  "post_date": "2024-12-12",
+  "post_slug": "spx-is-coiled-tight-for-a-week-now",
+  "parsed_at": "2026-04-16T15:46:18.885720",
+  "body_length": 2416
+}

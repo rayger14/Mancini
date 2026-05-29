@@ -1,0 +1,146 @@
+{
+  "trading_date": "2026-01-16",
+  "levels": [
+    {
+      "price": 6945.0,
+      "role": "mentioned",
+      "context": "n of this low is an obvious long entry. Bonus if we can tag 6945 on this.\u201d We flushed that Friday 6955 daily low early Monda"
+    },
+    {
+      "price": 6955.0,
+      "role": "support",
+      "context": "6955 daily low"
+    },
+    {
+      "price": 6967.0,
+      "role": "range",
+      "context": "6969-67"
+    },
+    {
+      "price": 6969.0,
+      "role": "level",
+      "context": "6969 zone"
+    },
+    {
+      "price": 6972.0,
+      "role": "range",
+      "context": "6969-72"
+    },
+    {
+      "price": 6981.0,
+      "role": "mentioned",
+      "context": "end. Bulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d ES wasted"
+    },
+    {
+      "price": 6993.0,
+      "role": "mentioned",
+      "context": "ulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d ES wasted no tim"
+    },
+    {
+      "price": 7003.0,
+      "role": "mentioned",
+      "context": "ust recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d ES wasted no time on t"
+    },
+    {
+      "price": 7017.0,
+      "role": "mentioned",
+      "context": "hich targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d ES wasted no time on this. We recovered 6969 last night,"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "arly Monday morning, recovered, and a violent rip began to ~7036 high of day Tuesday. Yesterday, ES got the biggest sell of"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6945.0,
+      "role": "mentioned",
+      "context": "n of this low is an obvious long entry. Bonus if we can tag 6945 on this.\u201d We flushed that Friday 6955 daily low early Monda"
+    },
+    {
+      "price": 6955.0,
+      "role": "support",
+      "context": "6955 daily low"
+    },
+    {
+      "price": 6967.0,
+      "role": "range",
+      "context": "6969-67"
+    },
+    {
+      "price": 6969.0,
+      "role": "level",
+      "context": "6969 zone"
+    },
+    {
+      "price": 6972.0,
+      "role": "range",
+      "context": "6969-72"
+    },
+    {
+      "price": 6981.0,
+      "role": "mentioned",
+      "context": "end. Bulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d ES wasted"
+    },
+    {
+      "price": 6993.0,
+      "role": "mentioned",
+      "context": "ulls must recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d ES wasted no tim"
+    },
+    {
+      "price": 7003.0,
+      "role": "mentioned",
+      "context": "ust recover 6969-67 to try higher which targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d ES wasted no time on t"
+    },
+    {
+      "price": 7017.0,
+      "role": "mentioned",
+      "context": "hich targets 6981, 6993, 7003\u2026.Perhaps dip there, then onto 7017+\u201d ES wasted no time on this. We recovered 6969 last night,"
+    },
+    {
+      "price": 7036.0,
+      "role": "mentioned",
+      "context": "arly Monday morning, recovered, and a violent rip began to ~7036 high of day Tuesday. Yesterday, ES got the biggest sell of"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Tuesday at 4pm: \u201cBear case tomorrow: Generally 6972-69 has to fail.\u201d We lost this early yesterday morning, sold down to 6925 low of day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close yesterday: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We buy dips when institutions do, and institutions buy them via Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns occur when price goes elevator down flushes a low, traps shorts, then we go parabolic."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We set an enormous low at 6955 this morning (from which we rallied to 7k+) and the Failed Breakdown of this low is an obvious long entry."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As always though - it is the law in ES - this would result in a short squeeze when a Failed Breakdown triggers."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "Bulls Bought Yesterday's Dip In SPX As Expected. Is Another All Time High Coming? Jan 16 Plan",
+  "post_date": "2026-01-15",
+  "post_slug": "bulls-bought-yesterdays-dip-in-spx",
+  "parsed_at": "2026-04-16T15:40:31.212575",
+  "body_length": 2465
+}

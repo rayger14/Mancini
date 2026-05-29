@@ -1,0 +1,187 @@
+{
+  "trading_date": "2026-01-23",
+  "levels": [
+    {
+      "price": 6810.0,
+      "role": "range",
+      "context": "6810-13"
+    },
+    {
+      "price": 6813.0,
+      "role": "range",
+      "context": "6810-13"
+    },
+    {
+      "price": 6814.0,
+      "role": "mentioned",
+      "context": "morning, we swept 6822 (which was a 30+ point low), down to 6814, recovered 6822 shortly after, and then ripped parabolicall"
+    },
+    {
+      "price": 6822.0,
+      "role": "level",
+      "context": "swept 6822"
+    },
+    {
+      "price": 6847.0,
+      "role": "mentioned",
+      "context": "unce. The obvious entry to watch is the Failed Breakdown of 6847. 6847 was a big low we set at 4:20PM. We\u2019ve already backtes"
+    },
+    {
+      "price": 6886.0,
+      "role": "range",
+      "context": "6886-90"
+    },
+    {
+      "price": 6890.0,
+      "role": "range",
+      "context": "6886-90"
+    },
+    {
+      "price": 6904.0,
+      "role": "mentioned",
+      "context": ". 6913 remains key. Bulls want to hold it (or quick trap to 6904 or 6890). From there next targts are 6936, dip, then onto 6"
+    },
+    {
+      "price": 6910.0,
+      "role": "range",
+      "context": "6913-10"
+    },
+    {
+      "price": 6913.0,
+      "role": "resistance",
+      "context": "below 6913"
+    },
+    {
+      "price": 6936.0,
+      "role": "mentioned",
+      "context": "(or quick trap to 6904 or 6890). From there next targts are 6936, dip, then onto 6949, 6964, 6977 which fills Sunday\u2019s gap a"
+    },
+    {
+      "price": 6949.0,
+      "role": "mentioned",
+      "context": "4 or 6890). From there next targts are 6936, dip, then onto 6949, 6964, 6977 which fills Sunday\u2019s gap and is now the target."
+    },
+    {
+      "price": 6964.0,
+      "role": "mentioned",
+      "context": "890). From there next targts are 6936, dip, then onto 6949, 6964, 6977 which fills Sunday\u2019s gap and is now the target.\u201d We s"
+    },
+    {
+      "price": 6977.0,
+      "role": "mentioned",
+      "context": "From there next targts are 6936, dip, then onto 6949, 6964, 6977 which fills Sunday\u2019s gap and is now the target.\u201d We saw exa"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6810.0,
+      "role": "range",
+      "context": "6810-13"
+    },
+    {
+      "price": 6813.0,
+      "role": "range",
+      "context": "6810-13"
+    },
+    {
+      "price": 6814.0,
+      "role": "mentioned",
+      "context": "morning, we swept 6822 (which was a 30+ point low), down to 6814, recovered 6822 shortly after, and then ripped parabolicall"
+    },
+    {
+      "price": 6822.0,
+      "role": "level",
+      "context": "swept 6822"
+    },
+    {
+      "price": 6847.0,
+      "role": "mentioned",
+      "context": "unce. The obvious entry to watch is the Failed Breakdown of 6847. 6847 was a big low we set at 4:20PM. We\u2019ve already backtes"
+    },
+    {
+      "price": 6886.0,
+      "role": "range",
+      "context": "6886-90"
+    },
+    {
+      "price": 6890.0,
+      "role": "range",
+      "context": "6886-90"
+    },
+    {
+      "price": 6904.0,
+      "role": "mentioned",
+      "context": ". 6913 remains key. Bulls want to hold it (or quick trap to 6904 or 6890). From there next targts are 6936, dip, then onto 6"
+    },
+    {
+      "price": 6910.0,
+      "role": "range",
+      "context": "6913-10"
+    },
+    {
+      "price": 6936.0,
+      "role": "mentioned",
+      "context": "(or quick trap to 6904 or 6890). From there next targts are 6936, dip, then onto 6949, 6964, 6977 which fills Sunday\u2019s gap a"
+    },
+    {
+      "price": 6949.0,
+      "role": "mentioned",
+      "context": "4 or 6890). From there next targts are 6936, dip, then onto 6949, 6964, 6977 which fills Sunday\u2019s gap and is now the target."
+    },
+    {
+      "price": 6964.0,
+      "role": "mentioned",
+      "context": "890). From there next targts are 6936, dip, then onto 6949, 6964, 6977 which fills Sunday\u2019s gap and is now the target.\u201d We s"
+    },
+    {
+      "price": 6977.0,
+      "role": "mentioned",
+      "context": "From there next targts are 6936, dip, then onto 6949, 6964, 6977 which fills Sunday\u2019s gap and is now the target.\u201d We saw exa"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6913.0,
+      "role": "resistance",
+      "context": "below 6913"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I also wrote on Tuesday at 4pm: \u201cGenerally, in a strong bull case ES will hold 6822 OR quick trap down to 6810-13."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The first principle is that when ES sells it typically goes elevator down and violently flushes every support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Then, ES short squeezes but this ONLY happens when ES sees a Failed Breakdown (my core setup)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "All dips in ES are bought by institutions and institutions buy dips via my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The obvious entry to watch is the Failed Breakdown of 6847."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 14,
+  "support_count": 13,
+  "resistance_count": 1,
+  "post_title": "Can Bulls Take SPX Back To ATHs, Or Are They Out of Steam? Jan 23rd Plan",
+  "post_date": "2026-01-22",
+  "post_slug": "can-bulls-take-spx-back-to-aths-or",
+  "parsed_at": "2026-04-16T15:40:25.731676",
+  "body_length": 2748
+}

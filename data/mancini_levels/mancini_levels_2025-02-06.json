@@ -1,0 +1,174 @@
+{
+  "trading_date": "2025-02-06",
+  "levels": [
+    {
+      "price": 6004.0,
+      "role": "support",
+      "context": "above 6004"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6087.0,
+      "role": "mentioned",
+      "context": "ust keep ES marching higher to work the higher resistances (6087, 6109, then ultimately 6137-39 which is the magnet now).\u201d W"
+    },
+    {
+      "price": 6109.0,
+      "role": "mentioned",
+      "context": "ep ES marching higher to work the higher resistances (6087, 6109, then ultimately 6137-39 which is the magnet now).\u201d We tagg"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6130-6150"
+    },
+    {
+      "price": 6137.0,
+      "role": "range",
+      "context": "6137-39"
+    },
+    {
+      "price": 6139.0,
+      "role": "range",
+      "context": "6137-39"
+    },
+    {
+      "price": 6150.0,
+      "role": "range",
+      "context": "6130-6150"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6004.0,
+      "role": "support",
+      "context": "above 6004"
+    },
+    {
+      "price": 6008.0,
+      "role": "range",
+      "context": "6004-08"
+    },
+    {
+      "price": 6068.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6071.0,
+      "role": "range",
+      "context": "6068-71"
+    },
+    {
+      "price": 6087.0,
+      "role": "mentioned",
+      "context": "ust keep ES marching higher to work the higher resistances (6087, 6109, then ultimately 6137-39 which is the magnet now).\u201d W"
+    },
+    {
+      "price": 6109.0,
+      "role": "mentioned",
+      "context": "ep ES marching higher to work the higher resistances (6087, 6109, then ultimately 6137-39 which is the magnet now).\u201d We tagg"
+    },
+    {
+      "price": 6115.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "range",
+      "context": "6115-20"
+    },
+    {
+      "price": 6130.0,
+      "role": "range",
+      "context": "6130-6150"
+    },
+    {
+      "price": 6137.0,
+      "role": "range",
+      "context": "6137-39"
+    },
+    {
+      "price": 6139.0,
+      "role": "range",
+      "context": "6137-39"
+    },
+    {
+      "price": 6150.0,
+      "role": "range",
+      "context": "6130-6150"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Its why I wrote last Monday at 4pm: \u201c For now though, the bull case is that we got a short squeeze trigger on the Failed Breakdown of 5997 this morning at 8am, which triggered longs."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case ES can now begin back-testing with 6068-71 1st up."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was yes , and I wrote at the close yesterday: \u201cBull case tomorrow: Bulls took control immediately after the open Sunday when we put in a Failed Breakdown of last weeks lows at 6049 and currently have the ball until proven otherwise\u2026..This would just keep ES marching higher to work the higher resistances (6087, 6109, then ultimately 6137-39 which is the magnet now).\u201d We tagged 6087ish by the close in ES."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breaksdown are one of those edges for me, and as readers know, Failed Breakdowns most often occur after deep, dramatic flushes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Sunday January 26, we gapped down from 6120 and sold 180 points, putting in a Failed Breakdown last Monday morning of the prior weeks 5997 low in the process."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdown to fill the gap."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdown to fill the gap, again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Right off the open Sunday, we put in a Failed Breakdown of last weeks 5949 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Two Failed Breakdowns we\u2019ve had since Sundays open that started this leg."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "Will This Weeks Rally Succeed Where Last Weeks Failed? Feb 6th Plan",
+  "post_date": "2025-02-05",
+  "post_slug": "will-this-weeks-rally-succeed-where",
+  "parsed_at": "2026-04-16T15:45:34.758676",
+  "body_length": 2475
+}

@@ -1,0 +1,252 @@
+{
+  "trading_date": "2026-01-09",
+  "levels": [
+    {
+      "price": 6866.0,
+      "role": "mentioned",
+      "context": "ing out a shelf. Then at 2pm, ES flushed that shelf down to 6866, traped shorts, recovered, and we ripped all day and ultima"
+    },
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6931.0,
+      "role": "mentioned",
+      "context": "\u201d We saw exactly this yesterday. ES flushed 6943-45 down to 6931 early Tuesday morning, and ripped to 7006 yesterday high of"
+    },
+    {
+      "price": 6940.0,
+      "role": "support",
+      "context": "hold 6940"
+    },
+    {
+      "price": 6943.0,
+      "role": "support",
+      "context": "hold 6943"
+    },
+    {
+      "price": 6945.0,
+      "role": "range",
+      "context": "6943-45"
+    },
+    {
+      "price": 6959.0,
+      "role": "support",
+      "context": "above 6959"
+    },
+    {
+      "price": 6960.0,
+      "role": "mentioned",
+      "context": "horts, recovered, and we ripped all day and ultimately into 6960 Monday\u2019s close. Tuesday, I was looking for more on this, bu"
+    },
+    {
+      "price": 6970.0,
+      "role": "range",
+      "context": "6970-73"
+    },
+    {
+      "price": 6973.0,
+      "role": "range",
+      "context": "6970-73"
+    },
+    {
+      "price": 6977.0,
+      "role": "support",
+      "context": "recover 6977"
+    },
+    {
+      "price": 6986.0,
+      "role": "mentioned",
+      "context": "d ultimately recover 6977. This then sets up more upside to 6986, 6994, 7006, 7016, then 7025.\u201d This morning we dipped down"
+    },
+    {
+      "price": 6989.0,
+      "role": "mentioned",
+      "context": "e ES can flag above 6959, then next leg up targets 6970-73, 6989, then 6999.\u201d We saw exactly this yesterday. ES flushed 6943"
+    },
+    {
+      "price": 6994.0,
+      "role": "mentioned",
+      "context": "mately recover 6977. This then sets up more upside to 6986, 6994, 7006, 7016, then 7025.\u201d This morning we dipped down to 694"
+    },
+    {
+      "price": 6999.0,
+      "role": "mentioned",
+      "context": "ag above 6959, then next leg up targets 6970-73, 6989, then 6999.\u201d We saw exactly this yesterday. ES flushed 6943-45 down to"
+    },
+    {
+      "price": 7006.0,
+      "role": "mentioned",
+      "context": "d 6943-45 down to 6931 early Tuesday morning, and ripped to 7006 yesterday high of day. Late day yesterday, ES finally put i"
+    },
+    {
+      "price": 7016.0,
+      "role": "mentioned",
+      "context": "er 6977. This then sets up more upside to 6986, 6994, 7006, 7016, then 7025.\u201d This morning we dipped down to 6940 exact off"
+    },
+    {
+      "price": 7025.0,
+      "role": "mentioned",
+      "context": "is then sets up more upside to 6986, 6994, 7006, 7016, then 7025.\u201d This morning we dipped down to 6940 exact off the open, a"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6866.0,
+      "role": "mentioned",
+      "context": "ing out a shelf. Then at 2pm, ES flushed that shelf down to 6866, traped shorts, recovered, and we ripped all day and ultima"
+    },
+    {
+      "price": 6869.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6872.0,
+      "role": "range",
+      "context": "6872-69"
+    },
+    {
+      "price": 6931.0,
+      "role": "mentioned",
+      "context": "\u201d We saw exactly this yesterday. ES flushed 6943-45 down to 6931 early Tuesday morning, and ripped to 7006 yesterday high of"
+    },
+    {
+      "price": 6940.0,
+      "role": "support",
+      "context": "hold 6940"
+    },
+    {
+      "price": 6943.0,
+      "role": "support",
+      "context": "hold 6943"
+    },
+    {
+      "price": 6945.0,
+      "role": "range",
+      "context": "6943-45"
+    },
+    {
+      "price": 6959.0,
+      "role": "support",
+      "context": "above 6959"
+    },
+    {
+      "price": 6960.0,
+      "role": "mentioned",
+      "context": "horts, recovered, and we ripped all day and ultimately into 6960 Monday\u2019s close. Tuesday, I was looking for more on this, bu"
+    },
+    {
+      "price": 6970.0,
+      "role": "range",
+      "context": "6970-73"
+    },
+    {
+      "price": 6973.0,
+      "role": "range",
+      "context": "6970-73"
+    },
+    {
+      "price": 6977.0,
+      "role": "support",
+      "context": "recover 6977"
+    },
+    {
+      "price": 6986.0,
+      "role": "mentioned",
+      "context": "d ultimately recover 6977. This then sets up more upside to 6986, 6994, 7006, 7016, then 7025.\u201d This morning we dipped down"
+    },
+    {
+      "price": 6989.0,
+      "role": "mentioned",
+      "context": "e ES can flag above 6959, then next leg up targets 6970-73, 6989, then 6999.\u201d We saw exactly this yesterday. ES flushed 6943"
+    },
+    {
+      "price": 6994.0,
+      "role": "mentioned",
+      "context": "mately recover 6977. This then sets up more upside to 6986, 6994, 7006, 7016, then 7025.\u201d This morning we dipped down to 694"
+    },
+    {
+      "price": 6999.0,
+      "role": "mentioned",
+      "context": "ag above 6959, then next leg up targets 6970-73, 6989, then 6999.\u201d We saw exactly this yesterday. ES flushed 6943-45 down to"
+    },
+    {
+      "price": 7006.0,
+      "role": "mentioned",
+      "context": "d 6943-45 down to 6931 early Tuesday morning, and ripped to 7006 yesterday high of day. Late day yesterday, ES finally put i"
+    },
+    {
+      "price": 7016.0,
+      "role": "mentioned",
+      "context": "er 6977. This then sets up more upside to 6986, 6994, 7006, 7016, then 7025.\u201d This morning we dipped down to 6940 exact off"
+    },
+    {
+      "price": 7025.0,
+      "role": "mentioned",
+      "context": "is then sets up more upside to 6986, 6994, 7006, 7016, then 7025.\u201d This morning we dipped down to 6940 exact off the open, a"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Wednesday at 4pm (one week ago): \u201cMy general lean is ES can try some back-testing."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Monday at 4pm: \u201cMy general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Bulls want to hold 6943-45 in a strong bull case (or quick trap down to 6925)."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES behaves according to what I call the two siblings: Elevator down and short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down refers to a period where ES sells rapidly, ignoring supports in the process."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every point of elevator down sell is nearly paid back to bulls in the form of an equally or more violent short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, the rallies do not occur randomly, they only occur when ES puts in my core setup: The Failed Breakdown, and Failed Breakdowns represent institutional accumulation."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Tuesday, I was looking for more on this, but we would again need another Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Bulls tried to buy the dip from yesterday today."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 19,
+  "support_count": 19,
+  "resistance_count": 0,
+  "post_title": "Bulls In SPX Bought Yesterday's Dip. Can They Run It? Jan 9th Plan",
+  "post_date": "2026-01-08",
+  "post_slug": "bulls-in-spx-bought-yesterdays-dip",
+  "parsed_at": "2026-04-16T15:40:37.756662",
+  "body_length": 2645
+}

@@ -1,0 +1,136 @@
+{
+  "trading_date": "2026-02-18",
+  "levels": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "er today\u2019s 6808 daily low.\u201d This morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again. Despite"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "6808 daily low"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6822-24"
+    },
+    {
+      "price": 6824.0,
+      "role": "range",
+      "context": "6822-24"
+    },
+    {
+      "price": 6860.0,
+      "role": "support",
+      "context": "recover 6860"
+    },
+    {
+      "price": 6950.0,
+      "role": "mentioned",
+      "context": "nts to see a final bounce there, then one can short perhaps 6950.\u201d Yesterday morning we broke the range down and got an elev"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "case tomorrow: There is a possible short on the failure of 6954\u2026. For the 6954 short one wants to see a final bounce there,"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6791.0,
+      "role": "mentioned",
+      "context": "er today\u2019s 6808 daily low.\u201d This morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again. Despite"
+    },
+    {
+      "price": 6808.0,
+      "role": "support",
+      "context": "6808 daily low"
+    },
+    {
+      "price": 6822.0,
+      "role": "range",
+      "context": "6822-24"
+    },
+    {
+      "price": 6824.0,
+      "role": "range",
+      "context": "6822-24"
+    },
+    {
+      "price": 6860.0,
+      "role": "support",
+      "context": "recover 6860"
+    },
+    {
+      "price": 6950.0,
+      "role": "mentioned",
+      "context": "nts to see a final bounce there, then one can short perhaps 6950.\u201d Yesterday morning we broke the range down and got an elev"
+    },
+    {
+      "price": 6954.0,
+      "role": "mentioned",
+      "context": "case tomorrow: There is a possible short on the failure of 6954\u2026. For the 6954 short one wants to see a final bounce there,"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Wednesday at 4pm: \u201cBear case tomorrow: There is a possible short on the failure of 6954\u2026."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Thursday at 4pm: \u201cMy general lean is after today\u2019s pullback ES can try some backtesting."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As I discuss at length it typically does two things: Firstly ES goes elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These short squeezes are caused by one thing: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We saw the full gamut last week starting with the elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "When does ES go Elevator Down ?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For the 6954 short one wants to see a final bounce there, then one can short perhaps 6950.\u201d Yesterday morning we broke the range down and got an elevator down sell into 6808 by Friday morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The task for bulls Friday (CPI day) was to put in a Failed Breakdown and try to rally and back-test some of the zones that broke down yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "On Friday morning around the open, ES put in a monster Failed Breakdown, and the short squeeze began."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The task for bulls today was again to put in another Failed Breakdown, this time (ideally) of Friday\u2019s daily 6808 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cIf this is the case, the obvious entry is to wait for 6795 to defend (doesn\u2019t need to be exact) then recover today\u2019s 6808 daily low.\u201d This morning ES flushed down to 6791, recovered 6808, and we ripped hard to 6860+ again."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "Huge Volatility in SPX To Go Nowhere. Is a Move Coming? February 18th Plan",
+  "post_date": "2026-02-17",
+  "post_slug": "huge-volatility-in-spx-to-go-nowhere",
+  "parsed_at": "2026-04-16T15:40:04.368571",
+  "body_length": 2614
+}

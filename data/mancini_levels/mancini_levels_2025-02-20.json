@@ -1,0 +1,157 @@
+{
+  "trading_date": "2025-02-20",
+  "levels": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6116.0,
+      "role": "range",
+      "context": "6116-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "support",
+      "context": "defend 6120"
+    },
+    {
+      "price": 6129.0,
+      "role": "support",
+      "context": "above 6129"
+    },
+    {
+      "price": 6154.0,
+      "role": "resistance",
+      "context": "below 6154"
+    },
+    {
+      "price": 6176.0,
+      "role": "mentioned",
+      "context": "ove 6129 or so. This would then trigger a breakout to 6167, 6176, then 6184-88.\u201d Today, we played this range exactly, dippin"
+    },
+    {
+      "price": 6184.0,
+      "role": "range",
+      "context": "6184-88"
+    },
+    {
+      "price": 6188.0,
+      "role": "range",
+      "context": "6184-88"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "hold 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6066.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6070.0,
+      "role": "range",
+      "context": "6066-70"
+    },
+    {
+      "price": 6116.0,
+      "role": "range",
+      "context": "6116-20"
+    },
+    {
+      "price": 6120.0,
+      "role": "support",
+      "context": "defend 6120"
+    },
+    {
+      "price": 6129.0,
+      "role": "support",
+      "context": "above 6129"
+    },
+    {
+      "price": 6176.0,
+      "role": "mentioned",
+      "context": "ove 6129 or so. This would then trigger a breakout to 6167, 6176, then 6184-88.\u201d Today, we played this range exactly, dippin"
+    },
+    {
+      "price": 6184.0,
+      "role": "range",
+      "context": "6184-88"
+    },
+    {
+      "price": 6188.0,
+      "role": "range",
+      "context": "6184-88"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6154.0,
+      "role": "resistance",
+      "context": "below 6154"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cThe ultra bull case ES will simply flag out below 6154 and above 6129 or so."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For me, that setup is the Failed Breakdown, we\u2019ve seen nearly one per day for the past 7 trading days."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As readers recall, last Sunday February 9th, I originally got long at 6020, and this long lasted into today, making this one of the longest lasting runners of my nearly 20 year career."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This creates a Failed Breakdown, and my job is to follow."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We gapped down to 6016-20 exactly off last Sundays open, put in a large Failed Breakdown of the prior Wednesdays 6020 and longs were triggered for the week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I am not interested in buying this again now directly, but if we can put in a Failed Breakdown of todays 6120 low, I\u2019d be looking to take this.\u201d Yesterday, we saw exactly this, dipping to 6120, putting another Failed Breakdown, and slingshotting us higher to 6154 high yesterday Heading into today, ES was rangebound as it built energy to setup a new leg."
+    },
+    {
+      "type": "TARGETS",
+      "text": "I said we\u2019d be heading to 6129 and where did we close last week?"
+    }
+  ],
+  "level_count": 11,
+  "support_count": 10,
+  "resistance_count": 1,
+  "post_title": "SPX Is Coiled Tightly. Trend Leg Incoming? Feb 20th Plan.",
+  "post_date": "2025-02-19",
+  "post_slug": "spx-is-coiled-tightly-trend-leg-incoming",
+  "parsed_at": "2026-04-16T15:45:23.573197",
+  "body_length": 2602
+}

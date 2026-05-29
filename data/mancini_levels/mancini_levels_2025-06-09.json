@@ -1,0 +1,176 @@
+{
+  "trading_date": "2025-06-09",
+  "levels": [
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5925.0,
+      "role": "support",
+      "context": "above 5925"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "ally gave out, and ES sold into the close ending yesterday ~5945. Today, the task for bulls would be to try and buy this dip"
+    },
+    {
+      "price": 5948.0,
+      "role": "support",
+      "context": "recover 5948"
+    },
+    {
+      "price": 5951.0,
+      "role": "range",
+      "context": "5948-51"
+    },
+    {
+      "price": 5956.0,
+      "role": "range",
+      "context": "5956-61"
+    },
+    {
+      "price": 5961.0,
+      "role": "range",
+      "context": "5956-61"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5975.0,
+      "role": "support",
+      "context": "above 5975"
+    },
+    {
+      "price": 5985.0,
+      "role": "mentioned",
+      "context": "By 830AM this morning, we were back to 5975. Then we ran to 5985, 6k+ targets. We made a new high this week and closed outsi"
+    },
+    {
+      "price": 6008.0,
+      "role": "mentioned",
+      "context": "10am, we dipped down to 5956-61, recovered 5975, rallied to 6008. At 10:50AM, we tested 5956-61 again and rallied to 5985. U"
+    },
+    {
+      "price": 6014.0,
+      "role": "mentioned",
+      "context": "er. At 830AM we dipped to 5970, recovered 5975, squeezed to 6014. At 10am, we dipped down to 5956-61, recovered 5975, rallie"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5925.0,
+      "role": "support",
+      "context": "above 5925"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "ally gave out, and ES sold into the close ending yesterday ~5945. Today, the task for bulls would be to try and buy this dip"
+    },
+    {
+      "price": 5948.0,
+      "role": "support",
+      "context": "recover 5948"
+    },
+    {
+      "price": 5951.0,
+      "role": "range",
+      "context": "5948-51"
+    },
+    {
+      "price": 5956.0,
+      "role": "range",
+      "context": "5956-61"
+    },
+    {
+      "price": 5961.0,
+      "role": "range",
+      "context": "5956-61"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5975.0,
+      "role": "support",
+      "context": "above 5975"
+    },
+    {
+      "price": 5985.0,
+      "role": "mentioned",
+      "context": "By 830AM this morning, we were back to 5975. Then we ran to 5985, 6k+ targets. We made a new high this week and closed outsi"
+    },
+    {
+      "price": 6008.0,
+      "role": "mentioned",
+      "context": "10am, we dipped down to 5956-61, recovered 5975, rallied to 6008. At 10:50AM, we tested 5956-61 again and rallied to 5985. U"
+    },
+    {
+      "price": 6014.0,
+      "role": "mentioned",
+      "context": "er. At 830AM we dipped to 5970, recovered 5975, squeezed to 6014. At 10am, we dipped down to 5956-61, recovered 5975, rallie"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Friday May 31st - one week ago - at 4pm : \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was they would do exactly that, and they did."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm (when we were around 5945): \u201c My general lean is as long as above 5925 (or can recover 5948-51), ES can work back to 5970-75 which was a big support all day today."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "My core setup: The Failed Breakdown ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Yesterday was an absolute Gold Mine for Failed Breakdown traders as institutions built a massive position."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We spent all day Wednesday forming a shelf of lows at 5975 and this was the locus yesterday of multiple Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "1) How my trailing stop methodology works and 2) I\u2019ll cover some of the 5 separate Failed Breakdowns we had yesterday as there was a wide array to learn from."
+    }
+  ],
+  "level_count": 13,
+  "support_count": 13,
+  "resistance_count": 0,
+  "post_title": "SPX Made A New High This Week. Can Bulls Run It Next Week? June 9th Plan",
+  "post_date": "2025-06-08",
+  "post_slug": "spx-made-a-new-high-this-week-can",
+  "parsed_at": "2026-04-16T15:43:47.956153",
+  "body_length": 3120
+}

@@ -1,0 +1,155 @@
+{
+  "trading_date": "2025-06-05",
+  "levels": [
+    {
+      "price": 5850.0,
+      "role": "support",
+      "context": "5850 support"
+    },
+    {
+      "price": 5870.0,
+      "role": "mentioned",
+      "context": "watching the reaction there and if we can flush it down to 5870 and recover, this would be ideal.\u201d and \u201cBulls control above"
+    },
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "Below 5893"
+    },
+    {
+      "price": 5925.0,
+      "role": "mentioned",
+      "context": "widest was generally 5850 support to ~5987 resistance with 5925 being a magnet in the middle, and as I\u2019ve discussed at leng"
+    },
+    {
+      "price": 5936.0,
+      "role": "mentioned",
+      "context": "nd \u201cBulls control above 5877. 5925 recovery starts us up to 5936, 5945, then 5965-70.\u201d Monday we flushed 5877 down to 5870,"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "lls control above 5877. 5925 recovery starts us up to 5936, 5945, then 5965-70.\u201d Monday we flushed 5877 down to 5870, trappe"
+    },
+    {
+      "price": 5965.0,
+      "role": "support",
+      "context": "above 5965"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5987.0,
+      "role": "resistance",
+      "context": "5987 resistance"
+    },
+    {
+      "price": 6020.0,
+      "role": "mentioned",
+      "context": "bove on any retraces tomorrow, then next leg up targets 6k, 6020, 6040+.\u201d We spent nearly all day today flagging out above 5"
+    },
+    {
+      "price": 6040.0,
+      "role": "mentioned",
+      "context": "n any retraces tomorrow, then next leg up targets 6k, 6020, 6040+.\u201d We spent nearly all day today flagging out above 5965 an"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5850.0,
+      "role": "support",
+      "context": "5850 support"
+    },
+    {
+      "price": 5870.0,
+      "role": "mentioned",
+      "context": "watching the reaction there and if we can flush it down to 5870 and recover, this would be ideal.\u201d and \u201cBulls control above"
+    },
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5925.0,
+      "role": "mentioned",
+      "context": "widest was generally 5850 support to ~5987 resistance with 5925 being a magnet in the middle, and as I\u2019ve discussed at leng"
+    },
+    {
+      "price": 5936.0,
+      "role": "mentioned",
+      "context": "nd \u201cBulls control above 5877. 5925 recovery starts us up to 5936, 5945, then 5965-70.\u201d Monday we flushed 5877 down to 5870,"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "lls control above 5877. 5925 recovery starts us up to 5936, 5945, then 5965-70.\u201d Monday we flushed 5877 down to 5870, trappe"
+    },
+    {
+      "price": 5965.0,
+      "role": "support",
+      "context": "above 5965"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 6020.0,
+      "role": "mentioned",
+      "context": "bove on any retraces tomorrow, then next leg up targets 6k, 6020, 6040+.\u201d We spent nearly all day today flagging out above 5"
+    },
+    {
+      "price": 6040.0,
+      "role": "mentioned",
+      "context": "n any retraces tomorrow, then next leg up targets 6k, 6020, 6040+.\u201d We spent nearly all day today flagging out above 5965 an"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "Below 5893"
+    },
+    {
+      "price": 5987.0,
+      "role": "resistance",
+      "context": "5987 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cIn the ultra bull case, ES will just flag out below today\u2019s highs [5890s] and above 5965 or so, forming a tight bull flag.\u201d and \u201cBulls are going to want to defend the supports discussed above on any retraces tomorrow, then next leg up targets 6k, 6020, 6040+.\u201d We spent nearly all day today flagging out above 5965 and below yesterdays highs, getting to around 6k at highest and then consolidating further."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For a Failed Breakdown trader like myself, they are a double gold mine, because inside ranges like this price repeats the same tendency over and over: It heads down near support, flushes a nearby low, traps shorts, rallies."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the setup that started this rally last Friday and originally got me long as updated everyday since then (remember *all* rallies start with a large Failed Breakdown/trap)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This consolidation at its widest was generally 5850 support to ~5987 resistance with 5925 being a magnet in the middle, and as I\u2019ve discussed at length, its a massive inverse head and shoulders pattern."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 10,
+  "resistance_count": 2,
+  "post_title": "SPX Is Coiled Ultra Tight At The Highs. A Move Is Coming. What Way? June 5 Plan",
+  "post_date": "2025-06-04",
+  "post_slug": "spx-is-coiled-ultra-tight-at-the",
+  "parsed_at": "2026-04-16T15:43:50.554168",
+  "body_length": 2589
+}

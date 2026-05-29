@@ -1,0 +1,114 @@
+{
+  "trading_date": "2024-11-20",
+  "levels": [
+    {
+      "price": 5885.0,
+      "role": "mentioned",
+      "context": "newsletter I\u2019ll talk this, and I\u2019ll do a deep dive into why 5885 was such an important pivot this week. Finally, I\u2019ll discus"
+    },
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5935.0,
+      "role": "mentioned",
+      "context": "and its in play as long as we are above 5886 . This targets 5935, 5958, then 5970\u201d. This 5886 level proved to be a massive m"
+    },
+    {
+      "price": 5958.0,
+      "role": "mentioned",
+      "context": "s in play as long as we are above 5886 . This targets 5935, 5958, then 5970\u201d. This 5886 level proved to be a massive magnet"
+    },
+    {
+      "price": 5970.0,
+      "role": "mentioned",
+      "context": "s long as we are above 5886 . This targets 5935, 5958, then 5970\u201d. This 5886 level proved to be a massive magnet : It held F"
+    },
+    {
+      "price": 5998.0,
+      "role": "support",
+      "context": "5998 support"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5885.0,
+      "role": "mentioned",
+      "context": "newsletter I\u2019ll talk this, and I\u2019ll do a deep dive into why 5885 was such an important pivot this week. Finally, I\u2019ll discus"
+    },
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5935.0,
+      "role": "mentioned",
+      "context": "and its in play as long as we are above 5886 . This targets 5935, 5958, then 5970\u201d. This 5886 level proved to be a massive m"
+    },
+    {
+      "price": 5958.0,
+      "role": "mentioned",
+      "context": "s in play as long as we are above 5886 . This targets 5935, 5958, then 5970\u201d. This 5886 level proved to be a massive magnet"
+    },
+    {
+      "price": 5970.0,
+      "role": "mentioned",
+      "context": "s long as we are above 5886 . This targets 5935, 5958, then 5970\u201d. This 5886 level proved to be a massive magnet : It held F"
+    },
+    {
+      "price": 5998.0,
+      "role": "support",
+      "context": "5998 support"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this to readers last Wednesday, when I wrote: \u201cBear case tomorrow: Begins on the failure of 5998...below there we could unwind quite hard and go into \u201cknife catch mode\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is we are in a relief bounce, and its in play as long as we are above 5886 ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This 5886 level proved to be a massive magnet : It held Friday, it held yesterday morning exact, overnight we put in a Failed Breakdown to 5882 and recovered to 5910 by 8am, and then this morning before the open we put in another huge failed breakdown to 5855 then recovered again to squeeze to 5950 nearly by the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I was waiting for these failed breakdowns, writing yesterday: \u201c[5886] held once Friday, and it held again precisely this morning to set the low of day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Ideally I\u2019d like to see a failed breakdown of this mornings low to take this.\u201d After a huge failed breakdown of yesterday mornings low before the open today, we squeezed for the rest of the day."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "After this sell, we began on Friday what always happens after a major selloff: A relief bounce leg, and typically relief bounce legs will originate around a critical magnet which defends for days, often with many traps below."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "As warned since Friday, that magnet was to be 5886 and its been a battleground all week."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "The magnet serves as the support zone from which price will builds a base to rally."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, and I\u2019ll do a deep dive into why 5885 was such an important pivot this week."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "Is the Bottom In For SPX? November 20 Plan",
+  "post_date": "2024-11-19",
+  "post_slug": "is-the-bottom-in-for-spx-november",
+  "parsed_at": "2026-04-16T15:46:40.605090",
+  "body_length": 2317
+}

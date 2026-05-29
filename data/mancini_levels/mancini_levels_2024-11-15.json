@@ -1,0 +1,42 @@
+{
+  "trading_date": "2024-11-15",
+  "levels": [
+    {
+      "price": 5985.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5985-88"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5985.0,
+      "role": "range",
+      "context": "5985-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5985-88"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As I wrote yesterday: \u201cBear case tomorrow: Begins on the failure of 5998\u201d and bears did put in an effort, albeit a very slow one which did not accelerate until after hours."
+    }
+  ],
+  "level_count": 2,
+  "support_count": 2,
+  "resistance_count": 0,
+  "post_title": "Largest Red Day For SPX Since November 1st. Buyable Dip Or Not? November 15 Plan",
+  "post_date": "2024-11-14",
+  "post_slug": "largest-red-day-for-spx-since-november",
+  "parsed_at": "2026-04-16T15:46:44.473393",
+  "body_length": 1770
+}

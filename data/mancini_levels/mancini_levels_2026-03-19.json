@@ -1,0 +1,112 @@
+{
+  "trading_date": "2026-03-19",
+  "levels": [
+    {
+      "price": 6689.0,
+      "role": "support",
+      "context": "recover 6689"
+    },
+    {
+      "price": 6770.0,
+      "role": "support",
+      "context": "hold 6770"
+    },
+    {
+      "price": 6814.0,
+      "role": "mentioned",
+      "context": "ast evening we saw exactly this. We held 6764 exact, ran to 6814 high of day this morning, completed the backtest (about a p"
+    },
+    {
+      "price": 6815.0,
+      "role": "range",
+      "context": "6815-19"
+    },
+    {
+      "price": 6819.0,
+      "role": "support",
+      "context": "recover 6819"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6689.0,
+      "role": "support",
+      "context": "recover 6689"
+    },
+    {
+      "price": 6770.0,
+      "role": "support",
+      "context": "hold 6770"
+    },
+    {
+      "price": 6814.0,
+      "role": "mentioned",
+      "context": "ast evening we saw exactly this. We held 6764 exact, ran to 6814 high of day this morning, completed the backtest (about a p"
+    },
+    {
+      "price": 6815.0,
+      "role": "range",
+      "context": "6815-19"
+    },
+    {
+      "price": 6819.0,
+      "role": "support",
+      "context": "recover 6819"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "It is also why I wrote last Wednesday at 4pm: \u201cBear Case Thursday: Begins on the failure of 6819\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is ES can try and recover 6689 to generate a rally to 6743, 6754, 6766, then 6819\u201d We got started right on this after 6pm Sunday and by 7pm we recovered 6689 and ran to 6766+ Today was FOMC day and these are largely coin tosses, but I was looking for bulls to finish the job and backtest that 6815-19 zone."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "This are basically coin tosses so I can only give my lean as if it were a normal day."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "On a normal day my lean is that on Sunday after the open ES put in a monster Failed Breakdown when we flushed the 6689 shelf of lows that we set last Friday, recovered, and ripped."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is this can keep going."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Last Thursday morning, price picked its path, and down we went going elevator down ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every elevator down sell sees an equally violent squeeze the other way."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Those squeezes however, only occur when price triggers my core setup: The Failed Breakdown which occurs when price flushes a major low, traps shorts, then reverses."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "1) To start a squeeze, they\u2019d need to put in a Failed Breakdown and to do this, theyd need to recover 6689 which was a big shelf all day Friday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    },
+    {
+      "type": "TARGETS",
+      "text": "Bulls want to hold 6770/64 (or quick trap below) then head to 6785, 6802, 6815-19."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "SPX Sells After FOMC, But Holds The Weeks Lows. Will The FOMC Dip Get Bought? March 19 Plan",
+  "post_date": "2026-03-18",
+  "post_slug": "spx-sells-after-fomc-but-holds-the",
+  "parsed_at": "2026-04-16T15:38:28.722802",
+  "body_length": 2603
+}

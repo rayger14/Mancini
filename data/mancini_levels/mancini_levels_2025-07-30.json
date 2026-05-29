@@ -1,0 +1,107 @@
+{
+  "trading_date": "2025-07-30",
+  "levels": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    },
+    {
+      "price": 6407.0,
+      "role": "support",
+      "context": "support at 6407"
+    },
+    {
+      "price": 6410.0,
+      "role": "range",
+      "context": "6407-10"
+    },
+    {
+      "price": 6435.0,
+      "role": "mentioned",
+      "context": "always to defer to the trend. 6407-10 to 6450-55=chop, with 6435 a magnet now. Bulls want to fill this out (with any traps b"
+    },
+    {
+      "price": 6450.0,
+      "role": "range",
+      "context": "6450-55"
+    },
+    {
+      "price": 6455.0,
+      "role": "range",
+      "context": "6450-55"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6407.0,
+      "role": "support",
+      "context": "support at 6407"
+    },
+    {
+      "price": 6410.0,
+      "role": "range",
+      "context": "6407-10"
+    },
+    {
+      "price": 6435.0,
+      "role": "mentioned",
+      "context": "always to defer to the trend. 6407-10 to 6450-55=chop, with 6435 a magnet now. Bulls want to fill this out (with any traps b"
+    },
+    {
+      "price": 6450.0,
+      "role": "range",
+      "context": "6450-55"
+    },
+    {
+      "price": 6455.0,
+      "role": "range",
+      "context": "6450-55"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "resistance at 6333"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Monday at 4pm (when we were 6340s): \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Rallies like this don\u2019t come for free though and as I wrote on Friday at 4pm: \u201cAfter a move like this, ES often needs to digest the move\u2026My general lean if I had to give one though is that ES can cooloff now and do some backtesting and work on structure.\u201d We put in the first real dip since July 15th yesterday and it ultimately continued today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This gives us a chance to long and as readers know, I do that via one trade: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a textbook Failed Breakdown we had last Thursday morning where ES lost and recovered a significant low at 6395, giving us the squeeze to this weeks highs."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This failed breakdown was interesting because it confluenced with a bull flag."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "6407-10 to 6450-55=chop, with 6435 a magnet now."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "FOMC Tomorrow. Expect Volatility In SPX, Can Bulls Keep The Run Going? July 30th Plan",
+  "post_date": "2025-07-29",
+  "post_slug": "fomc-tomorrow-expect-volatility-in-931",
+  "parsed_at": "2026-04-16T15:43:03.037899",
+  "body_length": 2937
+}

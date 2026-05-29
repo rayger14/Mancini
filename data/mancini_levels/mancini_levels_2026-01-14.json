@@ -1,0 +1,154 @@
+{
+  "trading_date": "2026-01-14",
+  "levels": [
+    {
+      "price": 6945.0,
+      "role": "mentioned",
+      "context": "n of this low is an obvious long entry. Bonus if we can tag 6945 on this.\u201d We flushed that Friday 6955 daily low early Monda"
+    },
+    {
+      "price": 6955.0,
+      "role": "support",
+      "context": "6955 daily low"
+    },
+    {
+      "price": 6969.0,
+      "role": "range",
+      "context": "6972-69"
+    },
+    {
+      "price": 6972.0,
+      "role": "range",
+      "context": "6972-69"
+    },
+    {
+      "price": 7007.0,
+      "role": "support",
+      "context": "hold 7007"
+    },
+    {
+      "price": 7020.0,
+      "role": "mentioned",
+      "context": "arly Monday morning, recovered, and a violent rip began to ~7020 high of day Monday. Today the main challenge for bulls is t"
+    },
+    {
+      "price": 7022.0,
+      "role": "mentioned",
+      "context": ", and 6972-69 on any deeper dips. Next slate of targets are 7022, 7034, 7052-59. Sell<6972-69.\u201d This played out perfectly an"
+    },
+    {
+      "price": 7034.0,
+      "role": "mentioned",
+      "context": "6972-69 on any deeper dips. Next slate of targets are 7022, 7034, 7052-59. Sell<6972-69.\u201d This played out perfectly and by 8"
+    },
+    {
+      "price": 7052.0,
+      "role": "range",
+      "context": "7052-59"
+    },
+    {
+      "price": 7059.0,
+      "role": "range",
+      "context": "7052-59"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6945.0,
+      "role": "mentioned",
+      "context": "n of this low is an obvious long entry. Bonus if we can tag 6945 on this.\u201d We flushed that Friday 6955 daily low early Monda"
+    },
+    {
+      "price": 6955.0,
+      "role": "support",
+      "context": "6955 daily low"
+    },
+    {
+      "price": 6969.0,
+      "role": "range",
+      "context": "6972-69"
+    },
+    {
+      "price": 6972.0,
+      "role": "range",
+      "context": "6972-69"
+    },
+    {
+      "price": 7007.0,
+      "role": "support",
+      "context": "hold 7007"
+    },
+    {
+      "price": 7020.0,
+      "role": "mentioned",
+      "context": "arly Monday morning, recovered, and a violent rip began to ~7020 high of day Monday. Today the main challenge for bulls is t"
+    },
+    {
+      "price": 7022.0,
+      "role": "mentioned",
+      "context": ", and 6972-69 on any deeper dips. Next slate of targets are 7022, 7034, 7052-59. Sell<6972-69.\u201d This played out perfectly an"
+    },
+    {
+      "price": 7034.0,
+      "role": "mentioned",
+      "context": "6972-69 on any deeper dips. Next slate of targets are 7022, 7034, 7052-59. Sell<6972-69.\u201d This played out perfectly and by 8"
+    },
+    {
+      "price": 7052.0,
+      "role": "range",
+      "context": "7052-59"
+    },
+    {
+      "price": 7059.0,
+      "role": "range",
+      "context": "7052-59"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm yesterday: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down refers to a period where ES sells rapidly, ignoring supports in the process."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every point of elevator down sell is mostly paid back to bulls in the form of an equally or more violent short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They occur when ES puts in my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "From there ES went elevator down ultimately selling down to 6950 by 3:30AM Monday morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Every elevator down sell in ES sees a short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We set an enormous low at 6955 this morning (from which we rallied to 7k+) and the Failed Breakdown of this low is an obvious long entry."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow."
+    },
+    {
+      "type": "TARGETS",
+      "text": "Next slate of targets are 7022, 7034, 7052-59."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "Are Bulls Running Out of Steam In SPX? January 14 Plan",
+  "post_date": "2026-01-13",
+  "post_slug": "are-bulls-running-out-of-steam-in",
+  "parsed_at": "2026-04-16T15:40:33.783354",
+  "body_length": 2273
+}

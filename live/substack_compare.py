@@ -42,6 +42,15 @@ def fetch_latest_post() -> dict | None:
         print("No SUBSTACK_COOKIE set, skipping live fetch")
         return None
 
+    # Substack's session cookie must be sent with its NAME (substack.sid).
+    # If the env var holds only the raw value (no "name=" prefix), wrap it.
+    # Without the name, Substack treats the request as anonymous and serves
+    # only the paywall preview (~2KB body). With the name, paid subscribers
+    # get the full body (~200KB+). This silent failure mode caused the bot
+    # to operate on preview-only content for weeks.
+    if "=" not in cookie.split(";")[0]:
+        cookie = f"substack.sid={cookie}"
+
     try:
         # Step 1: Get latest post metadata
         url = f"{SUBSTACK_BASE}/api/v1/posts?limit=1"
@@ -553,6 +562,17 @@ def main():
             print(f"  {m['price']:.0f} ({m['role']}: {m.get('context', '')[:80]})")
 
     print(f"\nOutput written to: {output_path}")
+
+    # Also dump structured levels for tomorrow's trading session so the
+    # live runner can load an overlay at session start.
+    try:
+        from live.mancini_levels import dump_for_trading_date
+        tomorrow = date.today() + timedelta(days=1)
+        out = dump_for_trading_date(tomorrow, Path("/app/data"))
+        if out is not None:
+            print(f"Mancini levels overlay written to: {out}")
+    except Exception as e:
+        print(f"Failed to dump mancini levels: {e}")
 
 
 if __name__ == "__main__":

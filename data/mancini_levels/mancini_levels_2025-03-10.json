@@ -1,0 +1,70 @@
+{
+  "trading_date": "2025-03-10",
+  "levels": [
+    {
+      "price": 5720.0,
+      "role": "range",
+      "context": "5720-23"
+    },
+    {
+      "price": 5723.0,
+      "role": "range",
+      "context": "5720-23"
+    },
+    {
+      "price": 5757.0,
+      "role": "support",
+      "context": "support at 5757"
+    },
+    {
+      "price": 5763.0,
+      "role": "range",
+      "context": "5757-63"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5720.0,
+      "role": "range",
+      "context": "5720-23"
+    },
+    {
+      "price": 5723.0,
+      "role": "range",
+      "context": "5720-23"
+    },
+    {
+      "price": 5757.0,
+      "role": "support",
+      "context": "support at 5757"
+    },
+    {
+      "price": 5763.0,
+      "role": "range",
+      "context": "5757-63"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cFor tomorrow, the bull case is that the 5720-23 multi-month megaphone pattern defends.\u201d What did we do today?"
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was an epic battle for price at this core multi-month month support with ES putting in multiple examples of my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "The technicals though, as always, gave us clear structure to work with and much of yesterdays and todays action centered around a key level: 5720-23."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "Biggest Red Week For SPX Since The Last Bear Market. Now What? March 10 Plan",
+  "post_date": "2025-03-09",
+  "post_slug": "biggest-red-week-for-spx-since-the-cdb",
+  "parsed_at": "2026-04-16T15:45:08.582689",
+  "body_length": 2640
+}

@@ -1,0 +1,86 @@
+{
+  "trading_date": "2025-03-14",
+  "levels": [
+    {
+      "price": 5512.0,
+      "role": "mentioned",
+      "context": "eakdowns over and over. Today, we flushed this zone hard to 5512 and then (as usual) ES put in a large Failed Breakdown, and"
+    },
+    {
+      "price": 5569.0,
+      "role": "range",
+      "context": "5573-5569"
+    },
+    {
+      "price": 5573.0,
+      "role": "range",
+      "context": "5573-5569"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "megaphone\u201d pattern and as of Monday morning, support was at 5720. Every major bounce since November came off support of this"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5512.0,
+      "role": "mentioned",
+      "context": "eakdowns over and over. Today, we flushed this zone hard to 5512 and then (as usual) ES put in a large Failed Breakdown, and"
+    },
+    {
+      "price": 5569.0,
+      "role": "range",
+      "context": "5573-5569"
+    },
+    {
+      "price": 5573.0,
+      "role": "range",
+      "context": "5573-5569"
+    },
+    {
+      "price": 5720.0,
+      "role": "mentioned",
+      "context": "megaphone\u201d pattern and as of Monday morning, support was at 5720. Every major bounce since November came off support of this"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Friday at 4pm: \u201cBear case Monday: Begins under 5720.\u201d Bright and early at 8AM Monday, we lost this, and put in the biggest red day since August 5th 2024, and the first open-to-close red day since Feb 21st."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is where my core setup comes in and I make most my money not on those big trend moves, but at these \u201cmagnet\u201d levels, trading the Failed Breakdowns over and over."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Today, we flushed this zone hard to 5512 and then (as usual) ES put in a large Failed Breakdown, and we ended up right there again today by the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cSetups of interest though are a Failed Breakdown of the Tuesday low at 5533 (perhaps after tagging 5528 or 5512)\"."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter I\u2019ll talk this, I\u2019ll then do a deep dive into some high quality Failed Breakdowns (my core setup) we had Tuesday, yesterday, and today."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This selloff Monday took ES to 5570 low, and ES spent Tuesday, Wednesday building out a massive base at this zone (mostly 5573-5569) and this zone became what I call a magnet."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "After big trend moves, ES loves to build out bases and each base has a magnet (often support) which tests, traps below, and recovers over and over again."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "SPX Is About To Put in 4 Red Weeks In A Row. Can Friday Reverse It? March 14 Plan",
+  "post_date": "2025-03-13",
+  "post_slug": "spx-is-about-to-put-in-4-red-weeks",
+  "parsed_at": "2026-04-16T15:45:03.541455",
+  "body_length": 2222
+}

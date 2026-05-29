@@ -1,0 +1,125 @@
+{
+  "trading_date": "2025-07-24",
+  "levels": [
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target. Above there, its back to 6309, 6324, then"
+    },
+    {
+      "price": 6309.0,
+      "role": "mentioned",
+      "context": "ucture with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d What did we see last"
+    },
+    {
+      "price": 6323.0,
+      "role": "mentioned",
+      "context": "but a far better entry is the Failed Breakdown of Friday\u2019s 6323 low and this is a good entry.\u201d Yesterday, we flushed Friday"
+    },
+    {
+      "price": 6324.0,
+      "role": "mentioned",
+      "context": "with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d What did we see last Wedne"
+    },
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "6333 resistance"
+    },
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6301.0,
+      "role": "mentioned",
+      "context": "and quick recover), ES can work back up the structure with 6301 being 1st target. Above there, its back to 6309, 6324, then"
+    },
+    {
+      "price": 6309.0,
+      "role": "mentioned",
+      "context": "ucture with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d What did we see last"
+    },
+    {
+      "price": 6323.0,
+      "role": "mentioned",
+      "context": "but a far better entry is the Failed Breakdown of Friday\u2019s 6323 low and this is a good entry.\u201d Yesterday, we flushed Friday"
+    },
+    {
+      "price": 6324.0,
+      "role": "mentioned",
+      "context": "with 6301 being 1st target. Above there, its back to 6309, 6324, then 6333 triangle resistance.\u201d What did we see last Wedne"
+    },
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "6333 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Tuesday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We saw that yesterday, and it propelled today\u2019s run I wrote at 4pm Monday \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday at 4pm: \u201cMy general lean is to defer to the trend..Fill this out more then work to 6360, 6366, then 6371-74."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This newsletter is devoted to those building blocks, but the most fundamental of all is my core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As long as the triangle support holds (or failed breakdown and quick recover), ES can work back up the structure with 6301 being 1st target."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We trapped to the downside to 6241, Failed Breakdown to trap bears, then rallied to 6333."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Same drill here, if its a controlled sell one can long it, but a far better entry is the Failed Breakdown of Friday\u2019s 6323 low and this is a good entry.\u201d Yesterday, we flushed Friday\u2019s low, trapped shorts, and were off."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a simple Failed Breakdown we had last Friday, that triggered us from 6320s to 6370s Monday high (this was provided in advance)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I\u2019ll also discuss Tuesday\u2019s Failed Breakdown mentioned above."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "Parabolic Breakout From The Two Week Triangle Continues In SPX. How Much More In The Tank? July 24 Plan",
+  "post_date": "2025-07-23",
+  "post_slug": "parabolic-breakout-from-the-two-week",
+  "parsed_at": "2026-04-16T15:43:08.271711",
+  "body_length": 3242
+}

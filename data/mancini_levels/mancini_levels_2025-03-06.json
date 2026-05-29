@@ -1,0 +1,74 @@
+{
+  "trading_date": "2025-03-06",
+  "levels": [
+    {
+      "price": 5820.0,
+      "role": "mentioned",
+      "context": "ost it putting bears in control and flushing us to Monday\u2019s 5820 low of day. We then spent Monday evening back-testing 5875i"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "ay, and all evening Monday into Tuesday. Yesterday, we lost 5850 at 7am, and put in a ~110 point flush into yesterdays low o"
+    },
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5820.0,
+      "role": "mentioned",
+      "context": "ost it putting bears in control and flushing us to Monday\u2019s 5820 low of day. We then spent Monday evening back-testing 5875i"
+    },
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "ay, and all evening Monday into Tuesday. Yesterday, we lost 5850 at 7am, and put in a ~110 point flush into yesterdays low o"
+    },
+    {
+      "price": 5870.0,
+      "role": "range",
+      "context": "5870-75"
+    },
+    {
+      "price": 5875.0,
+      "role": "range",
+      "context": "5870-75"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote back on Sunday (when we were 5960s) that the \u201cBear case Monday: The real bear case begins if 5870-75 fails.\u201d Why 5875?"
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "We then spent Monday evening back-testing 5875ish and I wrote Monday at 4pm that: \u201c Bear case tomorrow: Resumes under 5850.\u201d Why 5850 this time?"
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday my general lean was \u201cthat ES can try another crack at 5858 then 5875."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that after every \u201celevator down\u201d selloff in ES comes a short squeeze."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 4,
+  "resistance_count": 0,
+  "post_title": "Rare Green Day For SPX, But Will It Get Sold Like The Others? March 6 Plan",
+  "post_date": "2025-03-05",
+  "post_slug": "rare-green-day-for-spx-but-will-it",
+  "parsed_at": "2026-04-16T15:45:11.022028",
+  "body_length": 2197
+}

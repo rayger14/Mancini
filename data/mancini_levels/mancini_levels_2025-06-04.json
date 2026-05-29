@@ -1,0 +1,139 @@
+{
+  "trading_date": "2025-06-04",
+  "levels": [
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "the close yesterday, stating: \u201cWe remain in a large range (5850/61 to 5965-70 with 5925 magnet in the middle) and this rang"
+    },
+    {
+      "price": 5870.0,
+      "role": "level",
+      "context": "5870 zone"
+    },
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5890.0,
+      "role": "range",
+      "context": "5890-5870"
+    },
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "Below 5893"
+    },
+    {
+      "price": 5925.0,
+      "role": "mentioned",
+      "context": "ating: \u201cWe remain in a large range (5850/61 to 5965-70 with 5925 magnet in the middle) and this range is large inverse head"
+    },
+    {
+      "price": 5936.0,
+      "role": "mentioned",
+      "context": "nd \u201cBulls control above 5877. 5925 recovery starts us up to 5936, 5945, then 5965-70.\u201d Yesterday we flushed 5877 down to 587"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "lls control above 5877. 5925 recovery starts us up to 5936, 5945, then 5965-70.\u201d Yesterday we flushed 5877 down to 5870, tra"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5850.0,
+      "role": "mentioned",
+      "context": "the close yesterday, stating: \u201cWe remain in a large range (5850/61 to 5965-70 with 5925 magnet in the middle) and this rang"
+    },
+    {
+      "price": 5870.0,
+      "role": "level",
+      "context": "5870 zone"
+    },
+    {
+      "price": 5877.0,
+      "role": "support",
+      "context": "above 5877"
+    },
+    {
+      "price": 5890.0,
+      "role": "range",
+      "context": "5890-5870"
+    },
+    {
+      "price": 5925.0,
+      "role": "mentioned",
+      "context": "ating: \u201cWe remain in a large range (5850/61 to 5965-70 with 5925 magnet in the middle) and this range is large inverse head"
+    },
+    {
+      "price": 5936.0,
+      "role": "mentioned",
+      "context": "nd \u201cBulls control above 5877. 5925 recovery starts us up to 5936, 5945, then 5965-70.\u201d Yesterday we flushed 5877 down to 587"
+    },
+    {
+      "price": 5945.0,
+      "role": "mentioned",
+      "context": "lls control above 5877. 5925 recovery starts us up to 5936, 5945, then 5965-70.\u201d Yesterday we flushed 5877 down to 5870, tra"
+    },
+    {
+      "price": 5965.0,
+      "role": "range",
+      "context": "5965-70"
+    },
+    {
+      "price": 5970.0,
+      "role": "range",
+      "context": "5965-70"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5893.0,
+      "role": "resistance",
+      "context": "Below 5893"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "For Failed Breakdown traders like myself, this action is ideal."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Remember that institutions accumulate via Failed Breakdowns: They flush a low, trap shorts, then enter, and price squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the quality Failed Breakdowns we had on Friday that set the foundation for the Friday/Monday/Today\u2019s rally (I\u2019ll discuss the distinction between shallow and deep Failed Breakdowns)."
+    },
+    {
+      "type": "TARGETS",
+      "text": "5965-70 is next target up, reaction there, then if ES can break it we see 6k, 6036, 6047, then 6072.\u201d Today, we filled that range out."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "All this action had the effect of painting on the chart a massive bullish inverse head and shoulders pattern, something I confirmed at the close yesterday, stating: \u201cWe remain in a large range (5850/61 to 5965-70 with 5925 magnet in the middle) and this range is large inverse head and shoulders pattern."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 9,
+  "resistance_count": 1,
+  "post_title": "Can SPX Push To A New High Now? June 4th Plan",
+  "post_date": "2025-06-03",
+  "post_slug": "can-spx-push-to-a-new-high-now-june",
+  "parsed_at": "2026-04-16T15:43:51.776141",
+  "body_length": 2329
+}

@@ -1,0 +1,80 @@
+{
+  "trading_date": "2024-11-25",
+  "levels": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5943.0,
+      "role": "mentioned",
+      "context": "it has a few obvious magnets. Since we broke down a base at 5943 to start today\u2019s sell, the backtest of this would be the fi"
+    },
+    {
+      "price": 5972.0,
+      "role": "mentioned",
+      "context": "st magnet. After a reaction there, we can work up higher to 5972, then 5980-88 which is resistance of the bull flag structur"
+    },
+    {
+      "price": 5980.0,
+      "role": "range",
+      "context": "5980-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5980-88"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5886.0,
+      "role": "level",
+      "context": "5886 level"
+    },
+    {
+      "price": 5943.0,
+      "role": "mentioned",
+      "context": "it has a few obvious magnets. Since we broke down a base at 5943 to start today\u2019s sell, the backtest of this would be the fi"
+    },
+    {
+      "price": 5972.0,
+      "role": "mentioned",
+      "context": "st magnet. After a reaction there, we can work up higher to 5972, then 5980-88 which is resistance of the bull flag structur"
+    },
+    {
+      "price": 5980.0,
+      "role": "range",
+      "context": "5980-88"
+    },
+    {
+      "price": 5988.0,
+      "role": "range",
+      "context": "5980-88"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the setup that set the major low Wednesday morning at ~5886 (it was my secondary setup: The Back-test), then yesterdays higher low (it was my core setup: The Failed Breakdown)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "As readers recall, one week ago at Friday\u2019s close I was looking for a relief rally to start this week after we relentlessly sold late last week, with the 5886 level being the base/magnet from which any large bounces would occur this week."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "Since we broke down a base at 5943 to start today\u2019s sell, the backtest of this would be the first magnet."
+    }
+  ],
+  "level_count": 5,
+  "support_count": 5,
+  "resistance_count": 0,
+  "post_title": "Is A Thanksgiving Week Rally Coming For SPX? Nov 25 Plan",
+  "post_date": "2024-11-24",
+  "post_slug": "is-a-thanksgiving-week-rally-coming-697",
+  "parsed_at": "2026-04-16T15:46:36.734304",
+  "body_length": 2051
+}

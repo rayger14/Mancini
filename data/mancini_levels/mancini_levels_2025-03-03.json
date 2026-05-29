@@ -1,0 +1,104 @@
+{
+  "trading_date": "2025-03-03",
+  "levels": [
+    {
+      "price": 5875.0,
+      "role": "support",
+      "context": "hold 5875"
+    },
+    {
+      "price": 5914.0,
+      "role": "range",
+      "context": "5914-18"
+    },
+    {
+      "price": 5918.0,
+      "role": "range",
+      "context": "5914-18"
+    },
+    {
+      "price": 5938.0,
+      "role": "support",
+      "context": "above 5938"
+    },
+    {
+      "price": 5942.0,
+      "role": "range",
+      "context": "5938-42"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "6116 support"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5875.0,
+      "role": "support",
+      "context": "hold 5875"
+    },
+    {
+      "price": 5914.0,
+      "role": "range",
+      "context": "5914-18"
+    },
+    {
+      "price": 5918.0,
+      "role": "range",
+      "context": "5914-18"
+    },
+    {
+      "price": 5938.0,
+      "role": "support",
+      "context": "above 5938"
+    },
+    {
+      "price": 5942.0,
+      "role": "range",
+      "context": "5938-42"
+    },
+    {
+      "price": 6116.0,
+      "role": "support",
+      "context": "6116 support"
+    },
+    {
+      "price": 6123.0,
+      "role": "range",
+      "context": "6123-6116"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is as long as ES can hold 5875, 5865 lowest, ES can try a pop up the levels to 5914-18, then 5938-42."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is why \u201cbears\u201d, don\u2019t make money even in bear markets, because ES does not sell in a clean path, rather it sees frequent squeezes (all caused by core setup: The Failed Breakdown, which is just as lucrative in downtrends as uptrends)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "5938-42 needs to recover to produce a sustainable squeeze.\u201d We started today with a squeeze to 5914 which was the morning high, sold back to new lows, put in a monster Failed Breakdown, then squeezed again to complete the target set and hit 5938-42 by the end of the day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This incorporates two of my key setup types: The Failed Breakdown and the Back-Test Short."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 7,
+  "resistance_count": 0,
+  "post_title": "SPX Snaps A 6 Red Day Streak. Will The Bounce Hold? March 3rd Plan",
+  "post_date": "2025-03-02",
+  "post_slug": "spx-snaps-a-6-red-day-streak-will",
+  "parsed_at": "2026-04-16T15:45:14.791160",
+  "body_length": 2632
+}

@@ -1,0 +1,77 @@
+{
+  "trading_date": "2025-04-14",
+  "levels": [
+    {
+      "price": 5416.0,
+      "role": "mentioned",
+      "context": "can retrace today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d This morning at 10:30AM, we held 5248-52 exact"
+    },
+    {
+      "price": 5468.0,
+      "role": "mentioned",
+      "context": "today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d This morning at 10:30AM, we held 5248-52 exact, and ralli"
+    },
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5416.0,
+      "role": "mentioned",
+      "context": "can retrace today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d This morning at 10:30AM, we held 5248-52 exact"
+    },
+    {
+      "price": 5468.0,
+      "role": "mentioned",
+      "context": "today\u2019s sell with my target being 5377-80, then 5416, then 5468.\u201d This morning at 10:30AM, we held 5248-52 exact, and ralli"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5945.0,
+      "role": "resistance",
+      "context": "Below 5945"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "As I\u2019ve discussed at length, in downtrends ES really only does two things: It goes \u201celevator down\u201d which refers to violent sells that are short-lived but cover heavy ground, then it short squeezes."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes are caused by my core setup type: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In these markets - in order to keep things simple - I choose to only trade the Failed Breakdowns/squeezes and everyday this week we have had at least one 200 point squeeze and we saw this \u201celevator down into short squeeze cycle\u201d over and over."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If its an organized sell into it, I may give it a bid, but if we are melting down on yet another huge trade war headline, let it flush perhaps down to 4875 and recover to attempt longs.\u201d On Wednesday at 130AM, we hit 4875 exact, put in a Failed Breakdown of 4896, and squeezed 650 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This would mean \u201celevator down\u201d was probable yesterday."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote Wednesday at 4pm: \u201c I will warn now, there will be a deep elevator down sell after this squeeze that retraces a massive chunk of it.\u201d We got this yesterday, seeing a huge flush back down to 5155 major support."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into Wednesday\u2019s 600+ point short squeeze, as it was caused by a fairly unorthodox Failed Breakdown, which was taken into overdrive by the Tariff Pause headline."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 2,
+  "resistance_count": 1,
+  "post_title": "SPX Puts In A Green Week. Can It Follow It Up? April 14 Plan",
+  "post_date": "2025-04-13",
+  "post_slug": "spx-puts-in-a-green-week-can-it-follow-76e",
+  "parsed_at": "2026-04-16T15:44:37.121223",
+  "body_length": 2743
+}

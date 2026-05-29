@@ -1,0 +1,105 @@
+{
+  "trading_date": "2024-10-24",
+  "levels": [
+    {
+      "price": 5800.0,
+      "role": "mentioned",
+      "context": "igger hit, and we sold for the remainder of the day down to 5800, then bounced. This was a fantastic short, but was it just"
+    },
+    {
+      "price": 5855.0,
+      "role": "range",
+      "context": "5855-65"
+    },
+    {
+      "price": 5857.0,
+      "role": "resistance",
+      "context": "loses 5857"
+    },
+    {
+      "price": 5860.0,
+      "role": "support",
+      "context": "support at 5860"
+    },
+    {
+      "price": 5865.0,
+      "role": "range",
+      "context": "5855-65"
+    },
+    {
+      "price": 5900.0,
+      "role": "resistance",
+      "context": "resistance at 5900"
+    },
+    {
+      "price": 5915.0,
+      "role": "range",
+      "context": "5900-15"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5800.0,
+      "role": "mentioned",
+      "context": "igger hit, and we sold for the remainder of the day down to 5800, then bounced. This was a fantastic short, but was it just"
+    },
+    {
+      "price": 5855.0,
+      "role": "range",
+      "context": "5855-65"
+    },
+    {
+      "price": 5860.0,
+      "role": "support",
+      "context": "support at 5860"
+    },
+    {
+      "price": 5865.0,
+      "role": "range",
+      "context": "5855-65"
+    },
+    {
+      "price": 5915.0,
+      "role": "range",
+      "context": "5900-15"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5857.0,
+      "role": "resistance",
+      "context": "loses 5857"
+    },
+    {
+      "price": 5900.0,
+      "role": "resistance",
+      "context": "resistance at 5900"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "A selloff back to range support, and this was my lean for today."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote yesterday: \u201cBear case tomorrow: The real bear case does not start until ES loses 5857-60 and breaks down this range..After this, I\u2019d consider short below wherever the structure is, probably 5855\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote in Mondays newsletter at 4pm: \u201cThere is a possible entry here on a failed breakdown of today\u2019s low at 5865\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Yesterday morning before the open, we got my core setup - a classic Failed Breakdown of the Monday low at 5865, longs triggered, and we rallied to range resistance at 5900+."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 5,
+  "resistance_count": 2,
+  "post_title": "Biggest Selloff For SPX Since September 6th. Should We Buy The Dip? Oct 24 Plan",
+  "post_date": "2024-10-23",
+  "post_slug": "biggest-selloff-for-spx-since-september",
+  "parsed_at": "2026-04-16T15:47:05.079043",
+  "body_length": 2008
+}

@@ -1,0 +1,150 @@
+{
+  "trading_date": "2025-10-24",
+  "levels": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "saw exactly this at 2pm yesterday. We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close. The cor"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "range",
+      "context": "6698-6702"
+    },
+    {
+      "price": 6702.0,
+      "role": "range",
+      "context": "6698-6702"
+    },
+    {
+      "price": 6732.0,
+      "role": "mentioned",
+      "context": "82. I wrote on Friday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6783.\u201d We ripped to 6783 on Monday, and spent T"
+    },
+    {
+      "price": 6744.0,
+      "role": "mentioned",
+      "context": "wrote on Friday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6783.\u201d We ripped to 6783 on Monday, and spent Tuesday"
+    },
+    {
+      "price": 6756.0,
+      "role": "mentioned",
+      "context": "is simply that ES can resume up to backtest 6766 again with 6756, 6760 en route. Likely dip/reaction there. After that if bu"
+    },
+    {
+      "price": 6760.0,
+      "role": "mentioned",
+      "context": "ply that ES can resume up to backtest 6766 again with 6756, 6760 en route. Likely dip/reaction there. After that if bulls ha"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "l case tomorrow is simply that ES can resume up to backtest 6766 again with 6756, 6760 en route. Likely dip/reaction there."
+    },
+    {
+      "price": 6783.0,
+      "role": "mentioned",
+      "context": "iday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6783.\u201d We ripped to 6783 on Monday, and spent Tuesday basing out"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6690.0,
+      "role": "mentioned",
+      "context": "saw exactly this at 2pm yesterday. We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close. The cor"
+    },
+    {
+      "price": 6694.0,
+      "role": "support",
+      "context": "6694 daily low"
+    },
+    {
+      "price": 6698.0,
+      "role": "range",
+      "context": "6698-6702"
+    },
+    {
+      "price": 6702.0,
+      "role": "range",
+      "context": "6698-6702"
+    },
+    {
+      "price": 6732.0,
+      "role": "mentioned",
+      "context": "82. I wrote on Friday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6783.\u201d We ripped to 6783 on Monday, and spent T"
+    },
+    {
+      "price": 6744.0,
+      "role": "mentioned",
+      "context": "wrote on Friday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6783.\u201d We ripped to 6783 on Monday, and spent Tuesday"
+    },
+    {
+      "price": 6756.0,
+      "role": "mentioned",
+      "context": "is simply that ES can resume up to backtest 6766 again with 6756, 6760 en route. Likely dip/reaction there. After that if bu"
+    },
+    {
+      "price": 6760.0,
+      "role": "mentioned",
+      "context": "ply that ES can resume up to backtest 6766 again with 6756, 6760 en route. Likely dip/reaction there. After that if bulls ha"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "l case tomorrow is simply that ES can resume up to backtest 6766 again with 6756, 6760 en route. Likely dip/reaction there."
+    },
+    {
+      "price": 6783.0,
+      "role": "mentioned",
+      "context": "iday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6783.\u201d We ripped to 6783 on Monday, and spent Tuesday basing out"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201c My lean is we work up it to 6732, 6744, then 6783.\u201d We ripped to 6783 on Monday, and spent Tuesday basing out there, before flushing off this zone 90 points yesterday and going elevator down on a China headline ."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "The bull case tomorrow is simply that ES can resume up to backtest 6766 again with 6756, 6760 en route."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know though that every Elevator Down sell like we saw yesterday has a sibling in ES."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Specifically - nearly without exception during the last 100 years - every vertical elevator down sell resolves with a Failed Breakdown, and equally violent squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If we are really melting down, the best setup here is to wait for the Failed Breakdown of yesterday\u2019s 6694 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We flushed 6698 down to 6690, recovered/Failed Breakdown, ripped into the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cAt 2pm today, ES put in a Failed Breakdown under 6698 and ripped us higher."
+    },
+    {
+      "type": "TARGETS",
+      "text": "After that if bulls have the momentum, we can head higher to 6782, then we likely head to all time highs after\u201d This played out perfectly and by 9:45AM we hit 6766 exact to the tick, dipped, then cleared it."
+    }
+  ],
+  "level_count": 10,
+  "support_count": 10,
+  "resistance_count": 0,
+  "post_title": "Will CPI Tomorrow De-Rail or Accelerate The SPX Rally? Oct 24 Plan",
+  "post_date": "2025-10-23",
+  "post_slug": "will-cpi-tomorrow-de-rail-or-accelerate",
+  "parsed_at": "2026-04-16T15:41:44.802019",
+  "body_length": 3145
+}

@@ -1,0 +1,73 @@
+{
+  "trading_date": "2025-07-25",
+  "levels": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "6333 resistance"
+    },
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6371.0,
+      "role": "range",
+      "context": "6371-74"
+    },
+    {
+      "price": 6374.0,
+      "role": "range",
+      "context": "6371-74"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6333.0,
+      "role": "resistance",
+      "context": "6333 resistance"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at 4pm Monday \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Tuesday at 4pm: \u201cThe bull case though is that ES can fill it out the upside and test 6360, 6366, then 6371-74."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "They are to numerous to discuss in this intro by two of those core blocks are: 1) My core setup, the Failed Breakdown This is how institutions accumulate/enter trades."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "However, when ES does back-test, it needs to put in that trap/Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In todays newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a very high quality Failed Breakdown we had on Tuesday where we sold to 6319 as discussed above, lost and recovered last Friday\u2019s low in the process, then squeezed into this weeks highs."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was a textbook Failed Breakdown."
+    }
+  ],
+  "level_count": 3,
+  "support_count": 2,
+  "resistance_count": 1,
+  "post_title": "This Week's Rally is What A Triangle Breakout Looks Like in SPX. But Can It Close The Week Green? July 25 Plan",
+  "post_date": "2025-07-24",
+  "post_slug": "this-weeks-rally-is-what-a-triangle",
+  "parsed_at": "2026-04-16T15:43:06.923274",
+  "body_length": 2745
+}

@@ -15,7 +15,9 @@ Usage:
 """
 
 import sys
-sys.path.insert(0, "/Users/raymondghandchi/Mancini/Mancini")
+from pathlib import Path
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_PROJECT_ROOT))
 from loguru import logger
 logger.remove()
 
@@ -36,8 +38,8 @@ from core.regime_filter import RegimeParams, build_daily_bars
 from strategy.mancini_long import ManciniLongStrategy
 
 # ── Constants ──────────────────────────────────────────────────────────
-DATA_PATH = Path("/Users/raymondghandchi/Mancini/Mancini/data/ES_1m_full_session_2021-01-01_2026-02-05.parquet")
-RESULTS_PATH = Path("/Users/raymondghandchi/Mancini/Mancini/data/optuna_targeted_results.json")
+DATA_PATH = _PROJECT_ROOT / "data" / "ES_1m_full_session_2021-01-01_2026-02-05.parquet"
+RESULTS_PATH = _PROJECT_ROOT / "data" / "optuna_targeted_results.json"
 
 ELEVATOR = ElevatorParams(min_velocity_pts_per_min=0.75, min_levels_broken=2, higher_low_lookback=4)
 FULL_SESSION = SessionTimes(
@@ -194,7 +196,6 @@ def build_params(trial):
     # ── Long-side params ───────────────────────────────────────────────
     fb_stop = trial.suggest_float("fb_stop_buffer_pts", 3.5, 8.0, step=0.5)
     lr_stop = trial.suggest_float("lr_stop_buffer_pts", 3.0, 7.0, step=0.5)
-    fb_max_hold = trial.suggest_int("fb_max_hold_bars", 12, 35)
     hold_bars = trial.suggest_int("acceptance_min_hold_bars", 5, 12)
     # Live data: deep dips are profitable — widen range
     accept_dip = trial.suggest_float("acceptance_max_dip_pts", 3.0, 15.0, step=1.0)
@@ -239,7 +240,7 @@ def build_params(trial):
     )
     exit_params = ExitParams(
         default_contracts=4, t1_exit_fraction=1.0,
-        trailing_stop_pts=7.0, fb_max_hold_bars=fb_max_hold,
+        trailing_stop_pts=7.0,
     )
     risk_params = RiskParams(
         max_trades_per_day=4,
@@ -314,7 +315,7 @@ def main():
     study.enqueue_trial({
         "slope_threshold_atr_mult": 0.35, "ema_span": 80, "slope_lookback": 6,
         "fb_stop_buffer_pts": 7.0, "lr_stop_buffer_pts": 3.0,
-        "fb_max_hold_bars": 20, "acceptance_min_hold_bars": 7,
+        "acceptance_min_hold_bars": 7,
         "acceptance_max_dip_pts": 4.0, "max_fb_sweep_depth_pts": 50.0,
         "max_target_distance_pts": 15.0,
         "bd_confirm_bars": 8, "bd_stop_buffer_pts": 4.0,
@@ -326,7 +327,7 @@ def main():
     study.enqueue_trial({
         "slope_threshold_atr_mult": 0.15, "ema_span": 50, "slope_lookback": 5,
         "fb_stop_buffer_pts": 5.5, "lr_stop_buffer_pts": 5.0,
-        "fb_max_hold_bars": 20, "acceptance_min_hold_bars": 7,
+        "acceptance_min_hold_bars": 7,
         "acceptance_max_dip_pts": 10.0, "max_fb_sweep_depth_pts": 100.0,
         "max_target_distance_pts": 30.0,
         "bd_confirm_bars": 15, "bd_stop_buffer_pts": 3.0,

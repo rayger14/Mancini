@@ -1,0 +1,119 @@
+{
+  "trading_date": "2025-10-09",
+  "levels": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6750.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. ES is rangebound in a big range 6750 to 6800, with 6765 being a big magnet/pivot in the middle."
+    },
+    {
+      "price": 6752.0,
+      "role": "resistance",
+      "context": "below 6752"
+    },
+    {
+      "price": 6765.0,
+      "role": "support",
+      "context": "recover 6765"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "defer to the trend. ES is rangebound in a big range 6750 to 6800, with 6765 being a big magnet/pivot in the middle. Its a fl"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "w at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week"
+    },
+    {
+      "price": 6693.0,
+      "role": "support",
+      "context": "daily low at 6693"
+    },
+    {
+      "price": 6750.0,
+      "role": "mentioned",
+      "context": "ways to defer to the trend. ES is rangebound in a big range 6750 to 6800, with 6765 being a big magnet/pivot in the middle."
+    },
+    {
+      "price": 6765.0,
+      "role": "support",
+      "context": "recover 6765"
+    },
+    {
+      "price": 6800.0,
+      "role": "mentioned",
+      "context": "defer to the trend. ES is rangebound in a big range 6750 to 6800, with 6765 being a big magnet/pivot in the middle. Its a fl"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6752.0,
+      "role": "resistance",
+      "context": "below 6752"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote at the close Monday that: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean was higher, stating yesterday at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Bear case begins below 6752, after a trap.\u201d Today we saw exactly this - we recovered 6765 last evening, then ran to 6795 by this morning."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "One of the cycles for example is that institutions buy dips using my core setup (the Failed Breakdown), which then creates a short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Failed Breakdowns are always preceded by \u201celevator down\u201d sells."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This cycle which I call \u201celevator down-into-short squeeze\u201d is extremely common, and its what gave us the rally from last Tuesday\u2019s low at 6680, into last weeks high of 6800."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote last Tuesday at 4pm: \u201cAnother option to long is the Failed Breakdown of today\u2019s daily low at 6693.\u201d Early Wednesday morning we flushed 6693 down to 6680, recovered 6693, then went parabolic to 6800 high last week."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Sideways ranges see ample Failed Breakdowns."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a quality Failed Breakdown we had late day Friday which ultimately propelled the terminal leg into this weeks high (this one was very textbook and good for learning)."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "ES is rangebound in a big range 6750 to 6800, with 6765 being a big magnet/pivot in the middle."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "Bulls Bought The SPX Mini-Dip Again. Parabolic Leg Up Coming, Or Will They Drop The Ball? Oct 9 Plan",
+  "post_date": "2025-10-08",
+  "post_slug": "bulls-bought-the-spx-mini-dip-again",
+  "parsed_at": "2026-04-16T15:41:58.767196",
+  "body_length": 2610
+}

@@ -1,0 +1,113 @@
+{
+  "trading_date": "2026-03-24",
+  "levels": [
+    {
+      "price": 6524.0,
+      "role": "level",
+      "context": "swept 6524"
+    },
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": ", early this morning, we got the same setup again (sweeping 6542 and recovering). This time however with the help of a Presi"
+    },
+    {
+      "price": 6591.0,
+      "role": "mentioned",
+      "context": "3. I wrote on Friday at 4pm: \u201cMy general lean is ES can see 6591, dip then tackle 6623. If that clears, we can start a leg t"
+    },
+    {
+      "price": 6623.0,
+      "role": "resistance",
+      "context": "below 6623"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "dip then tackle 6623. If that clears, we can start a leg to 6716+.\u201d By early this morning, we hit 6623 and recovered it, cle"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6524.0,
+      "role": "level",
+      "context": "swept 6524"
+    },
+    {
+      "price": 6542.0,
+      "role": "mentioned",
+      "context": ", early this morning, we got the same setup again (sweeping 6542 and recovering). This time however with the help of a Presi"
+    },
+    {
+      "price": 6591.0,
+      "role": "mentioned",
+      "context": "3. I wrote on Friday at 4pm: \u201cMy general lean is ES can see 6591, dip then tackle 6623. If that clears, we can start a leg t"
+    },
+    {
+      "price": 6716.0,
+      "role": "mentioned",
+      "context": "dip then tackle 6623. If that clears, we can start a leg to 6716+.\u201d By early this morning, we hit 6623 and recovered it, cle"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6623.0,
+      "role": "resistance",
+      "context": "below 6623"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Friday morning, we lost it, triggering the bear case, and down we went 100 points going elevator down ."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote Thursday at 4pm: \u201cBear case tomorrow: Begins below 6623.\u201d We then sold to 6524 low of day Friday bounced into the close Friday."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Friday at 4pm: \u201cMy general lean is ES can see 6591, dip then tackle 6623."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down refers to a period of relentless selling where price loses every support for a few hours."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes only occur when ES puts in my core setup: The Failed Breakdown and this happens when price recovers a major nearby low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Therefore the sequence is as follows: Price loses a shelf, goes elevator down , then short squeezes on a Failed Breakdown, and the short squeeze typically back-tests the shelf that caused the sell originally."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This then setup the next building block: A quality Failed Breakdown and short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote on Friday at 4pm: \u201cThis is where I get interested, and an obvious trade is the Failed Breakdown of today\u2019s 6524 daily low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This is a clear daily low and a flush and recovery of this is actionable.\u201d Right off Sunday\u2019s open, we swept 6524 down to 6505, recovered, and rallied to 6560 (Failed Breakdown)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Regardless of the tweets though, the task for bulls this week was to run with this Failed Breakdown and ultimately test then recover 6623."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over today\u2019s Failed Breakdowns (these are key to know), and I\u2019ll discuss the actionable plan for tomorrow"
+    }
+  ],
+  "level_count": 5,
+  "support_count": 4,
+  "resistance_count": 1,
+  "post_title": "Massive Squeeze For SPX. Dead Cat Bounce, Or Is The Bottom In? March 24 Plan",
+  "post_date": "2026-03-23",
+  "post_slug": "massive-squeeze-for-spx-dead-cat",
+  "parsed_at": "2026-04-16T15:38:24.885006",
+  "body_length": 3183
+}

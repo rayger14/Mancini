@@ -1,0 +1,130 @@
+{
+  "trading_date": "2025-11-10",
+  "levels": [
+    {
+      "price": 6655.0,
+      "role": "mentioned",
+      "context": "recover 6690, this is a very high quality long.\u201d We sold to 6655, recovered 6690 at 1:21PM and began a vertical rip to 6760s"
+    },
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "of the October 22nd 6690 low. If we can flush this down at 6680 and recover 6690, this is a very high quality long.\u201d We sol"
+    },
+    {
+      "price": 6690.0,
+      "role": "support",
+      "context": "recover 6690"
+    },
+    {
+      "price": 6734.0,
+      "role": "mentioned",
+      "context": "ripped to back-test 6851/62. Bears held and we sold off to 6734 low yesterday. Late day yesterday bulls tried a bounce, put"
+    },
+    {
+      "price": 6748.0,
+      "role": "support",
+      "context": "hold 6748"
+    },
+    {
+      "price": 6751.0,
+      "role": "range",
+      "context": "6748-51"
+    },
+    {
+      "price": 6830.0,
+      "role": "mentioned",
+      "context": "ean its that ES can perhaps trap down once, then head up to 6830, then 6851/62 back-test.\u201d On Wednesday, we ripped to back-t"
+    },
+    {
+      "price": 6851.0,
+      "role": "mentioned",
+      "context": "t ES can perhaps trap down once, then head up to 6830, then 6851/62 back-test.\u201d On Wednesday, we ripped to back-test 6851/62"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6655.0,
+      "role": "mentioned",
+      "context": "recover 6690, this is a very high quality long.\u201d We sold to 6655, recovered 6690 at 1:21PM and began a vertical rip to 6760s"
+    },
+    {
+      "price": 6680.0,
+      "role": "mentioned",
+      "context": "of the October 22nd 6690 low. If we can flush this down at 6680 and recover 6690, this is a very high quality long.\u201d We sol"
+    },
+    {
+      "price": 6690.0,
+      "role": "support",
+      "context": "recover 6690"
+    },
+    {
+      "price": 6734.0,
+      "role": "mentioned",
+      "context": "ripped to back-test 6851/62. Bears held and we sold off to 6734 low yesterday. Late day yesterday bulls tried a bounce, put"
+    },
+    {
+      "price": 6748.0,
+      "role": "support",
+      "context": "hold 6748"
+    },
+    {
+      "price": 6751.0,
+      "role": "range",
+      "context": "6748-51"
+    },
+    {
+      "price": 6830.0,
+      "role": "mentioned",
+      "context": "ean its that ES can perhaps trap down once, then head up to 6830, then 6851/62 back-test.\u201d On Wednesday, we ripped to back-t"
+    },
+    {
+      "price": 6851.0,
+      "role": "mentioned",
+      "context": "t ES can perhaps trap down once, then head up to 6830, then 6851/62 back-test.\u201d On Wednesday, we ripped to back-test 6851/62"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Readers were prepared because for the 1st time in weeks my Bear Case triggered and we began a sell bounces period all week."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote on Monday at 4pm: \u201cBear case tomorrow: Begins under 6857\u2026 I t will probably be 6850 trigger."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Late day yesterday bulls tried a bounce, putting in a Failed Breakdown of Tuesday\u2019s 6748 down to 6732, recovering, and squeezing to 6784."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "ES at the same time put in a Failed Breakdown of Tuesday\u2019s 6748 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "If bulls can\u2019t stick this, they are likely in trouble\u2026Its very simple and bulls need to hold 6748-51 (and not invalidate the Failed Breakdown and lose today\u2019s low).\u201d ES lost that low, and down we went for another 70 points."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Readers know though that every elevator down sell comes a face ripping squeeze, but only when ES recovers a major low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday: \u201c It is much smarter to wait for the Failed Breakdown of the October 22nd 6690 low."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the 100 point long we saw Tuesday into Wednesday (caused by a Failed Breakdown) then the 100 point sell we saw yesterday (caused by a Back-Test Short)."
+    }
+  ],
+  "level_count": 8,
+  "support_count": 8,
+  "resistance_count": 0,
+  "post_title": "Second Biggest Weekly Sell Since April For SPX. Are We Bottoming? November 10th Plan",
+  "post_date": "2025-11-09",
+  "post_slug": "second-biggest-weekly-sell-since-a57",
+  "parsed_at": "2026-04-16T15:41:31.021423",
+  "body_length": 2889
+}

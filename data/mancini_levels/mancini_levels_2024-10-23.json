@@ -1,0 +1,44 @@
+{
+  "trading_date": "2024-10-23",
+  "levels": [
+    {
+      "price": 5865.0,
+      "role": "mentioned",
+      "context": "t thing this morning before the open. We flushed yesterdays 5865 lows by a couple points, trapped shorts - put in my core en"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5865.0,
+      "role": "mentioned",
+      "context": "t thing this morning before the open. We flushed yesterdays 5865 lows by a couple points, trapped shorts - put in my core en"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I warned about this on October 7th, when I wrote: \u201cBull case tomorrow: No change."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cThere is a possible entry here on a failed breakdown of today\u2019s low at 5865\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "We flushed yesterdays 5865 lows by a couple points, trapped shorts - put in my core entry setup (the failed breakdown) to trigger longs, then rallied for 30 points to 5902+ into the close."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll go over two quality Failed Breakdowns we have had this week - both very textbook examples and good templates to use for those learning to spot these in real-time."
+    }
+  ],
+  "level_count": 1,
+  "support_count": 1,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Tight, Big Move Coming. Up, or Down? Oct 23 Plan",
+  "post_date": "2024-10-22",
+  "post_slug": "spx-is-coiled-tight-big-move-coming",
+  "parsed_at": "2026-04-16T15:47:06.345586",
+  "body_length": 2108
+}

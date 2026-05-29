@@ -1,0 +1,90 @@
+{
+  "trading_date": "2024-09-20",
+  "levels": [
+    {
+      "price": 5680.0,
+      "role": "level",
+      "context": "5680 level"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5724.0,
+      "role": "mentioned",
+      "context": "argets AThs directly. This could look something like pop to 5724, dip, return to 5736, perhaps final dip, then breakout. 577"
+    },
+    {
+      "price": 5736.0,
+      "role": "mentioned",
+      "context": "This could look something like pop to 5724, dip, return to 5736, perhaps final dip, then breakout. 5775, then ultimately ne"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "724, dip, return to 5736, perhaps final dip, then breakout. 5775, then ultimately new ATHs to 5797+ are in play above.\u201d. We"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "final dip, then breakout. 5775, then ultimately new ATHs to 5797+ are in play above.\u201d. We saw exactly this and we held 5680"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5680.0,
+      "role": "level",
+      "context": "5680 level"
+    },
+    {
+      "price": 5685.0,
+      "role": "range",
+      "context": "5680-85"
+    },
+    {
+      "price": 5724.0,
+      "role": "mentioned",
+      "context": "argets AThs directly. This could look something like pop to 5724, dip, return to 5736, perhaps final dip, then breakout. 577"
+    },
+    {
+      "price": 5736.0,
+      "role": "mentioned",
+      "context": "This could look something like pop to 5724, dip, return to 5736, perhaps final dip, then breakout. 5775, then ultimately ne"
+    },
+    {
+      "price": 5775.0,
+      "role": "mentioned",
+      "context": "724, dip, return to 5736, perhaps final dip, then breakout. 5775, then ultimately new ATHs to 5797+ are in play above.\u201d. We"
+    },
+    {
+      "price": 5797.0,
+      "role": "mentioned",
+      "context": "final dip, then breakout. 5775, then ultimately new ATHs to 5797+ are in play above.\u201d. We saw exactly this and we held 5680"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "I also wrote in yesterdays 415pm newsletter: \u201cI decided to try the long at 5685ish, risking only part of today\u2019s profits\u201d."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This was due to the 4pm failed breakdown yesterday discussed above, and this evolved into a staggering 110 point long."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into two concepts that are important to system: The idea of determining control (it was the ongoing control of bulls that kept this rally going) and the trap/Failed Breakdown (which was the practical trigger for the overnight leg up)."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "For The 1st Time Since May, SPX Has Made A New ATH. Trap, or More Ahead? Sept 20 Plan",
+  "post_date": "2024-09-19",
+  "post_slug": "for-the-1st-time-since-may-spx-has",
+  "parsed_at": "2026-04-16T15:47:36.414767",
+  "body_length": 2177
+}

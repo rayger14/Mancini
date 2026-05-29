@@ -1,0 +1,67 @@
+{
+  "trading_date": "2024-10-25",
+  "levels": [
+    {
+      "price": 5855.0,
+      "role": "range",
+      "context": "5855-57"
+    },
+    {
+      "price": 5857.0,
+      "role": "resistance",
+      "context": "loses 5857"
+    },
+    {
+      "price": 5860.0,
+      "role": "support",
+      "context": "5860 support"
+    },
+    {
+      "price": 5864.0,
+      "role": "mentioned",
+      "context": "backtest the breakdown zones now. This means 5855-57, then 5864. This is the dip zone, and if that dip gets bough t, a more"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5855.0,
+      "role": "range",
+      "context": "5855-57"
+    },
+    {
+      "price": 5860.0,
+      "role": "support",
+      "context": "5860 support"
+    },
+    {
+      "price": 5864.0,
+      "role": "mentioned",
+      "context": "backtest the breakdown zones now. This means 5855-57, then 5864. This is the dip zone, and if that dip gets bough t, a more"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5857.0,
+      "role": "resistance",
+      "context": "loses 5857"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I provided this to readers in Tuesdays 4pm newsletter , where I wrote: \u201cBear case tomorrow: The real bear case does not start until ES loses 5857-60 and breaks down this range..After this, I\u2019d consider short below wherever the structure is, probably 5855\u201d."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is we can backtest the breakdown zones now."
+    }
+  ],
+  "level_count": 4,
+  "support_count": 3,
+  "resistance_count": 1,
+  "post_title": "Is the PullBack in SPX Already Done? Oct 25th Plan",
+  "post_date": "2024-10-24",
+  "post_slug": "is-the-pullback-in-spx-already-done",
+  "parsed_at": "2026-04-16T15:47:03.701710",
+  "body_length": 1801
+}

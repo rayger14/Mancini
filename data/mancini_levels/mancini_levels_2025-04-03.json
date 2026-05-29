@@ -1,0 +1,111 @@
+{
+  "trading_date": "2025-04-03",
+  "levels": [
+    {
+      "price": 5585.0,
+      "role": "resistance",
+      "context": "Below 5585"
+    },
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "we can flush it and recover with momentum (ideally down to 5600) I\u2019d long.\u201d At 10am yesterday, we sold down to 5600 exact,"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5720.0,
+      "role": "range",
+      "context": "5720-25"
+    },
+    {
+      "price": 5725.0,
+      "role": "range",
+      "context": "5720-25"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5600.0,
+      "role": "mentioned",
+      "context": "we can flush it and recover with momentum (ideally down to 5600) I\u2019d long.\u201d At 10am yesterday, we sold down to 5600 exact,"
+    },
+    {
+      "price": 5620.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5625.0,
+      "role": "range",
+      "context": "5620-25"
+    },
+    {
+      "price": 5720.0,
+      "role": "range",
+      "context": "5720-25"
+    },
+    {
+      "price": 5725.0,
+      "role": "range",
+      "context": "5720-25"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5585.0,
+      "role": "resistance",
+      "context": "Below 5585"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "TRADE SETUP",
+      "text": "However, as I discuss freqently those deep \u201celevator down\u201d selloffs have a sibling, and these two siblings don\u2019t spend much time away from each other: The Short Squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Short squeezes are caused by my core setup, the Failed Breakdown, and first thing on Monday morning, we started on this and it ran into today."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "A Failed Breakdown here would be very much of interest and this remains a strong zone .\u201d On Monday morning we lost 5565 (March 13th multi-week lows), sold to 5534, recovered 5565, and longs were triggered for the week ."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "For those who missed that entry though, the market is generous and gave us another Failed Breakdown yesterday and *again* this morning for good measure."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Since bears control I am in no rush to insta-buy this or any support (my preference is always high quality Failed Breakdowns)."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Its why I wrote yesterday: \u201cWe are in a rally leg that began on Monday with the failed breakdown of 5565\u2026We could fill this out in many different pathways but as long as 5620 holds, we continue up to 5695, 5720-25."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Test there, and if that clears, the next squeeze leg begins to 5770, 5797.\u201d This morning we tested 5620, put in another classic Failed Breakdown to get us long, then tagged 5720-25+ by noon."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the Failed Breakdown we saw Monday that started the recent leg up, and yesterday to continue it."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 5,
+  "resistance_count": 1,
+  "post_title": "Monster Squeeze For SPX. Bottom In, Or Trap? Tariffs Decide. April 3rd Plan",
+  "post_date": "2025-04-02",
+  "post_slug": "monster-squeeze-for-spx-bottom-in",
+  "parsed_at": "2026-04-16T15:44:45.848660",
+  "body_length": 2534
+}

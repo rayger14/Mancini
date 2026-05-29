@@ -1,0 +1,140 @@
+{
+  "trading_date": "2025-10-20",
+  "levels": [
+    {
+      "price": 6572.0,
+      "role": "mentioned",
+      "context": "tup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 overnight, then ripped all day. Zooming out"
+    },
+    {
+      "price": 6593.0,
+      "role": "support",
+      "context": "6593 daily low"
+    },
+    {
+      "price": 6694.0,
+      "role": "mentioned",
+      "context": "triangle\u2026My lean is bulls can try a final bounce here with 6694/6702 first up, 6715-17 2nd, then 6731 above.\u201d We ripped to"
+    },
+    {
+      "price": 6702.0,
+      "role": "mentioned",
+      "context": "ngle\u2026My lean is bulls can try a final bounce here with 6694/6702 first up, 6715-17 2nd, then 6731 above.\u201d We ripped to 6715"
+    },
+    {
+      "price": 6715.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6717.0,
+      "role": "range",
+      "context": "6715-17"
+    },
+    {
+      "price": 6723.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6731.0,
+      "role": "mentioned",
+      "context": "inal bounce here with 6694/6702 first up, 6715-17 2nd, then 6731 above.\u201d We ripped to 6715 3pm. Bulls did what they had to d"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "of those groups suffered immensely. We ripped 277 points to 6766 by Wednesday crushing the Black Monday callers. We then put"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6572.0,
+      "role": "mentioned",
+      "context": "tup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 overnight, then ripped all day. Zooming out"
+    },
+    {
+      "price": 6593.0,
+      "role": "support",
+      "context": "6593 daily low"
+    },
+    {
+      "price": 6694.0,
+      "role": "mentioned",
+      "context": "triangle\u2026My lean is bulls can try a final bounce here with 6694/6702 first up, 6715-17 2nd, then 6731 above.\u201d We ripped to"
+    },
+    {
+      "price": 6702.0,
+      "role": "mentioned",
+      "context": "ngle\u2026My lean is bulls can try a final bounce here with 6694/6702 first up, 6715-17 2nd, then 6731 above.\u201d We ripped to 6715"
+    },
+    {
+      "price": 6715.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6717.0,
+      "role": "range",
+      "context": "6715-17"
+    },
+    {
+      "price": 6723.0,
+      "role": "range",
+      "context": "6715-23"
+    },
+    {
+      "price": 6731.0,
+      "role": "mentioned",
+      "context": "inal bounce here with 6694/6702 first up, 6715-17 2nd, then 6731 above.\u201d We ripped to 6715 3pm. Bulls did what they had to d"
+    },
+    {
+      "price": 6766.0,
+      "role": "mentioned",
+      "context": "of those groups suffered immensely. We ripped 277 points to 6766 by Wednesday crushing the Black Monday callers. We then put"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "As I stated at the close: \u201cWe are closing today at a huge inflection point with ES closing at support of its macro uptrend channel from May (shown in green below) AND support of the multi-week yellow triangle\u2026My lean is bulls can try a final bounce here with 6694/6702 first up, 6715-17 2nd, then 6731 above.\u201d We ripped to 6715 3pm."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "As traders kniw, I long on Failed Breakdowns - with institutions."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Case in point: On Tuesday morning, ES saw a monster Failed Breakdown at 6605 where we swept a big low and recovered."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This deep sell setup - as always - another big Failed Breakdown overnight."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "I wrote yesterday at 4pm: \u201cObvious setup here the recovery of Tuesday\u2019s 6593 daily low.\u201d We held 6572, recovered 6593 overnight, then ripped all day."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into some of the core Failed Breakdowns we had this week."
+    },
+    {
+      "type": "TARGETS",
+      "text": "I specified this target at the close on Monday, stating: \u201cTargets are 6715-23."
+    },
+    {
+      "type": "KEY LEVEL",
+      "text": "This back-test remains a magnet .\u201d We rallied 158 points from Tuesday\u2019s long, hit 6766 exact to set the high of week, then crashed to 6572 ultimately overnight."
+    }
+  ],
+  "level_count": 9,
+  "support_count": 9,
+  "resistance_count": 0,
+  "post_title": "Was Thursday Nights SPX Collapse And Bounce Capitulation For Bears? Or Simply A Dead Cat Bounce? Oct 20 Plan",
+  "post_date": "2025-10-19",
+  "post_slug": "was-thursday-nights-spx-collapse",
+  "parsed_at": "2026-04-16T15:41:49.876666",
+  "body_length": 3202
+}

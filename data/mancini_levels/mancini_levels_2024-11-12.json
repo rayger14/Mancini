@@ -1,0 +1,93 @@
+{
+  "trading_date": "2024-11-12",
+  "levels": [
+    {
+      "price": 5902.0,
+      "role": "mentioned",
+      "context": "nt proper multi-hour dip was last Wednesday morning down to 5902. I bought it as provided to readers and rode it into Friday"
+    },
+    {
+      "price": 5979.0,
+      "role": "mentioned",
+      "context": "n is always to defer to the trend. Bulls want to hold 6000, 5979 lowest tomorrow on dips. This would keep the parabolic move"
+    },
+    {
+      "price": 6000.0,
+      "role": "support",
+      "context": "hold 6000"
+    },
+    {
+      "price": 6016.0,
+      "role": "target",
+      "context": "target 6016"
+    },
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6040.0,
+      "role": "mentioned",
+      "context": "would target 6016, then 6035-38\u201d. By Friday\u2019s close, we got 6040 high of day, then pushed a little higher into this morning."
+    }
+  ],
+  "supports": [
+    {
+      "price": 5902.0,
+      "role": "mentioned",
+      "context": "nt proper multi-hour dip was last Wednesday morning down to 5902. I bought it as provided to readers and rode it into Friday"
+    },
+    {
+      "price": 5979.0,
+      "role": "mentioned",
+      "context": "n is always to defer to the trend. Bulls want to hold 6000, 5979 lowest tomorrow on dips. This would keep the parabolic move"
+    },
+    {
+      "price": 6000.0,
+      "role": "support",
+      "context": "hold 6000"
+    },
+    {
+      "price": 6035.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6038.0,
+      "role": "range",
+      "context": "6035-38"
+    },
+    {
+      "price": 6040.0,
+      "role": "mentioned",
+      "context": "would target 6016, then 6035-38\u201d. By Friday\u2019s close, we got 6040 high of day, then pushed a little higher into this morning."
+    }
+  ],
+  "resistances": [
+    {
+      "price": 6016.0,
+      "role": "target",
+      "context": "target 6016"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I bought it as provided to readers and rode it into Friday morning, writing on Thursday at 4pm: \u201cI am *still* holding my long runner from 5902 yesterday and these days are *exactly* why I hold runners on every trade\u2026My general lean is always to defer to the trend."
+    }
+  ],
+  "level_count": 7,
+  "support_count": 6,
+  "resistance_count": 1,
+  "post_title": "SPX Snaps Its Green Streak. More Pullback Ahead? Nov 12 Plan",
+  "post_date": "2024-11-11",
+  "post_slug": "spx-snaps-its-green-streak-more-pullback",
+  "parsed_at": "2026-04-16T15:46:48.192740",
+  "body_length": 2061
+}

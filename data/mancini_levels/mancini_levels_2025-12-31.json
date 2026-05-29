@@ -1,0 +1,170 @@
+{
+  "trading_date": "2025-12-31",
+  "levels": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote at 4"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "mber 18th: \u201cES started a relief bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sund"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "elief bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sunday December 21st. Given th"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sunday December 21st. Given the powe"
+    },
+    {
+      "price": 6934.0,
+      "role": "range",
+      "context": "6934-36"
+    },
+    {
+      "price": 6935.0,
+      "role": "mentioned",
+      "context": "would be time for ES to do some retracing and back-testing. 6935 was to be a key back-test point, since this was the resista"
+    },
+    {
+      "price": 6936.0,
+      "role": "range",
+      "context": "6934-36"
+    },
+    {
+      "price": 6973.0,
+      "role": "range",
+      "context": "6973-76"
+    },
+    {
+      "price": 6976.0,
+      "role": "range",
+      "context": "6973-76"
+    },
+    {
+      "price": 7002.0,
+      "role": "range",
+      "context": "7002-05"
+    },
+    {
+      "price": 7005.0,
+      "role": "range",
+      "context": "7002-05"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6771.0,
+      "role": "mentioned",
+      "context": "vening when ES flushed the Wednesday 6776 daily low down to 6771, trapped shorts, and we were off to the races. I wrote at 4"
+    },
+    {
+      "price": 6776.0,
+      "role": "support",
+      "context": "6776 daily low"
+    },
+    {
+      "price": 6858.0,
+      "role": "mentioned",
+      "context": "mber 18th: \u201cES started a relief bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sund"
+    },
+    {
+      "price": 6877.0,
+      "role": "mentioned",
+      "context": "elief bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sunday December 21st. Given th"
+    },
+    {
+      "price": 6910.0,
+      "role": "mentioned",
+      "context": "bounce leg today\u2026This keeps 6858 live. Dip, then onto 6877, 6910.\u201d We ripped to 6910 by Sunday December 21st. Given the powe"
+    },
+    {
+      "price": 6934.0,
+      "role": "range",
+      "context": "6934-36"
+    },
+    {
+      "price": 6935.0,
+      "role": "mentioned",
+      "context": "would be time for ES to do some retracing and back-testing. 6935 was to be a key back-test point, since this was the resista"
+    },
+    {
+      "price": 6936.0,
+      "role": "range",
+      "context": "6934-36"
+    },
+    {
+      "price": 6973.0,
+      "role": "range",
+      "context": "6973-76"
+    },
+    {
+      "price": 6976.0,
+      "role": "range",
+      "context": "6973-76"
+    },
+    {
+      "price": 7002.0,
+      "role": "range",
+      "context": "7002-05"
+    },
+    {
+      "price": 7005.0,
+      "role": "range",
+      "context": "7002-05"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Given the powerful bullish trigger here and seasonal strength, I was looking for higher, writing last Tuesday December 23rd at 4pm: \u201cMy general lean is always to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My general lean is to defer to the trend."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "My lean is we defend and work higher to 6973-76, 6989, then onto 7002-05.\u201d We spent all day in tight, low volatility chop with 6963 being nearly the exact high."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "The cause of the pre-Christmas squeeze however was not Santa - it was the same identical factor that causes every squeeze in ES: My core setup, the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Whenever there is what I call an elevator down sell (a vertical flush that cuts through every support) bulls always get nearly every point of that type of action paid back in the form of a squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "That footprint is the Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This would mean bulls will get paid back for this action, but only when a Failed Breakdown occurs."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into a powerful Failed Breakdown we saw last Monday (given to readers in advance) that produced an 80 point rip into last weeks high."
+    }
+  ],
+  "level_count": 12,
+  "support_count": 12,
+  "resistance_count": 0,
+  "post_title": "SPX Is Coiled Ultra Tight. Move Incoming. What Way? December 31 Plan",
+  "post_date": "2025-12-30",
+  "post_slug": "spx-is-coiled-ultra-tight-move-incoming",
+  "parsed_at": "2026-04-16T15:40:45.353970",
+  "body_length": 3123
+}

@@ -1,0 +1,185 @@
+{
+  "trading_date": "2025-01-24",
+  "levels": [
+    {
+      "price": 5810.0,
+      "role": "support",
+      "context": "5810 support"
+    },
+    {
+      "price": 5934.0,
+      "role": "target",
+      "context": "target 5934"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "aphone support, and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thur"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "ort, and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thursday, we go"
+    },
+    {
+      "price": 6004.0,
+      "role": "mentioned",
+      "context": "and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thursday, we got to"
+    },
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "above 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6105.0,
+      "role": "mentioned",
+      "context": "-20 with 6071 defending in the case of the ultra bull case. 6105, 6115, then 6137-45 are next macro targets\u201d. We got to ~613"
+    },
+    {
+      "price": 6115.0,
+      "role": "mentioned",
+      "context": "th 6071 defending in the case of the ultra bull case. 6105, 6115, then 6137-45 are next macro targets\u201d. We got to ~6137 yest"
+    },
+    {
+      "price": 6137.0,
+      "role": "range",
+      "context": "6137-45"
+    },
+    {
+      "price": 6145.0,
+      "role": "range",
+      "context": "6137-45"
+    },
+    {
+      "price": 6154.0,
+      "role": "mentioned",
+      "context": "will need to defend those to setup the next leg targetting 6154, then 6172, then the 6185 ATH.\u201d We got to 6154 high of day"
+    },
+    {
+      "price": 6172.0,
+      "role": "mentioned",
+      "context": "to defend those to setup the next leg targetting 6154, then 6172, then the 6185 ATH.\u201d We got to 6154 high of day today. As s"
+    },
+    {
+      "price": 6185.0,
+      "role": "mentioned",
+      "context": "to setup the next leg targetting 6154, then 6172, then the 6185 ATH.\u201d We got to 6154 high of day today. As stated in title,"
+    }
+  ],
+  "supports": [
+    {
+      "price": 5810.0,
+      "role": "support",
+      "context": "5810 support"
+    },
+    {
+      "price": 5936.0,
+      "role": "range",
+      "context": "5934-36"
+    },
+    {
+      "price": 5965.0,
+      "role": "mentioned",
+      "context": "aphone support, and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thur"
+    },
+    {
+      "price": 5996.0,
+      "role": "mentioned",
+      "context": "ort, and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thursday, we go"
+    },
+    {
+      "price": 6004.0,
+      "role": "mentioned",
+      "context": "and is underway. This would target 5934-36, 5965, then 5996/6004 if bulls really want to move\u201d. By last Thursday, we got to"
+    },
+    {
+      "price": 6016.0,
+      "role": "support",
+      "context": "above 6016"
+    },
+    {
+      "price": 6020.0,
+      "role": "range",
+      "context": "6016-20"
+    },
+    {
+      "price": 6105.0,
+      "role": "mentioned",
+      "context": "-20 with 6071 defending in the case of the ultra bull case. 6105, 6115, then 6137-45 are next macro targets\u201d. We got to ~613"
+    },
+    {
+      "price": 6115.0,
+      "role": "mentioned",
+      "context": "th 6071 defending in the case of the ultra bull case. 6105, 6115, then 6137-45 are next macro targets\u201d. We got to ~6137 yest"
+    },
+    {
+      "price": 6137.0,
+      "role": "range",
+      "context": "6137-45"
+    },
+    {
+      "price": 6145.0,
+      "role": "range",
+      "context": "6137-45"
+    },
+    {
+      "price": 6154.0,
+      "role": "mentioned",
+      "context": "will need to defend those to setup the next leg targetting 6154, then 6172, then the 6185 ATH.\u201d We got to 6154 high of day"
+    },
+    {
+      "price": 6172.0,
+      "role": "mentioned",
+      "context": "to defend those to setup the next leg targetting 6154, then 6172, then the 6185 ATH.\u201d We got to 6154 high of day today. As s"
+    },
+    {
+      "price": 6185.0,
+      "role": "mentioned",
+      "context": "to setup the next leg targetting 6154, then 6172, then the 6185 ATH.\u201d We got to 6154 high of day today. As stated in title,"
+    }
+  ],
+  "resistances": [
+    {
+      "price": 5934.0,
+      "role": "target",
+      "context": "target 5934"
+    }
+  ],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote last Tuesday at 4pm: \u201cMy general lean is that a relief bounce leg began on Monday by testing megaphone support, and is underway."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Most recently, at the close this Tuesday, I wrote: \u201cI wrote at the close Tuesday: \u201cMy general lean is always just to defer to the trend until it ends."
+    },
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "Bulls control above 6016-20 with 6071 defending in the case of the ultra bull case."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "It was a combination that is very common: A news driven \u201cTape bomb\u201d which produced my core setup: The Failed Breakdown."
+    }
+  ],
+  "level_count": 15,
+  "support_count": 14,
+  "resistance_count": 1,
+  "post_title": "SPX Has Not Had A Real Red Day Since Jan 10th. How Will The Week End? Jan 24 Plan",
+  "post_date": "2025-01-23",
+  "post_slug": "spx-has-not-had-a-real-red-day-since",
+  "parsed_at": "2026-04-16T15:45:46.286572",
+  "body_length": 2251
+}

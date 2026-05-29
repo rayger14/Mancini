@@ -3,12 +3,19 @@
 Enables Failed Rally (FR) and Level Rejection (LJ) short-side patterns
 alongside existing Failed Breakdown (FB) and Level Reclaim (LR) longs.
 
+Supports optional Mancini Substack level overlay via --mancini-levels-dir:
+    python3 backtest/five_year_long_short.py --mancini-levels-dir data/mancini_levels
+
 Usage:
     python3 backtest/five_year_long_short.py
+    python3 backtest/five_year_long_short.py --config production
+    python3 backtest/five_year_long_short.py --config production --mancini-levels-dir data/mancini_levels
 """
 
 from __future__ import annotations
 
+import argparse
+import json
 import sys
 from datetime import datetime, time as dt_time, timedelta, date
 from pathlib import Path
@@ -21,10 +28,12 @@ from loguru import logger
 
 logger.remove()
 
+from config.levels import Level, LevelType, LevelStore
 from config.settings import (
     StrategyParams, ElevatorParams, ExitParams,
     RiskParams, SessionTimes, ESContractSpec,
 )
+from core.level_scoring import LevelQualityScorer
 from strategy.mancini_long import ManciniLongStrategy
 
 
@@ -81,6 +90,94 @@ MES = ESContractSpec(
 )
 
 
+# ---------------------------------------------------------------------------
+# Mancini level overlay helpers
+# ---------------------------------------------------------------------------
+
+def load_mancini_levels_for_date(
+    levels_dir: Path, session_date: date
+) -> dict | None:
+    """Load parsed Mancini levels JSON for a given trading date.
+
+    Returns the parsed dict or None if no file exists for that date.
+    """
+    path = levels_dir / f"mancini_levels_{session_date}.json"
+    if not path.exists():
+        return None
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return None
+
+
+def _build_mancini_level_objects(
+    mancini_data: dict,
+    session_date: date,
+) -> list[Level]:
+    """Build Level objects from parsed Mancini data for injection into the LevelStore.
+
+    Mancini support levels are injected as CUSTOM type so the engine can
+    sweep them just like engine-derived levels.
+    """
+    levels_out: list[Level] = []
+    levels_list = mancini_data.get("levels", [])
+    ts = pd.Timestamp(datetime.combine(session_date, dt_time(9, 30)), tz="US/Eastern")  # confirmed at RTH open
+
+    for lv_data in levels_list:
+        price = float(lv_data.get("price", 0))
+        if price <= 0:
+            continue
+        role = lv_data.get("role", "level")
+
+        level = Level(
+            price=price,
+            level_type=LevelType.CUSTOM,
+            created_at=ts,
+            confirmed_at=ts,
+            touch_count=3,  # give Mancini levels moderate credibility
+            rally_from_low_pts=25.0 if role in ("support", "level") else 0.0,
+            is_active=True,
+            label=f"MANCINI_{role.upper()}@{price:.2f}",
+            origin_date=session_date,
+            significance_score=1.0,
+            tested_and_held=True,
+        )
+        levels_out.append(level)
+
+    return levels_out
+
+
+def classify_trade_mancini(
+    trade: dict, mancini_data: dict | None, tolerance_pts: float = 3.0
+) -> str:
+    """Classify a trade's relationship to Mancini levels.
+
+    Returns one of:
+      "mancini_confirmed" - trade at a level that matches both engine AND Mancini
+      "mancini_only"      - trade at a CUSTOM/MANCINI level (Mancini-sourced, not engine)
+      "engine_only"       - no Mancini data for this session or level not in Mancini's list
+    """
+    if mancini_data is None:
+        return "engine_only"
+
+    entry_price = trade.get("entry", 0)
+    level_type = trade.get("level_type", "")
+
+    # Get all Mancini prices for this date
+    mancini_prices = [float(lv.get("price", 0)) for lv in mancini_data.get("levels", [])]
+
+    # Check if the trade's entry is near any Mancini level
+    near_mancini = any(abs(entry_price - mp) <= tolerance_pts for mp in mancini_prices)
+
+    if level_type == "CUSTOM" or "MANCINI" in level_type:
+        return "mancini_only"
+    elif near_mancini:
+        return "mancini_confirmed"
+    else:
+        return "engine_only"
+
+
 def load_data() -> pd.DataFrame:
     path = Path(__file__).parent.parent / "data" / "ES_1m_full_session_2021-01-01_2026-02-05.parquet"
     df = pd.read_parquet(path)
@@ -120,7 +217,7 @@ def get_window(t: dt_time) -> str:
     return "Blocked"
 
 
-def run_backtest(sessions):
+def run_backtest(sessions, mancini_levels_dir: Path | None = None):
     strategy = ManciniLongStrategy(
         strategy_params=STRATEGY,
         elevator_params=ELEVATOR,
@@ -134,11 +231,15 @@ def run_backtest(sessions):
 
     all_trades = []
     prev_session_df = None
+    sessions_with_mancini = 0
+    sessions_total = 0
 
     for session_date, session_df in sessions:
         if session_date.weekday() == 0:  # skip Mondays
             prev_session_df = session_df
             continue
+
+        sessions_total += 1
 
         prior_rth = None
         if prev_session_df is not None:
@@ -148,6 +249,17 @@ def run_backtest(sessions):
             prior_rth = prev_session_df[rth_mask]
             if len(prior_rth) == 0:
                 prior_rth = None
+
+        # Pre-load Mancini levels so they're available during bar processing
+        mancini_data = None
+        if mancini_levels_dir is not None:
+            mancini_data = load_mancini_levels_for_date(mancini_levels_dir, session_date)
+            if mancini_data is not None:
+                # Build Level objects and set on strategy for injection during run_day
+                extra_levels = _build_mancini_level_objects(mancini_data, session_date)
+                if extra_levels:
+                    strategy._extra_levels = extra_levels
+                    sessions_with_mancini += 1
 
         strategy.run_day(
             session_df,
@@ -170,7 +282,7 @@ def run_backtest(sessions):
 
             direction = "SHORT" if t.pattern_type in ("failed_rally", "level_rejection") else "LONG"
 
-            all_trades.append({
+            trade_dict = {
                 "date": session_date,
                 "entry_time": entry_ts,
                 "time": et,
@@ -186,11 +298,20 @@ def run_backtest(sessions):
                 "rr_ratio": t.rr_ratio_t1,
                 "exit_reason": t.exit_reason,
                 "won": t.pnl_pts > 0,
-            })
+                "is_double_dip": getattr(t, 'is_double_dip', False),
+                "lqs": getattr(t, 'lqs', 0),
+            }
+
+            # Classify trade's relationship to Mancini levels
+            trade_dict["mancini_class"] = classify_trade_mancini(
+                trade_dict, mancini_data
+            )
+
+            all_trades.append(trade_dict)
 
         prev_session_df = session_df
 
-    return all_trades
+    return all_trades, sessions_with_mancini, sessions_total
 
 
 def print_stats(trades, label):
@@ -285,15 +406,106 @@ def print_stats(trades, label):
         n_short = sum(1 for t in wt if t["direction"] == "SHORT")
         print(f"  {w:<15} {len(wt):>7} {wwr:>5.1f}% {wpf:>7.2f} {wpnl:>+10.1f} {n_long}L/{n_short}S")
 
+    # LQS breakdown (only if any trades have LQS > 0)
+    lqs_trades = [t for t in trades if t.get("lqs", 0) > 0]
+    if lqs_trades:
+        print(f"\n  LEVEL QUALITY SCORE BREAKDOWN:")
+        print(f"  {'LQS Range':<15} {'Trades':>7} {'WR%':>6} {'PF':>7} {'PnL':>10}")
+        print("  " + "-" * 50)
+        for lqs_label, lqs_lo, lqs_hi in [
+            ("70-100", 70, 101),
+            ("50-69", 50, 70),
+            ("30-49", 30, 50),
+            ("0-29", 0, 30),
+        ]:
+            lt = [t for t in trades if lqs_lo <= t.get("lqs", 0) < lqs_hi]
+            if not lt:
+                print(f"  {lqs_label:<15} {0:>7}")
+                continue
+            lw = [t for t in lt if t["won"]]
+            ll = [t for t in lt if not t["won"]]
+            lpnl = sum(t["pnl_pts"] for t in lt)
+            lwr = len(lw) / len(lt) * 100
+            lgp = sum(t["pnl_pts"] for t in lw)
+            lgl = abs(sum(t["pnl_pts"] for t in ll))
+            lpf = lgp / lgl if lgl > 0 else float("inf")
+            print(f"  {lqs_label:<15} {len(lt):>7} {lwr:>5.1f}% {lpf:>7.2f} {lpnl:>+10.1f}")
+
+
+def print_mancini_overlay_stats(
+    trades: list[dict],
+    sessions_with_mancini: int,
+    sessions_total: int,
+) -> None:
+    """Print breakdown of trades by Mancini overlay classification."""
+    print(f"\n{'='*80}")
+    print("MANCINI OVERLAY IMPACT")
+    print(f"{'='*80}")
+    print(f"  Sessions with Mancini levels: {sessions_with_mancini} / {sessions_total} total")
+
+    for cls_label, cls_key in [
+        ("Mancini-confirmed levels", "mancini_confirmed"),
+        ("Mancini-only levels", "mancini_only"),
+        ("Engine-only levels", "engine_only"),
+    ]:
+        subset = [t for t in trades if t.get("mancini_class") == cls_key]
+        n = len(subset)
+        if n == 0:
+            print(f"  Trades at {cls_label}: 0")
+            continue
+        wins = [t for t in subset if t["won"]]
+        losses = [t for t in subset if not t["won"]]
+        pnl = sum(t["pnl_pts"] for t in subset)
+        wr = len(wins) / n * 100
+        gp = sum(t["pnl_pts"] for t in wins)
+        gl = abs(sum(t["pnl_pts"] for t in losses))
+        pf = gp / gl if gl > 0 else float("inf")
+        print(f"  Trades at {cls_label}: {n}  (WR: {wr:.1f}%, PF: {pf:.2f}, PnL: {pnl:+,.1f} pts)")
+
 
 def main():
+    parser = argparse.ArgumentParser(description="5-year long+short backtest")
+    parser.add_argument(
+        "--config", default="default",
+        help="Config profile: 'default' or 'production'"
+    )
+    parser.add_argument(
+        "--mancini-levels-dir", type=str, default=None,
+        help="Path to directory of mancini_levels_YYYY-MM-DD.json files"
+    )
+    args = parser.parse_args()
+
+    mancini_dir = Path(args.mancini_levels_dir) if args.mancini_levels_dir else None
+    if mancini_dir and not mancini_dir.exists():
+        print(f"WARNING: Mancini levels dir does not exist: {mancini_dir}")
+        print("  Running without Mancini overlay.")
+        mancini_dir = None
+
     print("Loading 5-year full session data...")
     df = load_data()
     sessions = build_sessions(df)
     print(f"Built {len(sessions)} sessions ({df.index[0].date()} to {df.index[-1].date()})")
 
-    print("\nRunning LONG + SHORT backtest...")
-    all_trades = run_backtest(sessions)
+    mode = "LONG + SHORT"
+    if mancini_dir:
+        # Count available level files
+        n_files = len(list(mancini_dir.glob("mancini_levels_*.json")))
+        mode += f" + MANCINI OVERLAY ({n_files} level files)"
+
+    print(f"\nRunning {mode} backtest...")
+    all_trades, sessions_with_mancini, sessions_total = run_backtest(
+        sessions, mancini_levels_dir=mancini_dir
+    )
+
+    # Dump for downstream simulators (e.g., regime_backfill_sim.py)
+    out_path = Path(__file__).resolve().parent.parent / "data" / "backtest_5y_trades.jsonl"
+    with open(out_path, "w") as f:
+        for t in all_trades:
+            row = {k: (v.isoformat() if hasattr(v, "isoformat") else v)
+                   for k, v in t.items()
+                   if k not in ("nearby_levels",)}
+            f.write(json.dumps(row, default=str) + "\n")
+    print(f"\nDumped {len(all_trades)} trades → {out_path}")
 
     # ── Full period ─────────────────────────────────────────────────
     print(f"\n{'='*80}")
@@ -378,6 +590,68 @@ def main():
     print(f"  OOS  (MES):        {oos_pts:+,.1f} pts = ${oos_pts * 5:+,.0f}")
     print(f"  IS   (MES):        {is_pts:+,.1f} pts = ${is_pts * 5:+,.0f}")
     print(f"  Full period (ES):  {total_pts:+,.1f} pts = ${total_pts * 50:+,.0f}")
+
+    # ── Double Dip Breakdown ──────────────────────────────────────
+    dd_trades = [t for t in all_trades if t["is_double_dip"]]
+    non_dd_trades = [t for t in all_trades if not t["is_double_dip"]]
+
+    print(f"\n{'='*80}")
+    print("DOUBLE DIP BREAKDOWN")
+    print(f"{'='*80}")
+
+    for label, subset in [("DD Trades", dd_trades), ("Non-DD   ", non_dd_trades)]:
+        n = len(subset)
+        if n == 0:
+            print(f"  {label}: 0 trades")
+            continue
+        wins = [t for t in subset if t["won"]]
+        losses = [t for t in subset if not t["won"]]
+        pnl = sum(t["pnl_pts"] for t in subset)
+        wr = len(wins) / n * 100
+        gp = sum(t["pnl_pts"] for t in wins)
+        gl = abs(sum(t["pnl_pts"] for t in losses))
+        pf = gp / gl if gl > 0 else float("inf")
+        print(f"  {label}: {n:>4}  |  WR: {wr:>5.1f}%  |  PF: {pf:.2f}  |  PnL: {pnl:>+,.1f} pts")
+
+    if dd_trades:
+        print(f"\n  DD by level type:")
+        level_types = sorted(set(t["level_type"] for t in dd_trades))
+        for lt in level_types:
+            lt_trades = [t for t in dd_trades if t["level_type"] == lt]
+            lt_wins = [t for t in lt_trades if t["won"]]
+            lt_losses = [t for t in lt_trades if not t["won"]]
+            lt_pnl = sum(t["pnl_pts"] for t in lt_trades)
+            lt_wr = len(lt_wins) / len(lt_trades) * 100 if lt_trades else 0
+            print(f"    {lt:<25} {len(lt_wins)}W/{len(lt_losses)}L  {lt_wr:>5.1f}% WR  {lt_pnl:>+,.1f} pts")
+
+        print(f"\n  DD by pattern:")
+        dd_patterns = sorted(set(t["pattern"] for t in dd_trades))
+        for p in dd_patterns:
+            pt = [t for t in dd_trades if t["pattern"] == p]
+            pw = [t for t in pt if t["won"]]
+            pl = [t for t in pt if not t["won"]]
+            ppnl = sum(t["pnl_pts"] for t in pt)
+            pwr = len(pw) / len(pt) * 100 if pt else 0
+            short_name = {"failed_breakdown": "FB", "level_reclaim": "LR",
+                          "failed_rally": "FR", "level_rejection": "LJ"}.get(p, p)
+            print(f"    {short_name:<25} {len(pw)}W/{len(pl)}L  {pwr:>5.1f}% WR  {ppnl:>+,.1f} pts")
+
+    # ── Mancini Overlay Impact ────────────────────────────────────
+    if mancini_dir is not None:
+        print_mancini_overlay_stats(all_trades, sessions_with_mancini, sessions_total)
+
+        # Also break down by year for the Mancini period
+        mancini_trades = [t for t in all_trades if t.get("mancini_class") != "engine_only"]
+        if mancini_trades:
+            print(f"\n  Mancini-period yearly breakdown:")
+            print(f"  {'Year':<6} {'Confirmed':>10} {'M-Only':>8} {'EngOnly':>8} {'Total':>7}")
+            print("  " + "-" * 50)
+            for year in sorted(set(t["date"].year for t in all_trades)):
+                yt = [t for t in all_trades if t["date"].year == year]
+                n_conf = sum(1 for t in yt if t.get("mancini_class") == "mancini_confirmed")
+                n_monly = sum(1 for t in yt if t.get("mancini_class") == "mancini_only")
+                n_eonly = sum(1 for t in yt if t.get("mancini_class") == "engine_only")
+                print(f"  {year:<6} {n_conf:>10} {n_monly:>8} {n_eonly:>8} {len(yt):>7}")
 
 
 if __name__ == "__main__":

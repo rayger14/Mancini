@@ -1,0 +1,106 @@
+{
+  "trading_date": "2025-11-21",
+  "levels": [
+    {
+      "price": 6638.0,
+      "role": "support",
+      "context": "reclaim 6638"
+    },
+    {
+      "price": 6643.0,
+      "role": "range",
+      "context": "6638-43"
+    },
+    {
+      "price": 6701.0,
+      "role": "range",
+      "context": "6701-03"
+    },
+    {
+      "price": 6703.0,
+      "role": "range",
+      "context": "6701-03"
+    },
+    {
+      "price": 6790.0,
+      "role": "range",
+      "context": "6790-6801"
+    },
+    {
+      "price": 6801.0,
+      "role": "level",
+      "context": "6801 zone"
+    }
+  ],
+  "supports": [
+    {
+      "price": 6638.0,
+      "role": "support",
+      "context": "reclaim 6638"
+    },
+    {
+      "price": 6643.0,
+      "role": "range",
+      "context": "6638-43"
+    },
+    {
+      "price": 6701.0,
+      "role": "range",
+      "context": "6701-03"
+    },
+    {
+      "price": 6703.0,
+      "role": "range",
+      "context": "6701-03"
+    },
+    {
+      "price": 6790.0,
+      "role": "range",
+      "context": "6790-6801"
+    },
+    {
+      "price": 6801.0,
+      "role": "level",
+      "context": "6801 zone"
+    }
+  ],
+  "resistances": [],
+  "highlights": [
+    {
+      "type": "DIRECTIONAL LEAN",
+      "text": "I wrote in yesterday\u2019s newsletter: \u201cMy lean is bulls can reclaim 6638-43 or 6650 to try and pop to 6664, 6685, then 6701-03."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "This squeeze - as impressive as it was - did not last long and this morning ES put in its most vicious elevator down sell since October 10th and the second largest since the April collapse."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These siblings are: 1) Elevator down sell."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "Elevator down sells are always followed by the second sibling: The short squeeze."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "These are caused by my core setup: The Failed Breakdown."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "After rallying to 6701 yesterday morning we went elevator down to 6623 by 12:40PM prior to Nvidia earnings."
+    },
+    {
+      "type": "TRADE SETUP",
+      "text": "In today\u2019s newsletter I\u2019ll talk this, I\u2019ll do a deep dive into the two Failed Breakdowns that set the stage for yesterday\u2019s squeeze (this is important to know) and I\u2019ll discuss the actionable trade plan for tomorrow."
+    }
+  ],
+  "level_count": 6,
+  "support_count": 6,
+  "resistance_count": 0,
+  "post_title": "Second Largest Daily Sell For SPX Since April. Will Bulls Be Able To Buy It? November 21 Plan",
+  "post_date": "2025-11-20",
+  "post_slug": "second-largest-daily-sell-for-spx",
+  "parsed_at": "2026-04-16T15:41:19.459293",
+  "body_length": 2214
+}

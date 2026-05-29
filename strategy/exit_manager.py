@@ -3,18 +3,36 @@
 Mancini's actual method (from 500 Substack posts):
   Entry → full position, stop below sweep low
   Target 1 (R1) → exit 75%, move stop to several pts under breakeven
-  Target 2 (R2) → exit 15%, leave 10% runner
-  Runner → trail under PRIOR DAY'S RTH low (updated once at EOD)
-  Runner carries overnight/multi-day until prior day low is lost.
+  Target 2 (R2) → exit 15%, leave 10% runner, initiate trailing-stop methodology
+  Runner → trail under prior day's RTH low *or* below the most recent
+           structural swing low (whichever is higher / ratchets up)
+  Runner carries overnight/multi-day until that trail is taken out.
+
+Two Mancini quotes drive the post-T2 behaviour implemented here:
+  2025-08-05: "lock in 75% profits at the first level, leave a 25% runner,
+    then lock in more at second level up, and let a 10% runner go and
+    initiate the trailing stop methodology."
+  2025-05-14: "I lock in 75% profits at the first level up, leaving a 25%
+    runner. I then lock in more at the 2nd level up, leaving a 10% runner
+    to trail, at this point, I typically move my stop up, often to below
+    wherever structure is."
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections import deque
+from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import Optional
+from typing import Deque, Optional, Tuple
 
-from config.settings import ExitParams, ESContractSpec, DEFAULT_EXIT, DEFAULT_CONTRACT
+from config.settings import (
+    ExitParams,
+    ESContractSpec,
+    StrategyParams,
+    DEFAULT_EXIT,
+    DEFAULT_CONTRACT,
+    DEFAULT_STRATEGY,
+)
 
 
 class ExitPhase(Enum):
@@ -60,6 +78,12 @@ class TradePosition:
     # Track whether T1/T2 were hit (for accurate exit_reason on final close)
     t1_hit: bool = False
     t2_hit: bool = False
+    is_double_dip: bool = False  # True if this is a double-dip re-entry
+    # Rolling history of recent (high, low) bars used by the post-T2
+    # structure-based runner trail. Populated by ExitManager.update() each
+    # bar. Sized to params.structure_trail_lookback_bars so the deque keeps
+    # a fixed-window view of the most recent structure.
+    bar_history: Deque[Tuple[float, float]] = field(default_factory=deque)
 
     def __post_init__(self):
         self.highest_price_since_entry = self.entry_price
@@ -81,9 +105,23 @@ class ExitManager:
         self,
         params: ExitParams = DEFAULT_EXIT,
         contract: ESContractSpec = DEFAULT_CONTRACT,
+        strategy_params: StrategyParams = DEFAULT_STRATEGY,
     ):
         self.params = params
         self.contract = contract
+        self.strategy_params = strategy_params
+
+        # When mancini_exit_scaling is enabled, override the exit fractions
+        # from StrategyParams so the 75/15/10 split is used instead of
+        # whatever ExitParams has (which may be a different split).
+        if strategy_params.mancini_exit_scaling:
+            self._t1_exit_fraction = strategy_params.mancini_t1_exit_pct
+            self._t2_exit_fraction = strategy_params.mancini_t2_exit_pct
+            self._runner_fraction = strategy_params.mancini_runner_pct
+        else:
+            self._t1_exit_fraction = params.t1_exit_fraction
+            self._t2_exit_fraction = params.t2_exit_fraction
+            self._runner_fraction = params.runner_fraction
 
     def create_position(
         self,
@@ -93,6 +131,7 @@ class ExitManager:
         target_2: float,
         contracts: int,
         direction: str = "long",
+        is_double_dip: bool = False,
     ) -> TradePosition:
         """Create a new trade position."""
         return TradePosition(
@@ -103,6 +142,7 @@ class ExitManager:
             total_contracts=contracts,
             remaining_contracts=contracts,
             direction=direction,
+            is_double_dip=is_double_dip,
         )
 
     def update_prior_day_low(self, position: TradePosition, prior_day_low: float) -> Optional[ExitAction]:
@@ -164,6 +204,11 @@ class ExitManager:
             position.highest_price_since_entry = high
         if low < position.lowest_price_since_entry:
             position.lowest_price_since_entry = low
+
+        # Append this bar to the rolling history used by the structure-based
+        # runner trail. Sized to structure_trail_lookback_bars so older bars
+        # naturally roll off.
+        self._record_bar(position, high, low)
 
         # 1. Check stop loss (highest priority)
         if position.direction == "short":
@@ -234,7 +279,7 @@ class ExitManager:
         """
         if high >= position.target_1:
             contracts_to_exit = round(
-                position.total_contracts * self.params.t1_exit_fraction
+                position.total_contracts * self._t1_exit_fraction
             )
             contracts_to_exit = min(contracts_to_exit, position.remaining_contracts)
 
@@ -269,40 +314,93 @@ class ExitManager:
     def _check_t2(
         self, position: TradePosition, high: float, close: float
     ) -> Optional[ExitAction]:
-        """Check if Target 2 is reached → exit down to runner.
+        """Check if Target 2 is reached → scale down another 15%, leaving the runner.
 
-        Mancini: "lock in more at next level up, leave 10% to go."
-        After T2, runner trails under prior day's low (set at EOD).
-        During the day, use fallback trailing if prior_day_low not yet set.
+        Mancini 2025-08-05: "lock in 75% profits at the first level, leave a 25%
+        runner, then lock in more at second level up, and let a 10% runner go
+        and initiate the trailing stop methodology."
+
+        Concretely, with the default 75/15/10 split, T1 already exited 75%. At
+        T2 we exit another ``t2_exit_fraction`` (15% of TOTAL contracts), so
+        only the runner (10%) remains. We always preserve at least
+        ``runner_fraction`` of the original size — never oversell — and
+        gracefully fall back to a phase-only transition if rounding would
+        leave nothing left.
+
+        After T2, the runner stop migrates to (in priority order):
+          1. Prior-day low / structural swing low (whichever ratchets up)
+          2. Fallback fixed-distance trailing if neither is available.
         """
         # Fallback intraday trail (ratchet up) if no prior_day_low set
         # For runners (AFTER_T1), use base trailing_stop_pts without aggressive tightening
+        # Double-dip entries use wider trail (dd_trail_pts_after_t1) to give room
         if position.prior_day_low <= 0:
-            new_trail = position.highest_price_since_entry - self.params.trailing_stop_pts
+            if position.is_double_dip:
+                trail_pts = self.strategy_params.dd_trail_pts_after_t1
+            else:
+                trail_pts = self.params.trailing_stop_pts
+            new_trail = position.highest_price_since_entry - trail_pts
             if new_trail > position.stop_price:
                 position.stop_price = new_trail
 
         if high >= position.target_2:
-            runner_contracts = max(
-                1, round(position.total_contracts * self.params.runner_fraction)
+            # Mancini's T2 scale-down: sell another `t2_exit_fraction` of the
+            # ORIGINAL total. With 4 contracts and t2_exit_fraction=0.15 this
+            # rounds to 1 contract — combined with the 3-contract T1 that
+            # leaves a 1-contract runner (~25% of size, but the smallest
+            # tradeable runner for a tiny base). With bigger sizes the math
+            # cleans up: e.g. 20 contracts → 15 T1 + 3 T2 + 2 runner.
+            t2_target_exit = round(
+                position.total_contracts * self._t2_exit_fraction
             )
-            contracts_to_exit = position.remaining_contracts - runner_contracts
+            runner_floor = max(
+                1, round(position.total_contracts * self._runner_fraction)
+            )
+            # Never oversell — always preserve at least the runner floor.
+            max_sellable = max(0, position.remaining_contracts - runner_floor)
+            contracts_to_exit = min(t2_target_exit, max_sellable)
 
             if contracts_to_exit <= 0:
+                # Nothing left to scale (already at runner size). Still
+                # transition phase so the structure trail kicks in.
                 position.phase = ExitPhase.AFTER_T2
+                position.t2_hit = True
+                # Initialise structure-trail stop on phase transition so the
+                # 25%→10% slice carries the same structural trail going
+                # forward (if it never sells, the phase-only T2 still gets
+                # the better trail logic).
+                struct_stop = self._compute_structure_trail_stop(position)
+                if struct_stop is not None and struct_stop > position.stop_price:
+                    position.stop_price = struct_stop
                 return None
 
             pnl = (position.target_2 - position.entry_price) * contracts_to_exit
             position.realized_pnl_pts += pnl
             position.remaining_contracts -= contracts_to_exit
 
-            # Runner stop: use prior_day_low if available, else fallback trail
+            # Runner stop after T2. Priority:
+            #   1. Prior-day low (if set) — Mancini's overnight trail.
+            #   2. Structure trail (if enabled) — Mancini's "below wherever
+            #      structure is". Often returns None at the moment T2 fires
+            #      because no swing has formed yet; subsequent bars in
+            #      `_check_trail` will ratchet it up as structure emerges.
+            #   3. Legacy fixed-distance trail — only used when both PDL
+            #      and structure trail are unavailable (e.g. backtest before
+            #      the EOD hook fires and structure_trail_enabled=False).
+            # The ratchet-up guard ensures we never lower the stop below the
+            # post-T1 level.
+            new_stop = position.stop_price  # ratchet-up baseline
+            struct_stop = self._compute_structure_trail_stop(position)
+            if struct_stop is not None:
+                new_stop = max(new_stop, struct_stop)
             if position.prior_day_low > 0:
-                new_stop = position.prior_day_low - self.params.runner_prior_day_low_buffer_pts
-                new_stop = max(new_stop, position.stop_price)  # ratchet up only
-            else:
-                new_stop = self._compute_trail_stop(position, high)
-                new_stop = max(new_stop, position.stop_price)
+                pdl_stop = position.prior_day_low - self.params.runner_prior_day_low_buffer_pts
+                new_stop = max(new_stop, pdl_stop)
+            elif not self.params.structure_trail_enabled and struct_stop is None:
+                # Last-resort fallback: structure trail is OFF and no PDL —
+                # use the legacy fixed-distance trail.
+                fallback = self._compute_trail_stop(position, high)
+                new_stop = max(new_stop, fallback)
 
             position.stop_price = new_stop
             position.phase = ExitPhase.AFTER_T2
@@ -320,20 +418,47 @@ class ExitManager:
     def _check_trail(
         self, position: TradePosition, high: float, low: float, close: float
     ) -> Optional[ExitAction]:
-        """Update trailing stop for the runner.
+        """Update trailing stop for the long runner after T2.
 
-        If prior_day_low is set (by EOD hook), runner trails under it.
-        Otherwise falls back to fixed-distance trailing.
+        Priority (highest stop wins — we only ratchet up, never down):
+          1. Structure trail (preferred when enabled): most recent swing low
+             minus a small buffer. Per Mancini 2025-05-14: "I typically move
+             my stop up, often to below wherever structure is."
+          2. Prior-day low (set by EOD hook) minus the runner buffer.
+          3. Legacy fixed-distance fallback — only used when BOTH the
+             structure trail is disabled AND no PDL is set. With structure
+             trail enabled, we deliberately do NOT use the fixed-distance
+             trail because it would clamp the stop above swing-based levels
+             and defeat the purpose of structural trailing.
         """
+        # 1) Structure-based trail — preferred post-T2 behaviour.
+        if self.params.structure_trail_enabled:
+            struct_stop = self._compute_structure_trail_stop(position)
+            if struct_stop is not None and struct_stop > position.stop_price:
+                position.stop_price = struct_stop
+            # When structure trail is enabled, it is authoritative for the
+            # runner — we never fall through to the fixed-distance trail.
+            # If no swing has formed yet, we simply hold the current stop
+            # (typically the post-T1 / post-T2 baseline) until structure
+            # emerges. PDL ratchets continue to happen via update_prior_day_low.
+            return None
+
+        # 2) Prior-day low: Mancini's overnight trail — only updated at EOD,
+        #    so we don't ratchet it per-bar here. The update_prior_day_low()
+        #    EOD hook handles ratcheting to a higher PDL on subsequent days.
         if position.prior_day_low > 0:
-            # Mancini: trail under prior day's low — only updated at EOD
-            # During the session, stop stays fixed. No per-bar trail.
-            pass
+            return None
+
+        # 3) Fixed-distance fallback (structure trail OFF, no PDL): the
+        #    legacy behaviour preserved for backwards compatibility with
+        #    backtests that disable structure trailing.
+        if position.is_double_dip:
+            trail_pts = self.strategy_params.dd_trail_pts_after_t1
         else:
-            # Fallback: intraday trailing with base trailing_stop_pts (no tightening for runners)
-            new_trail = position.highest_price_since_entry - self.params.trailing_stop_pts
-            if new_trail > position.stop_price:
-                position.stop_price = new_trail
+            trail_pts = self.params.trailing_stop_pts
+        new_trail = position.highest_price_since_entry - trail_pts
+        if new_trail > position.stop_price:
+            position.stop_price = new_trail
         return None
 
     def _compute_trail_stop(self, position: TradePosition, high: float) -> float:
@@ -357,7 +482,7 @@ class ExitManager:
         """Check if Target 1 is reached for short (price drops to target)."""
         if low <= position.target_1:
             contracts_to_exit = round(
-                position.total_contracts * self.params.t1_exit_fraction
+                position.total_contracts * self._t1_exit_fraction
             )
             contracts_to_exit = min(contracts_to_exit, position.remaining_contracts)
 
@@ -405,7 +530,7 @@ class ExitManager:
 
         if low <= position.target_2:
             runner_contracts = max(
-                1, round(position.total_contracts * self.params.runner_fraction)
+                1, round(position.total_contracts * self._runner_fraction)
             )
             contracts_to_exit = position.remaining_contracts - runner_contracts
 
@@ -462,3 +587,78 @@ class ExitManager:
                 trail_pts = tighter_trail
 
         return low + trail_pts
+
+    # ------------------------------------------------------------------
+    # Structure-based trail helpers (Mancini 2025-05-14)
+    # ------------------------------------------------------------------
+
+    def _record_bar(self, position: TradePosition, high: float, low: float) -> None:
+        """Append the latest bar to the position's rolling history.
+
+        Keeps ``structure_trail_lookback_bars`` worth of (high, low) tuples,
+        sized once at first insertion. The deque is bounded by ``maxlen`` so
+        old bars roll off automatically and the structure detector always
+        sees a fixed-window view of recent price action.
+        """
+        lookback = max(1, int(self.params.structure_trail_lookback_bars))
+        if position.bar_history.maxlen != lookback:
+            # First insertion (or lookback changed) — rebuild the deque with
+            # the configured maxlen, preserving any earlier history.
+            position.bar_history = deque(position.bar_history, maxlen=lookback)
+        position.bar_history.append((float(high), float(low)))
+
+    def _find_recent_swing_low(self, position: TradePosition) -> Optional[float]:
+        """Locate the most recent significant swing low in bar history.
+
+        A swing low is a bar whose ``low`` is the minimum within a
+        ``structure_trail_swing_order`` window on each side. We scan the
+        history newest-first and return the first qualifying low.
+
+        Returns ``None`` if there isn't enough history yet (need
+        ``2*order + 1`` bars at minimum) or no swing low exists in the
+        window.
+        """
+        order = max(1, int(self.params.structure_trail_swing_order))
+        bars = list(position.bar_history)
+        n = len(bars)
+        if n < 2 * order + 1:
+            return None
+
+        # Scan from newest-confirmable candidate (n-1-order) back to oldest
+        # confirmable (order). A bar at index i is a swing low if every bar
+        # within `order` on either side has a low >= bars[i].low.
+        for i in range(n - 1 - order, order - 1, -1):
+            candidate_low = bars[i][1]
+            is_swing = True
+            for j in range(i - order, i + order + 1):
+                if j == i:
+                    continue
+                if bars[j][1] < candidate_low:
+                    is_swing = False
+                    break
+            if is_swing:
+                return candidate_low
+        return None
+
+    def _compute_structure_trail_stop(
+        self, position: TradePosition
+    ) -> Optional[float]:
+        """Compute the structure-based runner stop for a long position.
+
+        Returns the candidate stop = ``swing_low - structure_trail_buffer_pts``
+        or ``None`` when the feature is disabled, the position is short, or
+        no swing low can be identified yet.
+
+        Callers are responsible for the ratchet-up check — this only proposes
+        a stop, never lowers an existing one.
+        """
+        if not self.params.structure_trail_enabled:
+            return None
+        if position.direction != "long":
+            # Structure trail for shorts would mirror this with swing-highs;
+            # out of scope for the current Mancini quote (longs only).
+            return None
+        swing_low = self._find_recent_swing_low(position)
+        if swing_low is None:
+            return None
+        return swing_low - self.params.structure_trail_buffer_pts
