@@ -31,14 +31,24 @@ from live.mancini_llm_extract import (
 )
 
 
-def _mock_response(plan: ManciniPlan,
+def _mock_response(plan: ManciniPlan | None,
                    input_tokens: int = 100,
                    cache_read: int = 0,
                    cache_creation: int = 50,
-                   output_tokens: int = 30) -> SimpleNamespace:
-    """Build a stub object shaped like an Anthropic messages.parse() response."""
+                   output_tokens: int = 30,
+                   raw_text: str | None = None) -> SimpleNamespace:
+    """Build a stub shaped like an Anthropic messages.create() response.
+
+    The response carries a single text block whose payload is the JSON
+    serialisation of `plan`. Pass `raw_text` to inject an arbitrary
+    string (used for the JSON-parse-failure test).
+    """
+    if raw_text is None:
+        text = plan.model_dump_json() if plan is not None else "{}"
+    else:
+        text = raw_text
     return SimpleNamespace(
-        parsed_output=plan,
+        content=[SimpleNamespace(type="text", text=text)],
         usage=SimpleNamespace(
             input_tokens=input_tokens,
             cache_creation_input_tokens=cache_creation,
@@ -48,15 +58,15 @@ def _mock_response(plan: ManciniPlan,
     )
 
 
-def _install_fake_anthropic(monkeypatch, parse_callable):
+def _install_fake_anthropic(monkeypatch, create_callable):
     """Replace anthropic.Anthropic with a fake client whose
-    messages.parse delegates to parse_callable(**kwargs).
+    messages.create delegates to create_callable(**kwargs).
     """
     import anthropic
 
     class _FakeMessages:
         def __init__(self):
-            self.parse = parse_callable
+            self.create = create_callable
 
     class _FakeClient:
         def __init__(self, *_, **__):
@@ -191,19 +201,33 @@ def test_extract_plan_records_metadata(monkeypatch):
 # ---------------------------------------------------------------------------
 
 
-def test_extract_plan_raises_when_no_parsed_output(monkeypatch):
-    """If parsed_output is None (validation failed), raise ManciniExtractionError."""
-    failed_response = SimpleNamespace(
-        parsed_output=None,
-        usage=SimpleNamespace(
-            input_tokens=10, cache_creation_input_tokens=0,
-            cache_read_input_tokens=0, output_tokens=0,
-        ),
-    )
-    _install_fake_anthropic(monkeypatch, lambda **kw: failed_response)
+def test_extract_plan_raises_when_response_is_not_json(monkeypatch):
+    """If the model returns prose instead of JSON, raise ManciniExtractionError."""
+    bad_text_response = _mock_response(None, raw_text="sorry, can't help with that")
+    _install_fake_anthropic(monkeypatch, lambda **kw: bad_text_response)
 
-    with pytest.raises(ManciniExtractionError, match="parsed_output"):
+    with pytest.raises(ManciniExtractionError, match="not valid JSON"):
         extract_plan(post_body="...")
+
+
+def test_extract_plan_raises_when_json_fails_schema_validation(monkeypatch):
+    """Valid JSON but missing required structure → schema validation error."""
+    # `lean` must be a string per the schema — int fails Pydantic.
+    bad_schema_response = _mock_response(None, raw_text='{"lean": 12345}')
+    _install_fake_anthropic(monkeypatch, lambda **kw: bad_schema_response)
+
+    with pytest.raises(ManciniExtractionError, match="failed schema validation"):
+        extract_plan(post_body="...")
+
+
+def test_extract_plan_strips_markdown_fences(monkeypatch):
+    """Models sometimes wrap JSON in ```json fences — we strip them."""
+    fenced = '```json\n{"lean": "bullish"}\n```'
+    _install_fake_anthropic(
+        monkeypatch, lambda **kw: _mock_response(None, raw_text=fenced)
+    )
+    plan = extract_plan(post_body="...")
+    assert plan.lean == "bullish"
 
 
 def test_extract_plan_raises_when_api_call_fails(monkeypatch):
