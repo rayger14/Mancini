@@ -53,7 +53,14 @@ Extract STRICTLY what is in the post — do not infer levels from generic market
 
 For danger_zones, capture explicit no-trade or caution zones (e.g. "below 6838 = bear case begins", "danger zone is 5pts above the level"). For risk_warnings, capture explicit cautionary statements (e.g. "FBs near major highs are dangerous").
 
-Set lean to "neutral" if no clear bias is stated. Set mode to null if not classifiable from the post."""
+Set lean to "neutral" if no clear bias is stated. Set mode to null if not classifiable from the post.
+
+NARRATIVE FIELDS — these are written for human subscribers to understand the market read at a glance. Keep them concise, in Mancini's voice, and grounded in the post:
+
+- thesis_summary: 2-3 sentences capturing Mancini's CURRENT READ of the tape — what just happened, what he thinks the setup is, the central question of the day. Avoid level numbers here; this is the macro narrative. Empty string if the post has no clear thesis.
+- bull_case: 1-2 sentences describing the conditional bullish scenario with the invalidation/trigger price. Format like: "Hold above 7528, sweep the FB lows and recover. Path up: 7600 → 7620 → 7649." Empty string if not present.
+- bear_case: 1-2 sentences for the bearish scenario with trigger price. Format like: "Lose 7528 with conviction. First short: break of bounce ~7522 (low WR setup)." Empty string if not present.
+- key_observations: 2-5 bulleted insights from the post that aren't already captured by levels/setups — things like "multiple breakouts have been traps this week", "6:40am low has held since Monday", "VIX still subdued despite the move". Each is one short sentence. Empty list if nothing notable beyond the setups themselves."""
 
 
 class PlannedSetup(BaseModel):
@@ -103,6 +110,22 @@ class ManciniPlan(BaseModel):
     no_trade_above: Optional[float] = None
     no_trade_below: Optional[float] = None
     risk_warnings: list[str] = Field(default_factory=list)
+    thesis_summary: str = Field(
+        default="",
+        description="2-3 sentences capturing Mancini's macro read for the day",
+    )
+    bull_case: str = Field(
+        default="",
+        description="Conditional bullish scenario with trigger/invalidation price",
+    )
+    bear_case: str = Field(
+        default="",
+        description="Conditional bearish scenario with trigger/invalidation price",
+    )
+    key_observations: list[str] = Field(
+        default_factory=list,
+        description="2-5 short insights from the post beyond what levels/setups capture",
+    )
     raw_extraction_metadata: dict = Field(default_factory=dict)
 
 
@@ -160,33 +183,69 @@ def extract_plan(
         f"--- POST BODY ---\n{post_body}"
     )
 
+    # Note: we use messages.create() (not messages.parse) because the
+    # full Pydantic schema for ManciniPlan with its 4 nested classes,
+    # 13 fields, multiple lists, and optional fields exceeds the
+    # Anthropic grammar compiler limit and returns
+    # "Grammar compilation timed out". Plain JSON instruction +
+    # model_validate sidesteps the grammar engine entirely.
+    json_schema_hint = json.dumps(
+        ManciniPlan.model_json_schema(), separators=(",", ":")
+    )
+    json_instruction = (
+        "\n\nReturn ONLY a single JSON object that validates against this "
+        f"schema (no prose, no markdown fences):\n{json_schema_hint}\n"
+        "Use empty strings for missing string fields and empty lists for "
+        "missing list fields."
+    )
+
     t0 = time.monotonic()
     try:
-        response = client.messages.parse(
+        response = client.messages.create(
             model=model,
             max_tokens=4096,
             system=[
                 {
                     "type": "text",
-                    "text": _SYSTEM_PROMPT,
+                    "text": _SYSTEM_PROMPT + json_instruction,
                     "cache_control": {"type": "ephemeral"},
                 }
             ],
             messages=[{"role": "user", "content": user_message}],
-            output_format=ManciniPlan,
         )
-    except ManciniExtractionError:
-        raise
     except Exception as e:
         raise ManciniExtractionError(f"API call failed: {e}") from e
 
     latency_ms = round((time.monotonic() - t0) * 1000, 1)
 
-    plan = getattr(response, "parsed_output", None)
-    if plan is None:
+    # Pull text out of the response and parse as JSON. The model
+    # occasionally wraps in a ```json fence — strip if present.
+    text = ""
+    for block in getattr(response, "content", []) or []:
+        if getattr(block, "type", "") == "text":
+            text += getattr(block, "text", "")
+    text = text.strip()
+    if text.startswith("```"):
+        text = text.split("```", 2)[1]
+        if text.startswith("json"):
+            text = text[4:]
+        text = text.strip()
+        if text.endswith("```"):
+            text = text[:-3].strip()
+
+    try:
+        plan_dict = json.loads(text)
+    except json.JSONDecodeError as e:
         raise ManciniExtractionError(
-            "Model response had no parsed_output — schema validation failed"
-        )
+            f"Model response was not valid JSON: {e}; first 300 chars: {text[:300]}"
+        ) from e
+
+    try:
+        plan = ManciniPlan.model_validate(plan_dict)
+    except Exception as e:
+        raise ManciniExtractionError(
+            f"Model response failed schema validation: {e}"
+        ) from e
 
     if not plan.post_title:
         plan.post_title = post_title
@@ -215,6 +274,8 @@ def extract_plan(
         f"Mancini plan extracted: lean={plan.lean} mode={plan.mode} "
         f"setups={len(plan.planned_setups)} danger={len(plan.danger_zones)} "
         f"targets={len(plan.targets)} warnings={len(plan.risk_warnings)} "
+        f"obs={len(plan.key_observations)} thesis={'y' if plan.thesis_summary else 'n'} "
+        f"bull={'y' if plan.bull_case else 'n'} bear={'y' if plan.bear_case else 'n'} "
         f"latency_ms={latency_ms}"
     )
 
