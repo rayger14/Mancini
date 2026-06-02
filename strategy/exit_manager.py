@@ -20,6 +20,7 @@ Two Mancini quotes drive the post-T2 behaviour implemented here:
 
 from __future__ import annotations
 
+import math
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum, auto
@@ -278,9 +279,17 @@ class ExitManager:
         points under break-even. Will not let the entire trade go back red."
         """
         if high >= position.target_1:
-            contracts_to_exit = round(
+            # math.floor (NOT round) so a 2-contract trade closes 1 at T1,
+            # not 2 — Python's banker's rounding turned 2*0.75=1.5 into 2,
+            # which closed the entire position and bypassed the runner.
+            contracts_to_exit = math.floor(
                 position.total_contracts * self._t1_exit_fraction
             )
+            # Guard tiny sizes: with 1 contract, floor(0.75)=0 would skip the
+            # exit entirely. Fall back to closing the 1 contract — there's no
+            # runner to preserve when starting from 1.
+            if contracts_to_exit == 0 and position.total_contracts == 1:
+                contracts_to_exit = 1
             contracts_to_exit = min(contracts_to_exit, position.remaining_contracts)
 
             if contracts_to_exit <= 0:
@@ -350,11 +359,11 @@ class ExitManager:
             # leaves a 1-contract runner (~25% of size, but the smallest
             # tradeable runner for a tiny base). With bigger sizes the math
             # cleans up: e.g. 20 contracts → 15 T1 + 3 T2 + 2 runner.
-            t2_target_exit = round(
+            t2_target_exit = math.floor(
                 position.total_contracts * self._t2_exit_fraction
             )
             runner_floor = max(
-                1, round(position.total_contracts * self._runner_fraction)
+                1, math.floor(position.total_contracts * self._runner_fraction)
             )
             # Never oversell — always preserve at least the runner floor.
             max_sellable = max(0, position.remaining_contracts - runner_floor)
@@ -476,14 +485,18 @@ class ExitManager:
     # Short-side phase handlers
     # ------------------------------------------------------------------
 
+    # Short-side T1/T2 use the same math.floor semantics as longs (see
+    # the long _check_t1/_check_t2 above for the rationale).
     def _check_t1_short(
         self, position: TradePosition, low: float, close: float
     ) -> Optional[ExitAction]:
         """Check if Target 1 is reached for short (price drops to target)."""
         if low <= position.target_1:
-            contracts_to_exit = round(
+            contracts_to_exit = math.floor(
                 position.total_contracts * self._t1_exit_fraction
             )
+            if contracts_to_exit == 0 and position.total_contracts == 1:
+                contracts_to_exit = 1
             contracts_to_exit = min(contracts_to_exit, position.remaining_contracts)
 
             if contracts_to_exit <= 0:
@@ -530,7 +543,7 @@ class ExitManager:
 
         if low <= position.target_2:
             runner_contracts = max(
-                1, round(position.total_contracts * self._runner_fraction)
+                1, math.floor(position.total_contracts * self._runner_fraction)
             )
             contracts_to_exit = position.remaining_contracts - runner_contracts
 

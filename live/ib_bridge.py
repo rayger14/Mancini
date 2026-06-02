@@ -722,14 +722,19 @@ class IBBridge:
         # Take profit: limit order at target (tick-rounded)
         # Put tp_fraction of contracts on TP — the rest stay as runner
         # managed by the ExitManager's trailing stop logic.
-        # With 4 contracts @ 0.75: TP gets 3, runner gets 1 (Mancini 75/25)
+        # Use math.floor (NOT round) to mirror ExitManager._check_t1 and
+        # avoid Python's banker's rounding turning 2*0.75=1.5 into 2.
+        # With 4 contracts @ 0.75: TP gets 3, runner gets 1
         # With 2 contracts @ 0.75: TP gets 1, runner gets 1
         # With 1 contract: TP gets 1 (no runner possible)
+        import math as _math
         if quantity <= 1:
             tp_quantity = quantity
         else:
             # Ensure at least 1 contract remains as runner
-            tp_quantity = min(quantity - 1, max(1, round(quantity * tp_fraction)))
+            tp_quantity = min(
+                quantity - 1, max(1, _math.floor(quantity * tp_fraction))
+            )
         take_profit = LimitOrder(
             action=exit_action,
             totalQuantity=tp_quantity,

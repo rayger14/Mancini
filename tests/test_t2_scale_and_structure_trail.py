@@ -69,6 +69,107 @@ def _hit_t1(manager: ExitManager, pos: TradePosition) -> None:
 # ---------------------------------------------------------------------------
 
 
+class TestPartialFillRounding:
+    """Regression tests for the banker's-rounding bug.
+
+    Python's `round()` half-to-even turned `round(2 * 0.75) = round(1.5)` into
+    2, which closed the entire 2-contract position at T1 and bypassed the
+    runner entirely. This actually happened in production on the 2026-05-29
+    Friday FB long: the bot entered 2 contracts, hit T1 at 7611.75 on Sunday
+    night, and flattened all 2 — no T2, no runner trail. Using `math.floor`
+    fixes it (floor(1.5) = 1).
+    """
+
+    def test_t1_with_two_contracts_leaves_runner(self):
+        """The exact production scenario — must close 1, not 2."""
+        mgr = _make_manager()
+        pos = TradePosition(
+            entry_price=7594.25,
+            stop_price=7571.50,
+            target_1=7611.75,
+            target_2=7621.75,
+            total_contracts=2,
+            remaining_contracts=2,
+            direction="long",
+        )
+        action = mgr.update(pos, high=7612.0, low=7610.0, close=7611.50)
+        assert action is not None, "T1 should fire when high >= target_1"
+        assert action.contracts_to_close == 1, (
+            f"Expected 1 contract closed at T1 for 2-contract trade, got "
+            f"{action.contracts_to_close} — banker's rounding regression"
+        )
+        assert pos.remaining_contracts == 1, "1 contract must survive for runner"
+        assert pos.phase == ExitPhase.AFTER_T1
+
+    def test_t1_with_one_contract_closes_full(self):
+        """1 contract has no runner to preserve — close the 1 at T1."""
+        mgr = _make_manager()
+        pos = TradePosition(
+            entry_price=100.0,
+            stop_price=90.0,
+            target_1=110.0,
+            target_2=115.0,
+            total_contracts=1,
+            remaining_contracts=1,
+            direction="long",
+        )
+        action = mgr.update(pos, high=111.0, low=109.0, close=110.5)
+        assert action is not None
+        assert action.contracts_to_close == 1
+        assert pos.remaining_contracts == 0
+
+    def test_t1_with_four_contracts_closes_three(self):
+        """4 * 0.75 = 3.0 (no rounding ambiguity)."""
+        mgr = _make_manager()
+        pos = TradePosition(
+            entry_price=100.0,
+            stop_price=90.0,
+            target_1=110.0,
+            target_2=115.0,
+            total_contracts=4,
+            remaining_contracts=4,
+            direction="long",
+        )
+        action = mgr.update(pos, high=111.0, low=109.0, close=110.5)
+        assert action is not None
+        assert action.contracts_to_close == 3
+        assert pos.remaining_contracts == 1
+
+    def test_t1_with_ten_contracts_closes_seven(self):
+        """10 * 0.75 = 7.5; floor(7.5) = 7 (round would also give 8 here)."""
+        mgr = _make_manager()
+        pos = TradePosition(
+            entry_price=100.0,
+            stop_price=90.0,
+            target_1=110.0,
+            target_2=115.0,
+            total_contracts=10,
+            remaining_contracts=10,
+            direction="long",
+        )
+        action = mgr.update(pos, high=111.0, low=109.0, close=110.5)
+        assert action is not None
+        assert action.contracts_to_close == 7
+        assert pos.remaining_contracts == 3
+
+    def test_t1_short_with_two_contracts_leaves_runner(self):
+        """Same regression must hold for short side."""
+        mgr = _make_manager()
+        pos = TradePosition(
+            entry_price=100.0,
+            stop_price=110.0,
+            target_1=90.0,
+            target_2=85.0,
+            total_contracts=2,
+            remaining_contracts=2,
+            direction="short",
+        )
+        action = mgr.update(pos, high=91.0, low=89.0, close=89.5)
+        assert action is not None
+        assert action.contracts_to_close == 1
+        assert pos.remaining_contracts == 1
+
+
 class TestT2ScaleDown:
     """T2 must actually sell ``t2_exit_fraction`` of total — not just flip phase."""
 
