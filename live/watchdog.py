@@ -150,12 +150,27 @@ class Watchdog:
         self._active_alerts: dict[str, Alert] = {}  # code -> alert
 
         # Thresholds
-        self.MAX_BAR_GAP_SEC = 180       # 3 min without a bar during market hours
+        # MAX_BAR_GAP_SEC = 5 min (was 3 min). The previous 3-min threshold
+        # was too tight: the IB Gateway nightly auth refresh routinely
+        # produces a 2-4 min bar gap that's not actionable, but tripped
+        # BAR_GAP CRITICAL alerts every night. 5 min still catches real
+        # disconnects (the bot's own STALE_DATA alert at 3 min already
+        # tells us if polling stalls).
+        self.MAX_BAR_GAP_SEC = 300       # 5 min without a bar during market hours
         self.MAX_ZERO_VOLUME = 3         # 3 consecutive zero-volume bars
         self.MAX_ERRORS_PER_5MIN = 10    # error rate threshold
         self.RTH_SIGNAL_CHECK_BARS = 120 # 2 hours RTH without any signal = warning
         self.ALERT_COOLDOWN_SEC = 300    # don't repeat same alert within 5 min
         self.CONTRACT_EXPIRY_WARN_DAYS = 7  # warn when contract expires within 7 days
+
+        # IB Gateway does an automatic re-authentication around 19:45 ET
+        # every weeknight. During the window the gateway's TCP listener
+        # is briefly unavailable and the bot's poll fails — producing a
+        # bar gap and an error spike that auto-clear within ~2 min once
+        # the gateway is back. Suppress BAR_GAP and ERROR_SPIKE alerts
+        # in this window so subscribers don't get nightly false alarms.
+        self.GATEWAY_RESET_START = time(19, 40)
+        self.GATEWAY_RESET_END = time(19, 55)
 
     def run(self) -> None:
         """Main monitoring loop."""
@@ -340,6 +355,16 @@ class Watchdog:
                     self._send_trade_webhook("exit", "closed",
                                              reason=reason, direction=direction)
 
+    def _is_in_gateway_reset_window(self, now: datetime) -> bool:
+        """True between 19:40 and 19:55 ET on weekdays — the IB Gateway
+        nightly re-authentication window. Bar gaps and error spikes are
+        expected and auto-recover, so suppress alerts there."""
+        # Mon-Fri = 0-4 (weekend = already handled by market_open gate)
+        if now.weekday() > 4:
+            return False
+        t = now.timetz().replace(tzinfo=None) if hasattr(now.timetz(), 'tzinfo') else now.time()
+        return self.GATEWAY_RESET_START <= t <= self.GATEWAY_RESET_END
+
     def _check_bar_flow(self, now: datetime) -> None:
         """Check if bars are arriving at expected rate."""
         if self._last_bar_time is None:
@@ -347,6 +372,11 @@ class Watchdog:
                 self._emit_alert(CRITICAL, "NO_BARS",
                                  "No bars received since watchdog started — "
                                  "bot may not be connected or contract may be dead")
+            return
+
+        # Suppress during the nightly IB Gateway reset window — bar gaps
+        # there are expected and auto-recover within ~2 min.
+        if self._is_in_gateway_reset_window(now):
             return
 
         gap = (now - self._last_bar_time).total_seconds()
@@ -369,6 +399,10 @@ class Watchdog:
 
     def _check_error_rate(self, now: datetime) -> None:
         """Check if error rate is abnormally high."""
+        # Same nightly-window suppression as bar flow — IB Gateway
+        # re-auth produces a guaranteed error spike that auto-clears.
+        if self._is_in_gateway_reset_window(now):
+            return
         cutoff = _time.monotonic() - 300  # last 5 minutes
         recent_errors = sum(1 for t in self._error_window if t > cutoff)
         if recent_errors >= self.MAX_ERRORS_PER_5MIN:
@@ -437,8 +471,12 @@ class Watchdog:
     def _emit_alert(self, severity: str, code: str, message: str) -> None:
         """Emit an alert with cooldown to prevent spam."""
         now = _time.monotonic()
-        last = self._last_alert_times.get(code, 0)
-        if now - last < self.ALERT_COOLDOWN_SEC:
+        # None means "never emitted" — explicitly distinct from a
+        # very-recent emit. Using 0 as the default silently dropped the
+        # first 5 minutes of alerts after process start because
+        # time.monotonic() begins from a small value on some platforms.
+        last = self._last_alert_times.get(code)
+        if last is not None and now - last < self.ALERT_COOLDOWN_SEC:
             return  # cooldown active
 
         alert = Alert(severity, code, message)
