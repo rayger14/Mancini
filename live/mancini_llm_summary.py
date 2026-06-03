@@ -56,6 +56,28 @@ def _state_path(plan_file: Path) -> Path:
     return plan_file.parent / f".mancini_brief_posted_{trading_date}"
 
 
+def should_post(state_file: Path, current_post_title: str) -> tuple[bool, str]:
+    """Decide whether to (re-)publish the brief.
+
+    Returns (post, reason). Content-aware: compares the recorded
+    ``post_title`` in the state file to the current extraction's title.
+    A legacy state file (raw ISO timestamp, pre-v2 format) is treated as
+    "already posted" to preserve prior behavior across the upgrade.
+    """
+    if not state_file.exists():
+        return True, "no prior brief"
+    try:
+        recorded = json.loads(state_file.read_text())
+        recorded_title = (recorded.get("post_title") or "").strip()
+    except (json.JSONDecodeError, OSError):
+        # Pre-v2 state file (raw timestamp) — preserve prior idempotency.
+        return False, "legacy state file (pre-v2), treating as posted"
+    cur = (current_post_title or "").strip()
+    if recorded_title == cur:
+        return False, "title unchanged"
+    return True, f"title changed ({recorded_title!r} -> {cur!r})"
+
+
 def _truncate(text: str, limit: int) -> str:
     if len(text) <= limit:
         return text
@@ -299,12 +321,19 @@ def main() -> int:
         print(f"❌ Could not parse plan JSON {plan_file}: {e}", file=sys.stderr)
         return 2
 
-    # Idempotency check
+    # Idempotency check — content-aware so a backup cron that catches a
+    # NEW post (after the primary grabbed yesterday's stale one) still
+    # re-posts.
     state = _state_path(plan_file)
-    if state.exists() and not args.force and not args.dry_run:
-        print(f"ℹ️  Brief already posted for {plan_file.stem} "
-              f"(state: {state}). Use --force to repost.")
-        return 0
+    current_title = (plan_json.get("post_title") or "").strip()
+    if not args.force and not args.dry_run:
+        post, reason = should_post(state, current_title)
+        if not post:
+            print(f"ℹ️  Brief already posted for {plan_file.stem} "
+                  f"({reason}). Use --force to repost.")
+            return 0
+        if state.exists():
+            print(f"ℹ️  Re-posting brief for {plan_file.stem} ({reason})")
 
     payload = build_payload(plan_json)
 
@@ -320,7 +349,10 @@ def main() -> int:
     ok, info = post_to_discord(payload, webhook)
     if ok:
         try:
-            state.write_text(datetime.now().isoformat())
+            state.write_text(json.dumps({
+                "post_title": current_title,
+                "posted_at": datetime.now().isoformat(),
+            }))
         except OSError:
             pass
         print(f"✅ Brief posted to Discord ({info})")
