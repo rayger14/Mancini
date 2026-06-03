@@ -1,0 +1,21 @@
+# Canonical host crontab for the Mancini bot VM (152.70.113.24).
+# Apply with:  crontab /home/ubuntu/mancini/deploy/cron/host_crontab.txt
+#
+# CRITICAL: TZ=America/New_York at the top. The VM host runs in UTC, so
+# without this directive, "30 17" was interpreted as 17:30 UTC = 13:30 ET
+# — 2.5 hours BEFORE Mancini publishes his ~4pm ET post. The primary
+# extraction was grabbing yesterday's plan and posting it to Discord
+# mislabeled as tomorrow's plan. Fixed 2026-06-03.
+
+TZ=America/New_York
+
+# Nightly retrospective + report (run after Globex close)
+10 22 * * * docker exec -e WATCHDOG_WEBHOOK=https://discord.com/api/webhooks/1486117184336826511/nT3lKKV0ma24V5Bvj1WGnZ1GnEY3sNAFUcmYH0jjvWAanf-RAiiWylNPJ2sRxMHLAo5K mancini-mancini-bot-1 python3 live/nightly_report.py >> /home/ubuntu/mancini/logs/nightly_report.log 2>&1
+5 22 * * * docker exec mancini-mancini-bot-1 python3 live/retrospective.py >> /home/ubuntu/mancini/logs/retrospective_cron.log 2>&1
+
+# Mancini plan extraction — Mancini posts around 4pm ET, primary cron at
+# 5pm ET (gives him an hour buffer), backup at 8pm ET in case he's late.
+0  17 * * * /home/ubuntu/mancini/run_substack_cron.sh    >> /home/ubuntu/mancini/logs/substack_cron.log    2>&1
+30 17 * * * /home/ubuntu/mancini/run_mancini_llm_cron.sh >> /home/ubuntu/mancini/logs/mancini_llm_cron.log 2>&1
+0  20 * * * /home/ubuntu/mancini/run_substack_cron.sh    >> /home/ubuntu/mancini/logs/substack_cron.log    2>&1
+30 20 * * * /home/ubuntu/mancini/run_mancini_llm_cron.sh >> /home/ubuntu/mancini/logs/mancini_llm_cron.log 2>&1
