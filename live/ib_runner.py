@@ -373,41 +373,84 @@ class IBRunner:
 
         logger.info("Listening for streaming bars from IB...")
         self._last_bar_received = _time.monotonic()
+        # Counter for consecutive in-loop errors. Resets to 0 on a clean
+        # iteration. Crashes loud only after many consecutive failures —
+        # otherwise we keep trying and let the existing reconnect machinery
+        # bring the bridge back.
+        consecutive_errors = 0
+        MAX_CONSECUTIVE_ERRORS = 60  # ~5 minutes at 5s backoff
         try:
             while self._running:
-                # Check if IB disconnected and needs reconnection
-                if self.bridge._needs_reconnect:
-                    self.bridge.check_reconnect()
+                try:
+                    # Check if IB disconnected and needs reconnection
+                    if self.bridge._needs_reconnect:
+                        self.bridge.check_reconnect()
 
-                bar = self.bridge.get_latest_bar()
-                if bar is not None:
-                    self._last_bar_received = _time.monotonic()
-                    self._process_bar(bar)
-                    self._check_eod(bar)
-                else:
-                    # Check if we haven't received a bar in too long
-                    minutes_since_bar = (_time.monotonic() - self._last_bar_received) / 60
-                    if minutes_since_bar > 5 and not _is_market_closed():
-                        # Throttle: only log once per 5-minute interval
-                        last_alert = getattr(self, "_last_stale_alert", 0.0)
-                        if _time.monotonic() - last_alert >= 300:  # 5 min
-                            self._last_stale_alert = _time.monotonic()
-                            logger.error(
-                                f"NO NEW BARS for {minutes_since_bar:.0f} minutes. "
-                                f"IB connection may be stale. Last bar: {self._bar_count}"
-                            )
+                    bar = self.bridge.get_latest_bar()
+                    if bar is not None:
+                        self._last_bar_received = _time.monotonic()
+                        self._process_bar(bar)
+                        self._check_eod(bar)
+                    else:
+                        # Check if we haven't received a bar in too long
+                        minutes_since_bar = (_time.monotonic() - self._last_bar_received) / 60
+                        if minutes_since_bar > 5 and not _is_market_closed():
+                            # Throttle: only log once per 5-minute interval
+                            last_alert = getattr(self, "_last_stale_alert", 0.0)
+                            if _time.monotonic() - last_alert >= 300:  # 5 min
+                                self._last_stale_alert = _time.monotonic()
+                                logger.error(
+                                    f"NO NEW BARS for {minutes_since_bar:.0f} minutes. "
+                                    f"IB connection may be stale. Last bar: {self._bar_count}"
+                                )
 
-                # IB-aware sleep keeps the event loop alive for streaming callbacks
-                self.bridge.sleep(self.bridge.config.poll_interval_sec)
+                    # IB-aware sleep keeps the event loop alive for streaming callbacks
+                    self.bridge.sleep(self.bridge.config.poll_interval_sec)
 
-                # Session rollover: detect new Globex session (date change)
-                # Globex sessions start at 18:00 ET, so the "trading date" rolls
-                # over then. Without this, daily loss limits from yesterday block
-                # today's signals.
-                self._check_session_rollover()
+                    # Session rollover: detect new Globex session (date change)
+                    # Globex sessions start at 18:00 ET, so the "trading date" rolls
+                    # over then. Without this, daily loss limits from yesterday block
+                    # today's signals.
+                    self._check_session_rollover()
 
-                # Sync position with IB periodically
-                self._sync_position()
+                    # Sync position with IB periodically
+                    self._sync_position()
+
+                    # Clean iteration — reset the error counter.
+                    consecutive_errors = 0
+
+                except ConnectionError as e:
+                    # IB Gateway nightly re-auth (~19:45 ET) drops the socket.
+                    # Previously this exception killed main() and relied on
+                    # Docker's restart-policy to bring the bot back, losing
+                    # 2-5 minutes of bars per outage AND any setup that
+                    # flushed during the gap. Now we flag the bridge for
+                    # reconnect and continue the loop — check_reconnect() at
+                    # the top will handle it on the next iteration.
+                    consecutive_errors += 1
+                    if self.bridge._connected:
+                        self.bridge._connected = False
+                    self.bridge._needs_reconnect = True
+                    logger.error(
+                        f"IB ConnectionError (consecutive #{consecutive_errors}): {e} "
+                        f"— flagging for reconnect, continuing main loop"
+                    )
+                    _time.sleep(5.0)
+                except Exception as e:
+                    # Catch-all so a downstream pattern/exit bug doesn't kill
+                    # the entire bot. Log loud, brief backoff, keep going.
+                    consecutive_errors += 1
+                    logger.exception(
+                        f"Unexpected error in main loop (consecutive #{consecutive_errors}): {e}"
+                    )
+                    _time.sleep(5.0)
+
+                if consecutive_errors >= MAX_CONSECUTIVE_ERRORS:
+                    logger.error(
+                        f"Main loop has hit {consecutive_errors} consecutive errors — "
+                        f"bailing out so Docker can restart us cleanly."
+                    )
+                    break
 
         except KeyboardInterrupt:
             pass
@@ -471,13 +514,21 @@ class IBRunner:
             if plan is not None:
                 self._mancini_llm_plan = plan
                 self.signal_aggregator.set_mancini_llm_plan(plan)
+                # Inject Mancini's planned long setups as CUSTOM levels so the
+                # FB pattern detector can fire on them. Without this, the plan
+                # only gates / boosts engine-discovered levels — a Mancini
+                # high-conviction FB level that the engine hasn't classified
+                # as a swing/cluster/PDL low is invisible. See _HIGH_QUALITY_LEVELS
+                # in core/patterns.py — CUSTOM is whitelisted there.
+                injected = self._inject_plan_levels(plan)
                 logger.info(
                     f"Mancini LLM plan loaded for {self._session_date}: "
                     f"lean={plan.lean} mode={plan.mode} "
                     f"setups={len(plan.planned_setups)} "
                     f"danger={len(plan.danger_zones)} "
                     f"no_trade_above={plan.no_trade_above} "
-                    f"no_trade_below={plan.no_trade_below}"
+                    f"no_trade_below={plan.no_trade_below} "
+                    f"levels_injected={injected}"
                 )
             else:
                 logger.info(
@@ -485,6 +536,63 @@ class IBRunner:
                 )
         except Exception as e:
             logger.warning(f"Mancini LLM plan load failed (non-fatal): {e}")
+
+    def _inject_plan_levels(self, plan) -> int:
+        """Push Mancini's planned LONG setups into the engine's level store
+        as CUSTOM levels so the FB pattern detector can fire on them.
+
+        Only LONG-direction FB / level-reclaim setups are injected. Short
+        setups and trend-continuation entries are skipped — those run via
+        their own detectors (or are not auto-tradeable). Confirmed at the
+        moment of load so the levels are immediately eligible.
+
+        Returns the number of levels injected.
+        """
+        try:
+            from config.levels import Level, LevelType
+        except Exception:
+            return 0
+        store = getattr(self.signal_aggregator, "level_store", None)
+        if store is None:
+            return 0
+        now = datetime.now(_ET)
+        conv_score = {"high": 3, "medium": 2, "low": 1}
+        accept_types = {"failed_breakdown", "level_reclaim"}
+        injected = 0
+        for setup in (plan.planned_setups or []):
+            if (getattr(setup, "direction", "") or "").lower() != "long":
+                continue
+            if (getattr(setup, "setup_type", "") or "").lower() not in accept_types:
+                continue
+            price = float(getattr(setup, "level_price", 0.0) or 0.0)
+            if price <= 0:
+                continue
+            ctx = (getattr(setup, "context", "") or "")[:120]
+            lvl = Level(
+                price=price,
+                level_type=LevelType.CUSTOM,
+                created_at=now,
+                confirmed_at=now,
+                touch_count=1,
+                label=f"MANCINI_PLAN:{setup.setup_type}@{price:.2f}",
+                mancini_confirmed=True,
+                mancini_side="support",
+                mancini_conviction=conv_score.get(
+                    (getattr(setup, "conviction", "") or "").lower(), 1
+                ),
+                mancini_tags=[
+                    "llm_plan",
+                    f"conv:{(setup.conviction or '').lower()}",
+                    f"type:{setup.setup_type}",
+                ],
+            )
+            store.add(lvl)
+            injected += 1
+            logger.debug(
+                f"Mancini plan level injected: {lvl.label} "
+                f"({setup.conviction} conviction) — {ctx}"
+            )
+        return injected
 
     def _initialize_session(self) -> bool:
         """Initialize strategy from IB historical bars.

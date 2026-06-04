@@ -583,6 +583,39 @@ class ManciniNautilusStrategy(Strategy):
         signal = self._pending_signal
         entry = self._pending_entry
         self._pattern_type = signal.pattern.pattern_type
+        # Capture signal/pattern diagnostics so the close TradeRecord can
+        # carry them downstream — used by danger-zone analysis to bucket
+        # trades by entry-distance-from-level and confirmation protocol.
+        try:
+            pat = signal.pattern
+            lvl = getattr(pat, "level", None)
+            self._signal_stop_price = float(signal.stop_price)
+            self._signal_target_1 = float(signal.target_1)
+            self._signal_target_2 = float(signal.target_2)
+            self._signal_rr_ratio_t1 = float(getattr(signal, "rr_ratio_t1", 0.0))
+            self._signal_risk_pts = float(getattr(signal, "risk_pts", 0.0))
+            self._signal_reward_t1_pts = float(getattr(signal, "reward_t1_pts", 0.0))
+            self._signal_level_price = float(getattr(lvl, "price", 0.0)) if lvl else 0.0
+            lvl_t = getattr(lvl, "level_type", None) if lvl else None
+            self._signal_level_type = (
+                lvl_t.name if hasattr(lvl_t, "name") else (str(lvl_t) if lvl_t else "")
+            )
+            conf = getattr(pat, "confirmation", None)
+            self._signal_confirmation_type = (
+                conf.name.lower() if hasattr(conf, "name") else (str(conf).lower() if conf else "")
+            )
+            self._signal_sweep_depth_pts = float(getattr(pat, "sweep_depth_pts", 0.0))
+        except Exception:
+            self._signal_stop_price = 0.0
+            self._signal_target_1 = 0.0
+            self._signal_target_2 = 0.0
+            self._signal_rr_ratio_t1 = 0.0
+            self._signal_risk_pts = 0.0
+            self._signal_reward_t1_pts = 0.0
+            self._signal_level_price = 0.0
+            self._signal_level_type = ""
+            self._signal_confirmation_type = ""
+            self._signal_sweep_depth_pts = 0.0
 
         # Build the TradePosition that ExitManager will drive.
         self._position = self._exit_mgr.create_position(
@@ -729,6 +762,18 @@ class ManciniNautilusStrategy(Strategy):
             direction=pos.direction,
             is_runner=pos.t1_hit,
             is_double_dip=pos.is_double_dip,
+            # Diagnostic fields — captured at entry, surfaced for analysis
+            # (danger-zone bucketing, confirmation-type comparison, etc).
+            stop_price=getattr(self, "_signal_stop_price", 0.0),
+            target_1=getattr(self, "_signal_target_1", 0.0),
+            target_2=getattr(self, "_signal_target_2", 0.0),
+            rr_ratio_t1=getattr(self, "_signal_rr_ratio_t1", 0.0),
+            risk_pts=getattr(self, "_signal_risk_pts", 0.0),
+            reward_t1_pts=getattr(self, "_signal_reward_t1_pts", 0.0),
+            confirmation_type=getattr(self, "_signal_confirmation_type", ""),
+            level_type=getattr(self, "_signal_level_type", ""),
+            level_price=getattr(self, "_signal_level_price", 0.0),
+            sweep_depth_pts=getattr(self, "_signal_sweep_depth_pts", 0.0),
         )
         self._completed_trades.append(record)
         # Best-effort sync with PositionManager (for daily PnL tracking)
