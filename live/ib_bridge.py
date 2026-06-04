@@ -1193,8 +1193,22 @@ class IBBridge:
     # ── Utility ───────────────────────────────────────────────────────
 
     def sleep(self, seconds: float) -> None:
-        """IB-compatible sleep that keeps the event loop running."""
-        self._ib.sleep(seconds)
+        """IB-compatible sleep that keeps the event loop running.
+
+        Catches ConnectionError from the underlying ib_async layer so the
+        disconnect flag is reliably set even if the caller forgets to
+        catch — the main loop's reconnect path then handles recovery.
+        """
+        try:
+            self._ib.sleep(seconds)
+        except ConnectionError:
+            # Flag for reconnect (idempotent — _on_disconnect's own check
+            # short-circuits if we've already disconnected) and re-raise
+            # so the caller's loop knows to back off.
+            if self._connected:
+                self._connected = False
+                self._needs_reconnect = True
+            raise
 
     @property
     def ib(self) -> IB:
