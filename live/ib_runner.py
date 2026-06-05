@@ -537,6 +537,61 @@ class IBRunner:
         except Exception as e:
             logger.warning(f"Mancini LLM plan load failed (non-fatal): {e}")
 
+    # Levels the engine considers structurally high quality. Mirrors
+    # core/patterns.py _HIGH_QUALITY_LEVELS — these are the only level
+    # types the FB pattern detector will already accept as the basis
+    # for a sweep+reclaim. Used for the collection-mode quality gate.
+    _HIGH_QUALITY_LEVEL_TYPES = frozenset({
+        "PRIOR_DAY_LOW",
+        "PRIOR_DAY_HIGH",
+        "MULTI_HOUR_LOW",
+        "MULTI_HOUR_HIGH",
+        "INTRADAY_LOW",
+        "CUSTOM",  # Mancini-injected and other overlay-sourced levels
+    })
+
+    _MANCINI_PLAN_MATCH_TOLERANCE_PTS = 2.0
+
+    def _collection_mode_is_quality_setup(self, signal) -> bool:
+        """Return True if a signal that was about to be taken via the time-
+        gate bypass is also a *quality* setup worth collecting.
+
+        Pure noise — engine-derived mid-range swing levels with no plan
+        match — should not be taken even in collection mode. Tonight's
+        LR @ 7607 (no plan level, SWING_LOW type, lost $425) is the
+        canonical bad case.
+
+        Two ways to qualify:
+          1. The signal's level is on Mancini's LLM plan within 2 pt
+             (regardless of conviction — plan-listed = Mancini blessed)
+          2. The level type itself is structurally high-quality
+             (PDL, MULTI_HOUR_LOW, INTRADAY_LOW, CUSTOM)
+        """
+        pat = getattr(signal, "pattern", None)
+        if pat is None or getattr(pat, "level", None) is None:
+            return False
+        lvl = pat.level
+        lvl_type_name = getattr(lvl.level_type, "name", "")
+
+        # Path 1: high-quality structural level type. Access via the class
+        # so test doubles can pass `self` as a SimpleNamespace.
+        if lvl_type_name in IBRunner._HIGH_QUALITY_LEVEL_TYPES:
+            return True
+
+        # Path 2: matches a Mancini-listed plan level within tolerance.
+        # Same matching tolerance used by _mancini_llm_setup_bonus.
+        plan = getattr(self, "_mancini_llm_plan", None)
+        if plan is None:
+            return False
+        tol = IBRunner._MANCINI_PLAN_MATCH_TOLERANCE_PTS
+        for setup in (plan.planned_setups or []):
+            try:
+                if abs(setup.level_price - lvl.price) <= tol:
+                    return True
+            except (TypeError, AttributeError):
+                continue
+        return False
+
     def _inject_plan_levels(self, plan) -> int:
         """Push Mancini's planned LONG setups into the engine's level store
         as CUSTOM levels so the FB pattern detector can fire on them.
@@ -1091,6 +1146,34 @@ class IBRunner:
         # Record gate bypass info for logging
         self._pending_gate_bypass = gates_that_would_fire if gates_that_would_fire else None
         if gates_that_would_fire:
+            # COLLECTION MODE QUALITY FILTER: bypass time windows ONLY for
+            # high-quality setups. The whole point of collection mode is to
+            # gather data on "would Mancini take this if not for the clock?"
+            # — which is interesting only when the setup IS Mancini-quality.
+            # A low-quality mid-range LR at a SWING_LOW with no plan match
+            # is just noise. Today's trade #15161 (LR @ 7607, lost $425)
+            # was the wake-up call.
+            #
+            # Required: either the level is on Mancini's plan within 2pt,
+            # or the engine classified it as a high-quality structural
+            # level (PRIOR_DAY_LOW, MULTI_HOUR_LOW, INTRADAY_LOW, CUSTOM).
+            if not self._collection_mode_is_quality_setup(signal):
+                lvl = signal.pattern.level
+                lvl_type = getattr(lvl.level_type, "name", "?") if lvl else "?"
+                lvl_price = lvl.price if lvl else 0.0
+                logger.info(
+                    f"COLLECTION MODE QUALITY REJECT: {signal.signal_type.name} "
+                    f"@ {signal.entry_price:.2f} on {lvl_type}@{lvl_price:.2f} — "
+                    f"low quality + no plan match. "
+                    f"Would have bypassed time gates: {', '.join(gates_that_would_fire)}"
+                )
+                self._add_phantom(
+                    signal,
+                    f"collection_mode_low_quality:{lvl_type}",
+                    timestamp,
+                )
+                return
+
             logger.info(
                 f"COLLECTION MODE: Taking {signal.signal_type.name} @ {signal.entry_price:.2f} "
                 f"(production would skip: {', '.join(gates_that_would_fire)})"
