@@ -86,7 +86,7 @@ PRODUCTION_STRATEGY = StrategyParams(
     # Shadow mode features: run detectors but only log, don't trade
     shadow_mode_features=True,
     use_sweep_depth_sizing=True,          # Shadow: log sweep-depth-adjusted sizing
-    use_mode1_detection=True,             # Shadow: log Mode 1 trend day detection
+    use_mode1_detection=True,             # LIVE: blocks FB longs while Mode 1 Red active, before mode1_red_fb_long_block_until_hour ET
     allow_velocity_short=True,            # Shadow: log velocity breakdown shorts
     # Back-Test Short (Mancini-faithful): broken support shelf retested from
     # below after a deep flush. See core.patterns_short_v2.BacktestShort for
