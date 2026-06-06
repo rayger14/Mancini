@@ -1249,15 +1249,42 @@ class IBRunner:
         )
         # Log rich entry to persistent trade log
         self._log_trade(self._position, signal, "entry")
+        # Post rich Discord embed for this entry (best-effort, never blocks).
+        self._post_trade_entry_embed(
+            position=self._position,
+            signal=signal,
+            fill_price=actual_entry_price,
+            contracts_ordered=entry.contracts,
+        )
 
     def _handle_exit_action(self, action: ExitAction, timestamp: datetime) -> None:
         """Translate ExitAction from ExitManager into IB orders."""
         if self._trade_id is None:
             return
 
+        # Capture pre-action position state so the embed can show
+        # accurate "remaining contracts" + cumulative P&L.
+        pre_position = self._position
+
         if action.new_phase == ExitPhase.CLOSED:
             self.bridge.flatten(reason=action.reason)
             logger.info(f"EXIT: flatten -- {action.reason}")
+            # Classify phase for the embed
+            r = (action.reason or "").lower()
+            if "stop loss" in r or "stop" in r:
+                phase = "stop"
+            elif "eod" in r:
+                phase = "eod"
+            elif "trail" in r or "structure" in r:
+                phase = "runner_trail"
+            else:
+                phase = "stop"
+            self._post_trade_exit_embed(
+                phase=phase,
+                action=action,
+                pre_position=pre_position,
+                timestamp=timestamp,
+            )
 
         elif action.reason.startswith("Target 1"):
             if action.contracts_to_close > 0 and self._position and self._position.remaining_contracts > 0:
@@ -1272,6 +1299,12 @@ class IBRunner:
             logger.info(f"EXIT: partial {action.contracts_to_close} @ T1, "
                          f"new stop={action.new_stop:.2f}")
             self._log_partial_exit(action, timestamp)
+            self._post_trade_exit_embed(
+                phase="t1",
+                action=action,
+                pre_position=pre_position,
+                timestamp=timestamp,
+            )
 
         elif action.reason.startswith("Target 2"):
             self.bridge.partial_exit(
@@ -1281,14 +1314,114 @@ class IBRunner:
                 reason=action.reason,
             )
             self._log_partial_exit(action, timestamp)
+            self._post_trade_exit_embed(
+                phase="t2",
+                action=action,
+                pre_position=pre_position,
+                timestamp=timestamp,
+            )
 
         else:
-            # Stop update (trailing)
+            # Stop update (trailing) — no notification, just a stop modify.
             self.bridge.update_stop(
                 trade_id=self._trade_id,
                 new_sl=action.new_stop,
                 reason=action.reason,
             )
+
+    # ------------------------------------------------------------------
+    # Discord rich-embed notifications for entries and exits
+    # ------------------------------------------------------------------
+
+    def _post_trade_entry_embed(self, *,
+                                position,
+                                signal,
+                                fill_price: float,
+                                contracts_ordered: int) -> None:
+        """Best-effort: build + POST the entry embed to Discord. Any
+        failure is logged and swallowed — we never block trading on a
+        notification."""
+        try:
+            from live.trade_notifications import (
+                build_entry_embed, post_payload, get_webhook_url,
+            )
+            webhook = get_webhook_url()
+            if not webhook:
+                return
+            payload = build_entry_embed(
+                position=position,
+                signal=signal,
+                fill_price=fill_price,
+                contracts_ordered=contracts_ordered,
+                contract_spec=self.contract,
+                exit_params=self.exit_params,
+                plan=getattr(self, "_mancini_llm_plan", None),
+                session_date=str(self._session_date),
+                entry_time=getattr(self, "_entry_timestamp", None),
+            )
+            ok, info = post_payload(payload, webhook)
+            if not ok:
+                logger.warning(f"Trade entry embed post failed: {info}")
+        except Exception as e:
+            logger.warning(f"Trade entry embed build failed: {e!r}")
+
+    def _post_trade_exit_embed(self, *,
+                               phase: str,
+                               action,
+                               pre_position,
+                               timestamp: datetime) -> None:
+        """Best-effort: build + POST the exit embed (T1 / T2 / stop /
+        runner trail / EOD). Reads pre_position to compute remaining
+        contracts AFTER this fill correctly."""
+        try:
+            from live.trade_notifications import (
+                build_exit_embed, post_payload, get_webhook_url,
+            )
+            webhook = get_webhook_url()
+            if not webhook:
+                return
+            if pre_position is None:
+                return
+            entry_price = float(getattr(pre_position, "entry_price", 0.0))
+            direction = (getattr(pre_position, "direction", None) or "long").lower()
+            fill_price = float(getattr(action, "exit_price", 0.0))
+            contracts_closed = int(getattr(action, "contracts_to_close", 0) or 0)
+            # Remaining AFTER this fill
+            remaining_before = int(getattr(pre_position, "remaining_contracts", 0))
+            remaining_after = max(0, remaining_before - contracts_closed)
+            if phase in ("stop", "runner_trail", "eod"):
+                # These close everything that's left
+                contracts_closed = remaining_before
+                remaining_after = 0
+            # Cumulative realized PnL across the trade so far
+            realized_so_far = float(getattr(pre_position, "realized_pnl_pts", 0.0))
+            if direction == "long":
+                slice_pnl = (fill_price - entry_price) * contracts_closed
+            else:
+                slice_pnl = (entry_price - fill_price) * contracts_closed
+            cum_pnl_pts = realized_so_far + slice_pnl
+            new_stop = getattr(action, "new_stop", None)
+            target_2 = float(getattr(pre_position, "target_2", 0.0))
+            next_target = target_2 if phase == "t1" and target_2 > 0 else None
+            payload = build_exit_embed(
+                phase=phase,
+                fill_price=fill_price,
+                contracts_closed=contracts_closed,
+                entry_price=entry_price,
+                direction=direction,
+                contract_spec=self.contract,
+                remaining_contracts=remaining_after,
+                realized_pnl_pts_so_far=cum_pnl_pts,
+                new_stop=new_stop,
+                next_target=next_target,
+                reason=getattr(action, "reason", ""),
+                fill_time=timestamp,
+            )
+            ok, info = post_payload(payload, webhook)
+            if not ok:
+                logger.warning(f"Trade exit embed post failed: {info}")
+        except Exception as e:
+            logger.warning(f"Trade exit embed build failed: {e!r}")
 
     def _log_partial_exit(self, action: ExitAction, timestamp: datetime) -> None:
         """Log a partial exit (T1/T2) to trades.jsonl so the dashboard can show it."""

@@ -552,7 +552,17 @@ class Watchdog:
             print(f"[WATCHDOG] Webhook failed: {e}")
 
     def _send_trade_webhook(self, event: str, pattern: str, **kwargs) -> None:
-        """Send trade entry/exit notification to Discord."""
+        """Send trade entry/exit notification to Discord.
+
+        DEPRECATED. As of the rich-embed PR, the bot posts trade events
+        directly via live.trade_notifications. This watchdog path is kept
+        as a fallback emergency channel and is GATED by the
+        WATCHDOG_LEGACY_TRADE_NOTIFY env var. Default behavior is silent
+        — no duplicate Discord notifications.
+        """
+        import os as _os
+        if not _os.environ.get("WATCHDOG_LEGACY_TRADE_NOTIFY"):
+            return
         if not self.webhook_url or not _HAS_REQUESTS:
             return
 
