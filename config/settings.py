@@ -518,7 +518,16 @@ class StrategyParams:
     mode1_bearish_pressure_bars: int = 60   # 60+ bars of bearish pressure = Mode 1 signal
     mode1_level_broken_hold_bars: int = 20  # level must stay broken for 20+ bars to count
     mode1_size_reduction: float = 0.25      # reduce to 25% size on Mode 1 Red days
-    mode1_disable_fb_longs: bool = False    # option to completely disable FB longs on Mode 1 Red
+    mode1_disable_fb_longs: bool = False    # legacy: completely disable FB longs on Mode 1 Red
+
+    # Mancini's Mode 1 Red rule (May 8 2025 post): "On Mode 1 red days,
+    # there often won't be a failed breakdown until before the close or
+    # in the early evening and one just has to wait patiently all day for
+    # the sell to complete." Block FB longs while Mode 1 Red is active
+    # AND we're earlier than this hour ET. After the cutoff, FBs are
+    # allowed so the late-day exhaustion reversal can fire.
+    mode1_red_fb_long_block_until_hour: int = 15  # 3pm ET
+    mode1_red_fb_long_block_until_minute: int = 0
 
     # Mode 1 Green trend day detection (mirror of Mode 1 Red, UP direction)
     # Mancini Apr 15 2026: on trend-up days FBs can fire near significant lows

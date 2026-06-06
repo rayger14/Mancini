@@ -34,6 +34,7 @@ from core.bar_aggregator import BarAggregator
 from core.daily_structure import DailyStructureDetector
 from core.intraday_context import IntradayContextTracker, IntradayState
 from core.level_scoring import LevelQualityScorer
+from core.mode1_detector import Mode1Detector
 from core.price_levels import PriceLevelDetector
 
 
@@ -181,6 +182,15 @@ class SignalAggregator:
         # ``mode1_green_fb_min_rr`` as the R:R floor for FB longs.
         self.mode1_green_active: bool = False
 
+        # Mode 1 Red intraday detector. Runs every bar when
+        # use_mode1_detection is True. Used by _check_mancini_llm_gates to
+        # block FB longs during the day per Mancini's May 8 2025 rule:
+        # "On Mode 1 red days, there often won't be a failed breakdown
+        # until before the close or in the early evening and one just
+        # has to wait patiently all day for the sell to complete."
+        self._mode1_detector = Mode1Detector(strategy_params)
+        self.mode1_red_active: bool = False
+
         # Daily structure detector — macro bias from daily chart
         self._daily_structure = DailyStructureDetector(strategy_params)
         self._daily_bias: str = "NEUTRAL"
@@ -209,6 +219,42 @@ class SignalAggregator:
         responsible for loading the plan via ``live.mancini_llm_extract.load_plan``.
         """
         self._mancini_llm_plan = plan
+
+    def _check_mode1_red_gate(self, pattern, signal_type) -> Optional[str]:
+        """Block FB longs while Mode 1 Red is active intraday and we're
+        earlier than the configured cutoff time. Mancini May 8 2025:
+
+          "On Mode 1 red days, there often won't be a failed breakdown
+          until before the close or in the early evening and one just
+          has to wait patiently all day for the sell to complete."
+
+        Returns a rejection reason or ``None`` to allow.
+        """
+        if not getattr(self.strategy_params, "use_mode1_detection", False):
+            return None
+        if not self.mode1_red_active:
+            return None
+        if signal_type != SignalType.FAILED_BREAKDOWN:
+            return None
+        if (getattr(pattern, "direction", "long") or "long") != "long":
+            return None
+
+        cutoff = dt_time(
+            int(getattr(self.strategy_params,
+                        "mode1_red_fb_long_block_until_hour", 15)),
+            int(getattr(self.strategy_params,
+                        "mode1_red_fb_long_block_until_minute", 0)),
+        )
+        ts = getattr(pattern, "timestamp", None)
+        bar_time = ts.time() if ts is not None else None
+        if bar_time is not None and bar_time >= cutoff:
+            # Past the cutoff — Mancini says the late-day FB is fine.
+            return None
+
+        return (
+            f"mode1_red active and time<{cutoff} — block FB long "
+            f"(Mancini: 'wait patiently all day for the sell to complete')"
+        )
 
     def _check_mancini_llm_gates(self, pattern, signal_type) -> Optional[str]:
         """Return a non-empty rejection reason if the LLM plan vetoes
@@ -356,6 +402,9 @@ class SignalAggregator:
         self._elevator_recovery_drop = 0.0
         self._intraday_tracker.reset()
         self._intraday_state = IntradayState.NEUTRAL
+        # Mode 1 Red detector — reset per session, PDL re-set in initialize_levels.
+        self._mode1_detector.reset()
+        self.mode1_red_active = False
 
     def initialize_levels(
         self,
@@ -391,6 +440,17 @@ class SignalAggregator:
                                 store, df_5min_prior, idx,
                             )
         self.level_store = store
+
+        # Wire prior-day low into the Mode 1 Red detector — one of its
+        # three conditions is "sustained bars below PDL".
+        if (self.strategy_params.use_mode1_detection
+                and prior_day_df is not None
+                and len(prior_day_df) > 0):
+            try:
+                pdl = float(prior_day_df["low"].min())
+                self._mode1_detector.set_pdl(pdl)
+            except (KeyError, ValueError, TypeError):
+                pass
 
     def update(
         self,
@@ -457,6 +517,19 @@ class SignalAggregator:
                 df_5min=df_5min,
                 bar_idx_5min=bar_idx_5min,
             )
+
+        # 1b. Mode 1 Red intraday detection — runs per bar AFTER level
+        # detection (it reads the level_store) but BEFORE pattern firing so
+        # that _qualify_signal's gates see the up-to-date state.
+        if self.strategy_params.use_mode1_detection:
+            self._mode1_detector.update(
+                bar_idx=bar_idx,
+                close=close,
+                low=low,
+                level_store=self.level_store,
+                timestamp=timestamp,
+            )
+            self.mode1_red_active = self._mode1_detector.state.is_mode1_red
 
         # 2. Elevator down detection
         elevator_event = self.elevator_detector.update(
@@ -1434,6 +1507,15 @@ class SignalAggregator:
         self, pattern: PatternSignal, signal_type: SignalType
     ) -> Optional[Signal]:
         """Calculate targets, R:R, and filter."""
+        # Mode 1 Red intraday gate (Mancini's "wait patiently all day"
+        # rule). Runs BEFORE the LLM plan gate so the more general
+        # "this is a trend down day" check fires first and the rejection
+        # reason is more interpretable.
+        m1_reject = self._check_mode1_red_gate(pattern, signal_type)
+        if m1_reject is not None:
+            logger.info(f"Mode 1 Red gate rejected signal: {m1_reject}")
+            return None
+
         # Mancini LLM plan early gates (mode_1_green, danger zones, no-trade
         # zones). No-op when use_mancini_llm_plan is False or no plan loaded.
         llm_reject = self._check_mancini_llm_gates(pattern, signal_type)
