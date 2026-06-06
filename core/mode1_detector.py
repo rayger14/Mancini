@@ -177,7 +177,19 @@ class Mode1Detector:
             self._bearish_pressure_bars >= self.params.mode1_bearish_pressure_bars
         )
 
-        # --- Evaluate: any 2 of 3 conditions = MODE_1_RED ---
+        # --- Evaluate: Condition 2 (sustained below PDL) is REQUIRED ---
+        # The previous logic ("any 2 of 3") fired on any moderate down day
+        # that broke a few intraday levels + had bearish pressure. Empirical
+        # eval on 332 sessions (backtest/tune_mode1_red_detector.py):
+        #
+        #   any 2 of 3       precision=10.9%  recall=100.0%  F1=19.6%
+        #   require PDL      precision=23.1%  recall= 69.4%  F1=34.7%
+        #
+        # The structural signal for a true Mode 1 Red day is breaking AND
+        # holding below the prior day's low — Mancini's "open to close
+        # trend down" implies you're below the entire prior day's range
+        # for most of the session. Without PDL break, it's just intraday
+        # weakness in a Mode 2 day, not a trend day.
         conditions_met = sum([condition_levels, condition_pdl, condition_pressure])
         self._state.condition_levels = condition_levels
         self._state.condition_pdl = condition_pdl
@@ -185,7 +197,9 @@ class Mode1Detector:
         self._state.conditions_met = conditions_met
 
         was_mode1 = self._state.is_mode1_red
-        self._state.is_mode1_red = conditions_met >= 2
+        # PDL break is required; at least one other condition must also fire
+        # (so we don't trigger on a single transient PDL touch).
+        self._state.is_mode1_red = condition_pdl and conditions_met >= 2
 
         if self._state.is_mode1_red and not was_mode1:
             logger.warning(
