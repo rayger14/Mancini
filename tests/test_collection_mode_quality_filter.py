@@ -194,3 +194,31 @@ class TestProductionScenario:
         runner = _runner_with_plan([_FakeSetup(level_price=7530.0)])
         sig = _FakeSignal(pattern=None, entry_price=7530.0)
         assert IBRunner._collection_mode_is_quality_setup(runner, sig) is False
+
+
+# ---------------------------------------------------------------------------
+# Bypass entry sizing
+# ---------------------------------------------------------------------------
+
+
+class TestBypassEntrySizing:
+    """Collection-mode bypass entries ride only on bypassed TIME gates —
+    they must not also bypass position sizing.
+
+    Trade #16229 (2026-06-05, -130 pts): signal had position_size_factor
+    0.25 for a 31-pt stop, but the bypass path rebuilt the EntryDecision
+    with default_contracts=4. Bypass entries are now risk-floored at 1
+    contract — the collection-data value is identical at minimum size.
+    """
+
+    def test_bypass_entries_are_one_contract(self):
+        runner = SimpleNamespace()
+        sig = SimpleNamespace(entry_price=7474.0, stop_price=7443.0)
+        entry = IBRunner._build_bypass_entry(
+            runner, sig, ["In chop zone (1PM-3PM)", "In chop zone (11AM-2PM)"]
+        )
+        assert entry.should_enter is True
+        assert entry.contracts == 1
+        assert entry.entry_price == 7474.0
+        assert entry.stop_price == 7443.0
+        assert "chop zone" in entry.reason.lower()

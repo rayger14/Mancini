@@ -594,6 +594,24 @@ class IBRunner:
 
     _MANCINI_PLAN_MATCH_TOLERANCE_PTS = 2.0
 
+    def _build_bypass_entry(self, signal, gates_bypassed: list) -> EntryDecision:
+        """Build the EntryDecision for a collection-mode time-gate bypass.
+
+        Bypass entries skip EntryManager sizing entirely, so they must not
+        inherit full default_contracts: trade #16229 (2026-06-05) carried
+        position_size_factor 0.25 for a 31-pt stop yet went out 4 contracts
+        and lost 130 pts. Collection data is worth the same at minimum size
+        — risk-floor every bypass entry at 1 contract.
+        """
+        return EntryDecision(
+            should_enter=True,
+            signal=signal,
+            contracts=1,
+            reason=f"Bypass: {', '.join(gates_bypassed)}",
+            entry_price=signal.entry_price,
+            stop_price=signal.stop_price,
+        )
+
     def _collection_mode_is_quality_setup(self, signal) -> bool:
         """Return True if a signal that was about to be taken via the time-
         gate bypass is also a *quality* setup worth collecting.
@@ -1222,14 +1240,7 @@ class IBRunner:
             )
             # Entry was rejected by time gate — use signal values directly
             if entry.contracts <= 0:
-                entry = EntryDecision(
-                    should_enter=True,
-                    signal=signal,
-                    contracts=self.exit_manager.params.default_contracts or 1,
-                    reason=f"Bypass: {', '.join(gates_that_would_fire)}",
-                    entry_price=signal.entry_price,
-                    stop_price=signal.stop_price,
-                )
+                entry = self._build_bypass_entry(signal, gates_that_would_fire)
 
         # Final contracts sanity check before sending to IB
         if entry.contracts <= 0:
