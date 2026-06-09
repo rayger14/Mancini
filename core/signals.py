@@ -325,6 +325,78 @@ class SignalAggregator:
 
         return None
 
+    def _check_cluster_low_plan_requirement(
+        self, pattern, signal_type
+    ) -> Optional[str]:
+        """Reject FB-long / LR-long signals whose underlying level is a
+        ``CLUSTER_LOW`` unless the Mancini plan has a matching long setup
+        within ``mancini_llm_setup_match_tolerance_pts``.
+
+        Rationale (5y leak audit, 2026-06-08): ~98% of acceptance-protocol
+        FB longs fire on engine-derived CLUSTER_LOW levels and the cohort
+        leaks ~$94K over 5 years. Mancini's playbook explicitly warns
+        "mid-range entries are noisy" — CLUSTER_LOW IS the noisy mid-range
+        cluster. The fix uses Mancini's curated plan as a quality
+        whitelist: when his plan names an FB-long at e.g. 7517, a
+        CLUSTER_LOW at 7517 is real; without plan blessing it's noise.
+
+        No-op (returns None) unless
+        ``strategy_params.cluster_low_requires_plan_match`` is True.
+        Other signal types, short signals, and non-CLUSTER_LOW levels are
+        always allowed through. If no plan is loaded (or no
+        ``planned_setups``), the gate treats it as "no match" and rejects.
+
+        Returns
+        -------
+        Optional[str]
+            Rejection reason if the gate trips, else ``None``.
+        """
+        if not getattr(
+            self.strategy_params, "cluster_low_requires_plan_match", False
+        ):
+            return None
+        if signal_type not in (
+            SignalType.FAILED_BREAKDOWN,
+            SignalType.LEVEL_RECLAIM,
+        ):
+            return None
+        direction = getattr(pattern, "direction", "long") or "long"
+        if direction != "long":
+            return None
+        if pattern.level is None:
+            return None
+        if pattern.level.level_type != LevelType.CLUSTER_LOW:
+            return None
+
+        level_price = pattern.level.price
+        tolerance = float(getattr(
+            self.strategy_params,
+            "mancini_llm_setup_match_tolerance_pts",
+            2.0,
+        ))
+
+        plan = self._mancini_llm_plan
+        if plan is None or not getattr(plan, "planned_setups", None):
+            return (
+                f"CLUSTER_LOW @ {level_price:.2f} requires Mancini plan "
+                f"match; no plan loaded"
+            )
+
+        for setup in plan.planned_setups:
+            if getattr(setup, "direction", None) != "long":
+                continue
+            try:
+                setup_price = float(setup.level_price)
+            except (TypeError, ValueError):
+                continue
+            if abs(setup_price - level_price) <= tolerance:
+                return None  # matched — allow
+
+        return (
+            f"CLUSTER_LOW @ {level_price:.2f} has no matching long setup "
+            f"within {tolerance:.1f}pt in Mancini plan"
+        )
+
     def _mancini_llm_setup_bonus(self, pattern, signal_type) -> int:
         """If the signal matches one of ``plan.planned_setups`` (level
         price within tolerance + matching direction), return the LQS
@@ -1550,6 +1622,20 @@ class SignalAggregator:
         llm_reject = self._check_mancini_llm_gates(pattern, signal_type)
         if llm_reject is not None:
             logger.debug(f"Mancini LLM plan rejected signal: {llm_reject}")
+            return None
+
+        # CLUSTER_LOW quality whitelist gate. Off by default. When enabled,
+        # FB-long / LR-long signals whose underlying level is a CLUSTER_LOW
+        # must be blessed by a matching long setup in Mancini's plan, else
+        # they're rejected as noisy mid-range clusters. Runs AFTER the LLM
+        # plan gates so the per-trade reason logs are ordered consistently.
+        cluster_reject = self._check_cluster_low_plan_requirement(
+            pattern, signal_type
+        )
+        if cluster_reject is not None:
+            logger.info(
+                f"CLUSTER_LOW plan-match gate rejected signal: {cluster_reject}"
+            )
             return None
 
         # FB level freshness gate (Mancini's 24-36 hour rule). Older levels
