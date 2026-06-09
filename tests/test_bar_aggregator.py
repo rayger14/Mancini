@@ -98,6 +98,101 @@ class TestBarAggregator:
         result = agg.update_incremental(df)
         assert len(result) == 0
 
+    def test_update_incremental_trimmed_window_excludes_forming_bar(self):
+        """A rolling window trimmed mid-bucket must not leak the forming 5-min bar.
+
+        Live, ib_runner keeps the last 400 1-min bars, so the DF rarely starts
+        on a 5-min boundary. 10 bars from 09:32 → buckets 09:30 (partial),
+        09:35 (complete), 09:40 (forming at 09:41). Only 09:35 is returnable.
+        """
+        prices = [(5800.0, 5801.0, 5799.5, 5800.5)] * 10
+        df = make_bars(prices, start=datetime(2024, 1, 15, 9, 32))
+        agg = BarAggregator(period_minutes=5)
+        result = agg.update_incremental(df)
+        assert len(result) == 1
+        assert result.index[0] == pd.Timestamp(datetime(2024, 1, 15, 9, 35))
+
+    def test_update_incremental_drops_partial_leading_bucket(self):
+        """A leading bucket missing its first minutes is dropped, complete one kept.
+
+        7 bars from 09:33 → bucket 09:30 has only 09:33-09:34 (wrong OHLC),
+        bucket 09:35 is complete through 09:39.
+        """
+        prices = [(5800.0, 5801.0, 5799.5, 5800.5)] * 7
+        df = make_bars(prices, start=datetime(2024, 1, 15, 9, 33))
+        agg = BarAggregator(period_minutes=5)
+        result = agg.update_incremental(df)
+        assert len(result) == 1
+        assert result.index[0] == pd.Timestamp(datetime(2024, 1, 15, 9, 35))
+
+    def test_update_incremental_gap_does_not_leak_forming_bar(self):
+        """Completeness is decided by timestamps, not row count, across data gaps.
+
+        5 bars 09:30-09:34, then 5 bars 09:36-09:40 (gap at 09:35). Bucket
+        09:30 is complete, bucket 09:35 ended (covered through 09:39), bucket
+        09:40 is still forming at 09:40 and must be dropped — even though
+        len(df) % 5 == 0.
+        """
+        prices = [(5800.0, 5801.0, 5799.5, 5800.5)] * 10
+        first = make_bars(prices[:5], start=datetime(2024, 1, 15, 9, 30))
+        second = make_bars(prices[5:], start=datetime(2024, 1, 15, 9, 36))
+        df = pd.concat([first, second])
+        agg = BarAggregator(period_minutes=5)
+        result = agg.update_incremental(df)
+        assert list(result.index) == [
+            pd.Timestamp(datetime(2024, 1, 15, 9, 30)),
+            pd.Timestamp(datetime(2024, 1, 15, 9, 35)),
+        ]
+
+
+# ---------------------------------------------------------------------------
+# Catch-up look-ahead tests
+# ---------------------------------------------------------------------------
+
+
+class TestCatchUpNoLookahead:
+    """During startup catch-up, update() receives the full session DF while
+    replaying early bars. 5-min level detection must not see future buckets."""
+
+    def test_update_with_future_bars_does_not_create_future_5min_levels(self):
+        from core.signals import SignalAggregator
+
+        # 120 flat 1-min bars at ~5800, except a swing low to 5750 at
+        # minutes 85-89. That is 5-min bucket 17 — exactly order(6) buckets
+        # behind the last completed bucket (23), so a full-df call confirms
+        # it as a swing low even while replaying bar 10 (09:40).
+        prices = []
+        for i in range(120):
+            if 85 <= i <= 89:
+                prices.append((5752.0, 5753.0, 5750.0, 5752.0))
+            else:
+                prices.append((5800.0, 5801.0, 5799.5, 5800.5))
+        df = make_bars(prices, start=datetime(2024, 1, 15, 9, 30))
+
+        params = StrategyParams(use_5min_levels=True)
+        agg = SignalAggregator(strategy_params=params)
+
+        # Catch-up style call: replaying bar 10 (09:40) with the FULL df
+        agg.update(
+            bar_idx=10,
+            timestamp=df.index[10],
+            open_=float(df["open"].iat[10]),
+            high=float(df["high"].iat[10]),
+            low=float(df["low"].iat[10]),
+            close=float(df["close"].iat[10]),
+            volume=1000.0,
+            velocity=0.0,
+            df=df,
+        )
+
+        future_levels = [
+            l for l in agg.level_store.levels if abs(l.price - 5750.0) < 2.0
+        ]
+        assert future_levels == [], (
+            f"5-min swing low from the future (10:30 dip) leaked into the "
+            f"level store while replaying 09:40: {future_levels}"
+        )
+
 
 # ---------------------------------------------------------------------------
 # Shelf-of-lows detection tests

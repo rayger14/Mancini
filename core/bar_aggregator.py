@@ -42,8 +42,14 @@ class BarAggregator:
     def update_incremental(self, df_1min: pd.DataFrame) -> pd.DataFrame:
         """Resample and return only completed 5-min bars.
 
-        The last 5-min bar is dropped if it is still forming (fewer than
-        ``period`` 1-min bars have contributed to it).
+        Completeness is decided by timestamps, not row count: live DFs are
+        rolling windows trimmed mid-bucket and can have data gaps, so
+        ``len % period`` says nothing about whether the last bucket is done.
+
+        - The trailing bucket is kept only once data covers its final minute
+          (bars are labeled by start time).
+        - The leading bucket is dropped if the window starts mid-bucket,
+          since its OHLC would be computed from a truncated slice.
 
         Parameters
         ----------
@@ -58,7 +64,17 @@ class BarAggregator:
         if df_1min is None or len(df_1min) < self.period:
             return pd.DataFrame()
         resampled = self.resample(df_1min)
-        # Drop the last row if it's incomplete (current 5-min bar still forming)
-        if len(resampled) > 0 and len(df_1min) % self.period != 0:
-            resampled = resampled.iloc[:-1]
+        if len(resampled) == 0:
+            return resampled
+        period_td = pd.Timedelta(minutes=self.period)
+        covered_until = df_1min.index[-1] + pd.Timedelta(minutes=1)
+        resampled = resampled[resampled.index + period_td <= covered_until]
+        first_ts = df_1min.index[0]
+        bucket_of_first = first_ts.floor(f"{self.period}min")
+        if (
+            len(resampled) > 0
+            and first_ts != bucket_of_first
+            and resampled.index[0] == bucket_of_first
+        ):
+            resampled = resampled.iloc[1:]
         return resampled
