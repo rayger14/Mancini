@@ -136,6 +136,12 @@ PRODUCTION_STRATEGY = StrategyParams(
     # winner because the gate hard-blocked a non-acceptance signal — the
     # exact case Mancini's rule says IS the way to enter inside the zone.
     danger_zone_allow_non_acceptance=True,
+    # CLUSTER_LOW quality filter: require a Mancini plan match for FB/LR
+    # longs anchored to engine-derived CLUSTER_LOW levels. Backtest (332
+    # sessions) showed CLUSTER_LOW was 98% of the acceptance-protocol
+    # leak (-$97K). Gating these by plan match cuts the leak and routes
+    # the engine to Mancini's actual structural levels.
+    cluster_low_requires_plan_match=True,
 )
 PRODUCTION_ELEVATOR = ElevatorParams(
     min_velocity_pts_per_min=0.75,
