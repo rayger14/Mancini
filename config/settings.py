@@ -234,6 +234,13 @@ class StrategyParams:
     # lows producing 100-170pt rallies happen in this regime. Set to 0 to
     # disable the override (always enforce the 36h gate).
     fb_macro_vix_threshold: float = 20.0
+    # Type-based exemption: structural multi-day levels (prior-day low,
+    # multi-hour low, intraday shelves, and Mancini plan-named CUSTOM levels)
+    # are not bound by the same age cap as engine-derived intraday clusters.
+    # Mancini routinely holds multi-day runners off PDL / MHL shelves, and
+    # his own plan levels can remain valid for the entire week. Off by
+    # default; enable in a follow-up after backtest validation.
+    fb_age_cap_exempt_high_quality_levels: bool = False
 
     # True breakdown abort: consecutive bars closing below level
     true_breakdown_abort_bars: int = 20

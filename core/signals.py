@@ -1557,7 +1557,35 @@ class SignalAggregator:
         # own commentary. Skip the gate when VIX is elevated; enforce when
         # calm. Set fb_max_level_age_hours=0 to disable entirely.
         max_age_hours = getattr(self.strategy_params, "fb_max_level_age_hours", 0.0)
+        # Type-based exemption: structural multi-day levels are not bound
+        # by the same age cap as engine-derived intraday clusters. Mancini
+        # holds multi-day runners off PDL / MHL / INTRADAY shelves and his
+        # own plan-named levels (CUSTOM) can be valid for the entire week.
+        # Off by default; enable via fb_age_cap_exempt_high_quality_levels.
+        type_exempt = False
         if (max_age_hours > 0
+                and signal_type == SignalType.FAILED_BREAKDOWN
+                and pattern.level is not None
+                and getattr(
+                    self.strategy_params,
+                    "fb_age_cap_exempt_high_quality_levels",
+                    False,
+                )):
+            exempt_types = {
+                LevelType.PRIOR_DAY_LOW,
+                LevelType.MULTI_HOUR_LOW,
+                LevelType.INTRADAY_LOW,
+                LevelType.CUSTOM,
+            }
+            if pattern.level.level_type in exempt_types:
+                type_exempt = True
+                logger.debug(
+                    f"FB freshness gate skipped: level_type="
+                    f"{pattern.level.level_type.name} is exempt from age cap"
+                )
+
+        if (not type_exempt
+                and max_age_hours > 0
                 and signal_type == SignalType.FAILED_BREAKDOWN
                 and pattern.level is not None
                 and pattern.level.created_at is not None):
