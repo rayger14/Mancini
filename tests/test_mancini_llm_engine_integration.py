@@ -101,11 +101,18 @@ def test_plan_loaded_but_flag_off_is_no_op():
 # ---------------------------------------------------------------------------
 
 
-def test_mode_1_green_blocks_fb_long():
-    """Mancini's rule: no FB longs on Mode 1 Green days."""
+def test_mode_1_green_blocks_subsequent_fb_long():
+    """Mancini's verbatim rule: 'All Mode 1 green days are triggered by a
+    Failed Breakdown ... but if you missed the triggering Failed Breakdown
+    on these days, you are typically out of luck.' The FIRST FB long is the
+    triggering trade he wants us in — subsequent FB longs are the ones to
+    block.
+    """
     agg = _agg()
     agg.set_mancini_llm_plan(ManciniPlan(mode="mode_1_green"))
     pattern = _fb_pattern()
+    # Simulate the triggering FB already taken earlier in the session.
+    agg._fb_long_taken_today = True
     signal = agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN)
     assert signal is None
 
