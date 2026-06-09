@@ -639,6 +639,17 @@ class StrategyParams:
     mancini_llm_plan_dir: str = "/app/data"
     mancini_llm_setup_match_tolerance_pts: float = 2.0
     mancini_llm_setup_lqs_bonus: int = 15
+    # CLUSTER_LOW quality filter (5y leak audit, 2026-06-08):
+    # 98% of acceptance-protocol FB longs fire on engine-derived CLUSTER_LOW
+    # levels, producing -$94K losses over 5 years. Mancini explicitly warns
+    # "mid-range entries are noisy" — CLUSTER_LOW IS the noisy mid-range
+    # cluster. When True, an FB-long or LR-long whose underlying
+    # pattern.level.level_type is CLUSTER_LOW may only fire if it also
+    # matches a Mancini plan setup price within
+    # mancini_llm_setup_match_tolerance_pts AND direction is long. No plan
+    # loaded => treated as no match => reject. Other level types unaffected.
+    # Off by default; enable in PRODUCTION_STRATEGY only after backtest.
+    cluster_low_requires_plan_match: bool = False
     # Mancini's verbatim danger-zone rule:
     #   "5 pts above swept low is danger zone; use non-acceptance protocol
     #    or wait for clear acceptance."
