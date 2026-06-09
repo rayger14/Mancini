@@ -1400,6 +1400,7 @@ class IBRunner:
                 plan=getattr(self, "_mancini_llm_plan", None),
                 session_date=str(self._session_date),
                 entry_time=getattr(self, "_entry_timestamp", None),
+                trade_id=getattr(self, "_trade_id", None) or None,
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
@@ -1459,6 +1460,7 @@ class IBRunner:
                 next_target=next_target,
                 reason=getattr(action, "reason", ""),
                 fill_time=timestamp,
+                trade_id=getattr(self, "_trade_id", None) or None,
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
