@@ -131,6 +131,11 @@ PRODUCTION_STRATEGY = StrategyParams(
     # actually consume the output. Inert when plan file is missing or
     # extract_status != "ok".
     use_mancini_llm_plan=True,
+    # Mancini's verbatim danger-zone carve-out (C1'): allow non-acceptance
+    # protocol FB longs through the gate. June 8 2026 we missed a $785
+    # winner because the gate hard-blocked a non-acceptance signal — the
+    # exact case Mancini's rule says IS the way to enter inside the zone.
+    danger_zone_allow_non_acceptance=True,
 )
 PRODUCTION_ELEVATOR = ElevatorParams(
     min_velocity_pts_per_min=0.75,
