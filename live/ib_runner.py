@@ -372,10 +372,33 @@ class IBRunner:
         # yesterday's plan after a 18:00–midnight restart.
         self._session_date = self._compute_globex_trading_date(datetime.now(_ET))
 
-        # Connect to IB
-        if not self.bridge.connect():
-            logger.error("Failed to connect to IB")
-            return
+        # Connect to IB with retry. IB Gateway takes ~120s to fully accept
+        # API connections after cold start (Java boot + login + session
+        # config), and the bot can race that on a coordinated docker
+        # compose up. Without retry, the bot exits and docker restarts it
+        # in a tight loop — observed 25 restarts in 23 min on 2026-06-06
+        # while Gateway was rebuilding. PR #21 added graceful mid-session
+        # reconnect but didn't cover this initial-connect window.
+        connect_max_attempts = 12  # ~6 min budget — Gateway boot ≤ 120s
+        connect_attempt = 0
+        while self._running:
+            if self.bridge.connect():
+                break
+            connect_attempt += 1
+            if connect_attempt >= connect_max_attempts:
+                logger.error(
+                    f"Failed to connect to IB after {connect_max_attempts} "
+                    "attempts — giving up"
+                )
+                return
+            delay = min(30, 5 * connect_attempt)
+            logger.warning(
+                f"IB connect attempt {connect_attempt}/{connect_max_attempts} "
+                f"failed — retrying in {delay}s"
+            )
+            _time.sleep(delay)
+        if not self._running:
+            return  # shutdown signal during retry
 
         # Initialize session
         if not self._initialize_session():
