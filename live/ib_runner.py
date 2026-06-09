@@ -18,6 +18,7 @@ import os
 import signal as os_signal
 import sys
 import time as _time
+from types import SimpleNamespace
 from datetime import datetime, date, time
 from pathlib import Path
 from typing import Optional
@@ -1443,7 +1444,8 @@ class IBRunner:
             cum_pnl_pts = realized_so_far + slice_pnl
             new_stop = getattr(action, "new_stop", None)
             target_2 = float(getattr(pre_position, "target_2", 0.0))
-            next_target = target_2 if phase == "t1" and target_2 > 0 else None
+            next_target = (target_2 if phase == "t1" and target_2 > 0
+                           and remaining_after > 0 else None)
             payload = build_exit_embed(
                 phase=phase,
                 fill_price=fill_price,
@@ -1560,6 +1562,23 @@ class IBRunner:
                 pnl = (fill_price - self._position.entry_price) * contracts
             else:
                 pnl = (self._position.entry_price - fill_price) * contracts
+            # Post the Discord exit embed BEFORE mutating position state —
+            # the embed reads pre-fill remaining_contracts / realized_pnl_pts
+            # from the position. Broker-side bracket fills are the main
+            # production exit path and previously never posted an embed
+            # (only _handle_exit_action did).
+            embed_phase = {"TP": "t1", "SL": "stop"}.get(exit_type, "bracket")
+            self._post_trade_exit_embed(
+                phase=embed_phase,
+                action=SimpleNamespace(
+                    exit_price=fill_price,
+                    contracts_to_close=contracts,
+                    new_stop=None,
+                    reason=f"IB bracket {exit_type} fill",
+                ),
+                pre_position=self._position,
+                timestamp=datetime.now(_ET),
+            )
             self._position.realized_pnl_pts += pnl
             self._position.remaining_contracts = 0
             self._position.phase = ExitPhase.CLOSED
