@@ -632,6 +632,16 @@ class StrategyParams:
     mancini_llm_plan_dir: str = "/app/data"
     mancini_llm_setup_match_tolerance_pts: float = 2.0
     mancini_llm_setup_lqs_bonus: int = 15
+    # Mancini's verbatim danger-zone rule:
+    #   "5 pts above swept low is danger zone; use non-acceptance protocol
+    #    or wait for clear acceptance."
+    # When True, signals that the engine's pattern detector qualified via
+    # the NON_ACCEPTANCE confirmation path are allowed through the danger
+    # zone gate (matching Mancini's explicit carve-out). Acceptance-protocol
+    # signals are still blocked by the gate when in a danger zone — the
+    # 5y leak analysis shows acceptance-protocol FB longs lose money and
+    # the gate is correct for that path.
+    danger_zone_allow_non_acceptance: bool = False
 
     # --- Daily Structure Detector ---
     # Macro bias from daily chart: detects daily FB (bullish) or BD (bearish)

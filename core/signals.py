@@ -283,10 +283,39 @@ class SignalAggregator:
             return f"mancini_mode={plan.mode} blocks FB long"
 
         if direction == 'long':
+            # Mancini's danger zone carve-out (C1' / June 8 2026 miss):
+            #   "5 pts above swept low is danger zone; use non-acceptance
+            #    protocol or wait for clear acceptance."
+            # When danger_zone_allow_non_acceptance is True, signals that
+            # qualified via the engine's NON_ACCEPTANCE confirmation path
+            # are allowed through (Mancini explicitly says non-acceptance
+            # IS the way to enter inside the zone — deep flush + sharp
+            # recovery is the trapped-shorts setup he's looking for).
+            allow_non_accept = getattr(
+                self.strategy_params,
+                "danger_zone_allow_non_acceptance", False,
+            )
+            is_non_acceptance = False
+            if allow_non_accept:
+                conf = getattr(pattern, "confirmation", None)
+                conf_name = (
+                    conf.name if hasattr(conf, "name")
+                    else (str(conf) if conf else "")
+                )
+                is_non_acceptance = conf_name.upper() == "NON_ACCEPTANCE"
+
             for zone in plan.danger_zones:
                 lo = zone.price_low
                 hi = zone.price_high if zone.price_high is not None else lo
                 if lo <= entry <= hi:
+                    if is_non_acceptance:
+                        # Mancini's carve-out applies — let it through.
+                        # Log so we can audit which trades the carve-out admitted.
+                        logger.info(
+                            f"Danger zone PASS via non-acceptance carve-out: "
+                            f"entry {entry} in [{lo},{hi}]"
+                        )
+                        break
                     rule = (zone.rule or "")[:60]
                     return f"entry {entry} in danger_zone [{lo},{hi}]: {rule}"
             if plan.no_trade_above is not None and entry >= plan.no_trade_above:
