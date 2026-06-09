@@ -1258,11 +1258,15 @@ class SignalAggregator:
                             "avg_volume_20": avg_vol_20,
                             "would_trade": True,
                         })
-                        # Velocity short is LIVE — trade it
-                        self._log_bar_signal(SignalType.VELOCITY_SHORT, vbd_signal, "taken", signal.rr_ratio_t1)
-                        self._record_signal(SignalType.VELOCITY_SHORT, bar_idx)
-                        self.signals.append(signal)
-                        return signal
+                        if self.strategy_params.shadow_mode_features:
+                            # Shadow: phantom-tracked via the event above, not traded
+                            self._log_bar_signal(SignalType.VELOCITY_SHORT, vbd_signal, "shadow_logged")
+                            self._record_signal(SignalType.VELOCITY_SHORT, bar_idx)
+                        else:
+                            self._log_bar_signal(SignalType.VELOCITY_SHORT, vbd_signal, "taken", signal.rr_ratio_t1)
+                            self._record_signal(SignalType.VELOCITY_SHORT, bar_idx)
+                            self.signals.append(signal)
+                            return signal
                     else:
                         self._log_bar_signal(SignalType.VELOCITY_SHORT, vbd_signal, "rr_rejected")
 
@@ -1286,11 +1290,31 @@ class SignalAggregator:
                 else:
                     signal = self._qualify_short_signal(bt_signal, SignalType.BACKTEST_SHORT)
                     if signal is not None:
-                        self._log_bar_signal(SignalType.BACKTEST_SHORT, bt_signal, "taken", signal.rr_ratio_t1)
-                        self._record_signal(SignalType.BACKTEST_SHORT, bar_idx,
-                                            bt_signal.level.price)
-                        self.signals.append(signal)
-                        return signal
+                        if self.strategy_params.shadow_mode_features:
+                            # Shadow: log with entry/stop/target so phantom
+                            # outcome tracking works, not traded
+                            self.shadow_events.append({
+                                "feature": "backtest_short",
+                                "bar_idx": bar_idx,
+                                "timestamp": str(timestamp),
+                                "entry_price": signal.pattern.entry_price,
+                                "stop_price": signal.pattern.stop_price,
+                                "target_1": signal.target_1,
+                                "rr_ratio_t1": signal.rr_ratio_t1,
+                                "position_size_factor": signal.position_size_factor,
+                                "level_price": signal.pattern.level.price if signal.pattern.level else None,
+                                "level_type": signal.pattern.level.level_type.name if signal.pattern.level else None,
+                                "would_trade": True,
+                            })
+                            self._log_bar_signal(SignalType.BACKTEST_SHORT, bt_signal, "shadow_logged")
+                            self._record_signal(SignalType.BACKTEST_SHORT, bar_idx,
+                                                bt_signal.level.price)
+                        else:
+                            self._log_bar_signal(SignalType.BACKTEST_SHORT, bt_signal, "taken", signal.rr_ratio_t1)
+                            self._record_signal(SignalType.BACKTEST_SHORT, bar_idx,
+                                                bt_signal.level.price)
+                            self.signals.append(signal)
+                            return signal
                     else:
                         self._log_bar_signal(SignalType.BACKTEST_SHORT, bt_signal, "rr_rejected")
 
