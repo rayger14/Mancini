@@ -142,6 +142,13 @@ PRODUCTION_STRATEGY = StrategyParams(
     # leak (-$97K). Gating these by plan match cuts the leak and routes
     # the engine to Mancini's actual structural levels.
     cluster_low_requires_plan_match=True,
+    # FB level freshness gate: exempt structural-quality level types
+    # (PRIOR_DAY_LOW, MULTI_HOUR_LOW, INTRADAY_LOW, CUSTOM Mancini-plan
+    # levels) from the 24-36h age cap. Mancini routinely holds runners
+    # against multi-day shelves (e.g. his 7517 PDL flagged "since last
+    # Tuesday"). Engine-derived intraday clusters still expire normally.
+    # Backtest (332 sessions): +$4.5K/1ct.
+    fb_age_cap_exempt_high_quality_levels=True,
 )
 PRODUCTION_ELEVATOR = ElevatorParams(
     min_velocity_pts_per_min=0.75,
