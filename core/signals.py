@@ -201,6 +201,14 @@ class SignalAggregator:
         # gates and a planned_setups LQS boost. None disables all gating.
         self._mancini_llm_plan = None
 
+        # Mancini's verbatim rule: "All Mode 1 green days are triggered by a
+        # Failed Breakdown ... but if you missed the triggering Failed
+        # Breakdown on these days, you are typically out of luck." Allow
+        # the FIRST FB long of a Mode 1 Green session (the triggering one);
+        # block all subsequent FB longs on the same day. Set by
+        # ``_qualify_signal`` only after a FB long fully qualifies.
+        self._fb_long_taken_today: bool = False
+
     @property
     def intraday_state(self) -> IntradayState:
         """Current intraday price action context state."""
@@ -261,8 +269,13 @@ class SignalAggregator:
         this signal; ``None`` to let it through.
 
         Three gates:
-        1. Mode 1 Green — Mancini's explicit rule is "no FB longs on
-           open-to-close trend-up days". Block FAILED_BREAKDOWN longs.
+        1. Mode 1 Green — Mancini's verbatim rule: "All Mode 1 green days
+           are triggered by a Failed Breakdown ... but if you missed the
+           triggering Failed Breakdown on these days, you are typically
+           out of luck." We allow the FIRST FB long of the session (the
+           triggering trade he wants us in) and block every subsequent
+           FB long. ``_fb_long_taken_today`` is flipped to True only by
+           ``_qualify_signal`` after a FB long fully qualifies.
         2. Danger zones — reject longs whose entry falls inside any
            ``DangerZone`` price band Mancini flagged.
         3. ``no_trade_above`` / ``no_trade_below`` — single-sided guards
@@ -279,8 +292,12 @@ class SignalAggregator:
 
         if (plan.mode == "mode_1_green"
                 and signal_type == SignalType.FAILED_BREAKDOWN
-                and direction == 'long'):
-            return f"mancini_mode={plan.mode} blocks FB long"
+                and direction == 'long'
+                and self._fb_long_taken_today):
+            return (
+                f"mancini_mode={plan.mode} blocks subsequent FB long "
+                f"(first already taken)"
+            )
 
         if direction == 'long':
             # Mancini's danger zone carve-out (C1' / June 8 2026 miss):
@@ -506,6 +523,8 @@ class SignalAggregator:
         # Mode 1 Red detector — reset per session, PDL re-set in initialize_levels.
         self._mode1_detector.reset()
         self.mode1_red_active = False
+        # Reset Mode 1 Green "first FB only" rule for the new session.
+        self._fb_long_taken_today = False
 
     def initialize_levels(
         self,
@@ -1907,6 +1926,18 @@ class SignalAggregator:
             else:
                 trade_params = self._level_scorer.get_trade_params(lqs)
                 size_factor = min(size_factor, trade_params["size_factor"])
+
+        # Mark the triggering FB long for Mancini's Mode 1 Green "first FB
+        # only" rule. Place this AFTER every gate has passed so only signals
+        # that actually qualify count as "taken" — shadow/phantom paths
+        # that bail out earlier must not toggle the flag.
+        plan = self._mancini_llm_plan
+        if (signal_type == SignalType.FAILED_BREAKDOWN
+                and getattr(pattern, "direction", "long") == "long"
+                and plan is not None
+                and plan.mode == "mode_1_green"
+                and getattr(self.strategy_params, "use_mancini_llm_plan", False)):
+            self._fb_long_taken_today = True
 
         return Signal(
             signal_type=signal_type,
