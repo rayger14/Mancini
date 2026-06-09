@@ -74,7 +74,8 @@ def build_entry_embed(*,
                       exit_params,
                       plan,
                       session_date,
-                      entry_time: datetime | None = None) -> dict:
+                      entry_time: datetime | None = None,
+                      trade_id=None) -> dict:
     """Build a Discord embed payload describing a fresh trade entry.
 
     Plain function so it's trivially unit-testable without the bot.
@@ -200,7 +201,8 @@ def build_entry_embed(*,
             "description": description,
             "color": color,
             "fields": fields[:25],
-            "footer": {"text": f"Mancini Bot • {symbol}"},
+            "footer": {"text": (f"Mancini Bot • {symbol}"
+                                + (f" • trade #{trade_id}" if trade_id else ""))},
         }],
     }
 
@@ -217,7 +219,8 @@ def build_exit_embed(*,
                      new_stop: float | None = None,
                      next_target: float | None = None,
                      reason: str = "",
-                     fill_time: datetime | None = None) -> dict:
+                     fill_time: datetime | None = None,
+                     trade_id=None) -> dict:
     """Build a Discord embed for an exit event (T1 / T2 / stop / runner)."""
     is_long = (direction or "long").lower() == "long"
     point_value = float(getattr(contract_spec, "point_value", 5.0))
@@ -285,6 +288,7 @@ def build_exit_embed(*,
             "color": color,
             "footer": {
                 "text": (f"Mancini Bot • {symbol}"
+                         + (f" • trade #{trade_id}" if trade_id else "")
                          + (f" • {reason[:60]}" if reason else "")),
             },
         }],
