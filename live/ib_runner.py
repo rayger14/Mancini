@@ -118,9 +118,9 @@ PRODUCTION_STRATEGY = StrategyParams(
     deep_sell_swing_order=5,              # fast swing confirmation (5 bars vs 30)
     deep_sell_rally_confirm_pts=20.0,     # Mancini: significant low = 20+ pt bounce (V-shaped reversal)
     # --- 5-min level detection (Mancini reads 5-min charts for level ID) ---
-    use_5min_levels=False,                # Off — needs DatetimeIndex fix for live DF before enabling
+    use_5min_levels=False,                # Off — live aggregation fixed (timestamp-based completeness); enable only after backtest + sign-off
     swing_low_order_5min=6,               # 6 bars on 5-min = 30 min confirmation (ready when enabled)
-    detect_shelf_levels=False,            # Shelf detection ready but 5-min must be fixed first
+    detect_shelf_levels=False,            # Shelf detection ready; gated on use_5min_levels enable decision
     shelf_min_touches=8,                  # Real Mancini shelves have 8+ touches on 5-min
     shelf_sweep_min_pts=2.0,              # Need 2+ pts below shelf to qualify
     # --- Mancini LLM plan consumption (PR #8) ---

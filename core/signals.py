@@ -631,6 +631,13 @@ class SignalAggregator:
             if self.strategy_params.use_5min_levels:
                 df_5min = self._bar_aggregator.update_incremental(df)
                 if len(df_5min) > 0:
+                    # Clamp to buckets completed at-or-before this bar:
+                    # during startup catch-up the caller passes the full
+                    # session df while replaying earlier bars.
+                    cutoff = pd.Timestamp(timestamp) + pd.Timedelta(minutes=1)
+                    period_td = pd.Timedelta(minutes=self._bar_aggregator.period)
+                    df_5min = df_5min[df_5min.index + period_td <= cutoff]
+                if len(df_5min) > 0:
                     bar_idx_5min = len(df_5min) - 1
             self.price_level_detector.detect_incremental(
                 self.level_store, df, bar_idx,
