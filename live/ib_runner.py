@@ -1739,6 +1739,20 @@ class IBRunner:
                     break
         if not getattr(self, "_entry_timestamp", None):
             self._entry_timestamp = datetime.now(_ET)
+
+        # Mirror to position_manager.session so subsequent close_position
+        # calls credit the trade to daily_pnl / trade_count / winners /
+        # losers. Without this, _sync_position's bracket auto-fill path
+        # calls close_position() which short-circuits on the
+        # `session.active_position is None` guard, and the win/loss is
+        # logged to trades.jsonl but never reaches the dashboard.
+        if self.position_manager.session is not None:
+            self.position_manager.session.active_position = self._position
+            if direction == "long":
+                self.position_manager.session.active_long = self._position
+            else:
+                self.position_manager.session.active_short = self._position
+
         logger.warning(f"Recovered position: {direction.upper()} {qty} @ {entry:.2f}, "
                         f"SL={stop:.2f}, TP={target:.2f} [{pattern_type}]")
 
