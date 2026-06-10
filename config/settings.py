@@ -551,7 +551,7 @@ class StrategyParams:
     # Shallow-fast dips: green median 6/day vs 1 on normal days.
     mode1_green_shallow_dip_max_pts: float = 8.0   # dip depth cap to count as shallow
     mode1_green_shallow_dip_max_bars: int = 20     # recovery speed cap (bars)
-    mode1_green_shallow_dips_min: int = 4          # dips needed for the condition
+    mode1_green_shallow_dips_min: int = 5          # dips needed (5y replay: 5 → precision 0.29 / recall 0.77)
     # Breakdown squeeze (counter-trade fails): 17% of green days vs 7% normal.
     mode1_green_squeeze_min: int = 1               # squeezes needed for the condition
 

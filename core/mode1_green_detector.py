@@ -202,15 +202,16 @@ class Mode1GreenDetector:
         condition_pdh = self._bars_above_pdh >= self.params.mode1_green_bars_above_pdh
 
         # --- Condition 3: Bullish pressure (sustained higher highs) ---
+        # Count only bars that actually extend the session high. The old
+        # version also counted any bar within the threshold of the last new
+        # high, which made the condition nearly free (fired on 71% of all
+        # sessions in the 2026-06-10 5y replay).
         if high > self._session_high:
             self._session_high = high
             self._bars_since_new_high = 0
             self._bullish_pressure_bars += 1
         else:
             self._bars_since_new_high += 1
-            if self._bars_since_new_high <= self.params.mode1_green_bullish_pressure_bars:
-                self._bullish_pressure_bars += 1
-            # else: pressure dissipates — stop counting but don't reset
 
         self._state.bullish_pressure_bars = self._bullish_pressure_bars
         condition_pressure = (

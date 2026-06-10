@@ -65,12 +65,12 @@ class TestShallowDipTell:
         det = Mode1GreenDetector(_params())
         bars = []
         h = 5800.0
-        for i in range(4):
+        for i in range(5):
             h += 5.0
             bars.extend(_dip_episode(h, depth=5.0, dip_bars=6))
         state = _feed(det, bars)
-        assert state.shallow_fast_dips == 4
-        assert state.condition_shallow_dips is True  # default min is 4
+        assert state.shallow_fast_dips == 5
+        assert state.condition_shallow_dips is True  # tuned default min is 5
 
     def test_deep_dip_not_counted(self):
         det = Mode1GreenDetector(_params())
@@ -127,6 +127,26 @@ class TestTwoOfFiveConfirm:
         assert state.shallow_fast_dips >= 4
         assert state.conditions_met >= 2
         assert state.is_mode1_green is True
+
+
+class TestPressureSemantics:
+    def test_pressure_counts_only_new_high_bars(self):
+        """The docstring says 'higher highs for 60+ bars' but the counter
+        also incremented on bars that made NO new high (any bar within 60
+        bars of the last high counted). That made the condition nearly
+        free — it fired on 71% of all sessions in the 5y replay."""
+        params = _params(mode1_green_bullish_pressure_bars=60)
+        det = Mode1GreenDetector(params)
+        # 70 bars: only the first 10 make new highs, then flat drift
+        bars = []
+        h = 5800.0
+        for i in range(10):
+            h += 1.0
+            bars.append((h, h - 1.0, h - 0.25))
+        bars.extend([(h - 2.0, h - 3.0, h - 2.5)] * 60)
+        state = _feed(det, bars)
+        assert state.bullish_pressure_bars == 10
+        assert state.condition_pressure is False
 
 
 class TestResistanceStarvationFix:
