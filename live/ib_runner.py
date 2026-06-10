@@ -1310,17 +1310,52 @@ class IBRunner:
             contracts_ordered=entry.contracts,
         )
 
-    def _handle_exit_action(self, action: ExitAction, timestamp: datetime) -> None:
-        """Translate ExitAction from ExitManager into IB orders."""
+    def _revert_position_close(self, position, action: ExitAction) -> None:
+        """Undo ExitManager's close mutation after an unconfirmed broker close.
+
+        _stop_out (and friends) zero remaining_contracts, set phase=CLOSED
+        and book the realized P&L BEFORE the broker order goes out. If the
+        flatten could not be confirmed, the position is still live at IB —
+        restore the open state so exit checks fire again next bar.
+        """
+        if position.direction == "short":
+            pnl = (position.entry_price - action.exit_price) * action.contracts_to_close
+        else:
+            pnl = (action.exit_price - position.entry_price) * action.contracts_to_close
+        position.realized_pnl_pts -= pnl
+        position.remaining_contracts = action.contracts_to_close
+        if position.t2_hit:
+            position.phase = ExitPhase.AFTER_T2
+        elif position.t1_hit:
+            position.phase = ExitPhase.AFTER_T1
+        else:
+            position.phase = ExitPhase.INITIAL
+
+    def _handle_exit_action(self, action: ExitAction, timestamp: datetime) -> bool:
+        """Translate ExitAction from ExitManager into IB orders.
+
+        Returns False when a full close could not be confirmed at the
+        broker — position state is reverted to open so the exit retries
+        next bar, and the caller's exit bookkeeping is skipped (the
+        position reads as still open).
+        """
         if self._trade_id is None:
-            return
+            return True
 
         # Capture pre-action position state so the embed can show
         # accurate "remaining contracts" + cumulative P&L.
         pre_position = self._position
 
         if action.new_phase == ExitPhase.CLOSED:
-            self.bridge.flatten(reason=action.reason)
+            if not self.bridge.flatten(reason=action.reason):
+                logger.critical(
+                    f"FLATTEN UNCONFIRMED for trade {self._trade_id} "
+                    f"[{action.reason}] — position may still be open at IB; "
+                    f"reverting close state, will retry next bar"
+                )
+                if self._position is not None:
+                    self._revert_position_close(self._position, action)
+                return False
             logger.info(f"EXIT: flatten -- {action.reason}")
             # Classify phase for the embed
             r = (action.reason or "").lower()
@@ -1381,6 +1416,8 @@ class IBRunner:
                 new_sl=action.new_stop,
                 reason=action.reason,
             )
+
+        return True
 
     # ------------------------------------------------------------------
     # Discord rich-embed notifications for entries and exits
@@ -1596,19 +1633,26 @@ class IBRunner:
             self._position.remaining_contracts = 0
             self._position.phase = ExitPhase.CLOSED
             now = datetime.now()
-            self.position_manager.close_position(
+            closed_record = self.position_manager.close_position(
                 exit_price=fill_price,
                 timestamp=now,
                 exit_reason=f"IB bracket {exit_type}" if exit_type != "unknown" else "IB bracket fill",
                 pattern_type=self._pattern_type,
                 entry_time=self._entry_timestamp,
             )
-            # Log exit to persistent trade log
-            if self.position_manager.session and self.position_manager.session.trades:
-                self._log_trade(
-                    self.position_manager.session.trades[-1],
-                    self._current_signal,
-                    "exit",
+            # Log ONLY the record close_position actually created.
+            # Falling back to session.trades[-1] re-logs the PREVIOUS
+            # trade when close_position no-ops (no open position in the
+            # manager) — that produced the duplicate -37 exit for trade
+            # #16872 while the real outcome was the +101 TP fill.
+            if closed_record is not None:
+                self._log_trade(closed_record, self._current_signal, "exit")
+            else:
+                logger.warning(
+                    f"IB bracket {exit_type} fill @ {fill_price:.2f}: "
+                    f"position_manager recorded nothing (no matching open "
+                    f"position) — skipping exit log to avoid duplicating "
+                    f"the previous trade's record"
                 )
             self._position = None
             self._trade_id = None
