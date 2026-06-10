@@ -188,6 +188,50 @@ class TestHandleExitActionFlattenFailure:
 # ---------------------------------------------------------------------------
 
 
+class TestSyncPositionDisconnectGuard:
+    """Trade #25196 (2026-06-09 19:47): the IB connection was dead (5 failed
+    reconnects), get_position() returned None for "no connection", and the
+    3x-None confirmation booked a fictional -12.5 exit while the bracket was
+    still working on IB's servers. Sync must not interpret anything while
+    the bridge is disconnected."""
+
+    def test_no_close_confirmation_while_disconnected(self):
+        pos = TradePosition(
+            entry_price=7375.5,
+            stop_price=7357.5,
+            target_1=7390.0,
+            target_2=7400.0,
+            total_contracts=2,
+            remaining_contracts=2,
+        )
+        logged = []
+        runner = SimpleNamespace(
+            _position=pos,
+            _trade_id=25196,
+            _last_entry_monotonic=_time_mod.monotonic() - 300.0,
+            _sync_none_count=2,  # one more None would have confirmed closure
+            bridge=SimpleNamespace(
+                is_connected=False,
+                get_position=lambda: None,
+                get_bracket_fill_price=lambda tid: (0.0, "unknown"),
+            ),
+            _post_trade_exit_embed=lambda **kw: None,
+            position_manager=SimpleNamespace(
+                close_position=lambda **kw: None,
+                session=SimpleNamespace(trades=[]),
+            ),
+            _log_trade=lambda rec, sig, ev: logged.append(rec),
+        )
+        IBRunner._sync_position(runner)
+        assert runner._position is pos, "position must survive a blind sync"
+        assert pos.is_open
+        assert logged == []
+        assert runner._sync_none_count == 0, (
+            "stale None-counts from before the disconnect must not carry "
+            "over and instantly confirm closure on reconnect"
+        )
+
+
 class TestSyncPositionDupGuard:
     def _runner(self, close_returns):
         pos = TradePosition(
@@ -210,6 +254,7 @@ class TestSyncPositionDupGuard:
             _entry_timestamp=datetime(2026, 6, 8, 22, 0),
             _current_signal=None,
             bridge=SimpleNamespace(
+                is_connected=True,
                 get_position=lambda: None,
                 get_bracket_fill_price=lambda tid: (7451.0, "TP"),
             ),
