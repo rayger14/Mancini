@@ -893,6 +893,8 @@ class ManciniLongStrategy:
                     "resistances_broken": g.resistances_broken_sustained,
                     "bars_above_pdh": g.bars_above_pdh,
                     "bullish_pressure_bars": g.bullish_pressure_bars,
+                    "shallow_fast_dips": g.shallow_fast_dips,
+                    "squeezes": g.squeezes,
                     "conditions_met": g.conditions_met,
                 })
 

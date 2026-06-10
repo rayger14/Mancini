@@ -88,6 +88,10 @@ PRODUCTION_STRATEGY = StrategyParams(
     shadow_mode_features=True,
     use_sweep_depth_sizing=True,          # Shadow: log sweep-depth-adjusted sizing
     use_mode1_detection=True,             # LIVE: blocks FB longs while Mode 1 Red active, before mode1_red_fb_long_block_until_hour ET
+    # Shadow: log Mode 1 Green confirmations (data-backed tells, PR #41).
+    # 5y replay: precision 0.29 / recall 0.77, median confirm 11:40 ET.
+    # shadow_mode_features=True keeps sizing/R:R actions OFF — log-only.
+    use_mode1_green_detection=True,
     allow_velocity_short=True,            # Shadow: log velocity breakdown shorts
     # Back-Test Short (Mancini-faithful): broken support shelf retested from
     # below after a deep flush. See core.patterns_short_v2.BacktestShort for
