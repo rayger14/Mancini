@@ -145,9 +145,12 @@ class PriceLevelDetector:
 
         # Check for newly confirmed swing highs (mirror of swing low detection)
         # Always uses 1-min data — 5-min swing highs are NOT added (Fix 4: longs only)
+        # Mode 1 Green needs resistance levels too — its "resistances broken
+        # up and held" tell starves in longs-only configs otherwise.
         order_1min = self.params.swing_low_order
         if (self.params.allow_short_fr or self.params.allow_short_lj
-                or self.params.allow_breakdown_short or self.params.allow_backtest_short) and bar_idx >= order_1min * 2:
+                or self.params.allow_breakdown_short or self.params.allow_backtest_short
+                or self.params.use_mode1_green_detection) and bar_idx >= order_1min * 2:
             new_levels.extend(
                 self._detect_swing_highs_on_df(store, df, bar_idx, order=order_1min)
             )
