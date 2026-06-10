@@ -35,6 +35,7 @@ from core.daily_structure import DailyStructureDetector
 from core.intraday_context import IntradayContextTracker, IntradayState
 from core.level_scoring import LevelQualityScorer
 from core.mode1_detector import Mode1Detector
+from core.mode1_green_detector import Mode1GreenDetector
 from core.price_levels import PriceLevelDetector
 
 
@@ -190,6 +191,11 @@ class SignalAggregator:
         # has to wait patiently all day for the sell to complete."
         self._mode1_detector = Mode1Detector(strategy_params)
         self.mode1_red_active: bool = False
+
+        # Mode 1 Green detector — owned here (like Red) so the live IB
+        # runner, which drives this aggregator directly, runs it too.
+        # ManciniLongStrategy aliases this same instance.
+        self.mode1_green_detector = Mode1GreenDetector(strategy_params)
 
         # Daily structure detector — macro bias from daily chart
         self._daily_structure = DailyStructureDetector(strategy_params)
@@ -523,6 +529,9 @@ class SignalAggregator:
         # Mode 1 Red detector — reset per session, PDL re-set in initialize_levels.
         self._mode1_detector.reset()
         self.mode1_red_active = False
+        # Mode 1 Green detector — reset per session, PDH re-set in initialize_levels.
+        self.mode1_green_detector.reset()
+        self.mode1_green_active = False
         # Reset Mode 1 Green "first FB only" rule for the new session.
         self._fb_long_taken_today = False
 
@@ -569,6 +578,16 @@ class SignalAggregator:
             try:
                 pdl = float(prior_day_df["low"].min())
                 self._mode1_detector.set_pdl(pdl)
+            except (KeyError, ValueError, TypeError):
+                pass
+
+        # Mirror: prior-day high into the Mode 1 Green detector.
+        if (self.strategy_params.use_mode1_green_detection
+                and prior_day_df is not None
+                and len(prior_day_df) > 0):
+            try:
+                pdh = float(prior_day_df["high"].max())
+                self.mode1_green_detector.set_pdh(pdh)
             except (KeyError, ValueError, TypeError):
                 pass
 
@@ -657,6 +676,36 @@ class SignalAggregator:
                 timestamp=timestamp,
             )
             self.mode1_red_active = self._mode1_detector.state.is_mode1_red
+
+        # 1c. Mode 1 Green intraday detection — mirror of 1b. Lives here
+        # (not in ManciniLongStrategy) so the live IB runner, which drives
+        # this aggregator directly, runs it too.
+        if self.strategy_params.use_mode1_green_detection:
+            was_green = self.mode1_green_detector.state.is_mode1_green
+            self.mode1_green_detector.update(
+                bar_idx=bar_idx,
+                close=close,
+                high=high,
+                low=low,
+                level_store=self.level_store,
+                timestamp=timestamp,
+            )
+            g = self.mode1_green_detector.state
+            self.mode1_green_active = g.is_mode1_green
+            if g.is_mode1_green and not was_green:
+                self.shadow_events.append({
+                    "feature": "mode1_green",
+                    "bar_idx": bar_idx,
+                    "timestamp": str(timestamp),
+                    "state": "MODE_1_GREEN",
+                    "event": "transition",
+                    "resistances_broken": g.resistances_broken_sustained,
+                    "bars_above_pdh": g.bars_above_pdh,
+                    "bullish_pressure_bars": g.bullish_pressure_bars,
+                    "shallow_fast_dips": g.shallow_fast_dips,
+                    "squeezes": g.squeezes,
+                    "conditions_met": g.conditions_met,
+                })
 
         # 2. Elevator down detection
         elevator_event = self.elevator_detector.update(

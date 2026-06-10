@@ -129,6 +129,70 @@ class TestTwoOfFiveConfirm:
         assert state.is_mode1_green is True
 
 
+class TestAggregatorWiring:
+    """The live IB runner drives SignalAggregator.update() directly — it
+    never calls ManciniLongStrategy._process_bar, where the green detector
+    used to live. With use_mode1_green_detection=True in production the
+    detector therefore never ran live. Green must be wired into the
+    aggregator exactly like Mode 1 Red."""
+
+    def _agg(self):
+        from core.signals import SignalAggregator
+        params = StrategyParams(
+            use_mode1_green_detection=True,
+            min_session_range_pts=0.0,
+            mode1_green_bars_above_pdh=3,
+            mode1_green_bullish_pressure_bars=3,
+        )
+        return SignalAggregator(strategy_params=params)
+
+    def test_update_runs_green_and_logs_transition(self):
+        agg = self._agg()
+        agg.mode1_green_detector.set_pdh(5800.0)
+        for i in range(6):
+            agg.update(
+                bar_idx=i,
+                timestamp=_T0 + timedelta(minutes=i),
+                open_=5804.0 + i,
+                high=5805.0 + i,
+                low=5803.0 + i,
+                close=5805.0 + i,
+                volume=1000.0,
+                velocity=0.0,
+            )
+        assert agg.mode1_green_active is True
+        events = [e for e in agg.shadow_events
+                  if e.get("feature") == "mode1_green"
+                  and e.get("event") == "transition"]
+        assert len(events) == 1, "exactly one transition event per confirm"
+        assert "shallow_fast_dips" in events[0]
+        assert "squeezes" in events[0]
+
+    def test_initialize_levels_sets_pdh_from_prior_day(self):
+        agg = self._agg()
+        prior = pd.DataFrame({
+            "open": [5790.0] * 30, "high": [5800.0] * 30,
+            "low": [5780.0] * 30, "close": [5795.0] * 30,
+            "volume": [1000] * 30,
+        }, index=pd.date_range("2024-06-14 09:30", periods=30,
+                               freq="1min", tz="US/Eastern"))
+        agg.initialize_levels(pd.DataFrame(), prior_day_df=prior)
+        # bars closing above the prior day high must count toward the tell
+        t0 = pd.Timestamp("2024-06-17 09:30", tz="US/Eastern")
+        for i in range(3):
+            agg.update(
+                bar_idx=i,
+                timestamp=t0 + pd.Timedelta(minutes=i),
+                open_=5804.0,
+                high=5805.0 + i,
+                low=5803.0,
+                close=5805.0,
+                volume=1000.0,
+                velocity=0.0,
+            )
+        assert agg.mode1_green_detector.state.bars_above_pdh == 3
+
+
 class TestPressureSemantics:
     def test_pressure_counts_only_new_high_bars(self):
         """The docstring says 'higher highs for 60+ bars' but the counter
