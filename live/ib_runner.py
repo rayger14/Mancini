@@ -1573,6 +1573,16 @@ class IBRunner:
         if elapsed < 45.0:
             return
 
+        # Never interpret position reads while the bridge is down — a dead
+        # connection returns None exactly like "no position" does, and the
+        # 3x confirmation can't tell them apart (trade #25196 booked a
+        # fictional exit during a 42-min outage this way). Reset the None
+        # streak so a pre-disconnect count can't instantly confirm closure
+        # on reconnect.
+        if not self.bridge.is_connected:
+            self._sync_none_count = 0
+            return
+
         ib_pos = self.bridge.get_position()
         if ib_pos is None:
             # Require 3 consecutive None reads to confirm position truly closed
