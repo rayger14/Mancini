@@ -125,8 +125,9 @@ class ManciniLongStrategy:
 
         # Mode 1 (trend day) detector
         self.mode1_detector = Mode1Detector(strategy_params)
-        # Mode 1 Green (trend up day) detector — mirror
-        self.mode1_green_detector = Mode1GreenDetector(strategy_params)
+        # Mode 1 Green detector — alias of the aggregator's instance, which
+        # owns the per-bar update (so the live IB runner runs it too).
+        self.mode1_green_detector = self.signal_aggregator.mode1_green_detector
 
         # Multi-day level persistence — survives reset() across days
         self._persistent_levels: list[Level] = []
@@ -866,37 +867,10 @@ class ManciniLongStrategy:
                     "conditions_met": state.conditions_met,
                 })
 
-        # Step 3b-green: Update Mode 1 Green detector (trend up day)
-        if self.strategy_params.use_mode1_green_detection:
-            was_green = self.mode1_green_detector.state.is_mode1_green
-            self.mode1_green_detector.update(
-                bar_idx=bar_idx,
-                close=close,
-                high=high,
-                low=low,
-                level_store=self.signal_aggregator.level_store,
-                timestamp=timestamp,
-            )
-            # Expose current Mode 1 Green status so _qualify_signal can apply
-            # the relaxed R:R floor. Only live mode (not shadow) takes effect.
-            self.signal_aggregator.mode1_green_active = (
-                self.mode1_green_detector.state.is_mode1_green
-            )
-            if self.mode1_green_detector.state.is_mode1_green and not was_green:
-                g = self.mode1_green_detector.state
-                self.signal_aggregator.shadow_events.append({
-                    "feature": "mode1_green",
-                    "bar_idx": bar_idx,
-                    "timestamp": str(timestamp),
-                    "state": "MODE_1_GREEN",
-                    "event": "transition",
-                    "resistances_broken": g.resistances_broken_sustained,
-                    "bars_above_pdh": g.bars_above_pdh,
-                    "bullish_pressure_bars": g.bullish_pressure_bars,
-                    "shallow_fast_dips": g.shallow_fast_dips,
-                    "squeezes": g.squeezes,
-                    "conditions_met": g.conditions_met,
-                })
+        # Step 3b-green: Mode 1 Green detection now runs inside
+        # SignalAggregator.update (section 1c) — same home as Mode 1 Red —
+        # so the live IB runner, which drives the aggregator directly,
+        # runs it too. The transition shadow event is emitted there.
 
         if signal is not None:
             result.signal = signal
