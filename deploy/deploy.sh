@@ -71,7 +71,10 @@ run_or_dry() {
   if [[ $DRY_RUN -eq 1 ]]; then
     yellow "[dry-run] $*"
   else
-    eval "$@"
+    # "$@" not eval: eval re-splits quoted args, so rsync's -e "ssh -i <key>"
+    # became -e ssh + stray args and rsync connected without the key
+    # (publickey denied, deploy aborted 2026-06-09).
+    "$@"
   fi
 }
 
