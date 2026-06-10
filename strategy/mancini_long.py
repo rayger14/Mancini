@@ -873,6 +873,7 @@ class ManciniLongStrategy:
                 bar_idx=bar_idx,
                 close=close,
                 high=high,
+                low=low,
                 level_store=self.signal_aggregator.level_store,
                 timestamp=timestamp,
             )
