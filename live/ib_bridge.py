@@ -891,19 +891,51 @@ class IBBridge:
                 qty = abs(int(pos.position))
                 action = "SELL" if pos.position > 0 else "BUY"
                 direction = "long" if pos.position > 0 else "short"
+                # DAY, not GTC: market orders with GTC are rejected on some
+                # IB routes and the rejection arrives asynchronously — a
+                # silently dead close order is how trade #16872 survived
+                # its "Stop loss hit" flatten overnight.
                 close_order = MarketOrder(
                     action=action,
                     totalQuantity=qty,
                     orderRef=f"flatten:{reason}",
-                    tif="GTC",
+                    tif="DAY",
                 )
                 try:
-                    self._ib.placeOrder(self._contract, close_order)
-                    self._ib.sleep(1.0)
-                    logger.info(f"FLATTEN: closed {qty} MES {direction} [{reason}]")
+                    trade = self._ib.placeOrder(self._contract, close_order)
                 except Exception as e:
                     logger.error(f"Flatten failed: {e}")
                     return False
+
+                # Verify the position actually went flat before reporting
+                # success — callers log the exit and drop position tracking
+                # when this returns True.
+                confirmed = False
+                for _ in range(8):
+                    self._ib.sleep(1.0)
+                    status = getattr(
+                        getattr(trade, "orderStatus", None), "status", ""
+                    )
+                    if status in ("Cancelled", "ApiCancelled", "Inactive"):
+                        break
+                    still_open = any(
+                        p.contract.symbol == self.config.symbol
+                        and p.contract.secType == "FUT"
+                        and p.position != 0
+                        for p in self._ib.positions()
+                    )
+                    if not still_open:
+                        confirmed = True
+                        break
+                if not confirmed:
+                    logger.error(
+                        f"FLATTEN NOT CONFIRMED: {qty} MES {direction} may "
+                        f"still be open at IB (close order status: "
+                        f"{getattr(getattr(trade, 'orderStatus', None), 'status', '?')}) "
+                        f"[{reason}]"
+                    )
+                    return False
+                logger.info(f"FLATTEN: closed {qty} MES {direction} [{reason}]")
 
         self._active_orders.clear()
         return True
