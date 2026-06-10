@@ -3109,7 +3109,9 @@ class IBRunner:
                     f.write(json.dumps(event, default=str) + "\n")
                     # Create phantom tracker for signals with entry/stop/target
                     if event.get("entry_price") and event.get("stop_price"):
-                        direction = "short" if "short" in event.get("feature", "").lower() else "long"
+                        direction = event.get("direction") or (
+                            "short" if "short" in event.get("feature", "").lower() else "long"
+                        )
                         self._shadow_phantoms.append({
                             "feature": event.get("feature"),
                             "entry_price": event["entry_price"],

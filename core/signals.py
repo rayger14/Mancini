@@ -1346,6 +1346,8 @@ class SignalAggregator:
                     "timestamp": str(pattern.timestamp),
                     "signal_type": signal_type.name,
                     "entry_price": pattern.entry_price,
+                    "stop_price": pattern.stop_price,
+                    "direction": "short",
                     "level_price": level.price,
                 })
                 return None
@@ -1468,6 +1470,9 @@ class SignalAggregator:
                 "session_low": self._session_low,
                 "short_target": t1,
                 "entry_price": entry,
+                "stop_price": pattern.stop_price,
+                "target_1": t1,
+                "direction": "short",
             })
             return None
 
@@ -1499,6 +1504,9 @@ class SignalAggregator:
                     "timestamp": str(pattern.timestamp),
                     "signal_type": signal_type.name,
                     "entry_price": entry,
+                    "stop_price": pattern.stop_price,
+                    "target_1": t1,
+                    "direction": "short",
                     "session_low": self._session_low,
                     "session_high": self._session_high,
                     "entry_above_low_pts": round(entry_above_low, 2),
@@ -1607,6 +1615,9 @@ class SignalAggregator:
                     "level_price": pattern.level.price if pattern.level else None,
                     "level_type": pattern.level.level_type.name if pattern.level else None,
                     "entry_price": entry,
+                    "stop_price": pattern.stop_price,
+                    "target_1": t1,
+                    "direction": "short",
                 })
                 logger.info(
                     f"Daily FB BULL: contra-trend {signal_type.name} short "
@@ -1763,6 +1774,9 @@ class SignalAggregator:
                         "bar_idx": pattern.bar_idx,
                         "timestamp": str(pattern.timestamp),
                         "signal_type": signal_type.name,
+                        "entry_price": pattern.entry_price,
+                        "stop_price": pattern.stop_price,
+                        "direction": "long",
                         "level_price": pattern.level.price,
                         "level_age_hours": round(age_hours, 1),
                         "max_age_hours": max_age_hours,
