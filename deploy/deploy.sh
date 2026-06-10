@@ -28,7 +28,9 @@ VM_USER="ubuntu"
 VM_HOST="152.70.113.24"
 VM_KEY="$HOME/.ssh/oracle_bullmachine"
 VM_PATH="/home/ubuntu/mancini"
-CONTAINER="mancini_mancini-bot_1"
+# Compose v2 dash naming — the old underscore name made post-deploy
+# verification report failure after a successful recreate (2026-06-09).
+CONTAINER="mancini-mancini-bot-1"
 EXPECTED_BRANCH="main"
 
 SSH_OPTS=(-i "$VM_KEY" -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10)
