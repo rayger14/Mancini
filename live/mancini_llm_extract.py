@@ -295,8 +295,18 @@ _MONTHS = {
     "november": 11, "december": 12,
 }
 
+# "<Month> <day>[/| and <day2>] [Trade ]Plan" — e.g. "June 12th Plan",
+# "July 3rd/4th Plan", "Feb 17th and 18th Plan", "Dec 24/26 Trade Plan".
 _TITLE_PLAN_DATE_RE = re.compile(
-    r"\b([A-Za-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?\s+Plan\b",
+    r"\b([A-Za-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?"
+    r"(?:(?:\s*/\s*|\s+and\s+)(\d{1,2})(?:st|nd|rd|th)?)?"
+    r"\s+(?:Trade\s+)?Plan\b",
+    re.IGNORECASE,
+)
+
+# Reversed form: "Plan for November 6th."
+_TITLE_PLAN_FOR_RE = re.compile(
+    r"\bPlan\s+for\s+([A-Za-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?\b",
     re.IGNORECASE,
 )
 
@@ -304,26 +314,39 @@ _TITLE_PLAN_DATE_RE = re.compile(
 def parse_plan_date_from_title(title: str, reference: date) -> Optional[date]:
     """Parse the trading date out of a Mancini post title.
 
-    Titles end in "<Month> <day>[st|nd|rd|th] Plan" (e.g. "June 12th Plan").
-    The year is inferred as whichever candidate lands closest to
-    `reference` (handles the December/January wrap). Returns None when no
-    such pattern exists.
+    Titles end in "<Month> <day>[st|nd|rd|th] Plan" (e.g. "June 12th
+    Plan"), with holiday variants covering two sessions ("July 3rd/4th
+    Plan", "Dec 24/26 Trade Plan") and an occasional reversed "Plan for
+    November 6th" form. The year is inferred as whichever candidate lands
+    closest to `reference` (handles the December/January wrap); among the
+    days of a multi-session title, the one closest to `reference` wins.
+    Returns None when no such pattern exists.
     """
     if not title:
         return None
     m = _TITLE_PLAN_DATE_RE.search(title)
-    if not m:
-        return None
-    month = _MONTHS.get(m.group(1).lower())
+    days: list[int] = []
+    month = None
+    if m:
+        month = _MONTHS.get(m.group(1).lower())
+        days = [int(m.group(2))]
+        if m.group(3):
+            days.append(int(m.group(3)))
     if month is None:
-        return None
-    day = int(m.group(2))
+        m = _TITLE_PLAN_FOR_RE.search(title)
+        if not m:
+            return None
+        month = _MONTHS.get(m.group(1).lower())
+        if month is None:
+            return None
+        days = [int(m.group(2))]
     candidates = []
-    for year in (reference.year - 1, reference.year, reference.year + 1):
-        try:
-            candidates.append(date(year, month, day))
-        except ValueError:
-            continue
+    for day in days:
+        for year in (reference.year - 1, reference.year, reference.year + 1):
+            try:
+                candidates.append(date(year, month, day))
+            except ValueError:
+                continue
     if not candidates:
         return None
     return min(candidates, key=lambda d: abs((d - reference).days))

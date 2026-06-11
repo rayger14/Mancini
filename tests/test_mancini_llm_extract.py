@@ -555,6 +555,32 @@ def test_parse_plan_date_from_title_variants():
     assert parse_plan_date_from_title("", ref) is None
 
 
+def test_parse_plan_date_holiday_and_reversed_forms():
+    # Multi-day holiday plans cover several sessions — the date matching
+    # the reference wins (real titles from the 2024-2026 archive).
+    assert parse_plan_date_from_title(
+        "Are July 4th Fireworks Coming For SPX? July 3rd/4th Plan",
+        date(2024, 7, 3)) == date(2024, 7, 3)
+    assert parse_plan_date_from_title(
+        "Are July 4th Fireworks Coming For SPX? July 3rd/4th Plan",
+        date(2024, 7, 5)) == date(2024, 7, 4)
+    assert parse_plan_date_from_title(
+        "Will Thanksgiving Bring A New All Time High For SPX? Nov 28/29 Plan",
+        date(2024, 11, 29)) == date(2024, 11, 29)
+    # "Trade Plan" variant
+    assert parse_plan_date_from_title(
+        "Holiday Trading Starts Tomorrow for SPX. Is More Upside Ahead? "
+        "Dec 24/26 Trade Plan", date(2024, 12, 26)) == date(2024, 12, 26)
+    # Reversed "Plan for <Month> <day>" form
+    assert parse_plan_date_from_title(
+        "Election Results Incoming. Expect Volatility For SPX. "
+        "Plan for November 6th.", date(2024, 11, 6)) == date(2024, 11, 6)
+    # "and" as the multi-day separator
+    assert parse_plan_date_from_title(
+        "Is SPX Ready To Make/Sustain All Time Highs? "
+        "Feb 17th and 18th Plan", date(2025, 2, 18)) == date(2025, 2, 18)
+
+
 def test_parse_plan_date_from_title_year_wrap():
     # A title parsed around New Year must land on the year closest to the
     # reference date, not blindly reference.year.
