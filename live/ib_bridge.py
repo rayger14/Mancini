@@ -100,6 +100,8 @@ class IBBridge:
         self._poll_interval: float = 60.0
         self._last_poll_time: float = 0.0
         self._needs_reconnect: bool = False
+        self._reconnect_backoff_until: float = 0.0
+        self._reconnect_exhausted_logged: bool = False
 
     # ── Connection ────────────────────────────────────────────────────
 
@@ -276,6 +278,12 @@ class IBBridge:
         if not self._needs_reconnect:
             return True  # Nothing to do
 
+        # Between failed bursts, wait out the backoff instead of hammering
+        # a gateway that is mid-restart (its daily 19:45 ET restart takes
+        # minutes; full auth can take longer).
+        if _time.monotonic() < getattr(self, "_reconnect_backoff_until", 0.0):
+            return False
+
         logger.info("Attempting IB reconnect...")
 
         for attempt in range(1, self.config.max_reconnect_attempts + 1):
@@ -292,6 +300,7 @@ class IBBridge:
                     self._contract = self._qualify_contract()
                     self._connected = True
                     self._needs_reconnect = False
+                    self._reconnect_exhausted_logged = False
                     logger.info(f"Reconnected on attempt {attempt}")
                     # Restart streaming if it was active before disconnect
                     if self._streaming_active:
@@ -301,8 +310,19 @@ class IBBridge:
             except Exception as e:
                 logger.warning(f"Reconnect attempt {attempt} failed: {e}")
 
-        logger.error("ALL RECONNECT ATTEMPTS EXHAUSTED — bot is blind, no data flowing")
-        self._needs_reconnect = False  # Stop retrying until next disconnect
+        # Burst exhausted — NEVER clear the flag. The bot stayed blind for
+        # hours on 2026-06-09 and 06-10 because exhaustion stopped all
+        # retries while the gateway's nightly restart was still completing.
+        # Keep retrying in 60s-backed-off bursts until the gateway returns.
+        self._reconnect_backoff_until = _time.monotonic() + 60.0
+        if not getattr(self, "_reconnect_exhausted_logged", False):
+            logger.error(
+                "ALL RECONNECT ATTEMPTS EXHAUSTED — bot is blind; will keep "
+                "retrying every 60s (gateway daily restart can take minutes)"
+            )
+            self._reconnect_exhausted_logged = True
+        else:
+            logger.warning("Reconnect burst failed — next burst in 60s")
         return False
 
     # ── Bar Data ──────────────────────────────────────────────────────
