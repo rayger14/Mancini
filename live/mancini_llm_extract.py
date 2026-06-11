@@ -21,6 +21,7 @@ Cron usage on the VM:
 from __future__ import annotations
 
 import json
+import re
 import sys
 import time
 from datetime import date, datetime, timedelta
@@ -286,6 +287,127 @@ def extract_plan(
 # Cron entry point + engine-side reader
 # ---------------------------------------------------------------------------
 
+_MONTHS = {
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+    "jul": 7, "aug": 8, "sep": 9, "sept": 9, "oct": 10, "nov": 11, "dec": 12,
+    "january": 1, "february": 2, "march": 3, "april": 4, "june": 6,
+    "july": 7, "august": 8, "september": 9, "october": 10,
+    "november": 11, "december": 12,
+}
+
+_TITLE_PLAN_DATE_RE = re.compile(
+    r"\b([A-Za-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?\s+Plan\b",
+    re.IGNORECASE,
+)
+
+
+def parse_plan_date_from_title(title: str, reference: date) -> Optional[date]:
+    """Parse the trading date out of a Mancini post title.
+
+    Titles end in "<Month> <day>[st|nd|rd|th] Plan" (e.g. "June 12th Plan").
+    The year is inferred as whichever candidate lands closest to
+    `reference` (handles the December/January wrap). Returns None when no
+    such pattern exists.
+    """
+    if not title:
+        return None
+    m = _TITLE_PLAN_DATE_RE.search(title)
+    if not m:
+        return None
+    month = _MONTHS.get(m.group(1).lower())
+    if month is None:
+        return None
+    day = int(m.group(2))
+    candidates = []
+    for year in (reference.year - 1, reference.year, reference.year + 1):
+        try:
+            candidates.append(date(year, month, day))
+        except ValueError:
+            continue
+    if not candidates:
+        return None
+    return min(candidates, key=lambda d: abs((d - reference).days))
+
+
+def next_trading_date(today: date) -> date:
+    """The next ES trading date after `today`, skipping Sat/Sun.
+
+    Friday evening's post is the "Monday Plan" (covers the weekend), so a
+    cron run on Friday or Saturday must target Monday, not the calendar
+    tomorrow.
+    """
+    d = today + timedelta(days=1)
+    while d.weekday() > 4:  # 5=Sat, 6=Sun
+        d += timedelta(days=1)
+    return d
+
+
+def post_matches_trading_date(
+    post_title: str,
+    post_date_str: str,
+    trading_date: date,
+) -> tuple[bool, str]:
+    """Does this post actually describe `trading_date`'s session?
+
+    The title's "<Month> <day> Plan" date is authoritative. Without one,
+    fall back to the publish date: a valid post is published the prior
+    calendar day, or the prior Fri/Sat/Sun for a Monday session. With no
+    parsable metadata at all, accept — validation only blocks
+    provably-wrong posts; it must not brick the pipeline on a metadata
+    regression.
+    """
+    title_date = parse_plan_date_from_title(post_title, reference=trading_date)
+    if title_date is not None:
+        if title_date == trading_date:
+            return True, f"title plan date {title_date} matches"
+        return False, (
+            f"title plan date {title_date.isoformat()} != trading_date "
+            f"{trading_date.isoformat()} (title={post_title!r})"
+        )
+    try:
+        post_d = date.fromisoformat(str(post_date_str)[:10])
+    except ValueError:
+        return True, "no parsable title or post date — accepting"
+    delta = (trading_date - post_d).days
+    if delta == 1 or (trading_date.weekday() == 0 and 1 <= delta <= 3):
+        return True, f"post_date {post_d} is the session-eve of {trading_date}"
+    return False, (
+        f"post_date {post_d.isoformat()} is not the session-eve of "
+        f"trading_date {trading_date.isoformat()}"
+    )
+
+
+def _existing_ok_plan(output_path: Path) -> bool:
+    """True when output_path already holds a healthy extracted plan."""
+    try:
+        if not output_path.exists():
+            return False
+        data = json.loads(output_path.read_text())
+        return (
+            isinstance(data, dict)
+            and data.get("schema_version") == 1
+            and data.get("extract_status") == "ok"
+            and bool(data.get("plan"))
+        )
+    except Exception:
+        return False
+
+
+def _write_stub_preserving_ok(output_path: Path, payload: dict) -> None:
+    """Write a degraded stub unless a good plan is already on disk.
+
+    The 17:00 primary can succeed and the 20:00 backup fail (expired
+    cookie, late re-fetch of yesterday's post) — the failure must never
+    clobber the good plan.
+    """
+    if _existing_ok_plan(output_path):
+        logger.info(
+            f"Mancini plan: keeping existing OK plan at {output_path.name}; "
+            f"not overwriting with {payload.get('extract_status')} stub"
+        )
+        return
+    output_path.write_text(json.dumps(payload, indent=2, default=str))
+
 
 def _stub_payload(trading_date: date, status: str,
                   post_title: str = "", post_date: str = "",
@@ -335,41 +457,57 @@ def dump_plan_for_trading_date(
         from live.mancini_levels import _get_body_text
     except Exception as e:
         logger.error(f"Mancini plan: failed to import scraper helpers: {e}")
-        output_path.write_text(json.dumps(
+        _write_stub_preserving_ok(
+            output_path,
             _stub_payload(trading_date, "import_failed", error=str(e)),
-            indent=2, default=str,
-        ))
+        )
         return output_path
 
     try:
         post = fetch_latest_post()
     except Exception as e:
         logger.error(f"Mancini plan: fetch_latest_post raised: {e}")
-        output_path.write_text(json.dumps(
+        _write_stub_preserving_ok(
+            output_path,
             _stub_payload(trading_date, "fetch_failed", error=str(e)),
-            indent=2, default=str,
-        ))
+        )
         return output_path
 
     if not post:
         logger.warning("Mancini plan: no post fetched (auth or upstream issue)")
-        output_path.write_text(json.dumps(
+        _write_stub_preserving_ok(
+            output_path,
             _stub_payload(trading_date, "no_post"),
-            indent=2, default=str,
-        ))
+        )
         return output_path
 
     body_text = _get_body_text(post)
     post_title = str(post.get("title", ""))
     post_date_str = str(post.get("post_date", post.get("date", "")))[:10]
 
+    matches, reason = post_matches_trading_date(
+        post_title, post_date_str, trading_date)
+    if not matches:
+        logger.warning(
+            f"Mancini plan: latest post does not describe "
+            f"{trading_date.isoformat()} — {reason}. Skipping extraction; "
+            f"a later cron run will retry once the post is published."
+        )
+        _write_stub_preserving_ok(
+            output_path,
+            _stub_payload(trading_date, "stale_post",
+                          post_title=post_title, post_date=post_date_str,
+                          error=reason),
+        )
+        return output_path
+
     if not body_text:
         logger.warning("Mancini plan: post body empty after extraction")
-        output_path.write_text(json.dumps(
+        _write_stub_preserving_ok(
+            output_path,
             _stub_payload(trading_date, "empty_body",
                           post_title=post_title, post_date=post_date_str),
-            indent=2, default=str,
-        ))
+        )
         return output_path
 
     try:
@@ -381,12 +519,12 @@ def dump_plan_for_trading_date(
         )
     except ManciniExtractionError as e:
         logger.error(f"Mancini plan: extraction failed: {e}")
-        output_path.write_text(json.dumps(
+        _write_stub_preserving_ok(
+            output_path,
             _stub_payload(trading_date, "extract_failed",
                           post_title=post_title, post_date=post_date_str,
                           error=str(e)),
-            indent=2, default=str,
-        ))
+        )
         return output_path
 
     payload = {
@@ -454,7 +592,8 @@ def main() -> None:
     parser.add_argument(
         "--date",
         default="tomorrow",
-        help="Trading date (YYYY-MM-DD) or 'tomorrow' (default)",
+        help="Trading date (YYYY-MM-DD) or 'tomorrow' (default: the next "
+             "trading day in ET, skipping weekends — Friday targets Monday)",
     )
     parser.add_argument(
         "--output-dir",
@@ -469,7 +608,12 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.date == "tomorrow":
-        target = date.today() + timedelta(days=1)
+        try:
+            from zoneinfo import ZoneInfo
+            today_et = datetime.now(ZoneInfo("US/Eastern")).date()
+        except Exception:
+            today_et = date.today()  # container clock is ET
+        target = next_trading_date(today_et)
     else:
         target = date.fromisoformat(args.date)
 
