@@ -16,6 +16,20 @@ class BarAggregator:
     def __init__(self, period_minutes: int = 5):
         self.period = period_minutes
 
+    @staticmethod
+    def _ensure_datetime_index(df_1min: pd.DataFrame) -> pd.DataFrame:
+        """Coerce a non-DatetimeIndex (e.g. timestamp strings) to tz-aware.
+
+        Live incident 2026-06-11: the session catch-up DF arrived with an
+        object Index and pandas resample raised on every bar, silently
+        killing signal processing while the main loop kept running.
+        """
+        if isinstance(df_1min.index, pd.DatetimeIndex):
+            return df_1min
+        out = df_1min.copy()
+        out.index = pd.to_datetime(out.index, utc=True).tz_convert("US/Eastern")
+        return out
+
     def resample(self, df_1min: pd.DataFrame) -> pd.DataFrame:
         """Resample full 1-min DF to 5-min. Used for batch/initial.
 
@@ -31,6 +45,7 @@ class BarAggregator:
         """
         if df_1min is None or len(df_1min) == 0:
             return pd.DataFrame()
+        df_1min = self._ensure_datetime_index(df_1min)
         return df_1min.resample(f"{self.period}min").agg({
             "open": "first",
             "high": "max",
@@ -63,6 +78,7 @@ class BarAggregator:
         """
         if df_1min is None or len(df_1min) < self.period:
             return pd.DataFrame()
+        df_1min = self._ensure_datetime_index(df_1min)
         resampled = self.resample(df_1min)
         if len(resampled) == 0:
             return resampled
