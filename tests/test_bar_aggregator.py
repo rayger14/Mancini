@@ -484,3 +484,31 @@ class TestConfigBackwardCompat:
         assert PRODUCTION_STRATEGY.detect_shelf_levels is True
         assert PRODUCTION_STRATEGY.shelf_min_touches == 8
         assert PRODUCTION_STRATEGY.shelf_sweep_min_pts == 2.0
+
+
+class TestNonDatetimeIndexCoercion:
+    """Live incident 2026-06-11 02:03 ET: the session catch-up DF reached
+    update_incremental with a plain object Index (timestamp strings), and
+    pandas resample raised 'Only valid with DatetimeIndex' on every bar —
+    killing signal processing while the loop kept running. The aggregator
+    must coerce instead of raising."""
+
+    def _string_index_df(self):
+        df = make_bars([(5800.0, 5801.0, 5799.5, 5800.5)] * 10,
+                       start=datetime(2024, 1, 15, 9, 30))
+        df.index = pd.Index([ts.isoformat() for ts in
+                             df.index.tz_localize("US/Eastern")])
+        assert not isinstance(df.index, pd.DatetimeIndex)
+        return df
+
+    def test_update_incremental_coerces_string_index(self):
+        agg = BarAggregator(period_minutes=5)
+        result = agg.update_incremental(self._string_index_df())
+        assert len(result) == 2  # 09:30 and 09:35 buckets both complete
+        assert isinstance(result.index, pd.DatetimeIndex)
+
+    def test_resample_coerces_string_index(self):
+        agg = BarAggregator(period_minutes=5)
+        result = agg.resample(self._string_index_df())
+        assert len(result) == 2
+        assert isinstance(result.index, pd.DatetimeIndex)
