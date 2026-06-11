@@ -84,3 +84,51 @@ class TestBridgeSleepReconnectFlag:
         # Connection state is untouched
         assert bridge._connected is True
         assert bridge._needs_reconnect is False
+
+
+class TestReconnectNeverGivesUp:
+    """The IB Gateway's daily restart (19:45 ET) takes minutes; the bot's
+    5-attempt burst lasts ~2.5 min and then cleared _needs_reconnect —
+    permanently blind until a manual container restart (two nights in a
+    row, 2026-06-09 and 06-10). Exhaustion must keep the flag set and
+    retry in backed-off bursts."""
+
+    def _bridge(self):
+        from types import SimpleNamespace
+        bridge = IBBridge.__new__(IBBridge)
+        fake = MagicMock()
+        fake.connect.side_effect = ConnectionRefusedError("gateway restarting")
+        fake.isConnected.return_value = False
+        bridge._ib = fake
+        bridge._connected = False
+        bridge._needs_reconnect = True
+        bridge._streaming_active = False
+        bridge._reconnect_backoff_until = 0.0
+        bridge._reconnect_exhausted_logged = False
+        bridge.config = SimpleNamespace(
+            max_reconnect_attempts=2, reconnect_delay_sec=0.0,
+            host="x", port=1, client_id=9,
+        )
+        return bridge, fake
+
+    def test_exhausted_burst_keeps_reconnect_flag(self):
+        bridge, fake = self._bridge()
+        assert bridge.check_reconnect() is False
+        assert bridge._needs_reconnect is True, (
+            "clearing the flag after one failed burst bricks the bot until "
+            "manual restart — it must keep retrying"
+        )
+
+    def test_backoff_prevents_hot_loop_then_retry_succeeds(self):
+        bridge, fake = self._bridge()
+        bridge.check_reconnect()  # burst 1 fails, backoff armed
+        n = fake.connect.call_count
+        assert bridge.check_reconnect() is False
+        assert fake.connect.call_count == n, "no attempts during backoff"
+        # backoff expires; gateway is back
+        bridge._reconnect_backoff_until = 0.0
+        fake.connect.side_effect = None
+        fake.isConnected.return_value = True
+        bridge._qualify_contract = lambda: object()
+        assert bridge.check_reconnect() is True
+        assert bridge._needs_reconnect is False
