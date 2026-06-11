@@ -1,9 +1,10 @@
 #!/bin/bash
 # Cron entry point for the daily Mancini LLM extraction + Discord brief.
 #
-# Schedule (host crontab):
-#   30 17 * * *  — primary (5:30pm ET, after Mancini's ~4pm post)
-#   30 20 * * *  — backup  (8:30pm ET, in case Mancini publishes late)
+# Schedule (host crontab, UTC — see host_crontab.txt): 21:30, 22:30,
+# 00:30 UTC. Early/duplicate runs are harmless: the extractor validates
+# the post's plan date against the target trading date and skips stale
+# posts without overwriting a good plan.
 #
 # Sequence:
 #   1. Source host .env for SUBSTACK_COOKIE, ANTHROPIC_API_KEY, WATCHDOG_WEBHOOK
@@ -21,7 +22,16 @@ set -a
 set +a
 
 CONTAINER="mancini-mancini-bot-1"
-DATE_STR=$(TZ=America/New_York date -d "tomorrow" +%Y-%m-%d)
+# Next ET trading date, skipping weekends: Friday's post is the "Monday
+# Plan", so Friday/Saturday runs must target Monday's file. Must match
+# next_trading_date() in live/mancini_llm_extract.py.
+DATE_STR=$(TZ=America/New_York python3 -c "
+from datetime import date, timedelta
+d = date.today() + timedelta(days=1)
+while d.weekday() > 4:
+    d += timedelta(days=1)
+print(d.isoformat())
+")
 PLAN_FILE_IN_CONTAINER="/app/data/mancini_plan_${DATE_STR}.json"
 
 # 1. Extract

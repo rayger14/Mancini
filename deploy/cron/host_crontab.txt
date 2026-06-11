@@ -1,21 +1,33 @@
 # Canonical host crontab for the Mancini bot VM (152.70.113.24).
 # Apply with:  crontab /home/ubuntu/mancini/deploy/cron/host_crontab.txt
 #
-# CRITICAL: TZ=America/New_York at the top. The VM host runs in UTC, so
-# without this directive, "30 17" was interpreted as 17:30 UTC = 13:30 ET
-# — 2.5 hours BEFORE Mancini publishes his ~4pm ET post. The primary
-# extraction was grabbing yesterday's plan and posting it to Discord
-# mislabeled as tomorrow's plan. Fixed 2026-06-03.
+# ALL TIMES BELOW ARE UTC. The VM host runs in UTC and Ubuntu's cron
+# daemon schedules in system time — a `TZ=America/New_York` line in the
+# crontab does NOT change when jobs fire (it only sets the jobs'
+# environment). The 2026-06-03 "fix" that added that line never worked:
+# every job kept firing 4-5 hours early in ET terms, so the 17:30 "ET"
+# extraction ran at 13:30 ET, fetched yesterday's post, and published it
+# mislabeled as tomorrow's plan. Discovered 2026-06-11.
+#
+# Defense in depth: live/mancini_llm_extract.py now validates the post's
+# plan date against the target trading date and skips stale posts, so an
+# early run is harmless — it logs "stale_post" and a later run retries.
+#
+# ET equivalents drift with DST (EDT = UTC-4, EST = UTC-5).
 
-TZ=America/New_York
-
-# Nightly retrospective + report (run after Globex close)
-10 22 * * * docker exec -e WATCHDOG_WEBHOOK=https://discord.com/api/webhooks/1486117184336826511/nT3lKKV0ma24V5Bvj1WGnZ1GnEY3sNAFUcmYH0jjvWAanf-RAiiWylNPJ2sRxMHLAo5K mancini-mancini-bot-1 python3 live/nightly_report.py >> /home/ubuntu/mancini/logs/nightly_report.log 2>&1
+# Nightly retrospective + report — 22:05/22:10 UTC = 18:05/18:10 EDT
+# (17:05/17:10 EST), right after the trading day ends at 17:00 ET.
 5 22 * * * docker exec mancini-mancini-bot-1 python3 live/retrospective.py >> /home/ubuntu/mancini/logs/retrospective_cron.log 2>&1
+10 22 * * * docker exec -e WATCHDOG_WEBHOOK=https://discord.com/api/webhooks/1486117184336826511/nT3lKKV0ma24V5Bvj1WGnZ1GnEY3sNAFUcmYH0jjvWAanf-RAiiWylNPJ2sRxMHLAo5K mancini-mancini-bot-1 python3 live/nightly_report.py >> /home/ubuntu/mancini/logs/nightly_report.log 2>&1
 
-# Mancini plan extraction — Mancini posts around 4pm ET, primary cron at
-# 5pm ET (gives him an hour buffer), backup at 8pm ET in case he's late.
-0  17 * * * /home/ubuntu/mancini/run_substack_cron.sh    >> /home/ubuntu/mancini/logs/substack_cron.log    2>&1
-30 17 * * * /home/ubuntu/mancini/run_mancini_llm_cron.sh >> /home/ubuntu/mancini/logs/mancini_llm_cron.log 2>&1
-0  20 * * * /home/ubuntu/mancini/run_substack_cron.sh    >> /home/ubuntu/mancini/logs/substack_cron.log    2>&1
-30 20 * * * /home/ubuntu/mancini/run_mancini_llm_cron.sh >> /home/ubuntu/mancini/logs/mancini_llm_cron.log 2>&1
+# Mancini plan extraction — Mancini posts ~16:00 ET (20:00/21:00 UTC).
+# Three rounds; stale-post validation makes early/extra runs no-ops.
+#   21:00/21:30 UTC = 17:00/17:30 EDT (16:00/16:30 EST) — primary
+#   22:00/22:30 UTC = 18:00/18:30 EDT (17:00/17:30 EST) — retry
+#   00:00/00:30 UTC = 20:00/20:30 EDT (19:00/19:30 EST) — late backup
+0  21 * * * /home/ubuntu/mancini/run_substack_cron.sh    >> /home/ubuntu/mancini/logs/substack_cron.log    2>&1
+30 21 * * * /home/ubuntu/mancini/run_mancini_llm_cron.sh >> /home/ubuntu/mancini/logs/mancini_llm_cron.log 2>&1
+0  22 * * * /home/ubuntu/mancini/run_substack_cron.sh    >> /home/ubuntu/mancini/logs/substack_cron.log    2>&1
+30 22 * * * /home/ubuntu/mancini/run_mancini_llm_cron.sh >> /home/ubuntu/mancini/logs/mancini_llm_cron.log 2>&1
+0  0  * * * /home/ubuntu/mancini/run_substack_cron.sh    >> /home/ubuntu/mancini/logs/substack_cron.log    2>&1
+30 0  * * * /home/ubuntu/mancini/run_mancini_llm_cron.sh >> /home/ubuntu/mancini/logs/mancini_llm_cron.log 2>&1

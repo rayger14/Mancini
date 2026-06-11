@@ -357,8 +357,8 @@ def _patch_fetch_and_extract(monkeypatch, post: dict | None,
 def test_dump_writes_ok_payload_on_success(monkeypatch, tmp_path):
     """Happy path: post fetched, extracted plan written with extract_status=ok."""
     post = {
-        "title": "May 5th Plan",
-        "post_date": "2026-05-04",
+        "title": "May 6th Plan",
+        "post_date": "2026-05-05",
         "body_html_clean": "Today we held 7198 at 12:10PM. ...",
         "source": "live_api",
     }
@@ -385,8 +385,8 @@ def test_dump_writes_ok_payload_on_success(monkeypatch, tmp_path):
     assert payload["schema_version"] == 1
     assert payload["trading_date"] == "2026-05-06"
     assert payload["extract_status"] == "ok"
-    assert payload["post_title"] == "May 5th Plan"
-    assert payload["post_date"] == "2026-05-04"
+    assert payload["post_title"] == "May 6th Plan"
+    assert payload["post_date"] == "2026-05-05"
     assert payload["plan"]["lean"] == "bullish"
     assert payload["plan"]["mode"] == "mode_1_green"
     assert len(payload["plan"]["planned_setups"]) == 1
@@ -410,7 +410,7 @@ def test_dump_writes_extract_failed_stub(monkeypatch, tmp_path):
     """Post fetched, but LLM extraction raised: write extract_failed stub."""
     post = {
         "title": "Some Post",
-        "post_date": "2026-05-04",
+        "post_date": "2026-05-05",
         "body_html_clean": "non-empty body",
     }
     _patch_fetch_and_extract(
@@ -430,7 +430,7 @@ def test_dump_writes_extract_failed_stub(monkeypatch, tmp_path):
 
 def test_dump_writes_empty_body_stub(monkeypatch, tmp_path):
     """Post fetched but body is empty (paywall, parser regression)."""
-    post = {"title": "Empty", "post_date": "2026-05-04", "body_html_clean": ""}
+    post = {"title": "Empty", "post_date": "2026-05-05", "body_html_clean": ""}
     _patch_fetch_and_extract(monkeypatch, post, extracted=ManciniPlan())
 
     out = dump_plan_for_trading_date(date(2026, 5, 6), output_dir=tmp_path)
@@ -520,3 +520,210 @@ def test_load_plan_returns_none_for_unexpected_schema_version(tmp_path):
         "plan": ManciniPlan().model_dump(),
     })
     assert load_plan(date(2026, 5, 6), input_dir=tmp_path) is None
+
+
+# ---------------------------------------------------------------------------
+# Post-date validation — the 2026-06-11 "Friday file, Thursday plan" bug.
+# Cron fires 4h early (UTC host ignores the crontab TZ line for scheduling),
+# fetches yesterday's post, and labels it as tomorrow's plan. The extractor
+# must refuse to write a plan whose post doesn't describe the target
+# trading date.
+# ---------------------------------------------------------------------------
+
+from live.mancini_llm_extract import (  # noqa: E402
+    next_trading_date,
+    parse_plan_date_from_title,
+    post_matches_trading_date,
+)
+
+
+def test_parse_plan_date_from_title_variants():
+    ref = date(2026, 6, 12)
+    assert parse_plan_date_from_title(
+        "Another Bounce Today In SPX, But Will This One Be Sold Too? "
+        "June 12th Plan", ref) == date(2026, 6, 12)
+    assert parse_plan_date_from_title(
+        'Has SPX Moved Into "Sell Bounces" Mode? June 11 Plan',
+        ref) == date(2026, 6, 11)
+    assert parse_plan_date_from_title("May 5th Plan", date(2026, 5, 5)) \
+        == date(2026, 5, 5)
+    assert parse_plan_date_from_title(
+        "SPX Finally Pulls Back After Weeks Of Upside. Will Bulls Buy "
+        "The Dip? June 8 Plan", date(2026, 6, 8)) == date(2026, 6, 8)
+    # No "<Month> <day> Plan" anywhere -> None
+    assert parse_plan_date_from_title("Weekend Market Musings", ref) is None
+    assert parse_plan_date_from_title("", ref) is None
+
+
+def test_parse_plan_date_holiday_and_reversed_forms():
+    # Multi-day holiday plans cover several sessions — the date matching
+    # the reference wins (real titles from the 2024-2026 archive).
+    assert parse_plan_date_from_title(
+        "Are July 4th Fireworks Coming For SPX? July 3rd/4th Plan",
+        date(2024, 7, 3)) == date(2024, 7, 3)
+    assert parse_plan_date_from_title(
+        "Are July 4th Fireworks Coming For SPX? July 3rd/4th Plan",
+        date(2024, 7, 5)) == date(2024, 7, 4)
+    assert parse_plan_date_from_title(
+        "Will Thanksgiving Bring A New All Time High For SPX? Nov 28/29 Plan",
+        date(2024, 11, 29)) == date(2024, 11, 29)
+    # "Trade Plan" variant
+    assert parse_plan_date_from_title(
+        "Holiday Trading Starts Tomorrow for SPX. Is More Upside Ahead? "
+        "Dec 24/26 Trade Plan", date(2024, 12, 26)) == date(2024, 12, 26)
+    # Reversed "Plan for <Month> <day>" form
+    assert parse_plan_date_from_title(
+        "Election Results Incoming. Expect Volatility For SPX. "
+        "Plan for November 6th.", date(2024, 11, 6)) == date(2024, 11, 6)
+    # "and" as the multi-day separator
+    assert parse_plan_date_from_title(
+        "Is SPX Ready To Make/Sustain All Time Highs? "
+        "Feb 17th and 18th Plan", date(2025, 2, 18)) == date(2025, 2, 18)
+
+
+def test_parse_plan_date_from_title_year_wrap():
+    # A title parsed around New Year must land on the year closest to the
+    # reference date, not blindly reference.year.
+    assert parse_plan_date_from_title(
+        "January 2nd Plan", date(2026, 1, 2)) == date(2026, 1, 2)
+    assert parse_plan_date_from_title(
+        "December 31st Plan", date(2026, 1, 2)) == date(2025, 12, 31)
+
+
+def test_next_trading_date_skips_weekend():
+    assert next_trading_date(date(2026, 6, 10)) == date(2026, 6, 11)  # Wed->Thu
+    assert next_trading_date(date(2026, 6, 11)) == date(2026, 6, 12)  # Thu->Fri
+    assert next_trading_date(date(2026, 6, 12)) == date(2026, 6, 15)  # Fri->Mon
+    assert next_trading_date(date(2026, 6, 13)) == date(2026, 6, 15)  # Sat->Mon
+    assert next_trading_date(date(2026, 6, 14)) == date(2026, 6, 15)  # Sun->Mon
+
+
+def test_post_matches_trading_date_title_is_authoritative():
+    ok, _ = post_matches_trading_date(
+        "June 12th Plan", "2026-06-11", date(2026, 6, 12))
+    assert ok
+    # The actual incident: June 11 post written into the June 12 file.
+    ok, reason = post_matches_trading_date(
+        'Has SPX Moved Into "Sell Bounces" Mode? June 11 Plan',
+        "2026-06-10", date(2026, 6, 12))
+    assert not ok
+    assert "2026-06-11" in reason
+
+
+def test_post_matches_trading_date_fallback_on_undated_title():
+    # No parsable title date -> fall back to post_date == trading_date - 1.
+    ok, _ = post_matches_trading_date(
+        "Some Post", "2026-05-05", date(2026, 5, 6))
+    assert ok
+    ok, _ = post_matches_trading_date(
+        "Some Post", "2026-05-04", date(2026, 5, 6))
+    assert not ok
+    # Friday-evening post covering Monday's session is legitimate.
+    ok, _ = post_matches_trading_date(
+        "Some Post", "2026-06-12", date(2026, 6, 15))
+    assert ok
+    # Nothing parsable at all -> accept (don't brick the pipeline on a
+    # metadata regression); validation only blocks provably-wrong posts.
+    ok, _ = post_matches_trading_date("Some Post", "", date(2026, 5, 6))
+    assert ok
+
+
+def test_dump_skips_stale_post_without_calling_llm(monkeypatch, tmp_path):
+    """Yesterday's post must not be extracted or written as tomorrow's plan."""
+    import live.substack_compare as sc
+    import live.mancini_levels as ml
+
+    post = {
+        "title": 'Has SPX Moved Into "Sell Bounces" Mode? June 11 Plan',
+        "post_date": "2026-06-10",
+        "body_html_clean": "stale body",
+    }
+    monkeypatch.setattr(sc, "fetch_latest_post", lambda: post)
+    monkeypatch.setattr(ml, "_get_body_text",
+                        lambda p: (p or {}).get("body_html_clean", ""))
+    calls = {"extract": 0}
+
+    def _no_extract(*a, **k):
+        calls["extract"] += 1
+        raise AssertionError("extract_plan must not run for a stale post")
+
+    monkeypatch.setattr(mle, "extract_plan", _no_extract)
+
+    out = dump_plan_for_trading_date(date(2026, 6, 12), output_dir=tmp_path)
+    assert out is not None
+    payload = json.loads(out.read_text())
+    assert payload["extract_status"] == "stale_post"
+    assert payload["plan"] is None
+    assert calls["extract"] == 0
+    assert load_plan(date(2026, 6, 12), input_dir=tmp_path) is None
+
+
+def test_dump_stale_post_does_not_overwrite_ok_plan(monkeypatch, tmp_path):
+    """A later stale run must not clobber a correctly-extracted plan."""
+    good = {
+        "schema_version": 1,
+        "trading_date": "2026-06-12",
+        "post_date": "2026-06-11",
+        "post_title": "June 12th Plan",
+        "fetched_at": "2026-06-11T16:30:00",
+        "extract_status": "ok",
+        "plan": ManciniPlan(lean="bullish").model_dump(),
+        "error": "",
+    }
+    target = tmp_path / "mancini_plan_2026-06-12.json"
+    target.write_text(json.dumps(good, default=str))
+
+    import live.substack_compare as sc
+    import live.mancini_levels as ml
+    stale = {
+        "title": "June 11 Plan",
+        "post_date": "2026-06-10",
+        "body_html_clean": "stale body",
+    }
+    monkeypatch.setattr(sc, "fetch_latest_post", lambda: stale)
+    monkeypatch.setattr(ml, "_get_body_text",
+                        lambda p: (p or {}).get("body_html_clean", ""))
+
+    dump_plan_for_trading_date(date(2026, 6, 12), output_dir=tmp_path)
+    payload = json.loads(target.read_text())
+    assert payload["extract_status"] == "ok"
+    assert payload["post_title"] == "June 12th Plan"
+
+
+def test_dump_failure_stub_does_not_overwrite_ok_plan(monkeypatch, tmp_path):
+    """Backup run with an expired cookie must not clobber a good plan."""
+    good = {
+        "schema_version": 1,
+        "trading_date": "2026-06-12",
+        "post_date": "2026-06-11",
+        "post_title": "June 12th Plan",
+        "fetched_at": "2026-06-11T16:30:00",
+        "extract_status": "ok",
+        "plan": ManciniPlan(lean="bullish").model_dump(),
+        "error": "",
+    }
+    target = tmp_path / "mancini_plan_2026-06-12.json"
+    target.write_text(json.dumps(good, default=str))
+
+    _patch_fetch_and_extract(monkeypatch, post=None, extracted=None)
+
+    dump_plan_for_trading_date(date(2026, 6, 12), output_dir=tmp_path)
+    payload = json.loads(target.read_text())
+    assert payload["extract_status"] == "ok"
+    assert payload["post_title"] == "June 12th Plan"
+
+
+def test_dump_accepts_friday_post_for_monday(monkeypatch, tmp_path):
+    """Friday-evening 'Monday Plan' post targets the Monday trading date."""
+    post = {
+        "title": "Big Weekly Recap. June 15th Plan",
+        "post_date": "2026-06-12",
+        "body_html_clean": "weekend plan body",
+    }
+    plan = ManciniPlan(lean="neutral")
+    _patch_fetch_and_extract(monkeypatch, post, plan)
+
+    out = dump_plan_for_trading_date(date(2026, 6, 15), output_dir=tmp_path)
+    payload = json.loads(out.read_text())
+    assert payload["extract_status"] == "ok"
+    assert payload["trading_date"] == "2026-06-15"

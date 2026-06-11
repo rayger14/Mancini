@@ -42,12 +42,18 @@ _COLOR_NEUTRAL = 0x95A5A6
 _COLOR_ERROR = 0xF39C12
 
 
-def _trading_date_default() -> date:
-    """The trading_date the *next* session ends on, matching the cron."""
-    now_et = datetime.now(_ET)
-    # If we're past 17:00 ET, "tomorrow" is the session opening tonight.
-    # Match run_mancini_llm_cron.sh which uses `date -d "tomorrow"`.
-    return (now_et + timedelta(days=1)).date()
+def _trading_date_default(today: date | None = None) -> date:
+    """The trading_date the *next* session ends on, matching the cron.
+
+    Skips weekends: a Friday-evening run targets Monday's plan file
+    (Mancini's Friday post is the "Monday Plan").
+    """
+    if today is None:
+        today = datetime.now(_ET).date()
+    d = today + timedelta(days=1)
+    while d.weekday() > 4:  # 5=Sat, 6=Sun
+        d += timedelta(days=1)
+    return d
 
 
 def _state_path(plan_file: Path) -> Path:
@@ -320,6 +326,14 @@ def main() -> int:
     except (json.JSONDecodeError, OSError) as e:
         print(f"❌ Could not parse plan JSON {plan_file}: {e}", file=sys.stderr)
         return 2
+
+    if plan_json.get("extract_status") == "stale_post":
+        # Expected pre-publication state: the cron fired before Mancini's
+        # post for this trading date went up. A later run will retry —
+        # nothing to announce.
+        print(f"ℹ️  {plan_file.stem}: post not published yet (stale_post) — "
+              "skipping brief.")
+        return 0
 
     # Idempotency check — content-aware so a backup cron that catches a
     # NEW post (after the primary grabbed yesterday's stale one) still

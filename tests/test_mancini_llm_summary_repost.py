@@ -76,3 +76,43 @@ def test_corrupt_state_file_treated_as_legacy(state_file):
     state_file.write_text("{ not valid json")
     post, reason = should_post(state_file, "June 4 Plan")
     assert post is False
+
+
+def test_trading_date_default_skips_weekend():
+    """Friday/Saturday runs must target Monday's plan file, not Sat/Sun."""
+    from datetime import date
+
+    from live.mancini_llm_summary import _trading_date_default
+
+    assert _trading_date_default(today=date(2026, 6, 11)) == date(2026, 6, 12)
+    assert _trading_date_default(today=date(2026, 6, 12)) == date(2026, 6, 15)
+    assert _trading_date_default(today=date(2026, 6, 13)) == date(2026, 6, 15)
+
+
+def test_stale_post_stub_skips_brief_entirely(tmp_path, monkeypatch, capsys):
+    """A stale_post stub is expected pre-publication state, not an error —
+    no embed (not even the warning embed) should be produced."""
+    import sys
+
+    import live.mancini_llm_summary as mls
+
+    stub = {
+        "schema_version": 1,
+        "trading_date": "2026-06-12",
+        "post_date": "2026-06-10",
+        "post_title": "June 11 Plan",
+        "extract_status": "stale_post",
+        "plan": None,
+        "error": "title plan date 2026-06-11 != trading_date 2026-06-12",
+    }
+    f = tmp_path / "mancini_plan_2026-06-12.json"
+    f.write_text(json.dumps(stub))
+
+    monkeypatch.setattr(sys, "argv",
+                        ["mancini_llm_summary", "--plan-file", str(f),
+                         "--dry-run"])
+    rc = mls.main()
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "extraction issue" not in out
+    assert "stale" in out.lower()
