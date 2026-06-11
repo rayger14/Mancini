@@ -472,18 +472,15 @@ class TestConfigBackwardCompat:
         assert params.detect_shelf_levels is False
 
     def test_production_config_has_5min_params(self):
-        """Production config carries 5-min params even when feature is gated off.
+        """Production runs 5-min level + shelf detection with tuned params.
 
-        TODO: 5-min detection is currently disabled in PRODUCTION_STRATEGY
-        (see live/ib_runner.py — `use_5min_levels=False` with comment
-        "needs DatetimeIndex fix for live DF before enabling"). The tuned
-        thresholds remain in place so the feature can be flipped back on
-        once the live-DF resample path is verified end-to-end. When
-        re-enabling, flip the two `is False` asserts below to `is True`.
+        Enabled 2026-06-11 after sign-off (fully-gated backtest: +638 pts,
+        PF +0.20, WR +4.0% on 315 plan sessions). The live resample path
+        was fixed end-to-end in PR #35.
         """
         from live.ib_runner import PRODUCTION_STRATEGY
-        assert PRODUCTION_STRATEGY.use_5min_levels is False
+        assert PRODUCTION_STRATEGY.use_5min_levels is True
         assert PRODUCTION_STRATEGY.swing_low_order_5min == 6
-        assert PRODUCTION_STRATEGY.detect_shelf_levels is False
+        assert PRODUCTION_STRATEGY.detect_shelf_levels is True
         assert PRODUCTION_STRATEGY.shelf_min_touches == 8
         assert PRODUCTION_STRATEGY.shelf_sweep_min_pts == 2.0
