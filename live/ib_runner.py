@@ -53,6 +53,52 @@ from strategy.risk_manager import RiskManager
 from live.market_data import fetch_market_snapshot
 
 
+def compute_excursion_pts(
+    *,
+    direction: str,
+    entry_price: float,
+    highest,
+    lowest,
+    exit_price,
+    recent_high=None,
+    recent_low=None,
+):
+    """Return ``(mfe_pts, mae_pts)`` for a trade, robust to delayed data.
+
+    MFE = max favorable excursion, MAE = max adverse, both in points.
+
+    On the ~12-min delayed feed the venue bracket can close the position
+    at the target before the bars printing the true extreme arrive, so the
+    in-trade high/low watermark undershoots — and the recorded MFE could
+    even land *below* the realized favorable exit. We therefore fold the
+    exit fill and the most recent bar's high/low into the watermark:
+    the favorable side floors at the actual exit, never below it.
+
+    Returns ``(None, None)`` when there is no price information at all.
+    """
+    highs = [h for h in (highest, recent_high, exit_price) if h is not None]
+    lows = [lo for lo in (lowest, recent_low, exit_price) if lo is not None]
+    if not highs and not lows:
+        return None, None
+    hi = max(highs) if highs else None
+    lo = min(lows) if lows else None
+
+    if direction == "long":
+        mfe = round(hi - entry_price, 2) if hi is not None else None
+        mae = round(entry_price - lo, 2) if lo is not None else None
+    else:
+        mfe = round(entry_price - lo, 2) if lo is not None else None
+        mae = round(hi - entry_price, 2) if hi is not None else None
+
+    # Excursions are magnitudes — a price path that never went adverse
+    # yields MAE 0, not a negative number (and vice versa for MFE).
+    if mfe is not None:
+        mfe = max(mfe, 0.0)
+    if mae is not None:
+        mae = max(mae, 0.0)
+    return mfe, mae
+
+
 # ── Production parameters (Optuna v2 Trial 16 — data-informed, Mar 2026) ────
 # Walk-forward validated: Train PF=1.70/+2,589 pts, OOS PF=1.14/+289 pts
 # Full: 737T, PF=1.50, Sharpe=2.90, +2,878 pts (2024: +1,466 | 2025: +1,616)
@@ -2331,8 +2377,9 @@ class IBRunner:
                 # Augment with the most recent bar and the exit fill price.
                 # The IB bracket OCO can fill mid-bar BEFORE the strategy's
                 # bar-update loop absorbs that bar's high/low into the
-                # position state — so the recorded MFE undershoots. Capture
-                # the latest bar's high/low and the actual exit price too.
+                # position state — so the recorded MFE undershoots. Fold the
+                # latest bar's high/low and the actual exit price in, and
+                # floor the favorable side at the realized exit.
                 exit_price = getattr(trade_record, "exit_price", None)
                 recent_high = None
                 recent_low = None
@@ -2342,20 +2389,15 @@ class IBRunner:
                         recent_low = float(self._df["low"].iat[-1])
                     except Exception:
                         pass
-                # Take max of all known highs; min of all known lows.
-                for candidate in (recent_high, exit_price):
-                    if candidate is not None and (highest is None or candidate > highest):
-                        highest = candidate
-                for candidate in (recent_low, exit_price):
-                    if candidate is not None and (lowest is None or candidate < lowest):
-                        lowest = candidate
-
-                if direction == "long":
-                    record["mfe_pts"] = round(highest - entry_price, 2) if highest is not None else None
-                    record["mae_pts"] = round(entry_price - lowest, 2) if lowest is not None else None
-                else:
-                    record["mfe_pts"] = round(entry_price - lowest, 2) if lowest is not None else None
-                    record["mae_pts"] = round(highest - entry_price, 2) if highest is not None else None
+                record["mfe_pts"], record["mae_pts"] = compute_excursion_pts(
+                    direction=direction,
+                    entry_price=entry_price,
+                    highest=highest,
+                    lowest=lowest,
+                    exit_price=exit_price,
+                    recent_high=recent_high,
+                    recent_low=recent_low,
+                )
 
                 # T1/T2 hit flags
                 record["t1_hit"] = getattr(pos, "t1_hit", None) or getattr(trade_record, "t1_hit", None)
