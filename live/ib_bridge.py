@@ -149,6 +149,78 @@ class IBBridge:
     def is_connected(self) -> bool:
         return self._connected and self._ib.isConnected()
 
+    @staticmethod
+    def _select_front_contract(candidates, today=None, roll_within_days: int = 5):
+        """Choose the *liquid* front-month from expiry-sorted candidates.
+
+        Parameters
+        ----------
+        candidates : list[dict]
+            Each ``{"contract": <Contract>, "expiry": "YYYYMMDD",
+            "volume": float | None}``, pre-filtered to non-expired and
+            sorted by expiry ascending.
+        today : date, optional
+            Reference date for the calendar fallback (defaults to today).
+        roll_within_days : int
+            When volume is unavailable, roll off a front contract that
+            expires within this many days.
+
+        Selection order:
+        1. **Roll on volume** (preferred): if the next contract's recent
+           volume exceeds the front's, the market has rolled — pick next.
+           This tracks the liquidity migration ~a week before expiry
+           instead of clinging to the expiring contract until it dies.
+        2. **Calendar safety** (when volume is unavailable): if the front
+           contract expires within ``roll_within_days``, roll to the next
+           contract rather than trade a dying contract.
+        3. Otherwise: nearest expiry.
+        """
+        if not candidates:
+            return None
+        if len(candidates) == 1:
+            return candidates[0]["contract"]
+        front, nxt = candidates[0], candidates[1]
+        fv, nv = front.get("volume"), nxt.get("volume")
+        if fv is not None and nv is not None:
+            return (nxt if nv > fv else front)["contract"]
+        # Volume unavailable on at least one leg — calendar-based safety roll.
+        if today is None:
+            today = date.today()
+        try:
+            fexp = datetime.strptime(str(front["expiry"])[:8], "%Y%m%d").date()
+            if (fexp - today).days <= roll_within_days:
+                return nxt["contract"]
+        except (ValueError, KeyError, TypeError):
+            pass
+        return front["contract"]
+
+    def _recent_volume(self, contract) -> Optional[float]:
+        """Best-effort recent daily volume for a contract; None on failure.
+
+        Used only to compare liquidity between adjacent expiries at
+        qualify time. Any IB error returns None so the caller falls back
+        to the calendar rule — never blocks contract qualification.
+        """
+        try:
+            bars = self._ib.reqHistoricalData(
+                contract,
+                endDateTime="",
+                durationStr="2 D",
+                barSizeSetting="1 day",
+                whatToShow="TRADES",
+                useRTH=False,
+                formatDate=1,
+            )
+            if bars:
+                vol = getattr(bars[-1], "volume", None)
+                return float(vol) if vol is not None and vol >= 0 else None
+        except Exception as e:
+            logger.debug(
+                f"Volume fetch failed for "
+                f"{getattr(contract, 'localSymbol', '?')}: {e}"
+            )
+        return None
+
     def _qualify_contract(self) -> Optional[Contract]:
         """Build and qualify the MES futures contract.
 
@@ -192,7 +264,30 @@ class IBBridge:
                         # All contracts appear expired — fall back to latest expiry
                         logger.warning("All MES contracts appear expired, using latest expiry")
                         active = details[-1:]
-                    front = active[0].contract
+                    # Roll on volume: compare the nearest two expiries by
+                    # recent liquidity so we track the liquid front month
+                    # through roll week instead of clinging to the expiring
+                    # contract until it goes dead.
+                    candidates = [
+                        {
+                            "contract": d.contract,
+                            "expiry": d.contract.lastTradeDateOrContractMonth,
+                            "volume": self._recent_volume(d.contract),
+                        }
+                        for d in active[:2]
+                    ]
+                    front = self._select_front_contract(candidates)
+                    if front is None:
+                        front = active[0].contract
+                    if len(candidates) > 1:
+                        logger.info(
+                            "Front-month liquidity: "
+                            + ", ".join(
+                                f"{c['contract'].localSymbol}="
+                                f"{int(c['volume']) if c['volume'] is not None else 'n/a'}"
+                                for c in candidates
+                            )
+                        )
                     qualified = self._ib.qualifyContracts(front)
                     if qualified:
                         c = qualified[0]
