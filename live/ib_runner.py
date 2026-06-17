@@ -53,6 +53,23 @@ from strategy.risk_manager import RiskManager
 from live.market_data import fetch_market_snapshot
 
 
+def build_session_bars_df(session_bars: dict) -> "pd.DataFrame":
+    """Assemble the full session's OHLCV bars from an uncapped accumulator.
+
+    ``session_bars`` maps a tz-aware Timestamp -> (open, high, low, close,
+    volume). The live ``self._df`` is trimmed to the last 400 bars for
+    processing speed, so it can't be the archive source — this keeps the
+    entire session (overnight + pre-market included) for retrospective
+    analysis. Deduplicates by timestamp (last write wins) and sorts.
+    """
+    cols = ["open", "high", "low", "close", "volume"]
+    if not session_bars:
+        return pd.DataFrame(columns=cols)
+    index = sorted(session_bars.keys())
+    data = [session_bars[ts] for ts in index]
+    return pd.DataFrame(data, index=pd.DatetimeIndex(index), columns=cols)
+
+
 def compute_excursion_pts(
     *,
     direction: str,
@@ -360,6 +377,10 @@ class IBRunner:
 
         # State
         self._df: Optional[pd.DataFrame] = None
+        # Full-session accumulator (timestamp -> OHLCV) for archival. Unlike
+        # self._df (trimmed to 400 bars for processing), this keeps the whole
+        # session so overnight/pre-market bars survive for retrospective audit.
+        self._session_bars: dict = {}
         self._position: Optional[TradePosition] = None
         self._trade_id: Optional[int] = None  # IB parent order ID
         self._entry_timestamp: Optional[datetime] = None  # ET timestamp of entry fill
@@ -991,6 +1012,9 @@ class IBRunner:
 
         logger.info(f"BAR #{self._bar_count}: {timestamp.strftime('%H:%M')} "
                      f"O={open_:.2f} H={high:.2f} L={low:.2f} C={close:.2f} V={volume:.0f}")
+
+        # Full-session archive accumulator (uncapped, deduped by timestamp).
+        self._session_bars[timestamp] = (open_, high, low, close, volume)
 
         # Append to DataFrame
         new_row = pd.DataFrame(
@@ -2765,11 +2789,16 @@ class IBRunner:
             sessions_dir = Path("/app/data/sessions")
             sessions_dir.mkdir(parents=True, exist_ok=True)
 
-            # Archive full session bars
-            if self._df is not None and len(self._df) > 0:
+            # Archive full session bars — from the uncapped accumulator, not
+            # the 400-bar live window. Fall back to self._df only if the
+            # accumulator is empty (e.g. a recovery path that bypassed it).
+            session_df = build_session_bars_df(self._session_bars)
+            if len(session_df) == 0 and self._df is not None and len(self._df) > 0:
+                session_df = self._df
+            if len(session_df) > 0:
                 bars_path = sessions_dir / f"{self._session_date}_bars.parquet"
-                self._df.to_parquet(bars_path)
-                logger.info(f"Session bars archived: {len(self._df)} bars -> {bars_path}")
+                session_df.to_parquet(bars_path)
+                logger.info(f"Session bars archived: {len(session_df)} bars -> {bars_path}")
 
             # Snapshot active levels
             levels_snapshot = []
@@ -2817,6 +2846,8 @@ class IBRunner:
             # Archive old session
             self._archive_session()
             self._log_session_summary()
+            # Start a fresh full-session accumulator for the new session.
+            self._session_bars = {}
 
             # Reset for new session
             old_date = self._session_date
