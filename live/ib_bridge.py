@@ -49,6 +49,105 @@ except ImportError:
     _IB_PACKAGE = "ib_insync"
 
 
+def marketable_limit_price(direction: str, entry_price: float,
+                           cap_pts: float) -> float:
+    """Limit price for a *marketable* entry.
+
+    Prices the order ``cap_pts`` through the signal in the adverse direction so
+    it crosses the spread and fills immediately at the live market (or better),
+    but never worse than ``cap_pts`` of adverse slippage:
+    - long  → willing to pay up to entry + cap
+    - short → willing to sell down to entry - cap
+
+    On the 12-min delayed feed this fills like a market order whenever the real
+    price is within ``cap_pts`` of the signal, and skips (no fill) only when
+    price has already run further than that — i.e. when we'd be chasing.
+    """
+    if direction == "short":
+        return entry_price - cap_pts
+    return entry_price + cap_pts
+
+
+def runner_split(quantity: int, tp_fraction: float) -> tuple[int, int]:
+    """Split a position into (tp_quantity, runner_quantity).
+
+    floor (not round) mirrors ExitManager._check_t1 and avoids banker's
+    rounding turning 2*0.75=1.5 into 2. 1 contract leaves no runner.
+    """
+    import math as _math
+    if quantity <= 1:
+        return quantity, 0
+    tp_quantity = min(quantity - 1, max(1, _math.floor(quantity * tp_fraction)))
+    return tp_quantity, quantity - tp_quantity
+
+
+def build_bracket_orders(*, parent_id: int, tp_id: int, sl_id: int,
+                         quantity: int, tp_fraction: float,
+                         entry_limit_price: float, sl: float, tp: float,
+                         direction: str, comment: str):
+    """Construct (parent, take_profit, stop_loss) for a marketable-limit entry
+    with an OCA reduce-on-fill exit pair.
+
+    The parent is a marketable LIMIT (bounded slippage) when ``entry_limit_price``
+    is given, else a MARKET order (legacy). The TP (a fraction of the position)
+    and the SL (full) share one OCA group with ``ocaType=2`` (reduce-with-block),
+    so when the venue fills the TP fraction in real time, IB auto-reduces the SL
+    to the runner quantity — the runner rests at the exchange, protected, immune
+    to the bot's delayed feed.
+    """
+    entry_action, exit_action = (
+        ("SELL", "BUY") if direction == "short" else ("BUY", "SELL")
+    )
+
+    tp_quantity, _runner = runner_split(quantity, tp_fraction)
+    oca_group = f"oca_{parent_id}"
+
+    if entry_limit_price is None:
+        parent = MarketOrder(
+            action=entry_action,
+            totalQuantity=quantity,
+            orderId=parent_id,
+            transmit=False,
+            orderRef=comment,
+            tif="GTC",
+        )
+    else:
+        parent = LimitOrder(
+            action=entry_action,
+            totalQuantity=quantity,
+            lmtPrice=_round_tick(entry_limit_price),
+            orderId=parent_id,
+            transmit=False,
+            orderRef=comment,
+            tif="GTC",
+        )
+    take_profit = LimitOrder(
+        action=exit_action,
+        totalQuantity=tp_quantity,
+        lmtPrice=_round_tick(tp),
+        orderId=tp_id,
+        parentId=parent_id,
+        ocaGroup=oca_group,
+        ocaType=2,  # reduce remaining group size on (partial) fill
+        transmit=False,
+        orderRef=f"{comment}:TP",
+        tif="GTC",
+    )
+    stop_loss = StopOrder(
+        action=exit_action,
+        totalQuantity=quantity,
+        stopPrice=_round_tick(sl),
+        orderId=sl_id,
+        parentId=parent_id,
+        ocaGroup=oca_group,
+        ocaType=2,
+        transmit=True,  # transmits the whole bracket
+        orderRef=f"{comment}:SL",
+        tif="GTC",
+    )
+    return parent, take_profit, stop_loss
+
+
 @dataclass
 class IBConfig:
     """Configuration for the IB bridge."""
@@ -772,6 +871,8 @@ class IBBridge:
         comment: str = "ManciniEntry",
         fill_timeout_sec: float = 30.0,
         tp_fraction: float = 0.75,
+        entry_price: float = 0.0,
+        slippage_cap_pts: float = 0.0,
     ) -> tuple[Optional[int], float]:
         """Send a bracket order: market entry + SL + TP as OCO.
 
@@ -818,60 +919,21 @@ class IBBridge:
         tp_id = self._ib.client.getReqId()
         sl_id = self._ib.client.getReqId()
 
-        # Direction-aware actions
-        if direction == "short":
-            entry_action, exit_action = "SELL", "BUY"
-        else:
-            entry_action, exit_action = "BUY", "SELL"
+        # Marketable-limit entry: bound adverse slippage to slippage_cap_pts.
+        # Falls back to a market order when no cap/price is supplied.
+        entry_limit_price = None
+        if entry_price > 0 and slippage_cap_pts > 0:
+            entry_limit_price = marketable_limit_price(
+                direction, entry_price, slippage_cap_pts)
 
-        # Parent: market order, don't transmit yet
-        parent = MarketOrder(
-            action=entry_action,
-            totalQuantity=quantity,
-            orderId=parent_id,
-            transmit=False,
-            orderRef=comment,
-            tif="GTC",
-        )
-
-        # Take profit: limit order at target (tick-rounded)
-        # Put tp_fraction of contracts on TP — the rest stay as runner
-        # managed by the ExitManager's trailing stop logic.
-        # Use math.floor (NOT round) to mirror ExitManager._check_t1 and
-        # avoid Python's banker's rounding turning 2*0.75=1.5 into 2.
-        # With 4 contracts @ 0.75: TP gets 3, runner gets 1
-        # With 2 contracts @ 0.75: TP gets 1, runner gets 1
-        # With 1 contract: TP gets 1 (no runner possible)
-        import math as _math
-        if quantity <= 1:
-            tp_quantity = quantity
-        else:
-            # Ensure at least 1 contract remains as runner
-            tp_quantity = min(
-                quantity - 1, max(1, _math.floor(quantity * tp_fraction))
-            )
-        take_profit = LimitOrder(
-            action=exit_action,
-            totalQuantity=tp_quantity,
-            lmtPrice=_round_tick(tp),
-            orderId=tp_id,
-            parentId=parent_id,
-            transmit=False,
-            orderRef=f"{comment}:TP",
-            tif="GTC",
-        )
-
-        # Stop loss: stop order (tick-rounded) — covers ALL contracts
-        # transmit=True sends the entire bracket
-        stop_loss = StopOrder(
-            action=exit_action,
-            totalQuantity=quantity,
-            stopPrice=_round_tick(sl),
-            orderId=sl_id,
-            parentId=parent_id,
-            transmit=True,  # This transmits the entire bracket
-            orderRef=f"{comment}:SL",
-            tif="GTC",
+        # Bracket: marketable-limit (or market) parent + OCA reduce-on-fill
+        # TP/SL, so the runner rests at the venue with a stop that auto-shrinks
+        # when the TP fraction fills.
+        parent, take_profit, stop_loss = build_bracket_orders(
+            parent_id=parent_id, tp_id=tp_id, sl_id=sl_id,
+            quantity=quantity, tp_fraction=tp_fraction,
+            entry_limit_price=entry_limit_price, sl=sl, tp=tp,
+            direction=direction, comment=comment,
         )
 
         try:

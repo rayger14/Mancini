@@ -105,6 +105,11 @@ class ExitParams:
     """
 
     default_contracts: int = 4
+    # Marketable-limit entry: bound adverse entry slippage to this many points
+    # (priced through the signal so it fills like a market order, but never
+    # worse). 0 disables (falls back to a plain market order). On the 12-min
+    # delayed feed this caps bad fills when price has already moved.
+    entry_slippage_cap_pts: float = 5.0
     t1_exit_fraction: float = 0.75  # Mancini: 75% at first target
     t2_exit_fraction: float = 0.15  # Mancini: 15% at second target
     runner_fraction: float = 0.10   # Mancini: 10% runner
