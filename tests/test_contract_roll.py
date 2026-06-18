@@ -30,21 +30,37 @@ class TestSelectFrontContract:
         c = [_cand("MESU6", "20260918", 1_000_000)]
         assert IBBridge._select_front_contract(c) == "MESU6"
 
-    def test_picks_higher_volume_back_month_during_roll(self):
-        # Roll week: September volume has overtaken June. Pick September.
+    def test_rolls_on_volume_before_calendar_window(self):
+        # Volume migrated to the back month while the front still has runway
+        # (8 days out, outside the 5-day calendar window) -> roll on volume.
         c = [
-            _cand("MESM6", "20260618", 120_000),
-            _cand("MESU6", "20260918", 980_000),
+            _cand("MESU6", "20260918", 200_000),
+            _cand("MESZ6", "20261218", 900_000),
         ]
-        assert IBBridge._select_front_contract(c) == "MESU6"
+        assert IBBridge._select_front_contract(
+            c, today=date(2026, 9, 10)) == "MESZ6"
 
-    def test_keeps_front_when_it_still_leads_volume(self):
-        # Mid-quarter: front month still dominant. Don't roll early.
+    def test_keeps_front_when_it_leads_and_not_near_expiry(self):
+        # Front still dominant and weeks from expiry -> keep it.
         c = [
             _cand("MESU6", "20260918", 1_400_000),
             _cand("MESZ6", "20261218", 60_000),
         ]
-        assert IBBridge._select_front_contract(c) == "MESU6"
+        assert IBBridge._select_front_contract(
+            c, today=date(2026, 8, 1)) == "MESU6"
+
+    def test_calendar_overrides_misleading_volume_on_expiry_day(self):
+        # The live 2026-06-18 bug: on expiry day the dying front contract's
+        # trailing 2-day volume (20604) still beat the new front month's
+        # (16226), so the volume rule wrongly kept the expiring contract.
+        # The calendar rule must take PRECEDENCE: never select a contract
+        # within the roll window of expiry, regardless of volume.
+        c = [
+            _cand("MESM6", "20260618", 20_604),   # expires today, higher volume
+            _cand("MESU6", "20260918", 16_226),
+        ]
+        assert IBBridge._select_front_contract(
+            c, today=date(2026, 6, 18)) == "MESU6"
 
     def test_calendar_safety_roll_when_volume_unavailable(self):
         # Volume fetch failed (None). Front expires in 2 days -> roll anyway
