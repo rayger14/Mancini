@@ -279,10 +279,13 @@ class IBBridge:
         if len(candidates) == 1:
             return candidates[0]["contract"]
         front, nxt = candidates[0], candidates[1]
-        fv, nv = front.get("volume"), nxt.get("volume")
-        if fv is not None and nv is not None:
-            return (nxt if nv > fv else front)["contract"]
-        # Volume unavailable on at least one leg — calendar-based safety roll.
+
+        # Calendar check FIRST — it takes precedence over volume. On expiry/roll
+        # day the dying front contract's trailing volume can still exceed the
+        # new front month's (2026-06-18: MESM6=20604 > MESU6=16226), so a
+        # volume-only rule would cling to a contract about to stop trading.
+        # Never select a contract within roll_within_days of expiry when a
+        # later one exists.
         if today is None:
             today = date.today()
         try:
@@ -291,6 +294,12 @@ class IBBridge:
                 return nxt["contract"]
         except (ValueError, KeyError, TypeError):
             pass
+
+        # Otherwise roll on volume: the back month leading means liquidity has
+        # migrated there (can happen earlier than the calendar window).
+        fv, nv = front.get("volume"), nxt.get("volume")
+        if fv is not None and nv is not None:
+            return (nxt if nv > fv else front)["contract"]
         return front["contract"]
 
     def _recent_volume(self, contract) -> Optional[float]:
