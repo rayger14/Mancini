@@ -53,6 +53,45 @@ from strategy.risk_manager import RiskManager
 from live.market_data import fetch_market_snapshot
 
 
+def classify_position_sync(local_remaining: int, ib_volume, t1_booked: bool) -> str:
+    """Classify what a venue-side position change means during _sync_position.
+
+    On the delayed feed the exchange can fill the TP fraction before the bot's
+    bars show T1, leaving a runner. This decides how to reconcile:
+    - "full_close"       — IB shows flat/zero: the whole position closed.
+    - "venue_t1_partial" — IB shows fewer contracts than we hold and T1 isn't
+      booked yet: the venue filled the TP fraction; book the partial, keep the
+      runner.
+    - "no_change"        — same size, an expected post-T1 state, or a defensive
+      unexpected increase.
+    """
+    if ib_volume is None or ib_volume == 0:
+        return "full_close"
+    if ib_volume < local_remaining and not t1_booked:
+        return "venue_t1_partial"
+    return "no_change"
+
+
+def venue_t1_pnl_and_stop(*, direction: str, entry_price: float,
+                          fill_price: float, filled: int,
+                          breakeven_buffer_pts: float,
+                          prior_day_low: float, pdl_buffer_pts: float):
+    """Realized P&L for a venue-filled T1 fraction + the runner's new stop.
+
+    Mirrors ExitManager._check_t1: the post-T1 stop moves several points under
+    breakeven (``breakeven_buffer_pts`` is negative); if the prior-day low gives
+    a lower stop, use that wider one so the runner has room.
+    """
+    if direction == "short":
+        pnl = (entry_price - fill_price) * filled
+    else:
+        pnl = (fill_price - entry_price) * filled
+    new_stop = entry_price + breakeven_buffer_pts
+    if prior_day_low and prior_day_low > 0:
+        new_stop = min(new_stop, prior_day_low - pdl_buffer_pts)
+    return round(pnl, 2), new_stop
+
+
 def build_session_bars_df(session_bars: dict) -> "pd.DataFrame":
     """Assemble the full session's OHLCV bars from an uncapped accumulator.
 
@@ -1336,6 +1375,9 @@ class IBRunner:
             direction=signal.direction,
             comment=f"Mancini:{signal.signal_type.name}",
             tp_fraction=self.exit_params.t1_exit_fraction,
+            entry_price=entry.entry_price,
+            slippage_cap_pts=getattr(
+                self.exit_params, "entry_slippage_cap_pts", 0.0),
         )
 
         if trade_id is None:
@@ -1744,8 +1786,95 @@ class IBRunner:
             self._position = None
             self._trade_id = None
         else:
-            # Position still open — reset the None counter
+            # Position still open at IB — reset the None counter.
             self._sync_none_count = 0
+            # On the delayed feed the venue can fill the TP fraction in real
+            # time before our bars show T1, leaving a runner. Detect that
+            # reduced position and book the partial, keeping the runner.
+            ib_volume = ib_pos.get("volume") if isinstance(ib_pos, dict) else None
+            if ib_volume is not None and self._position is not None:
+                decision = classify_position_sync(
+                    local_remaining=self._position.remaining_contracts,
+                    ib_volume=ib_volume,
+                    t1_booked=bool(getattr(self._position, "t1_hit", False)),
+                )
+                if decision == "venue_t1_partial":
+                    self._reconcile_venue_t1(ib_volume, datetime.now(_ET))
+
+    def _reconcile_venue_t1(self, ib_volume: int, timestamp: datetime) -> None:
+        """Book a venue-side T1 fill the delayed feed missed, keeping the runner.
+
+        The OCA bracket lets the exchange fill the TP fraction and auto-reduce
+        the stop to the runner. Mirror ExitManager._check_t1 locally: book the
+        closed fraction at the real fill, keep the runner, move its stop to
+        breakeven, and let the per-bar logic trail it from here.
+        """
+        from live.ib_bridge import runner_split
+
+        pos = self._position
+        if pos is None:
+            return
+        filled = pos.remaining_contracts - ib_volume
+        if filled <= 0:
+            return
+        # Guard against spurious partial reads: only reconcile a clean T1, i.e.
+        # the remaining position equals the expected runner size.
+        _tp_qty, expected_runner = runner_split(
+            pos.total_contracts, self.exit_params.t1_exit_fraction)
+        if ib_volume != expected_runner:
+            logger.warning(
+                f"_sync_position: IB shows {ib_volume} contracts, expected "
+                f"runner {expected_runner} after T1 — not booking (will retry)"
+            )
+            return
+
+        fill_price, exit_type = self.bridge.get_bracket_fill_price(self._trade_id)
+        if fill_price <= 0 or exit_type != "TP":
+            fill_price = pos.target_1
+
+        # Mirror the AFTER_T1 transition from ExitManager._check_t1.
+        be_buffer = (
+            self.exit_params.short_breakeven_buffer_pts
+            if pos.direction == "short"
+            else self.exit_params.breakeven_buffer_pts
+        )
+        pnl, new_stop = venue_t1_pnl_and_stop(
+            direction=pos.direction,
+            entry_price=pos.entry_price,
+            fill_price=fill_price,
+            filled=filled,
+            breakeven_buffer_pts=be_buffer,
+            prior_day_low=getattr(pos, "prior_day_low", 0) or 0,
+            pdl_buffer_pts=self.exit_params.runner_prior_day_low_buffer_pts,
+        )
+
+        pos.realized_pnl_pts += pnl
+        pos.remaining_contracts = ib_volume
+        pos.t1_hit = True
+        pos.phase = ExitPhase.AFTER_T1
+        pos.stop_price = new_stop
+
+        # Trail the runner's venue stop up to breakeven.
+        try:
+            self.bridge.update_stop(
+                trade_id=self._trade_id, new_sl=new_stop,
+                reason="venue T1 reconcile")
+        except Exception as e:
+            logger.warning(f"Runner stop update after venue T1 failed: {e!r}")
+
+        action = SimpleNamespace(
+            exit_price=fill_price,
+            contracts_to_close=filled,
+            new_stop=new_stop,
+            reason=f"Target 1 hit ({pos.target_1:.2f}) [venue]",
+        )
+        self._log_partial_exit(action, timestamp)
+        self._post_trade_exit_embed(
+            phase="t1", action=action, pre_position=pos, timestamp=timestamp)
+        logger.info(
+            f"VENUE T1 reconciled: {filled} closed @ {fill_price:.2f}, "
+            f"runner={ib_volume} held, new stop={new_stop:.2f}"
+        )
 
     def _check_force_trade(self, close: float, timestamp) -> None:
         """Check for /app/logs/force_trade.json trigger file.
