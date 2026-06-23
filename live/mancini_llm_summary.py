@@ -104,8 +104,8 @@ def _setup_type_label(t: str) -> str:
     }.get((t or "").lower(), (t or "?").upper())
 
 
-def _format_setups_block(setups: list[dict], conviction_set: set[str]) -> str:
-    """Format a subset of setups (by conviction) as a code block."""
+def _setup_rows(setups: list[dict], conviction_set: set[str]) -> list[str]:
+    """Format a subset of setups (by conviction) as individual rows."""
     rows: list[str] = []
     for s in setups:
         if (s.get("conviction") or "").lower() not in conviction_set:
@@ -114,11 +114,47 @@ def _format_setups_block(setups: list[dict], conviction_set: set[str]) -> str:
         kind = _setup_type_label(s.get("setup_type") or "")
         dir_arrow = "↑" if (s.get("direction") or "") == "long" else "↓"
         badge = _conviction_badge(s.get("conviction") or "")
-        ctx = _truncate((s.get("context") or "").replace("\n", " "), 70)
+        # Show the full setup context (entry/recovery instructions) — 70 chars
+        # used to chop it mid-sentence. There's ample field room and pagination
+        # splits long lists, so give Mancini's reasoning space to breathe.
+        ctx = _truncate((s.get("context") or "").replace("\n", " "), 180)
         rows.append(f"{badge} {price:>7.2f}  {kind} {dir_arrow}  {ctx}")
-    if not rows:
-        return ""
-    return "```\n" + "\n".join(rows) + "\n```"
+    return rows
+
+
+def _paginate_rows_to_blocks(rows: list[str], budget: int = 1024) -> list[str]:
+    """Pack rows into ``` code blocks, each within `budget` chars.
+
+    Discord caps an embed field value at 1024 chars; a long setup list used
+    to be truncated mid-list with a "…". This splits on row boundaries so a
+    long list spans multiple fields and nothing is dropped.
+    """
+    WRAP = len("```\n") + len("\n```")  # 8 chars of code-fence overhead
+    blocks: list[str] = []
+    cur: list[str] = []
+    for row in rows:
+        candidate = cur + [row]
+        if cur and WRAP + len("\n".join(candidate)) > budget:
+            blocks.append("```\n" + "\n".join(cur) + "\n```")
+            cur = [row]
+        else:
+            cur = candidate
+    if cur:
+        blocks.append("```\n" + "\n".join(cur) + "\n```")
+    return blocks
+
+
+def _setup_fields(setups: list[dict], conviction_set: set[str],
+                  base_name: str) -> list[dict]:
+    """Build one or more Discord fields for a conviction subset, paginating
+    so a long setup list is never truncated."""
+    rows = _setup_rows(setups, conviction_set)
+    blocks = _paginate_rows_to_blocks(rows)
+    fields: list[dict] = []
+    for i, block in enumerate(blocks):
+        name = base_name if i == 0 else f"{base_name} (cont. {i + 1})"
+        fields.append({"name": name, "value": block, "inline": False})
+    return fields
 
 
 def _format_danger_zones(zones: list[dict]) -> str:
@@ -225,22 +261,13 @@ def build_embed(plan_json: dict) -> dict:
         tgt_str = " → ".join(f"{t:g}" for t in targets[:6])
         fields.append({"name": "🎯 Targets", "value": tgt_str, "inline": False})
 
-    # Setups — high/medium conviction (what the bot will care about)
+    # Setups — high/medium conviction (what the bot will care about).
+    # Paginated across fields so a long list is never truncated mid-setup.
     setups = p.get("planned_setups") or []
-    hi_med_block = _format_setups_block(setups, {"high", "medium"})
-    if hi_med_block:
-        fields.append({
-            "name": "⭐ High / Medium Conviction Setups",
-            "value": _truncate(hi_med_block, 1024),
-            "inline": False,
-        })
-    lo_block = _format_setups_block(setups, {"low"})
-    if lo_block:
-        fields.append({
-            "name": "· Lower Conviction (FYI)",
-            "value": _truncate(lo_block, 1024),
-            "inline": False,
-        })
+    fields.extend(_setup_fields(
+        setups, {"high", "medium"}, "⭐ High / Medium Conviction Setups"))
+    fields.extend(_setup_fields(
+        setups, {"low"}, "· Lower Conviction (FYI)"))
 
     # Danger zones
     zones = p.get("danger_zones") or []
