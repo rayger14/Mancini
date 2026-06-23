@@ -413,12 +413,22 @@ class Watchdog:
             self._resolve_alert("ERROR_SPIKE")
 
     def _check_signal_pipeline(self) -> None:
-        """Check if signal pipeline is producing signals during RTH."""
+        """Check if signal pipeline is producing signals during RTH.
+
+        Edge-triggered: a quiet session keeps this condition true for hours,
+        so the time cooldown alone re-fired it every 5 min and flooded
+        Discord. Emit once when the dry spell crosses the threshold, resolve
+        when signals resume, and only re-emit on a fresh dry spell.
+        """
         if self._rth_bars_without_signal >= self.RTH_SIGNAL_CHECK_BARS:
-            self._emit_alert(WARNING, "NO_SIGNALS_RTH",
-                             f"{self._rth_bars_without_signal} RTH bars without any signal. "
-                             f"Level store may be empty or all patterns stuck. "
-                             f"Total signals this session: {self._signal_count_rth}")
+            existing = self._active_alerts.get("NO_SIGNALS_RTH")
+            if existing is None or existing.resolved:
+                self._emit_alert(WARNING, "NO_SIGNALS_RTH",
+                                 f"{self._rth_bars_without_signal} RTH bars without any signal. "
+                                 f"Level store may be empty or all patterns stuck. "
+                                 f"Total signals this session: {self._signal_count_rth}")
+        else:
+            self._resolve_alert("NO_SIGNALS_RTH")
 
     def _check_status_file(self, now: datetime) -> None:
         """Check status.json for position and state consistency."""

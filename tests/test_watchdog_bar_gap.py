@@ -135,3 +135,55 @@ class TestGatewayResetWindow:
         wd._check_error_rate(now)
         assert "ERROR_SPIKE" in wd._active_alerts
         assert wd._active_alerts["ERROR_SPIKE"].severity == HIGH
+
+
+class TestNoSignalsRthSpam:
+    """NO_SIGNALS_RTH is a *persistent* condition (a quiet session can hold it
+    for hours). The 5-min cooldown still let it re-fire every cooldown window,
+    flooding Discord with dozens of identical warnings. It must be
+    edge-triggered: alert once when it crosses, resolve when signals resume.
+    """
+
+    def test_fires_once_while_condition_persists(self, tmp_path):
+        wd = _watchdog(tmp_path)
+        wd._rth_bars_without_signal = wd.RTH_SIGNAL_CHECK_BARS + 10
+        wd._signal_count_rth = 12
+
+        wd._check_signal_pipeline()
+        assert "NO_SIGNALS_RTH" in wd._active_alerts
+        first = wd._active_alerts["NO_SIGNALS_RTH"]
+        assert not first.resolved
+
+        # Expire the cooldown so we prove the EDGE-TRIGGER (not the time
+        # cooldown) is what suppresses the repeat.
+        wd._last_alert_times["NO_SIGNALS_RTH"] -= 10_000
+        wd._rth_bars_without_signal += 50  # condition still true, worse
+        wd._check_signal_pipeline()
+
+        # Same alert object — no re-emit while the dry spell persists.
+        assert wd._active_alerts["NO_SIGNALS_RTH"] is first
+
+    def test_resolves_when_signals_resume(self, tmp_path):
+        wd = _watchdog(tmp_path)
+        wd._rth_bars_without_signal = wd.RTH_SIGNAL_CHECK_BARS + 10
+        wd._check_signal_pipeline()
+        assert not wd._active_alerts["NO_SIGNALS_RTH"].resolved
+
+        wd._rth_bars_without_signal = 0  # a signal arrived
+        wd._check_signal_pipeline()
+        assert wd._active_alerts["NO_SIGNALS_RTH"].resolved
+
+    def test_refires_on_a_new_dry_spell(self, tmp_path):
+        wd = _watchdog(tmp_path)
+        wd._rth_bars_without_signal = wd.RTH_SIGNAL_CHECK_BARS + 10
+        wd._check_signal_pipeline()
+        first = wd._active_alerts["NO_SIGNALS_RTH"]
+
+        wd._rth_bars_without_signal = 0
+        wd._check_signal_pipeline()  # resolves
+        wd._last_alert_times["NO_SIGNALS_RTH"] -= 10_000  # clear cooldown
+        wd._rth_bars_without_signal = wd.RTH_SIGNAL_CHECK_BARS + 10
+        wd._check_signal_pipeline()  # new dry spell -> new alert
+
+        assert wd._active_alerts["NO_SIGNALS_RTH"] is not first
+        assert not wd._active_alerts["NO_SIGNALS_RTH"].resolved
