@@ -17,8 +17,12 @@
 
 # Nightly retrospective + report — 22:05/22:10 UTC = 18:05/18:10 EDT
 # (17:05/17:10 EST), right after the trading day ends at 17:00 ET.
+# NEVER hardcode the webhook here — this file is committed to a PUBLIC repo
+# and a leaked Discord webhook URL gets scraped and abused (2026-06-23
+# "A_TOOLS X" spam incident). nightly_report.py reads WATCHDOG_WEBHOOK from
+# the bot container's env, which compose injects from the host .env.
 5 22 * * * docker exec mancini-mancini-bot-1 python3 live/retrospective.py >> /home/ubuntu/mancini/logs/retrospective_cron.log 2>&1
-10 22 * * * docker exec -e WATCHDOG_WEBHOOK=https://discord.com/api/webhooks/1486117184336826511/nT3lKKV0ma24V5Bvj1WGnZ1GnEY3sNAFUcmYH0jjvWAanf-RAiiWylNPJ2sRxMHLAo5K mancini-mancini-bot-1 python3 live/nightly_report.py >> /home/ubuntu/mancini/logs/nightly_report.log 2>&1
+10 22 * * * docker exec mancini-mancini-bot-1 python3 live/nightly_report.py >> /home/ubuntu/mancini/logs/nightly_report.log 2>&1
 
 # Mancini plan extraction — Mancini posts ~16:00 ET (20:00/21:00 UTC).
 # Three rounds; stale-post validation makes early/extra runs no-ops.
