@@ -384,3 +384,43 @@ class TestLQSClamp:
         market = {"vix": 30.0, "vix_term_structure": 1.2}
         lqs = scorer.compute_lqs(level, market, ctx)
         assert 0 <= lqs <= 100
+
+
+# ── Cross-source confluence bonus (Phase 1) ──────────────────────────
+
+class TestSourceCountConfluence:
+    """A level confirmed by multiple INDEPENDENT sources (engine + Mancini +
+    pivot) is higher conviction. source_count drives an LQS confirmation bonus.
+    """
+
+    def _scorer(self):
+        return LevelQualityScorer(StrategyParams())
+
+    def test_single_source_no_bonus(self):
+        lv = _make_level(LevelType.SWING_LOW)
+        lv.source_count = 1
+        assert self._scorer()._confirmation_score(lv) == 0
+
+    def test_two_sources_adds_5(self):
+        lv = _make_level(LevelType.SWING_LOW)
+        lv.source_count = 2
+        assert self._scorer()._confirmation_score(lv) == 5
+
+    def test_three_sources_adds_10(self):
+        lv = _make_level(LevelType.SWING_LOW)
+        lv.source_count = 3
+        assert self._scorer()._confirmation_score(lv) == 10
+
+    def test_default_source_count_is_one(self):
+        lv = _make_level(LevelType.SWING_LOW)
+        assert lv.source_count == 1
+
+    def test_confluence_lifts_lqs_above_trade_gate(self):
+        # A bare swing (LQS too low to trade) becomes tradeable once three
+        # independent sources converge on it.
+        scorer = self._scorer()
+        ctx = _default_session_ctx()
+        solo = _make_level(LevelType.SWING_LOW)
+        conv = _make_level(LevelType.SWING_LOW)
+        conv.source_count = 3
+        assert scorer.compute_lqs(conv, ctx) > scorer.compute_lqs(solo, ctx)

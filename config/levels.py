@@ -47,6 +47,10 @@ class Level:
     mancini_conviction: int = 0         # 1-3 from Mancini's context (key/magnet/etc)
     mancini_tags: list = field(default_factory=list)  # tags parsed from context (key, magnet, caution, ...)
     shadow_only: bool = False           # True = do not influence trading (log-only overlay)
+    # Cross-source confluence: how many INDEPENDENT sources (engine / Mancini /
+    # pivot) agree on this price. 1 = engine-only; bumped when another source
+    # lands within tolerance. Drives an LQS confirmation bonus.
+    source_count: int = 1
 
     def __post_init__(self):
         if not self.label:
