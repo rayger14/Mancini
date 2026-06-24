@@ -24,6 +24,7 @@ class LevelType(Enum):
     VWAP = auto()
     CUSTOM = auto()
     MANCINI_LEVEL = auto()  # level called out in Mancini's Substack (overlay/augmentation)
+    PIVOT = auto()  # floor-trader pivot (PP/R1-3/S1-3) — weak alone, matters via confluence
 
 
 @dataclass
@@ -164,6 +165,7 @@ _LEVEL_BASE_SCORES: dict[LevelType, int] = {
     LevelType.VWAP: 1,
     LevelType.CUSTOM: 1,
     LevelType.MANCINI_LEVEL: 3,
+    LevelType.PIVOT: 1,  # weak alone — only valuable when it confirms another source
 }
 
 
