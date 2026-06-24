@@ -570,6 +570,31 @@ class SignalAggregator:
                             )
         self.level_store = store
 
+        # Pivot points (third confluence source) from prior-day H/L/C. Weak on
+        # their own; a pivot landing near an engine level bumps that level's
+        # source_count (cross-source confluence). Behind use_pivot_levels.
+        if (getattr(self.strategy_params, "use_pivot_levels", False)
+                and prior_day_df is not None and len(prior_day_df) > 0):
+            try:
+                from core.pivots import build_pivot_levels
+                ph = float(prior_day_df["high"].max())
+                pl = float(prior_day_df["low"].min())
+                pc = float(prior_day_df["close"].iloc[-1])
+                ts0 = prior_day_df.index[-1]
+                tol = getattr(self.strategy_params, "pivot_confluence_tol_pts", 3.0)
+                skip = {LevelType.PIVOT, LevelType.CUSTOM, LevelType.MANCINI_LEVEL}
+                for piv in build_pivot_levels(ph, pl, pc, created_at=ts0):
+                    for ex in store.get_active():
+                        if ex.level_type in skip:
+                            continue
+                        if abs(ex.price - piv.price) <= tol:
+                            ex.source_count = max(getattr(ex, "source_count", 1), 2)
+                            piv.source_count = 2
+                            break
+                    store.add(piv)
+            except Exception as e:
+                logger.debug(f"Pivot injection skipped: {e!r}")
+
         # Wire prior-day low into the Mode 1 Red detector — one of its
         # three conditions is "sustained bars below PDL".
         if (self.strategy_params.use_mode1_detection
