@@ -265,3 +265,48 @@ class TestConfluenceGating:
         )
         signal = agg._qualify_short_signal(pattern, SignalType.BREAKDOWN_SHORT)
         assert signal is None  # CLUSTER_LOW score=1 < min_score=5
+
+
+# ── Continuous cross-source confluence (re-test fix) ──────────────────
+
+from datetime import datetime as _dt
+from config.levels import count_confluence_sources, level_source
+
+
+def _lv(price, lt):
+    return Level(price=price, level_type=lt, created_at=_dt(2026, 6, 24, 10, 0),
+                 confirmed_at=_dt(2026, 6, 24, 10, 0))
+
+
+class TestContinuousSourceConfluence:
+    def test_level_source_categories(self):
+        assert level_source(LevelType.SWING_LOW) == "engine"
+        assert level_source(LevelType.PRIOR_DAY_LOW) == "engine"
+        assert level_source(LevelType.MANCINI_LEVEL) == "mancini"
+        assert level_source(LevelType.CUSTOM) == "mancini"
+        assert level_source(LevelType.PIVOT) == "pivot"
+
+    def test_lone_engine_level_is_one_source(self):
+        levels = [_lv(7415.0, LevelType.SWING_LOW)]
+        assert count_confluence_sources(7415.0, levels) == 1
+
+    def test_engine_plus_mancini_is_two(self):
+        levels = [_lv(7415.0, LevelType.SWING_LOW),
+                  _lv(7416.0, LevelType.MANCINI_LEVEL)]
+        assert count_confluence_sources(7415.0, levels) == 2
+
+    def test_all_three_sources_is_three(self):
+        levels = [_lv(7415.0, LevelType.SWING_LOW),
+                  _lv(7416.0, LevelType.MANCINI_LEVEL),
+                  _lv(7414.0, LevelType.PIVOT)]
+        assert count_confluence_sources(7415.0, levels) == 3
+
+    def test_far_levels_excluded(self):
+        levels = [_lv(7415.0, LevelType.SWING_LOW),
+                  _lv(7500.0, LevelType.MANCINI_LEVEL)]  # 85 pts away
+        assert count_confluence_sources(7415.0, levels) == 1
+
+    def test_same_source_twice_counts_once(self):
+        levels = [_lv(7415.0, LevelType.SWING_LOW),
+                  _lv(7416.0, LevelType.SWING_HIGH)]  # both engine
+        assert count_confluence_sources(7415.0, levels) == 1

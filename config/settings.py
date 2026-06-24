@@ -661,6 +661,11 @@ class StrategyParams:
     # level's source_count. Shadow-first: validate by backtest before live.
     use_pivot_levels: bool = False
     pivot_confluence_tol_pts: float = 3.0
+    # Continuous confluence: recompute a level's source_count from the live
+    # store at scoring time (catches intraday convergence the one-shot
+    # injection-time match misses). Drives the LQS confluence bonus.
+    use_source_confluence: bool = False
+    source_confluence_tol_pts: float = 3.0
     mancini_llm_setup_lqs_bonus: int = 15
     # CLUSTER_LOW quality filter (5y leak audit, 2026-06-08):
     # 98% of acceptance-protocol FB longs fire on engine-derived CLUSTER_LOW
