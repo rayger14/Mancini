@@ -107,6 +107,8 @@ class TestConfirmationMode:
         pdl = store.get_active(LevelType.PRIOR_DAY_LOW)[0]
         assert pdl.mancini_confirmed is True
         assert pdl.mancini_side == "support"
+        # engine + Mancini agreeing = 2 independent sources
+        assert pdl.source_count >= 2
         assert pdl.mancini_conviction == 3
         assert "key" in pdl.mancini_tags
 

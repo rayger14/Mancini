@@ -190,6 +190,16 @@ class LevelQualityScorer:
         if level.tested_and_held:
             score += 5
 
+        # Cross-source confluence: independent sources (engine + Mancini +
+        # pivot) agreeing on the same price is strong confirmation and filters
+        # each source's noise. A bare swing that 3 sources land on becomes
+        # tradeable; a lone pivot does not.
+        source_count = getattr(level, "source_count", 1)
+        if source_count >= 3:
+            score += 10
+        elif source_count >= 2:
+            score += 5
+
         # Cap at 30 (raised from 25 to let elite shelves score higher)
         return min(30, score)
 

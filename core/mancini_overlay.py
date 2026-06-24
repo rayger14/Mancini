@@ -92,6 +92,8 @@ def apply_mancini_overlay(
                 nearest.mancini_side = m_level.get("side", "") or ""
                 nearest.mancini_conviction = int(m_level.get("conviction", 1) or 1)
                 nearest.mancini_tags = list(m_level.get("tags", []) or [])
+                # Engine + Mancini agreeing on this price = 2 independent sources.
+                nearest.source_count = max(getattr(nearest, "source_count", 1), 2)
                 result.confirmed_count += 1
                 result.levels_applied.append({
                     "action": "confirmed",

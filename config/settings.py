@@ -650,6 +650,12 @@ class StrategyParams:
     use_mancini_llm_plan: bool = False
     mancini_llm_plan_dir: str = "/app/data"
     mancini_llm_setup_match_tolerance_pts: float = 2.0
+    # Inject Mancini's published target ladder (plan.targets) into the level
+    # store as MANCINI_LEVEL targets, and bump source_count where they coincide
+    # with an engine level (confluence). Shadow-first: validate by backtest
+    # before enabling live.
+    use_mancini_targets: bool = False
+    mancini_target_confluence_tol_pts: float = 3.0
     mancini_llm_setup_lqs_bonus: int = 15
     # CLUSTER_LOW quality filter (5y leak audit, 2026-06-08):
     # 98% of acceptance-protocol FB longs fire on engine-derived CLUSTER_LOW

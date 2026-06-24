@@ -18,7 +18,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from config.levels import LevelStore, LevelType
+from config.levels import Level, LevelStore, LevelType
 from live.ib_runner import IBRunner
 
 
@@ -152,3 +152,52 @@ class TestPlanLevelInjection:
         assert n == 6
         active_prices = sorted(l.price for l in store.get_active(LevelType.CUSTOM))
         assert active_prices == [7517.0, 7527.0, 7538.0, 7563.0, 7573.0, 7587.0]
+
+
+class TestManciniTargetInjection:
+    """Mancini's published target ladder (plan.targets) is injected as
+    MANCINI_LEVEL targets when use_mancini_targets is on, with a source_count
+    bump where a target coincides with an engine level (confluence)."""
+
+    def _stub_with_targets_flag(self, on: bool, seed_engine=None):
+        store = LevelStore()
+        if seed_engine is not None:
+            store.add(Level(price=seed_engine, level_type=LevelType.SWING_HIGH,
+                            created_at=datetime(2026, 6, 24, 10, 0),
+                            confirmed_at=datetime(2026, 6, 24, 10, 0)))
+        agg = SimpleNamespace(
+            level_store=store,
+            strategy_params=SimpleNamespace(
+                use_mancini_targets=on,
+                mancini_target_confluence_tol_pts=3.0),
+        )
+        return SimpleNamespace(signal_aggregator=agg), store
+
+    def _plan_with_targets(self, targets):
+        p = _FakePlan(planned_setups=[])
+        p.targets = targets
+        return p
+
+    def test_targets_injected_when_flag_on(self):
+        runner, store = self._stub_with_targets_flag(on=True)
+        IBRunner._inject_plan_levels(runner, self._plan_with_targets([7424.0, 7452.0]))
+        mancini = store.get_active(LevelType.MANCINI_LEVEL)
+        prices = sorted(l.price for l in mancini)
+        assert prices == [7424.0, 7452.0]
+
+    def test_targets_ignored_when_flag_off(self):
+        runner, store = self._stub_with_targets_flag(on=False)
+        IBRunner._inject_plan_levels(runner, self._plan_with_targets([7424.0, 7452.0]))
+        assert store.get_active(LevelType.MANCINI_LEVEL) == []
+
+    def test_confluence_bumps_engine_source_count(self):
+        # Engine swing at 7425 + Mancini target at 7424 (within 3 pts) = 2 sources.
+        runner, store = self._stub_with_targets_flag(on=True, seed_engine=7425.0)
+        IBRunner._inject_plan_levels(runner, self._plan_with_targets([7424.0]))
+        eng = store.get_active(LevelType.SWING_HIGH)[0]
+        assert eng.source_count == 2
+
+    def test_no_targets_no_crash(self):
+        runner, store = self._stub_with_targets_flag(on=True)
+        n = IBRunner._inject_plan_levels(runner, self._plan_with_targets(None))
+        assert n == 0

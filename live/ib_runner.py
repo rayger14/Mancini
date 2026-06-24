@@ -820,6 +820,40 @@ class IBRunner:
                 f"Mancini plan level injected: {lvl.label} "
                 f"({setup.conviction} conviction) — {ctx}"
             )
+
+        # Mancini's published TARGET ladder (e.g. 7424→7452→7472→...). Currently
+        # the engine derives T1/T2 from its own levels and ignores these; inject
+        # them so target selection can use where HE targets. Where a target
+        # coincides with an engine level, bump source_count (confluence).
+        sp = getattr(self.signal_aggregator, "strategy_params", None)
+        if getattr(sp, "use_mancini_targets", False):
+            tol = getattr(sp, "mancini_target_confluence_tol_pts", 3.0)
+            for tprice in (getattr(plan, "targets", None) or []):
+                try:
+                    tprice = float(tprice)
+                except (TypeError, ValueError):
+                    continue
+                if tprice <= 0:
+                    continue
+                tlvl = Level(
+                    price=tprice,
+                    level_type=LevelType.MANCINI_LEVEL,
+                    created_at=now,
+                    confirmed_at=now,
+                    label=f"MANCINI_TARGET@{tprice:.2f}",
+                    mancini_confirmed=True,
+                    mancini_tags=["llm_plan", "target"],
+                )
+                # Confluence: an engine level near this target = 2 sources.
+                for ex in store.get_active():
+                    if ex.level_type in (LevelType.CUSTOM, LevelType.MANCINI_LEVEL):
+                        continue
+                    if abs(ex.price - tprice) <= tol:
+                        ex.source_count = max(getattr(ex, "source_count", 1), 2)
+                        tlvl.source_count = 2
+                        break
+                store.add(tlvl)
+                injected += 1
         return injected
 
     def _initialize_session(self) -> bool:
