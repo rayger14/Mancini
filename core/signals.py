@@ -1663,6 +1663,14 @@ class SignalAggregator:
             })
             return None
 
+        # Continuous confluence (short side): recompute source_count from the
+        # live store before scoring.
+        if getattr(self.strategy_params, "use_source_confluence", False):
+            from config.levels import count_confluence_sources
+            tol = getattr(self.strategy_params, "source_confluence_tol_pts", 3.0)
+            pattern.level.source_count = count_confluence_sources(
+                pattern.level.price, self.level_store.get_active(), tol)
+
         # Level Quality Score (LQS): always compute for logging (short side)
         lqs = self._level_scorer.compute_lqs(
             pattern.level, self._market_data, self._session_context
@@ -1998,6 +2006,15 @@ class SignalAggregator:
                     f"ATM LEVEL: {round(level_price)} has "
                     f"{record['wins']}W/{record['losses']}L — boosting size"
                 )
+
+        # Continuous confluence: recompute source_count from the live store so
+        # an entry level that now coincides with a Mancini target or pivot is
+        # scored as multi-source.
+        if getattr(self.strategy_params, "use_source_confluence", False):
+            from config.levels import count_confluence_sources
+            tol = getattr(self.strategy_params, "source_confluence_tol_pts", 3.0)
+            pattern.level.source_count = count_confluence_sources(
+                pattern.level.price, self.level_store.get_active(), tol)
 
         # Level Quality Score (LQS): always compute for logging
         lqs = self._level_scorer.compute_lqs(

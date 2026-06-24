@@ -151,6 +151,32 @@ class LevelStore:
 
 # Base scores by level type — reflects empirical edge from live data.
 # PDL=100% WR (highest conviction), MHL=67%, CLUSTER_LOW=0% (noise).
+def level_source(level_type: LevelType) -> str:
+    """Which independent source a level type comes from: engine / mancini / pivot."""
+    if level_type in (LevelType.MANCINI_LEVEL, LevelType.CUSTOM):
+        return "mancini"
+    if level_type == LevelType.PIVOT:
+        return "pivot"
+    return "engine"
+
+
+def count_confluence_sources(price: float, levels, tol: float = 3.0) -> int:
+    """Continuous confluence: how many INDEPENDENT sources (engine / Mancini /
+    pivot) have an active level within ``tol`` of ``price`` right now.
+
+    Computed on-demand from the current store so intraday engine levels that
+    form and coincide with a Mancini target or pivot are counted — unlike the
+    one-shot, session-start matching that left Phase 1 inert.
+    """
+    sources = set()
+    for lv in levels:
+        if not getattr(lv, "is_active", True):
+            continue
+        if abs(lv.price - price) <= tol:
+            sources.add(level_source(lv.level_type))
+    return max(1, len(sources))
+
+
 _LEVEL_BASE_SCORES: dict[LevelType, int] = {
     LevelType.PRIOR_DAY_LOW: 5,
     LevelType.PRIOR_DAY_HIGH: 5,
