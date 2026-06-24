@@ -266,7 +266,11 @@ PRODUCTION_ELEVATOR = ElevatorParams(
     higher_low_lookback=4,
 )
 PRODUCTION_EXIT = ExitParams(
-    default_contracts=4,
+    # 8 full-conviction contracts so the 75/15/10 actually splits into three
+    # rungs (T1=6 / T2=1 / runner=1) — at 4, floor(4*0.15)=0 collapsed it to
+    # 75% + runner. Lets the bot run Mancini's full level-to-level system.
+    # (Paper account; conviction derating still scales down to 4/2 contracts.)
+    default_contracts=8,
     # Mancini three-stage exits (2025-08-05 rule):
     #   T1: 75% off at first resistance       (3 of 4 contracts)
     #   T2: 15% off at second resistance      (rounded to ~1 of 4 — sub-contract granularity smoothed by ExitManager)
@@ -278,7 +282,7 @@ PRODUCTION_EXIT = ExitParams(
     trailing_stop_pts=12.0,
     runner_prior_day_low_buffer_pts=1.0,
 )
-PRODUCTION_RISK = RiskParams(max_trades_per_day=999, max_daily_loss_pts=9999.0, skip_tuesdays=False, min_rr_ratio=0.8)  # Optuna v2: 0.8 R:R filter (was 0.1)
+PRODUCTION_RISK = RiskParams(max_trades_per_day=999, max_daily_loss_pts=9999.0, skip_tuesdays=False, min_rr_ratio=0.8, max_position_contracts=8)  # Optuna v2: 0.8 R:R filter; cap raised to 8 so default_contracts=8 isn't clipped (full 75/15/10)
 PRODUCTION_REGIME = RegimeParams(
     mode="ema",
     ema_span=30,                          # Optuna v2: faster regime detection (was 80)
