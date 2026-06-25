@@ -308,9 +308,9 @@ class TestExitEmbed:
 
 
 def _short_entry_event(**over):
-    """A live shadow-short entry event (the actionable kind)."""
+    """A GENUINE short trigger — survived all guards (the failed-bounce setup)."""
     ev = {
-        "feature": "capitulation_entry",
+        "feature": "short_triggered",
         "bar_idx": 159,
         "timestamp": "2026-06-24 20:41:00-04:00",
         "signal_type": "BREAKDOWN_SHORT",
@@ -325,17 +325,25 @@ def _short_entry_event(**over):
 
 
 class TestIsShortAlertEvent:
-    def test_short_entry_event_qualifies(self):
+    def test_short_triggered_event_qualifies(self):
         assert is_short_alert_event(_short_entry_event()) is True
 
+    def test_capitulation_rejection_does_not_qualify(self):
+        # capitulation_entry is a REJECTION log (bot faded the flush) — must
+        # NOT alert even though it carries a short bracket. This is the bug fix.
+        ev = _short_entry_event(feature="capitulation_entry")
+        assert is_short_alert_event(ev) is False
+
+    def test_move_exhaustion_does_not_qualify(self):
+        ev = _short_entry_event(feature="move_exhaustion")
+        assert is_short_alert_event(ev) is False
+
     def test_sizing_diagnostic_does_not_qualify(self):
-        # sweep_depth has no entry/stop and no direction — pure sizing telemetry
         ev = {"feature": "sweep_depth", "signal_type": "BREAKDOWN_SHORT",
               "level_price": 7464.0, "sweep_depth_pts": 3.25}
         assert is_short_alert_event(ev) is False
 
     def test_shadow_outcome_does_not_qualify(self):
-        # An outcome record (target/stop resolved) is a result, not a new setup
         ev = _short_entry_event(event="shadow_outcome", outcome="timeout")
         assert is_short_alert_event(ev) is False
 

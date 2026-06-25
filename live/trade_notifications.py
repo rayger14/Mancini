@@ -338,20 +338,25 @@ _SHORT_LABELS = {
 
 
 def is_short_alert_event(event: Any) -> bool:
-    """True if a shadow event is an *actionable* short setup worth alerting.
+    """True only for a GENUINE short trigger worth alerting.
 
-    Qualifies only entry-type events: direction short with a full bracket
-    (entry + stop). Excludes sizing telemetry (``sweep_depth``,
-    ``move_exhaustion`` — no bracket) and resolved outcomes
-    (``event == "shadow_outcome"`` — a result, not a new setup).
+    Requires ``feature == "short_triggered"`` — the event the aggregator emits
+    only when a short survives EVERY guard (the Mancini failed-bounce sequence
+    completed: price lost the level, bounced, and failed beneath it). This
+    deliberately excludes the rejection logs that also carry a short bracket —
+    ``capitulation_entry`` (faded the flush), ``move_exhaustion``,
+    ``block_pdl_shorts``, ``daily_structure_short_suppression``, ``lqs_shadow``
+    — which are shorts the engine THREW AWAY, not setups to act on.
     """
     if not isinstance(event, dict):
         return False
-    if event.get("event") == "shadow_outcome":
+    if event.get("event") == "shadow_outcome":   # a resolved result, not a new trigger
         return False
-    if (event.get("direction") or "").lower() != "short":
+    if event.get("feature") != "short_triggered":
         return False
-    return event.get("entry_price") is not None and event.get("stop_price") is not None
+    return ((event.get("direction") or "").lower() == "short"
+            and event.get("entry_price") is not None
+            and event.get("stop_price") is not None)
 
 
 def short_alert_key(event: dict) -> str:

@@ -1777,6 +1777,25 @@ class SignalAggregator:
                 trade_params = self._level_scorer.get_trade_params(lqs)
                 size_factor = min(size_factor, trade_params["size_factor"])
 
+        # A genuine short trigger: it survived EVERY guard above (capitulation
+        # fade, move-exhaustion, PDL block, daily-structure, LQS). For BD/BTS
+        # shorts this means the Mancini sequence is complete — price lost the
+        # level, bounced/attempted reclaim, and FAILED beneath it. This is the
+        # only event the Discord heads-up should fire on (NOT the rejection
+        # logs like capitulation_entry / move_exhaustion).
+        self.shadow_events.append({
+            "feature": "short_triggered",
+            "bar_idx": pattern.bar_idx,
+            "timestamp": str(pattern.timestamp),
+            "signal_type": signal_type.name,
+            "direction": "short",
+            "entry_price": entry,
+            "stop_price": pattern.stop_price,
+            "target_1": t1,
+            "level_price": pattern.level.price if pattern.level else None,
+            "level_type": pattern.level.level_type.name if pattern.level else None,
+        })
+
         return Signal(
             signal_type=signal_type,
             pattern=pattern,
