@@ -17,6 +17,7 @@ from live.trade_notifications import (
     is_short_alert_event,
     short_alert_key,
     build_short_alert_embed,
+    plan_short_match,
 )
 
 
@@ -363,6 +364,35 @@ class TestShortAlertKey:
         a = short_alert_key(_short_entry_event(signal_type="BREAKDOWN_SHORT"))
         b = short_alert_key(_short_entry_event(signal_type="BACKTEST_SHORT"))
         assert a != b
+
+
+class TestPlanShortMatch:
+    """Only alert on shorts that line up with a level Mancini actually called
+    as a short setup — so alerts feel real and don't fire on every shadow flush."""
+
+    def _plan(self):
+        return SimpleNamespace(planned_setups=[
+            SimpleNamespace(level_price=7399.0, setup_type="breakdown_short",
+                            direction="short", conviction="low",
+                            context="Bear case begins below 7399."),
+            SimpleNamespace(level_price=7408.0, setup_type="failed_breakdown",
+                            direction="long", conviction="medium", context="FB long."),
+        ])
+
+    def test_matches_short_setup_within_tolerance(self):
+        # 7393 trigger is ~6pt below his 7399 short — should match
+        m = plan_short_match(self._plan(), 7393.0, tol=8.0)
+        assert m is not None and m.level_price == 7399.0
+
+    def test_ignores_long_setups(self):
+        # price right at his 7408 LONG level — must NOT match (it's a long)
+        assert plan_short_match(self._plan(), 7408.0, tol=8.0) is None
+
+    def test_no_match_when_far(self):
+        assert plan_short_match(self._plan(), 7460.0, tol=8.0) is None
+
+    def test_none_plan_is_safe(self):
+        assert plan_short_match(None, 7399.0) is None
 
 
 class TestBuildShortAlertEmbed:

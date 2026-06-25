@@ -65,6 +65,29 @@ def _find_plan_match(plan: Any, level_price: float,
     return best
 
 
+def plan_short_match(plan: Any, price: float, tol: float = 8.0) -> Any:
+    """Return the nearest Mancini planned SHORT setup within ``tol`` of price.
+
+    Used to gate live short heads-ups: only alert when the engine's shadow
+    short lines up with a level Mancini actually called as a short (e.g. his
+    7399 / 7530 breakdowns), so alerts feel real instead of firing on every
+    mechanical flush. Longs are ignored. Returns the setup object or None.
+    """
+    if plan is None or not getattr(plan, "planned_setups", None):
+        return None
+    best, best_d = None, tol + 1
+    for s in plan.planned_setups:
+        if (getattr(s, "direction", "") or "").lower() != "short":
+            continue
+        try:
+            d = abs(float(s.level_price) - float(price))
+        except (TypeError, ValueError):
+            continue
+        if d <= tol and d < best_d:
+            best, best_d = s, d
+    return best
+
+
 def build_entry_embed(*,
                       position,
                       signal,

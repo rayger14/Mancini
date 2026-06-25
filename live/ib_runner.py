@@ -3446,22 +3446,35 @@ class IBRunner:
         events.clear()
 
     def _maybe_alert_short(self, event: dict) -> None:
-        """Post a Discord heads-up the first time a distinct short setup fires.
+        """Post a Discord heads-up when a short fires AT A LEVEL MANCINI CALLED.
 
-        Heads-up only — the bot is long-only and places no short order. Deduped
-        by level so a setup re-firing each bar alerts once. Best-effort: any
+        Heads-up only — the bot is long-only and places no short order. Gated to
+        shorts that line up with one of Mancini's planned short setups (e.g. his
+        7399 / 7530 breakdowns), then deduped by that called level so each fires
+        ONCE per session — not on every mechanical flush. Without a plan-short
+        match the shadow short is logged but never posted. Best-effort: any
         failure is logged and swallowed so it never disrupts the bar loop.
         """
         if not self._short_alerts_enabled:
             return
         try:
             from live.trade_notifications import (
-                is_short_alert_event, short_alert_key,
+                is_short_alert_event, plan_short_match,
                 build_short_alert_embed, post_payload, get_webhook_url,
             )
             if not is_short_alert_event(event):
                 return
-            key = short_alert_key(event)
+            plan = getattr(self, "_mancini_llm_plan", None)
+            # Match against a price Mancini actually called as a short. Try the
+            # structural level first, then the (chasing) entry.
+            price = event.get("level_price") or event.get("entry_price")
+            match = plan_short_match(plan, price)
+            if match is None and event.get("entry_price") is not None:
+                match = plan_short_match(plan, event["entry_price"])
+            if match is None:
+                return  # not a Mancini-called short — don't post (still logged)
+            # Dedup by the CALLED level, so 7399 alerts once even as price flushes.
+            key = f"short@{round(float(match.level_price))}"
             if key in self._short_alert_keys:
                 return
             self._short_alert_keys.add(key)
@@ -3469,14 +3482,13 @@ class IBRunner:
             if not webhook:
                 return
             symbol = getattr(self.contract, "symbol", "MES")
-            plan = getattr(self, "_mancini_llm_plan", None)
             embed = build_short_alert_embed(event, symbol=symbol, plan=plan)
             ok, info = post_payload(
                 {"username": "Mancini Bot", "embeds": [embed]}, webhook)
-            entry = event.get("entry_price")
             if ok:
                 logger.info(f"Short heads-up posted: {event.get('signal_type')} "
-                            f"@ {entry} ({info})")
+                            f"@ {event.get('entry_price')} "
+                            f"(Mancini short {match.level_price:g}) ({info})")
             else:
                 logger.warning(f"Short heads-up post failed: {info}")
         except Exception as e:
