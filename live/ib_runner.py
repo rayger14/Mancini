@@ -384,6 +384,11 @@ class IBRunner:
         self._shadow_log_path = Path("/app/logs/shadow_trades.jsonl")
         self._shadow_log_path.parent.mkdir(parents=True, exist_ok=True)
         self._shadow_phantoms: list[dict] = []  # track shadow signal outcomes
+        # Short heads-up alerts: the bot is long-only and shadow-detects shorts.
+        # Post a Discord heads-up the first time each distinct short setup fires
+        # (deduped by level), never an order. Toggle off with SHORT_ALERTS=0.
+        self._short_alert_keys: set[str] = set()
+        self._short_alerts_enabled = os.environ.get("SHORT_ALERTS", "1") != "0"
         self._regime_params = regime_params
         self._bypass_session_gates = bypass_session_gates
         self._pending_gate_bypass: list[str] | None = None
@@ -3408,6 +3413,13 @@ class IBRunner:
             with open(self._shadow_log_path, "a") as f:
                 for event in events:
                     f.write(json.dumps(event, default=str) + "\n")
+                    # Heads-up Discord alert for actionable shadow shorts —
+                    # once per distinct setup, never an order. Isolated so an
+                    # alert failure never disrupts logging / phantom tracking.
+                    try:
+                        self._maybe_alert_short(event)
+                    except Exception:
+                        pass
                     # Create phantom tracker for signals with entry/stop/target
                     if event.get("entry_price") and event.get("stop_price"):
                         direction = event.get("direction") or (
@@ -3432,6 +3444,43 @@ class IBRunner:
         except Exception as e:
             logger.error(f"Failed to write shadow log: {e}")
         events.clear()
+
+    def _maybe_alert_short(self, event: dict) -> None:
+        """Post a Discord heads-up the first time a distinct short setup fires.
+
+        Heads-up only — the bot is long-only and places no short order. Deduped
+        by level so a setup re-firing each bar alerts once. Best-effort: any
+        failure is logged and swallowed so it never disrupts the bar loop.
+        """
+        if not self._short_alerts_enabled:
+            return
+        try:
+            from live.trade_notifications import (
+                is_short_alert_event, short_alert_key,
+                build_short_alert_embed, post_payload, get_webhook_url,
+            )
+            if not is_short_alert_event(event):
+                return
+            key = short_alert_key(event)
+            if key in self._short_alert_keys:
+                return
+            self._short_alert_keys.add(key)
+            webhook = get_webhook_url()
+            if not webhook:
+                return
+            symbol = getattr(self.contract, "symbol", "MES")
+            plan = getattr(self, "_mancini_llm_plan", None)
+            embed = build_short_alert_embed(event, symbol=symbol, plan=plan)
+            ok, info = post_payload(
+                {"username": "Mancini Bot", "embeds": [embed]}, webhook)
+            entry = event.get("entry_price")
+            if ok:
+                logger.info(f"Short heads-up posted: {event.get('signal_type')} "
+                            f"@ {entry} ({info})")
+            else:
+                logger.warning(f"Short heads-up post failed: {info}")
+        except Exception as e:
+            logger.warning(f"Short heads-up alert error: {e}")
 
     def _update_shadow_phantoms(self, high: float, low: float) -> None:
         """Track shadow signal outcomes — did they hit target or stop?"""

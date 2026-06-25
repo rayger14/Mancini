@@ -295,6 +295,100 @@ def build_exit_embed(*,
     }
 
 
+# ---------------------------------------------------------------------------
+# Short heads-up alerts
+#
+# The engine runs Mancini's short detectors live but in shadow mode
+# (``shadow_mode_features=True``): it finds breakdown / velocity / backtest
+# shorts and logs them as ``shadow_events`` but never places an order (the bot
+# is long-only). These helpers turn an actionable shadow-short event into a
+# Discord heads-up so the user can take it manually — it is NEVER a bot order.
+# ---------------------------------------------------------------------------
+
+# Map detector signal_type → human label for the alert.
+_SHORT_LABELS = {
+    "BREAKDOWN_SHORT": "Breakdown short (BD)",
+    "VELOCITY_SHORT": "Velocity breakdown short",
+    "BACKTEST_SHORT": "Backtest short (failed reclaim)",
+    "DEEP_SELL_SHORT": "Deep-sell continuation short",
+}
+
+
+def is_short_alert_event(event: Any) -> bool:
+    """True if a shadow event is an *actionable* short setup worth alerting.
+
+    Qualifies only entry-type events: direction short with a full bracket
+    (entry + stop). Excludes sizing telemetry (``sweep_depth``,
+    ``move_exhaustion`` — no bracket) and resolved outcomes
+    (``event == "shadow_outcome"`` — a result, not a new setup).
+    """
+    if not isinstance(event, dict):
+        return False
+    if event.get("event") == "shadow_outcome":
+        return False
+    if (event.get("direction") or "").lower() != "short":
+        return False
+    return event.get("entry_price") is not None and event.get("stop_price") is not None
+
+
+def short_alert_key(event: dict) -> str:
+    """Stable dedup key so one setup alerts once, not every bar it re-fires.
+
+    Buckets the entry to the nearest point — consecutive bars nudge the entry
+    by sub-point amounts (same setup); a move to a different level is distinct.
+    """
+    sig = event.get("signal_type") or "SHORT"
+    try:
+        bucket = round(float(event["entry_price"]))
+    except (KeyError, TypeError, ValueError):
+        bucket = event.get("entry_price")
+    return f"{sig}:{bucket}"
+
+
+def build_short_alert_embed(event: dict, symbol: str = "MES",
+                            plan: Any = None) -> dict:
+    """Build a red Discord embed announcing a (heads-up only) short setup."""
+    entry = float(event["entry_price"])
+    stop = float(event["stop_price"])
+    target = event.get("target_1")
+    sig = event.get("signal_type") or "BREAKDOWN_SHORT"
+    label = _SHORT_LABELS.get(sig, sig.replace("_", " ").title())
+    risk = abs(stop - entry)
+
+    lines = [
+        f"**Type:** {label}",
+        f"**Short near:** {entry:.2f}   **Stop:** {stop:.2f}  _({risk:.1f} pt risk)_",
+    ]
+    if target is not None:
+        try:
+            tgt = float(target)
+            reward = abs(entry - tgt)
+            rr = (reward / risk) if risk else 0.0
+            lines.append(f"**First target:** {tgt:.2f}  _({reward:.1f} pt, {rr:.1f}R)_")
+        except (TypeError, ValueError):
+            pass
+
+    # Quote Mancini's plan context if this lines up with a published setup.
+    lvl = event.get("level_price")
+    match = _find_plan_match(plan, float(lvl if lvl is not None else entry))
+    if match is not None:
+        ctx = (getattr(match, "context", "") or "")[:140]
+        conv = (getattr(match, "conviction", "") or "")
+        if ctx:
+            lines.append(f"\n_Mancini ({conv}): “{ctx}”_")
+
+    lines.append(
+        "\n⚠️ _Heads-up only — the bot is long-only and will **not** "
+        "place this order._")
+
+    return {
+        "title": f"\U0001f534 SHORT SETUP — {symbol} {entry:.0f}",
+        "description": "\n".join(lines),
+        "color": _COLOR_SHORT,
+        "footer": {"text": f"shadow short • {event.get('feature', '')}"},
+    }
+
+
 def post_payload(payload: dict, webhook_url: str,
                  timeout: float = 5.0) -> tuple[bool, str]:
     """POST a Discord webhook payload. Returns (ok, info)."""
