@@ -611,6 +611,26 @@ class StrategyParams:
     # flat lines) is a net loser vs Mancini's hand-called CUSTOM levels.
     block_horizontal_sr_entries: bool = False  # backtest-gated; see PR
 
+    # Conviction sizing fix: APPLY sweep-depth sizing (deep flush = bigger
+    # squeeze = bigger size) instead of letting stop distance shrink it. A deep
+    # sweep produces a wide stop, and the stop-distance rule sizes those to the
+    # minimum — exactly backwards for Mancini's best setups. When True, size is
+    # max(stop_distance_factor, sweep_depth_factor): it only ever sizes UP on a
+    # deep flush, never down. Independent of shadow_mode_features.
+    apply_sweep_depth_sizing: bool = False
+
+    # Evidence-based conviction sizing (replaces stop-width as the size driver).
+    # Conviction study on 100 live trades: stop-width is an ANTI-tell (33% WR);
+    # the real edge is a deep crash-bottom flush that reclaims a QUALITY level
+    # (INTRADAY_LOW / Mancini CUSTOM) — together 85% WR. Score:
+    #   +2 deep flush (sweep >= conviction_deep_flush_pts)
+    #   +2 quality level (INTRADAY_LOW, CUSTOM, MANCINI_LEVEL)
+    #   +1 Failed Breakdown
+    # score>=4 (deep AND quality) -> full size; 2-3 -> half; else stop-distance.
+    # Does NOT reward tight stops or high R:R (both anti-tells). Flag-gated.
+    use_conviction_sizing: bool = False
+    conviction_deep_flush_pts: float = 25.0   # sweep depth that counts as "deep"
+
     # Shadow mode: features log what they WOULD do but don't change trading decisions.
     # When True, sweep depth sizing, Mode 1 detection, and velocity short all run
     # but only produce shadow log entries — actual sizing/gating/signals are unchanged.

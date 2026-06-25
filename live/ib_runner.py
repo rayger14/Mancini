@@ -188,6 +188,13 @@ PRODUCTION_STRATEGY = StrategyParams(
     # the book −6,156→+961, PF 0.79→1.21, without touching the good trades).
     # Level still kept for trailing-stop structure; just not entered on.
     block_horizontal_sr_entries=True,
+    # Conviction sizing (LIVE forward-test on paper): size UP the high-conviction
+    # setup — a deep crash-bottom flush reclaiming a quality level (INTRADAY_LOW
+    # / Mancini CUSTOM), the 85%-WR combo from the conviction study. Size-up-only
+    # (never shrinks ordinary trades). Not backtestable (harness is size-blind +
+    # has no deep flushes / CUSTOM levels), so validated forward on the paper
+    # account. Today's +71 deep-flush winner would size full instead of 1ct.
+    use_conviction_sizing=True,
     # Mancini exit scaling: T1 at first resistance level, not fixed distance
     # "Lock in 75% profits at first level up" — with 2 contracts, best we can do is 50/50
     # but T1 should be at the ACTUAL next level, not a fixed point target
