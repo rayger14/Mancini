@@ -58,6 +58,35 @@ def _default_session_ctx(
 
 # ── Tests ────────────────────────────────────────────────────────────
 
+
+class TestBlockHorizontalSREntries:
+    """block_horizontal_sr_entries gates HORIZONTAL_SR out of ENTRY scoring
+    (drops LQS to 0 → below shadow threshold → both entry paths skip it),
+    while leaving every other level type untouched."""
+
+    def test_flag_off_horizontal_sr_scores_normally(self):
+        params = StrategyParams()
+        assert params.block_horizontal_sr_entries is False  # default off
+        scorer = LevelQualityScorer(params)
+        lqs = scorer.compute_lqs(_make_level(LevelType.HORIZONTAL_SR, touch_count=5),
+                                 None, _default_session_ctx())
+        assert lqs > 0  # normally scores something
+
+    def test_flag_on_horizontal_sr_scores_zero(self):
+        params = StrategyParams(block_horizontal_sr_entries=True)
+        scorer = LevelQualityScorer(params)
+        lqs = scorer.compute_lqs(_make_level(LevelType.HORIZONTAL_SR, touch_count=5),
+                                 None, _default_session_ctx())
+        assert lqs == 0  # gated below shadow threshold → no entry
+
+    def test_flag_on_does_not_touch_other_types(self):
+        params = StrategyParams(block_horizontal_sr_entries=True)
+        scorer = LevelQualityScorer(params)
+        for lt in (LevelType.CUSTOM, LevelType.PRIOR_DAY_LOW,
+                   LevelType.INTRADAY_LOW, LevelType.MULTI_HOUR_LOW):
+            lqs = scorer.compute_lqs(_make_level(lt), None, _default_session_ctx())
+            assert lqs > 0, f"{lt} should still score normally"
+
 class TestOriginScore:
     """Factor 1: Level Origin scoring."""
 
