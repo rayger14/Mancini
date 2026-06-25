@@ -101,6 +101,79 @@ class TestSweepDepthSizingConfig:
         assert params.use_sweep_depth_sizing is True
 
 
+class TestApplySweepDepthSizing:
+    """The conviction fix: a deep flush must lift size, not be shrunk by a
+    wide stop. apply_sweep_depth_sizing makes the sweep-depth factor actually
+    apply (max vs stop-distance), independent of shadow_mode_features."""
+
+    def test_flag_defaults_off(self):
+        assert StrategyParams().apply_sweep_depth_sizing is False
+
+    def test_deep_flush_gives_full_size_factor(self):
+        # Today's trade: ~50pt flush. Deep sweep (>=8pt) must score full size,
+        # which is the value max() uses to override the wide-stop minimum.
+        params = StrategyParams(use_sweep_depth_sizing=True,
+                                apply_sweep_depth_sizing=True)
+        agg = SignalAggregator(strategy_params=params)
+        deep = _make_pattern(sweep_depth_pts=50.0)
+        assert agg._compute_sweep_depth_size_factor(deep) == 1.0
+
+    def test_shallow_flush_stays_small(self):
+        params = StrategyParams(use_sweep_depth_sizing=True,
+                                apply_sweep_depth_sizing=True)
+        agg = SignalAggregator(strategy_params=params)
+        shallow = _make_pattern(sweep_depth_pts=1.0)
+        assert agg._compute_sweep_depth_size_factor(shallow) == 0.25
+
+
+class TestConvictionSizeFactor:
+    """Evidence-based conviction: deep flush + quality level = full size;
+    stop-width and R:R are ignored (anti-tells)."""
+
+    def _agg(self):
+        return SignalAggregator(strategy_params=StrategyParams(
+            use_conviction_sizing=True, conviction_deep_flush_pts=25.0))
+
+    def test_flag_defaults_off(self):
+        assert StrategyParams().use_conviction_sizing is False
+
+    def test_deep_flush_quality_level_fb_is_full_size(self):
+        # The 85%-WR setup: deep crash-bottom flush + INTRADAY_LOW + FB
+        agg = self._agg()
+        lvl = Level(price=5800.0, level_type=LevelType.INTRADAY_LOW,
+                    created_at=_LEVEL_TS, touch_count=1)
+        p = _make_pattern(level_price=5800.0, sweep_low=5760.0, sweep_depth_pts=40.0)
+        p.level = lvl
+        assert agg._conviction_size_factor(p, SignalType.FAILED_BREAKDOWN) == 1.0
+
+    def test_quality_level_but_shallow_flush_is_half(self):
+        # quality (+2) + FB (+1) = 3 -> half; a tight setup is NOT full size
+        agg = self._agg()
+        lvl = Level(price=5800.0, level_type=LevelType.CUSTOM,
+                    created_at=_LEVEL_TS, touch_count=1)
+        p = _make_pattern(level_price=5800.0, sweep_low=5797.0, sweep_depth_pts=3.0)
+        p.level = lvl
+        assert agg._conviction_size_factor(p, SignalType.FAILED_BREAKDOWN) == 0.5
+
+    def test_mechanical_level_shallow_is_quarter(self):
+        # no deep flush, non-quality level -> low conviction
+        agg = self._agg()
+        lvl = Level(price=5800.0, level_type=LevelType.CLUSTER_LOW,
+                    created_at=_LEVEL_TS, touch_count=1)
+        p = _make_pattern(level_price=5800.0, sweep_low=5798.0, sweep_depth_pts=2.0)
+        p.level = lvl
+        assert agg._conviction_size_factor(p, SignalType.LEVEL_RECLAIM) == 0.25
+
+    def test_deep_flush_alone_is_half_not_full(self):
+        # deep flush (+2) on a non-quality level, FB(+1) = 3 -> half
+        agg = self._agg()
+        lvl = Level(price=5800.0, level_type=LevelType.MULTI_HOUR_LOW,
+                    created_at=_LEVEL_TS, touch_count=1)
+        p = _make_pattern(level_price=5800.0, sweep_low=5760.0, sweep_depth_pts=40.0)
+        p.level = lvl
+        assert agg._conviction_size_factor(p, SignalType.FAILED_BREAKDOWN) == 0.5
+
+
 class TestComputeSweepDepthSizeFactor:
     """Test _compute_sweep_depth_size_factor directly."""
 

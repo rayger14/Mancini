@@ -934,6 +934,42 @@ class SignalAggregator:
     # Private
     # ------------------------------------------------------------------
 
+    def _sweep_depth_of(self, pattern: PatternSignal) -> float:
+        """Flush depth in points (stored, or derived from level vs sweep)."""
+        d = pattern.sweep_depth_pts or 0.0
+        if d <= 0 and pattern.level is not None:
+            if pattern.direction == "short":
+                d = (pattern.sweep_high - pattern.level.price) if pattern.sweep_high else 0.0
+            else:
+                d = (pattern.level.price - pattern.sweep_low) if pattern.sweep_low else 0.0
+        return max(0.0, d)
+
+    def _conviction_size_factor(self, pattern: PatternSignal, signal_type) -> float:
+        """Evidence-based conviction score -> size factor.
+
+        From the conviction study (100 live trades): the setup that wins is a
+        DEEP crash-bottom flush reclaiming a QUALITY level (INTRADAY_LOW or a
+        Mancini CUSTOM/called level) — 85% WR together. Stop-width and high R:R
+        are anti-tells and are deliberately ignored.
+          +2 deep flush (sweep >= conviction_deep_flush_pts)
+          +2 quality level (INTRADAY_LOW / CUSTOM / MANCINI_LEVEL)
+          +1 Failed Breakdown
+        score >= 4 -> 1.0 (full) | 2-3 -> 0.5 | else 0.25
+        """
+        score = 0
+        if self._sweep_depth_of(pattern) >= self.strategy_params.conviction_deep_flush_pts:
+            score += 2
+        lt = pattern.level.level_type if pattern.level else None
+        if lt in (LevelType.INTRADAY_LOW, LevelType.CUSTOM, LevelType.MANCINI_LEVEL):
+            score += 2
+        if signal_type == SignalType.FAILED_BREAKDOWN:
+            score += 1
+        if score >= 4:
+            return 1.0
+        if score >= 2:
+            return 0.5
+        return 0.25
+
     def _compute_sweep_depth_size_factor(self, pattern: PatternSignal) -> float:
         """Compute position size factor based on sweep depth.
 
@@ -1504,7 +1540,11 @@ class SignalAggregator:
         # Sweep depth sizing override: "the bigger the sell, the bigger the squeeze"
         if self.strategy_params.use_sweep_depth_sizing:
             sweep_depth_factor = self._compute_sweep_depth_size_factor(pattern)
-            if self.strategy_params.shadow_mode_features:
+            if self.strategy_params.apply_sweep_depth_sizing:
+                # LIVE conviction fix: deep flush lifts size; never sizes down vs
+                # the stop-distance baseline (see long path).
+                size_factor = max(size_factor, sweep_depth_factor)
+            elif self.strategy_params.shadow_mode_features:
                 self.shadow_events.append({
                     "feature": "sweep_depth",
                     "bar_idx": pattern.bar_idx,
@@ -1989,7 +2029,12 @@ class SignalAggregator:
         # Sweep depth sizing override: "the bigger the sell, the bigger the squeeze"
         if self.strategy_params.use_sweep_depth_sizing:
             sweep_depth_factor = self._compute_sweep_depth_size_factor(pattern)
-            if self.strategy_params.shadow_mode_features:
+            if self.strategy_params.apply_sweep_depth_sizing:
+                # LIVE conviction fix: a deep flush (Mancini's best squeeze) must
+                # not be shrunk to minimum just because its stop is wide. Take the
+                # max so it only ever sizes UP vs the stop-distance baseline.
+                size_factor = max(size_factor, sweep_depth_factor)
+            elif self.strategy_params.shadow_mode_features:
                 self.shadow_events.append({
                     "feature": "sweep_depth",
                     "bar_idx": pattern.bar_idx,
@@ -2002,6 +2047,14 @@ class SignalAggregator:
                 })
             else:
                 size_factor = sweep_depth_factor
+
+        # Evidence-based conviction sizing — sizes UP the high-conviction setup
+        # (deep crash-bottom flush reclaiming a quality level = 85% WR), without
+        # shrinking ordinary trades (size-up-only via max). Stop-width, the old
+        # driver, is an anti-tell (33% WR). See _conviction_size_factor.
+        if self.strategy_params.use_conviction_sizing:
+            size_factor = max(size_factor,
+                              self._conviction_size_factor(pattern, signal_type))
 
         # ATM level boost: increase size at levels with proven profitability
         if self.strategy_params.use_atm_level_boost:
