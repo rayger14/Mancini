@@ -605,6 +605,11 @@ class StrategyParams:
     lqs_min_trade_threshold: int = 25         # min LQS to trade (PDL=53, MHL=45, SWING=15)
     lqs_full_size_threshold: int = 55         # full size (PDL+recency=53+, Mancini-confirmed=60+)
     lqs_shadow_threshold: int = 10            # below = skip (CLUSTER=0-10, bare SWING=5-15)
+    # Drop HORIZONTAL_SR as an ENTRY source: forces its LQS to 0 so both entry
+    # paths skip it, while the level survives for trailing-stop structure.
+    # Live + 5y backtest both show HORIZONTAL_SR (the bot's own touch-counted
+    # flat lines) is a net loser vs Mancini's hand-called CUSTOM levels.
+    block_horizontal_sr_entries: bool = False  # backtest-gated; see PR
 
     # Shadow mode: features log what they WOULD do but don't change trading decisions.
     # When True, sweep depth sizing, Mode 1 detection, and velocity short all run

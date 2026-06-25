@@ -1663,6 +1663,13 @@ class SignalAggregator:
             })
             return None
 
+        # Drop HORIZONTAL_SR as an ENTRY source (short side) — same rationale
+        # as the long path; unconditional, level survives for trailing structure.
+        if (self.strategy_params.block_horizontal_sr_entries
+                and pattern.level is not None
+                and pattern.level.level_type == LevelType.HORIZONTAL_SR):
+            return None
+
         # Continuous confluence (short side): recompute source_count from the
         # live store before scoring.
         if getattr(self.strategy_params, "use_source_confluence", False):
@@ -2006,6 +2013,16 @@ class SignalAggregator:
                     f"ATM LEVEL: {round(level_price)} has "
                     f"{record['wins']}W/{record['losses']}L — boosting size"
                 )
+
+        # Drop HORIZONTAL_SR as an ENTRY source (the bot's own touch-counted
+        # flat lines; net loser vs Mancini CUSTOM levels in both live and 5y
+        # backtest). Unconditional — fires regardless of use_level_quality_scoring.
+        # The level stays in the store for trailing-stop structure; it just
+        # can't be entered on.
+        if (self.strategy_params.block_horizontal_sr_entries
+                and pattern.level is not None
+                and pattern.level.level_type == LevelType.HORIZONTAL_SR):
+            return None
 
         # Continuous confluence: recompute source_count from the live store so
         # an entry level that now coincides with a Mancini target or pivot is

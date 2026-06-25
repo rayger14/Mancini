@@ -87,6 +87,15 @@ class LevelQualityScorer:
         int
             LQS score clamped to [0, 100].
         """
+        # Hard entry gate: drop HORIZONTAL_SR as an entry source. Returning 0
+        # puts it below lqs_shadow_threshold so both the long and short entry
+        # gates skip it — the level still exists in the store for trailing-stop
+        # structure and targets, it just can't be entered on.
+        if (getattr(self.strategy_params, "block_horizontal_sr_entries", False)
+                and level is not None
+                and level.level_type == LevelType.HORIZONTAL_SR):
+            return 0
+
         score = 0
         score += self._origin_score(level)
         score += self._confirmation_score(level)

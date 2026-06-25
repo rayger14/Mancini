@@ -182,6 +182,12 @@ PRODUCTION_STRATEGY = StrategyParams(
     bd_max_break_depth_pts=17.0,          # Optuna v2 (was 14.0)
     bd_timeout_bars=35,                   # Optuna v2 (was 55)
     signal_cooldown_bars=15,
+    # Drop HORIZONTAL_SR (the bot's own touch-counted flat lines) as an ENTRY
+    # source — net loser confirmed 3 ways: live trades (33% WR, negative),
+    # bootstrap, and 5y A/B (HSR = 86% of trades, −6,977 pt; dropping it flips
+    # the book −6,156→+961, PF 0.79→1.21, without touching the good trades).
+    # Level still kept for trailing-stop structure; just not entered on.
+    block_horizontal_sr_entries=True,
     # Mancini exit scaling: T1 at first resistance level, not fixed distance
     # "Lock in 75% profits at first level up" — with 2 contracts, best we can do is 50/50
     # but T1 should be at the ACTUAL next level, not a fixed point target
