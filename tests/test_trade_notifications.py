@@ -14,6 +14,9 @@ import pytest
 from live.trade_notifications import (
     build_entry_embed,
     build_exit_embed,
+    is_short_alert_event,
+    short_alert_key,
+    build_short_alert_embed,
 )
 
 
@@ -296,3 +299,89 @@ class TestExitEmbed:
         emb = payload["embeds"][0]
         assert "RUNNER STOPPED" in emb["title"]
         assert "fully closed" in emb["description"].lower()
+
+
+# ---------------------------------------------------------------------------
+# Short heads-up alerts (shadow shorts the bot detects but does NOT trade)
+# ---------------------------------------------------------------------------
+
+
+def _short_entry_event(**over):
+    """A live shadow-short entry event (the actionable kind)."""
+    ev = {
+        "feature": "capitulation_entry",
+        "bar_idx": 159,
+        "timestamp": "2026-06-24 20:41:00-04:00",
+        "signal_type": "BREAKDOWN_SHORT",
+        "entry_price": 7455.75,
+        "stop_price": 7468.25,
+        "target_1": 7439.0,
+        "direction": "short",
+        "level_price": 7459.0,
+    }
+    ev.update(over)
+    return ev
+
+
+class TestIsShortAlertEvent:
+    def test_short_entry_event_qualifies(self):
+        assert is_short_alert_event(_short_entry_event()) is True
+
+    def test_sizing_diagnostic_does_not_qualify(self):
+        # sweep_depth has no entry/stop and no direction — pure sizing telemetry
+        ev = {"feature": "sweep_depth", "signal_type": "BREAKDOWN_SHORT",
+              "level_price": 7464.0, "sweep_depth_pts": 3.25}
+        assert is_short_alert_event(ev) is False
+
+    def test_shadow_outcome_does_not_qualify(self):
+        # An outcome record (target/stop resolved) is a result, not a new setup
+        ev = _short_entry_event(event="shadow_outcome", outcome="timeout")
+        assert is_short_alert_event(ev) is False
+
+    def test_long_entry_does_not_qualify(self):
+        assert is_short_alert_event(_short_entry_event(direction="long")) is False
+
+    def test_missing_bracket_does_not_qualify(self):
+        ev = _short_entry_event()
+        ev.pop("stop_price")
+        assert is_short_alert_event(ev) is False
+
+
+class TestShortAlertKey:
+    def test_same_setup_dedupes(self):
+        # Consecutive bars nudge entry by <1pt — same setup, one alert
+        a = short_alert_key(_short_entry_event(entry_price=7455.75))
+        b = short_alert_key(_short_entry_event(entry_price=7455.50))
+        assert a == b
+
+    def test_different_level_is_distinct(self):
+        a = short_alert_key(_short_entry_event(entry_price=7455.75))
+        b = short_alert_key(_short_entry_event(entry_price=7399.0))
+        assert a != b
+
+    def test_different_signal_type_is_distinct(self):
+        a = short_alert_key(_short_entry_event(signal_type="BREAKDOWN_SHORT"))
+        b = short_alert_key(_short_entry_event(signal_type="BACKTEST_SHORT"))
+        assert a != b
+
+
+class TestBuildShortAlertEmbed:
+    def test_embed_shape_and_disclaimer(self):
+        emb = build_short_alert_embed(_short_entry_event(), symbol="MES")
+        assert emb["color"] == 0xE74C3C  # red
+        assert "SHORT SETUP" in emb["title"]
+        assert "MES" in emb["title"]
+        desc = emb["description"]
+        # the bracket is shown
+        assert "7468" in desc  # stop
+        assert "7439" in desc  # target
+        # unambiguous it is NOT a bot order
+        assert "not" in desc.lower() and "order" in desc.lower()
+
+    def test_plan_context_quoted_when_matched(self):
+        plan = SimpleNamespace(planned_setups=[SimpleNamespace(
+            level_price=7459.0, setup_type="breakdown_short",
+            direction="short", conviction="low",
+            context="Bear case begins below 7399.")])
+        emb = build_short_alert_embed(_short_entry_event(), symbol="MES", plan=plan)
+        assert "Bear case" in emb["description"]
