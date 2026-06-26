@@ -361,6 +361,25 @@ def _is_market_closed(now: datetime = None) -> bool:
     return False
 
 
+def _should_force_reconnect(minutes_since_bar: float, *, market_closed: bool,
+                            connected: bool, seconds_since_last_force: float,
+                            threshold_min: float = 6.0,
+                            throttle_sec: float = 300.0) -> bool:
+    """Whether to force a reconnect because bars went stale while the socket
+    still looks connected.
+
+    Fires ONLY for the connected-but-stale bug (IBKR farm blip / dropped data
+    subscription where ``_on_disconnect`` never fired): market open, the bridge
+    still thinks it's connected, past ``threshold_min``, and not throttled. A
+    genuine socket disconnect (``connected=False``) is left to the normal
+    reconnect path; the daily break / weekend (``market_closed``) is expected.
+    """
+    return (not market_closed
+            and connected
+            and minutes_since_bar >= threshold_min
+            and seconds_since_last_force >= throttle_sec)
+
+
 class IBRunner:
     """Main live runner: bridges Interactive Brokers data to Python strategy engine.
 
@@ -402,6 +421,10 @@ class IBRunner:
         # (deduped by level), never an order. Toggle off with SHORT_ALERTS=0.
         self._short_alert_keys: set[str] = set()
         self._short_alerts_enabled = os.environ.get("SHORT_ALERTS", "1") != "0"
+        # Minutes of no bars (while connected + market open) before forcing a
+        # reconnect to re-subscribe — self-heal the connected-but-stale outage.
+        self._stale_reconnect_min = float(os.environ.get("STALE_RECONNECT_MIN", "6.0"))
+        self._last_force_reconnect = 0.0
         self._regime_params = regime_params
         self._bypass_session_gates = bypass_session_gates
         self._pending_gate_bypass: list[str] | None = None
@@ -580,6 +603,21 @@ class IBRunner:
                                     f"NO NEW BARS for {minutes_since_bar:.0f} minutes. "
                                     f"IB connection may be stale. Last bar: {self._bar_count}"
                                 )
+                            # Auto-recover: the socket can stay connected while the
+                            # data subscription is dead (Error 1100/1102 farm blip /
+                            # 10141), so _on_disconnect never fires and the bot would
+                            # otherwise log forever (the 2026-06-26 ~12h outage). Force
+                            # a clean reconnect to re-subscribe.
+                            last_force = getattr(self, "_last_force_reconnect", 0.0)
+                            if _should_force_reconnect(
+                                    minutes_since_bar,
+                                    market_closed=_is_market_closed(),
+                                    connected=getattr(self.bridge, "_connected", False),
+                                    seconds_since_last_force=_time.monotonic() - last_force,
+                                    threshold_min=self._stale_reconnect_min):
+                                self._last_force_reconnect = _time.monotonic()
+                                self.bridge.force_reconnect(
+                                    f"no new bars for {minutes_since_bar:.0f} min")
 
                     # IB-aware sleep keeps the event loop alive for streaming callbacks
                     self.bridge.sleep(self.bridge.config.poll_interval_sec)
