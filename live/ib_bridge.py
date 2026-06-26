@@ -469,6 +469,27 @@ class IBBridge:
         self._connected = False
         self._needs_reconnect = True
 
+    def force_reconnect(self, reason: str = "") -> None:
+        """Force a full reconnect when bars go stale despite the socket looking
+        connected.
+
+        After an IBKR data-farm blip (Error 1100/1102) or a dropped market-data
+        subscription (Error 10182), the API socket stays up so ``_on_disconnect``
+        never fires and ``_needs_reconnect`` stays False — the bridge thinks it's
+        healthy while no bars arrive. This disconnects so ``check_reconnect()``
+        can cleanly re-establish the session and re-subscribe, instead of the
+        runner logging "NO NEW BARS" forever.
+        """
+        logger.error(f"FORCING IB reconnect — {reason}")
+        try:
+            if self._ib.isConnected():
+                self._ib.disconnect()
+        except Exception as e:
+            logger.warning(f"force_reconnect disconnect failed (continuing): {e}")
+        self._connected = False
+        self._needs_reconnect = True
+        self._reconnect_backoff_until = 0.0  # reconnect on the next loop, no wait
+
     def check_reconnect(self) -> bool:
         """Attempt reconnection if flagged by _on_disconnect.
 
