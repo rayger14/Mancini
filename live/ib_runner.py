@@ -1662,6 +1662,7 @@ class IBRunner:
                 session_date=str(self._session_date),
                 entry_time=getattr(self, "_entry_timestamp", None),
                 trade_id=getattr(self, "_trade_id", None) or None,
+                gate_bypass=getattr(self, "_current_gate_bypass", None),
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
@@ -1722,6 +1723,7 @@ class IBRunner:
                 reason=getattr(action, "reason", ""),
                 fill_time=timestamp,
                 trade_id=getattr(self, "_trade_id", None) or None,
+                gate_bypass=getattr(self, "_current_gate_bypass", None),
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
