@@ -74,6 +74,37 @@ _ENGINE_LEVEL_DESC = {
 }
 
 
+def _fb_logic_line(sweep_pts: float, conf_name: str) -> str:
+    """Plain-language description of WHAT KIND of failed breakdown fired, keyed
+    off the actual sweep depth (the reliable signature — the detector's
+    fb_entry_path field is broken, tagging every live FB 'elevator_fb' even on
+    30pt+ sweeps). A 0-sweep momentum entry must never read like a deep flush.
+
+    Live edge read (n=41): 0-sweep momentum ~65% WR but small; deep flush
+    (>15pt) ~80% WR and by far the biggest winners.
+    """
+    sw = sweep_pts or 0.0
+    if sw <= 0.0:
+        label, mech = ("Momentum elevator",
+                       "no breakdown swept — price held the level and ran")
+    elif sw <= 5.0:
+        label, mech = ("Shallow sweep-reclaim",
+                       f"swept only {sw:.1f} pt below & reclaimed (shallow)")
+    elif sw <= 15.0:
+        label, mech = ("Sweep-reclaim",
+                       f"swept {sw:.1f} pt below the level & reclaimed")
+    else:
+        label, mech = ("Deep flush-reclaim",
+                       f"swept {sw:.1f} pt below & reclaimed (deep flush — highest-quality)")
+    acc = ""
+    cn = (conf_name or "").lower()
+    if "non_acceptance" in cn or "non-acceptance" in cn:
+        acc = "; entered on non-acceptance (price refused lower)"
+    elif "acceptance" in cn:
+        acc = "; entered on acceptance (based above the level)"
+    return f"🔍 **FB type: {label}** — {mech}{acc}"
+
+
 def _level_origin_line(level_type: str, plan_match: Any) -> str:
     """One line stating WHERE the level came from: Mancini's posted plan vs
     the engine's own detection. ``plan_match`` (closest posted setup) wins —
@@ -223,6 +254,11 @@ def build_entry_embed(*,
     description_parts.append(
         f"Pattern: **{sig_name}**  •  Level: **{level_type}** @ {level_price:.2f}"
     )
+    # For failed breakdowns, spell out WHAT KIND fired (momentum elevator vs
+    # deep flush-reclaim) from the sweep depth, so the reader knows the entry's
+    # real character — not just the generic FAILED_BREAKDOWN label.
+    if sig_name == "FAILED_BREAKDOWN":
+        description_parts.append(_fb_logic_line(sweep, conf_name))
     description_parts.append(
         f"Confirmation: **{conf_name}** protocol  •  "
         f"Sweep depth: {sweep:.1f} pts"

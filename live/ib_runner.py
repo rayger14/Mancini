@@ -1636,6 +1636,18 @@ class IBRunner:
     # Discord rich-embed notifications for entries and exits
     # ------------------------------------------------------------------
 
+    def _classify_fb_entry_path(self) -> str:
+        """Which failed-breakdown logic fired, read from the FB detector state:
+        ``double_dip`` (retested twice), ``level_sweep`` (classic swept-below
+        then reclaimed), or ``elevator_fb`` (momentum recovery, no real sweep).
+        Used by both the trade log and the Discord entry embed."""
+        fb = getattr(self.signal_aggregator, "failed_breakdown", None)
+        if fb is not None and getattr(fb, "_is_double_dip", False):
+            return "double_dip"
+        if fb is not None and getattr(fb, "_is_level_sweep", False):
+            return "level_sweep"
+        return "elevator_fb"
+
     def _post_trade_entry_embed(self, *,
                                 position,
                                 signal,
@@ -2490,20 +2502,9 @@ class IBRunner:
                 except Exception:
                     record["confirmation_type"] = None
 
-                # FB entry path classification
-                fb_detector = getattr(self.signal_aggregator, "failed_breakdown", None)
-                if fb_detector is not None:
-                    is_dd = getattr(fb_detector, "_is_double_dip", False)
-                    is_ls = getattr(fb_detector, "_is_level_sweep", False)
-                else:
-                    is_dd = False
-                    is_ls = False
-                if is_dd:
-                    record["fb_entry_path"] = "double_dip"
-                elif is_ls:
-                    record["fb_entry_path"] = "level_sweep"
-                else:
-                    record["fb_entry_path"] = "elevator_fb"
+                # FB entry path classification (shared with the Discord embed
+                # via _classify_fb_entry_path so the two never disagree)
+                record["fb_entry_path"] = self._classify_fb_entry_path()
 
                 # BD Short conviction score
                 try:
