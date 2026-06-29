@@ -613,11 +613,23 @@ class IBRunner:
                     if self.bridge._needs_reconnect:
                         self.bridge.check_reconnect()
 
-                    bar = self.bridge.get_latest_bar()
-                    if bar is not None:
+                    # Process EVERY bar that closed since the last cycle, not
+                    # just the latest — if the loop stalled (reconnect, pacing,
+                    # farm blip) the intermediate bars are replayed here instead
+                    # of being dropped, so a gap never silently skips a setup.
+                    new_bars = self.bridge.get_new_bars()
+                    if new_bars:
+                        if len(new_bars) > 1:
+                            logger.warning(
+                                f"BACKFILL: replaying {len(new_bars)} bars that closed "
+                                f"during a gap ({new_bars[0]['timestamp']} → "
+                                f"{new_bars[-1]['timestamp']}) — catching up so no "
+                                f"setup/exit is missed"
+                            )
                         self._last_bar_received = _time.monotonic()
-                        self._process_bar(bar)
-                        self._check_eod(bar)
+                        for bar in new_bars:
+                            self._process_bar(bar)
+                            self._check_eod(bar)
                     else:
                         # Check if we haven't received a bar in too long
                         minutes_since_bar = (_time.monotonic() - self._last_bar_received) / 60

@@ -681,39 +681,54 @@ class IBBridge:
             self._streaming_active = False
             logger.info("Streaming/polling stopped")
 
-    def get_latest_bar(self) -> Optional[dict]:
-        """Get the most recent closed 1-minute bar.
+    def get_new_bars(self) -> list:
+        """All closed 1-minute bars newer than the last processed one, in order.
 
-        Returns None if no new bar since last call.
-        Works in both streaming mode (keepUpToDate) and polling mode.
+        Replaces the old one-bar-per-cycle path: if the loop stalled (reconnect,
+        IB pacing, farm blip), every bar that closed during the stall is replayed
+        here instead of being dropped — so a gap never silently swallows a trade.
+        Excludes the still-forming current bar. Returns [] when nothing is new.
         """
         if not self.is_connected or self._contract is None:
-            return None
-
+            return []
         if not self._streaming_active:
-            return None
-
+            return []
         if self._use_polling:
-            return self._poll_latest_bar()
-        else:
-            return self._stream_latest_bar()
+            return self._poll_new_bars()
+        return self._stream_new_bars()
 
-    def _stream_latest_bar(self) -> Optional[dict]:
-        """Get latest bar from keepUpToDate stream."""
+    def get_latest_bar(self) -> Optional[dict]:
+        """Most recent closed 1-minute bar, or None — thin wrapper over
+        get_new_bars() for single-bar callers."""
+        new = self.get_new_bars()
+        return new[-1] if new else None
+
+    def _new_bars_from_raw(self, raw_bars) -> list:
+        """Extract every bar newer than the watermark, in chronological order.
+        _extract_bar dedupes against and advances _last_bar_time per bar, so
+        only genuinely-new bars come back and the watermark ends at the last."""
+        out = []
+        for b in raw_bars:
+            d = self._extract_bar(b)
+            if d is not None:
+                out.append(d)
+        return out
+
+    def _stream_new_bars(self) -> list:
+        """New closed bars from the keepUpToDate stream array ([-1] is forming)."""
         if not self._streaming_bars or len(self._streaming_bars) < 2:
-            return None
+            return []
+        return self._new_bars_from_raw(self._streaming_bars[:-1])
 
-        bar = self._streaming_bars[-2]
-        return self._extract_bar(bar)
+    def _poll_new_bars(self) -> list:
+        """New closed bars by polling historical data (rate-limited).
 
-    def _poll_latest_bar(self) -> Optional[dict]:
-        """Get latest bar by polling historical data.
-
-        Rate-limited to one request per _poll_interval seconds.
+        Fetches 3600s (~61 bars) and replays ALL of them newer than the
+        watermark — not just the latest — so a stall doesn't drop bars.
         """
         now = _time.monotonic()
         if now - self._last_poll_time < self._poll_interval:
-            return None  # Too soon, skip this poll
+            return []  # Too soon, skip this poll
         self._last_poll_time = now
 
         try:
@@ -729,20 +744,20 @@ class IBBridge:
             )
         except Exception as e:
             logger.error(f"Poll failed: {e}")
-            return None
+            return []
 
         if not bars or len(bars) < 2:
             logger.warning(f"Poll returned {len(bars) if bars else 0} bars")
             self._zero_volume_count += 1
             if self._zero_volume_count >= 10:
                 self._attempt_contract_reroll("Poll returning no bars")
-            return None
+            return []
 
-        # bars[-1] may be incomplete, bars[-2] is last closed bar
-        bar = bars[-2]
+        # bars[-1] may be incomplete, bars[-2] is the last closed bar.
+        last_closed = bars[-2]
 
         # Zero-volume detection: expired contracts produce bars with V=0
-        if getattr(bar, "volume", -1) == 0:
+        if getattr(last_closed, "volume", -1) == 0:
             self._zero_volume_count += 1
             if self._zero_volume_count >= 5:
                 self._attempt_contract_reroll(
@@ -752,44 +767,47 @@ class IBBridge:
         else:
             self._zero_volume_count = 0
 
-        result = self._extract_bar(bar)
-        if result:
-            logger.info(f"Poll OK: {len(bars)} bars, latest closed={bar.date}")
+        new = self._new_bars_from_raw(bars[:-1])
+        if new:
+            logger.info(
+                f"Poll OK: {len(bars)} bars, {len(new)} new, "
+                f"latest closed={last_closed.date}"
+            )
             self._stale_count = 0
         else:
-            # Check staleness: if bar is old during market hours, escalate
-            # First check if market is closed (weekends + daily break)
-            from datetime import datetime as _dt, time as _t
-            _now = _dt.now()
-            _wd = _now.weekday()
-            _nt = _now.time()
-            _market_closed = (
-                _wd == 5  # Saturday
-                or (_wd == 6 and _nt < _t(18, 0))  # Sunday before 6 PM
-                or (_wd == 4 and _nt >= _t(17, 0))  # Friday after 5 PM
-                or (_t(17, 0) <= _nt < _t(18, 0))   # Daily break
+            self._note_no_new_bar(last_closed, len(bars))
+        return new
+
+    def _note_no_new_bar(self, last_closed, n_bars: int) -> None:
+        """Stale-data bookkeeping when a poll returned nothing new — resets the
+        counter during market-closed windows, escalates to STALE DATA otherwise."""
+        from datetime import datetime as _dt, time as _t
+        _now = _dt.now()
+        _wd = _now.weekday()
+        _nt = _now.time()
+        _market_closed = (
+            _wd == 5  # Saturday
+            or (_wd == 6 and _nt < _t(18, 0))  # Sunday before 6 PM
+            or (_wd == 4 and _nt >= _t(17, 0))  # Friday after 5 PM
+            or (_t(17, 0) <= _nt < _t(18, 0))   # Daily break
+        )
+        if _market_closed:
+            self._stale_count = 0
+            logger.debug(f"Poll OK but no new bar (market closed): {n_bars} bars, latest={last_closed.date}")
+            return
+        self._stale_count = getattr(self, "_stale_count", 0) + 1
+        bar_time = pd.Timestamp(last_closed.date)
+        if bar_time.tzinfo is None:
+            bar_time = bar_time.tz_localize("UTC")
+        age_minutes = (pd.Timestamp.now(tz="UTC") - bar_time).total_seconds() / 60
+        if age_minutes > 5 and self._stale_count >= 3:
+            logger.error(
+                f"STALE DATA: latest bar is {age_minutes:.0f} min old "
+                f"({last_closed.date}), stale for {self._stale_count} polls. "
+                f"IB may be disconnected or not returning new session bars."
             )
-
-            if _market_closed:
-                # During daily break / market closure, reset stale counter
-                self._stale_count = 0
-                logger.debug(f"Poll OK but no new bar (market closed): {len(bars)} bars, latest={bar.date}")
-            else:
-                self._stale_count = getattr(self, "_stale_count", 0) + 1
-                bar_time = pd.Timestamp(bar.date)
-                if bar_time.tzinfo is None:
-                    bar_time = bar_time.tz_localize("UTC")
-                age_minutes = (pd.Timestamp.now(tz="UTC") - bar_time).total_seconds() / 60
-
-                if age_minutes > 5 and self._stale_count >= 3:
-                    logger.error(
-                        f"STALE DATA: latest bar is {age_minutes:.0f} min old "
-                        f"({bar.date}), stale for {self._stale_count} polls. "
-                        f"IB may be disconnected or not returning new session bars."
-                    )
-                elif self._stale_count <= 1:
-                    logger.debug(f"Poll OK but no new bar (dedup): {len(bars)} bars, latest={bar.date}, last_seen={self._last_bar_time}")
-        return result
+        elif self._stale_count <= 1:
+            logger.debug(f"Poll OK but no new bar (dedup): {n_bars} bars, latest={last_closed.date}, last_seen={self._last_bar_time}")
 
     def _extract_bar(self, bar) -> Optional[dict]:
         """Extract bar dict and deduplicate by timestamp."""
