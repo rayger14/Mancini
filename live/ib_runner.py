@@ -407,6 +407,27 @@ def _should_force_reconnect(minutes_since_bar: float, *, market_closed: bool,
             and seconds_since_last_force >= throttle_sec)
 
 
+def _should_resubscribe(minutes_since_bar: float, *, market_closed: bool,
+                        connected: bool, socket_alive: bool,
+                        seconds_since_last: float,
+                        threshold_min: float = 3.0,
+                        throttle_sec: float = 300.0) -> bool:
+    """Whether to do a LIGHT data re-subscribe instead of a full reconnect.
+
+    Fires when bars are stale but the socket still answers a ping
+    (``socket_alive``): the data farm dropped the subscription while the
+    connection itself is fine, so re-requesting market data fixes it without a
+    full reconnect — which would wipe the position cache (the phantom-exit
+    window). If the ping fails (``socket_alive=False``), this returns False and
+    the caller falls back to ``_should_force_reconnect`` / ``force_reconnect``.
+    """
+    return (not market_closed
+            and connected
+            and socket_alive
+            and minutes_since_bar >= threshold_min
+            and seconds_since_last >= throttle_sec)
+
+
 class IBRunner:
     """Main live runner: bridges Interactive Brokers data to Python strategy engine.
 
@@ -642,16 +663,33 @@ class IBRunner:
                                     f"NO NEW BARS for {minutes_since_bar:.0f} minutes. "
                                     f"IB connection may be stale. Last bar: {self._bar_count}"
                                 )
-                            # Auto-recover: the socket can stay connected while the
+                            # Auto-recover. The socket can stay connected while the
                             # data subscription is dead (Error 1100/1102 farm blip /
-                            # 10141), so _on_disconnect never fires and the bot would
-                            # otherwise log forever (the 2026-06-26 ~12h outage). Force
-                            # a clean reconnect to re-subscribe.
+                            # 10141), so _on_disconnect never fires (the 2026-06-26
+                            # ~12h outage). Ping the socket to choose the cheapest fix:
+                            #   ping OK   → only the data sub is stale → re-subscribe
+                            #               (light; keeps the position cache, so it
+                            #               can't trigger a phantom exit).
+                            #   ping fail → socket truly dead → full reconnect.
                             last_force = getattr(self, "_last_force_reconnect", 0.0)
-                            if _should_force_reconnect(
+                            connected = getattr(self.bridge, "_connected", False)
+                            socket_alive = self.bridge.ping()
+                            resub_min = getattr(self.bridge.config,
+                                                "resubscribe_stale_min", 3.0)
+                            if _should_resubscribe(
                                     minutes_since_bar,
                                     market_closed=_is_market_closed(),
-                                    connected=getattr(self.bridge, "_connected", False),
+                                    connected=connected,
+                                    socket_alive=socket_alive,
+                                    seconds_since_last=_time.monotonic() - last_force,
+                                    threshold_min=resub_min):
+                                self._last_force_reconnect = _time.monotonic()
+                                self.bridge.resubscribe(
+                                    f"no new bars for {minutes_since_bar:.0f} min")
+                            elif _should_force_reconnect(
+                                    minutes_since_bar,
+                                    market_closed=_is_market_closed(),
+                                    connected=connected,
                                     seconds_since_last_force=_time.monotonic() - last_force,
                                     threshold_min=self._stale_reconnect_min):
                                 self._last_force_reconnect = _time.monotonic()

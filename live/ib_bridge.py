@@ -501,6 +501,34 @@ class IBBridge:
         self._needs_reconnect = True
         self._reconnect_backoff_until = 0.0  # reconnect on the next loop, no wait
 
+    def ping(self, timeout: float = 3.0) -> bool:
+        """Active socket-liveness probe via reqCurrentTime — the bot's only
+        previous liveness signal was 'no new bars', which can't tell a dead
+        socket from a quiet market. True if IB answers."""
+        if not self._connected:
+            return False
+        try:
+            return self._ib.reqCurrentTime() is not None
+        except Exception:
+            return False
+
+    def resubscribe(self, reason: str = "") -> None:
+        """Re-request the market-data subscription WITHOUT a full socket
+        reconnect or contract re-qualify — for data-farm blips where the socket
+        stays alive but the subscription dropped. Lighter than force_reconnect
+        and does NOT wipe the position cache (so it can't trigger a phantom
+        exit). Re-requests positions afterward for parity with reconnect."""
+        logger.warning(f"RESUBSCRIBE market data (socket alive) — {reason}")
+        try:
+            self.stop_streaming()
+        except Exception:
+            pass
+        self.start_streaming()
+        try:
+            self._ib.reqPositions()
+        except Exception:
+            pass
+
     def seconds_since_reconnect(self) -> float:
         """Seconds since the last successful reconnect (huge before the first
         one). _sync_position uses this to suppress false position-closure reads
@@ -546,6 +574,13 @@ class IBBridge:
                     # position-closure reads while IB re-pushes its position and
                     # order caches (empty for ~10-30s after a reconnect).
                     self._last_reconnect_monotonic = _time.monotonic()
+                    # Nudge IB to re-push positions promptly so the cache that
+                    # _sync_position reads repopulates fast (shrinks the desync
+                    # window behind the phantom-exit guards).
+                    try:
+                        self._ib.reqPositions()
+                    except Exception:
+                        pass
                     logger.info(f"Reconnected on attempt {attempt}")
                     # Restart streaming if it was active before disconnect
                     if self._streaming_active:
@@ -733,6 +768,13 @@ class IBBridge:
         """Extract every bar newer than the watermark, in chronological order.
         _extract_bar dedupes against and advances _last_bar_time per bar, so
         only genuinely-new bars come back and the watermark ends at the last."""
+        if not raw_bars:
+            return []
+        # Cold start (no watermark yet, e.g. just after a restart): seed to the
+        # latest closed bar only — do NOT replay the whole historical fetch
+        # window as if it were a gap (that would fire entries on hour-old bars).
+        if self._last_bar_time is None:
+            raw_bars = raw_bars[-1:]
         out = []
         for b in raw_bars:
             d = self._extract_bar(b)

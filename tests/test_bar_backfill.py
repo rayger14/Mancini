@@ -11,6 +11,8 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
 
+import pandas as pd
+
 from live.ib_bridge import IBBridge
 
 
@@ -34,11 +36,12 @@ def _series(n: int, start: datetime | None = None):
 
 
 class TestNewBarsFromRaw:
-    def test_no_watermark_returns_all_in_order(self):
+    def test_cold_start_seeds_to_latest_only(self):
+        # No watermark (fresh restart): must NOT replay the whole fetch window
+        # as a gap — just seed to the latest closed bar.
         b = _bridge(last_bar_time=None)
         out = b._new_bars_from_raw(_series(3))
-        assert [d["close"] for d in out] == [7000.0, 7001.0, 7002.0]
-        # watermark advanced to the last bar
+        assert [d["close"] for d in out] == [7002.0]
         assert b._last_bar_time is not None
 
     def test_gap_replays_all_missed_bars(self):
@@ -67,7 +70,7 @@ class TestNewBarsFromRaw:
 
     def test_duplicates_are_deduped(self):
         bars = _series(3)
-        b = _bridge()
+        b = _bridge(last_bar_time=pd.Timestamp("2026-06-29 10:29", tz="US/Eastern"))
         out = b._new_bars_from_raw(bars + bars)  # same bars twice
         assert len(out) == 3
 
@@ -85,7 +88,9 @@ class TestGetNewBarsExcludesFormingBar:
         b._streaming_active = True
         b._use_polling = True
         b._contract = object()
-        b._last_bar_time = None
+        # Seed a watermark before the series so the multi-bar backfill path runs
+        # (cold-start would otherwise return just the latest bar).
+        b._last_bar_time = pd.Timestamp("2026-06-29 10:29", tz="US/Eastern")
         b._last_poll_time = 0.0
         b._poll_interval = 0
         b._zero_volume_count = 0
