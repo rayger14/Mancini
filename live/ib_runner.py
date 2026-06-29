@@ -53,6 +53,33 @@ from strategy.risk_manager import RiskManager
 from live.market_data import fetch_market_snapshot
 
 
+# A None read from get_position() is NOT proof the position closed. Right
+# after a reconnect IB hasn't re-pushed its position/order caches yet, so
+# positions() (and openTrades()) come back empty for a still-open position.
+POST_RECONNECT_GRACE_SEC = 60.0
+
+
+def phantom_close_guard(seconds_since_reconnect: float, bracket_live: bool,
+                        grace: float = POST_RECONNECT_GRACE_SEC) -> str:
+    """Decide whether a None position read can be trusted as a real closure.
+
+    Returns:
+    - "ignore_reconnect"   — within the post-reconnect grace; IB hasn't
+      re-pushed its caches yet (trade #567 booked a fictional exit this way
+      after a 00:29 reconnect).
+    - "ignore_bracket_live" — the OCA bracket children are still working on IB.
+      A real fill cancels the sibling, so a live bracket means the position is
+      open and get_position() merely lagged (trade #579, 53s after entry).
+    - "count" — neither guard applies; trust the None and count it toward the
+      3x-consecutive closure confirmation.
+    """
+    if seconds_since_reconnect < grace:
+        return "ignore_reconnect"
+    if bracket_live:
+        return "ignore_bracket_live"
+    return "count"
+
+
 def classify_position_sync(local_remaining: int, ib_volume, t1_booked: bool) -> str:
     """Classify what a venue-side position change means during _sync_position.
 
@@ -1812,6 +1839,28 @@ class IBRunner:
 
         ib_pos = self.bridge.get_position()
         if ib_pos is None:
+            # A None read is NOT proof of closure. Right after a reconnect IB
+            # hasn't re-pushed its position cache (trade #567 booked a fictional
+            # exit at a 00:29 reconnect); and even without a reconnect the
+            # cache can briefly lag a live position (trade #579 phantom-closed
+            # 53s after entry). Guard both before counting toward closure — but
+            # only query the (costlier) bracket orders once past the reconnect
+            # grace, to avoid an extra IB round-trip in the noisy post-reconnect
+            # window where that cache is stale too.
+            secs = self.bridge.seconds_since_reconnect()
+            bracket_live = (bool(self.bridge.get_bracket_orders())
+                            if secs >= POST_RECONNECT_GRACE_SEC else False)
+            guard = phantom_close_guard(secs, bracket_live)
+            if guard != "count":
+                if getattr(self, "_sync_none_count", 0):
+                    logger.info(
+                        f"IB position read None but {guard} "
+                        f"(secs_since_reconnect={secs:.0f}, bracket_live={bracket_live}) "
+                        f"— treating as desync, not a close; resetting None streak"
+                    )
+                self._sync_none_count = 0
+                return
+
             # Require 3 consecutive None reads to confirm position truly closed
             self._sync_none_count = getattr(self, "_sync_none_count", 0) + 1
             if self._sync_none_count < 3:

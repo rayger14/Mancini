@@ -201,6 +201,9 @@ class IBBridge:
         self._needs_reconnect: bool = False
         self._reconnect_backoff_until: float = 0.0
         self._reconnect_exhausted_logged: bool = False
+        # 0.0 → seconds_since_reconnect() is huge at startup (no false grace);
+        # set to monotonic() on every successful reconnect.
+        self._last_reconnect_monotonic: float = 0.0
 
     # ── Connection ────────────────────────────────────────────────────
 
@@ -490,6 +493,12 @@ class IBBridge:
         self._needs_reconnect = True
         self._reconnect_backoff_until = 0.0  # reconnect on the next loop, no wait
 
+    def seconds_since_reconnect(self) -> float:
+        """Seconds since the last successful reconnect (huge before the first
+        one). _sync_position uses this to suppress false position-closure reads
+        while IB re-pushes its position and order caches after a reconnect."""
+        return _time.monotonic() - getattr(self, "_last_reconnect_monotonic", 0.0)
+
     def check_reconnect(self) -> bool:
         """Attempt reconnection if flagged by _on_disconnect.
 
@@ -525,6 +534,10 @@ class IBBridge:
                     self._connected = True
                     self._needs_reconnect = False
                     self._reconnect_exhausted_logged = False
+                    # Stamp the reconnect so _sync_position can suppress false
+                    # position-closure reads while IB re-pushes its position and
+                    # order caches (empty for ~10-30s after a reconnect).
+                    self._last_reconnect_monotonic = _time.monotonic()
                     logger.info(f"Reconnected on attempt {attempt}")
                     # Restart streaming if it was active before disconnect
                     if self._streaming_active:
