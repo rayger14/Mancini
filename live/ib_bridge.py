@@ -171,6 +171,14 @@ class IBConfig:
     hist_timeout_sec: float = 60.0
     # Use extended hours (globex) data
     use_rth_only: bool = True
+    # Prefer real-time keepUpToDate streaming over 60s polling (the account now
+    # has a live CME real-time subscription). Falls back to polling if no tick
+    # arrives within realtime_verify_sec.
+    prefer_realtime_stream: bool = True
+    realtime_verify_sec: float = 10.0
+    # Layer 3: when bars stall but the socket pings alive, re-subscribe (light)
+    # rather than full-reconnect after this many minutes.
+    resubscribe_stale_min: float = 3.0
 
 
 class IBBridge:
@@ -621,44 +629,37 @@ class IBBridge:
         if self._streaming_active:
             return True
 
-        # Try real-time streaming first
-        try:
-            self._streaming_bars = self._ib.reqHistoricalData(
-                self._contract,
-                endDateTime="",
-                durationStr="900 S",
-                barSizeSetting="1 min",
-                whatToShow="TRADES",
-                useRTH=self.config.use_rth_only,
-                formatDate=2,
-                keepUpToDate=True,
-                timeout=self.config.hist_timeout_sec,
-            )
-            n = len(self._streaming_bars) if self._streaming_bars else 0
-            if n > 0:
-                # Verify streaming works: check if real-time data is available
-                try:
-                    ticker = self._ib.reqMktData(self._contract, "", False, False)
-                    self._ib.sleep(2)
-                    has_realtime = not (ticker.last != ticker.last)  # NaN check
-                    self._ib.cancelMktData(self._contract)
-                except Exception:
-                    has_realtime = False
-
-                if has_realtime:
+        # Try real-time streaming first (the account now has a live CME sub)
+        if self.config.prefer_realtime_stream:
+            try:
+                self._streaming_bars = self._ib.reqHistoricalData(
+                    self._contract,
+                    endDateTime="",
+                    durationStr="900 S",
+                    barSizeSetting="1 min",
+                    whatToShow="TRADES",
+                    useRTH=self.config.use_rth_only,
+                    formatDate=2,
+                    keepUpToDate=True,
+                    timeout=self.config.hist_timeout_sec,
+                )
+                n = len(self._streaming_bars) if self._streaming_bars else 0
+                if n > 0 and self._verify_realtime(self.config.realtime_verify_sec):
                     self._streaming_active = True
                     self._use_polling = False
                     logger.info(f"Streaming 1-min bars (real-time keepUpToDate), seed={n} bars")
                     return True
-                else:
-                    # Cancel the keepUpToDate request — it won't update
-                    try:
-                        self._ib.cancelHistoricalData(self._streaming_bars)
-                    except Exception:
-                        pass
-                    logger.warning("No real-time market data subscription — falling back to polling")
-        except Exception as e:
-            logger.warning(f"keepUpToDate failed: {e}")
+                # No real-time tick — cancel the keepUpToDate request, fall back
+                try:
+                    self._ib.cancelHistoricalData(self._streaming_bars)
+                except Exception:
+                    pass
+                logger.warning(
+                    f"No real-time tick within {self.config.realtime_verify_sec:.0f}s "
+                    f"— falling back to polling"
+                )
+            except Exception as e:
+                logger.warning(f"keepUpToDate failed: {e}")
 
         # Fall back to polling mode (works with historical data, no subscription needed)
         self._streaming_active = True
@@ -669,6 +670,31 @@ class IBBridge:
         logger.info("Streaming 1-min bars started (polling every 60s). "
                      "Subscribe to CME market data for real-time streaming.")
         return True
+
+    def _verify_realtime(self, timeout_sec: float) -> bool:
+        """Confirm a real-time market-data tick actually arrives within the
+        timeout. The old single 2s NaN check false-negatived with a live
+        subscription (the tick hadn't landed yet) and dropped to polling — this
+        polls the ticker until `last` is a real number or we time out."""
+        try:
+            ticker = self._ib.reqMktData(self._contract, "", False, False)
+        except Exception:
+            return False
+        deadline = _time.monotonic() + timeout_sec
+        has_realtime = False
+        try:
+            while _time.monotonic() < deadline:
+                self._ib.sleep(0.5)
+                last = getattr(ticker, "last", float("nan"))
+                if last is not None and last == last:  # not None, not NaN
+                    has_realtime = True
+                    break
+        finally:
+            try:
+                self._ib.cancelMktData(self._contract)
+            except Exception:
+                pass
+        return has_realtime
 
     def stop_streaming(self) -> None:
         """Stop streaming bars."""
