@@ -1006,48 +1006,20 @@ class IBRunner:
         """
         try:
             from config.levels import Level, LevelType
+            from core.mancini_plan_levels import build_plan_levels
         except Exception:
             return 0
         store = getattr(self.signal_aggregator, "level_store", None)
         if store is None:
             return 0
         now = datetime.now(_ET)
-        conv_score = {"high": 3, "medium": 2, "low": 1}
-        accept_types = {"failed_breakdown", "level_reclaim"}
         injected = 0
-        for setup in (plan.planned_setups or []):
-            if (getattr(setup, "direction", "") or "").lower() != "long":
-                continue
-            if (getattr(setup, "setup_type", "") or "").lower() not in accept_types:
-                continue
-            price = float(getattr(setup, "level_price", 0.0) or 0.0)
-            if price <= 0:
-                continue
-            ctx = (getattr(setup, "context", "") or "")[:120]
-            lvl = Level(
-                price=price,
-                level_type=LevelType.CUSTOM,
-                created_at=now,
-                confirmed_at=now,
-                touch_count=1,
-                label=f"MANCINI_PLAN:{setup.setup_type}@{price:.2f}",
-                mancini_confirmed=True,
-                mancini_side="support",
-                mancini_conviction=conv_score.get(
-                    (getattr(setup, "conviction", "") or "").lower(), 1
-                ),
-                mancini_tags=[
-                    "llm_plan",
-                    f"conv:{(setup.conviction or '').lower()}",
-                    f"type:{setup.setup_type}",
-                ],
-            )
+        # Shared builder — the SAME CUSTOM levels the backtest injects (one
+        # source of truth so live and backtest can't drift).
+        for lvl in build_plan_levels(plan, now):
             store.add(lvl)
             injected += 1
-            logger.debug(
-                f"Mancini plan level injected: {lvl.label} "
-                f"({setup.conviction} conviction) — {ctx}"
-            )
+            logger.debug(f"Mancini plan level injected: {lvl.label}")
 
         # Mancini's published TARGET ladder (e.g. 7424→7452→7472→...). Currently
         # the engine derives T1/T2 from its own levels and ignores these; inject
