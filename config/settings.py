@@ -398,6 +398,11 @@ class StrategyParams:
     # but is the only short bucket with positive live signal (1/2 W,
     # $+178) — kept open pending more samples.
     block_pdl_shorts: bool = True
+    # Alert-only shorts: route every short to the Discord alert/shadow path and
+    # place NO live short order. The P&L-at-targets report showed the existing
+    # short detectors are net-negative (13/14 lose at targets, 0/14 hit T1).
+    # Default off so backtests still simulate shorts; ON in PRODUCTION_STRATEGY.
+    shorts_alert_only: bool = False
 
     # DEPRECATED — conviction-scoring scaffold for the old "consecutive close-below"
     # BD detector. The Phase 3 rewrite no longer uses these. Kept as no-op
