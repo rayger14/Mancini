@@ -428,6 +428,19 @@ def _should_resubscribe(minutes_since_bar: float, *, market_closed: bool,
             and seconds_since_last >= throttle_sec)
 
 
+def recovery_blocked_by_connectivity(connectivity_down: bool,
+                                     seconds_since_restored: float,
+                                     grace_sec: float = 15.0) -> bool:
+    """Whether to DEFER recovery (resubscribe/reconnect/ping) because IBKR
+    connectivity is mid-blip or only just restored. Firing a blocking IB call
+    during the churn is what hung the loop on 2026-06-29 (both freezes). Wait
+    for connectivity to settle (the freeze watchdog still backstops a true
+    hang). True = defer this cycle."""
+    if connectivity_down:
+        return True
+    return seconds_since_restored < grace_sec
+
+
 def _should_force_exit_frozen(idle_seconds: float, threshold_sec: float = 240.0) -> bool:
     """Whether the main loop has been idle long enough to be considered FROZEN
     (a hung synchronous IB call wedged the single-threaded loop, as on
@@ -737,6 +750,20 @@ class IBRunner:
                             #   ping fail → socket truly dead → full reconnect.
                             last_force = getattr(self, "_last_force_reconnect", 0.0)
                             connected = getattr(self.bridge, "_connected", False)
+                            # PREVENTION: if IBKR is mid-blip or just restored, DEFER
+                            # recovery — firing a blocking resubscribe/reconnect/ping
+                            # during the churn is what hung the loop (2026-06-29). Wait
+                            # for connectivity to settle; the freeze watchdog backstops
+                            # a true hang.
+                            if recovery_blocked_by_connectivity(
+                                    self.bridge.connectivity_down(),
+                                    self.bridge.seconds_since_connectivity_restored()):
+                                logger.info(
+                                    "IBKR connectivity unstable (mid-blip / just "
+                                    "restored) — deferring recovery to avoid hanging "
+                                    "a request")
+                                self.bridge.sleep(self.bridge.config.poll_interval_sec)
+                                continue
                             socket_alive = self.bridge.ping()
                             resub_min = getattr(self.bridge.config,
                                                 "resubscribe_stale_min", 3.0)
