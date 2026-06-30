@@ -222,6 +222,10 @@ PRODUCTION_STRATEGY = StrategyParams(
     # has no deep flushes / CUSTOM levels), so validated forward on the paper
     # account. Today's +71 deep-flush winner would size full instead of 1ct.
     use_conviction_sizing=True,
+    # Shorts alert-only: no live short orders (P&L-at-targets report: the short
+    # detectors are net -445.8pt at targets, 0/14 hit T1). Discord heads-up
+    # still fires for plan-aligned shorts so they can be taken manually.
+    shorts_alert_only=True,
     # Mancini exit scaling: T1 at first resistance level, not fixed distance
     # "Lock in 75% profits at first level up" — with 2 contracts, best we can do is 50/50
     # but T1 should be at the ACTUAL next level, not a fixed point target
@@ -426,6 +430,14 @@ def _should_resubscribe(minutes_since_bar: float, *, market_closed: bool,
             and socket_alive
             and minutes_since_bar >= threshold_min
             and seconds_since_last >= throttle_sec)
+
+
+def route_short_to_alert_only(direction: str, shorts_alert_only: bool) -> bool:
+    """Whether a signal should be alert-only (no live order) because it's a
+    short and live shorts are disabled. The P&L-at-targets report showed the
+    existing short detectors are net-negative (13/14 lose at targets, 0/14 hit
+    T1), so production routes all shorts to the Discord alert/shadow path."""
+    return shorts_alert_only and (direction or "").lower() == "short"
 
 
 def recovery_blocked_by_connectivity(connectivity_down: bool,
@@ -1510,6 +1522,20 @@ class IBRunner:
         enforced — the trade is taken anyway with a 'gate_bypassed' marker.
         Non-time gates (max trades, done for day) still block.
         """
+        # Shorts are alert-only in production: the P&L-at-targets report proved
+        # the existing short detectors are net-negative (13/14 lose at targets,
+        # 0/14 hit T1). Route every short to the Discord alert/shadow path (the
+        # heads-up still fires from the shadow events) — never a live order.
+        if route_short_to_alert_only(
+                getattr(signal, "direction", ""),
+                getattr(self.strategy.strategy_params, "shorts_alert_only", False)):
+            logger.info(
+                f"SHORT ALERT-ONLY: {signal.signal_type.name} @ "
+                f"{signal.entry_price:.2f} — no live order (shorts are net-negative; "
+                f"Discord heads-up still fires)")
+            self._add_phantom(signal, "shorts_alert_only", timestamp)
+            return
+
         gates_that_would_fire: list[str] = []
 
         # Gate: Evening session (18:00-22:00)
