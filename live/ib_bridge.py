@@ -171,6 +171,14 @@ class IBConfig:
     hist_timeout_sec: float = 60.0
     # Use extended hours (globex) data
     use_rth_only: bool = True
+    # Prefer real-time keepUpToDate streaming over 60s polling (the account now
+    # has a live CME real-time subscription). Falls back to polling if no tick
+    # arrives within realtime_verify_sec.
+    prefer_realtime_stream: bool = True
+    realtime_verify_sec: float = 10.0
+    # Layer 3: when bars stall but the socket pings alive, re-subscribe (light)
+    # rather than full-reconnect after this many minutes.
+    resubscribe_stale_min: float = 3.0
 
 
 class IBBridge:
@@ -201,6 +209,9 @@ class IBBridge:
         self._needs_reconnect: bool = False
         self._reconnect_backoff_until: float = 0.0
         self._reconnect_exhausted_logged: bool = False
+        # 0.0 → seconds_since_reconnect() is huge at startup (no false grace);
+        # set to monotonic() on every successful reconnect.
+        self._last_reconnect_monotonic: float = 0.0
 
     # ── Connection ────────────────────────────────────────────────────
 
@@ -490,6 +501,40 @@ class IBBridge:
         self._needs_reconnect = True
         self._reconnect_backoff_until = 0.0  # reconnect on the next loop, no wait
 
+    def ping(self, timeout: float = 3.0) -> bool:
+        """Active socket-liveness probe via reqCurrentTime — the bot's only
+        previous liveness signal was 'no new bars', which can't tell a dead
+        socket from a quiet market. True if IB answers."""
+        if not self._connected:
+            return False
+        try:
+            return self._ib.reqCurrentTime() is not None
+        except Exception:
+            return False
+
+    def resubscribe(self, reason: str = "") -> None:
+        """Re-request the market-data subscription WITHOUT a full socket
+        reconnect or contract re-qualify — for data-farm blips where the socket
+        stays alive but the subscription dropped. Lighter than force_reconnect
+        and does NOT wipe the position cache (so it can't trigger a phantom
+        exit). Re-requests positions afterward for parity with reconnect."""
+        logger.warning(f"RESUBSCRIBE market data (socket alive) — {reason}")
+        try:
+            self.stop_streaming()
+        except Exception:
+            pass
+        self.start_streaming()
+        try:
+            self._ib.reqPositions()
+        except Exception:
+            pass
+
+    def seconds_since_reconnect(self) -> float:
+        """Seconds since the last successful reconnect (huge before the first
+        one). _sync_position uses this to suppress false position-closure reads
+        while IB re-pushes its position and order caches after a reconnect."""
+        return _time.monotonic() - getattr(self, "_last_reconnect_monotonic", 0.0)
+
     def check_reconnect(self) -> bool:
         """Attempt reconnection if flagged by _on_disconnect.
 
@@ -525,6 +570,17 @@ class IBBridge:
                     self._connected = True
                     self._needs_reconnect = False
                     self._reconnect_exhausted_logged = False
+                    # Stamp the reconnect so _sync_position can suppress false
+                    # position-closure reads while IB re-pushes its position and
+                    # order caches (empty for ~10-30s after a reconnect).
+                    self._last_reconnect_monotonic = _time.monotonic()
+                    # Nudge IB to re-push positions promptly so the cache that
+                    # _sync_position reads repopulates fast (shrinks the desync
+                    # window behind the phantom-exit guards).
+                    try:
+                        self._ib.reqPositions()
+                    except Exception:
+                        pass
                     logger.info(f"Reconnected on attempt {attempt}")
                     # Restart streaming if it was active before disconnect
                     if self._streaming_active:
@@ -608,44 +664,37 @@ class IBBridge:
         if self._streaming_active:
             return True
 
-        # Try real-time streaming first
-        try:
-            self._streaming_bars = self._ib.reqHistoricalData(
-                self._contract,
-                endDateTime="",
-                durationStr="900 S",
-                barSizeSetting="1 min",
-                whatToShow="TRADES",
-                useRTH=self.config.use_rth_only,
-                formatDate=2,
-                keepUpToDate=True,
-                timeout=self.config.hist_timeout_sec,
-            )
-            n = len(self._streaming_bars) if self._streaming_bars else 0
-            if n > 0:
-                # Verify streaming works: check if real-time data is available
-                try:
-                    ticker = self._ib.reqMktData(self._contract, "", False, False)
-                    self._ib.sleep(2)
-                    has_realtime = not (ticker.last != ticker.last)  # NaN check
-                    self._ib.cancelMktData(self._contract)
-                except Exception:
-                    has_realtime = False
-
-                if has_realtime:
+        # Try real-time streaming first (the account now has a live CME sub)
+        if self.config.prefer_realtime_stream:
+            try:
+                self._streaming_bars = self._ib.reqHistoricalData(
+                    self._contract,
+                    endDateTime="",
+                    durationStr="900 S",
+                    barSizeSetting="1 min",
+                    whatToShow="TRADES",
+                    useRTH=self.config.use_rth_only,
+                    formatDate=2,
+                    keepUpToDate=True,
+                    timeout=self.config.hist_timeout_sec,
+                )
+                n = len(self._streaming_bars) if self._streaming_bars else 0
+                if n > 0 and self._verify_realtime(self.config.realtime_verify_sec):
                     self._streaming_active = True
                     self._use_polling = False
                     logger.info(f"Streaming 1-min bars (real-time keepUpToDate), seed={n} bars")
                     return True
-                else:
-                    # Cancel the keepUpToDate request — it won't update
-                    try:
-                        self._ib.cancelHistoricalData(self._streaming_bars)
-                    except Exception:
-                        pass
-                    logger.warning("No real-time market data subscription — falling back to polling")
-        except Exception as e:
-            logger.warning(f"keepUpToDate failed: {e}")
+                # No real-time tick — cancel the keepUpToDate request, fall back
+                try:
+                    self._ib.cancelHistoricalData(self._streaming_bars)
+                except Exception:
+                    pass
+                logger.warning(
+                    f"No real-time tick within {self.config.realtime_verify_sec:.0f}s "
+                    f"— falling back to polling"
+                )
+            except Exception as e:
+                logger.warning(f"keepUpToDate failed: {e}")
 
         # Fall back to polling mode (works with historical data, no subscription needed)
         self._streaming_active = True
@@ -656,6 +705,31 @@ class IBBridge:
         logger.info("Streaming 1-min bars started (polling every 60s). "
                      "Subscribe to CME market data for real-time streaming.")
         return True
+
+    def _verify_realtime(self, timeout_sec: float) -> bool:
+        """Confirm a real-time market-data tick actually arrives within the
+        timeout. The old single 2s NaN check false-negatived with a live
+        subscription (the tick hadn't landed yet) and dropped to polling — this
+        polls the ticker until `last` is a real number or we time out."""
+        try:
+            ticker = self._ib.reqMktData(self._contract, "", False, False)
+        except Exception:
+            return False
+        deadline = _time.monotonic() + timeout_sec
+        has_realtime = False
+        try:
+            while _time.monotonic() < deadline:
+                self._ib.sleep(0.5)
+                last = getattr(ticker, "last", float("nan"))
+                if last is not None and last == last:  # not None, not NaN
+                    has_realtime = True
+                    break
+        finally:
+            try:
+                self._ib.cancelMktData(self._contract)
+            except Exception:
+                pass
+        return has_realtime
 
     def stop_streaming(self) -> None:
         """Stop streaming bars."""
@@ -668,39 +742,61 @@ class IBBridge:
             self._streaming_active = False
             logger.info("Streaming/polling stopped")
 
-    def get_latest_bar(self) -> Optional[dict]:
-        """Get the most recent closed 1-minute bar.
+    def get_new_bars(self) -> list:
+        """All closed 1-minute bars newer than the last processed one, in order.
 
-        Returns None if no new bar since last call.
-        Works in both streaming mode (keepUpToDate) and polling mode.
+        Replaces the old one-bar-per-cycle path: if the loop stalled (reconnect,
+        IB pacing, farm blip), every bar that closed during the stall is replayed
+        here instead of being dropped — so a gap never silently swallows a trade.
+        Excludes the still-forming current bar. Returns [] when nothing is new.
         """
         if not self.is_connected or self._contract is None:
-            return None
-
+            return []
         if not self._streaming_active:
-            return None
-
+            return []
         if self._use_polling:
-            return self._poll_latest_bar()
-        else:
-            return self._stream_latest_bar()
+            return self._poll_new_bars()
+        return self._stream_new_bars()
 
-    def _stream_latest_bar(self) -> Optional[dict]:
-        """Get latest bar from keepUpToDate stream."""
+    def get_latest_bar(self) -> Optional[dict]:
+        """Most recent closed 1-minute bar, or None — thin wrapper over
+        get_new_bars() for single-bar callers."""
+        new = self.get_new_bars()
+        return new[-1] if new else None
+
+    def _new_bars_from_raw(self, raw_bars) -> list:
+        """Extract every bar newer than the watermark, in chronological order.
+        _extract_bar dedupes against and advances _last_bar_time per bar, so
+        only genuinely-new bars come back and the watermark ends at the last."""
+        if not raw_bars:
+            return []
+        # Cold start (no watermark yet, e.g. just after a restart): seed to the
+        # latest closed bar only — do NOT replay the whole historical fetch
+        # window as if it were a gap (that would fire entries on hour-old bars).
+        if self._last_bar_time is None:
+            raw_bars = raw_bars[-1:]
+        out = []
+        for b in raw_bars:
+            d = self._extract_bar(b)
+            if d is not None:
+                out.append(d)
+        return out
+
+    def _stream_new_bars(self) -> list:
+        """New closed bars from the keepUpToDate stream array ([-1] is forming)."""
         if not self._streaming_bars or len(self._streaming_bars) < 2:
-            return None
+            return []
+        return self._new_bars_from_raw(self._streaming_bars[:-1])
 
-        bar = self._streaming_bars[-2]
-        return self._extract_bar(bar)
+    def _poll_new_bars(self) -> list:
+        """New closed bars by polling historical data (rate-limited).
 
-    def _poll_latest_bar(self) -> Optional[dict]:
-        """Get latest bar by polling historical data.
-
-        Rate-limited to one request per _poll_interval seconds.
+        Fetches 3600s (~61 bars) and replays ALL of them newer than the
+        watermark — not just the latest — so a stall doesn't drop bars.
         """
         now = _time.monotonic()
         if now - self._last_poll_time < self._poll_interval:
-            return None  # Too soon, skip this poll
+            return []  # Too soon, skip this poll
         self._last_poll_time = now
 
         try:
@@ -716,20 +812,20 @@ class IBBridge:
             )
         except Exception as e:
             logger.error(f"Poll failed: {e}")
-            return None
+            return []
 
         if not bars or len(bars) < 2:
             logger.warning(f"Poll returned {len(bars) if bars else 0} bars")
             self._zero_volume_count += 1
             if self._zero_volume_count >= 10:
                 self._attempt_contract_reroll("Poll returning no bars")
-            return None
+            return []
 
-        # bars[-1] may be incomplete, bars[-2] is last closed bar
-        bar = bars[-2]
+        # bars[-1] may be incomplete, bars[-2] is the last closed bar.
+        last_closed = bars[-2]
 
         # Zero-volume detection: expired contracts produce bars with V=0
-        if getattr(bar, "volume", -1) == 0:
+        if getattr(last_closed, "volume", -1) == 0:
             self._zero_volume_count += 1
             if self._zero_volume_count >= 5:
                 self._attempt_contract_reroll(
@@ -739,44 +835,47 @@ class IBBridge:
         else:
             self._zero_volume_count = 0
 
-        result = self._extract_bar(bar)
-        if result:
-            logger.info(f"Poll OK: {len(bars)} bars, latest closed={bar.date}")
+        new = self._new_bars_from_raw(bars[:-1])
+        if new:
+            logger.info(
+                f"Poll OK: {len(bars)} bars, {len(new)} new, "
+                f"latest closed={last_closed.date}"
+            )
             self._stale_count = 0
         else:
-            # Check staleness: if bar is old during market hours, escalate
-            # First check if market is closed (weekends + daily break)
-            from datetime import datetime as _dt, time as _t
-            _now = _dt.now()
-            _wd = _now.weekday()
-            _nt = _now.time()
-            _market_closed = (
-                _wd == 5  # Saturday
-                or (_wd == 6 and _nt < _t(18, 0))  # Sunday before 6 PM
-                or (_wd == 4 and _nt >= _t(17, 0))  # Friday after 5 PM
-                or (_t(17, 0) <= _nt < _t(18, 0))   # Daily break
+            self._note_no_new_bar(last_closed, len(bars))
+        return new
+
+    def _note_no_new_bar(self, last_closed, n_bars: int) -> None:
+        """Stale-data bookkeeping when a poll returned nothing new — resets the
+        counter during market-closed windows, escalates to STALE DATA otherwise."""
+        from datetime import datetime as _dt, time as _t
+        _now = _dt.now()
+        _wd = _now.weekday()
+        _nt = _now.time()
+        _market_closed = (
+            _wd == 5  # Saturday
+            or (_wd == 6 and _nt < _t(18, 0))  # Sunday before 6 PM
+            or (_wd == 4 and _nt >= _t(17, 0))  # Friday after 5 PM
+            or (_t(17, 0) <= _nt < _t(18, 0))   # Daily break
+        )
+        if _market_closed:
+            self._stale_count = 0
+            logger.debug(f"Poll OK but no new bar (market closed): {n_bars} bars, latest={last_closed.date}")
+            return
+        self._stale_count = getattr(self, "_stale_count", 0) + 1
+        bar_time = pd.Timestamp(last_closed.date)
+        if bar_time.tzinfo is None:
+            bar_time = bar_time.tz_localize("UTC")
+        age_minutes = (pd.Timestamp.now(tz="UTC") - bar_time).total_seconds() / 60
+        if age_minutes > 5 and self._stale_count >= 3:
+            logger.error(
+                f"STALE DATA: latest bar is {age_minutes:.0f} min old "
+                f"({last_closed.date}), stale for {self._stale_count} polls. "
+                f"IB may be disconnected or not returning new session bars."
             )
-
-            if _market_closed:
-                # During daily break / market closure, reset stale counter
-                self._stale_count = 0
-                logger.debug(f"Poll OK but no new bar (market closed): {len(bars)} bars, latest={bar.date}")
-            else:
-                self._stale_count = getattr(self, "_stale_count", 0) + 1
-                bar_time = pd.Timestamp(bar.date)
-                if bar_time.tzinfo is None:
-                    bar_time = bar_time.tz_localize("UTC")
-                age_minutes = (pd.Timestamp.now(tz="UTC") - bar_time).total_seconds() / 60
-
-                if age_minutes > 5 and self._stale_count >= 3:
-                    logger.error(
-                        f"STALE DATA: latest bar is {age_minutes:.0f} min old "
-                        f"({bar.date}), stale for {self._stale_count} polls. "
-                        f"IB may be disconnected or not returning new session bars."
-                    )
-                elif self._stale_count <= 1:
-                    logger.debug(f"Poll OK but no new bar (dedup): {len(bars)} bars, latest={bar.date}, last_seen={self._last_bar_time}")
-        return result
+        elif self._stale_count <= 1:
+            logger.debug(f"Poll OK but no new bar (dedup): {n_bars} bars, latest={last_closed.date}, last_seen={self._last_bar_time}")
 
     def _extract_bar(self, bar) -> Optional[dict]:
         """Extract bar dict and deduplicate by timestamp."""

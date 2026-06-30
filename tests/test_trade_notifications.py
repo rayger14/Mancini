@@ -237,6 +237,135 @@ class TestEntryEmbed:
         assert "SHORT" in emb["title"]
 
 
+class TestEntryLevelSource:
+    """The embed must say WHERE the level came from: Mancini's posted plan
+    vs the engine's own price-action detection."""
+
+    def _build(self, *, level_name, plan_setups, gate_bypass=None):
+        sig = _Signal(pattern=_Pattern(level=_Lvl(price=7430.0,
+                                                  level_type=_LvlType(name=level_name))))
+        return build_entry_embed(
+            position=_Position(entry_price=7430.0, stop_price=7389.75,
+                               target_1=7459.25, target_2=7470.0),
+            signal=sig,
+            fill_price=7430.0,
+            contracts_ordered=2,
+            contract_spec=_Contract(),
+            exit_params=SimpleNamespace(
+                t1_exit_fraction=0.75, t2_exit_fraction=0.15,
+                runner_fraction=0.10,
+            ),
+            plan=_Plan(planned_setups=plan_setups),
+            session_date="2026-06-29",
+            gate_bypass=gate_bypass,
+        )["embeds"][0]
+
+    def test_engine_detected_level_is_labeled(self):
+        """INTRADAY_LOW with no plan match → clearly tagged engine-detected,
+        with the human mechanism and a note it's not on his plan."""
+        emb = self._build(level_name="INTRADAY_LOW", plan_setups=[])
+        desc = emb["description"]
+        assert "Source:" in desc
+        assert "engine-detected" in desc.lower()
+        assert "intraday flush low" in desc.lower()
+        assert "not on" in desc.lower() and "plan" in desc.lower()
+
+    def test_mancini_plan_match_is_labeled(self):
+        """A level that matches one of his posted setups → tagged as on his
+        plan, not engine noise."""
+        setup = _PlanSetup(level_price=7430.0, conviction="high",
+                           context="FB at 7430 — the obvious trade")
+        emb = self._build(level_name="INTRADAY_LOW", plan_setups=[setup])
+        desc = emb["description"]
+        assert "Source:" in desc
+        assert "Mancini" in desc and "plan" in desc.lower()
+        # Should NOT call a plan-matched level engine noise
+        assert "not on" not in desc.lower()
+
+
+class TestEntryFBLogic:
+    """The embed must say what KIND of failed breakdown fired, keyed off the
+    reliable sweep_depth signature (fb_entry_path is broken — it tags every
+    live FB 'elevator_fb' even on 30pt+ sweeps). A 0-sweep momentum entry must
+    never read like a deep flush-and-reclaim."""
+
+    def _build(self, *, sweep, conf_name="NON_ACCEPTANCE",
+               sig_name="FAILED_BREAKDOWN"):
+        pat = _Pattern(
+            level=_Lvl(price=7395.75, level_type=_LvlType(name="INTRADAY_LOW")),
+            confirmation=_Conf(name=conf_name),
+            sweep_depth_pts=sweep,
+        )
+        sig = _Signal(signal_type=_SigType(name=sig_name), pattern=pat)
+        return build_entry_embed(
+            position=_Position(entry_price=7430.0, stop_price=7389.75),
+            signal=sig, fill_price=7432.75, contracts_ordered=2,
+            contract_spec=_Contract(),
+            exit_params=SimpleNamespace(t1_exit_fraction=0.75,
+                                        t2_exit_fraction=0.15, runner_fraction=0.10),
+            plan=_Plan(planned_setups=[]), session_date="2026-06-29",
+        )["embeds"][0]
+
+    def test_zero_sweep_flagged_as_momentum_elevator(self):
+        desc = self._build(sweep=0.0)["description"]
+        assert "FB type:" in desc
+        assert "elevator" in desc.lower() or "momentum" in desc.lower()
+        assert "no breakdown" in desc.lower()
+        assert "non-acceptance" in desc.lower()
+
+    def test_midsweep_is_sweep_reclaim_with_depth(self):
+        desc = self._build(sweep=8.5)["description"]
+        assert "FB type:" in desc
+        assert "sweep" in desc.lower() and "reclaim" in desc.lower()
+        assert "8.5" in desc
+
+    def test_deep_flush_flagged_as_high_quality(self):
+        desc = self._build(sweep=36.0)["description"]
+        assert "deep flush" in desc.lower()
+        assert "36" in desc
+
+    def test_shallow_sweep_labeled_shallow(self):
+        desc = self._build(sweep=3.0)["description"]
+        assert "shallow" in desc.lower()
+
+    def test_non_fb_signal_has_no_fb_type_line(self):
+        desc = self._build(sweep=0.0, sig_name="LEVEL_RECLAIM")["description"]
+        assert "FB type:" not in desc
+
+
+class TestEntryCollectionMode:
+    """Collection-mode fills (production would skip them — wrong time window)
+    must be visually unmistakable so they don't read as real signals."""
+
+    def _build(self, gate_bypass):
+        return build_entry_embed(
+            position=_Position(),
+            signal=_Signal(),
+            fill_price=7430.0,
+            contracts_ordered=2,
+            contract_spec=_Contract(),
+            exit_params=SimpleNamespace(
+                t1_exit_fraction=0.75, t2_exit_fraction=0.15,
+                runner_fraction=0.10,
+            ),
+            plan=_Plan(planned_setups=[]),
+            session_date="2026-06-29",
+            gate_bypass=gate_bypass,
+        )["embeds"][0]
+
+    def test_collection_mode_banner_and_gates(self):
+        emb = self._build(["Evening block (17:00-22:00 ET)"])
+        assert "COLLECTION MODE" in emb["description"]
+        assert "Evening block (17:00-22:00 ET)" in emb["description"]
+        # Title carries a marker too so it's obvious in the channel list
+        assert "🧪" in emb["title"]
+
+    def test_production_trade_has_no_collection_banner(self):
+        emb = self._build(None)
+        assert "COLLECTION MODE" not in emb["description"]
+        assert "🧪" not in emb["title"]
+
+
 # ---------------------------------------------------------------------------
 # Exit embed
 # ---------------------------------------------------------------------------
@@ -267,6 +396,36 @@ class TestExitEmbed:
         assert "7515" in emb["description"]
         assert "7541" in emb["description"]
         assert "Trade P&L so far" in emb["description"]
+
+    def test_collection_mode_exit_is_tagged(self):
+        """An exit on a collection-mode trade must stay visually tagged so it
+        doesn't read as a real T1/stop."""
+        payload = build_exit_embed(
+            phase="t1",
+            fill_price=7459.25,
+            contracts_closed=1,
+            entry_price=7432.75,
+            direction="long",
+            contract_spec=_Contract(),
+            remaining_contracts=1,
+            realized_pnl_pts_so_far=26.5,
+            reason="Target 1 hit",
+            gate_bypass=["Evening block (17:00-22:00 ET)"],
+        )
+        emb = payload["embeds"][0]
+        assert "🧪" in emb["title"]
+        assert emb["color"] == 0x607D8B
+        assert "COLLECTION" in emb["description"]
+
+    def test_production_exit_not_tagged(self):
+        payload = build_exit_embed(
+            phase="t1", fill_price=7530.0, contracts_closed=3,
+            entry_price=7517.5, direction="long", contract_spec=_Contract(),
+            remaining_contracts=1, realized_pnl_pts_so_far=37.5,
+        )
+        emb = payload["embeds"][0]
+        assert "🧪" not in emb["title"]
+        assert "COLLECTION" not in emb["description"]
 
     def test_stop_hit_shows_red(self):
         payload = build_exit_embed(

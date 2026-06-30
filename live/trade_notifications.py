@@ -37,6 +37,7 @@ _COLOR_STOP = 0xE74C3C
 _COLOR_TRAIL = 0xF39C12
 _COLOR_EOD = 0x95A5A6
 _COLOR_RUNNER = 0xF39C12
+_COLOR_COLLECTION = 0x607D8B  # muted slate — collection-mode (non-production) fills
 
 
 def _conviction_badge(conv: str) -> str:
@@ -45,6 +46,83 @@ def _conviction_badge(conv: str) -> str:
         "medium": "▪ MEDIUM conviction",
         "low": "· low conviction",
     }.get((conv or "").lower(), "")
+
+
+# Level types Mancini injects from his Substack plan; everything else is the
+# engine's own price-action detection. Mirrors config.levels.level_source but
+# keyed by the type NAME so the embed builders stay enum-free (and trivially
+# testable with string stubs).
+_MANCINI_LEVEL_TYPES = {"CUSTOM", "MANCINI_LEVEL", "MANCINI_PLAN"}
+
+# Human-readable mechanism for each engine-detected level type, so a reader
+# sees "intraday flush low" instead of the raw enum name.
+_ENGINE_LEVEL_DESC = {
+    "INTRADAY_LOW": "intraday flush low (deep sell → V-recovery)",
+    "INTRADAY_HIGH": "intraday spike high",
+    "MULTI_HOUR_LOW": "multi-hour reaction low",
+    "MULTI_HOUR_HIGH": "multi-hour reaction high",
+    "PRIOR_DAY_LOW": "prior-day low",
+    "PRIOR_DAY_HIGH": "prior-day high",
+    "OVERNIGHT_LOW": "overnight low",
+    "OVERNIGHT_HIGH": "overnight high",
+    "SWING_LOW": "swing low",
+    "SWING_HIGH": "swing high",
+    "HORIZONTAL_SR": "horizontal support/resistance",
+    "SESSION_OPEN": "session open",
+    "VWAP": "VWAP",
+    "PIVOT": "pivot",
+}
+
+
+def _fb_logic_line(sweep_pts: float, conf_name: str) -> str:
+    """Plain-language description of WHAT KIND of failed breakdown fired, keyed
+    off the actual sweep depth (the reliable signature — the detector's
+    fb_entry_path field is broken, tagging every live FB 'elevator_fb' even on
+    30pt+ sweeps). A 0-sweep momentum entry must never read like a deep flush.
+
+    Live edge read (n=41): 0-sweep momentum ~65% WR but small; deep flush
+    (>15pt) ~80% WR and by far the biggest winners.
+    """
+    sw = sweep_pts or 0.0
+    if sw <= 0.0:
+        label, mech = ("Momentum elevator",
+                       "no breakdown swept — price held the level and ran")
+    elif sw <= 5.0:
+        label, mech = ("Shallow sweep-reclaim",
+                       f"swept only {sw:.1f} pt below & reclaimed (shallow)")
+    elif sw <= 15.0:
+        label, mech = ("Sweep-reclaim",
+                       f"swept {sw:.1f} pt below the level & reclaimed")
+    else:
+        label, mech = ("Deep flush-reclaim",
+                       f"swept {sw:.1f} pt below & reclaimed (deep flush — highest-quality)")
+    acc = ""
+    cn = (conf_name or "").lower()
+    if "non_acceptance" in cn or "non-acceptance" in cn:
+        acc = "; entered on non-acceptance (price refused lower)"
+    elif "acceptance" in cn:
+        acc = "; entered on acceptance (based above the level)"
+    return f"🔍 **FB type: {label}** — {mech}{acc}"
+
+
+def _level_origin_line(level_type: str, plan_match: Any) -> str:
+    """One line stating WHERE the level came from: Mancini's posted plan vs
+    the engine's own detection. ``plan_match`` (closest posted setup) wins —
+    a level he actually called is on-plan even if the engine tagged it."""
+    if plan_match is not None:
+        price = float(getattr(plan_match, "level_price", 0.0) or 0.0)
+        conv = (getattr(plan_match, "conviction", "") or "").lower()
+        conv_tag = f", {conv} conviction" if conv else ""
+        return (f"📍 **Source: Mancini's plan** — matches his called "
+                f"{price:.0f} level{conv_tag}")
+    if (level_type or "").upper() in _MANCINI_LEVEL_TYPES:
+        return "📍 **Source: Mancini's plan** (injected level)"
+    desc = _ENGINE_LEVEL_DESC.get(
+        (level_type or "").upper(),
+        (level_type or "?").replace("_", " ").lower(),
+    )
+    return (f"📍 **Source: engine-detected** ({desc}) — "
+            f"not on Mancini's posted plan")
 
 
 def _find_plan_match(plan: Any, level_price: float,
@@ -98,15 +176,22 @@ def build_entry_embed(*,
                       plan,
                       session_date,
                       entry_time: datetime | None = None,
-                      trade_id=None) -> dict:
+                      trade_id=None,
+                      gate_bypass=None) -> dict:
     """Build a Discord embed payload describing a fresh trade entry.
+
+    ``gate_bypass`` is the list of production gates this fill skipped (set
+    only in collection mode — e.g. ["Evening block (17:00-22:00 ET)"]). When
+    present the embed is clearly marked as a non-production, data-only fill.
 
     Plain function so it's trivially unit-testable without the bot.
     """
+    is_collection = bool(gate_bypass)
     direction = (getattr(position, "direction", None)
                  or getattr(signal, "direction", "long")).lower()
     is_long = direction == "long"
-    color = _COLOR_LONG if is_long else _COLOR_SHORT
+    color = _COLOR_COLLECTION if is_collection else (
+        _COLOR_LONG if is_long else _COLOR_SHORT)
     side_icon = "🟢" if is_long else "🔴"
     side_word = "LONG" if is_long else "SHORT"
     sig_name = signal.signal_type.name
@@ -152,15 +237,28 @@ def build_entry_embed(*,
     runner_qty = max(0, contracts_ordered - t1_qty - t2_qty)
 
     title_extra = f"  •  {_conviction_badge((plan_match.conviction if plan_match else '') or '')}".rstrip(" •")
-    title = (f"{side_icon} {sig_label.upper()} {side_word} "
+    collection_prefix = "🧪 COLLECTION  •  " if is_collection else ""
+    title = (f"{collection_prefix}{side_icon} {sig_label.upper()} {side_word} "
              f"@ {fill_price:.2f}  •  {contracts_ordered} {symbol}{title_extra}")
 
     description_parts: list[str] = []
+    if is_collection:
+        description_parts.append(
+            "🧪 **COLLECTION MODE — data only, production would SKIP this trade**\n"
+            f"_Bypassed time gate(s): {', '.join(gate_bypass)}_"
+        )
     if plan_match_str:
         description_parts.append(plan_match_str)
+    # Where did this level come from — Mancini's posted plan or the engine?
+    description_parts.append(_level_origin_line(level_type, plan_match))
     description_parts.append(
         f"Pattern: **{sig_name}**  •  Level: **{level_type}** @ {level_price:.2f}"
     )
+    # For failed breakdowns, spell out WHAT KIND fired (momentum elevator vs
+    # deep flush-reclaim) from the sweep depth, so the reader knows the entry's
+    # real character — not just the generic FAILED_BREAKDOWN label.
+    if sig_name == "FAILED_BREAKDOWN":
+        description_parts.append(_fb_logic_line(sweep, conf_name))
     description_parts.append(
         f"Confirmation: **{conf_name}** protocol  •  "
         f"Sweep depth: {sweep:.1f} pts"
@@ -243,8 +341,15 @@ def build_exit_embed(*,
                      next_target: float | None = None,
                      reason: str = "",
                      fill_time: datetime | None = None,
-                     trade_id=None) -> dict:
-    """Build a Discord embed for an exit event (T1 / T2 / stop / runner)."""
+                     trade_id=None,
+                     gate_bypass=None) -> dict:
+    """Build a Discord embed for an exit event (T1 / T2 / stop / runner).
+
+    ``gate_bypass`` carries through from the entry: when set, this trade was a
+    collection-mode (non-production) fill, so the exit stays tagged 🧪 instead
+    of reading like a real T1/stop.
+    """
+    is_collection = bool(gate_bypass)
     is_long = (direction or "long").lower() == "long"
     point_value = float(getattr(contract_spec, "point_value", 5.0))
     symbol = getattr(contract_spec, "symbol", "MES")
@@ -266,15 +371,23 @@ def build_exit_embed(*,
         "eod": ("🕐 EOD FLATTEN", _COLOR_EOD, "🕐"),
     }.get(phase, (f"📤 EXIT — {phase}", _COLOR_EOD, ""))
     title_label, color, status_icon = phase_meta
+    if is_collection:
+        color = _COLOR_COLLECTION
 
-    title = (f"{title_label}  •  {contracts_closed} of "
+    collection_prefix = "🧪 COLLECTION  •  " if is_collection else ""
+    title = (f"{collection_prefix}{title_label}  •  {contracts_closed} of "
              f"{contracts_closed + remaining_contracts} closed @ {fill_price:.2f}")
 
     sign = "+" if per_contract_pts >= 0 else ""
-    desc_parts = [
+    desc_parts = []
+    if is_collection:
+        desc_parts.append(
+            "🧪 **COLLECTION MODE exit** — non-production trade (data only)"
+        )
+    desc_parts.append(
         f"{status_icon} Locked {sign}{per_contract_pts:.1f} pt × "
-        f"{contracts_closed} = ${slice_pnl_dollars:+.0f}",
-    ]
+        f"{contracts_closed} = ${slice_pnl_dollars:+.0f}"
+    )
     if remaining_contracts > 0:
         desc_parts.append(
             f"🟡 {remaining_contracts} contract(s) remaining"

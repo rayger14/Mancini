@@ -53,6 +53,33 @@ from strategy.risk_manager import RiskManager
 from live.market_data import fetch_market_snapshot
 
 
+# A None read from get_position() is NOT proof the position closed. Right
+# after a reconnect IB hasn't re-pushed its position/order caches yet, so
+# positions() (and openTrades()) come back empty for a still-open position.
+POST_RECONNECT_GRACE_SEC = 60.0
+
+
+def phantom_close_guard(seconds_since_reconnect: float, bracket_live: bool,
+                        grace: float = POST_RECONNECT_GRACE_SEC) -> str:
+    """Decide whether a None position read can be trusted as a real closure.
+
+    Returns:
+    - "ignore_reconnect"   — within the post-reconnect grace; IB hasn't
+      re-pushed its caches yet (trade #567 booked a fictional exit this way
+      after a 00:29 reconnect).
+    - "ignore_bracket_live" — the OCA bracket children are still working on IB.
+      A real fill cancels the sibling, so a live bracket means the position is
+      open and get_position() merely lagged (trade #579, 53s after entry).
+    - "count" — neither guard applies; trust the None and count it toward the
+      3x-consecutive closure confirmation.
+    """
+    if seconds_since_reconnect < grace:
+        return "ignore_reconnect"
+    if bracket_live:
+        return "ignore_bracket_live"
+    return "count"
+
+
 def classify_position_sync(local_remaining: int, ib_volume, t1_booked: bool) -> str:
     """Classify what a venue-side position change means during _sync_position.
 
@@ -380,6 +407,27 @@ def _should_force_reconnect(minutes_since_bar: float, *, market_closed: bool,
             and seconds_since_last_force >= throttle_sec)
 
 
+def _should_resubscribe(minutes_since_bar: float, *, market_closed: bool,
+                        connected: bool, socket_alive: bool,
+                        seconds_since_last: float,
+                        threshold_min: float = 3.0,
+                        throttle_sec: float = 300.0) -> bool:
+    """Whether to do a LIGHT data re-subscribe instead of a full reconnect.
+
+    Fires when bars are stale but the socket still answers a ping
+    (``socket_alive``): the data farm dropped the subscription while the
+    connection itself is fine, so re-requesting market data fixes it without a
+    full reconnect — which would wipe the position cache (the phantom-exit
+    window). If the ping fails (``socket_alive=False``), this returns False and
+    the caller falls back to ``_should_force_reconnect`` / ``force_reconnect``.
+    """
+    return (not market_closed
+            and connected
+            and socket_alive
+            and minutes_since_bar >= threshold_min
+            and seconds_since_last >= throttle_sec)
+
+
 class IBRunner:
     """Main live runner: bridges Interactive Brokers data to Python strategy engine.
 
@@ -586,11 +634,23 @@ class IBRunner:
                     if self.bridge._needs_reconnect:
                         self.bridge.check_reconnect()
 
-                    bar = self.bridge.get_latest_bar()
-                    if bar is not None:
+                    # Process EVERY bar that closed since the last cycle, not
+                    # just the latest — if the loop stalled (reconnect, pacing,
+                    # farm blip) the intermediate bars are replayed here instead
+                    # of being dropped, so a gap never silently skips a setup.
+                    new_bars = self.bridge.get_new_bars()
+                    if new_bars:
+                        if len(new_bars) > 1:
+                            logger.warning(
+                                f"BACKFILL: replaying {len(new_bars)} bars that closed "
+                                f"during a gap ({new_bars[0]['timestamp']} → "
+                                f"{new_bars[-1]['timestamp']}) — catching up so no "
+                                f"setup/exit is missed"
+                            )
                         self._last_bar_received = _time.monotonic()
-                        self._process_bar(bar)
-                        self._check_eod(bar)
+                        for bar in new_bars:
+                            self._process_bar(bar)
+                            self._check_eod(bar)
                     else:
                         # Check if we haven't received a bar in too long
                         minutes_since_bar = (_time.monotonic() - self._last_bar_received) / 60
@@ -603,16 +663,33 @@ class IBRunner:
                                     f"NO NEW BARS for {minutes_since_bar:.0f} minutes. "
                                     f"IB connection may be stale. Last bar: {self._bar_count}"
                                 )
-                            # Auto-recover: the socket can stay connected while the
+                            # Auto-recover. The socket can stay connected while the
                             # data subscription is dead (Error 1100/1102 farm blip /
-                            # 10141), so _on_disconnect never fires and the bot would
-                            # otherwise log forever (the 2026-06-26 ~12h outage). Force
-                            # a clean reconnect to re-subscribe.
+                            # 10141), so _on_disconnect never fires (the 2026-06-26
+                            # ~12h outage). Ping the socket to choose the cheapest fix:
+                            #   ping OK   → only the data sub is stale → re-subscribe
+                            #               (light; keeps the position cache, so it
+                            #               can't trigger a phantom exit).
+                            #   ping fail → socket truly dead → full reconnect.
                             last_force = getattr(self, "_last_force_reconnect", 0.0)
-                            if _should_force_reconnect(
+                            connected = getattr(self.bridge, "_connected", False)
+                            socket_alive = self.bridge.ping()
+                            resub_min = getattr(self.bridge.config,
+                                                "resubscribe_stale_min", 3.0)
+                            if _should_resubscribe(
                                     minutes_since_bar,
                                     market_closed=_is_market_closed(),
-                                    connected=getattr(self.bridge, "_connected", False),
+                                    connected=connected,
+                                    socket_alive=socket_alive,
+                                    seconds_since_last=_time.monotonic() - last_force,
+                                    threshold_min=resub_min):
+                                self._last_force_reconnect = _time.monotonic()
+                                self.bridge.resubscribe(
+                                    f"no new bars for {minutes_since_bar:.0f} min")
+                            elif _should_force_reconnect(
+                                    minutes_since_bar,
+                                    market_closed=_is_market_closed(),
+                                    connected=connected,
                                     seconds_since_last_force=_time.monotonic() - last_force,
                                     threshold_min=self._stale_reconnect_min):
                                 self._last_force_reconnect = _time.monotonic()
@@ -1636,6 +1713,18 @@ class IBRunner:
     # Discord rich-embed notifications for entries and exits
     # ------------------------------------------------------------------
 
+    def _classify_fb_entry_path(self) -> str:
+        """Which failed-breakdown logic fired, read from the FB detector state:
+        ``double_dip`` (retested twice), ``level_sweep`` (classic swept-below
+        then reclaimed), or ``elevator_fb`` (momentum recovery, no real sweep).
+        Used by both the trade log and the Discord entry embed."""
+        fb = getattr(self.signal_aggregator, "failed_breakdown", None)
+        if fb is not None and getattr(fb, "_is_double_dip", False):
+            return "double_dip"
+        if fb is not None and getattr(fb, "_is_level_sweep", False):
+            return "level_sweep"
+        return "elevator_fb"
+
     def _post_trade_entry_embed(self, *,
                                 position,
                                 signal,
@@ -1662,6 +1751,7 @@ class IBRunner:
                 session_date=str(self._session_date),
                 entry_time=getattr(self, "_entry_timestamp", None),
                 trade_id=getattr(self, "_trade_id", None) or None,
+                gate_bypass=getattr(self, "_current_gate_bypass", None),
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
@@ -1722,6 +1812,7 @@ class IBRunner:
                 reason=getattr(action, "reason", ""),
                 fill_time=timestamp,
                 trade_id=getattr(self, "_trade_id", None) or None,
+                gate_bypass=getattr(self, "_current_gate_bypass", None),
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
@@ -1798,6 +1889,28 @@ class IBRunner:
 
         ib_pos = self.bridge.get_position()
         if ib_pos is None:
+            # A None read is NOT proof of closure. Right after a reconnect IB
+            # hasn't re-pushed its position cache (trade #567 booked a fictional
+            # exit at a 00:29 reconnect); and even without a reconnect the
+            # cache can briefly lag a live position (trade #579 phantom-closed
+            # 53s after entry). Guard both before counting toward closure — but
+            # only query the (costlier) bracket orders once past the reconnect
+            # grace, to avoid an extra IB round-trip in the noisy post-reconnect
+            # window where that cache is stale too.
+            secs = self.bridge.seconds_since_reconnect()
+            bracket_live = (bool(self.bridge.get_bracket_orders())
+                            if secs >= POST_RECONNECT_GRACE_SEC else False)
+            guard = phantom_close_guard(secs, bracket_live)
+            if guard != "count":
+                if getattr(self, "_sync_none_count", 0):
+                    logger.info(
+                        f"IB position read None but {guard} "
+                        f"(secs_since_reconnect={secs:.0f}, bracket_live={bracket_live}) "
+                        f"— treating as desync, not a close; resetting None streak"
+                    )
+                self._sync_none_count = 0
+                return
+
             # Require 3 consecutive None reads to confirm position truly closed
             self._sync_none_count = getattr(self, "_sync_none_count", 0) + 1
             if self._sync_none_count < 3:
@@ -2488,20 +2601,9 @@ class IBRunner:
                 except Exception:
                     record["confirmation_type"] = None
 
-                # FB entry path classification
-                fb_detector = getattr(self.signal_aggregator, "failed_breakdown", None)
-                if fb_detector is not None:
-                    is_dd = getattr(fb_detector, "_is_double_dip", False)
-                    is_ls = getattr(fb_detector, "_is_level_sweep", False)
-                else:
-                    is_dd = False
-                    is_ls = False
-                if is_dd:
-                    record["fb_entry_path"] = "double_dip"
-                elif is_ls:
-                    record["fb_entry_path"] = "level_sweep"
-                else:
-                    record["fb_entry_path"] = "elevator_fb"
+                # FB entry path classification (shared with the Discord embed
+                # via _classify_fb_entry_path so the two never disagree)
+                record["fb_entry_path"] = self._classify_fb_entry_path()
 
                 # BD Short conviction score
                 try:
