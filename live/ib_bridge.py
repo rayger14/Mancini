@@ -212,6 +212,10 @@ class IBBridge:
         # 0.0 → seconds_since_reconnect() is huge at startup (no false grace);
         # set to monotonic() on every successful reconnect.
         self._last_reconnect_monotonic: float = 0.0
+        # Connectivity tracking from IBKR error events (1100 lost / 1102 restored)
+        # so recovery can defer while the data farms are mid-blip.
+        self._connectivity_down: bool = False
+        self._connectivity_restored_monotonic: float = 0.0
 
     # ── Connection ────────────────────────────────────────────────────
 
@@ -233,6 +237,8 @@ class IBBridge:
 
         # Register disconnect handler for auto-reconnect
         self._ib.disconnectedEvent += self._on_disconnect
+        # Register error handler to track IBKR connectivity blips (1100/1102)
+        self._ib.errorEvent += self._on_error
 
         # Qualify the MES contract
         self._contract = self._qualify_contract()
@@ -480,6 +486,32 @@ class IBBridge:
         self._connected = False
         self._needs_reconnect = True
 
+    def _on_error(self, reqId, errorCode, errorString="", *args) -> None:
+        """ib_async errorEvent callback. Tracks IBKR data-farm connectivity
+        blips so recovery can defer while mid-blip (firing a blocking request
+        during the churn is what hung the loop on 2026-06-29). 1100/1101 =
+        connectivity lost; 1102 = restored."""
+        try:
+            code = int(errorCode)
+        except (TypeError, ValueError):
+            return
+        if code in (1100, 1101):
+            if not self._connectivity_down:
+                logger.warning(f"IBKR connectivity LOST (Error {code}) — deferring recovery")
+            self._connectivity_down = True
+        elif code == 1102:
+            self._connectivity_down = False
+            self._connectivity_restored_monotonic = _time.monotonic()
+            logger.info("IBKR connectivity RESTORED (Error 1102) — settling before recovery")
+
+    def connectivity_down(self) -> bool:
+        """True while IBKR reports its data farms disconnected (1100/1101)."""
+        return getattr(self, "_connectivity_down", False)
+
+    def seconds_since_connectivity_restored(self) -> float:
+        """Seconds since the last 1102 (huge if never blipped)."""
+        return _time.monotonic() - getattr(self, "_connectivity_restored_monotonic", 0.0)
+
     def force_reconnect(self, reason: str = "") -> None:
         """Force a full reconnect when bars go stale despite the socket looking
         connected.
@@ -504,10 +536,17 @@ class IBBridge:
     def ping(self, timeout: float = 3.0) -> bool:
         """Active socket-liveness probe via reqCurrentTime — the bot's only
         previous liveness signal was 'no new bars', which can't tell a dead
-        socket from a quiet market. True if IB answers."""
+        socket from a quiet market. Bounded by ``timeout`` so a half-dead socket
+        can't hang the loop. True if IB answers."""
         if not self._connected:
             return False
         try:
+            req_async = getattr(self._ib, "reqCurrentTimeAsync", None)
+            if req_async is not None:
+                import asyncio
+                self._ib.run(asyncio.wait_for(req_async(), timeout))
+                return True
+            # Fallback (unit tests / older ib): synchronous call
             return self._ib.reqCurrentTime() is not None
         except Exception:
             return False

@@ -428,6 +428,31 @@ def _should_resubscribe(minutes_since_bar: float, *, market_closed: bool,
             and seconds_since_last >= throttle_sec)
 
 
+def recovery_blocked_by_connectivity(connectivity_down: bool,
+                                     seconds_since_restored: float,
+                                     grace_sec: float = 15.0) -> bool:
+    """Whether to DEFER recovery (resubscribe/reconnect/ping) because IBKR
+    connectivity is mid-blip or only just restored. Firing a blocking IB call
+    during the churn is what hung the loop on 2026-06-29 (both freezes). Wait
+    for connectivity to settle (the freeze watchdog still backstops a true
+    hang). True = defer this cycle."""
+    if connectivity_down:
+        return True
+    return seconds_since_restored < grace_sec
+
+
+def _should_force_exit_frozen(idle_seconds: float, threshold_sec: float = 240.0) -> bool:
+    """Whether the main loop has been idle long enough to be considered FROZEN
+    (a hung synchronous IB call wedged the single-threaded loop, as on
+    2026-06-29 when a resubscribe collided with a competing-login Error 162).
+    A threshold of 0 disables the watchdog. The threshold must exceed the
+    longest legitimate blocking call (a ~2-min reconnect burst), so the 240s
+    default leaves margin."""
+    if threshold_sec <= 0:
+        return False
+    return idle_seconds >= threshold_sec
+
+
 class IBRunner:
     """Main live runner: bridges Interactive Brokers data to Python strategy engine.
 
@@ -473,6 +498,14 @@ class IBRunner:
         # reconnect to re-subscribe — self-heal the connected-but-stale outage.
         self._stale_reconnect_min = float(os.environ.get("STALE_RECONNECT_MIN", "6.0"))
         self._last_force_reconnect = 0.0
+        # Freeze watchdog: if the main loop stops iterating (a hung IB call
+        # wedged the single-threaded loop), a daemon thread force-exits so
+        # Docker's restart-unless-stopped policy brings up a fresh process.
+        # 0 disables. Must exceed the longest legit blocking call (~2m reconnect).
+        self._freeze_timeout_sec = float(os.environ.get("FREEZE_TIMEOUT_SEC", "240"))
+        self._freeze_check_interval = 30.0
+        self._last_loop_progress = _time.monotonic()
+        self._freeze_exit = lambda: os._exit(1)  # injectable for tests
         self._regime_params = regime_params
         self._bypass_session_gates = bypass_session_gates
         self._pending_gate_bypass: list[str] | None = None
@@ -551,6 +584,44 @@ class IBRunner:
         # Mancini Substack overlay result (populated in _initialize_session when enabled)
         self._mancini_overlay_result = None
 
+    def _check_freeze(self) -> bool:
+        """One freeze check: if the main loop has been idle past the threshold
+        (hung IB call), force-exit so Docker restarts a fresh process. Returns
+        True if it triggered the exit hook."""
+        idle = _time.monotonic() - self._last_loop_progress
+        if _should_force_exit_frozen(idle, self._freeze_timeout_sec):
+            logger.critical(
+                f"MAIN LOOP FROZEN for {idle:.0f}s "
+                f"(>{self._freeze_timeout_sec:.0f}s) — likely a hung IB call "
+                f"(e.g. a resubscribe during a competing-login Error 162). "
+                f"Force-exiting for a clean Docker restart."
+            )
+            self._freeze_exit()
+            return True
+        return False
+
+    def _start_freeze_watchdog(self) -> None:
+        """Daemon thread that force-exits the process if the main run loop stops
+        iterating — the single-threaded loop can't unstick a hung synchronous IB
+        call, so we exit and let Docker reconnect us fresh."""
+        import threading
+
+        def _watch() -> None:
+            while self._running:
+                _time.sleep(self._freeze_check_interval)
+                try:
+                    if self._check_freeze():
+                        return
+                except Exception:
+                    pass
+
+        threading.Thread(target=_watch, daemon=True, name="freeze-watchdog").start()
+        logger.info(
+            f"Freeze watchdog armed (force-exit after "
+            f"{self._freeze_timeout_sec:.0f}s of a stuck loop)"
+            if self._freeze_timeout_sec > 0 else "Freeze watchdog disabled"
+        )
+
     def run(self) -> None:
         """Main event loop. Blocks until session ends or shutdown signal."""
         # Add file log sink for dashboard
@@ -627,8 +698,14 @@ class IBRunner:
         # bring the bridge back.
         consecutive_errors = 0
         MAX_CONSECUTIVE_ERRORS = 60  # ~5 minutes at 5s backoff
+        # Arm the freeze watchdog now that the loop is about to start.
+        self._start_freeze_watchdog()
         try:
             while self._running:
+                # Heartbeat for the freeze watchdog: proves the loop is still
+                # iterating. If a synchronous IB call below hangs, this stops
+                # advancing and the watchdog force-exits for a clean restart.
+                self._last_loop_progress = _time.monotonic()
                 try:
                     # Check if IB disconnected and needs reconnection
                     if self.bridge._needs_reconnect:
@@ -673,6 +750,20 @@ class IBRunner:
                             #   ping fail → socket truly dead → full reconnect.
                             last_force = getattr(self, "_last_force_reconnect", 0.0)
                             connected = getattr(self.bridge, "_connected", False)
+                            # PREVENTION: if IBKR is mid-blip or just restored, DEFER
+                            # recovery — firing a blocking resubscribe/reconnect/ping
+                            # during the churn is what hung the loop (2026-06-29). Wait
+                            # for connectivity to settle; the freeze watchdog backstops
+                            # a true hang.
+                            if recovery_blocked_by_connectivity(
+                                    self.bridge.connectivity_down(),
+                                    self.bridge.seconds_since_connectivity_restored()):
+                                logger.info(
+                                    "IBKR connectivity unstable (mid-blip / just "
+                                    "restored) — deferring recovery to avoid hanging "
+                                    "a request")
+                                self.bridge.sleep(self.bridge.config.poll_interval_sec)
+                                continue
                             socket_alive = self.bridge.ping()
                             resub_min = getattr(self.bridge.config,
                                                 "resubscribe_stale_min", 3.0)
