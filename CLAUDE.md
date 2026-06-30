@@ -96,6 +96,10 @@ tests/           pytest suite
 data/            Parquet files, live trade logs, Optuna results
 ```
 
+## Market Data
+- **The IBKR account (paper DUR110697) now has a LIVE real-time CME market-data subscription** (as of 2026-06-29). Bars are real-time — NOT the old ~12-min delayed paper feed. Any older note about a "~12 min delay" or "no CME data sub" is stale; do not assume delayed data.
+- Implication: a stretch of "NO NEW BARS" is a real data-farm/subscription blip or genuinely thin overnight liquidity — not an expected feed delay.
+
 ## VM Deployment
 - VM: 152.70.113.24, user `ubuntu`, key `~/.ssh/oracle_bullmachine`
 - Bot runs in Docker: `mancini_mancini-bot_1`
