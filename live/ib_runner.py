@@ -99,6 +99,29 @@ def classify_position_sync(local_remaining: int, ib_volume, t1_booked: bool) -> 
     return "no_change"
 
 
+def plan_full_close_legs(*, exit_type: str, t1_booked: bool,
+                         remaining_contracts: int, total_contracts: int,
+                         t1_fraction: float) -> "list[tuple[str, int]]":
+    """Decide how a venue-side FULL close should be booked into P&L legs.
+
+    Normally the whole remaining size books as one ``("full", n)`` leg. But when
+    the venue reports the position flat via a TP fill while T1 was never booked
+    — the exchange swept the TP fraction AND the runner before ``_sync_position``
+    caught a clean runner-sized read (the 2026-07-01 trade 622 race) — booking
+    all N at the TP price silently erases the scale-out and the runner ride.
+    Split that case into the T1 fraction + runner so the collapsed runner is
+    visible in the record. Attribution only: the leg quantities always sum to
+    ``remaining_contracts`` (no P&L created or destroyed).
+    """
+    from live.ib_bridge import runner_split
+    if (exit_type == "TP" and not t1_booked and total_contracts > 1
+            and remaining_contracts == total_contracts):
+        tp_qty, runner_qty = runner_split(total_contracts, t1_fraction)
+        if runner_qty > 0:
+            return [("t1", tp_qty), ("runner", runner_qty)]
+    return [("full", remaining_contracts)]
+
+
 def venue_t1_pnl_and_stop(*, direction: str, entry_price: float,
                           fill_price: float, filled: int,
                           breakeven_buffer_pts: float,
@@ -2061,6 +2084,33 @@ class IBRunner:
             self._sync_none_count = 0
             # Calculate PnL before closing — IB bracket exits bypass ExitManager
             contracts = self._position.remaining_contracts
+            # Detect the venue T1 + full-close race (trade 622, 2026-07-01): a
+            # TP fill closed the whole position while T1 was never booked, so the
+            # runner ride was silently collapsed into this single T1-priced
+            # close. Surface it — attribution only, P&L is unchanged.
+            legs = plan_full_close_legs(
+                exit_type=exit_type,
+                t1_booked=bool(getattr(self._position, "t1_hit", False)),
+                remaining_contracts=contracts,
+                total_contracts=int(getattr(self._position, "total_contracts",
+                                            contracts)),
+                t1_fraction=getattr(getattr(self, "exit_params", None),
+                                    "t1_exit_fraction", 0.75),
+            )
+            if len(legs) > 1:
+                _t1_qty = next((q for name, q in legs if name == "t1"), 0)
+                _run_qty = next((q for name, q in legs if name == "runner"), 0)
+                logger.warning(
+                    f"RUNNER COLLAPSED: venue TP fill closed all {contracts} "
+                    f"contracts at {fill_price:.2f} before T1 was booked — the "
+                    f"{_run_qty}-lot runner never got to ride (booked as "
+                    f"{_t1_qty} T1 + {_run_qty} runner at the same price). "
+                    f"trade_id={self._trade_id}"
+                )
+                try:
+                    self._position.runner_collapsed = True
+                except Exception:
+                    pass
             if self._position.direction == "long":
                 pnl = (fill_price - self._position.entry_price) * contracts
             else:
