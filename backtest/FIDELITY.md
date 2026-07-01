@@ -1,5 +1,17 @@
 # Backtest Fidelity vs Live — what the backtest does and doesn't represent
 
+> **CORRECTION (2026-06-30, later):** the 0% numbers below are largely a
+> BROKEN-BAR-SOURCE artifact, not a proven divergence. The archived
+> `data/sessions/{date}_bars.parquet` files are the bot's rolling **400-bar
+> window snapshot** — capped, partial (e.g. 06-09 = 400 bars 10:21→16:58,
+> missing the open + overnight), and overwritten each session/restart (06-29 =
+> a SINGLE bar after tonight's restarts). So the fidelity harness fed the
+> backtest truncated/near-empty data → ~0 trades. **True fidelity is UNMEASURED.**
+> First fix: get proper full-session 1-min bars for the plan-sessions (re-fetch
+> from IB; the 5y parquet ends 2026-02-05) and fix `_archive_session` to store
+> the uncapped accumulator. The P&L-at-targets report reads the same parquets,
+> so its reliability depends on this too.
+
 Measured 2026-06-30 with `backtest/fidelity_diff.py` (replays the backtest engine
 over the ~50 plan-available sessions, May–Jun 2026, and diffs its entries against
 what the bot actually traded live).
