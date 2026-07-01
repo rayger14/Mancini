@@ -99,6 +99,55 @@ def classify_position_sync(local_remaining: int, ib_volume, t1_booked: bool) -> 
     return "no_change"
 
 
+def plan_full_close_legs(*, exit_type: str, t1_booked: bool,
+                         remaining_contracts: int, total_contracts: int,
+                         t1_fraction: float) -> "list[tuple[str, int]]":
+    """Decide how a venue-side FULL close should be booked into P&L legs.
+
+    Normally the whole remaining size books as one ``("full", n)`` leg. But when
+    the venue reports the position flat via a TP fill while T1 was never booked
+    — the exchange swept the TP fraction AND the runner before ``_sync_position``
+    caught a clean runner-sized read (the 2026-07-01 trade 622 race) — booking
+    all N at the TP price silently erases the scale-out and the runner ride.
+    Split that case into the T1 fraction + runner so the collapsed runner is
+    visible in the record. Attribution only: the leg quantities always sum to
+    ``remaining_contracts`` (no P&L created or destroyed).
+    """
+    from live.ib_bridge import runner_split
+    if (exit_type == "TP" and not t1_booked and total_contracts > 1
+            and remaining_contracts == total_contracts):
+        tp_qty, runner_qty = runner_split(total_contracts, t1_fraction)
+        if runner_qty > 0:
+            return [("t1", tp_qty), ("runner", runner_qty)]
+    return [("full", remaining_contracts)]
+
+
+def venue_t1_booking_plan(*, tp_confirmed: bool, t1_booked: bool,
+                          total_contracts: int,
+                          t1_fraction: float) -> "tuple[bool, int, int]":
+    """Decide whether/what to book for a venue-side T1, driven by the TP-order
+    fill confirmation rather than the (laggy, partial) position-volume read.
+
+    The 2026-07-01 trade 622 race: the old reconcile only booked when
+    ``ib_volume == expected_runner`` exactly, so a lagged/partial read (3 when
+    the runner is 1) made it refuse — T1 stayed unbooked and the runner was
+    swallowed by the later full-close. Booking off ``tp_confirmed`` (the TP
+    order reached status Filled) decouples "T1 happened" from the volume read,
+    and we book the INTENDED split so a stale read can't distort the quantities.
+
+    Returns ``(should_book, filled, runner)`` — ``filled`` at T1, ``runner``
+    held. ``(False, 0, 0)`` when there's nothing to do (already booked, TP not
+    confirmed, or no runner to preserve).
+    """
+    from live.ib_bridge import runner_split
+    if t1_booked or not tp_confirmed:
+        return (False, 0, 0)
+    tp_qty, runner_qty = runner_split(total_contracts, t1_fraction)
+    if runner_qty <= 0:
+        return (False, 0, 0)
+    return (True, tp_qty, runner_qty)
+
+
 def venue_t1_pnl_and_stop(*, direction: str, entry_price: float,
                           fill_price: float, filled: int,
                           breakeven_buffer_pts: float,
@@ -2061,6 +2110,33 @@ class IBRunner:
             self._sync_none_count = 0
             # Calculate PnL before closing — IB bracket exits bypass ExitManager
             contracts = self._position.remaining_contracts
+            # Detect the venue T1 + full-close race (trade 622, 2026-07-01): a
+            # TP fill closed the whole position while T1 was never booked, so the
+            # runner ride was silently collapsed into this single T1-priced
+            # close. Surface it — attribution only, P&L is unchanged.
+            legs = plan_full_close_legs(
+                exit_type=exit_type,
+                t1_booked=bool(getattr(self._position, "t1_hit", False)),
+                remaining_contracts=contracts,
+                total_contracts=int(getattr(self._position, "total_contracts",
+                                            contracts)),
+                t1_fraction=getattr(getattr(self, "exit_params", None),
+                                    "t1_exit_fraction", 0.75),
+            )
+            if len(legs) > 1:
+                _t1_qty = next((q for name, q in legs if name == "t1"), 0)
+                _run_qty = next((q for name, q in legs if name == "runner"), 0)
+                logger.warning(
+                    f"RUNNER COLLAPSED: venue TP fill closed all {contracts} "
+                    f"contracts at {fill_price:.2f} before T1 was booked — the "
+                    f"{_run_qty}-lot runner never got to ride (booked as "
+                    f"{_t1_qty} T1 + {_run_qty} runner at the same price). "
+                    f"trade_id={self._trade_id}"
+                )
+                try:
+                    self._position.runner_collapsed = True
+                except Exception:
+                    pass
             if self._position.direction == "long":
                 pnl = (fill_price - self._position.entry_price) * contracts
             else:
@@ -2133,28 +2209,30 @@ class IBRunner:
         closed fraction at the real fill, keep the runner, move its stop to
         breakeven, and let the per-bar logic trail it from here.
         """
-        from live.ib_bridge import runner_split
-
         pos = self._position
         if pos is None:
             return
-        filled = pos.remaining_contracts - ib_volume
-        if filled <= 0:
-            return
-        # Guard against spurious partial reads: only reconcile a clean T1, i.e.
-        # the remaining position equals the expected runner size.
-        _tp_qty, expected_runner = runner_split(
-            pos.total_contracts, self.exit_params.t1_exit_fraction)
-        if ib_volume != expected_runner:
-            logger.warning(
-                f"_sync_position: IB shows {ib_volume} contracts, expected "
-                f"runner {expected_runner} after T1 — not booking (will retry)"
+
+        # Book T1 off the TP-order fill confirmation, NOT the (laggy, partial)
+        # position-volume read. The old `ib_volume == expected_runner` guard
+        # refused to book on an intermediate read (3 when the runner is 1), so
+        # T1 stayed unbooked and the runner was swallowed by the later
+        # full-close (trade 622, 2026-07-01). Booking off the confirmed TP fill
+        # + the INTENDED split preserves the runner regardless of read lag.
+        fill_price, exit_type = self.bridge.get_bracket_fill_price(self._trade_id)
+        tp_confirmed = (exit_type == "TP" and fill_price > 0)
+        should_book, filled, runner_qty = venue_t1_booking_plan(
+            tp_confirmed=tp_confirmed,
+            t1_booked=bool(getattr(pos, "t1_hit", False)),
+            total_contracts=pos.total_contracts,
+            t1_fraction=self.exit_params.t1_exit_fraction,
+        )
+        if not should_book:
+            logger.debug(
+                f"_sync_position: IB shows {ib_volume} contract(s) but the TP "
+                f"fill isn't confirmed yet — waiting to book T1 (will retry)"
             )
             return
-
-        fill_price, exit_type = self.bridge.get_bracket_fill_price(self._trade_id)
-        if fill_price <= 0 or exit_type != "TP":
-            fill_price = pos.target_1
 
         # Mirror the AFTER_T1 transition from ExitManager._check_t1.
         be_buffer = (
@@ -2173,7 +2251,7 @@ class IBRunner:
         )
 
         pos.realized_pnl_pts += pnl
-        pos.remaining_contracts = ib_volume
+        pos.remaining_contracts = runner_qty
         pos.t1_hit = True
         pos.phase = ExitPhase.AFTER_T1
         pos.stop_price = new_stop
@@ -2197,8 +2275,23 @@ class IBRunner:
             phase="t1", action=action, pre_position=pos, timestamp=timestamp)
         logger.info(
             f"VENUE T1 reconciled: {filled} closed @ {fill_price:.2f}, "
-            f"runner={ib_volume} held, new stop={new_stop:.2f}"
+            f"runner={runner_qty} held (IB read {ib_volume}), "
+            f"new stop={new_stop:.2f}"
         )
+        # Confirm the runner actually has a resting protective stop at the
+        # venue. If the OCA reduce cancelled the sibling SL instead of reducing
+        # it, the runner would be left naked and could be flushed before its
+        # own logic exits — surface that so paper validation catches it.
+        try:
+            if not self.bridge.get_bracket_orders():
+                logger.warning(
+                    f"RUNNER UNPROTECTED: T1 booked but no live bracket order "
+                    f"rests for the {runner_qty}-lot runner (trade_id="
+                    f"{self._trade_id}) — venue stop may have been cancelled by "
+                    f"the OCA reduce; runner is exposed until re-armed"
+                )
+        except Exception:
+            pass
 
     def _check_force_trade(self, close: float, timestamp) -> None:
         """Check for /app/logs/force_trade.json trigger file.
