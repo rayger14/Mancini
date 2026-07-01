@@ -74,12 +74,21 @@ def discover_dates():
     return out
 
 
+PROD_ONLY = os.environ.get("PROD_ONLY", "1") == "1"
+
+
 def _live_long_prices(d):
+    """Live LONG entry prices. With PROD_ONLY (default), keep only
+    production-window trades (production_would_take=True) — the ones the backtest
+    can structurally take — so the fidelity number reflects true entry/detection
+    fidelity, not the collection-mode trades the backtest can never reproduce."""
     prices = []
     for t in load_trades(d):
         if t.get("event") != "entry":
             continue
         if (t.get("direction") or "long") != "long":
+            continue
+        if PROD_ONLY and not t.get("production_would_take"):
             continue
         p = t.get("entry_price") or (t.get("signal") or {}).get("entry") or 0
         if p:

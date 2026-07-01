@@ -19,6 +19,15 @@ entries. Root cause is structural, not a bug:
 So the backtest models the *disciplined in-window strategy*; live runs a *much more
 permissive collection mode*. They are not measuring the same thing.
 
+**Even production-window only: 0/10.** Restricting the diff to the ~10 live trades
+the backtest *could* structurally take (production_would_take=True, `PROD_ONLY=1`)
+it STILL reproduced 0 — and fired only 1 long across 39 sessions total. So it's not
+only collection mode: the backtest's entry detection on the archived per-session
+parquets doesn't reproduce live at all. Likely a bar-source difference (archived
+`{date}_bars.parquet` coverage vs the full-session bars `feature_comparison` uses)
+and/or plan-level FBs needing flushes those bars don't capture — a follow-up
+diagnostic. Headline is settled: **backtest ≈ 0% faithful to live.**
+
 ## What this means for past backtests
 - The 5y `feature_comparison` results (e.g. shorts −445.8pt, the Mode-1-Green
   continuation −1183pt) measure the **in-window, engine-detected-level** behavior.
