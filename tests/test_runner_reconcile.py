@@ -14,7 +14,49 @@ Sequence that lost the runner:
 never booked must be booked as a T1 leg + a runner leg (so the collapsed runner
 is visible), not one lump at T1.
 """
-from live.ib_runner import plan_full_close_legs
+from live.ib_runner import plan_full_close_legs, venue_t1_booking_plan
+
+
+class TestVenueT1BookingPlan:
+    """Book T1 off the TP-order fill confirmation, NOT the laggy position-volume
+    read. This is the actual fix for the 622 race: the old guard only booked
+    when ib_volume == expected_runner (exactly 1), so a lagged/partial read (3)
+    made it refuse and the runner got swallowed by the later full-close. Now T1
+    is booked the moment the TP order confirms Filled, using the INTENDED split
+    (tp_qty / runner_qty) rather than a lag-derived difference."""
+
+    def test_tp_confirmed_books_intended_split(self):
+        # TP order Filled, T1 not yet booked, 4 lots → book 3, hold runner 1.
+        assert venue_t1_booking_plan(
+            tp_confirmed=True, t1_booked=False,
+            total_contracts=4, t1_fraction=0.75) == (True, 3, 1)
+
+    def test_tp_not_confirmed_does_not_book(self):
+        # A bare volume dip without a confirmed TP fill must NOT book T1.
+        assert venue_t1_booking_plan(
+            tp_confirmed=False, t1_booked=False,
+            total_contracts=4, t1_fraction=0.75) == (False, 0, 0)
+
+    def test_already_booked_is_idempotent(self):
+        assert venue_t1_booking_plan(
+            tp_confirmed=True, t1_booked=True,
+            total_contracts=4, t1_fraction=0.75) == (False, 0, 0)
+
+    def test_single_contract_has_no_runner_to_hold(self):
+        assert venue_t1_booking_plan(
+            tp_confirmed=True, t1_booked=False,
+            total_contracts=1, t1_fraction=0.75) == (False, 0, 0)
+
+    def test_two_contracts_split_one_and_one(self):
+        assert venue_t1_booking_plan(
+            tp_confirmed=True, t1_booked=False,
+            total_contracts=2, t1_fraction=0.75) == (True, 1, 1)
+
+    def test_booked_plus_held_equals_total(self):
+        ok, filled, runner = venue_t1_booking_plan(
+            tp_confirmed=True, t1_booked=False,
+            total_contracts=4, t1_fraction=0.75)
+        assert ok and filled + runner == 4
 
 
 def test_tp_full_close_with_unbooked_t1_splits_into_t1_and_runner():
