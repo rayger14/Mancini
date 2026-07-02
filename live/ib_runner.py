@@ -481,6 +481,18 @@ def _should_resubscribe(minutes_since_bar: float, *, market_closed: bool,
             and seconds_since_last >= throttle_sec)
 
 
+def blocked_alert_key(signal) -> str:
+    """Dedup key for a 'missed setup while in a position' alert — one per
+    setup-type + rounded level per session, so it fires once (on the first bar
+    the blocked setup appears), not on every bar we remain in the position."""
+    st = getattr(getattr(signal, "signal_type", None), "name", "SIG")
+    lvl = getattr(getattr(signal, "pattern", None), "level", None)
+    price = getattr(lvl, "price", None)
+    if not price:
+        price = getattr(signal, "entry_price", 0) or 0
+    return f"{st}@{round(float(price))}"
+
+
 def route_short_to_alert_only(direction: str, shorts_alert_only: bool) -> bool:
     """Whether a signal should be alert-only (no live order) because it's a
     short and live shorts are disabled. The P&L-at-targets report showed the
@@ -555,6 +567,12 @@ class IBRunner:
         # (deduped by level), never an order. Toggle off with SHORT_ALERTS=0.
         self._short_alert_keys: set[str] = set()
         self._short_alerts_enabled = os.environ.get("SHORT_ALERTS", "1") != "0"
+        # Missed-setup alerts: when already in a position (single-position; IB
+        # nets) a new signal can't be taken, but we alert + record it so it
+        # isn't silently lost (it may be a better setup than the trade we hold).
+        # Deduped per setup per session. Toggle off with BLOCKED_ALERTS=0.
+        self._blocked_alert_keys: set[str] = set()
+        self._blocked_alerts_enabled = os.environ.get("BLOCKED_ALERTS", "1") != "0"
         # Minutes of no bars (while connected + market open) before forcing a
         # reconnect to re-subscribe — self-heal the connected-but-stale outage.
         self._stale_reconnect_min = float(os.environ.get("STALE_RECONNECT_MIN", "6.0"))
@@ -1471,6 +1489,14 @@ class IBRunner:
 
             if signal is not None:
                 self._evaluate_and_enter(signal, current_time, timestamp)
+        else:
+            # Step 2b: already in a position (often a collection-mode experiment).
+            # We can't take a second live order (single-position; IB nets same-
+            # direction fills into one), but DETECT anyway and alert + record any
+            # blocked setup — it may be a more legit setup than the trade we hold.
+            # No IB order is ever placed here.
+            self._detect_blocked_signal(open_, high, low, close, volume, vel,
+                                        current_time, timestamp)
 
         # Step 0b: Update near-miss phantoms
         if self._near_miss_phantoms:
@@ -1563,6 +1589,90 @@ class IBRunner:
 
         # Write status for dashboard after every bar
         self._write_status()
+
+    def _detect_blocked_signal(self, open_, high, low, close, volume, vel,
+                               current_time, timestamp) -> None:
+        """Run signal detection while already in a position and alert + record
+        any setup we can't take (single-position). Mirrors the flat-path
+        detection inputs but NEVER places an order. Best-effort — a failure here
+        must never disrupt the bar loop or the open position's management."""
+        if not self._blocked_alerts_enabled:
+            return
+        try:
+            bar_idx = len(self._df) - 1
+            try:
+                _md = fetch_market_snapshot()
+            except Exception:
+                _md = None
+            _ctx = {
+                "session_date": self._session_date,
+                "current_price": close,
+                "session_high": float(self._df["high"].max()),
+                "session_low": float(self._df["low"].min()),
+                "bar_count": self._bar_count,
+            }
+            signal = self.signal_aggregator.update(
+                bar_idx=bar_idx, timestamp=timestamp, open_=open_, high=high,
+                low=low, close=close, volume=volume, velocity=vel, df=self._df,
+                market_data=_md, session_context=_ctx,
+            )
+            if signal is not None:
+                self._alert_blocked_signal(signal, timestamp)
+        except Exception as e:
+            logger.warning(f"blocked-signal detection error: {e!r}")
+
+    def _alert_blocked_signal(self, signal, timestamp) -> None:
+        """Record + Discord-alert a setup that fired while already in a position
+        (no live order). Deduped per setup per session. Surfaces the setup's
+        quality (type / LQS / R:R) so it can be judged against the (often
+        experimental collection-mode) trade we're holding."""
+        # Record for later analysis / phantom outcome tracking.
+        try:
+            self._add_phantom(signal, "blocked:in_position", timestamp)
+        except Exception:
+            pass
+        key = blocked_alert_key(signal)
+        if key in self._blocked_alert_keys:
+            return
+        self._blocked_alert_keys.add(key)
+        st = getattr(getattr(signal, "signal_type", None), "name", "SIGNAL")
+        direction = (getattr(signal, "direction", "long") or "long")
+        entry = float(getattr(signal, "entry_price", 0.0) or 0.0)
+        lqs = getattr(signal, "lqs", None)
+        rr = float(getattr(signal, "rr_ratio_t1", 0.0) or 0.0)
+        logger.warning(
+            f"BLOCKED SETUP (in position — recorded, NO order): {st} {direction} "
+            f"@ {entry:.2f}" + (f" LQS={lqs}" if lqs is not None else "")
+            + (f" R:R={rr:.1f}" if rr else "")
+        )
+        try:
+            from live.trade_notifications import post_payload, get_webhook_url
+            webhook = get_webhook_url()
+            if not webhook:
+                return
+            held = self._position
+            held_desc = (
+                f"{getattr(held, 'direction', '?')} "
+                f"{getattr(held, 'remaining_contracts', '?')} @ "
+                f"{getattr(held, 'entry_price', 0.0):.2f}"
+            ) if held is not None else "?"
+            desc = (
+                "A setup fired but the bot is already in a trade — **no order placed** "
+                "(single-position).\n"
+                f"**Missed:** {st} {direction} @ {entry:.2f}"
+                + (f"  ·  LQS {lqs}" if lqs is not None else "")
+                + (f"  ·  R:R {rr:.1f}" if rr else "")
+                + f"\n**Currently holding:** {held_desc}\n"
+                "_Recorded as a phantom for outcome tracking — compare vs the held trade._"
+            )
+            embed = {
+                "title": f"⚠️ MISSED SETUP (in a position): {st} {direction.upper()} @ {entry:.2f}",
+                "description": desc,
+                "color": 0xF1C40F,
+            }
+            post_payload({"username": "Mancini Bot", "embeds": [embed]}, webhook)
+        except Exception as e:
+            logger.warning(f"blocked-signal alert error: {e!r}")
 
     def _evaluate_and_enter(self, signal: Signal, current_time: time, timestamp: datetime) -> None:
         """Evaluate signal through risk/entry gates, execute if approved.
