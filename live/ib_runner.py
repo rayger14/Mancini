@@ -1645,32 +1645,48 @@ class IBRunner:
             f"@ {entry:.2f}" + (f" LQS={lqs}" if lqs is not None else "")
             + (f" R:R={rr:.1f}" if rr else "")
         )
+        # Fire the SAME rich entry-style embed a real entry gets (stop / T1 / T2
+        # / runner / R:R / level / FB type / plan match) — built from the
+        # signal's intended values — just clearly marked MISSED with no order.
         try:
-            from live.trade_notifications import post_payload, get_webhook_url
+            from types import SimpleNamespace
+            from live.trade_notifications import (
+                build_entry_embed, post_payload, get_webhook_url,
+            )
             webhook = get_webhook_url()
             if not webhook:
                 return
+            synth = SimpleNamespace(
+                direction=direction,
+                stop_price=float(getattr(signal, "stop_price", 0.0) or 0.0),
+                target_1=float(getattr(signal, "target_1", 0.0) or 0.0),
+                target_2=float(getattr(signal, "target_2", 0.0) or 0.0),
+            )
+            contracts = int(getattr(getattr(self, "elevator_params", None),
+                                    "default_contracts", 0) or 4)
+            payload = build_entry_embed(
+                position=synth, signal=signal, fill_price=entry,
+                contracts_ordered=contracts, contract_spec=self.contract,
+                exit_params=self.exit_params,
+                plan=getattr(self, "_mancini_llm_plan", None),
+                session_date=str(self._session_date), entry_time=timestamp,
+                trade_id=None, gate_bypass=None,
+            )
             held = self._position
             held_desc = (
                 f"{getattr(held, 'direction', '?')} "
                 f"{getattr(held, 'remaining_contracts', '?')} @ "
                 f"{getattr(held, 'entry_price', 0.0):.2f}"
             ) if held is not None else "?"
-            desc = (
-                "A setup fired but the bot is already in a trade — **no order placed** "
-                "(single-position).\n"
-                f"**Missed:** {st} {direction} @ {entry:.2f}"
-                + (f"  ·  LQS {lqs}" if lqs is not None else "")
-                + (f"  ·  R:R {rr:.1f}" if rr else "")
-                + f"\n**Currently holding:** {held_desc}\n"
-                "_Recorded as a phantom for outcome tracking — compare vs the held trade._"
+            emb = payload["embeds"][0]
+            emb["title"] = "⚠️ MISSED (in position) • " + emb["title"]
+            emb["color"] = 0xF1C40F
+            emb["description"] = (
+                f"**No live order placed — already in a trade** (holding "
+                f"{held_desc}). Recorded as a phantom for outcome tracking.\n\n"
+                + emb["description"]
             )
-            embed = {
-                "title": f"⚠️ MISSED SETUP (in a position): {st} {direction.upper()} @ {entry:.2f}",
-                "description": desc,
-                "color": 0xF1C40F,
-            }
-            post_payload({"username": "Mancini Bot", "embeds": [embed]}, webhook)
+            post_payload(payload, webhook)
         except Exception as e:
             logger.warning(f"blocked-signal alert error: {e!r}")
 
