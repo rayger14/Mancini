@@ -294,6 +294,16 @@ class StrategyParams:
     candle_bias_min_range_pts: float = 2.0  # min bar range to judge bias
     candle_bias_bearish_threshold: float = 0.3  # close in bottom 30% = bearish
 
+    # Level-resume filter (2026-07-06, default OFF): before an FB long fires on
+    # an ENGINE auto-detected level, require the level's resume to show a proven
+    # rally of at least this many points ("proven launcher"). Mancini's levels
+    # (CUSTOM / mancini_confirmed) are ALWAYS exempt — this only polices the
+    # levels our engine invents, which trade 51% WR / +4avg vs his 77% / +28.
+    # Validated on 59 real auto-level trades: proven-launcher levels made
+    # +345pts, weak ones lost -111; his traded levels' median resume = 53pt.
+    # 0.0 = off.
+    fb_auto_level_min_rally_pts: float = 0.0
+
     # Level reclaim
     level_reclaim_min_touches: int = 4  # S/R line touches required
     # Master switch: disable LR entirely (FB-only mode). LR has historically
