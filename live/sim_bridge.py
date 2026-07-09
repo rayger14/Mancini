@@ -44,15 +44,25 @@ RTH_START = dt_time(9, 30)
 RTH_END = dt_time(16, 0)
 
 
+def _normalize_et(df: pd.DataFrame) -> pd.DataFrame:
+    """Force an ET DatetimeIndex. Some archive parquets are UTC-indexed
+    (partial refetches) — every consumer here (RTH slices, session gates via
+    emitted bar timestamps, prior-day windows) reads local ET times, so a UTC
+    frame would silently shift every time-of-day decision by 4-5 hours."""
+    if not isinstance(df.index, pd.DatetimeIndex):
+        df = df.copy()
+        df.index = pd.to_datetime(df.index)
+    if df.index.tz is None:
+        return df.tz_localize("US/Eastern")
+    return df.tz_convert("US/Eastern")
+
+
 def _load_session(data_dir: Path, date_str: str) -> Optional[pd.DataFrame]:
     for sub in ("sessions_full", "sessions"):
         p = Path(data_dir) / sub / f"{date_str}_bars.parquet"
         if p.exists():
             try:
-                df = pd.read_parquet(p)
-                if not isinstance(df.index, pd.DatetimeIndex):
-                    df.index = pd.to_datetime(df.index)
-                return df
+                return _normalize_et(pd.read_parquet(p))
             except Exception:
                 continue
     return None
@@ -81,7 +91,7 @@ class SimBridge:
             tape = _load_session(Path(data_dir), self.session_date)
             if tape is None:
                 raise FileNotFoundError(f"no tape for {self.session_date}")
-        self.tape = tape
+        self.tape = _normalize_et(tape)
         self._cursor = 0
 
         # history: {date_str: DataFrame} of PRIOR sessions for

@@ -213,6 +213,21 @@ def test_prior_day_bars_rth_slice():
     assert min(times) >= _dt.time(9, 30) and max(times) < _dt.time(16, 0)
 
 
+def test_utc_indexed_archive_normalized_to_et():
+    """Some archive parquets are UTC-indexed (partial refetches); every frame
+    must be normalized to ET or session gates / RTH slices read wrong times."""
+    from live.sim_bridge import _normalize_et
+    utc = pytz.UTC
+    idx = [utc.localize(datetime(2026, 7, 1, 14, 30)),  # = 10:30 ET
+           utc.localize(datetime(2026, 7, 1, 15, 30))]
+    df = pd.DataFrame({"open": [1, 2], "high": [1, 2], "low": [1, 2],
+                       "close": [1, 2], "volume": [0, 0]},
+                      index=pd.DatetimeIndex(idx))
+    out = _normalize_et(df)
+    assert str(out.index.tz) in ("US/Eastern", "America/New_York")
+    assert out.index[0].hour == 10 and out.index[0].minute == 30
+
+
 def test_daily_bars_synthesized():
     b = SimBridge(session_date="2026-07-02",
                   tape=_tape([(7500, 7501, 7499, 7500)]),
