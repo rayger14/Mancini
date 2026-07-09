@@ -52,10 +52,14 @@ class _FakePlan:
 
 def _make_runner_stub() -> SimpleNamespace:
     """Build the minimal object exposed to _inject_plan_levels."""
+    from datetime import datetime
+    import pytz
     store = LevelStore()
     agg = SimpleNamespace(level_store=store)
     runner = SimpleNamespace(
         signal_aggregator=agg,
+        # IBRunner clock seam (ReplayRunner): stubs carry the default clock
+        _now_fn=lambda: datetime.now(tz=pytz.timezone("US/Eastern")),
         # _inject_plan_levels is bound; we'll call it directly
     )
     return runner, store
@@ -171,7 +175,13 @@ class TestManciniTargetInjection:
                 use_mancini_targets=on,
                 mancini_target_confluence_tol_pts=3.0),
         )
-        return SimpleNamespace(signal_aggregator=agg), store
+        import pytz
+        runner = SimpleNamespace(
+            signal_aggregator=agg,
+            # IBRunner clock seam (ReplayRunner): stubs carry the default clock
+            _now_fn=lambda: datetime.now(tz=pytz.timezone("US/Eastern")),
+        )
+        return runner, store
 
     def _plan_with_targets(self, targets):
         p = _FakePlan(planned_setups=[])

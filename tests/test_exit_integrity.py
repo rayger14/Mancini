@@ -209,6 +209,8 @@ class TestSyncPositionDisconnectGuard:
             _position=pos,
             _trade_id=25196,
             _last_entry_monotonic=_time_mod.monotonic() - 300.0,
+            _mono_fn=_time_mod.monotonic,  # IBRunner clock seam (ReplayRunner)
+            _now_fn=__import__("live.ib_runner", fromlist=["IBRunner"]).IBRunner._now_fn,
             _sync_none_count=2,  # one more None would have confirmed closure
             bridge=SimpleNamespace(
                 is_connected=False,
@@ -248,6 +250,8 @@ class TestSyncPositionDupGuard:
             _position=pos,
             _trade_id=0,
             _last_entry_monotonic=_time_mod.monotonic() - 300.0,
+            _mono_fn=_time_mod.monotonic,  # IBRunner clock seam (ReplayRunner)
+            _now_fn=__import__("live.ib_runner", fromlist=["IBRunner"]).IBRunner._now_fn,
             _sync_none_count=2,  # this call is the 3rd None → confirm
             _last_price=7450.75,
             _pattern_type="failed_breakdown",
@@ -323,7 +327,9 @@ class TestSyncPositionPhantomGuard:
         runner = SimpleNamespace(
             _position=pos,
             _trade_id=579,
-            _last_entry_monotonic=_time_mod.monotonic() - 300.0,  # past 45s grace
+            _last_entry_monotonic=_time_mod.monotonic() - 300.0,
+            _mono_fn=_time_mod.monotonic,  # IBRunner clock seam (ReplayRunner)
+            _now_fn=__import__("live.ib_runner", fromlist=["IBRunner"]).IBRunner._now_fn,  # past 45s grace
             _sync_none_count=2,  # the next None would confirm closure
             _last_price=7456.0,
             _pattern_type="failed_breakdown",

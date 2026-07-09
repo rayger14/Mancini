@@ -546,6 +546,13 @@ class IBRunner:
     - Half Kelly: 17 MES on $25K
     """
 
+    # Injectable clocks (ReplayRunner seam). Class-level defaults are the real
+    # clocks — byte-identical live behavior. A replay overrides them per
+    # instance so session dates, rollover, plan-level timestamps and the
+    # entry-grace/monotonic guards all follow the TAPE instead of the wall.
+    _now_fn = staticmethod(lambda: datetime.now(tz=_ET))
+    _mono_fn = staticmethod(_time.monotonic)
+
     def __init__(
         self,
         ib_config: IBConfig = IBConfig(),
@@ -565,9 +572,15 @@ class IBRunner:
         self.contract = contract
         self.exit_params = exit_params
         self._fb_only_pm = fb_only_pm
-        # Shadow mode log: features log what they WOULD do without trading
-        self._shadow_log_path = Path("/app/logs/shadow_trades.jsonl")
-        self._shadow_log_path.parent.mkdir(parents=True, exist_ok=True)
+        # Shadow mode log: features log what they WOULD do without trading.
+        # SHADOW_LOG env overrides (replay/tests); mkdir is guarded so the
+        # runner is constructible off-VM (no /app on dev machines).
+        self._shadow_log_path = Path(
+            os.environ.get("SHADOW_LOG", "/app/logs/shadow_trades.jsonl"))
+        try:
+            self._shadow_log_path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            pass
         self._shadow_phantoms: list[dict] = []  # track shadow signal outcomes
         # Short heads-up alerts: the bot is long-only and shadow-detects shorts.
         # Post a Discord heads-up the first time each distinct short setup fires
@@ -645,7 +658,7 @@ class IBRunner:
         self._running: bool = False
         # Globex-aware session date (the day the session CLOSES). After
         # 18:00 ET we are already in the next calendar day's session.
-        self._session_date: date = self._compute_globex_trading_date(datetime.now(_ET))
+        self._session_date: date = self._compute_globex_trading_date(self._now_fn())
 
         # Multi-session runner state: tracks how many EOD rolls a runner has
         # survived. Reset to 0 every time a new position opens; incremented
@@ -734,7 +747,7 @@ class IBRunner:
         # day, not today's calendar date. Plan files, level snapshots and
         # archives all key off this — using date.today() here would load
         # yesterday's plan after a 18:00–midnight restart.
-        self._session_date = self._compute_globex_trading_date(datetime.now(_ET))
+        self._session_date = self._compute_globex_trading_date(self._now_fn())
 
         # Connect to IB with retry. IB Gateway takes ~120s to fully accept
         # API connections after cold start (Java boot + login + session
@@ -1097,7 +1110,7 @@ class IBRunner:
         store = getattr(self.signal_aggregator, "level_store", None)
         if store is None:
             return 0
-        now = datetime.now(_ET)
+        now = self._now_fn()
         conv_score = {"high": 3, "medium": 2, "low": 1}
         accept_types = {"failed_breakdown", "level_reclaim"}
         injected = 0
@@ -1311,7 +1324,7 @@ class IBRunner:
                         mode=sp.mancini_mode,
                         confirm_tolerance_pts=sp.mancini_confirm_tolerance_pts,
                         current_price=current_price,
-                        timestamp=datetime.now(_ET),
+                        timestamp=self._now_fn(),
                     )
                     logger.info(
                         f"Mancini overlay applied: mode={sp.mancini_mode} "
@@ -1526,7 +1539,7 @@ class IBRunner:
                                 volume_at_signal = float(self._df["volume"].iat[-1])
                         except Exception:
                             pass
-                        now_et = datetime.now(_ET)
+                        now_et = self._now_fn()
                         level_price = nm.get("level_price", 0)
                         stop_buffer = self.strategy.strategy_params.fb_stop_buffer_pts
                         entry_price = close  # would have entered at current close
@@ -1875,9 +1888,9 @@ class IBRunner:
         self._trade_id = trade_id
         self._pattern_type = signal.pattern.pattern_type
         self._current_signal = signal
-        self._entry_timestamp = datetime.now(_ET)
+        self._entry_timestamp = self._now_fn()
         self._entry_bar_count = self._bar_count
-        self._last_entry_monotonic = _time.monotonic()
+        self._last_entry_monotonic = self._mono_fn()
         self._current_gate_bypass = self._pending_gate_bypass
         self._pending_gate_bypass = None
         # Reset multi-session runner counter — new position, new clock.
@@ -2132,7 +2145,7 @@ class IBRunner:
                 pnl_pts = (action.exit_price - pos.entry_price) * action.contracts_to_close
             pnl_dollars = pnl_pts * self.contract.point_value
 
-            now_et = datetime.now(_ET)
+            now_et = self._now_fn()
             record = {
                 "event": "partial_exit",
                 "trade_id": self._trade_id,
@@ -2172,7 +2185,7 @@ class IBRunner:
         # or after recovery. Without this, get_position() returns None
         # immediately and we falsely conclude the bracket was filled.
         # 45s accounts for the fill confirmation wait (up to 30s) plus buffer.
-        elapsed = _time.monotonic() - self._last_entry_monotonic
+        elapsed = self._mono_fn() - self._last_entry_monotonic
         if elapsed < 45.0:
             return
 
@@ -2289,7 +2302,7 @@ class IBRunner:
                     reason=f"IB bracket {exit_type} fill",
                 ),
                 pre_position=self._position,
-                timestamp=datetime.now(_ET),
+                timestamp=self._now_fn(),
             )
             self._position.realized_pnl_pts += pnl
             self._position.remaining_contracts = 0
@@ -2332,7 +2345,7 @@ class IBRunner:
                     t1_booked=bool(getattr(self._position, "t1_hit", False)),
                 )
                 if decision == "venue_t1_partial":
-                    self._reconcile_venue_t1(ib_volume, datetime.now(_ET))
+                    self._reconcile_venue_t1(ib_volume, self._now_fn())
 
     def _reconcile_venue_t1(self, ib_volume: int, timestamp: datetime) -> None:
         """Book a venue-side T1 fill the delayed feed missed, keeping the runner.
@@ -2569,7 +2582,7 @@ class IBRunner:
         )
         self._trade_id = 0  # Unknown, but mark as having a position
         self._pattern_type = pattern_type
-        self._last_entry_monotonic = _time.monotonic()  # prevent immediate sync close
+        self._last_entry_monotonic = self._mono_fn()  # prevent immediate sync close
         # Recover entry timestamp from trade log if available
         if signal_data:
             for record in reversed(self._all_trades):
@@ -2577,10 +2590,10 @@ class IBRunner:
                     try:
                         self._entry_timestamp = datetime.fromisoformat(record.get("timestamp", ""))
                     except (ValueError, TypeError):
-                        self._entry_timestamp = datetime.now(_ET)
+                        self._entry_timestamp = self._now_fn()
                     break
         if not getattr(self, "_entry_timestamp", None):
-            self._entry_timestamp = datetime.now(_ET)
+            self._entry_timestamp = self._now_fn()
 
         # Mirror to position_manager.session so subsequent close_position
         # calls credit the trade to daily_pnl / trade_count / winners /
@@ -2798,7 +2811,7 @@ class IBRunner:
             }
 
         try:
-            session_window = self._get_session_window(datetime.now(_ET).time())
+            session_window = self._get_session_window(self._now_fn().time())
         except Exception:
             session_window = {"detail": "", "label": ""}
 
@@ -2870,7 +2883,7 @@ class IBRunner:
                 }
 
             # Session window
-            now_et = datetime.now(_ET)
+            now_et = self._now_fn()
             session_window = self._get_session_window(now_et.time())
 
             # Build the rich record
@@ -3196,7 +3209,7 @@ class IBRunner:
                 except Exception:
                     pass
 
-            now_et = datetime.now(_ET)
+            now_et = self._now_fn()
             record = {
                 "event": "phantom",
                 "timestamp": now_et.isoformat(),
@@ -3233,7 +3246,7 @@ class IBRunner:
         try:
             record = {
                 "event": "phantom_resolved",
-                "timestamp": datetime.now(_ET).isoformat(),
+                "timestamp": self._now_fn().isoformat(),
                 "session_date": str(self._session_date),
                 "signal_type": p["signal_type"],
                 "direction": p.get("direction", "long"),
@@ -3384,7 +3397,7 @@ class IBRunner:
         try:
             record = {
                 "event": "near_miss_resolved",
-                "timestamp": datetime.now(_ET).isoformat(),
+                "timestamp": self._now_fn().isoformat(),
                 "session_date": str(self._session_date),
                 "direction": p.get("direction", "long"),
                 "entry_price": p["entry_price"],
@@ -3495,7 +3508,7 @@ class IBRunner:
         Without this, daily loss limits and trade counts from the
         previous session carry over and block new signals.
         """
-        now = datetime.now(_ET)
+        now = self._now_fn()
         t = now.time()
 
         # Compute the trading date: after 18:00 ET, it's "tomorrow's" session
@@ -3839,7 +3852,7 @@ class IBRunner:
             signals_generated = len(getattr(self.signal_aggregator, "signals", []))
             summary_record = {
                 "event": "session_summary",
-                "timestamp": datetime.now(_ET).isoformat(),
+                "timestamp": self._now_fn().isoformat(),
                 "session_date": str(self._session_date),
                 "symbol": self.bridge.config.symbol,
                 "bar_count": self._bar_count,
@@ -4274,6 +4287,43 @@ class IBRunner:
             logger.error(f"Failed to write status: {e}")
 
 
+def build_live_runner(ib_config: IBConfig, full_session: bool = True) -> IBRunner:
+    """Build the runner EXACTLY as production launches it (main --full-session).
+
+    Single source of truth for the live construction — main() calls this, and
+    the ReplayRunner calls it too (then swaps in a SimBridge), so a replay can
+    never drift from the real constructor args (session times, fb_only_pm,
+    live_risk, min_rr, bypass_session_gates).
+    """
+    from datetime import time as dt_time
+
+    session_times = FULL_SESSION if full_session else PRODUCTION_SESSION
+    rth_filter = (dt_time(9, 30), dt_time(16, 0)) if full_session else None
+    fb_only_pm = bool(full_session)
+
+    # Live mode: bypass time gates (trade all hours) but enforce quality gates.
+    # Optuna v2 optimized params (Mar 2026): OOS validated PF=1.14, Sharpe=1.00
+    live_risk = RiskParams(
+        max_trades_per_day=999,
+        max_daily_loss_pts=9999.0,  # no daily loss limit
+        max_stop_distance_pts=60.0,  # deep sweep FBs (30-40pt stops = 61% WR)
+        skip_tuesdays=False,
+        min_rr_ratio=0.8,  # Optuna v2: moderate filter
+    )
+
+    return IBRunner(
+        ib_config=ib_config,
+        exit_params=PRODUCTION_EXIT,
+        risk_params=live_risk,
+        session_times=session_times,
+        min_rr_ratio=0.8,  # Optuna v2 optimized
+        rth_filter=rth_filter,
+        fb_only_pm=fb_only_pm,
+        regime_params=PRODUCTION_REGIME,
+        bypass_session_gates=True,  # bypass time gates only, quality gates enforced
+    )
+
+
 def main():
     """Run the IB bridge with production params."""
     import argparse
@@ -4317,44 +4367,12 @@ def main():
         use_rth_only=not args.full_session,
     )
 
-    # Mancini-faithful exit: 75/25 split with 4 contracts.
-    # 3 contracts exit at T1 (75%), 1 runner (25%) trails under prior day low.
-    # Runners carry overnight/multi-day until prior day low is lost.
-    exit_params = PRODUCTION_EXIT
-
-    session_times = FULL_SESSION if args.full_session else PRODUCTION_SESSION
-
-    # Full session: use RTH filter for level detection + FB-only PM filter
-    rth_filter = None
-    fb_only_pm = False
     if args.full_session:
-        from datetime import time as dt_time
-        rth_filter = (dt_time(9, 30), dt_time(16, 0))
-        fb_only_pm = True
         logger.info("Full session active: rth_filter for levels, FB-only PM, evening block")
 
-    # Live mode: bypass time gates (trade all hours) but enforce quality gates.
-    # Optuna v2 optimized params (Mar 2026): OOS validated PF=1.14, Sharpe=1.00
-    # Quality gates tightened based on 1,651 live events analysis.
-    live_risk = RiskParams(
-        max_trades_per_day=999,
-        max_daily_loss_pts=9999.0,  # no daily loss limit
-        max_stop_distance_pts=60.0,  # Data collection: allow deep sweep FBs (30-40pt stops = 61% WR, +264 pts on 5yr)
-        skip_tuesdays=False,
-        min_rr_ratio=0.8,  # Optuna v2: moderate filter (was 0.1 data collection)
-    )
-
-    runner = IBRunner(
-        ib_config=config,
-        exit_params=exit_params,
-        risk_params=live_risk,
-        session_times=session_times,
-        min_rr_ratio=0.8,  # Optuna v2 optimized (was 0.1 data collection)
-        rth_filter=rth_filter,
-        fb_only_pm=fb_only_pm,
-        regime_params=PRODUCTION_REGIME,
-        bypass_session_gates=True,  # bypass time gates only, quality gates enforced
-    )
+    # Construction lives in build_live_runner — the single source of truth
+    # shared with the ReplayRunner so replays can't drift from production.
+    runner = build_live_runner(config, full_session=args.full_session)
     runner.run()
 
 
