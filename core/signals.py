@@ -39,6 +39,71 @@ from core.mode1_green_detector import Mode1GreenDetector
 from core.price_levels import PriceLevelDetector
 
 
+def level_rally_resume(df, level_price: float, tol: float = 1.5) -> float:
+    """The level's resume: the biggest run-up price launched from this level
+    within the visible tape. Mancini's levels are significant because of what
+    price already DID there ("the low that launched the rally"); this measures
+    that for our engine's auto-detected levels. Returns 0.0 with no df/touches.
+    """
+    if df is None or len(df) == 0:
+        return 0.0
+    try:
+        lows = df["low"].values
+        highs = df["high"].values
+    except Exception:
+        return 0.0
+    best = 0.0
+    n = len(lows)
+    for i in range(n):
+        # a touch: the bar traded down to (or through) the level
+        if lows[i] <= level_price + tol:
+            run_high = level_price
+            for j in range(i, n):
+                if highs[j] > run_high:
+                    run_high = highs[j]
+                # stop extending once price falls well back below the level
+                if lows[j] < level_price - 2.0 and j > i:
+                    break
+            best = max(best, run_high - level_price)
+    return round(best, 2)
+
+
+class ResumeCache:
+    """Memoizes level_rally_resume per level price. FB signals re-emit every
+    couple of bars while unfilled; without this the tape rescan runs each time
+    (the calibration harness ground for 90+ min on exactly that). A level's
+    resume changes slowly, so a bars-based TTL is plenty."""
+
+    def __init__(self, ttl_bars: int = 30):
+        self.ttl_bars = ttl_bars
+        self._store: dict = {}
+
+    def get_or_compute(self, level_price: float, bar_idx: int, compute_fn):
+        key = round(float(level_price) * 4) / 4
+        hit = self._store.get(key)
+        if hit is not None and 0 <= bar_idx - hit[0] <= self.ttl_bars:
+            return hit[1]
+        val = compute_fn()
+        self._store[key] = (bar_idx, val)
+        return val
+
+
+def auto_level_resume_ok(level, resume_pts: float, params) -> bool:
+    """The level-resume gate: an ENGINE auto-detected level must have launched
+    a real rally (>= fb_auto_level_min_rally_pts) to be FB-tradeable. Mancini's
+    levels (CUSTOM/MANCINI_LEVEL or mancini_confirmed) are ALWAYS exempt — he
+    already curated them. 0 threshold = gate off."""
+    min_pts = float(getattr(params, "fb_auto_level_min_rally_pts", 0.0) or 0.0)
+    if min_pts <= 0:
+        return True
+    if getattr(level, "mancini_confirmed", False):
+        return True
+    lt = getattr(getattr(level, "level_type", None), "name", "")
+    if lt in ("CUSTOM", "MANCINI_LEVEL"):
+        return True
+    return resume_pts >= min_pts
+
+
 class SignalType(Enum):
     """Signal classification."""
 
@@ -667,6 +732,10 @@ class SignalAggregator:
             self._session_high = high
         if low < self._session_low:
             self._session_low = low
+
+        # Keep a reference to the visible tape for the level-resume gate
+        # (computed lazily at qualify time, only when the gate is enabled).
+        self._latest_df = df
 
         # 1. Incremental level detection
         if df is not None:
@@ -2095,6 +2164,46 @@ class SignalAggregator:
                 and pattern.level is not None
                 and pattern.level.level_type == LevelType.HORIZONTAL_SR):
             return None
+
+        # Level-resume gate (default off): an ENGINE auto-detected level must
+        # have a proven-launcher resume to be FB-tradeable; Mancini's levels are
+        # always exempt (auto_level_resume_ok handles the exemptions). Skips are
+        # shadow-logged so the filtered population stays visible/trackable.
+        if (signal_type == SignalType.FAILED_BREAKDOWN
+                and pattern.level is not None
+                and getattr(self.strategy_params,
+                            "fb_auto_level_min_rally_pts", 0.0) > 0):
+            if not hasattr(self, "_resume_cache"):
+                self._resume_cache = ResumeCache()
+            _lvl_price = pattern.level.price
+            resume = max(
+                float(getattr(pattern.level, "rally_from_low_pts", 0.0) or 0.0),
+                self._resume_cache.get_or_compute(
+                    _lvl_price, pattern.bar_idx,
+                    lambda: level_rally_resume(getattr(self, "_latest_df", None),
+                                               _lvl_price)),
+            )
+            if not auto_level_resume_ok(pattern.level, resume,
+                                        self.strategy_params):
+                logger.info(
+                    f"Level-resume gate: {pattern.level.level_type.name} @ "
+                    f"{pattern.level.price:.2f} resume={resume:.1f}pt < "
+                    f"{self.strategy_params.fb_auto_level_min_rally_pts:.0f}pt "
+                    f"— auto-level FB skipped (no proven rally)"
+                )
+                self.shadow_events.append({
+                    "feature": "auto_level_weak_resume",
+                    "bar_idx": pattern.bar_idx,
+                    "timestamp": str(pattern.timestamp),
+                    "signal_type": signal_type.name,
+                    "direction": "long",
+                    "level_price": pattern.level.price,
+                    "level_type": pattern.level.level_type.name,
+                    "resume_pts": resume,
+                    "entry_price": pattern.entry_price,
+                    "stop_price": pattern.stop_price,
+                })
+                return None
 
         # Continuous confluence: recompute source_count from the live store so
         # an entry level that now coincides with a Mancini target or pivot is
