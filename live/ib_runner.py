@@ -345,6 +345,13 @@ PRODUCTION_STRATEGY = StrategyParams(
     # leak (-$97K). Gating these by plan match cuts the leak and routes
     # the engine to Mancini's actual structural levels.
     cluster_low_requires_plan_match=True,
+    # Level-resume filter (enabled 2026-07-08, forward test): an ENGINE
+    # auto-detected level must have launched a >=30pt rally in the visible
+    # tape to be FB-tradeable. Mancini plan levels (CUSTOM/mancini_confirmed)
+    # are ALWAYS exempt. Calibration (51 real sessions): WR 67->80%, PF
+    # 2.62->5.44, +190pts vs unfiltered. Skips are shadow-logged
+    # (auto_level_weak_resume) and outcome-tracked; review ~2026-07-22.
+    fb_auto_level_min_rally_pts=30.0,
     # FB level freshness gate: exempt structural-quality level types
     # (PRIOR_DAY_LOW, MULTI_HOUR_LOW, INTRADAY_LOW, CUSTOM Mancini-plan
     # levels) from the 24-36h age cap. Mancini routinely holds runners

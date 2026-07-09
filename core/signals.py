@@ -68,6 +68,26 @@ def level_rally_resume(df, level_price: float, tol: float = 1.5) -> float:
     return round(best, 2)
 
 
+class ResumeCache:
+    """Memoizes level_rally_resume per level price. FB signals re-emit every
+    couple of bars while unfilled; without this the tape rescan runs each time
+    (the calibration harness ground for 90+ min on exactly that). A level's
+    resume changes slowly, so a bars-based TTL is plenty."""
+
+    def __init__(self, ttl_bars: int = 30):
+        self.ttl_bars = ttl_bars
+        self._store: dict = {}
+
+    def get_or_compute(self, level_price: float, bar_idx: int, compute_fn):
+        key = round(float(level_price) * 4) / 4
+        hit = self._store.get(key)
+        if hit is not None and 0 <= bar_idx - hit[0] <= self.ttl_bars:
+            return hit[1]
+        val = compute_fn()
+        self._store[key] = (bar_idx, val)
+        return val
+
+
 def auto_level_resume_ok(level, resume_pts: float, params) -> bool:
     """The level-resume gate: an ENGINE auto-detected level must have launched
     a real rally (>= fb_auto_level_min_rally_pts) to be FB-tradeable. Mancini's
@@ -2153,10 +2173,15 @@ class SignalAggregator:
                 and pattern.level is not None
                 and getattr(self.strategy_params,
                             "fb_auto_level_min_rally_pts", 0.0) > 0):
+            if not hasattr(self, "_resume_cache"):
+                self._resume_cache = ResumeCache()
+            _lvl_price = pattern.level.price
             resume = max(
                 float(getattr(pattern.level, "rally_from_low_pts", 0.0) or 0.0),
-                level_rally_resume(getattr(self, "_latest_df", None),
-                                   pattern.level.price),
+                self._resume_cache.get_or_compute(
+                    _lvl_price, pattern.bar_idx,
+                    lambda: level_rally_resume(getattr(self, "_latest_df", None),
+                                               _lvl_price)),
             )
             if not auto_level_resume_ok(pattern.level, resume,
                                         self.strategy_params):

@@ -83,6 +83,37 @@ def test_mancini_confirmed_engine_level_exempt():
     assert auto_level_resume_ok(lvl, resume_pts=0.0, params=_P_ON) is True
 
 
+# --- ResumeCache: don't rescan the tape on every FB re-emission ---
+from core.signals import ResumeCache
+
+
+def test_cache_computes_once_within_ttl():
+    calls = []
+    c = ResumeCache(ttl_bars=30)
+    fn = lambda: (calls.append(1), 42.0)[1]
+    assert c.get_or_compute(6000.0, bar_idx=100, compute_fn=fn) == 42.0
+    assert c.get_or_compute(6000.0, bar_idx=120, compute_fn=fn) == 42.0  # cached
+    assert len(calls) == 1
+
+
+def test_cache_recomputes_after_ttl():
+    calls = []
+    c = ResumeCache(ttl_bars=30)
+    fn = lambda: (calls.append(1), 42.0)[1]
+    c.get_or_compute(6000.0, bar_idx=100, compute_fn=fn)
+    c.get_or_compute(6000.0, bar_idx=131, compute_fn=fn)  # ttl expired
+    assert len(calls) == 2
+
+
+def test_cache_keys_by_level_price():
+    calls = []
+    c = ResumeCache(ttl_bars=30)
+    fn = lambda: (calls.append(1), 1.0)[1]
+    c.get_or_compute(6000.0, bar_idx=100, compute_fn=fn)
+    c.get_or_compute(6010.0, bar_idx=100, compute_fn=fn)  # different level
+    assert len(calls) == 2
+
+
 def test_stored_rally_counts_via_max():
     # gate reads the FUSED resume: max(stored rally_from_low_pts, computed).
     # caller fuses; here stored=55 should pass through as resume_pts
