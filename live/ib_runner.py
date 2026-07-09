@@ -4294,13 +4294,18 @@ class IBRunner:
             logger.error(f"Failed to write status: {e}")
 
 
-def build_live_runner(ib_config: IBConfig, full_session: bool = True) -> IBRunner:
+def build_live_runner(ib_config: IBConfig, full_session: bool = True,
+                      strategy_params=None) -> IBRunner:
     """Build the runner EXACTLY as production launches it (main --full-session).
 
     Single source of truth for the live construction — main() calls this, and
     the ReplayRunner calls it too (then swaps in a SimBridge), so a replay can
     never drift from the real constructor args (session times, fb_only_pm,
     live_risk, min_rr, bypass_session_gates).
+
+    ``strategy_params`` overrides the default PRODUCTION_STRATEGY — used by
+    historical replays to run the config that was live during the replayed
+    session (e.g. before the level-resume filter was enabled).
     """
     from datetime import time as dt_time
 
@@ -4318,6 +4323,7 @@ def build_live_runner(ib_config: IBConfig, full_session: bool = True) -> IBRunne
         min_rr_ratio=0.8,  # Optuna v2: moderate filter
     )
 
+    extra = {"strategy_params": strategy_params} if strategy_params is not None else {}
     return IBRunner(
         ib_config=ib_config,
         exit_params=PRODUCTION_EXIT,
@@ -4328,6 +4334,7 @@ def build_live_runner(ib_config: IBConfig, full_session: bool = True) -> IBRunne
         fb_only_pm=fb_only_pm,
         regime_params=PRODUCTION_REGIME,
         bypass_session_gates=True,  # bypass time gates only, quality gates enforced
+        **extra,
     )
 
 

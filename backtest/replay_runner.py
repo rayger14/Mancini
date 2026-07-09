@@ -42,12 +42,20 @@ def _set_replay_env(out_dir: Path, date: str, chain_pattern_state: bool) -> None
     os.environ["FREEZE_TIMEOUT_SEC"] = "0"
 
 
-def build_replay(date: str, data_dir, out_dir, tape=None):
+def build_replay(date: str, data_dir, out_dir, tape=None,
+                 resume_filter_pts: float = 0.0):
     """Construct the live runner wired to a SimBridge for `date`.
 
     Env must already be set (main() does it; tests set their own). Returns
     (runner, bridge) ready for runner.run().
+
+    ``resume_filter_pts``: the level-resume filter value for the replayed
+    session. Historical self-fidelity replays must use the config that was
+    LIVE during that session — 0.0 (off) for sessions before 2026-07-09's
+    enablement; pass 30.0 to replay under today's production config.
     """
+    import dataclasses
+
     import live.ib_runner as ibr
     # Yahoo snapshot: replay has no live market data; None is the exact value
     # the live code produces on fetch failure (an exercised production path).
@@ -59,7 +67,11 @@ def build_replay(date: str, data_dir, out_dir, tape=None):
     bridge = SimBridge(session_date=date, tape=tape,
                        data_dir=str(data_dir) if data_dir else None,
                        config=IBConfig())
-    runner = ibr.build_live_runner(IBConfig(), full_session=True)
+    params = dataclasses.replace(
+        ibr.PRODUCTION_STRATEGY,
+        fb_auto_level_min_rally_pts=float(resume_filter_pts))
+    runner = ibr.build_live_runner(IBConfig(), full_session=True,
+                                   strategy_params=params)
     runner.bridge = bridge
 
     # Clocks follow the tape: session date/rollover/plan-level timestamps from
@@ -124,6 +136,9 @@ def main():
     ap.add_argument("--dates", default=None, help="A..B inclusive batch")
     ap.add_argument("--data-dir", default="/app/data")
     ap.add_argument("--out-dir", default="/tmp/replay")
+    ap.add_argument("--resume-filter", type=float, default=0.0,
+                    help="level-resume filter pts for the replay (0 = the "
+                         "as-lived config for pre-2026-07-09 sessions)")
     args = ap.parse_args()
 
     dates = _date_range(args.dates) if args.dates else [args.date]
@@ -136,7 +151,8 @@ def main():
     for d in dates:
         _set_replay_env(out_dir, d, chain_pattern_state=batch)
         try:
-            runner, bridge = build_replay(d, args.data_dir, out_dir)
+            runner, bridge = build_replay(d, args.data_dir, out_dir,
+                                          resume_filter_pts=args.resume_filter)
         except FileNotFoundError:
             print(f"{d}: no tape — skipped")
             continue
