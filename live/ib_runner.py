@@ -677,7 +677,10 @@ class IBRunner:
 
         # Persistent trade log — survives restarts, accumulates data for self-improvement
         self._trade_log_path = Path(os.environ.get("TRADE_LOG", "/app/logs/trades.jsonl"))
-        self._trade_log_path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            self._trade_log_path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            pass  # off-VM (replay/tests): TRADE_LOG env points somewhere writable
         self._all_trades: list[dict] = self._load_trade_log()
 
         # Mancini Substack overlay result (populated in _initialize_session when enabled)
@@ -723,11 +726,15 @@ class IBRunner:
 
     def run(self) -> None:
         """Main event loop. Blocks until session ends or shutdown signal."""
-        # Add file log sink for dashboard
+        # Add file log sink for dashboard (guarded: off-VM replay/tests point
+        # LOG_FILE somewhere writable; an unwritable default must not abort)
         log_path = os.environ.get("LOG_FILE", "/app/logs/bot.log")
-        Path(log_path).parent.mkdir(parents=True, exist_ok=True)
-        logger.add(log_path, rotation="10 MB", retention="7 days",
-                   format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}")
+        try:
+            Path(log_path).parent.mkdir(parents=True, exist_ok=True)
+            logger.add(log_path, rotation="10 MB", retention="7 days",
+                       format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}")
+        except OSError:
+            pass
 
         logger.info("=" * 60)
         logger.info("MANCINI IB RUNNER STARTING")
