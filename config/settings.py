@@ -303,6 +303,14 @@ class StrategyParams:
     # +345pts, weak ones lost -111; his traded levels' median resume = 53pt.
     # 0.0 = off.
     fb_auto_level_min_rally_pts: float = 0.0
+    # Significance v2 (2026-07-10, default OFF): in ADDITION to the rally
+    # resume, require live entry context — the sweep is taking out the session
+    # low (Mancini's "FB of the LOD") or is a real flush. Pillar-fit on 69
+    # replayed auto-level trades: v1 gate keep +426/skip -140; v2 composite
+    # keep +762/skip -476 (65% WR). Validate via ReplayRunner before enabling.
+    fb_auto_level_require_context: bool = False
+    fb_auto_level_ctx_sweep_pts: float = 10.0    # flush-at-entry threshold
+    fb_auto_level_ctx_lod_tol_pts: float = 2.0   # level within N pts of session low
 
     # Level reclaim
     level_reclaim_min_touches: int = 4  # S/R line touches required

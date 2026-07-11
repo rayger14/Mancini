@@ -88,6 +88,14 @@ class ResumeCache:
         return val
 
 
+def is_mancini_exempt(level) -> bool:
+    """Levels Mancini curated (his plan/overlay) bypass every auto-level gate."""
+    if getattr(level, "mancini_confirmed", False):
+        return True
+    lt = getattr(getattr(level, "level_type", None), "name", "")
+    return lt in ("CUSTOM", "MANCINI_LEVEL")
+
+
 def auto_level_resume_ok(level, resume_pts: float, params) -> bool:
     """The level-resume gate: an ENGINE auto-detected level must have launched
     a real rally (>= fb_auto_level_min_rally_pts) to be FB-tradeable. Mancini's
@@ -96,12 +104,30 @@ def auto_level_resume_ok(level, resume_pts: float, params) -> bool:
     min_pts = float(getattr(params, "fb_auto_level_min_rally_pts", 0.0) or 0.0)
     if min_pts <= 0:
         return True
-    if getattr(level, "mancini_confirmed", False):
-        return True
-    lt = getattr(getattr(level, "level_type", None), "name", "")
-    if lt in ("CUSTOM", "MANCINI_LEVEL"):
+    if is_mancini_exempt(level):
         return True
     return resume_pts >= min_pts
+
+
+def auto_level_sig_v2_ok(resume: float, sweep: float, level_price: float,
+                         session_low: float, params) -> bool:
+    """Significance v2: proven launcher AND live entry context.
+
+    Mancini's fuller significance rubric, pillar-fit on real trades: the level
+    must have a rally resume (>= fb_auto_level_min_rally_pts) AND the entry
+    sweep must be meaningful NOW — either taking out the session low (his
+    classic "FB of the LOD") or a genuine flush (>= ctx_sweep_pts). With
+    fb_auto_level_require_context off, reduces to the v1 rally-only gate."""
+    min_pts = float(getattr(params, "fb_auto_level_min_rally_pts", 0.0) or 0.0)
+    if min_pts > 0 and resume < min_pts:
+        return False
+    if not getattr(params, "fb_auto_level_require_context", False):
+        return True
+    lod_tol = float(getattr(params, "fb_auto_level_ctx_lod_tol_pts", 2.0))
+    sweep_min = float(getattr(params, "fb_auto_level_ctx_sweep_pts", 10.0))
+    at_lod = (session_low is not None
+              and abs(float(level_price) - float(session_low)) <= lod_tol)
+    return at_lod or float(sweep or 0.0) >= sweep_min
 
 
 class SignalType(Enum):
@@ -2200,6 +2226,41 @@ class SignalAggregator:
                     "level_price": pattern.level.price,
                     "level_type": pattern.level.level_type.name,
                     "resume_pts": resume,
+                    "entry_price": pattern.entry_price,
+                    "stop_price": pattern.stop_price,
+                })
+                return None
+
+            # Significance v2 (gated, default off): the proven launcher must
+            # ALSO have live entry context — sweeping the session low ("FB of
+            # the LOD") or a genuine flush. Mancini levels stay exempt.
+            if (getattr(self.strategy_params,
+                        "fb_auto_level_require_context", False)
+                    and not is_mancini_exempt(pattern.level)
+                    and not auto_level_sig_v2_ok(
+                        resume=resume,
+                        sweep=float(getattr(pattern, "sweep_depth_pts", 0.0) or 0.0),
+                        level_price=pattern.level.price,
+                        session_low=getattr(self, "_session_low", None),
+                        params=self.strategy_params)):
+                logger.info(
+                    f"Significance-v2 gate: {pattern.level.level_type.name} @ "
+                    f"{pattern.level.price:.2f} resume={resume:.1f} "
+                    f"sweep={getattr(pattern, 'sweep_depth_pts', 0):.1f} "
+                    f"session_low={getattr(self, '_session_low', None)} — "
+                    f"no live context (not at LOD, no flush) — skipped"
+                )
+                self.shadow_events.append({
+                    "feature": "auto_level_no_context",
+                    "bar_idx": pattern.bar_idx,
+                    "timestamp": str(pattern.timestamp),
+                    "signal_type": signal_type.name,
+                    "direction": "long",
+                    "level_price": pattern.level.price,
+                    "level_type": pattern.level.level_type.name,
+                    "resume_pts": resume,
+                    "sweep_depth_pts": getattr(pattern, "sweep_depth_pts", 0.0),
+                    "session_low": getattr(self, "_session_low", None),
                     "entry_price": pattern.entry_price,
                     "stop_price": pattern.stop_price,
                 })

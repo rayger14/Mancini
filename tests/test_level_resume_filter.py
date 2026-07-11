@@ -83,6 +83,49 @@ def test_mancini_confirmed_engine_level_exempt():
     assert auto_level_resume_ok(lvl, resume_pts=0.0, params=_P_ON) is True
 
 
+# --- Significance v2: proven launcher AND live context (LOD sweep / flush) ---
+from core.signals import auto_level_sig_v2_ok
+
+_V2 = SimpleNamespace(fb_auto_level_min_rally_pts=30.0,
+                      fb_auto_level_require_context=True,
+                      fb_auto_level_ctx_sweep_pts=10.0,
+                      fb_auto_level_ctx_lod_tol_pts=2.0)
+_V1 = SimpleNamespace(fb_auto_level_min_rally_pts=30.0,
+                      fb_auto_level_require_context=False,
+                      fb_auto_level_ctx_sweep_pts=10.0,
+                      fb_auto_level_ctx_lod_tol_pts=2.0)
+
+
+def test_v2_off_reduces_to_v1_rally_only():
+    # context switch off -> plain rally gate (current live behavior)
+    assert auto_level_sig_v2_ok(resume=35, sweep=0, level_price=6000,
+                                session_low=5950, params=_V1) is True
+
+
+def test_v2_rally_plus_lod_passes():
+    # proven launcher + the sweep is taking out the session low
+    assert auto_level_sig_v2_ok(resume=35, sweep=4, level_price=6000,
+                                session_low=5999.0, params=_V2) is True
+
+
+def test_v2_rally_plus_flush_passes():
+    # proven launcher + a >=10pt flush at entry (away from the LOD)
+    assert auto_level_sig_v2_ok(resume=35, sweep=12, level_price=6000,
+                                session_low=5950, params=_V2) is True
+
+
+def test_v2_rally_alone_fails():
+    # launcher resume but no live context (shallow sweep, far from LOD)
+    assert auto_level_sig_v2_ok(resume=35, sweep=4, level_price=6000,
+                                session_low=5950, params=_V2) is False
+
+
+def test_v2_context_alone_fails():
+    # LOD sweep but the level never launched anything
+    assert auto_level_sig_v2_ok(resume=5, sweep=15, level_price=6000,
+                                session_low=5999.5, params=_V2) is False
+
+
 # --- ResumeCache: don't rescan the tape on every FB re-emission ---
 from core.signals import ResumeCache
 
