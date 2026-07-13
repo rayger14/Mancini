@@ -1367,7 +1367,25 @@ function initChart() {
 
   var levels = $levels_json;
   if (levels && levels.length > 0) {
-    var nearest = levels.slice(0, 10);
+    // Mancini plan levels (CUSTOM/MANCINI): ALWAYS drawn, gold + solid, so
+    // his called levels are visible even when far from price. Previously
+    // they lost the "10 nearest" contest to the engine-level crowd and
+    // never rendered on the chart.
+    var isMancini = function(t) {
+      return t.indexOf('CUSTOM') >= 0 || t.indexOf('MANCINI') >= 0;
+    };
+    var mancini = levels.filter(function(lv) { return isMancini(lv.type); });
+    for (var m = 0; m < mancini.length; m++) {
+      candleSeries.createPriceLine({
+        price: mancini[m].price, color: '#e3b341',
+        lineWidth: 2, lineStyle: LightweightCharts.LineStyle.Solid,
+        axisLabelVisible: true,
+        title: 'MANCINI ' + mancini[m].price.toFixed(0),
+      });
+    }
+    // Engine-derived levels: the 10 nearest, dashed, as before.
+    var engine = levels.filter(function(lv) { return !isMancini(lv.type); });
+    var nearest = engine.slice(0, 10);
     for (var i = 0; i < nearest.length; i++) {
       var lv = nearest[i];
       var isSupport = lv.type.indexOf('LOW') >= 0 || lv.type.indexOf('SUPPORT') >= 0;
