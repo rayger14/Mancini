@@ -1322,6 +1322,8 @@ function toggleRetro() {
 
 // Candlestick chart
 var _chartInitialized = false;
+var _candleSeries = null;   // module-level so the AJAX refresh can push live bars
+var _lastBarTime = null;    // dedupe: only redraw when a new/changed bar arrives
 function initChart() {
   if (_chartInitialized) return;
   var container = document.getElementById('chart-container');
@@ -1356,6 +1358,8 @@ function initChart() {
   var bars = $bars_json;
   if (bars && bars.length > 0) {
     candleSeries.setData(bars);
+    _candleSeries = candleSeries;
+    _lastBarTime = bars[bars.length - 1].time;
   } else {
     container.innerHTML = '<div style="padding:40px;text-align:center;color:#8b949e;">No bar data available yet. Waiting for bars to accumulate...</div>';
     return;
@@ -1418,6 +1422,20 @@ function updateDashboard() {
 
       el = document.getElementById('tk-bar-et');
       if (el) el.textContent = s.last_bar_et || '\u2014';
+
+      // Live chart: push fresh bars into the candle series (the initial page
+      // render drew once and never updated). setData redraws in place and
+      // preserves the user's zoom/scroll; skipped when no new bar arrived.
+      try {
+        if (_candleSeries && s.bars && s.bars.length > 0) {
+          var newest = s.bars[s.bars.length - 1];
+          if (newest.time !== _lastBarTime ||
+              (newest.close !== undefined && newest.time === _lastBarTime)) {
+            _candleSeries.setData(s.bars);
+            _lastBarTime = newest.time;
+          }
+        }
+      } catch (e) { /* chart refresh is best-effort */ }
 
       // Market correlation data (VIX, SPY, 10Y)
       var md = s.market_data;
