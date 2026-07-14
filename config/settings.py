@@ -303,6 +303,16 @@ class StrategyParams:
     # +345pts, weak ones lost -111; his traded levels' median resume = 53pt.
     # 0.0 = off.
     fb_auto_level_min_rally_pts: float = 0.0
+    # News-reaction entry blackout (2026-07-14, default OFF): calendar-free.
+    # When a scheduled-release minute (8:30/10:00/14:00 ET) prints a bar with
+    # range >= news_bar_range_pts, block NEW entries for news_blackout_minutes.
+    # Exits/stops/runners unaffected (riding runners through data IS the
+    # Mancini edge: "sit back, hold runners, and wait"). Study 2026-07-14:
+    # all 10 entries taken on data mornings netted -234pts vs +3597 across
+    # 110 normal-day entries; trade 732 chased the 55pt CPI bar and lost -65.
+    # 0.0 = off.
+    news_bar_range_pts: float = 0.0
+    news_blackout_minutes: int = 30
 
     # Level reclaim
     level_reclaim_min_touches: int = 4  # S/R line touches required
