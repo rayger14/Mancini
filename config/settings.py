@@ -303,6 +303,13 @@ class StrategyParams:
     # +345pts, weak ones lost -111; his traded levels' median resume = 53pt.
     # 0.0 = off.
     fb_auto_level_min_rally_pts: float = 0.0
+    # T2 snap-to-real-level (2026-07-14, default OFF): the arithmetic T2 (3R)
+    # often hangs 1-3pts above the real supply where price turns (622: T2 7581
+    # vs Mancini rung 7578, top 7579; 07-06: T2 7603.25, top 7602.25). Snap T2
+    # DOWN to the nearest real level within this tolerance below it — Mancini's
+    # published target rungs first, engine resistances second, arithmetic kept
+    # when neither is in range. 0.0 = off. Validate via ReplayRunner A/B.
+    t2_snap_to_level_tol_pts: float = 0.0
 
     # Level reclaim
     level_reclaim_min_touches: int = 4  # S/R line touches required
