@@ -81,6 +81,48 @@ def runner_split(quantity: int, tp_fraction: float) -> tuple[int, int]:
     return tp_quantity, quantity - tp_quantity
 
 
+def build_exit_tranches(*, quantity: int, tp_fraction: float, sl: float,
+                        tp: float, direction: str, oca_group: str,
+                        tp_id: int, sl_id: int, runner_sl_id: int,
+                        comment: str = "ManciniExit"):
+    """Construct per-tranche exit orders — the fix for the venue runner
+    collapse (issue #74, diagnosed at the venue 2026-07-13).
+
+    Exits attached to the parent via ``parentId`` get their quantity RESIZED
+    by the gateway to the parent's full quantity (we sent TP=1 of 2; IB rested
+    TP=2), so every TP fill closed the whole position and the runner never
+    survived. These orders are therefore INDEPENDENT (parentId=0), placed
+    AFTER the entry fill:
+
+      Tranche A (tp_qty):  TP + SL as their own OCA pair — the 1:1 pair means
+                           cancel-all-on-fill semantics are exactly right.
+      Tranche B (runner):  a standalone SL only; the runner trail moves it.
+
+    Returns (tp_A, sl_A, sl_B_or_None), all transmit=True, GTC.
+    """
+    exit_action = "BUY" if direction == "short" else "SELL"
+    tp_qty, runner_qty = runner_split(quantity, tp_fraction)
+
+    tp_a = LimitOrder(
+        action=exit_action, totalQuantity=tp_qty, lmtPrice=_round_tick(tp),
+        orderId=tp_id, ocaGroup=oca_group, ocaType=1,
+        transmit=True, orderRef=f"{comment}:TP", tif="GTC",
+    )
+    sl_a = StopOrder(
+        action=exit_action, totalQuantity=tp_qty, stopPrice=_round_tick(sl),
+        orderId=sl_id, ocaGroup=oca_group, ocaType=1,
+        transmit=True, orderRef=f"{comment}:SL", tif="GTC",
+    )
+    sl_b = None
+    if runner_qty > 0:
+        sl_b = StopOrder(
+            action=exit_action, totalQuantity=runner_qty,
+            stopPrice=_round_tick(sl), orderId=runner_sl_id,
+            transmit=True, orderRef=f"{comment}:RSL", tif="GTC",
+        )
+    return tp_a, sl_a, sl_b
+
+
 def build_bracket_orders(*, parent_id: int, tp_id: int, sl_id: int,
                          quantity: int, tp_fraction: float,
                          entry_limit_price: float, sl: float, tp: float,
@@ -1086,6 +1128,7 @@ class IBBridge:
         parent_id = self._ib.client.getReqId()
         tp_id = self._ib.client.getReqId()
         sl_id = self._ib.client.getReqId()
+        runner_sl_id = self._ib.client.getReqId()
 
         # Marketable-limit entry: bound adverse slippage to slippage_cap_pts.
         # Falls back to a market order when no cap/price is supplied.
@@ -1094,20 +1137,22 @@ class IBBridge:
             entry_limit_price = marketable_limit_price(
                 direction, entry_price, slippage_cap_pts)
 
-        # Bracket: marketable-limit (or market) parent + OCA reduce-on-fill
-        # TP/SL, so the runner rests at the venue with a stop that auto-shrinks
-        # when the TP fraction fills.
-        parent, take_profit, stop_loss = build_bracket_orders(
-            parent_id=parent_id, tp_id=tp_id, sl_id=sl_id,
-            quantity=quantity, tp_fraction=tp_fraction,
-            entry_limit_price=entry_limit_price, sl=sl, tp=tp,
-            direction=direction, comment=comment,
-        )
+        # Parent entry placed ALONE (issue #74: parent-attached exits get their
+        # quantity resized to the parent's by the gateway — the runner-collapse
+        # bug). The per-tranche exits are placed AFTER the fill below.
+        entry_action = "SELL" if direction == "short" else "BUY"
+        if entry_limit_price is None:
+            parent = MarketOrder(action=entry_action, totalQuantity=quantity,
+                                 orderId=parent_id, transmit=True,
+                                 orderRef=comment, tif="GTC")
+        else:
+            parent = LimitOrder(action=entry_action, totalQuantity=quantity,
+                                lmtPrice=_round_tick(entry_limit_price),
+                                orderId=parent_id, transmit=True,
+                                orderRef=comment, tif="GTC")
 
         try:
             parent_trade = self._ib.placeOrder(self._contract, parent)
-            tp_trade = self._ib.placeOrder(self._contract, take_profit)
-            sl_trade = self._ib.placeOrder(self._contract, stop_loss)
 
             # Wait for parent fill confirmation with polling loop
             fill_price = 0.0
@@ -1147,28 +1192,65 @@ class IBBridge:
                 )
                 try:
                     self._ib.cancelOrder(parent)
-                    self._ib.cancelOrder(take_profit)
-                    self._ib.cancelOrder(stop_loss)
                     self._ib.sleep(1.0)
                 except Exception:
                     pass
                 return None, 0.0
+
+            # Entry filled — NOW place the per-tranche exits (independent
+            # orders; never parent-attached — issue #74). Stops first so the
+            # position is protected before the TP goes up.
+            tp_a, sl_a, sl_b = build_exit_tranches(
+                quantity=quantity, tp_fraction=tp_fraction, sl=sl, tp=tp,
+                direction=direction, oca_group=f"oca_{parent_id}",
+                tp_id=tp_id, sl_id=sl_id, runner_sl_id=runner_sl_id,
+                comment=comment,
+            )
+            tp_trade = sl_trade = runner_sl_trade = None
+            for attempt in (1, 2):
+                try:
+                    if sl_trade is None:
+                        sl_trade = self._ib.placeOrder(self._contract, sl_a)
+                    if sl_b is not None and runner_sl_trade is None:
+                        runner_sl_trade = self._ib.placeOrder(self._contract, sl_b)
+                    if tp_trade is None:
+                        tp_trade = self._ib.placeOrder(self._contract, tp_a)
+                    break
+                except Exception as e:
+                    logger.error(
+                        f"EXIT PLACEMENT FAILED (attempt {attempt}/2) for "
+                        f"parentId={parent_id}: {e!r} — position may be "
+                        f"UNPROTECTED, retrying"
+                    )
+                    self._ib.sleep(1.0)
+            if sl_trade is None:
+                logger.critical(
+                    f"POSITION UNPROTECTED: {quantity} MES filled but no stop "
+                    f"rests at the venue (parentId={parent_id}) — manual "
+                    f"intervention may be required"
+                )
 
             # Store for tracking (including direction for partial exits)
             self._active_orders[parent_id] = {
                 "parent": parent_trade,
                 "tp": tp_trade,
                 "sl": sl_trade,
+                "runner_sl": runner_sl_trade,
                 "tp_order_id": tp_id,
                 "sl_order_id": sl_id,
+                "runner_sl_order_id": runner_sl_id if sl_b is not None else None,
                 "quantity": quantity,
+                "tp_qty": tp_a.totalQuantity,
+                "runner_qty": sl_b.totalQuantity if sl_b is not None else 0,
                 "direction": direction,
             }
 
             logger.info(
                 f"BRACKET ENTRY FILLED ({direction.upper()}): parentId={parent_id}, "
                 f"fill={fill_price:.2f}, {quantity} MES "
-                f"SL={_round_tick(sl):.2f} TP={_round_tick(tp):.2f} [{comment}]"
+                f"SL={_round_tick(sl):.2f} TP={_round_tick(tp):.2f} "
+                f"[tranches: TP {tp_a.totalQuantity} + runner "
+                f"{sl_b.totalQuantity if sl_b is not None else 0}] [{comment}]"
             )
             return parent_id, fill_price
 
@@ -1196,19 +1278,30 @@ class IBBridge:
             logger.warning(f"No bracket found for trade {trade_id}")
             return False
 
-        sl_trade = bracket["sl"]
-        try:
-            # Modify the stop order
-            sl_trade.order.auxPrice = _round_tick(new_sl)
-            self._ib.placeOrder(self._contract, sl_trade.order)
+        # Per-tranche structure: move EVERY working stop (tranche-A SL pre-T1
+        # + the runner SL). Dead/cancelled/filled orders are skipped, so after
+        # T1 (A's pair done) this naturally moves only the runner's stop.
+        moved = 0
+        for key in ("sl", "runner_sl"):
+            sl_trade = bracket.get(key)
+            if sl_trade is None:
+                continue
+            status = getattr(getattr(sl_trade, "orderStatus", None), "status", "")
+            if status in ("Filled", "Cancelled", "ApiCancelled", "Inactive"):
+                continue
+            try:
+                sl_trade.order.auxPrice = _round_tick(new_sl)
+                self._ib.placeOrder(self._contract, sl_trade.order)
+                moved += 1
+            except Exception as e:
+                logger.error(f"Stop update failed ({key}): {e}")
+        if moved:
             self._ib.sleep(0.5)
-
             logger.info(f"STOP UPDATED: trade={trade_id}, "
-                         f"new_sl={new_sl:.2f} [{reason}]")
+                        f"new_sl={new_sl:.2f} ({moved} stop order(s)) [{reason}]")
             return True
-        except Exception as e:
-            logger.error(f"Stop update failed: {e}")
-            return False
+        logger.warning(f"STOP UPDATE: no working stop orders for trade {trade_id}")
+        return False
 
     def flatten(self, reason: str = "") -> bool:
         """Close all open positions for our MES contract.
@@ -1319,6 +1412,7 @@ class IBBridge:
         # Save old bracket children references before overwriting
         old_tp_trade = bracket.get("tp") if bracket else None
         old_sl_trade = bracket.get("sl") if bracket else None
+        old_runner_sl_trade = bracket.get("runner_sl") if bracket else None
 
         # Place new SL for remaining quantity FIRST to keep position protected
         if bracket:
@@ -1340,15 +1434,20 @@ class IBBridge:
                     logger.error(f"New SL placement failed: {e}")
 
         # Cancel old bracket children (new SL is already in place)
-        if old_tp_trade or old_sl_trade:
+        if old_tp_trade or old_sl_trade or old_runner_sl_trade:
             try:
                 if old_tp_trade:
                     self._ib.cancelOrder(old_tp_trade.order)
                 if old_sl_trade:
                     self._ib.cancelOrder(old_sl_trade.order)
+                if old_runner_sl_trade:
+                    self._ib.cancelOrder(old_runner_sl_trade.order)
                 self._ib.sleep(0.5)
             except Exception:
                 pass
+        if bracket:
+            bracket["tp"] = None
+            bracket["runner_sl"] = None
 
         # Market exit the partial quantity
         partial_order = MarketOrder(
@@ -1397,7 +1496,8 @@ class IBBridge:
         except Exception:
             pass
 
-        for label, trade_obj in [("tp", bracket.get("tp")), ("sl", bracket.get("sl"))]:
+        for label, trade_obj in [("tp", bracket.get("tp")), ("sl", bracket.get("sl")),
+                                 ("sl", bracket.get("runner_sl"))]:
             if not trade_obj:
                 continue
 
