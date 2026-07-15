@@ -352,6 +352,18 @@ PRODUCTION_STRATEGY = StrategyParams(
     # 2.62->5.44, +190pts vs unfiltered. Skips are shadow-logged
     # (auto_level_weak_resume) and outcome-tracked; review ~2026-07-22.
     fb_auto_level_min_rally_pts=30.0,
+    # T2 snap-to-real-level (enabled 2026-07-14): second target rests AT real
+    # supply — Mancini rungs first, engine resistances second. 48-session
+    # ReplayRunner A/B: zero degraded outcomes; payoff = the rare graze
+    # (622: top 7579 vs math T2 7581; 07-06: top 7602.25 vs 7603.25).
+    t2_snap_to_level_tol_pts=4.0,
+    # News blackout (enabled 2026-07-14): all 10 data-morning entries in
+    # history netted -234pts vs +3597 on normal days (732: chased the 55pt
+    # CPI bar, -65). Reactive: release-minute bar >=8pt blocks new entries
+    # 30min. Forecast: entries pause 15min before events named in Mancini's
+    # own post (plan.economic_events). Exits/stops/runners never affected.
+    news_bar_range_pts=8.0,
+    news_pre_blackout_minutes=15,
     # FB level freshness gate: exempt structural-quality level types
     # (PRIOR_DAY_LOW, MULTI_HOUR_LOW, INTRADAY_LOW, CUSTOM Mancini-plan
     # levels) from the 24-36h age cap. Mancini routinely holds runners
@@ -1689,8 +1701,9 @@ class IBRunner:
                 target_1=float(getattr(signal, "target_1", 0.0) or 0.0),
                 target_2=float(getattr(signal, "target_2", 0.0) or 0.0),
             )
-            contracts = int(getattr(getattr(self, "elevator_params", None),
-                                    "default_contracts", 0) or 4)
+            # Per-contract framing: there is no order, so no real size —
+            # the fabricated "4 MES" fallback misled the user (2026-07-09).
+            contracts = 1
             payload = build_entry_embed(
                 position=synth, signal=signal, fill_price=entry,
                 contracts_ordered=contracts, contract_spec=self.contract,
@@ -1706,7 +1719,9 @@ class IBRunner:
                 f"{getattr(held, 'entry_price', 0.0):.2f}"
             ) if held is not None else "?"
             emb = payload["embeds"][0]
-            emb["title"] = "⚠️ MISSED (in position) • " + emb["title"]
+            emb["title"] = ("⚠️ SETUP DETECTED — NOT TRADED • "
+                            + emb["title"].replace("🟢", "").replace("🔴", "")
+                                          .replace("  •  1 MES", "").strip())
             emb["color"] = 0xF1C40F
             emb["description"] = (
                 f"**No live order placed — already in a trade** (holding "

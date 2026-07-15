@@ -60,4 +60,12 @@ docker exec \
     --plan-file "$PLAN_FILE_IN_CONTAINER"
 POST_EXIT=$?
 
+# 3. Post the focused FB-long levels card (idempotent per date/title). A
+#    companion to the full brief — "just the levels" at a glance. Non-fatal:
+#    a failure here must not mask the brief's exit code.
+docker exec \
+  -e WATCHDOG_WEBHOOK="$WATCHDOG_WEBHOOK" \
+  "$CONTAINER" \
+  python3 live/post_fb_levels.py --date "$DATE_STR" --data-dir /app/data || true
+
 exit "$POST_EXIT"
