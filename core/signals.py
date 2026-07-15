@@ -104,6 +104,84 @@ def auto_level_resume_ok(level, resume_pts: float, params) -> bool:
     return resume_pts >= min_pts
 
 
+class NewsBlackout:
+    """Calendar-free entry blackout around scheduled economic releases.
+
+    The release announces itself in price: CPI's 8:30 bar was 55pt vs a ~2pt
+    normal bar. When a release-minute bar (8:30 / 10:00 / 14:00 ET) prints a
+    range >= ``news_bar_range_pts``, NEW entries are blocked for
+    ``news_blackout_minutes``. Exits, stops and runners are never touched —
+    holding runners through data is the Mancini edge ("sit back, hold
+    runners, and wait"). Threshold 0 disables (the default).
+    """
+
+    RELEASE_MINUTES = ((8, 30), (10, 0), (14, 0))
+
+    def __init__(self, params):
+        self.params = params
+        self._blocked_until = None
+        self._scheduled = []   # [(hour, minute)] parsed from the plan
+
+    def set_scheduled_events(self, events) -> None:
+        """Load tonight's forecast layer from the plan's economic_events
+        ('HH:MM NAME' strings, extracted from Mancini's own post — he flags
+        upcoming data almost every evening). Replaces the prior session's
+        list. Malformed entries are ignored."""
+        parsed = []
+        for e in (events or []):
+            try:
+                hh, mm = str(e).strip().split(" ")[0].split(":")
+                hh, mm = int(hh), int(mm)
+                if 0 <= hh <= 23 and 0 <= mm <= 59:
+                    parsed.append((hh, mm))
+            except (ValueError, IndexError):
+                continue
+        self._scheduled = parsed
+        if parsed:
+            logger.info(f"News forecast: scheduled events loaded for the "
+                        f"session: {sorted(parsed)}")
+
+    def _scheduled_block(self, timestamp) -> bool:
+        pre = int(getattr(self.params, "news_pre_blackout_minutes", 0) or 0)
+        if pre <= 0 or not self._scheduled:
+            return False
+        post = int(getattr(self.params, "news_blackout_minutes", 30))
+        now_m = timestamp.hour * 60 + timestamp.minute
+        for (hh, mm) in self._scheduled:
+            ev = hh * 60 + mm
+            if ev - pre <= now_m <= ev + post:
+                return True
+        return False
+
+    def observe_bar(self, timestamp, high: float, low: float) -> None:
+        thr = float(getattr(self.params, "news_bar_range_pts", 0.0) or 0.0)
+        if thr <= 0:
+            return
+        if (timestamp.hour, timestamp.minute) not in self.RELEASE_MINUTES:
+            return
+        if (float(high) - float(low)) >= thr:
+            from datetime import timedelta
+            mins = int(getattr(self.params, "news_blackout_minutes", 30))
+            self._blocked_until = timestamp + timedelta(minutes=mins)
+            logger.warning(
+                f"NEWS BLACKOUT: {timestamp} release bar range "
+                f"{float(high) - float(low):.1f}pt >= {thr:.0f}pt — new "
+                f"entries blocked until {self._blocked_until} (exits/runners "
+                f"unaffected)"
+            )
+
+    def blocked(self, timestamp) -> bool:
+        if self._scheduled_block(timestamp):
+            return True
+        if self._blocked_until is None:
+            return False
+        try:
+            return timestamp <= self._blocked_until
+        except TypeError:
+            # naive/aware mismatch: compare on the naive wall time
+            a = timestamp.replace(tzinfo=None)
+            b = self._blocked_until.replace(tzinfo=None)
+            return a <= b
 def snap_t2_to_real_level(t2: float, t1: float, mancini_targets,
                           engine_levels, tol: float) -> float:
     """Snap the arithmetic T2 DOWN onto the nearest REAL level below it.
@@ -291,6 +369,9 @@ class SignalAggregator:
         # When set, _qualify_signal applies mode / danger_zones / no_trade_*
         # gates and a planned_setups LQS boost. None disables all gating.
         self._mancini_llm_plan = None
+        # News-reaction entry blackout (calendar-free; gated by
+        # news_bar_range_pts, default 0 = off)
+        self._news_blackout = NewsBlackout(self.strategy_params)
 
         # Mancini's verbatim rule: "All Mode 1 green days are triggered by a
         # Failed Breakdown ... but if you missed the triggering Failed
@@ -318,6 +399,11 @@ class SignalAggregator:
         responsible for loading the plan via ``live.mancini_llm_extract.load_plan``.
         """
         self._mancini_llm_plan = plan
+        # Forecast layer of the news blackout: Mancini's own post is the
+        # economic calendar ("Heading into CPI tomorrow..."), extracted into
+        # plan.economic_events as "HH:MM NAME" strings.
+        self._news_blackout.set_scheduled_events(
+            list(getattr(plan, "economic_events", None) or []) if plan else [])
 
     def _check_mode1_red_gate(self, pattern, signal_type) -> Optional[str]:
         """Block FB longs while Mode 1 Red is active intraday and we're
@@ -752,6 +838,9 @@ class SignalAggregator:
             self._session_high = high
         if low < self._session_low:
             self._session_low = low
+
+        # News blackout: release-minute bars announce data in price
+        self._news_blackout.observe_bar(timestamp, high, low)
 
         # Keep a reference to the visible tape for the level-resume gate
         # (computed lazily at qualify time, only when the gate is enabled).
@@ -1906,6 +1995,29 @@ class SignalAggregator:
         self, pattern: PatternSignal, signal_type: SignalType
     ) -> Optional[Signal]:
         """Calculate targets, R:R, and filter."""
+        # News-reaction blackout (gated, default off): no NEW entries in the
+        # cooldown after a violent release-minute bar — the whipsaw itself
+        # manufactures FB shapes and then mean-reverts against the chase
+        # (trade 732: entered 2min after a 55pt CPI bar, -65). Exits and
+        # runners are unaffected; this only stops fresh entries.
+        if self._news_blackout.blocked(pattern.timestamp):
+            logger.info(
+                f"News blackout: {signal_type.name} @ "
+                f"{pattern.entry_price:.2f} rejected (inside post-release "
+                f"cooldown)"
+            )
+            self.shadow_events.append({
+                "feature": "news_blackout",
+                "bar_idx": pattern.bar_idx,
+                "timestamp": str(pattern.timestamp),
+                "signal_type": signal_type.name,
+                "direction": "long",
+                "entry_price": pattern.entry_price,
+                "stop_price": pattern.stop_price,
+                "level_price": getattr(pattern.level, "price", None),
+            })
+            return None
+
         # Mode 1 Red intraday gate (Mancini's "wait patiently all day"
         # rule). Runs BEFORE the LLM plan gate so the more general
         # "this is a trend down day" check fires first and the rejection

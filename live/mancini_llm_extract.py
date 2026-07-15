@@ -52,7 +52,7 @@ Extract STRICTLY what is in the post — do not infer levels from generic market
 - "medium" for setups he discusses as plausible
 - "low" for setups mentioned only in passing or as edge cases
 
-For danger_zones, capture explicit no-trade or caution zones (e.g. "below 6838 = bear case begins", "danger zone is 5pts above the level"). For risk_warnings, capture explicit cautionary statements (e.g. "FBs near major highs are dangerous").
+For economic_events, list any scheduled data releases the post mentions for the coming session (CPI, PPI, NFP, FOMC, retail sales, etc.) as "HH:MM NAME" in ET (e.g. "08:30 CPI"); empty list if none are named. For danger_zones, capture explicit no-trade or caution zones (e.g. "below 6838 = bear case begins", "danger zone is 5pts above the level"). For risk_warnings, capture explicit cautionary statements (e.g. "FBs near major highs are dangerous").
 
 Set lean to "neutral" if no clear bias is stated. Set mode to null if not classifiable from the post.
 
@@ -111,6 +111,14 @@ class ManciniPlan(BaseModel):
     no_trade_above: Optional[float] = None
     no_trade_below: Optional[float] = None
     risk_warnings: list[str] = Field(default_factory=list)
+    economic_events: list[str] = Field(
+        default_factory=list,
+        description=(
+            'Scheduled economic releases the post mentions for the coming '
+            'session, as "HH:MM NAME" in ET, e.g. "08:30 CPI", "14:00 FOMC". '
+            'Empty list if the post names none.'
+        ),
+    )
     thesis_summary: str = Field(
         default="",
         description="2-3 sentences capturing Mancini's macro read for the day",
