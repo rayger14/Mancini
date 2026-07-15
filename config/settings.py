@@ -313,6 +313,11 @@ class StrategyParams:
     # 0.0 = off.
     news_bar_range_pts: float = 0.0
     news_blackout_minutes: int = 30
+    # Forecast layer: block entries this many minutes BEFORE a scheduled
+    # event named in Mancini's own evening post (plan.economic_events —
+    # 'Heading into CPI tomorrow...'). 0 = forecast layer off; the reactive
+    # violent-bar layer above remains the backstop either way.
+    news_pre_blackout_minutes: int = 0
 
     # Level reclaim
     level_reclaim_min_touches: int = 4  # S/R line touches required

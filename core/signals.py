@@ -120,6 +120,38 @@ class NewsBlackout:
     def __init__(self, params):
         self.params = params
         self._blocked_until = None
+        self._scheduled = []   # [(hour, minute)] parsed from the plan
+
+    def set_scheduled_events(self, events) -> None:
+        """Load tonight's forecast layer from the plan's economic_events
+        ('HH:MM NAME' strings, extracted from Mancini's own post — he flags
+        upcoming data almost every evening). Replaces the prior session's
+        list. Malformed entries are ignored."""
+        parsed = []
+        for e in (events or []):
+            try:
+                hh, mm = str(e).strip().split(" ")[0].split(":")
+                hh, mm = int(hh), int(mm)
+                if 0 <= hh <= 23 and 0 <= mm <= 59:
+                    parsed.append((hh, mm))
+            except (ValueError, IndexError):
+                continue
+        self._scheduled = parsed
+        if parsed:
+            logger.info(f"News forecast: scheduled events loaded for the "
+                        f"session: {sorted(parsed)}")
+
+    def _scheduled_block(self, timestamp) -> bool:
+        pre = int(getattr(self.params, "news_pre_blackout_minutes", 0) or 0)
+        if pre <= 0 or not self._scheduled:
+            return False
+        post = int(getattr(self.params, "news_blackout_minutes", 30))
+        now_m = timestamp.hour * 60 + timestamp.minute
+        for (hh, mm) in self._scheduled:
+            ev = hh * 60 + mm
+            if ev - pre <= now_m <= ev + post:
+                return True
+        return False
 
     def observe_bar(self, timestamp, high: float, low: float) -> None:
         thr = float(getattr(self.params, "news_bar_range_pts", 0.0) or 0.0)
@@ -139,6 +171,8 @@ class NewsBlackout:
             )
 
     def blocked(self, timestamp) -> bool:
+        if self._scheduled_block(timestamp):
+            return True
         if self._blocked_until is None:
             return False
         try:
@@ -347,6 +381,11 @@ class SignalAggregator:
         responsible for loading the plan via ``live.mancini_llm_extract.load_plan``.
         """
         self._mancini_llm_plan = plan
+        # Forecast layer of the news blackout: Mancini's own post is the
+        # economic calendar ("Heading into CPI tomorrow..."), extracted into
+        # plan.economic_events as "HH:MM NAME" strings.
+        self._news_blackout.set_scheduled_events(
+            list(getattr(plan, "economic_events", None) or []) if plan else [])
 
     def _check_mode1_red_gate(self, pattern, signal_type) -> Optional[str]:
         """Block FB longs while Mode 1 Red is active intraday and we're

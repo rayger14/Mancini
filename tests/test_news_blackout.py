@@ -69,3 +69,46 @@ def test_naive_timestamps_handled():
     b = _bo()
     b.observe_bar(datetime(2026, 7, 14, 8, 30), high=7611.5, low=7556.5)
     assert b.blocked(datetime(2026, 7, 14, 8, 40)) is True
+
+
+# --- Forecast layer: events known the night before (from Mancini's post) ---
+
+def _bo_sched(**kw):
+    p = {"news_bar_range_pts": 8.0, "news_blackout_minutes": 30,
+         "news_pre_blackout_minutes": 15}
+    p.update(kw)
+    from types import SimpleNamespace
+    return NewsBlackout(SimpleNamespace(**p))
+
+
+def test_scheduled_event_blocks_before_and_after():
+    b = _bo_sched()
+    b.set_scheduled_events(["08:30 CPI"])
+    assert b.blocked(_ts(8, 14)) is False    # before the pre-window
+    assert b.blocked(_ts(8, 16)) is True     # 15 min before: paused
+    assert b.blocked(_ts(8, 30)) is True     # the release itself
+    assert b.blocked(_ts(8, 59)) is True     # inside the 30-min post window
+    assert b.blocked(_ts(9, 1)) is False     # clear
+
+
+def test_scheduled_layer_off_when_pre_minutes_zero():
+    b = _bo_sched(news_pre_blackout_minutes=0)
+    b.set_scheduled_events(["08:30 CPI"])
+    assert b.blocked(_ts(8, 20)) is False    # forecast layer disabled
+    # reactive layer still works independently
+    b.observe_bar(_ts(8, 30), high=7611.5, low=7556.5)
+    assert b.blocked(_ts(8, 40)) is True
+
+
+def test_malformed_events_ignored():
+    b = _bo_sched()
+    b.set_scheduled_events(["CPI sometime", "", "25:99 X", "14:00 FOMC"])
+    assert b.blocked(_ts(13, 50)) is True    # the one valid event works
+    assert b.blocked(_ts(12, 0)) is False
+
+
+def test_events_reset_each_session():
+    b = _bo_sched()
+    b.set_scheduled_events(["08:30 CPI"])
+    b.set_scheduled_events([])               # next day: no data mentioned
+    assert b.blocked(_ts(8, 30)) is False
