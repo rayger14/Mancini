@@ -70,6 +70,27 @@ def test_calendar_file_is_valid_and_covers_h2():
             assert needle in joined, f"month {month} missing {needle}"
 
 
+def test_hard_tier_is_only_the_monsters():
+    # Archive evidence (2026-07-15 study): CPI 55pt, NFP 20-26.5pt, FOMC
+    # statement 8.5-34.8pt — every sampled instance >=8pt. Everything else
+    # (claims, retail, ISM, PPI, minutes) is usually 3-5pt; the reactive
+    # layer covers their rare spikes (PPI 7/15: 12.5pt bar, caught live).
+    assert events_for(date(2026, 7, 14), tier="hard") == ["08:30 CPI"]
+    assert events_for(date(2026, 9, 4), tier="hard") == \
+        ["08:30 Employment Situation (NFP)"]
+    assert events_for(date(2026, 7, 29), tier="hard") == \
+        ["14:00 FOMC Statement"]
+    # Thursday retail+claims day: nothing hard
+    assert events_for(date(2026, 7, 16), tier="hard") == []
+    # FOMC MINUTES are not hard (5.8-9.2pt sampled)
+    assert events_for(date(2026, 8, 19), tier="hard") == []
+    assert "14:00 FOMC Minutes" in events_for(date(2026, 8, 19))
+
+
+def test_default_tier_is_all():
+    assert len(events_for(date(2026, 7, 16))) == 2  # claims + retail
+
+
 def test_events_are_wellformed_hhmm_name():
     cal = load_calendar(2026)
     for d, names in cal["events"].items():

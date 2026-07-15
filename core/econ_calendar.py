@@ -44,9 +44,15 @@ def load_calendar(year: int, config_dir: Optional[Path] = None) -> Optional[dict
         return None
 
 
-def events_for(trading_date: date, config_dir: Optional[Path] = None) -> list:
-    """All scheduled releases hitting ``trading_date``, as 'HH:MM NAME'
-    strings (sorted). Dated entries plus weekly rules (weekday: Mon=0)."""
+def events_for(trading_date: date, config_dir: Optional[Path] = None,
+               tier: str = "all") -> list:
+    """Scheduled releases hitting ``trading_date``, as 'HH:MM NAME' strings
+    (sorted). Dated entries plus weekly rules (weekday: Mon=0).
+
+    ``tier="hard"`` keeps only the events named in the calendar's ``hard``
+    list (substring match on the name) — the ones that reliably print a
+    violent release bar and warrant a pre-emptive entry block. Everything
+    else is advisory: the reactive bar-range layer covers its rare spikes."""
     cal = load_calendar(trading_date.year, config_dir)
     if not cal:
         return []
@@ -57,4 +63,8 @@ def events_for(trading_date: date, config_dir: Optional[Path] = None) -> list:
                 out.append(f"{rule['time']} {rule['name']}")
         except (KeyError, TypeError, ValueError):
             continue
+    if tier == "hard":
+        hard = cal.get("hard", [])
+        out = [e for e in out
+               if any(h in e.split(" ", 1)[1] for h in hard)]
     return sorted(out)

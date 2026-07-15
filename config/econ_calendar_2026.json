@@ -1,6 +1,11 @@
 {
   "year": 2026,
-  "source": "OMB Schedule of Release Dates for Principal Federal Economic Indicators CY2026 + federalreserve.gov FOMC calendar (fetched 2026-07-15). ISM dates derived (1st/3rd business day); FOMC minutes Aug-Dec derived (3 weeks after meeting, 2pm). Refresh annually from the next year's OMB PFEI schedule.",
+  "source": "OMB Schedule of Release Dates for Principal Federal Economic Indicators CY2026 + federalreserve.gov FOMC calendar (fetched 2026-07-15). ISM dates derived (1st/3rd business day); FOMC minutes Aug-Dec derived (3 weeks after meeting, 2pm). Refresh annually from the next year's OMB PFEI schedule. Tiering (2026-07-15 archive study): 'hard' events pre-block entries (every sampled release bar 8.5-55pt); all others are advisory only \u2014 the reactive bar-range layer covers their rare spikes (e.g. PPI 2026-07-15: 12.5pt, caught live).",
+  "hard": [
+    "CPI",
+    "Employment Situation",
+    "FOMC Statement"
+  ],
   "weekly": [
     {
       "weekday": 3,

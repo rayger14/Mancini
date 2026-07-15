@@ -1039,18 +1039,25 @@ class IBRunner:
             logger.warning(f"Mancini LLM plan load failed (non-fatal): {e}")
 
     def _load_econ_calendar(self) -> None:
-        """Feed the static econ calendar's releases for self._session_date to
-        the NewsBlackout forecast layer. Independent of the Mancini plan (the
-        calendar knows the date even when the plan is missing or silent).
-        Idempotent — called from _initialize_session() and rollover."""
+        """Feed the static econ calendar's HARD-tier releases (CPI / NFP /
+        FOMC statement — the ones that reliably print a violent bar) for
+        self._session_date to the NewsBlackout forecast layer. Soft events
+        (claims, retail, ISM, PPI, minutes) are advisory only: pre-blocking
+        them costs prime entry windows for bars that are usually 3-5pt, and
+        the reactive range layer catches their rare spikes within a minute
+        (PPI 2026-07-15: 12.5pt bar, blocked live at 08:31). Independent of
+        the Mancini plan. Idempotent — called from _initialize_session()
+        and rollover."""
         try:
             from core.econ_calendar import events_for
 
-            events = events_for(self._session_date)
-            self.signal_aggregator._news_blackout.set_calendar_events(events)
-            if events:
+            hard = events_for(self._session_date, tier="hard")
+            self.signal_aggregator._news_blackout.set_calendar_events(hard)
+            all_ev = events_for(self._session_date)
+            if all_ev:
                 logger.info(
-                    f"Econ calendar for {self._session_date}: {events}"
+                    f"Econ calendar for {self._session_date}: {all_ev} "
+                    f"(hard pre-block: {hard or 'none'})"
                 )
         except Exception as e:
             logger.warning(f"Econ calendar load failed (non-fatal): {e}")
