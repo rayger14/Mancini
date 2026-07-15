@@ -104,6 +104,26 @@ def auto_level_resume_ok(level, resume_pts: float, params) -> bool:
     return resume_pts >= min_pts
 
 
+def snap_t2_to_real_level(t2: float, t1: float, mancini_targets,
+                          engine_levels, tol: float) -> float:
+    """Snap the arithmetic T2 DOWN onto the nearest REAL level below it.
+
+    The 3R math target often hangs a couple of points above the supply where
+    price actually turns (trade 622: T2 7581 vs Mancini's 7578 rung, top
+    7579). Candidates within ``tol`` below ``t2`` and strictly above ``t1``:
+    Mancini's published target rungs take priority; engine-detected
+    resistances second; no candidate -> keep the arithmetic ``t2``.
+    ``tol <= 0`` disables (default)."""
+    if tol <= 0:
+        return t2
+    for source in (mancini_targets, engine_levels):
+        cands = [float(x) for x in (source or [])
+                 if t1 < float(x) <= t2 and (t2 - float(x)) <= tol]
+        if cands:
+            return max(cands)   # nearest below t2 within this source
+    return t2
+
+
 class SignalType(Enum):
     """Signal classification."""
 
@@ -2065,6 +2085,22 @@ class SignalAggregator:
         # can still leave T2 <= T1. Force T2 strictly above T1 by min_dist.
         if t2 - t1 < min_dist:
             t2 = t1 + min_dist
+
+        # T2 snap-to-real-level (gated, default off): pull the arithmetic T2
+        # down onto the nearest real level below it — Mancini's published
+        # target rungs first, engine resistances second — so the runner's
+        # second target rests AT supply instead of a few points past it.
+        snap_tol = getattr(self.strategy_params, "t2_snap_to_level_tol_pts", 0.0)
+        if snap_tol > 0:
+            plan = getattr(self, "_mancini_llm_plan", None)
+            mancini_rungs = list(getattr(plan, "targets", None) or []) if plan else []
+            t2_snapped = snap_t2_to_real_level(
+                t2=t2, t1=t1, mancini_targets=mancini_rungs,
+                engine_levels=[l.price for l in above], tol=snap_tol)
+            if t2_snapped != t2:
+                logger.debug(f"T2 snap: {t2:.2f} -> {t2_snapped:.2f} "
+                             f"(real level below the 3R target)")
+                t2 = t2_snapped
 
         reward_t1 = t1 - entry
         reward_t2 = t2 - entry
