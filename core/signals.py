@@ -121,12 +121,12 @@ class NewsBlackout:
         self.params = params
         self._blocked_until = None
         self._scheduled = []   # [(hour, minute)] parsed from the plan
+        self._calendar = []    # [(hour, minute)] from the static econ calendar
 
-    def set_scheduled_events(self, events) -> None:
-        """Load tonight's forecast layer from the plan's economic_events
-        ('HH:MM NAME' strings, extracted from Mancini's own post — he flags
-        upcoming data almost every evening). Replaces the prior session's
-        list. Malformed entries are ignored."""
+    @staticmethod
+    def _parse_events(events) -> list:
+        """'HH:MM NAME' strings -> [(hour, minute)]. Malformed entries
+        are ignored."""
         parsed = []
         for e in (events or []):
             try:
@@ -136,18 +136,36 @@ class NewsBlackout:
                     parsed.append((hh, mm))
             except (ValueError, IndexError):
                 continue
-        self._scheduled = parsed
-        if parsed:
+        return parsed
+
+    def set_scheduled_events(self, events) -> None:
+        """Load tonight's forecast layer from the plan's economic_events
+        ('HH:MM NAME' strings, extracted from Mancini's own post — he flags
+        upcoming data almost every evening). Replaces the prior session's
+        list."""
+        self._scheduled = self._parse_events(events)
+        if self._scheduled:
             logger.info(f"News forecast: scheduled events loaded for the "
-                        f"session: {sorted(parsed)}")
+                        f"session: {sorted(self._scheduled)}")
+
+    def set_calendar_events(self, events) -> None:
+        """Load the static econ-calendar layer (core/econ_calendar) for the
+        session's trading date. Independent of the Mancini-post layer: the
+        calendar knows the date regardless of what his post mentioned.
+        Replaces the prior session's list."""
+        self._calendar = self._parse_events(events)
+        if self._calendar:
+            logger.info(f"News calendar: releases scheduled for the "
+                        f"session: {sorted(self._calendar)}")
 
     def _scheduled_block(self, timestamp) -> bool:
         pre = int(getattr(self.params, "news_pre_blackout_minutes", 0) or 0)
-        if pre <= 0 or not self._scheduled:
+        known = self._scheduled + self._calendar
+        if pre <= 0 or not known:
             return False
         post = int(getattr(self.params, "news_blackout_minutes", 30))
         now_m = timestamp.hour * 60 + timestamp.minute
-        for (hh, mm) in self._scheduled:
+        for (hh, mm) in known:
             ev = hh * 60 + mm
             if ev - pre <= now_m <= ev + post:
                 return True
