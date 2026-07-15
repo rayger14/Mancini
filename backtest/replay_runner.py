@@ -43,7 +43,8 @@ def _set_replay_env(out_dir: Path, date: str, chain_pattern_state: bool) -> None
 
 
 def build_replay(date: str, data_dir, out_dir, tape=None,
-                 resume_filter_pts: float = 0.0):
+                 resume_filter_pts: float = 0.0,
+                 t2_snap_tol_pts: float = 0.0):
     """Construct the live runner wired to a SimBridge for `date`.
 
     Env must already be set (main() does it; tests set their own). Returns
@@ -69,7 +70,8 @@ def build_replay(date: str, data_dir, out_dir, tape=None,
                        config=IBConfig())
     params = dataclasses.replace(
         ibr.PRODUCTION_STRATEGY,
-        fb_auto_level_min_rally_pts=float(resume_filter_pts))
+        fb_auto_level_min_rally_pts=float(resume_filter_pts),
+        t2_snap_to_level_tol_pts=float(t2_snap_tol_pts))
     runner = ibr.build_live_runner(IBConfig(), full_session=True,
                                    strategy_params=params)
     runner.bridge = bridge
@@ -139,6 +141,8 @@ def main():
     ap.add_argument("--resume-filter", type=float, default=0.0,
                     help="level-resume filter pts for the replay (0 = the "
                          "as-lived config for pre-2026-07-09 sessions)")
+    ap.add_argument("--t2-snap", type=float, default=0.0,
+                    help="T2 snap-to-real-level tolerance pts (0 = off)")
     args = ap.parse_args()
 
     dates = _date_range(args.dates) if args.dates else [args.date]
@@ -152,7 +156,8 @@ def main():
         _set_replay_env(out_dir, d, chain_pattern_state=batch)
         try:
             runner, bridge = build_replay(d, args.data_dir, out_dir,
-                                          resume_filter_pts=args.resume_filter)
+                                          resume_filter_pts=args.resume_filter,
+                                          t2_snap_tol_pts=args.t2_snap)
         except FileNotFoundError:
             print(f"{d}: no tape — skipped")
             continue
