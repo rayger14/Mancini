@@ -71,11 +71,14 @@ def test_calendar_file_is_valid_and_covers_h2():
 
 
 def test_hard_tier_is_only_the_monsters():
-    # Archive evidence (2026-07-15 study): CPI 55pt, NFP 20-26.5pt, FOMC
-    # statement 8.5-34.8pt — every sampled instance >=8pt. Everything else
-    # (claims, retail, ISM, PPI, minutes) is usually 3-5pt; the reactive
-    # layer covers their rare spikes (PPI 7/15: 12.5pt bar, caught live).
+    # 5y study (2021-2026 ES 1-min, release-minute bar >=8pt): FOMC stmt
+    # 95%, CPI 93%, NFP 70%, PPI 66% -> hard. ISM ~50% / retail 40% /
+    # minutes 39% / claims 18% -> soft: pre-blocking them burns entry
+    # windows on their many quiet days while the reactive range layer
+    # catches the loud ones within a minute (PPI 7/15: 12.5pt, blocked
+    # live at 08:31).
     assert events_for(date(2026, 7, 14), tier="hard") == ["08:30 CPI"]
+    assert events_for(date(2026, 7, 15), tier="hard") == ["08:30 PPI"]
     assert events_for(date(2026, 9, 4), tier="hard") == \
         ["08:30 Employment Situation (NFP)"]
     assert events_for(date(2026, 7, 29), tier="hard") == \
