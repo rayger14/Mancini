@@ -517,7 +517,43 @@ class SignalAggregator:
             if plan.no_trade_below is not None and entry <= plan.no_trade_below:
                 return f"entry {entry} <= no_trade_below {plan.no_trade_below}"
 
+            # Bear-case-active gate (trade 746): once price trades below the
+            # plan's "bear case begins below X" trigger, Mancini's supports
+            # underneath are targets, not buys — acceptance-path FB longs
+            # there are knife-catches into an active breakdown. The sharp
+            # flush-reversal (NON_ACCEPTANCE) stays allowed: that IS his way
+            # to buy below a broken bear case ("wait for the final flush").
+            if getattr(self.strategy_params,
+                       "fb_block_longs_below_bear_case", False):
+                bear = self._plan_bear_case_level(plan)
+                if bear is not None and entry < bear:
+                    conf = getattr(pattern, "confirmation", None)
+                    conf_name = (conf.name if hasattr(conf, "name")
+                                 else (str(conf) if conf else ""))
+                    if conf_name.upper() != "NON_ACCEPTANCE":
+                        return (f"bear case ACTIVE: entry {entry} below bear "
+                                f"trigger {bear} on the acceptance path — "
+                                f"supports below a broken bear case are "
+                                f"targets, not buys")
+
         return None
+
+    @staticmethod
+    def _plan_bear_case_level(plan) -> Optional[float]:
+        """The plan's bear-case trigger: the lowest SHORT setup whose context
+        names the bear case. Resistance shorts (e.g. '7639 resistance for
+        those who short') deliberately do NOT count — only the structural
+        'bear case begins below X' line defines regime."""
+        levels = []
+        for s in (getattr(plan, "planned_setups", None) or []):
+            if (getattr(s, "direction", "") or "").lower() != "short":
+                continue
+            if "bear" not in (getattr(s, "context", "") or "").lower():
+                continue
+            lp = getattr(s, "level_price", None)
+            if lp is not None:
+                levels.append(float(lp))
+        return min(levels) if levels else None
 
     def _check_cluster_low_plan_requirement(
         self, pattern, signal_type

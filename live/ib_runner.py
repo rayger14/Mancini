@@ -339,6 +339,12 @@ PRODUCTION_STRATEGY = StrategyParams(
     # winner because the gate hard-blocked a non-acceptance signal — the
     # exact case Mancini's rule says IS the way to enter inside the zone.
     danger_zone_allow_non_acceptance=True,
+    # Bear-case-active gate (trade 746, 2026-07-17, -33.5 real-money): no
+    # acceptance-path FB longs below the plan's live "bear case begins
+    # below X" trigger — supports under a broken bear case are targets,
+    # not buys. NON_ACCEPTANCE flush-reversals stay allowed. Impact study:
+    # blocks exactly trade 746 across all 54 live longs, keeps every winner.
+    fb_block_longs_below_bear_case=True,
     # CLUSTER_LOW quality filter: require a Mancini plan match for FB/LR
     # longs anchored to engine-derived CLUSTER_LOW levels. Backtest (332
     # sessions) showed CLUSTER_LOW was 98% of the acceptance-protocol
