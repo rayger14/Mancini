@@ -751,6 +751,16 @@ class StrategyParams:
     # the gate is correct for that path.
     danger_zone_allow_non_acceptance: bool = False
 
+    # Bear-case-active gate (trade 746, 2026-07-17: bought Mancini's 7533
+    # FB 40pts below his ACTIVE "bear case begins below 7575" trigger during
+    # a live overnight breakdown -> -33.5). Once price trades below the
+    # plan's bear-case level, his supports underneath are targets, not buys;
+    # acceptance-path FB longs there are knife-catches. NON_ACCEPTANCE
+    # entries stay allowed — Mancini teaches the sharp flush-reversal IS the
+    # way to buy below a broken bear case. Impact study (all 54 live longs):
+    # blocks exactly trade 746, keeps every winner.
+    fb_block_longs_below_bear_case: bool = False
+
     # --- Daily Structure Detector ---
     # Macro bias from daily chart: detects daily FB (bullish) or BD (bearish)
     # to suppress contra-trend trades and boost with-trend trades via LQS.
