@@ -378,16 +378,27 @@ def build_exit_embed(*,
     title = (f"{collection_prefix}{title_label}  •  {contracts_closed} of "
              f"{contracts_closed + remaining_contracts} closed @ {fill_price:.2f}")
 
-    sign = "+" if per_contract_pts >= 0 else ""
+    def _usd(x: float) -> str:
+        # "+$187" / "-$168" — never the malformed "$-168" / "$+187"
+        return f"{'-' if x < 0 else '+'}${abs(x):,.0f}"
+
     desc_parts = []
     if is_collection:
         desc_parts.append(
             "🧪 **COLLECTION MODE exit** — non-production trade (data only)"
         )
-    desc_parts.append(
-        f"{status_icon} Locked {sign}{per_contract_pts:.1f} pt × "
-        f"{contracts_closed} = ${slice_pnl_dollars:+.0f}"
-    )
+    # "Locked" is winner language — a stop-out must read as a loss
+    # (trade 746's card said "Locked -16.8 pt ... $-168").
+    if per_contract_pts >= 0:
+        desc_parts.append(
+            f"{status_icon} Locked +{per_contract_pts:.1f} pt × "
+            f"{contracts_closed} = {_usd(slice_pnl_dollars)}"
+        )
+    else:
+        desc_parts.append(
+            f"{status_icon} Lost {abs(per_contract_pts):.1f} pt × "
+            f"{contracts_closed} = {_usd(slice_pnl_dollars)}"
+        )
     if remaining_contracts > 0:
         desc_parts.append(
             f"🟡 {remaining_contracts} contract(s) remaining"
@@ -406,12 +417,18 @@ def build_exit_embed(*,
     else:
         desc_parts.append("🏁 Position fully closed")
 
-    cum_sign = "+" if realized_pnl_pts_so_far >= 0 else ""
+    # Dollars lead (unambiguous); the pt figure is per-contract, since the
+    # bare contract-summed total ("-33.5 pt" on a 16.5-pt stop) reads as if
+    # the market moved twice as far as it did.
     cum_dollars = realized_pnl_pts_so_far * point_value
+    total_ct = max(1, contracts_closed + remaining_contracts)
+    per_ct_cum = realized_pnl_pts_so_far / total_ct
+    cum_sign = "+" if per_ct_cum >= 0 else ""
     ts = (fill_time or datetime.now(_ET)).astimezone(_ET)
     desc_parts.append(
-        f"\nTrade P&L so far: **{cum_sign}{realized_pnl_pts_so_far:.1f} pt** "
-        f"(${cum_dollars:+,.0f})   •   {ts.strftime('%I:%M %p ET')}"
+        f"\nTrade P&L so far: **{_usd(cum_dollars)}** "
+        f"({cum_sign}{per_ct_cum:.1f} pt/contract)   •   "
+        f"{ts.strftime('%I:%M %p ET')}"
     )
 
     description = "\n".join(desc_parts)

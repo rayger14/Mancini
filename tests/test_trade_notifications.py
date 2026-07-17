@@ -444,6 +444,44 @@ class TestExitEmbed:
         assert emb["color"] == 0xE74C3C
         assert "fully closed" in emb["description"].lower()
 
+    def test_stop_loss_reads_as_loss_not_locked(self):
+        """Trade 746 (2026-07-17 00:08): the stop card said
+        'Locked -16.8 pt x 2 = $-168' and 'Trade P&L so far: -33.5 pt'.
+        Three defects: 'Locked' is winner language on a loss; '$-168' is a
+        malformed sign; and the bare contract-summed '-33.5 pt' reads as if
+        the market moved 33.5 pts against a 16.5-pt stop. A loss must say
+        'Lost 16.8 pt', dollars must format '-$168', and the cumulative line
+        must carry an explicit per-contract figure."""
+        payload = build_exit_embed(
+            phase="stop",
+            fill_price=7519.50,
+            contracts_closed=2,
+            entry_price=7536.25,
+            direction="long",
+            contract_spec=_Contract(),
+            remaining_contracts=0,
+            realized_pnl_pts_so_far=-33.5,
+            reason="Stop loss hit",
+            gate_bypass="FB blocked hour (23:00)",
+        )
+        desc = payload["embeds"][0]["description"]
+        assert "Locked -" not in desc
+        assert "Lost 16.8 pt × 2" in desc
+        assert "-$168" in desc
+        assert "$-" not in desc
+        assert "-16.8 pt/contract" in desc
+
+    def test_winner_still_reads_locked_with_clean_dollars(self):
+        payload = build_exit_embed(
+            phase="t1", fill_price=7530.0, contracts_closed=3,
+            entry_price=7517.5, direction="long", contract_spec=_Contract(),
+            remaining_contracts=1, realized_pnl_pts_so_far=37.5,
+        )
+        desc = payload["embeds"][0]["description"]
+        assert "Locked +12.5 pt × 3" in desc
+        assert "+$188" in desc  # 12.5 x 3 x $5 = 187.50 -> rounds to 188
+        assert "$-" not in desc
+
     def test_runner_stopped_shows_final_summary(self):
         payload = build_exit_embed(
             phase="runner_trail",
