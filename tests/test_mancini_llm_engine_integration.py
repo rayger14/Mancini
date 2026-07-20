@@ -390,3 +390,66 @@ def test_bear_case_gate_off_by_default():
     pattern = _fb_pattern(level_price=7533.0, entry_price=7536.25,
                           stop_price=7519.5)
     assert agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN) is not None
+
+
+# ---------------------------------------------------------------------------
+# Zone-aware plan matching (trade 765, 2026-07-20)
+# ---------------------------------------------------------------------------
+# Mancini's reclaim setups describe ZONES, not points: "At 7483, wait for it
+# to defend and recover 7490" (7/20 plan). The engine's level 7485.75 sat
+# INSIDE that zone but the 2.0pt point-tolerance missed it — the winning
+# trade got labeled "engine detected" and lost the +15 plan-match LQS bonus.
+# Fix: level_reclaim setups match a band [level - zone_below_pts, level].
+# FB setups stay point-matched (precise lows; widening risks false matches).
+
+def _reclaim_plan():
+    return ManciniPlan(planned_setups=[
+        PlannedSetup(setup_type="level_reclaim", level_price=7490.0,
+                     direction="long", conviction="medium",
+                     context="At 7483, wait for it to defend and recover 7490"),
+        PlannedSetup(setup_type="failed_breakdown", level_price=7505.0,
+                     direction="long", conviction="medium",
+                     context="FB of the 11:15AM ~7505 large low"),
+    ])
+
+
+def test_reclaim_zone_matches_level_inside_band():
+    # 765's exact shape: engine level 7485.75 inside the 7482-7490 zone
+    agg = _agg(mancini_llm_reclaim_zone_below_pts=8.0)
+    agg.set_mancini_llm_plan(_reclaim_plan())
+    pattern = _fb_pattern(level_price=7485.75, entry_price=7507.5,
+                          stop_price=7479.75)
+    assert agg._mancini_llm_setup_bonus(
+        pattern, SignalType.FAILED_BREAKDOWN) == 15
+
+
+def test_reclaim_zone_does_not_extend_above_recover_level():
+    agg = _agg(mancini_llm_reclaim_zone_below_pts=8.0)
+    agg.set_mancini_llm_plan(_reclaim_plan())
+    pattern = _fb_pattern(level_price=7493.5, entry_price=7496.0,
+                          stop_price=7488.0)   # 3.5 ABOVE the 7490 reclaim
+    assert agg._mancini_llm_setup_bonus(
+        pattern, SignalType.FAILED_BREAKDOWN) == 0
+
+
+def test_fb_setups_stay_point_matched_no_zone():
+    # 7505 is an FB setup: a level 5pts below it must NOT zone-match
+    agg = _agg(mancini_llm_reclaim_zone_below_pts=8.0)
+    agg.set_mancini_llm_plan(ManciniPlan(planned_setups=[
+        PlannedSetup(setup_type="failed_breakdown", level_price=7505.0,
+                     direction="long", conviction="medium",
+                     context="FB of the ~7505 low"),
+    ]))
+    pattern = _fb_pattern(level_price=7500.0, entry_price=7503.0,
+                          stop_price=7494.0)
+    assert agg._mancini_llm_setup_bonus(
+        pattern, SignalType.FAILED_BREAKDOWN) == 0
+
+
+def test_reclaim_zone_off_by_default():
+    agg = _agg()   # param defaults to 0 = point matching only
+    agg.set_mancini_llm_plan(_reclaim_plan())
+    pattern = _fb_pattern(level_price=7485.75, entry_price=7507.5,
+                          stop_price=7479.75)
+    assert agg._mancini_llm_setup_bonus(
+        pattern, SignalType.FAILED_BREAKDOWN) == 0

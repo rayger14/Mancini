@@ -126,18 +126,32 @@ def _level_origin_line(level_type: str, plan_match: Any) -> str:
 
 
 def _find_plan_match(plan: Any, level_price: float,
-                     tolerance_pts: float = 2.0) -> dict | None:
-    """Return the closest matching Mancini plan setup, or None."""
+                     tolerance_pts: float = 2.0,
+                     reclaim_zone_below_pts: float = 8.0,
+                     direction: str = "long") -> dict | None:
+    """Return the closest matching Mancini plan setup, or None.
+
+    Zone-aware (trade 765): his reclaim setups describe a defend->recover
+    band ("at 7483, wait for it to defend and recover 7490"), so a
+    level_reclaim setup matches engine levels within [level - zone, level],
+    not just point-tolerance. Direction-filtered so a nearby SHORT setup
+    never labels a long entry."""
     if plan is None or not getattr(plan, "planned_setups", None):
         return None
+    from core.signals import plan_setup_matches_level
     best = None
-    best_d = tolerance_pts + 1
+    best_d = None
     for s in plan.planned_setups:
+        if (getattr(s, "direction", "") or "").lower() != direction:
+            continue
+        if not plan_setup_matches_level(s, level_price, tolerance_pts,
+                                        reclaim_zone_below_pts):
+            continue
         try:
             d = abs(float(s.level_price) - float(level_price))
         except (TypeError, ValueError):
             continue
-        if d <= tolerance_pts and d < best_d:
+        if best_d is None or d < best_d:
             best = s
             best_d = d
     return best
@@ -528,7 +542,8 @@ def build_short_alert_embed(event: dict, symbol: str = "MES",
 
     # Quote Mancini's plan context if this lines up with a published setup.
     lvl = event.get("level_price")
-    match = _find_plan_match(plan, float(lvl if lvl is not None else entry))
+    match = _find_plan_match(plan, float(lvl if lvl is not None else entry),
+                             reclaim_zone_below_pts=0.0, direction="short")
     if match is not None:
         ctx = (getattr(match, "context", "") or "")[:140]
         conv = (getattr(match, "conviction", "") or "")

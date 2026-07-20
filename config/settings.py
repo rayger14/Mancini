@@ -712,6 +712,13 @@ class StrategyParams:
     use_mancini_llm_plan: bool = False
     mancini_llm_plan_dir: str = "/app/data"
     mancini_llm_setup_match_tolerance_pts: float = 2.0
+    # Zone-aware reclaim matching (trade 765, 2026-07-20): Mancini's reclaim
+    # setups describe a BAND — "at 7483, wait for it to defend and recover
+    # 7490" — so a level_reclaim setup also matches engine levels within
+    # [level - this, level]. The winning 7485.75 trade sat inside his zone
+    # but the 2pt point-tolerance missed it (no plan label, no LQS bonus).
+    # FB setups stay point-matched. 0 disables (default).
+    mancini_llm_reclaim_zone_below_pts: float = 0.0
     # Inject Mancini's published target ladder (plan.targets) into the level
     # store as MANCINI_LEVEL targets, and bump source_count where they coincide
     # with an engine level (confluence). Shadow-first: validate by backtest

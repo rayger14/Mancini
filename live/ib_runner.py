@@ -351,6 +351,11 @@ PRODUCTION_STRATEGY = StrategyParams(
     # leak (-$97K). Gating these by plan match cuts the leak and routes
     # the engine to Mancini's actual structural levels.
     cluster_low_requires_plan_match=True,
+    # Zone-aware reclaim matching (trade 765, 2026-07-20): his "defend 7483,
+    # recover 7490" reclaim setups match engine levels in the band below the
+    # recover price, so in-zone trades get the plan label + LQS bonus
+    # instead of reading as "engine detected". FB setups stay point-matched.
+    mancini_llm_reclaim_zone_below_pts=8.0,
     # Level-resume filter (enabled 2026-07-08, forward test): an ENGINE
     # auto-detected level must have launched a >=30pt rally in the visible
     # tape to be FB-tradeable. Mancini plan levels (CUSTOM/mancini_confirmed)

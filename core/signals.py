@@ -104,6 +104,30 @@ def auto_level_resume_ok(level, resume_pts: float, params) -> bool:
     return resume_pts >= min_pts
 
 
+def plan_setup_matches_level(setup, level_price: float, tolerance_pts: float,
+                             reclaim_zone_below_pts: float = 0.0) -> bool:
+    """Does a Mancini planned setup cover this engine level?
+
+    Point match within ``tolerance_pts`` always counts. Additionally, his
+    ``level_reclaim`` setups describe a defend->recover ZONE below the named
+    price ("at 7483, wait for it to defend and recover 7490"), so with
+    ``reclaim_zone_below_pts`` > 0 a reclaim setup also matches any level in
+    [setup - zone, setup]. FB setups stay point-matched — they name precise
+    lows and widening them risks false matches."""
+    try:
+        sp = float(setup.level_price)
+        lp = float(level_price)
+    except (TypeError, ValueError):
+        return False
+    if abs(sp - lp) <= tolerance_pts:
+        return True
+    if (reclaim_zone_below_pts > 0
+            and "reclaim" in str(getattr(setup, "setup_type", "")).lower()
+            and sp - reclaim_zone_below_pts <= lp <= sp):
+        return True
+    return False
+
+
 class NewsBlackout:
     """Calendar-free entry blackout around scheduled economic releases.
 
@@ -612,14 +636,12 @@ class SignalAggregator:
                 f"match; no plan loaded"
             )
 
+        zone = float(getattr(
+            self.strategy_params, "mancini_llm_reclaim_zone_below_pts", 0.0))
         for setup in plan.planned_setups:
             if getattr(setup, "direction", None) != "long":
                 continue
-            try:
-                setup_price = float(setup.level_price)
-            except (TypeError, ValueError):
-                continue
-            if abs(setup_price - level_price) <= tolerance:
+            if plan_setup_matches_level(setup, level_price, tolerance, zone):
                 return None  # matched — allow
 
         return (
@@ -653,8 +675,11 @@ class SignalAggregator:
         )
         bonus = getattr(self.strategy_params, 'mancini_llm_setup_lqs_bonus', 15)
 
+        zone = float(getattr(
+            self.strategy_params, "mancini_llm_reclaim_zone_below_pts", 0.0))
         for setup in plan.planned_setups:
-            if abs(setup.level_price - level_price) > tolerance:
+            if not plan_setup_matches_level(setup, level_price, tolerance,
+                                            zone):
                 continue
             if setup.direction != direction:
                 continue
