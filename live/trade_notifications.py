@@ -365,7 +365,8 @@ def build_exit_embed(*,
                      reason: str = "",
                      fill_time: datetime | None = None,
                      trade_id=None,
-                     gate_bypass=None) -> dict:
+                     gate_bypass=None,
+                     total_contracts: int | None = None) -> dict:
     """Build a Discord embed for an exit event (T1 / T2 / stop / runner).
 
     ``gate_bypass`` carries through from the entry: when set, this trade was a
@@ -398,8 +399,14 @@ def build_exit_embed(*,
         color = _COLOR_COLLECTION
 
     collection_prefix = "🧪 COLLECTION  •  " if is_collection else ""
+    # Count against the ORIGINAL position size when known — trade 765's T1
+    # card said "1 of 1 closed" on a 2-lot because the caller's position was
+    # already mutated to runner-only when the embed was built.
+    _total = int(total_contracts or 0)
+    if _total < contracts_closed + remaining_contracts:
+        _total = contracts_closed + remaining_contracts
     title = (f"{collection_prefix}{title_label}  •  {contracts_closed} of "
-             f"{contracts_closed + remaining_contracts} closed @ {fill_price:.2f}")
+             f"{_total} closed @ {fill_price:.2f}")
 
     def _usd(x: float) -> str:
         # "+$187" / "-$168" — never the malformed "$-168" / "$+187"

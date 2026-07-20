@@ -168,6 +168,32 @@ def venue_t1_pnl_and_stop(*, direction: str, entry_price: float,
     return round(pnl, 2), new_stop
 
 
+def classify_exit_phase(reason: str) -> str:
+    """Map an exit reason to the embed phase. Runner/trail checks come FIRST:
+    'Runner stopped after T1' contains 'stop', so a stop-first order
+    mislabeled 765's trailing-runner exit as a plain STOP HIT."""
+    r = (reason or "").lower()
+    if "runner" in r or "trail" in r or "structure" in r:
+        return "runner_trail"
+    if "eod" in r:
+        return "eod"
+    return "stop"
+
+
+def protocol_explainer(conf_name: str) -> str:
+    """One-line Mancini definition of the confirmation protocol, for the
+    entry card."""
+    c = (conf_name or "").upper()
+    if c == "NON_ACCEPTANCE":
+        return ("_Mancini: the market refuses to accept prices below the "
+                "level — the instant snap-back traps shorts, and their "
+                "covering fuels the rally._")
+    if c == "ACCEPTANCE":
+        return ("_Mancini: price bases above the level long enough to prove "
+                "buyers accept it again — the patient confirmation._")
+    return ""
+
+
 def flush_context(df, level_price: float, lookback: int = 180):
     """The REAL flush picture around an FB level, from the session bars.
 
@@ -2018,16 +2044,7 @@ class IBRunner:
                     self._revert_position_close(self._position, action)
                 return False
             logger.info(f"EXIT: flatten -- {action.reason}")
-            # Classify phase for the embed
-            r = (action.reason or "").lower()
-            if "stop loss" in r or "stop" in r:
-                phase = "stop"
-            elif "eod" in r:
-                phase = "eod"
-            elif "trail" in r or "structure" in r:
-                phase = "runner_trail"
-            else:
-                phase = "stop"
+            phase = classify_exit_phase(action.reason)
             self._post_trade_exit_embed(
                 phase=phase,
                 action=action,
@@ -2157,8 +2174,10 @@ class IBRunner:
             remaining_before = int(getattr(pre_position, "remaining_contracts", 0))
             remaining_after = max(0, remaining_before - contracts_closed)
             if phase in ("stop", "runner_trail", "eod"):
-                # These close everything that's left
-                contracts_closed = remaining_before
+                # These close everything that's left. If the position object
+                # was already zeroed by the exit bookkeeping (765's runner
+                # card read "0 of 0 closed"), fall back to the action's count.
+                contracts_closed = remaining_before or contracts_closed or 1
                 remaining_after = 0
             # Cumulative realized PnL across the trade so far
             realized_so_far = float(getattr(pre_position, "realized_pnl_pts", 0.0))
@@ -2171,10 +2190,13 @@ class IBRunner:
             target_2 = float(getattr(pre_position, "target_2", 0.0))
             next_target = (target_2 if phase == "t1" and target_2 > 0
                            and remaining_after > 0 else None)
+            total_ct = int(getattr(pre_position, "total_contracts", 0)
+                           or getattr(pre_position, "contracts", 0) or 0)
             payload = build_exit_embed(
                 phase=phase,
                 fill_price=fill_price,
                 contracts_closed=contracts_closed,
+                total_contracts=total_ct,
                 entry_price=entry_price,
                 direction=direction,
                 contract_spec=self.contract,
@@ -2457,6 +2479,18 @@ class IBRunner:
             pdl_buffer_pts=self.exit_params.runner_prior_day_low_buffer_pts,
         )
 
+        # Post the Discord T1 embed BEFORE mutating position state — the
+        # embed reads pre-fill remaining/realized. Mutating first made 765's
+        # T1 card say "1 of 1 closed / fully closed" while the runner rode.
+        action = SimpleNamespace(
+            exit_price=fill_price,
+            contracts_to_close=filled,
+            new_stop=new_stop,
+            reason=f"Target 1 hit ({pos.target_1:.2f}) [venue]",
+        )
+        self._post_trade_exit_embed(
+            phase="t1", action=action, pre_position=pos, timestamp=timestamp)
+
         pos.realized_pnl_pts += pnl
         pos.remaining_contracts = runner_qty
         pos.t1_hit = True
@@ -2471,15 +2505,7 @@ class IBRunner:
         except Exception as e:
             logger.warning(f"Runner stop update after venue T1 failed: {e!r}")
 
-        action = SimpleNamespace(
-            exit_price=fill_price,
-            contracts_to_close=filled,
-            new_stop=new_stop,
-            reason=f"Target 1 hit ({pos.target_1:.2f}) [venue]",
-        )
         self._log_partial_exit(action, timestamp)
-        self._post_trade_exit_embed(
-            phase="t1", action=action, pre_position=pos, timestamp=timestamp)
         logger.info(
             f"VENUE T1 reconciled: {filled} closed @ {fill_price:.2f}, "
             f"runner={runner_qty} held (IB read {ib_volume}), "
@@ -3227,13 +3253,15 @@ class IBRunner:
                 bars = int(getattr(sp, "non_acceptance_min_hold_bars", 3))
                 return (f"📐 Protocol: NON-ACCEPTANCE — reclaim ≥{rec:.1f}pt "
                         f"above {lvl:.2f} (hold ≥{lvl + rec:.2f}) for {bars} "
-                        f"bars: sellers trapped")
+                        f"bars: sellers trapped\n"
+                        + protocol_explainer("NON_ACCEPTANCE"))
             if conf_name.upper() == "ACCEPTANCE":
                 bars = int(getattr(sp, "acceptance_min_hold_bars", 7))
                 dip = float(getattr(sp, "acceptance_max_dip_pts", 4.0))
                 return (f"📐 Protocol: ACCEPTANCE — {bars} closes at/above "
                         f"{lvl:.2f}, dips tolerated to {lvl - dip:.2f}: "
-                        f"floor proven by patience")
+                        f"floor proven by patience\n"
+                        + protocol_explainer("ACCEPTANCE"))
             return ""
         except Exception:
             return ""
