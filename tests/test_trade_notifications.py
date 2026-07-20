@@ -444,6 +444,44 @@ class TestExitEmbed:
         assert emb["color"] == 0xE74C3C
         assert "fully closed" in emb["description"].lower()
 
+    def test_stop_loss_reads_as_loss_not_locked(self):
+        """Trade 746 (2026-07-17 00:08): the stop card said
+        'Locked -16.8 pt x 2 = $-168' and 'Trade P&L so far: -33.5 pt'.
+        Three defects: 'Locked' is winner language on a loss; '$-168' is a
+        malformed sign; and the bare contract-summed '-33.5 pt' reads as if
+        the market moved 33.5 pts against a 16.5-pt stop. A loss must say
+        'Lost 16.8 pt', dollars must format '-$168', and the cumulative line
+        must carry an explicit per-contract figure."""
+        payload = build_exit_embed(
+            phase="stop",
+            fill_price=7519.50,
+            contracts_closed=2,
+            entry_price=7536.25,
+            direction="long",
+            contract_spec=_Contract(),
+            remaining_contracts=0,
+            realized_pnl_pts_so_far=-33.5,
+            reason="Stop loss hit",
+            gate_bypass="FB blocked hour (23:00)",
+        )
+        desc = payload["embeds"][0]["description"]
+        assert "Locked -" not in desc
+        assert "Lost 16.8 pt × 2" in desc
+        assert "-$168" in desc
+        assert "$-" not in desc
+        assert "-16.8 pt/contract" in desc
+
+    def test_winner_still_reads_locked_with_clean_dollars(self):
+        payload = build_exit_embed(
+            phase="t1", fill_price=7530.0, contracts_closed=3,
+            entry_price=7517.5, direction="long", contract_spec=_Contract(),
+            remaining_contracts=1, realized_pnl_pts_so_far=37.5,
+        )
+        desc = payload["embeds"][0]["description"]
+        assert "Locked +12.5 pt × 3" in desc
+        assert "+$188" in desc  # 12.5 x 3 x $5 = 187.50 -> rounds to 188
+        assert "$-" not in desc
+
     def test_runner_stopped_shows_final_summary(self):
         payload = build_exit_embed(
             phase="runner_trail",
@@ -582,3 +620,116 @@ class TestBuildShortAlertEmbed:
             context="Bear case begins below 7399.")])
         emb = build_short_alert_embed(_short_entry_event(), symbol="MES", plan=plan)
         assert "Bear case" in emb["description"]
+
+
+class TestFlushContext:
+    """Trade 765 (2026-07-20): the card said 'Sweep depth: 0.0 pts' on a
+    real FB whose flush hit 7483.50, 2.2pt under the 7485.75 level, with a
+    34pt rally off it — the level was minted AT the flush low so the
+    level-relative depth computed to zero. The engine field stays (sizing
+    reads it); the CARD must show the real flush picture."""
+
+    def test_flush_context_computes_real_dip_and_rally(self):
+        import pandas as pd
+        from live.ib_runner import flush_context
+        idx = pd.date_range("2026-07-19 18:00", periods=60, freq="1min")
+        lows = [7490.0] * 60
+        highs = [7492.0] * 60
+        lows[10] = 7483.5           # the real flush low
+        highs[40] = 7517.5          # the rally off it
+        df = pd.DataFrame({"open": lows, "high": highs,
+                           "low": lows, "close": highs}, index=idx)
+        ctx = flush_context(df, level_price=7485.75)
+        assert abs(ctx["flush_low"] - 7483.5) < 0.01
+        assert abs(ctx["depth_under"] - 2.25) < 0.01
+        assert abs(ctx["rally"] - 34.0) < 0.01
+
+    def test_flush_context_none_on_empty(self):
+        from live.ib_runner import flush_context
+        assert flush_context(None, 7500.0) is None
+
+    def test_entry_embed_shows_flush_line(self):
+        emb_payload = build_entry_embed(
+            position=_Position(remaining_contracts=2), signal=_Signal(),
+            fill_price=7507.5, contracts_ordered=2, contract_spec=_Contract(),
+            exit_params=SimpleNamespace(t1_exit_fraction=0.75,
+                                        t2_exit_fraction=0.15,
+                                        runner_fraction=0.10),
+            plan=None, session_date="2026-07-20",
+            flush_line="🌊 Real flush: 7483.50 (2.2pt under the level), 34pt rally off it",
+        )
+        desc = emb_payload["embeds"][0]["description"]
+        assert "Real flush: 7483.50" in desc
+        assert "34pt rally" in desc
+
+
+class TestProtocolLine:
+    """The card must explain the confirmation protocol in THAT trade's
+    numbers: what price had to do, at which levels, to confirm."""
+
+    def test_embed_shows_protocol_line(self):
+        emb_payload = build_entry_embed(
+            position=_Position(remaining_contracts=2), signal=_Signal(),
+            fill_price=7507.5, contracts_ordered=2, contract_spec=_Contract(),
+            exit_params=SimpleNamespace(t1_exit_fraction=0.75,
+                                        t2_exit_fraction=0.15,
+                                        runner_fraction=0.10),
+            plan=None, session_date="2026-07-20",
+            protocol_line=("📐 Protocol: NON-ACCEPTANCE — reclaim ≥5.0pt above "
+                           "7485.75 (hold ≥7490.75) for 3 bars: sellers trapped"),
+        )
+        desc = emb_payload["embeds"][0]["description"]
+        assert "hold ≥7490.75" in desc
+        assert "3 bars" in desc
+
+
+class TestExitCardCounts:
+    """Trade 765's exit cards (2026-07-20): T1 said '1 of 1 closed' +
+    'Position fully closed' while a runner was still riding (the venue-T1
+    path mutates the position BEFORE building the embed), and the runner's
+    trailing-stop exit said 'STOP HIT - 0 of 0 closed' (position already
+    zeroed; 'Runner stopped' contains 'stop' so the classifier picked the
+    wrong phase). Titles must count against the ORIGINAL position size."""
+
+    def test_t1_on_two_lot_says_one_of_two(self):
+        payload = build_exit_embed(
+            phase="t1", fill_price=7538.25, contracts_closed=1,
+            entry_price=7507.5, direction="long", contract_spec=_Contract(),
+            remaining_contracts=1, realized_pnl_pts_so_far=30.75,
+            total_contracts=2, new_stop=7504.5,
+        )
+        emb = payload["embeds"][0]
+        assert "1 of 2" in emb["title"]
+        assert "fully closed" not in emb["description"].lower()
+        assert "1 contract(s) remaining" in emb["description"]
+
+    def test_runner_stop_never_says_zero_of_zero(self):
+        # position object already zeroed; the action still knows 1 closed
+        payload = build_exit_embed(
+            phase="runner_trail", fill_price=7533.5, contracts_closed=1,
+            entry_price=7507.5, direction="long", contract_spec=_Contract(),
+            remaining_contracts=0, realized_pnl_pts_so_far=56.75,
+            total_contracts=2, reason="Runner stopped after T1 (trail)",
+        )
+        emb = payload["embeds"][0]
+        assert "0 of 0" not in emb["title"]
+        assert "1 of 2" in emb["title"]
+        assert "RUNNER STOPPED" in emb["title"]
+
+    def test_classify_exit_phase_runner_before_stop(self):
+        from live.ib_runner import classify_exit_phase
+        assert classify_exit_phase("Runner stopped after T1") == "runner_trail"
+        assert classify_exit_phase("Trailing stop hit") == "runner_trail"
+        assert classify_exit_phase("Structure trail exit") == "runner_trail"
+        assert classify_exit_phase("Stop loss hit") == "stop"
+        assert classify_exit_phase("EOD flatten") == "eod"
+
+
+class TestProtocolExplainer:
+    def test_protocol_line_carries_mancini_definition(self):
+        # the runner-side helper appends a one-line Mancini definition
+        from live.ib_runner import protocol_explainer
+        na = protocol_explainer("NON_ACCEPTANCE")
+        assert "refuse" in na.lower() or "trap" in na.lower()
+        acc = protocol_explainer("ACCEPTANCE")
+        assert "accept" in acc.lower() and "base" in acc.lower()

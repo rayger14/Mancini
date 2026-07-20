@@ -168,6 +168,56 @@ def venue_t1_pnl_and_stop(*, direction: str, entry_price: float,
     return round(pnl, 2), new_stop
 
 
+def classify_exit_phase(reason: str) -> str:
+    """Map an exit reason to the embed phase. Runner/trail checks come FIRST:
+    'Runner stopped after T1' contains 'stop', so a stop-first order
+    mislabeled 765's trailing-runner exit as a plain STOP HIT."""
+    r = (reason or "").lower()
+    if "runner" in r or "trail" in r or "structure" in r:
+        return "runner_trail"
+    if "eod" in r:
+        return "eod"
+    return "stop"
+
+
+def protocol_explainer(conf_name: str) -> str:
+    """One-line Mancini definition of the confirmation protocol, for the
+    entry card."""
+    c = (conf_name or "").upper()
+    if c == "NON_ACCEPTANCE":
+        return ("_Mancini: the market refuses to accept prices below the "
+                "level — the instant snap-back traps shorts, and their "
+                "covering fuels the rally._")
+    if c == "ACCEPTANCE":
+        return ("_Mancini: price bases above the level long enough to prove "
+                "buyers accept it again — the patient confirmation._")
+    return ""
+
+
+def flush_context(df, level_price: float, lookback: int = 180):
+    """The REAL flush picture around an FB level, from the session bars.
+
+    The engine's ``sweep_depth_pts`` is level-relative and reads 0.0 when
+    the level was minted at the flush low itself (trade 765: card said
+    "swept 0.0 pts" on a flush that hit 2.2pt under the level and rallied
+    34pt). This computes what the trader wants to know: where the flush
+    actually bottomed, how far under the level that was, and how far price
+    rallied off it. Returns None when bars are unavailable.
+    """
+    try:
+        if df is None or len(df) < 10:
+            return None
+        win = df.tail(int(lookback))
+        flush_low = float(win["low"].min())
+        depth_under = max(0.0, float(level_price) - flush_low)
+        rally = float(win["high"].max()) - flush_low
+        return {"flush_low": round(flush_low, 2),
+                "depth_under": round(depth_under, 2),
+                "rally": round(rally, 2)}
+    except Exception:
+        return None
+
+
 def build_session_bars_df(session_bars: dict) -> "pd.DataFrame":
     """Assemble the full session's OHLCV bars from an uncapped accumulator.
 
@@ -339,12 +389,23 @@ PRODUCTION_STRATEGY = StrategyParams(
     # winner because the gate hard-blocked a non-acceptance signal — the
     # exact case Mancini's rule says IS the way to enter inside the zone.
     danger_zone_allow_non_acceptance=True,
+    # Bear-case-active gate (trade 746, 2026-07-17, -33.5 real-money): no
+    # acceptance-path FB longs below the plan's live "bear case begins
+    # below X" trigger — supports under a broken bear case are targets,
+    # not buys. NON_ACCEPTANCE flush-reversals stay allowed. Impact study:
+    # blocks exactly trade 746 across all 54 live longs, keeps every winner.
+    fb_block_longs_below_bear_case=True,
     # CLUSTER_LOW quality filter: require a Mancini plan match for FB/LR
     # longs anchored to engine-derived CLUSTER_LOW levels. Backtest (332
     # sessions) showed CLUSTER_LOW was 98% of the acceptance-protocol
     # leak (-$97K). Gating these by plan match cuts the leak and routes
     # the engine to Mancini's actual structural levels.
     cluster_low_requires_plan_match=True,
+    # Zone-aware reclaim matching (trade 765, 2026-07-20): his "defend 7483,
+    # recover 7490" reclaim setups match engine levels in the band below the
+    # recover price, so in-zone trades get the plan label + LQS bonus
+    # instead of reading as "engine detected". FB setups stay point-matched.
+    mancini_llm_reclaim_zone_below_pts=8.0,
     # Level-resume filter (enabled 2026-07-08, forward test): an ENGINE
     # auto-detected level must have launched a >=30pt rally in the visible
     # tape to be FB-tradeable. Mancini plan levels (CUSTOM/mancini_confirmed)
@@ -1736,6 +1797,8 @@ class IBRunner:
                 plan=getattr(self, "_mancini_llm_plan", None),
                 session_date=str(self._session_date), entry_time=timestamp,
                 trade_id=None, gate_bypass=None,
+                flush_line=self._flush_line(signal),
+                protocol_line=self._protocol_line(signal),
             )
             held = self._position
             held_desc = (
@@ -2006,16 +2069,7 @@ class IBRunner:
                     self._revert_position_close(self._position, action)
                 return False
             logger.info(f"EXIT: flatten -- {action.reason}")
-            # Classify phase for the embed
-            r = (action.reason or "").lower()
-            if "stop loss" in r or "stop" in r:
-                phase = "stop"
-            elif "eod" in r:
-                phase = "eod"
-            elif "trail" in r or "structure" in r:
-                phase = "runner_trail"
-            else:
-                phase = "stop"
+            phase = classify_exit_phase(action.reason)
             self._post_trade_exit_embed(
                 phase=phase,
                 action=action,
@@ -2111,6 +2165,8 @@ class IBRunner:
                 entry_time=getattr(self, "_entry_timestamp", None),
                 trade_id=getattr(self, "_trade_id", None) or None,
                 gate_bypass=getattr(self, "_current_gate_bypass", None),
+                flush_line=self._flush_line(signal),
+                protocol_line=self._protocol_line(signal),
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
@@ -2143,8 +2199,10 @@ class IBRunner:
             remaining_before = int(getattr(pre_position, "remaining_contracts", 0))
             remaining_after = max(0, remaining_before - contracts_closed)
             if phase in ("stop", "runner_trail", "eod"):
-                # These close everything that's left
-                contracts_closed = remaining_before
+                # These close everything that's left. If the position object
+                # was already zeroed by the exit bookkeeping (765's runner
+                # card read "0 of 0 closed"), fall back to the action's count.
+                contracts_closed = remaining_before or contracts_closed or 1
                 remaining_after = 0
             # Cumulative realized PnL across the trade so far
             realized_so_far = float(getattr(pre_position, "realized_pnl_pts", 0.0))
@@ -2157,10 +2215,13 @@ class IBRunner:
             target_2 = float(getattr(pre_position, "target_2", 0.0))
             next_target = (target_2 if phase == "t1" and target_2 > 0
                            and remaining_after > 0 else None)
+            total_ct = int(getattr(pre_position, "total_contracts", 0)
+                           or getattr(pre_position, "contracts", 0) or 0)
             payload = build_exit_embed(
                 phase=phase,
                 fill_price=fill_price,
                 contracts_closed=contracts_closed,
+                total_contracts=total_ct,
                 entry_price=entry_price,
                 direction=direction,
                 contract_spec=self.contract,
@@ -2443,6 +2504,18 @@ class IBRunner:
             pdl_buffer_pts=self.exit_params.runner_prior_day_low_buffer_pts,
         )
 
+        # Post the Discord T1 embed BEFORE mutating position state — the
+        # embed reads pre-fill remaining/realized. Mutating first made 765's
+        # T1 card say "1 of 1 closed / fully closed" while the runner rode.
+        action = SimpleNamespace(
+            exit_price=fill_price,
+            contracts_to_close=filled,
+            new_stop=new_stop,
+            reason=f"Target 1 hit ({pos.target_1:.2f}) [venue]",
+        )
+        self._post_trade_exit_embed(
+            phase="t1", action=action, pre_position=pos, timestamp=timestamp)
+
         pos.realized_pnl_pts += pnl
         pos.remaining_contracts = runner_qty
         pos.t1_hit = True
@@ -2457,15 +2530,7 @@ class IBRunner:
         except Exception as e:
             logger.warning(f"Runner stop update after venue T1 failed: {e!r}")
 
-        action = SimpleNamespace(
-            exit_price=fill_price,
-            contracts_to_close=filled,
-            new_stop=new_stop,
-            reason=f"Target 1 hit ({pos.target_1:.2f}) [venue]",
-        )
         self._log_partial_exit(action, timestamp)
-        self._post_trade_exit_embed(
-            phase="t1", action=action, pre_position=pos, timestamp=timestamp)
         logger.info(
             f"VENUE T1 reconciled: {filled} closed @ {fill_price:.2f}, "
             f"runner={runner_qty} held (IB read {ib_volume}), "
@@ -3196,6 +3261,52 @@ class IBRunner:
         except Exception as e:
             logger.warning(f"Failed to log trade: {e}")
 
+    def _protocol_line(self, signal) -> str:
+        """Explain the confirmation protocol in THIS trade's numbers:
+        what price had to do, at which exact levels, to confirm the FB."""
+        try:
+            pat = getattr(signal, "pattern", None)
+            lvl = getattr(getattr(pat, "level", None), "price", None)
+            conf = getattr(pat, "confirmation", None)
+            conf_name = getattr(conf, "name", str(conf) if conf else "")
+            if lvl is None or not conf_name:
+                return ""
+            sp = getattr(self.strategy, "strategy_params", None)
+            lvl = float(lvl)
+            if conf_name.upper() == "NON_ACCEPTANCE":
+                rec = float(getattr(sp, "non_acceptance_min_recovery_pts", 5.0))
+                bars = int(getattr(sp, "non_acceptance_min_hold_bars", 3))
+                return (f"📐 Protocol: NON-ACCEPTANCE — reclaim ≥{rec:.1f}pt "
+                        f"above {lvl:.2f} (hold ≥{lvl + rec:.2f}) for {bars} "
+                        f"bars: sellers trapped\n"
+                        + protocol_explainer("NON_ACCEPTANCE"))
+            if conf_name.upper() == "ACCEPTANCE":
+                bars = int(getattr(sp, "acceptance_min_hold_bars", 7))
+                dip = float(getattr(sp, "acceptance_max_dip_pts", 4.0))
+                return (f"📐 Protocol: ACCEPTANCE — {bars} closes at/above "
+                        f"{lvl:.2f}, dips tolerated to {lvl - dip:.2f}: "
+                        f"floor proven by patience\n"
+                        + protocol_explainer("ACCEPTANCE"))
+            return ""
+        except Exception:
+            return ""
+
+    def _flush_line(self, signal) -> str:
+        """One-line real-flush description for the entry card ('' if n/a)."""
+        try:
+            pat = getattr(signal, "pattern", None)
+            lvl = getattr(getattr(pat, "level", None), "price", None)
+            if lvl is None:
+                return ""
+            fc = flush_context(getattr(self, "_df", None), float(lvl))
+            if fc is None:
+                return ""
+            return (f"🌊 Real flush: **{fc['flush_low']:.2f}** "
+                    f"({fc['depth_under']:.1f}pt under the level), "
+                    f"{fc['rally']:.0f}pt rally off it")
+        except Exception:
+            return ""
+
     def _build_trade_reason(self, signal: Signal, regime_info: dict, session_window: dict) -> str:
         """Build a plain English explanation of why this trade was taken."""
         p = signal.pattern
@@ -3208,10 +3319,31 @@ class IBRunner:
             sweep_depth = getattr(p, "sweep_depth_pts", 0)
             conf = getattr(p, "confirmation", None)
             conf_str = conf.name.replace("_", "-").lower() if conf else "confirmed"
-            reason = (
-                f"FB at {level_type} {level_price:.2f}: "
-                f"price swept {sweep_depth:.1f} pts below, recovered and {conf_str}. "
-            )
+            # The level-relative sweep_depth reads 0.0 when the level was
+            # minted at the flush low itself (trade 765: "swept 0.0 pts" on
+            # a real 2.2pt-under flush with a 34pt rally). Describe the REAL
+            # flush from the session bars instead of the degenerate field.
+            fc = flush_context(getattr(self, "_df", None), level_price)
+            if fc is not None and sweep_depth < 0.5:
+                reason = (
+                    f"FB at {level_type} {level_price:.2f}: level sits at the "
+                    f"flush low — flushed to {fc['flush_low']:.2f} "
+                    f"({fc['depth_under']:.1f}pt under), rallied "
+                    f"{fc['rally']:.0f}pt off it, {conf_str}. "
+                )
+            elif fc is not None:
+                reason = (
+                    f"FB at {level_type} {level_price:.2f}: "
+                    f"price swept {sweep_depth:.1f} pts below "
+                    f"(flush low {fc['flush_low']:.2f}, "
+                    f"{fc['rally']:.0f}pt rally off it), "
+                    f"recovered and {conf_str}. "
+                )
+            else:
+                reason = (
+                    f"FB at {level_type} {level_price:.2f}: "
+                    f"price swept {sweep_depth:.1f} pts below, recovered and {conf_str}. "
+                )
         elif sig_type == "LEVEL_RECLAIM":
             reason = (
                 f"Level Reclaim at {level_type} {level_price:.2f}: "

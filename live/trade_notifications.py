@@ -126,18 +126,32 @@ def _level_origin_line(level_type: str, plan_match: Any) -> str:
 
 
 def _find_plan_match(plan: Any, level_price: float,
-                     tolerance_pts: float = 2.0) -> dict | None:
-    """Return the closest matching Mancini plan setup, or None."""
+                     tolerance_pts: float = 2.0,
+                     reclaim_zone_below_pts: float = 8.0,
+                     direction: str = "long") -> dict | None:
+    """Return the closest matching Mancini plan setup, or None.
+
+    Zone-aware (trade 765): his reclaim setups describe a defend->recover
+    band ("at 7483, wait for it to defend and recover 7490"), so a
+    level_reclaim setup matches engine levels within [level - zone, level],
+    not just point-tolerance. Direction-filtered so a nearby SHORT setup
+    never labels a long entry."""
     if plan is None or not getattr(plan, "planned_setups", None):
         return None
+    from core.signals import plan_setup_matches_level
     best = None
-    best_d = tolerance_pts + 1
+    best_d = None
     for s in plan.planned_setups:
+        if (getattr(s, "direction", "") or "").lower() != direction:
+            continue
+        if not plan_setup_matches_level(s, level_price, tolerance_pts,
+                                        reclaim_zone_below_pts):
+            continue
         try:
             d = abs(float(s.level_price) - float(level_price))
         except (TypeError, ValueError):
             continue
-        if d <= tolerance_pts and d < best_d:
+        if best_d is None or d < best_d:
             best = s
             best_d = d
     return best
@@ -177,7 +191,9 @@ def build_entry_embed(*,
                       session_date,
                       entry_time: datetime | None = None,
                       trade_id=None,
-                      gate_bypass=None) -> dict:
+                      gate_bypass=None,
+                      flush_line: str = "",
+                      protocol_line: str = "") -> dict:
     """Build a Discord embed payload describing a fresh trade entry.
 
     ``gate_bypass`` is the list of production gates this fill skipped (set
@@ -263,6 +279,13 @@ def build_entry_embed(*,
         f"Confirmation: **{conf_name}** protocol  •  "
         f"Sweep depth: {sweep:.1f} pts"
     )
+    # The real flush picture (flush low / depth under level / rally off it) —
+    # the level-relative sweep reads 0.0 when the level sits at the flush low.
+    if flush_line:
+        description_parts.append(flush_line)
+    # What the confirmation protocol demanded, in THIS trade's numbers.
+    if protocol_line:
+        description_parts.append(protocol_line)
     description = "\n".join(description_parts)
 
     fields: list[dict[str, Any]] = []
@@ -342,7 +365,8 @@ def build_exit_embed(*,
                      reason: str = "",
                      fill_time: datetime | None = None,
                      trade_id=None,
-                     gate_bypass=None) -> dict:
+                     gate_bypass=None,
+                     total_contracts: int | None = None) -> dict:
     """Build a Discord embed for an exit event (T1 / T2 / stop / runner).
 
     ``gate_bypass`` carries through from the entry: when set, this trade was a
@@ -375,19 +399,36 @@ def build_exit_embed(*,
         color = _COLOR_COLLECTION
 
     collection_prefix = "🧪 COLLECTION  •  " if is_collection else ""
+    # Count against the ORIGINAL position size when known — trade 765's T1
+    # card said "1 of 1 closed" on a 2-lot because the caller's position was
+    # already mutated to runner-only when the embed was built.
+    _total = int(total_contracts or 0)
+    if _total < contracts_closed + remaining_contracts:
+        _total = contracts_closed + remaining_contracts
     title = (f"{collection_prefix}{title_label}  •  {contracts_closed} of "
-             f"{contracts_closed + remaining_contracts} closed @ {fill_price:.2f}")
+             f"{_total} closed @ {fill_price:.2f}")
 
-    sign = "+" if per_contract_pts >= 0 else ""
+    def _usd(x: float) -> str:
+        # "+$187" / "-$168" — never the malformed "$-168" / "$+187"
+        return f"{'-' if x < 0 else '+'}${abs(x):,.0f}"
+
     desc_parts = []
     if is_collection:
         desc_parts.append(
             "🧪 **COLLECTION MODE exit** — non-production trade (data only)"
         )
-    desc_parts.append(
-        f"{status_icon} Locked {sign}{per_contract_pts:.1f} pt × "
-        f"{contracts_closed} = ${slice_pnl_dollars:+.0f}"
-    )
+    # "Locked" is winner language — a stop-out must read as a loss
+    # (trade 746's card said "Locked -16.8 pt ... $-168").
+    if per_contract_pts >= 0:
+        desc_parts.append(
+            f"{status_icon} Locked +{per_contract_pts:.1f} pt × "
+            f"{contracts_closed} = {_usd(slice_pnl_dollars)}"
+        )
+    else:
+        desc_parts.append(
+            f"{status_icon} Lost {abs(per_contract_pts):.1f} pt × "
+            f"{contracts_closed} = {_usd(slice_pnl_dollars)}"
+        )
     if remaining_contracts > 0:
         desc_parts.append(
             f"🟡 {remaining_contracts} contract(s) remaining"
@@ -406,12 +447,18 @@ def build_exit_embed(*,
     else:
         desc_parts.append("🏁 Position fully closed")
 
-    cum_sign = "+" if realized_pnl_pts_so_far >= 0 else ""
+    # Dollars lead (unambiguous); the pt figure is per-contract, since the
+    # bare contract-summed total ("-33.5 pt" on a 16.5-pt stop) reads as if
+    # the market moved twice as far as it did.
     cum_dollars = realized_pnl_pts_so_far * point_value
+    total_ct = max(1, contracts_closed + remaining_contracts)
+    per_ct_cum = realized_pnl_pts_so_far / total_ct
+    cum_sign = "+" if per_ct_cum >= 0 else ""
     ts = (fill_time or datetime.now(_ET)).astimezone(_ET)
     desc_parts.append(
-        f"\nTrade P&L so far: **{cum_sign}{realized_pnl_pts_so_far:.1f} pt** "
-        f"(${cum_dollars:+,.0f})   •   {ts.strftime('%I:%M %p ET')}"
+        f"\nTrade P&L so far: **{_usd(cum_dollars)}** "
+        f"({cum_sign}{per_ct_cum:.1f} pt/contract)   •   "
+        f"{ts.strftime('%I:%M %p ET')}"
     )
 
     description = "\n".join(desc_parts)
@@ -511,7 +558,8 @@ def build_short_alert_embed(event: dict, symbol: str = "MES",
 
     # Quote Mancini's plan context if this lines up with a published setup.
     lvl = event.get("level_price")
-    match = _find_plan_match(plan, float(lvl if lvl is not None else entry))
+    match = _find_plan_match(plan, float(lvl if lvl is not None else entry),
+                             reclaim_zone_below_pts=0.0, direction="short")
     if match is not None:
         ctx = (getattr(match, "context", "") or "")[:140]
         conv = (getattr(match, "conviction", "") or "")

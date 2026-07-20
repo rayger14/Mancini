@@ -310,3 +310,146 @@ def test_set_mancini_llm_plan_stores_and_clears():
     assert agg._mancini_llm_plan is plan
     agg.set_mancini_llm_plan(None)
     assert agg._mancini_llm_plan is None
+
+
+# ---------------------------------------------------------------------------
+# Bear-case-active gate (trade 746, 2026-07-17: -33.5 real-money loss)
+# ---------------------------------------------------------------------------
+# Mancini publishes a bear-case trigger nightly ("Bear case begins below X").
+# Once price is trading BELOW that trigger, his supports underneath are
+# targets, not buys — "wait for the final flush". Trade 746 bought the FIRST
+# acceptance-path test of 7533 while price was 40pts below the active 7575
+# bear trigger, in a live overnight breakdown. Historical impact study
+# (2026-07-17, all 54 live longs): this gate blocks EXACTLY trade 746 and
+# nothing else. The non-acceptance carve-out stays open because Mancini
+# explicitly teaches the sharp-flush-reversal (non-acceptance) IS the way
+# to buy below a broken bear case.
+
+def _bear_plan():
+    return ManciniPlan(
+        planned_setups=[
+            PlannedSetup(setup_type="failed_breakdown", level_price=7533.0,
+                         direction="long", context="FB of Monday's low",
+                         conviction="high"),
+            PlannedSetup(setup_type="breakdown_short", level_price=7575.0,
+                         direction="short", conviction="low",
+                         context="Bear case begins below 7575."),
+            PlannedSetup(setup_type="breakdown_short", level_price=7639.0,
+                         direction="short", conviction="low",
+                         context="Short attempt at 7639 resistance."),
+        ],
+    )
+
+
+def test_bear_case_active_blocks_acceptance_long_below_trigger():
+    agg = _agg(fb_block_longs_below_bear_case=True)
+    agg.set_mancini_llm_plan(_bear_plan())
+    # 746's shape: acceptance-path FB long at 7536.25, 40pts below the trigger
+    pattern = _fb_pattern(level_price=7533.0, entry_price=7536.25,
+                          stop_price=7519.5)
+    assert agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN) is None
+
+
+def test_bear_case_non_acceptance_carveout_passes():
+    """Mancini: the sharp flush + immediate reclaim (non-acceptance) is the
+    legitimate way to buy below a broken bear case."""
+    agg = _agg(fb_block_longs_below_bear_case=True)
+    agg.set_mancini_llm_plan(_bear_plan())
+    pattern = _fb_pattern(level_price=7533.0, entry_price=7536.25,
+                          stop_price=7519.5)
+    pattern.confirmation = ConfirmationType.NON_ACCEPTANCE
+    assert agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN) is not None
+
+
+def test_bear_case_inactive_above_trigger_passes():
+    """Price above the bear trigger = bear case not active = no gate."""
+    agg = _agg(fb_block_longs_below_bear_case=True)
+    agg.set_mancini_llm_plan(_bear_plan())
+    pattern = _fb_pattern(level_price=7590.0, entry_price=7592.0,
+                          stop_price=7580.0)
+    assert agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN) is not None
+
+
+def test_bear_case_uses_bear_context_not_resistance_shorts():
+    """Only 'bear case' shorts define the trigger — a 7639 resistance-short
+    entry must not turn every long below 7639 into a rejection."""
+    agg = _agg(fb_block_longs_below_bear_case=True)
+    agg.set_mancini_llm_plan(ManciniPlan(planned_setups=[
+        PlannedSetup(setup_type="breakdown_short", level_price=7639.0,
+                     direction="short", conviction="low",
+                     context="Short attempt at 7639 resistance."),
+    ]))
+    pattern = _fb_pattern(level_price=7533.0, entry_price=7536.25,
+                          stop_price=7519.5)
+    assert agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN) is not None
+
+
+def test_bear_case_gate_off_by_default():
+    agg = _agg()   # flag not set -> default False
+    agg.set_mancini_llm_plan(_bear_plan())
+    pattern = _fb_pattern(level_price=7533.0, entry_price=7536.25,
+                          stop_price=7519.5)
+    assert agg._qualify_signal(pattern, SignalType.FAILED_BREAKDOWN) is not None
+
+
+# ---------------------------------------------------------------------------
+# Zone-aware plan matching (trade 765, 2026-07-20)
+# ---------------------------------------------------------------------------
+# Mancini's reclaim setups describe ZONES, not points: "At 7483, wait for it
+# to defend and recover 7490" (7/20 plan). The engine's level 7485.75 sat
+# INSIDE that zone but the 2.0pt point-tolerance missed it — the winning
+# trade got labeled "engine detected" and lost the +15 plan-match LQS bonus.
+# Fix: level_reclaim setups match a band [level - zone_below_pts, level].
+# FB setups stay point-matched (precise lows; widening risks false matches).
+
+def _reclaim_plan():
+    return ManciniPlan(planned_setups=[
+        PlannedSetup(setup_type="level_reclaim", level_price=7490.0,
+                     direction="long", conviction="medium",
+                     context="At 7483, wait for it to defend and recover 7490"),
+        PlannedSetup(setup_type="failed_breakdown", level_price=7505.0,
+                     direction="long", conviction="medium",
+                     context="FB of the 11:15AM ~7505 large low"),
+    ])
+
+
+def test_reclaim_zone_matches_level_inside_band():
+    # 765's exact shape: engine level 7485.75 inside the 7482-7490 zone
+    agg = _agg(mancini_llm_reclaim_zone_below_pts=8.0)
+    agg.set_mancini_llm_plan(_reclaim_plan())
+    pattern = _fb_pattern(level_price=7485.75, entry_price=7507.5,
+                          stop_price=7479.75)
+    assert agg._mancini_llm_setup_bonus(
+        pattern, SignalType.FAILED_BREAKDOWN) == 15
+
+
+def test_reclaim_zone_does_not_extend_above_recover_level():
+    agg = _agg(mancini_llm_reclaim_zone_below_pts=8.0)
+    agg.set_mancini_llm_plan(_reclaim_plan())
+    pattern = _fb_pattern(level_price=7493.5, entry_price=7496.0,
+                          stop_price=7488.0)   # 3.5 ABOVE the 7490 reclaim
+    assert agg._mancini_llm_setup_bonus(
+        pattern, SignalType.FAILED_BREAKDOWN) == 0
+
+
+def test_fb_setups_stay_point_matched_no_zone():
+    # 7505 is an FB setup: a level 5pts below it must NOT zone-match
+    agg = _agg(mancini_llm_reclaim_zone_below_pts=8.0)
+    agg.set_mancini_llm_plan(ManciniPlan(planned_setups=[
+        PlannedSetup(setup_type="failed_breakdown", level_price=7505.0,
+                     direction="long", conviction="medium",
+                     context="FB of the ~7505 low"),
+    ]))
+    pattern = _fb_pattern(level_price=7500.0, entry_price=7503.0,
+                          stop_price=7494.0)
+    assert agg._mancini_llm_setup_bonus(
+        pattern, SignalType.FAILED_BREAKDOWN) == 0
+
+
+def test_reclaim_zone_off_by_default():
+    agg = _agg()   # param defaults to 0 = point matching only
+    agg.set_mancini_llm_plan(_reclaim_plan())
+    pattern = _fb_pattern(level_price=7485.75, entry_price=7507.5,
+                          stop_price=7479.75)
+    assert agg._mancini_llm_setup_bonus(
+        pattern, SignalType.FAILED_BREAKDOWN) == 0
