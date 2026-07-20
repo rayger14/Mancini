@@ -168,6 +168,30 @@ def venue_t1_pnl_and_stop(*, direction: str, entry_price: float,
     return round(pnl, 2), new_stop
 
 
+def flush_context(df, level_price: float, lookback: int = 180):
+    """The REAL flush picture around an FB level, from the session bars.
+
+    The engine's ``sweep_depth_pts`` is level-relative and reads 0.0 when
+    the level was minted at the flush low itself (trade 765: card said
+    "swept 0.0 pts" on a flush that hit 2.2pt under the level and rallied
+    34pt). This computes what the trader wants to know: where the flush
+    actually bottomed, how far under the level that was, and how far price
+    rallied off it. Returns None when bars are unavailable.
+    """
+    try:
+        if df is None or len(df) < 10:
+            return None
+        win = df.tail(int(lookback))
+        flush_low = float(win["low"].min())
+        depth_under = max(0.0, float(level_price) - flush_low)
+        rally = float(win["high"].max()) - flush_low
+        return {"flush_low": round(flush_low, 2),
+                "depth_under": round(depth_under, 2),
+                "rally": round(rally, 2)}
+    except Exception:
+        return None
+
+
 def build_session_bars_df(session_bars: dict) -> "pd.DataFrame":
     """Assemble the full session's OHLCV bars from an uncapped accumulator.
 
@@ -1722,6 +1746,7 @@ class IBRunner:
                 plan=getattr(self, "_mancini_llm_plan", None),
                 session_date=str(self._session_date), entry_time=timestamp,
                 trade_id=None, gate_bypass=None,
+                flush_line=self._flush_line(signal),
             )
             held = self._position
             held_desc = (
@@ -2097,6 +2122,7 @@ class IBRunner:
                 entry_time=getattr(self, "_entry_timestamp", None),
                 trade_id=getattr(self, "_trade_id", None) or None,
                 gate_bypass=getattr(self, "_current_gate_bypass", None),
+                flush_line=self._flush_line(signal),
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
@@ -3182,6 +3208,22 @@ class IBRunner:
         except Exception as e:
             logger.warning(f"Failed to log trade: {e}")
 
+    def _flush_line(self, signal) -> str:
+        """One-line real-flush description for the entry card ('' if n/a)."""
+        try:
+            pat = getattr(signal, "pattern", None)
+            lvl = getattr(getattr(pat, "level", None), "price", None)
+            if lvl is None:
+                return ""
+            fc = flush_context(getattr(self, "_df", None), float(lvl))
+            if fc is None:
+                return ""
+            return (f"🌊 Real flush: **{fc['flush_low']:.2f}** "
+                    f"({fc['depth_under']:.1f}pt under the level), "
+                    f"{fc['rally']:.0f}pt rally off it")
+        except Exception:
+            return ""
+
     def _build_trade_reason(self, signal: Signal, regime_info: dict, session_window: dict) -> str:
         """Build a plain English explanation of why this trade was taken."""
         p = signal.pattern
@@ -3194,10 +3236,31 @@ class IBRunner:
             sweep_depth = getattr(p, "sweep_depth_pts", 0)
             conf = getattr(p, "confirmation", None)
             conf_str = conf.name.replace("_", "-").lower() if conf else "confirmed"
-            reason = (
-                f"FB at {level_type} {level_price:.2f}: "
-                f"price swept {sweep_depth:.1f} pts below, recovered and {conf_str}. "
-            )
+            # The level-relative sweep_depth reads 0.0 when the level was
+            # minted at the flush low itself (trade 765: "swept 0.0 pts" on
+            # a real 2.2pt-under flush with a 34pt rally). Describe the REAL
+            # flush from the session bars instead of the degenerate field.
+            fc = flush_context(getattr(self, "_df", None), level_price)
+            if fc is not None and sweep_depth < 0.5:
+                reason = (
+                    f"FB at {level_type} {level_price:.2f}: level sits at the "
+                    f"flush low — flushed to {fc['flush_low']:.2f} "
+                    f"({fc['depth_under']:.1f}pt under), rallied "
+                    f"{fc['rally']:.0f}pt off it, {conf_str}. "
+                )
+            elif fc is not None:
+                reason = (
+                    f"FB at {level_type} {level_price:.2f}: "
+                    f"price swept {sweep_depth:.1f} pts below "
+                    f"(flush low {fc['flush_low']:.2f}, "
+                    f"{fc['rally']:.0f}pt rally off it), "
+                    f"recovered and {conf_str}. "
+                )
+            else:
+                reason = (
+                    f"FB at {level_type} {level_price:.2f}: "
+                    f"price swept {sweep_depth:.1f} pts below, recovered and {conf_str}. "
+                )
         elif sig_type == "LEVEL_RECLAIM":
             reason = (
                 f"Level Reclaim at {level_type} {level_price:.2f}: "

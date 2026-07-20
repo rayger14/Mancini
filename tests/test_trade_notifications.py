@@ -620,3 +620,44 @@ class TestBuildShortAlertEmbed:
             context="Bear case begins below 7399.")])
         emb = build_short_alert_embed(_short_entry_event(), symbol="MES", plan=plan)
         assert "Bear case" in emb["description"]
+
+
+class TestFlushContext:
+    """Trade 765 (2026-07-20): the card said 'Sweep depth: 0.0 pts' on a
+    real FB whose flush hit 7483.50, 2.2pt under the 7485.75 level, with a
+    34pt rally off it — the level was minted AT the flush low so the
+    level-relative depth computed to zero. The engine field stays (sizing
+    reads it); the CARD must show the real flush picture."""
+
+    def test_flush_context_computes_real_dip_and_rally(self):
+        import pandas as pd
+        from live.ib_runner import flush_context
+        idx = pd.date_range("2026-07-19 18:00", periods=60, freq="1min")
+        lows = [7490.0] * 60
+        highs = [7492.0] * 60
+        lows[10] = 7483.5           # the real flush low
+        highs[40] = 7517.5          # the rally off it
+        df = pd.DataFrame({"open": lows, "high": highs,
+                           "low": lows, "close": highs}, index=idx)
+        ctx = flush_context(df, level_price=7485.75)
+        assert abs(ctx["flush_low"] - 7483.5) < 0.01
+        assert abs(ctx["depth_under"] - 2.25) < 0.01
+        assert abs(ctx["rally"] - 34.0) < 0.01
+
+    def test_flush_context_none_on_empty(self):
+        from live.ib_runner import flush_context
+        assert flush_context(None, 7500.0) is None
+
+    def test_entry_embed_shows_flush_line(self):
+        emb_payload = build_entry_embed(
+            position=_Position(remaining_contracts=2), signal=_Signal(),
+            fill_price=7507.5, contracts_ordered=2, contract_spec=_Contract(),
+            exit_params=SimpleNamespace(t1_exit_fraction=0.75,
+                                        t2_exit_fraction=0.15,
+                                        runner_fraction=0.10),
+            plan=None, session_date="2026-07-20",
+            flush_line="🌊 Real flush: 7483.50 (2.2pt under the level), 34pt rally off it",
+        )
+        desc = emb_payload["embeds"][0]["description"]
+        assert "Real flush: 7483.50" in desc
+        assert "34pt rally" in desc
