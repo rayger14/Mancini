@@ -112,3 +112,45 @@ def test_events_reset_each_session():
     b.set_scheduled_events(["08:30 CPI"])
     b.set_scheduled_events([])               # next day: no data mentioned
     assert b.blocked(_ts(8, 30)) is False
+
+
+# --- Calendar layer: the static econ calendar (primary forecast source) ---
+# Independent of the Mancini-post events: the calendar KNOWS the date the
+# night before regardless of whether his post mentioned it.
+
+def test_calendar_events_block_independently_of_post():
+    b = _bo_sched()
+    b.set_calendar_events(["08:30 Retail Sales"])
+    # no post events at all — calendar alone must block
+    assert b.blocked(_ts(8, 16)) is True
+    assert b.blocked(_ts(8, 59)) is True
+    assert b.blocked(_ts(9, 1)) is False
+
+
+def test_calendar_and_post_events_are_a_union():
+    b = _bo_sched()
+    b.set_calendar_events(["08:30 CPI"])
+    b.set_scheduled_events(["14:00 FOMC"])   # post mentions only FOMC
+    assert b.blocked(_ts(8, 20)) is True     # calendar's CPI
+    assert b.blocked(_ts(13, 50)) is True    # post's FOMC
+    assert b.blocked(_ts(11, 0)) is False
+
+
+def test_post_reset_does_not_clear_calendar():
+    b = _bo_sched()
+    b.set_calendar_events(["08:30 CPI"])
+    b.set_scheduled_events([])               # plan had no events
+    assert b.blocked(_ts(8, 30)) is True     # calendar still active
+
+
+def test_calendar_reset_each_session():
+    b = _bo_sched()
+    b.set_calendar_events(["08:30 CPI"])
+    b.set_calendar_events([])                # next day: quiet calendar
+    assert b.blocked(_ts(8, 30)) is False
+
+
+def test_calendar_layer_off_when_pre_minutes_zero():
+    b = _bo_sched(news_pre_blackout_minutes=0)
+    b.set_calendar_events(["08:30 CPI"])
+    assert b.blocked(_ts(8, 20)) is False

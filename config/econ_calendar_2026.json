@@ -1,0 +1,321 @@
+{
+  "year": 2026,
+  "source": "OMB Schedule of Release Dates for Principal Federal Economic Indicators CY2026 + federalreserve.gov FOMC calendar (fetched 2026-07-15). ISM dates derived (1st/3rd business day); FOMC minutes Aug-Dec derived (3 weeks after meeting, 2pm). Refresh annually from the next year's OMB PFEI schedule. Tiering (2026-07-15 archive study): 'hard' events pre-block entries (every sampled release bar 8.5-55pt); all others are advisory only \u2014 the reactive bar-range layer covers their rare spikes (e.g. PPI 2026-07-15: 12.5pt, caught live). 5y study (2021-2026, ES 1-min): P(release bar >=8pt) \u2014 FOMC stmt 95%, CPI 93%, NFP 70%, PPI 66% (hard tier, >=60%); ISM ~50%, retail 40%, minutes 39%, claims 18% (soft \u2014 reactive layer covers).",
+  "hard": [
+    "CPI",
+    "PPI",
+    "Employment Situation",
+    "FOMC Statement"
+  ],
+  "weekly": [
+    {
+      "weekday": 3,
+      "time": "08:30",
+      "name": "Jobless Claims"
+    }
+  ],
+  "events": {
+    "2026-01-02": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-01-06": [
+      "10:00 ISM Services"
+    ],
+    "2026-01-09": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-01-13": [
+      "08:30 CPI"
+    ],
+    "2026-01-14": [
+      "08:30 PPI"
+    ],
+    "2026-01-15": [
+      "08:30 Retail Sales"
+    ],
+    "2026-01-28": [
+      "14:00 FOMC Statement"
+    ],
+    "2026-01-29": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-01-30": [
+      "08:30 Employment Cost Index"
+    ],
+    "2026-02-02": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-02-04": [
+      "10:00 ISM Services"
+    ],
+    "2026-02-06": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-02-11": [
+      "08:30 CPI"
+    ],
+    "2026-02-12": [
+      "08:30 PPI"
+    ],
+    "2026-02-17": [
+      "08:30 Retail Sales"
+    ],
+    "2026-02-18": [
+      "14:00 FOMC Minutes"
+    ],
+    "2026-02-26": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-03-02": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-03-04": [
+      "10:00 ISM Services"
+    ],
+    "2026-03-06": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-03-11": [
+      "08:30 CPI"
+    ],
+    "2026-03-12": [
+      "08:30 PPI"
+    ],
+    "2026-03-16": [
+      "08:30 Retail Sales"
+    ],
+    "2026-03-18": [
+      "14:00 FOMC Statement"
+    ],
+    "2026-03-27": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-04-01": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-04-03": [
+      "08:30 Employment Situation (NFP)",
+      "10:00 ISM Services"
+    ],
+    "2026-04-08": [
+      "14:00 FOMC Minutes"
+    ],
+    "2026-04-10": [
+      "08:30 CPI"
+    ],
+    "2026-04-14": [
+      "08:30 PPI"
+    ],
+    "2026-04-16": [
+      "08:30 Retail Sales"
+    ],
+    "2026-04-29": [
+      "14:00 FOMC Statement"
+    ],
+    "2026-04-30": [
+      "08:30 Employment Cost Index",
+      "08:30 GDP + PCE"
+    ],
+    "2026-05-01": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-05-05": [
+      "10:00 ISM Services"
+    ],
+    "2026-05-08": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-05-12": [
+      "08:30 CPI"
+    ],
+    "2026-05-13": [
+      "08:30 PPI"
+    ],
+    "2026-05-14": [
+      "08:30 Retail Sales"
+    ],
+    "2026-05-20": [
+      "14:00 FOMC Minutes"
+    ],
+    "2026-05-28": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-06-01": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-06-03": [
+      "10:00 ISM Services"
+    ],
+    "2026-06-05": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-06-10": [
+      "08:30 CPI"
+    ],
+    "2026-06-11": [
+      "08:30 PPI"
+    ],
+    "2026-06-17": [
+      "08:30 Retail Sales",
+      "14:00 FOMC Statement"
+    ],
+    "2026-06-25": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-07-01": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-07-02": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-07-06": [
+      "10:00 ISM Services"
+    ],
+    "2026-07-08": [
+      "14:00 FOMC Minutes"
+    ],
+    "2026-07-14": [
+      "08:30 CPI"
+    ],
+    "2026-07-15": [
+      "08:30 PPI"
+    ],
+    "2026-07-16": [
+      "08:30 Retail Sales"
+    ],
+    "2026-07-29": [
+      "14:00 FOMC Statement"
+    ],
+    "2026-07-30": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-07-31": [
+      "08:30 Employment Cost Index"
+    ],
+    "2026-08-03": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-08-05": [
+      "10:00 ISM Services"
+    ],
+    "2026-08-07": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-08-12": [
+      "08:30 CPI"
+    ],
+    "2026-08-13": [
+      "08:30 PPI"
+    ],
+    "2026-08-14": [
+      "08:30 Retail Sales"
+    ],
+    "2026-08-19": [
+      "14:00 FOMC Minutes"
+    ],
+    "2026-08-26": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-09-01": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-09-03": [
+      "10:00 ISM Services"
+    ],
+    "2026-09-04": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-09-10": [
+      "08:30 PPI"
+    ],
+    "2026-09-11": [
+      "08:30 CPI"
+    ],
+    "2026-09-16": [
+      "08:30 Retail Sales",
+      "14:00 FOMC Statement"
+    ],
+    "2026-09-30": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-10-01": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-10-02": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-10-05": [
+      "10:00 ISM Services"
+    ],
+    "2026-10-07": [
+      "14:00 FOMC Minutes"
+    ],
+    "2026-10-14": [
+      "08:30 CPI"
+    ],
+    "2026-10-15": [
+      "08:30 PPI",
+      "08:30 Retail Sales"
+    ],
+    "2026-10-28": [
+      "14:00 FOMC Statement"
+    ],
+    "2026-10-29": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-10-30": [
+      "08:30 Employment Cost Index"
+    ],
+    "2026-11-02": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-11-04": [
+      "10:00 ISM Services"
+    ],
+    "2026-11-06": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-11-10": [
+      "08:30 CPI"
+    ],
+    "2026-11-13": [
+      "08:30 PPI"
+    ],
+    "2026-11-17": [
+      "08:30 Retail Sales"
+    ],
+    "2026-11-18": [
+      "14:00 FOMC Minutes"
+    ],
+    "2026-11-25": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-12-01": [
+      "10:00 ISM Manufacturing"
+    ],
+    "2026-12-03": [
+      "10:00 ISM Services"
+    ],
+    "2026-12-04": [
+      "08:30 Employment Situation (NFP)"
+    ],
+    "2026-12-09": [
+      "14:00 FOMC Statement"
+    ],
+    "2026-12-10": [
+      "08:30 CPI"
+    ],
+    "2026-12-15": [
+      "08:30 PPI"
+    ],
+    "2026-12-16": [
+      "08:30 Retail Sales"
+    ],
+    "2026-12-23": [
+      "08:30 GDP + PCE"
+    ],
+    "2026-12-30": [
+      "14:00 FOMC Minutes"
+    ]
+  }
+}

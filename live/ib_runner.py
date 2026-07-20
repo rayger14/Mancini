@@ -1099,6 +1099,30 @@ class IBRunner:
         except Exception as e:
             logger.warning(f"Mancini LLM plan load failed (non-fatal): {e}")
 
+    def _load_econ_calendar(self) -> None:
+        """Feed the static econ calendar's HARD-tier releases (CPI / NFP /
+        FOMC statement — the ones that reliably print a violent bar) for
+        self._session_date to the NewsBlackout forecast layer. Soft events
+        (claims, retail, ISM, PPI, minutes) are advisory only: pre-blocking
+        them costs prime entry windows for bars that are usually 3-5pt, and
+        the reactive range layer catches their rare spikes within a minute
+        (PPI 2026-07-15: 12.5pt bar, blocked live at 08:31). Independent of
+        the Mancini plan. Idempotent — called from _initialize_session()
+        and rollover."""
+        try:
+            from core.econ_calendar import events_for
+
+            hard = events_for(self._session_date, tier="hard")
+            self.signal_aggregator._news_blackout.set_calendar_events(hard)
+            all_ev = events_for(self._session_date)
+            if all_ev:
+                logger.info(
+                    f"Econ calendar for {self._session_date}: {all_ev} "
+                    f"(hard pre-block: {hard or 'none'})"
+                )
+        except Exception as e:
+            logger.warning(f"Econ calendar load failed (non-fatal): {e}")
+
     # Levels the engine considers structurally high quality. Mirrors
     # core/patterns.py _HIGH_QUALITY_LEVELS — these are the only level
     # types the FB pattern detector will already accept as the basis
@@ -1423,6 +1447,7 @@ class IBRunner:
         # Plan extraction runs nightly via cron regardless; this only loads
         # the JSON when use_mancini_llm_plan is on.
         self._load_mancini_llm_plan()
+        self._load_econ_calendar()
 
         # Catch up on current-day bars (update state, don't trade)
         if self._df is not None and len(self._df) > 0:
@@ -3751,6 +3776,7 @@ class IBRunner:
             # Without this, a long-running bot that never restarts would keep
             # using the prior session's plan after Globex rollover at 18:00 ET.
             self._load_mancini_llm_plan()
+            self._load_econ_calendar()
 
             logger.info(f"New session {trading_date}: daily PnL reset, "
                         f"trade count reset, levels re-initialized, "
