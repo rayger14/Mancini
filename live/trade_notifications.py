@@ -191,7 +191,9 @@ def build_entry_embed(*,
                       session_date,
                       entry_time: datetime | None = None,
                       trade_id=None,
-                      gate_bypass=None) -> dict:
+                      gate_bypass=None,
+                      flush_line: str = "",
+                      protocol_line: str = "") -> dict:
     """Build a Discord embed payload describing a fresh trade entry.
 
     ``gate_bypass`` is the list of production gates this fill skipped (set
@@ -277,6 +279,13 @@ def build_entry_embed(*,
         f"Confirmation: **{conf_name}** protocol  •  "
         f"Sweep depth: {sweep:.1f} pts"
     )
+    # The real flush picture (flush low / depth under level / rally off it) —
+    # the level-relative sweep reads 0.0 when the level sits at the flush low.
+    if flush_line:
+        description_parts.append(flush_line)
+    # What the confirmation protocol demanded, in THIS trade's numbers.
+    if protocol_line:
+        description_parts.append(protocol_line)
     description = "\n".join(description_parts)
 
     fields: list[dict[str, Any]] = []
