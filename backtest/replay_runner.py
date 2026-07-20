@@ -71,7 +71,11 @@ def build_replay(date: str, data_dir, out_dir, tape=None,
     params = dataclasses.replace(
         ibr.PRODUCTION_STRATEGY,
         fb_auto_level_min_rally_pts=float(resume_filter_pts),
-        t2_snap_to_level_tol_pts=float(t2_snap_tol_pts))
+        t2_snap_to_level_tol_pts=float(t2_snap_tol_pts),
+        # Plans live next to the tapes, not at the container's /app/data —
+        # without this, replays outside the container run PLAN-LESS (no
+        # CUSTOM level injection) and silently diverge from live.
+        mancini_llm_plan_dir=str(data_dir) if data_dir else "/app/data")
     runner = ibr.build_live_runner(IBConfig(), full_session=True,
                                    strategy_params=params)
     runner.bridge = bridge
