@@ -681,3 +681,55 @@ class TestProtocolLine:
         desc = emb_payload["embeds"][0]["description"]
         assert "hold ≥7490.75" in desc
         assert "3 bars" in desc
+
+
+class TestExitCardCounts:
+    """Trade 765's exit cards (2026-07-20): T1 said '1 of 1 closed' +
+    'Position fully closed' while a runner was still riding (the venue-T1
+    path mutates the position BEFORE building the embed), and the runner's
+    trailing-stop exit said 'STOP HIT - 0 of 0 closed' (position already
+    zeroed; 'Runner stopped' contains 'stop' so the classifier picked the
+    wrong phase). Titles must count against the ORIGINAL position size."""
+
+    def test_t1_on_two_lot_says_one_of_two(self):
+        payload = build_exit_embed(
+            phase="t1", fill_price=7538.25, contracts_closed=1,
+            entry_price=7507.5, direction="long", contract_spec=_Contract(),
+            remaining_contracts=1, realized_pnl_pts_so_far=30.75,
+            total_contracts=2, new_stop=7504.5,
+        )
+        emb = payload["embeds"][0]
+        assert "1 of 2" in emb["title"]
+        assert "fully closed" not in emb["description"].lower()
+        assert "1 contract(s) remaining" in emb["description"]
+
+    def test_runner_stop_never_says_zero_of_zero(self):
+        # position object already zeroed; the action still knows 1 closed
+        payload = build_exit_embed(
+            phase="runner_trail", fill_price=7533.5, contracts_closed=1,
+            entry_price=7507.5, direction="long", contract_spec=_Contract(),
+            remaining_contracts=0, realized_pnl_pts_so_far=56.75,
+            total_contracts=2, reason="Runner stopped after T1 (trail)",
+        )
+        emb = payload["embeds"][0]
+        assert "0 of 0" not in emb["title"]
+        assert "1 of 2" in emb["title"]
+        assert "RUNNER STOPPED" in emb["title"]
+
+    def test_classify_exit_phase_runner_before_stop(self):
+        from live.ib_runner import classify_exit_phase
+        assert classify_exit_phase("Runner stopped after T1") == "runner_trail"
+        assert classify_exit_phase("Trailing stop hit") == "runner_trail"
+        assert classify_exit_phase("Structure trail exit") == "runner_trail"
+        assert classify_exit_phase("Stop loss hit") == "stop"
+        assert classify_exit_phase("EOD flatten") == "eod"
+
+
+class TestProtocolExplainer:
+    def test_protocol_line_carries_mancini_definition(self):
+        # the runner-side helper appends a one-line Mancini definition
+        from live.ib_runner import protocol_explainer
+        na = protocol_explainer("NON_ACCEPTANCE")
+        assert "refuse" in na.lower() or "trap" in na.lower()
+        acc = protocol_explainer("ACCEPTANCE")
+        assert "accept" in acc.lower() and "base" in acc.lower()
