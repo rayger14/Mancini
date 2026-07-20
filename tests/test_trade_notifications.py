@@ -661,3 +661,23 @@ class TestFlushContext:
         desc = emb_payload["embeds"][0]["description"]
         assert "Real flush: 7483.50" in desc
         assert "34pt rally" in desc
+
+
+class TestProtocolLine:
+    """The card must explain the confirmation protocol in THAT trade's
+    numbers: what price had to do, at which levels, to confirm."""
+
+    def test_embed_shows_protocol_line(self):
+        emb_payload = build_entry_embed(
+            position=_Position(remaining_contracts=2), signal=_Signal(),
+            fill_price=7507.5, contracts_ordered=2, contract_spec=_Contract(),
+            exit_params=SimpleNamespace(t1_exit_fraction=0.75,
+                                        t2_exit_fraction=0.15,
+                                        runner_fraction=0.10),
+            plan=None, session_date="2026-07-20",
+            protocol_line=("📐 Protocol: NON-ACCEPTANCE — reclaim ≥5.0pt above "
+                           "7485.75 (hold ≥7490.75) for 3 bars: sellers trapped"),
+        )
+        desc = emb_payload["embeds"][0]["description"]
+        assert "hold ≥7490.75" in desc
+        assert "3 bars" in desc

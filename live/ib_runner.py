@@ -1747,6 +1747,7 @@ class IBRunner:
                 session_date=str(self._session_date), entry_time=timestamp,
                 trade_id=None, gate_bypass=None,
                 flush_line=self._flush_line(signal),
+                protocol_line=self._protocol_line(signal),
             )
             held = self._position
             held_desc = (
@@ -2123,6 +2124,7 @@ class IBRunner:
                 trade_id=getattr(self, "_trade_id", None) or None,
                 gate_bypass=getattr(self, "_current_gate_bypass", None),
                 flush_line=self._flush_line(signal),
+                protocol_line=self._protocol_line(signal),
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
@@ -3207,6 +3209,34 @@ class IBRunner:
 
         except Exception as e:
             logger.warning(f"Failed to log trade: {e}")
+
+    def _protocol_line(self, signal) -> str:
+        """Explain the confirmation protocol in THIS trade's numbers:
+        what price had to do, at which exact levels, to confirm the FB."""
+        try:
+            pat = getattr(signal, "pattern", None)
+            lvl = getattr(getattr(pat, "level", None), "price", None)
+            conf = getattr(pat, "confirmation", None)
+            conf_name = getattr(conf, "name", str(conf) if conf else "")
+            if lvl is None or not conf_name:
+                return ""
+            sp = getattr(self.strategy, "strategy_params", None)
+            lvl = float(lvl)
+            if conf_name.upper() == "NON_ACCEPTANCE":
+                rec = float(getattr(sp, "non_acceptance_min_recovery_pts", 5.0))
+                bars = int(getattr(sp, "non_acceptance_min_hold_bars", 3))
+                return (f"📐 Protocol: NON-ACCEPTANCE — reclaim ≥{rec:.1f}pt "
+                        f"above {lvl:.2f} (hold ≥{lvl + rec:.2f}) for {bars} "
+                        f"bars: sellers trapped")
+            if conf_name.upper() == "ACCEPTANCE":
+                bars = int(getattr(sp, "acceptance_min_hold_bars", 7))
+                dip = float(getattr(sp, "acceptance_max_dip_pts", 4.0))
+                return (f"📐 Protocol: ACCEPTANCE — {bars} closes at/above "
+                        f"{lvl:.2f}, dips tolerated to {lvl - dip:.2f}: "
+                        f"floor proven by patience")
+            return ""
+        except Exception:
+            return ""
 
     def _flush_line(self, signal) -> str:
         """One-line real-flush description for the entry card ('' if n/a)."""
