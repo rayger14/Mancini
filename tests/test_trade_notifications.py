@@ -733,3 +733,55 @@ class TestProtocolExplainer:
         assert "refuse" in na.lower() or "trap" in na.lower()
         acc = protocol_explainer("ACCEPTANCE")
         assert "accept" in acc.lower() and "base" in acc.lower()
+
+
+class TestExecutedSetupAttribution:
+    """Trade 781 (2026-07-21): entry 7505.75 executed Mancini's 7504 FB
+    ("flush 7504, recover") almost to the tick, but the card credited his
+    7473 level — nearest to the engine's internal anchor — making a 2pt
+    entry read like a 32pt chase. Attribution must ask WHICH SETUP THE
+    ENTRY ACTION EXECUTED first, and only fall back to anchor proximity."""
+
+    def _plan(self):
+        return SimpleNamespace(planned_setups=[
+            SimpleNamespace(setup_type="failed_breakdown", level_price=7473.0,
+                            direction="long", conviction="high",
+                            context="FB of Friday's daily low"),
+            SimpleNamespace(setup_type="failed_breakdown", level_price=7504.0,
+                            direction="long", conviction="medium",
+                            context="Flush 7504 down to 7492 and recover"),
+        ])
+
+    def test_entry_action_wins_over_anchor_proximity(self):
+        from live.trade_notifications import executed_setup_match
+        m = executed_setup_match(self._plan(), entry_price=7505.75,
+                                 recent_flush_low=7477.5)
+        assert m is not None and m.level_price == 7504.0
+
+    def test_no_match_when_no_flush_below_setup(self):
+        from live.trade_notifications import executed_setup_match
+        # price never traded below 7504 -> its recovery wasn't an FB of it
+        m = executed_setup_match(self._plan(), entry_price=7505.75,
+                                 recent_flush_low=7510.0)
+        assert m is None
+
+    def test_no_match_when_entry_far_above_setup(self):
+        from live.trade_notifications import executed_setup_match
+        m = executed_setup_match(self._plan(), entry_price=7520.0,
+                                 recent_flush_low=7477.5)
+        assert m is None
+
+    def test_embed_override_replaces_proximity_match(self):
+        plan = self._plan()
+        payload = build_entry_embed(
+            position=_Position(remaining_contracts=2), signal=_Signal(),
+            fill_price=7505.75, contracts_ordered=2, contract_spec=_Contract(),
+            exit_params=SimpleNamespace(t1_exit_fraction=0.75,
+                                        t2_exit_fraction=0.15,
+                                        runner_fraction=0.10),
+            plan=plan, session_date="2026-07-21",
+            plan_match_override=plan.planned_setups[1],
+        )
+        desc = payload["embeds"][0]["description"]
+        assert "7504" in desc
+        assert "Flush 7504" in desc

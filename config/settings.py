@@ -719,6 +719,18 @@ class StrategyParams:
     # but the 2pt point-tolerance missed it (no plan label, no LQS bonus).
     # FB setups stay point-matched. 0 disables (default).
     mancini_llm_reclaim_zone_below_pts: float = 0.0
+    # T1 snap (trade 781): the max-distance cap left T1 at 7535.5 while
+    # Mancini's first published rung sat at 7532 — the same hang-above-supply
+    # geometry the T2 snap fixed for 622. Snap T1 down onto the nearest real
+    # level (his rungs first, engine second) within this tolerance, floored
+    # at entry + min target distance. 0 disables (default).
+    t1_snap_to_level_tol_pts: float = 0.0
+    # T1 snap (trade 781): the max-distance cap left T1 at 7535.5 while
+    # Mancini's first published rung sat at 7532 — the same hang-above-supply
+    # geometry the T2 snap fixed for 622. Snap T1 down onto the nearest real
+    # level (his rungs first, engine second) within this tolerance, floored
+    # at entry + min target distance. 0 disables (default).
+    t1_snap_to_level_tol_pts: float = 0.0
     # Inject Mancini's published target ladder (plan.targets) into the level
     # store as MANCINI_LEVEL targets, and bump source_count where they coincide
     # with an engine level (confluence). Shadow-first: validate by backtest

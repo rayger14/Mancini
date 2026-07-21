@@ -70,3 +70,33 @@ def test_handles_empty_and_none_sources():
     assert snap_t2_to_real_level(
         t2=7581.0, t1=7560.0, mancini_targets=None,
         engine_levels=None, tol=4.0) == 7581.0
+
+
+# ---------------------------------------------------------------------------
+# T1 snap (trade 781, 2026-07-21): T1 was capped to 7535.50 while Mancini's
+# first published rung sat at 7532 — the exact hang-above-supply geometry
+# that burned 622's T2. Same snap, applied to T1: floor at entry+min_dist,
+# Mancini rungs first, engine levels second, tol-gated.
+# ---------------------------------------------------------------------------
+
+def test_t1_snaps_to_mancini_rung_781_case():
+    # entry 7505.5, min_dist 4 -> floor 7509.5; capped T1 7535.5; rung 7532
+    assert snap_t2_to_real_level(
+        t2=7535.5, t1=7509.5, mancini_targets=[7532.0, 7575.0, 7611.0],
+        engine_levels=[7539.0], tol=4.0) == 7532.0
+
+
+def test_t1_snap_ignores_rung_below_floor():
+    # a rung barely above entry must not drag T1 down to nothing
+    assert snap_t2_to_real_level(
+        t2=7535.5, t1=7509.5, mancini_targets=[7508.0],
+        engine_levels=[], tol=4.0) == 7535.5
+
+
+class TestAggregatorT1Snap:
+    def test_t1_snap_wired_and_gated(self):
+        from config.settings import StrategyParams
+        p = StrategyParams()
+        assert p.t1_snap_to_level_tol_pts == 0.0   # default off
+        from live.ib_runner import PRODUCTION_STRATEGY
+        assert PRODUCTION_STRATEGY.t1_snap_to_level_tol_pts == 4.0

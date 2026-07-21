@@ -406,6 +406,10 @@ PRODUCTION_STRATEGY = StrategyParams(
     # recover price, so in-zone trades get the plan label + LQS bonus
     # instead of reading as "engine detected". FB setups stay point-matched.
     mancini_llm_reclaim_zone_below_pts=8.0,
+    # T1 snap (trade 781): first target rests AT Mancini's published rung /
+    # real supply instead of a few points past it. Same proven mechanic as
+    # the T2 snap (48-session A/B: zero degraded outcomes).
+    t1_snap_to_level_tol_pts=4.0,
     # Level-resume filter (enabled 2026-07-08, forward test): an ENGINE
     # auto-detected level must have launched a >=30pt rally in the visible
     # tape to be FB-tradeable. Mancini plan levels (CUSTOM/mancini_confirmed)
@@ -1799,6 +1803,7 @@ class IBRunner:
                 trade_id=None, gate_bypass=None,
                 flush_line=self._flush_line(signal),
                 protocol_line=self._protocol_line(signal),
+                plan_match_override=self._executed_setup(signal, entry),
             )
             held = self._position
             held_desc = (
@@ -2167,6 +2172,7 @@ class IBRunner:
                 gate_bypass=getattr(self, "_current_gate_bypass", None),
                 flush_line=self._flush_line(signal),
                 protocol_line=self._protocol_line(signal),
+                plan_match_override=self._executed_setup(signal, fill_price),
             )
             ok, info = post_payload(payload, webhook)
             if not ok:
@@ -3260,6 +3266,19 @@ class IBRunner:
 
         except Exception as e:
             logger.warning(f"Failed to log trade: {e}")
+
+    def _executed_setup(self, signal, entry_price: float):
+        """Action-based plan attribution: the setup whose recovery this entry
+        executed (needs the real session flush low). None -> caller falls
+        back to anchor-proximity matching."""
+        try:
+            from live.trade_notifications import executed_setup_match
+            plan = getattr(self, "_mancini_llm_plan", None)
+            df = getattr(self, "_df", None)
+            low = float(df["low"].min()) if df is not None and len(df) else None
+            return executed_setup_match(plan, float(entry_price), low)
+        except Exception:
+            return None
 
     def _protocol_line(self, signal) -> str:
         """Explain the confirmation protocol in THIS trade's numbers:
