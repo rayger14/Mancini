@@ -121,6 +121,25 @@ git log --oneline -3
 
 echo
 yellow "Checking for open positions on VM…"
+
+# HARD gate: the bot writes a full position snapshot every bar. If it shows
+# an open position, STOP — no --yes bypass. (2026-07-20: a --yes deploy
+# restarted the bot mid-trade; recovery dropped fields and the runner was
+# mis-trailed. Mechanical check, not a log-grep + human shrug.)
+snap_open="$(ssh_vm "python3 -c \"
+import json
+try:
+    d = json.load(open('$VM_PATH/data/position_snapshot.json'))
+    print('OPEN' if d.get('position') else 'FLAT')
+except Exception:
+    print('UNKNOWN')
+\"" || echo UNKNOWN)"
+if [[ "$snap_open" == "OPEN" ]]; then
+  red "❌ Position snapshot shows an OPEN position. Deploy refused (no --yes override)."
+  yellow "Wait for the position to close, or flatten first."
+  exit 1
+fi
+yellow "Snapshot position check: $snap_open"
 position_log="$(ssh_vm "docker logs --tail 800 $CONTAINER 2>&1 | grep -E 'ENTRY|FILLED|STOP_FILLED|T1_FILLED|T2_FILLED|RUNNER|flatten' | tail -25" || true)"
 
 if [[ -z "$position_log" ]]; then
