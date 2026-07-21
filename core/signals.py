@@ -2272,6 +2272,21 @@ class SignalAggregator:
         if t2 - entry > max_dist * 1.5:
             t2 = entry + max_dist * 1.5
 
+        # T1 snap (gated, default off): the cap can leave T1 hanging a few
+        # points ABOVE real supply (781: capped T1 7535.5 vs Mancini's 7532
+        # rung — the 622 geometry, on the first target). Same snap as T2:
+        # his rungs first, engine resistances second, floored so T1 stays a
+        # tradeable distance above entry.
+        t1_snap_tol = getattr(self.strategy_params,
+                              "t1_snap_to_level_tol_pts", 0.0)
+        if t1_snap_tol > 0:
+            plan = getattr(self, "_mancini_llm_plan", None)
+            rungs = list(getattr(plan, "targets", None) or []) if plan else []
+            t1 = snap_t2_to_real_level(
+                t2=t1, t1=entry + min_dist - 0.01,
+                mancini_targets=rungs,
+                engine_levels=[l.price for l in above], tol=t1_snap_tol)
+
         # Final guard: capping (or upstream collisions surviving the loop)
         # can still leave T2 <= T1. Force T2 strictly above T1 by min_dist.
         if t2 - t1 < min_dist:

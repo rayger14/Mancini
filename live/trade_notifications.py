@@ -157,6 +157,42 @@ def _find_plan_match(plan: Any, level_price: float,
     return best
 
 
+def executed_setup_match(plan: Any, entry_price: float,
+                         recent_flush_low: float | None,
+                         band_above_pts: float = 5.0) -> Any:
+    """Which of Mancini's setups did the ENTRY ACTION execute?
+
+    Trade 781: entry 7505.75 was the recovery of his 7504 FB ("flush 7504,
+    recover") — but proximity matching to the engine's internal anchor
+    credited his 7473 level, making a 2pt entry read like a 32pt chase.
+
+    A long setup at price P is "executed" when the entry sits in the
+    recovery band just above P (P-1 .. P+band) AND the session actually
+    flushed below P (recent_flush_low < P). Nearest such P to the entry
+    wins. Returns None when no setup's action matches — callers fall back
+    to anchor-proximity matching."""
+    if plan is None or not getattr(plan, "planned_setups", None):
+        return None
+    if recent_flush_low is None:
+        return None
+    best, best_d = None, None
+    for st in plan.planned_setups:
+        if (getattr(st, "direction", "") or "").lower() != "long":
+            continue
+        try:
+            price = float(st.level_price)
+        except (TypeError, ValueError):
+            continue
+        if not (price - 1.0 <= float(entry_price) <= price + band_above_pts):
+            continue
+        if float(recent_flush_low) >= price:
+            continue
+        d = abs(float(entry_price) - price)
+        if best_d is None or d < best_d:
+            best, best_d = st, d
+    return best
+
+
 def plan_short_match(plan: Any, price: float, tol: float = 8.0) -> Any:
     """Return the nearest Mancini planned SHORT setup within ``tol`` of price.
 
@@ -193,7 +229,8 @@ def build_entry_embed(*,
                       trade_id=None,
                       gate_bypass=None,
                       flush_line: str = "",
-                      protocol_line: str = "") -> dict:
+                      protocol_line: str = "",
+                      plan_match_override=None) -> dict:
     """Build a Discord embed payload describing a fresh trade entry.
 
     ``gate_bypass`` is the list of production gates this fill skipped (set
@@ -223,8 +260,11 @@ def build_entry_embed(*,
     conf_name = conf.name.lower() if hasattr(conf, "name") else (str(conf).lower() if conf else "?")
     sweep = float(getattr(pat, "sweep_depth_pts", 0.0)) if pat else 0.0
 
-    # Mancini plan match
-    plan_match = _find_plan_match(plan, level_price)
+    # Mancini plan match: action-based attribution (which setup did the
+    # entry execute?) wins over anchor proximity when the caller provides it.
+    plan_match = (plan_match_override
+                  if plan_match_override is not None
+                  else _find_plan_match(plan, level_price))
     plan_match_str = ""
     if plan_match is not None:
         ctx = (getattr(plan_match, "context", "") or "")[:100]
