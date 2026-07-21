@@ -754,6 +754,9 @@ class IBRunner:
 
         # Persistent trade log — survives restarts, accumulates data for self-improvement
         self._trade_log_path = Path(os.environ.get("TRADE_LOG", "/app/logs/trades.jsonl"))
+        self._position_snapshot_path = Path(os.environ.get(
+            "POSITION_SNAPSHOT_FILE", "/app/data/position_snapshot.json"))
+        self._snapshot_writable = self._position_snapshot_path.parent.is_dir()
         try:
             self._trade_log_path.parent.mkdir(parents=True, exist_ok=True)
         except OSError:
@@ -1716,6 +1719,11 @@ class IBRunner:
         self._flush_shadow_events()
         self._update_shadow_phantoms(high, low)
 
+        # Persist full position state every bar — restart-survival contract
+        # (writes {"position": null} when flat so stale snapshots can't
+        # resurrect ghosts). See _save_position_snapshot / trade 781.
+        self._save_position_snapshot()
+
         # Write status for dashboard after every bar
         self._write_status()
 
@@ -2001,6 +2009,7 @@ class IBRunner:
             direction=signal.direction.lower(),
         )
         self._trade_id = trade_id
+        self._save_position_snapshot()
         self._pattern_type = signal.pattern.pattern_type
         self._current_signal = signal
         self._entry_timestamp = self._now_fn()
@@ -2616,6 +2625,31 @@ class IBRunner:
             if trigger_path.exists():
                 trigger_path.unlink()
 
+    def _save_position_snapshot(self) -> None:
+        """Persist the FULL position state every bar (atomic write).
+
+        Restart-survival: recovery loads this snapshot and only VERIFIES it
+        against the venue, instead of reconstructing a 6-of-15-field copy
+        from the trade log (trade 781: a mid-trade deploy lost trade_id and
+        the exit logged as trade 0). Writes {"position": null} when flat so
+        a stale snapshot can never resurrect a ghost position.
+        """
+        if not getattr(self, "_snapshot_writable", False):
+            return
+        try:
+            payload = {
+                "trade_id": getattr(self, "_trade_id", None),
+                "pattern_type": getattr(self, "_pattern_type", None),
+                "session_date": str(getattr(self, "_session_date", "")),
+                "position": (self._position.to_snapshot()
+                             if self._position is not None else None),
+            }
+            tmp = self._position_snapshot_path.with_suffix(".tmp")
+            tmp.write_text(json.dumps(payload))
+            tmp.replace(self._position_snapshot_path)
+        except Exception as e:
+            logger.debug(f"position snapshot write failed (non-fatal): {e}")
+
     def _recover_position(self, pos_data: dict) -> None:
         """Reconstruct TradePosition from IB position on restart.
 
@@ -2626,6 +2660,40 @@ class IBRunner:
         entry = pos_data.get("price_open", 0)
         qty = int(pos_data.get("volume", 1))
         direction = pos_data.get("market_position", "long")
+
+        # Priority 0: full-state snapshot — restores EVERY field (phase,
+        # t1_hit, realized pnl, targets, trail anchors, trade_id); the venue
+        # only verifies it still matches reality. Trade 781: a mid-trade
+        # deploy reconstructed 6 of ~15 fields and the exit logged as
+        # trade 0 with target_2 lost.
+        try:
+            snap = json.loads(self._position_snapshot_path.read_text())
+        except Exception:
+            snap = None
+        if isinstance(snap, dict) and snap.get("position"):
+            from strategy.exit_manager import TradePosition as _TP
+            pos = _TP.from_snapshot(snap["position"])
+            if (pos is not None
+                    and pos.direction == direction
+                    and pos.remaining_contracts == qty
+                    and abs(pos.entry_price - entry) < 2.0):
+                self._position = pos
+                self._trade_id = int(snap.get("trade_id") or 0)
+                self._pattern_type = snap.get("pattern_type") or "recovered"
+                self._last_entry_monotonic = self._mono_fn()
+                logger.warning(
+                    f"Recovered position from SNAPSHOT (full state): "
+                    f"{pos.direction.upper()} {pos.remaining_contracts} @ "
+                    f"{pos.entry_price:.2f}, phase={pos.phase.name}, "
+                    f"t1_hit={pos.t1_hit}, SL={pos.stop_price:.2f}, "
+                    f"T1={pos.target_1:.2f}, T2={pos.target_2:.2f}, "
+                    f"trade_id={self._trade_id}"
+                )
+                return
+            logger.warning(
+                "Position snapshot present but does not match venue "
+                "(entry/qty/direction) — falling back to log reconstruction"
+            )
 
         # Priority 1: Read actual bracket orders from IB (most reliable source)
         stop = 0.0
@@ -2665,6 +2733,10 @@ class IBRunner:
                             target = sig.get("target_1", 0)
                         signal_data = sig
                     pattern_type = record.get("pattern_type", "recovered")
+                    # restore identity + T2 from the matched record (781:
+                    # both were silently dropped -> exits logged as trade 0)
+                    if record.get("trade_id"):
+                        self._trade_id = int(record["trade_id"])
                     logger.info(f"Position recovery: matched trade log entry "
                                 f"(pattern={pattern_type}, stop={stop:.2f}, target={target:.2f})")
                     break
@@ -2688,6 +2760,8 @@ class IBRunner:
                            f"(stop={stop:.2f}, target={target:.2f})")
 
         target_2 = target + (10 if direction == "long" else -10)
+        if signal_data and signal_data.get("target_2"):
+            target_2 = float(signal_data["target_2"])
 
         self._position = TradePosition(
             entry_price=entry,
@@ -2698,7 +2772,8 @@ class IBRunner:
             remaining_contracts=qty,
             direction=direction,
         )
-        self._trade_id = 0  # Unknown, but mark as having a position
+        if not getattr(self, "_trade_id", None):
+            self._trade_id = 0  # Unknown, but mark as having a position
         self._pattern_type = pattern_type
         self._last_entry_monotonic = self._mono_fn()  # prevent immediate sync close
         # Recover entry timestamp from trade log if available

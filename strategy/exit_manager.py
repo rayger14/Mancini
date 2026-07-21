@@ -86,6 +86,64 @@ class TradePosition:
     # a fixed-window view of the most recent structure.
     bar_history: Deque[Tuple[float, float]] = field(default_factory=deque)
 
+    def to_snapshot(self) -> dict:
+        """JSON-safe dict of EVERY field — the restart-survival contract.
+        Enums by name, deque as list; +/-inf survive via string sentinels
+        (json.dumps(allow_nan) is not guaranteed at every call site)."""
+        import dataclasses as _dc
+        out = {}
+        for f in _dc.fields(self):
+            v = getattr(self, f.name)
+            if f.name == "phase":
+                v = v.name
+            elif f.name == "bar_history":
+                v = [list(t) for t in v]
+            elif isinstance(v, float) and v == float("inf"):
+                v = "inf"
+            elif isinstance(v, float) and v == float("-inf"):
+                v = "-inf"
+            out[f.name] = v
+        return out
+
+    @classmethod
+    def from_snapshot(cls, snap):
+        """Rebuild from to_snapshot() output; None on anything malformed —
+        callers fall back to log-based reconstruction."""
+        import dataclasses as _dc
+        from collections import deque as _deque
+        if not isinstance(snap, dict) or "entry_price" not in snap:
+            return None
+        try:
+            kwargs = {}
+            for f in _dc.fields(cls):
+                if f.name not in snap:
+                    continue
+                v = snap[f.name]
+                if f.name == "phase":
+                    v = ExitPhase[v]
+                elif f.name == "bar_history":
+                    v = _deque([tuple(t) for t in v], maxlen=30)
+                elif v == "inf":
+                    v = float("inf")
+                elif v == "-inf":
+                    v = float("-inf")
+                elif f.name != "direction" and isinstance(
+                        getattr(cls, "__dataclass_fields__")[f.name].default,
+                        (int, float)) and isinstance(v, str):
+                    return None
+                kwargs[f.name] = v
+            if not isinstance(kwargs.get("entry_price"), (int, float)):
+                return None
+            obj = cls(**kwargs)
+            # __post_init__ re-seeds the price trackers from entry — restore
+            # the snapshotted values after construction.
+            for k in ("highest_price_since_entry", "lowest_price_since_entry"):
+                if k in kwargs:
+                    setattr(obj, k, kwargs[k])
+            return obj
+        except (KeyError, TypeError, ValueError):
+            return None
+
     def __post_init__(self):
         self.highest_price_since_entry = self.entry_price
         self.lowest_price_since_entry = self.entry_price
