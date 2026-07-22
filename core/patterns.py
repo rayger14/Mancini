@@ -509,9 +509,27 @@ class FailedBreakdown:
 
         # Look for a new level to track
         if self._sweep_tracking_level is None:
+            wick_min = float(getattr(
+                self.params, "fb_wick_sweep_min_depth_pts", 0.0) or 0.0)
             for level in confirmed:
                 if level.level_type in self._HIGH_QUALITY_LEVELS:
                     sweep_depth = level.price - low
+                    # Wick-sweep arm: pierced the level by >= wick_min and
+                    # closed back ABOVE it — flush and recovery in one bar
+                    # (Mancini: "flushed that low by 1 point and recovered").
+                    # The close-below tracking path below can never see this.
+                    if (wick_min > 0 and sweep_depth >= wick_min
+                            and close > level.price):
+                        self.state = PatternState.RECOVERY_DETECTED
+                        self._target_level = level
+                        self._sweep_low = low
+                        self._is_level_sweep = True
+                        self._elevator_event = None
+                        self._recovery_bar = bar_idx
+                        self._recovery_price = close
+                        self._reclaim_bar = bar_idx
+                        self._hold_bars = 0
+                        return
                     if sweep_depth >= min_depth and close < level.price:
                         # Pre-check: skip non-INTRADAY_LOW levels that are already
                         # too deep — they'll just get rejected in _emit_signal anyway,

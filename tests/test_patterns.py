@@ -986,3 +986,67 @@ class TestNoLookAheadBias:
                     f"Swing low at bar {created_idx} confirmed too early "
                     f"at bar {confirmed_idx} (need delay of {params.swing_low_order})"
                 )
+
+
+class TestWickSweepFB:
+    """The 2026-07-22 08:56 miss: one bar speared 7506 (low 7503.25) and
+    CLOSED back at 7510 — a textbook Mancini flush-and-recover ("we flushed
+    that low by 1 point and recovered", 2026-01-22), but the detector's
+    close-below arming requirement never saw a breakdown at all. The
+    wick-sweep arm (fb_wick_sweep_min_depth_pts, default 0=off) treats a
+    single bar that pierces a significant level by >= the threshold and
+    closes back above it as flush+recovery, entering the confirmation
+    protocol immediately. All downstream gates still apply."""
+
+    def _bars_wick_then_hold(self, level=7506.0):
+        # bar 0-2: drift above the level; bar 3: THE wick; bars 4+: hold high
+        prices = [(7515, 7516, 7513, 7514), (7514, 7515, 7512, 7513),
+                  (7513, 7518, 7512, 7518),
+                  (7518, 7518.75, 7503.25, 7512.0),      # wick bar (+6 close)
+                  (7512, 7514, 7511.5, 7513),            # holds +5 above
+                  (7513, 7515, 7512.5, 7514.5),
+                  (7514.5, 7516, 7513.5, 7515.5),
+                  (7515.5, 7517, 7514.5, 7516.5)]
+        return make_bars(prices)
+
+    def _store(self, level=7506.0):
+        store = LevelStore()
+        t = datetime(2024, 1, 15, 9, 0)
+        store.add(Level(price=level, level_type=LevelType.CUSTOM,
+                        created_at=t, confirmed_at=t))
+        return store
+
+    def _run(self, params):
+        fb = FailedBreakdown(params)
+        df = self._bars_wick_then_hold()
+        store = self._store()
+        out = []
+        for i in range(len(df)):
+            r = fb.update(bar_idx=i, timestamp=df.index[i],
+                          high=float(df["high"].iat[i]),
+                          low=float(df["low"].iat[i]),
+                          close=float(df["close"].iat[i]),
+                          level_store=store, elevator_event=None)
+            if r is not None:
+                out.append(r)
+        return out
+
+    def test_wick_sweep_arms_and_signals(self):
+        from core.patterns import ConfirmationType
+        params = StrategyParams(fb_wick_sweep_min_depth_pts=2.0)
+        signals = self._run(params)
+        assert signals, "wick flush+recover must produce an FB signal"
+        sig = signals[0]
+        assert sig.confirmation == ConfirmationType.NON_ACCEPTANCE
+        assert abs(sig.sweep_low - 7503.25) < 0.01
+        assert abs(sig.sweep_depth_pts - 2.75) < 0.01
+
+    def test_off_by_default(self):
+        assert StrategyParams().fb_wick_sweep_min_depth_pts == 0.0
+        signals = self._run(StrategyParams())
+        assert signals == []
+
+    def test_shallow_wick_does_not_arm(self):
+        # pierce of only 2.75 with a 3.0 threshold -> stays invisible
+        params = StrategyParams(fb_wick_sweep_min_depth_pts=3.0)
+        assert self._run(params) == []

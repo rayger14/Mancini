@@ -303,6 +303,19 @@ class StrategyParams:
     # +345pts, weak ones lost -111; his traded levels' median resume = 53pt.
     # 0.0 = off.
     fb_auto_level_min_rally_pts: float = 0.0
+    # Wick-sweep FB arming (2026-07-22 08:56 miss): a single bar that pierces
+    # a significant level by >= this depth and CLOSES back above it is a
+    # completed flush+recovery per Mancini ("we flushed that low by 1 point
+    # and recovered") — the close-below arming requirement never saw it.
+    # Enters the confirmation protocol immediately; every downstream gate
+    # still applies. 0 disables (default).
+    fb_wick_sweep_min_depth_pts: float = 0.0
+    # Plan-proximity exemption for the resume gate (the 7555 miss,
+    # 2026-07-13): an auto level within this radius of a PLANNED long setup
+    # inherits Mancini's vetting — his 7555 note ("Friday low from which we
+    # rallied 50+ points") IS the resume our 400-bar window had forgotten.
+    # The engine's 7552.25 sat 2.75pt from his 7555 and got gated. 0 = off.
+    resume_exempt_plan_radius_pts: float = 0.0
     # News-reaction entry blackout (2026-07-14, default OFF): calendar-free.
     # When a scheduled-release minute (8:30/10:00/14:00 ET) prints a bar with
     # range >= news_bar_range_pts, block NEW entries for news_blackout_minutes.

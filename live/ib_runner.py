@@ -417,6 +417,13 @@ PRODUCTION_STRATEGY = StrategyParams(
     # 2.62->5.44, +190pts vs unfiltered. Skips are shadow-logged
     # (auto_level_weak_resume) and outcome-tracked; review ~2026-07-22.
     fb_auto_level_min_rally_pts=30.0,
+    # Wick-sweep FB arming (2026-07-22 08:56 miss: one bar speared his
+    # high-conviction 7506 by 2.75pt and closed above — invisible to the
+    # close-below arming). Mancini's own definition includes wick flushes
+    # ("we flushed that low by 1 point and recovered"). 46-session A/B:
+    # +112.5pts, only 4 sessions changed (1 new trade +67, 1 earlier entry
+    # +47, 2 noise) — a definitional fix, not a loosened gate.
+    fb_wick_sweep_min_depth_pts=2.0,
     # T2 snap-to-real-level (enabled 2026-07-14): second target rests AT real
     # supply — Mancini rungs first, engine resistances second. 48-session
     # ReplayRunner A/B: zero degraded outcomes; payoff = the rare graze

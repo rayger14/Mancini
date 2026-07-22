@@ -2425,8 +2425,23 @@ class SignalAggregator:
                     lambda: level_rally_resume(getattr(self, "_latest_df", None),
                                                _lvl_price)),
             )
-            if not auto_level_resume_ok(pattern.level, resume,
-                                        self.strategy_params):
+            plan_exempt = False
+            radius = float(getattr(self.strategy_params,
+                                   "resume_exempt_plan_radius_pts", 0.0) or 0.0)
+            if radius > 0:
+                plan = getattr(self, "_mancini_llm_plan", None)
+                for st in (getattr(plan, "planned_setups", None) or []):
+                    if (str(getattr(st, "direction", "")).lower() == "long"
+                            and abs(float(getattr(st, "level_price", 0) or 0)
+                                    - pattern.level.price) <= radius):
+                        plan_exempt = True
+                        logger.info(
+                            f"Level-resume gate: {pattern.level.price:.2f} "
+                            f"EXEMPT — within {radius:.0f}pt of planned "
+                            f"setup {st.level_price} (his level, his vetting)")
+                        break
+            if not plan_exempt and not auto_level_resume_ok(
+                    pattern.level, resume, self.strategy_params):
                 logger.info(
                     f"Level-resume gate: {pattern.level.level_type.name} @ "
                     f"{pattern.level.price:.2f} resume={resume:.1f}pt < "
