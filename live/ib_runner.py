@@ -414,6 +414,9 @@ PRODUCTION_STRATEGY = StrategyParams(
     # from the market during quarterly roll week (Jun 16-18 2026 lesson;
     # next window: Sep 14-18 2026).
     plan_roll_mismatch_pts=45.0,
+    # Engine-confidence badge + prediction logging (Phase A, display-only;
+    # sizing unchanged — use_confidence_sizing ships separately after gates).
+    use_confidence_profile=True,
     # Level-resume filter (enabled 2026-07-08, forward test): an ENGINE
     # auto-detected level must have launched a >=30pt rally in the visible
     # tape to be FB-tradeable. Mancini plan levels (CUSTOM/mancini_confirmed)
@@ -3259,6 +3262,11 @@ class IBRunner:
 
                 # Sizing
                 record["position_size_factor"] = getattr(signal, "position_size_factor", None)
+                record["predicted_p_win"] = getattr(signal, "predicted_p_win", None)
+                record["predicted_avg_pts"] = getattr(signal, "predicted_avg_pts", None)
+                record["confidence_cell"] = getattr(signal, "confidence_cell", "")
+                record["confidence_n"] = getattr(signal, "confidence_n", 0)
+                record["confidence_backoff"] = getattr(signal, "confidence_backoff", 0)
                 record["risk_pts"] = getattr(signal, "risk_pts", None)
                 record["reward_t1_pts"] = getattr(signal, "reward_t1_pts", None)
 
@@ -3553,6 +3561,8 @@ class IBRunner:
                 "risk_pts": getattr(signal, "risk_pts", None),
                 "reward_t1_pts": getattr(signal, "reward_t1_pts", None),
                 "position_size_factor": getattr(signal, "position_size_factor", None),
+            "predicted_p_win": getattr(signal, "predicted_p_win", None),
+            "confidence_cell": getattr(signal, "confidence_cell", ""),
             }
             with open(self._trade_log_path, "a") as f:
                 f.write(json.dumps(record, default=str) + "\n")

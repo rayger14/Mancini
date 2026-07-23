@@ -718,6 +718,17 @@ class StrategyParams:
     # the market exceeds this, the plan is NOT consumed (loud warning +
     # engine levels only). Outside roll windows: warn-only. 0 disables.
     plan_roll_mismatch_pts: float = 0.0
+    # Engine-confidence profile (Phase A, display-only): compute and log
+    # evidence-based P(win) per trade from data/confidence_profile.json.
+    # Does NOT change sizing (that's use_confidence_sizing, separately
+    # gated). Missing artifact -> null table -> all consumers no-op.
+    use_confidence_profile: bool = False
+    confidence_profile_path: str = "config/confidence_profile.json"
+    # Phase B (default OFF, ships only after pre-stated gates a/b/c):
+    # confidence tier -> size factor, replacing the inverted stop-tier base.
+    use_confidence_sizing: bool = False
+    confidence_full_size_pwin: float = 0.60
+    confidence_half_size_pwin: float = 0.50
     mancini_llm_setup_match_tolerance_pts: float = 2.0
     # Zone-aware reclaim matching (trade 765, 2026-07-20): Mancini's reclaim
     # setups describe a BAND — "at 7483, wait for it to defend and recover
