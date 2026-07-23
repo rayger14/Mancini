@@ -711,6 +711,13 @@ class StrategyParams:
     # validation against the JSON output.
     use_mancini_llm_plan: bool = False
     mancini_llm_plan_dir: str = "/app/data"
+    # Contract-roll guard (June 16-18 2026): during quarterly roll week the
+    # bot and Mancini's post can quote DIFFERENT contracts (~60pt apart) —
+    # his levels were useless for 3 sessions and both June-17 trades lost.
+    # Inside a roll window, if the plan's median signed level offset from
+    # the market exceeds this, the plan is NOT consumed (loud warning +
+    # engine levels only). Outside roll windows: warn-only. 0 disables.
+    plan_roll_mismatch_pts: float = 0.0
     mancini_llm_setup_match_tolerance_pts: float = 2.0
     # Zone-aware reclaim matching (trade 765, 2026-07-20): Mancini's reclaim
     # setups describe a BAND — "at 7483, wait for it to defend and recover

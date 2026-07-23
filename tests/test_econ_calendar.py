@@ -102,3 +102,49 @@ def test_events_are_wellformed_hhmm_name():
             hh, mm = n.split(" ")[0].split(":")
             assert 0 <= int(hh) <= 23 and 0 <= int(mm) <= 59
             assert len(n.split(" ", 1)[1]) > 0  # has a name
+
+
+class TestRollWeekGuard:
+    """Contract-roll guard (June 16-18 2026 discovery): during quarterly
+    roll week the bot traded the June contract at ~7600 while Mancini's
+    plan quoted September prices ~60pts lower — his levels were useless
+    for ~3 sessions and both June-17 trades lost at engine-only levels.
+    Deterministic windows: Monday before the 3rd-Friday expiry, through
+    that Friday (Mancini announces his roll for that Monday 6pm)."""
+
+    def test_roll_windows_2026(self):
+        from core.econ_calendar import in_roll_window
+        # June 2026: 3rd Friday = June 19 -> window Mon 6/15 .. Fri 6/19
+        assert not in_roll_window(date(2026, 6, 12))
+        assert in_roll_window(date(2026, 6, 15))
+        assert in_roll_window(date(2026, 6, 17))
+        assert in_roll_window(date(2026, 6, 19))
+        assert not in_roll_window(date(2026, 6, 22))
+        # September 2026: 3rd Friday = Sep 18 -> Mon 9/14 .. Fri 9/18
+        assert in_roll_window(date(2026, 9, 14))
+        assert in_roll_window(date(2026, 9, 18))
+        assert not in_roll_window(date(2026, 9, 21))
+        # non-quarterly months never roll
+        assert not in_roll_window(date(2026, 7, 22))
+
+    def test_median_offset_flags_june17_passes_normal(self):
+        from core.econ_calendar import median_signed_offset
+        # REAL June 17 fixture: Sept-priced plan levels vs June-contract 7597
+        june17 = [7590.0, 7545.0, 7511.0, 7482.0, 7462.0, 7570.0]
+        off = median_signed_offset(june17, 7597.0)
+        assert off < -45, off        # flags (measured ~-69)
+        # REAL July 22 fixture: normal plan vs market 7510
+        jul22 = [7506.0, 7473.0, 7408.0, 7357.0, 7473.0, 7575.0, 7627.0]
+        off2 = median_signed_offset(jul22, 7510.0)
+        assert abs(off2) < 45, off2  # passes (measured ~-37)
+
+    def test_plan_usable_decision(self):
+        from core.econ_calendar import plan_usable
+        # inside roll window + big offset -> UNUSABLE (skip plan)
+        assert plan_usable(-69.0, in_roll=True, threshold=45.0) is False
+        # outside roll window, same offset -> usable but caller warns
+        assert plan_usable(-69.0, in_roll=False, threshold=45.0) is True
+        # inside roll window, aligned plan -> usable
+        assert plan_usable(-12.0, in_roll=True, threshold=45.0) is True
+        # threshold 0 = guard off
+        assert plan_usable(-69.0, in_roll=True, threshold=0.0) is True
