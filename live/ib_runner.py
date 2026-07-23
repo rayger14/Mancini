@@ -410,6 +410,10 @@ PRODUCTION_STRATEGY = StrategyParams(
     # real supply instead of a few points past it. Same proven mechanic as
     # the T2 snap (48-session A/B: zero degraded outcomes).
     t1_snap_to_level_tol_pts=4.0,
+    # Contract-roll guard: reject a plan whose levels sit >45pt (median)
+    # from the market during quarterly roll week (Jun 16-18 2026 lesson;
+    # next window: Sep 14-18 2026).
+    plan_roll_mismatch_pts=45.0,
     # Level-resume filter (enabled 2026-07-08, forward test): an ENGINE
     # auto-detected level must have launched a >=30pt rally in the visible
     # tape to be FB-tradeable. Mancini plan levels (CUSTOM/mancini_confirmed)
@@ -1081,6 +1085,47 @@ class IBRunner:
                 input_dir=Path(getattr(sp, "mancini_llm_plan_dir", "/app/data")),
             )
             if plan is not None:
+                # Contract-roll guard: during quarterly roll week, verify the
+                # plan's levels live in the SAME price world as our market
+                # before consuming them (June 16-18 2026: ~60pt contract
+                # mismatch made his levels useless for 3 sessions).
+                thr = float(getattr(sp, "plan_roll_mismatch_pts", 0.0) or 0.0)
+                if thr > 0:
+                    from core.econ_calendar import (
+                        in_roll_window, median_signed_offset, plan_usable)
+                    lvls = [float(getattr(st, "level_price", 0) or 0)
+                            for st in (plan.planned_setups or [])]
+                    ref = None
+                    try:
+                        if self._df is not None and len(self._df):
+                            ref = float(self._df["close"].iloc[-1])
+                    except Exception:
+                        ref = None
+                    if ref is None:
+                        try:
+                            pdb = self.bridge.get_prior_day_bars()
+                            if pdb is not None and len(pdb):
+                                ref = float(pdb["close"].iloc[-1])
+                        except Exception:
+                            ref = None
+                    if ref and lvls:
+                        off = median_signed_offset(lvls, ref)
+                        roll = in_roll_window(self._session_date)
+                        if not plan_usable(off, in_roll=roll, threshold=thr):
+                            logger.warning(
+                                f"ROLL MISMATCH: plan levels sit {off:+.0f}pt "
+                                f"(median) from market {ref:.2f} during roll "
+                                f"week — plan NOT consumed; engine levels "
+                                f"only. Verify both sides rolled contracts."
+                            )
+                            self._mancini_llm_plan = None
+                            return
+                        if abs(off) > thr:
+                            logger.warning(
+                                f"Plan-level offset {off:+.0f}pt from market "
+                                f"{ref:.2f} exceeds {thr:.0f} (outside roll "
+                                f"week) — consuming plan but VERIFY levels."
+                            )
                 self._mancini_llm_plan = plan
                 self.signal_aggregator.set_mancini_llm_plan(plan)
                 # Inject Mancini's planned long setups as CUSTOM levels so the
