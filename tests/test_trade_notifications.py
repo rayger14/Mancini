@@ -125,12 +125,15 @@ class TestEntryEmbed:
             entry_time=datetime(2026, 5, 29, 12, 34, tzinfo=_ET),
         )
         emb = payload["embeds"][0]
-        # Title shows side + entry price + size + conviction badge
+        # Title shows side + entry price + size. Mancini's conviction badge
+        # is DEMOTED from the title (non-predictive in every dataset) — it
+        # now lives as "his rating: ..." context on the plan line.
         assert "🟢" in emb["title"]
         assert "LONG" in emb["title"]
         assert "7517" in emb["title"]
         assert "20 MES" in emb["title"]
-        assert "HIGH conviction" in emb["title"]
+        assert "conviction" not in emb["title"].lower()
+        assert "his rating: high" in emb["description"]
         # Description includes plan match line
         assert "Mancini plan" in emb["description"]
         assert "7517" in emb["description"]

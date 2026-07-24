@@ -1,0 +1,153 @@
+{
+ "cells": {
+  "acceptance|engine|day": {
+   "avg_pnl": -21.75,
+   "n": 5,
+   "wins": 1
+  },
+  "acceptance|engine|evening": {
+   "avg_pnl": 6.04,
+   "n": 7,
+   "wins": 3
+  },
+  "acceptance|engine|morning": {
+   "avg_pnl": 22.75,
+   "n": 2,
+   "wins": 2
+  },
+  "acceptance|engine|overnight": {
+   "avg_pnl": 43.17,
+   "n": 3,
+   "wins": 2
+  },
+  "acceptance|engine|premarket": {
+   "avg_pnl": -1.25,
+   "n": 2,
+   "wins": 1
+  },
+  "acceptance|plan|day": {
+   "avg_pnl": 7.75,
+   "n": 1,
+   "wins": 1
+  },
+  "acceptance|plan|evening": {
+   "avg_pnl": -9.0,
+   "n": 4,
+   "wins": 1
+  },
+  "acceptance|plan|morning": {
+   "avg_pnl": 7.0,
+   "n": 2,
+   "wins": 1
+  },
+  "acceptance|plan|overnight": {
+   "avg_pnl": 15.25,
+   "n": 3,
+   "wins": 2
+  },
+  "acceptance|plan|premarket": {
+   "avg_pnl": 96.0,
+   "n": 1,
+   "wins": 1
+  },
+  "non_acceptance|engine|day": {
+   "avg_pnl": -49.88,
+   "n": 2,
+   "wins": 1
+  },
+  "non_acceptance|engine|evening": {
+   "avg_pnl": 29.7,
+   "n": 5,
+   "wins": 4
+  },
+  "non_acceptance|engine|morning": {
+   "avg_pnl": 69.88,
+   "n": 2,
+   "wins": 2
+  },
+  "non_acceptance|engine|overnight": {
+   "avg_pnl": 4.5,
+   "n": 8,
+   "wins": 5
+  },
+  "non_acceptance|engine|premarket": {
+   "avg_pnl": -28.88,
+   "n": 4,
+   "wins": 1
+  },
+  "non_acceptance|plan|evening": {
+   "avg_pnl": 38.0,
+   "n": 2,
+   "wins": 2
+  },
+  "non_acceptance|plan|morning": {
+   "avg_pnl": 103.0,
+   "n": 1,
+   "wins": 1
+  },
+  "other|engine|evening": {
+   "avg_pnl": -20.0,
+   "n": 1,
+   "wins": 0
+  }
+ },
+ "global": {
+  "avg_pnl": 3.51,
+  "n": 341,
+  "wins": 180
+ },
+ "meta": {
+  "built_at": "2026-07-23T12:22:07.001744+00:00",
+  "corpus_plan_dim": "off",
+  "excluded_dates": "",
+  "n_corpus": 286,
+  "n_live": 55,
+  "script_git_sha": "3893b5d",
+  "sources": [
+   "corpus:/Users/rayghandchi/mancini_research/corpus_base(412 files)",
+   "live:/Users/rayghandchi/mancini_research/trades_live.jsonl"
+  ]
+ },
+ "parents": {
+  "acceptance": {
+   "avg_pnl": 0.49,
+   "n": 233,
+   "wins": 111
+  },
+  "acceptance|engine": {
+   "avg_pnl": 5.58,
+   "n": 19,
+   "wins": 9
+  },
+  "acceptance|plan": {
+   "avg_pnl": 11.59,
+   "n": 11,
+   "wins": 6
+  },
+  "non_acceptance": {
+   "avg_pnl": 10.3,
+   "n": 107,
+   "wins": 69
+  },
+  "non_acceptance|engine": {
+   "avg_pnl": 5.19,
+   "n": 21,
+   "wins": 13
+  },
+  "non_acceptance|plan": {
+   "avg_pnl": 59.67,
+   "n": 3,
+   "wins": 3
+  },
+  "other": {
+   "avg_pnl": -20.0,
+   "n": 1,
+   "wins": 0
+  },
+  "other|engine": {
+   "avg_pnl": -20.0,
+   "n": 1,
+   "wins": 0
+  }
+ }
+}

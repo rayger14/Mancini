@@ -125,6 +125,20 @@ def _level_origin_line(level_type: str, plan_match: Any) -> str:
             f"not on Mancini's posted plan")
 
 
+def _engine_confidence_line(signal) -> str:
+    """Evidence-based confidence, from the profile table: what trades with
+    THIS profile actually did historically. '' when no prediction."""
+    p = getattr(signal, "predicted_p_win", None)
+    if p is None:
+        return ""
+    avg = getattr(signal, "predicted_avg_pts", 0.0) or 0.0
+    n = int(getattr(signal, "confidence_n", 0) or 0)
+    cell = (getattr(signal, "confidence_cell", "") or "").replace("|", " × ")
+    coarse = " [coarse]" if int(getattr(signal, "confidence_backoff", 0)) > 0 else ""
+    return (f"🎚 **Engine confidence: {100*p:.0f}% hist WR, {avg:+.0f}avg** "
+            f"(n={n}: {cell}){coarse}")
+
+
 def _find_plan_match(plan: Any, level_price: float,
                      tolerance_pts: float = 2.0,
                      reclaim_zone_below_pts: float = 8.0,
@@ -271,7 +285,8 @@ def build_entry_embed(*,
         conv = (getattr(plan_match, "conviction", "") or "")[:8]
         plan_match_str = (
             f"_Mancini plan: **{plan_match.level_price:.0f}** "
-            f"{plan_match.setup_type} {plan_match.direction} ({conv}) "
+            f"{plan_match.setup_type} {plan_match.direction} "
+            f"(his rating: {conv or '?'}) "
             f"— \"{ctx}\"_"
         )
 
@@ -292,7 +307,10 @@ def build_entry_embed(*,
     t2_qty = _math.floor(contracts_ordered * t2_fr)
     runner_qty = max(0, contracts_ordered - t1_qty - t2_qty)
 
-    title_extra = f"  •  {_conviction_badge((plan_match.conviction if plan_match else '') or '')}".rstrip(" •")
+    # Mancini's rating is context, not confidence (non-predictive in every
+    # dataset) — demoted from the title to the plan-context line; the
+    # engine-confidence line is the headline now.
+    title_extra = ""
     collection_prefix = "🧪 COLLECTION  •  " if is_collection else ""
     title = (f"{collection_prefix}{side_icon} {sig_label.upper()} {side_word} "
              f"@ {fill_price:.2f}  •  {contracts_ordered} {symbol}{title_extra}")
@@ -310,6 +328,9 @@ def build_entry_embed(*,
     description_parts.append(
         f"Pattern: **{sig_name}**  •  Level: **{level_type}** @ {level_price:.2f}"
     )
+    conf_line = _engine_confidence_line(signal)
+    if conf_line:
+        description_parts.append(conf_line)
     # For failed breakdowns, spell out WHAT KIND fired (momentum elevator vs
     # deep flush-reclaim) from the sweep depth, so the reader knows the entry's
     # real character — not just the generic FAILED_BREAKDOWN label.

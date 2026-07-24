@@ -274,6 +274,13 @@ class Signal:
     timestamp: datetime = None
     confluence_score: int = 0  # level confluence score (0 = not computed)
     lqs: int = 0  # Level Quality Score (0-100) — logged for retrospective analysis
+    # Engine-confidence prediction (Phase A annotation; None when the
+    # profile table is absent or the flag is off)
+    predicted_p_win: float | None = None
+    predicted_avg_pts: float | None = None
+    confidence_cell: str = ""
+    confidence_n: int = 0
+    confidence_backoff: int = 0
 
     @property
     def direction(self) -> str:
@@ -432,6 +439,24 @@ class SignalAggregator:
     def daily_bias(self) -> str:
         """Current daily structure bias (DAILY_FB_BULL, DAILY_BD_BEAR, or NEUTRAL)."""
         return self._daily_bias
+
+    def _confidence_prediction(self, pattern):
+        """Phase A: evidence-based P(win) for this trade's profile.
+        Returns a Prediction (p_win None when flag off / table absent)."""
+        from core.confidence import (ConfidenceTable, Prediction,
+                                     key_from_signal_context)
+        if not getattr(self.strategy_params, "use_confidence_profile", False):
+            return Prediction(None, None, 0, "off", -1)
+        if not hasattr(self, "_confidence_table"):
+            self._confidence_table = ConfidenceTable.load(
+                getattr(self.strategy_params, "confidence_profile_path",
+                        "config/confidence_profile.json"))
+        ts = getattr(pattern, "timestamp", None)
+        if ts is None:
+            return Prediction(None, None, 0, "no-time", -1)
+        key = key_from_signal_context(
+            pattern, getattr(self, "_mancini_llm_plan", None), ts.time())
+        return self._confidence_table.lookup(key)
 
     def set_mancini_llm_plan(self, plan) -> None:
         """Inject a ManciniPlan loaded from mancini_plan_<date>.json.
@@ -2053,6 +2078,7 @@ class SignalAggregator:
             "level_type": pattern.level.level_type.name if pattern.level else None,
         })
 
+        _pred = self._confidence_prediction(pattern)
         return Signal(
             signal_type=signal_type,
             pattern=pattern,
@@ -2068,6 +2094,11 @@ class SignalAggregator:
             timestamp=pattern.timestamp,
             confluence_score=confluence_score,
             lqs=lqs,
+            predicted_p_win=_pred.p_win,
+            predicted_avg_pts=_pred.avg_pts,
+            confidence_cell=_pred.cell_label,
+            confidence_n=_pred.n,
+            confidence_backoff=_pred.backoff_level,
         )
 
     def _qualify_signal(
@@ -2515,6 +2546,7 @@ class SignalAggregator:
                 and getattr(self.strategy_params, "use_mancini_llm_plan", False)):
             self._fb_long_taken_today = True
 
+        _pred = self._confidence_prediction(pattern)
         return Signal(
             signal_type=signal_type,
             pattern=pattern,
@@ -2530,4 +2562,9 @@ class SignalAggregator:
             timestamp=pattern.timestamp,
             confluence_score=confluence_score,
             lqs=lqs,
+            predicted_p_win=_pred.p_win,
+            predicted_avg_pts=_pred.avg_pts,
+            confidence_cell=_pred.cell_label,
+            confidence_n=_pred.n,
+            confidence_backoff=_pred.backoff_level,
         )
