@@ -69,7 +69,7 @@ class RiskManager:
             self._check_stop_distance(signal),
             self._check_not_chop_zone(current_time, signal),
             self._check_not_euro_dead_zone(current_time),
-            self._check_not_evening_block(current_time),
+            self._check_not_evening_block(current_time, signal),
             self._check_fb_blocked_hours(signal, current_time),
             self._check_min_volatility(),
         ]
@@ -179,14 +179,25 @@ class RiskManager:
             return RiskCheck(False, "European dead zone (2AM-6AM ET)")
         return RiskCheck(True, "Outside European dead zone")
 
-    def _check_not_evening_block(self, current_time: time) -> RiskCheck:
+    def _check_not_evening_block(self, current_time: time, signal=None) -> RiskCheck:
         """Block entries during evening session (17:00-22:00 ET).
 
         Backtest audit: 21 phantom trades at -298 pts total. These also
         consume position slots and max_trades_per_day, blocking later
         late night entries that are profitable.
+
+        Carve-out (evening_allow_non_acceptance): NON_ACCEPTANCE longs pass —
+        live evidence (55-trade audit 2026-07-24) says evening fast reclaims
+        are the book's 2nd-best cell (6/7, +224.5pts); the blanket block came
+        from the unfaithful backtest era.
         """
         if time(17, 0) <= current_time < time(22, 0):
+            if getattr(self.risk_params, "evening_allow_non_acceptance", False):
+                conf = getattr(getattr(signal, "pattern", None), "confirmation", None)
+                conf_name = getattr(conf, "name", str(conf) if conf else "")
+                if (conf_name.upper() == "NON_ACCEPTANCE"
+                        and getattr(signal, "direction", "long") != "short"):
+                    return RiskCheck(True, "Evening fast-reclaim carve-out")
             return RiskCheck(False, "Evening block (17:00-22:00 ET)")
         return RiskCheck(True, "Outside evening block")
 

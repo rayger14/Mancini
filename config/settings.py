@@ -833,6 +833,12 @@ class RiskParams:
     max_daily_loss_pts: float = 20.0  # per-contract loss limit in points
     max_stop_distance_pts: float = 15.0  # live data shows BD Shorts need 10-15 pt stops to capture winners
     max_position_contracts: int = 4
+    # Evening (18:00-22:00 ET) carve-out: NON_ACCEPTANCE longs trade as full
+    # production. The blanket evening block came from Optuna v2 on the old
+    # unfaithful backtest; 55-trade live audit (2026-07-24): evening fast
+    # reclaims 6/7 wins +224.5pts (2nd-best cell in the book) while evening
+    # slow grinds are ~breakeven — those stay blocked/collection-only.
+    evening_allow_non_acceptance: bool = False
     # Min prior-day range (high-low) to allow entries. Set to 0 to disable.
     # Testing showed prior-day range is a poor proxy for current conditions.
     min_prior_day_range_pts: float = 0.0
