@@ -473,7 +473,7 @@ PRODUCTION_EXIT = ExitParams(
     trailing_stop_pts=12.0,
     runner_prior_day_low_buffer_pts=1.0,
 )
-PRODUCTION_RISK = RiskParams(max_trades_per_day=999, max_daily_loss_pts=9999.0, skip_tuesdays=False, min_rr_ratio=0.8, max_position_contracts=8)  # Optuna v2: 0.8 R:R filter; cap raised to 8 so default_contracts=8 isn't clipped (full 75/15/10)
+PRODUCTION_RISK = RiskParams(max_trades_per_day=999, max_daily_loss_pts=9999.0, skip_tuesdays=False, min_rr_ratio=0.8, max_position_contracts=8, evening_allow_non_acceptance=True)  # Optuna v2: 0.8 R:R filter; cap raised to 8 so default_contracts=8 isn't clipped (full 75/15/10); evening fast-reclaim carve-out 2026-07-24
 PRODUCTION_REGIME = RegimeParams(
     mode="ema",
     ema_span=30,                          # Optuna v2: faster regime detection (was 80)
@@ -1911,9 +1911,20 @@ class IBRunner:
 
         gates_that_would_fire: list[str] = []
 
-        # Gate: Evening session (18:00-22:00)
+        # Gate: Evening session (18:00-22:00). Fast-reclaim carve-out: a
+        # NON_ACCEPTANCE long here is FULL PRODUCTION (no bypass tag) — live
+        # evidence 6/7 +224.5pts; the blanket block was Optuna-era.
         if time(18, 0) <= current_time < time(22, 0):
-            if self._bypass_session_gates:
+            _conf = getattr(getattr(signal, "pattern", None), "confirmation", None)
+            _conf_name = getattr(_conf, "name", str(_conf) if _conf else "")
+            evening_carveout = (
+                getattr(self.risk_manager.risk_params,
+                        "evening_allow_non_acceptance", False)
+                and _conf_name.upper() == "NON_ACCEPTANCE"
+                and getattr(signal, "direction", "long") != "short")
+            if evening_carveout:
+                pass  # production entry — not a bypassed gate
+            elif self._bypass_session_gates:
                 gates_that_would_fire.append("Globex Evening (6-10PM)")
             else:
                 logger.debug(f"Evening block (18:00-22:00): skipping signal")
@@ -4217,7 +4228,7 @@ class IBRunner:
         if time(17, 0) <= t < time(18, 0):
             window = {"label": "CLOSED", "detail": "Daily Break", "trading": False, "css": "session-closed"}
         elif time(18, 0) <= t < time(22, 0):
-            window = {"label": "GLOBEX", "detail": "Evening (Blocked 6-10PM ET)", "trading": False, "css": "session-blocked"}
+            window = {"label": "GLOBEX", "detail": "Evening (Fast-Reclaim Only 6-10PM ET)", "trading": False, "css": "session-blocked"}
         elif time(22, 0) <= t <= time(23, 59) or time(0, 0) <= t < time(2, 0):
             window = {"label": "GLOBEX", "detail": "Late Night Session", "trading": True, "css": "session-globex"}
         elif time(2, 0) <= t < time(6, 0):
@@ -4650,6 +4661,7 @@ def build_live_runner(ib_config: IBConfig, full_session: bool = True,
         max_stop_distance_pts=60.0,  # deep sweep FBs (30-40pt stops = 61% WR)
         skip_tuesdays=False,
         min_rr_ratio=0.8,  # Optuna v2: moderate filter
+        evening_allow_non_acceptance=True,  # fast reclaims trade 6-10pm as production
     )
 
     extra = {"strategy_params": strategy_params} if strategy_params is not None else {}
