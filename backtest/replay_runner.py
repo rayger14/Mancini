@@ -44,7 +44,10 @@ def _set_replay_env(out_dir: Path, date: str, chain_pattern_state: bool) -> None
 
 def build_replay(date: str, data_dir, out_dir, tape=None,
                  resume_filter_pts: float = 0.0,
-                 t2_snap_tol_pts: float = 0.0):
+                 t2_snap_tol_pts: float = 0.0,
+                 acceptance_above_pts: float = 0.0,
+                 acceptance_hold_bars: int = 0,
+                 wick_sweep_pts: float = 0.0):
     """Construct the live runner wired to a SimBridge for `date`.
 
     Env must already be set (main() does it; tests set their own). Returns
@@ -72,6 +75,10 @@ def build_replay(date: str, data_dir, out_dir, tape=None,
         ibr.PRODUCTION_STRATEGY,
         fb_auto_level_min_rally_pts=float(resume_filter_pts),
         t2_snap_to_level_tol_pts=float(t2_snap_tol_pts),
+        acceptance_hold_above_pts=float(acceptance_above_pts),
+        fb_wick_sweep_min_depth_pts=float(wick_sweep_pts),
+        **({"acceptance_min_hold_bars": int(acceptance_hold_bars)}
+           if acceptance_hold_bars else {}),
         # Plans live next to the tapes, not at the container's /app/data —
         # without this, replays outside the container run PLAN-LESS (no
         # CUSTOM level injection) and silently diverge from live.
@@ -147,6 +154,12 @@ def main():
                          "as-lived config for pre-2026-07-09 sessions)")
     ap.add_argument("--t2-snap", type=float, default=0.0,
                     help="T2 snap-to-real-level tolerance pts (0 = off)")
+    ap.add_argument("--wick-sweep", type=float, default=0.0,
+                    help="wick-sweep FB arming min depth pts (0 = off)")
+    ap.add_argument("--acceptance-above", type=float, default=0.0,
+                    help="Mancini-faithful acceptance: hold-bar floor pts above level")
+    ap.add_argument("--acceptance-hold-bars", type=int, default=0,
+                    help="override acceptance_min_hold_bars (0 = keep default)")
     args = ap.parse_args()
 
     dates = _date_range(args.dates) if args.dates else [args.date]
@@ -161,7 +174,10 @@ def main():
         try:
             runner, bridge = build_replay(d, args.data_dir, out_dir,
                                           resume_filter_pts=args.resume_filter,
-                                          t2_snap_tol_pts=args.t2_snap)
+                                          t2_snap_tol_pts=args.t2_snap,
+                                          acceptance_above_pts=args.acceptance_above,
+                                          acceptance_hold_bars=args.acceptance_hold_bars,
+                                          wick_sweep_pts=args.wick_sweep)
         except FileNotFoundError:
             print(f"{d}: no tape — skipped")
             continue

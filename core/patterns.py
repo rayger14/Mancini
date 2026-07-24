@@ -509,9 +509,26 @@ class FailedBreakdown:
 
         # Look for a new level to track
         if self._sweep_tracking_level is None:
+            wick_min = float(getattr(
+                self.params, "fb_wick_sweep_min_depth_pts", 0.0) or 0.0)
             for level in confirmed:
                 if level.level_type in self._HIGH_QUALITY_LEVELS:
                     sweep_depth = level.price - low
+                    # Wick-sweep arm: pierced and closed back above — flush
+                    # and recovery in one bar; the close-below tracking path
+                    # below can never see this.
+                    if (wick_min > 0 and sweep_depth >= wick_min
+                            and close > level.price):
+                        self.state = PatternState.RECOVERY_DETECTED
+                        self._target_level = level
+                        self._sweep_low = low
+                        self._is_level_sweep = True
+                        self._elevator_event = None
+                        self._recovery_bar = bar_idx
+                        self._recovery_price = close
+                        self._reclaim_bar = bar_idx
+                        self._hold_bars = 0
+                        return
                     if sweep_depth >= min_depth and close < level.price:
                         # Pre-check: skip non-INTRADAY_LOW levels that are already
                         # too deep — they'll just get rejected in _emit_signal anyway,
@@ -684,7 +701,14 @@ class FailedBreakdown:
         # Mancini: dips below level are EXPECTED during acceptance
         # (Type 1 = backtest-dip-return). Only count bars above level,
         # but do NOT reset count on dips — the dip is part of the process.
-        if close >= level_price:
+        # Mancini-faithful mode (acceptance_hold_above_pts > 0): hold bars
+        # only count ABOVE the danger zone (level + 5) — "hold above that
+        # 5 point danger zone above the low for an extended period"
+        # (2025-09-23). 80% of legacy acceptance entries sat INSIDE the
+        # zone and ran 45% WR; above-zone entries ran 57-62%.
+        hold_floor = level_price + float(getattr(
+            self.params, "acceptance_hold_above_pts", 0.0) or 0.0)
+        if close >= hold_floor:
             self._hold_bars += 1
 
         # Use depth-aware hold requirement
@@ -1057,7 +1081,11 @@ class LevelReclaim:
         # Align with FailedBreakdown's acceptance logic: only increment on
         # bars above the level, but do NOT reset to 0 on dips. The dip is
         # part of the acceptance process (backtest-dip-return).
-        if close >= level_price:
+        # Mancini-faithful mode (acceptance_hold_above_pts > 0): the hold
+        # only counts ABOVE the danger zone (level + 5), per his criterion.
+        hold_floor = level_price + float(getattr(
+            self.params, "acceptance_hold_above_pts", 0.0) or 0.0)
+        if close >= hold_floor:
             self._hold_bars += 1
 
         if self._hold_bars >= self.params.acceptance_min_hold_bars:

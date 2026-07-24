@@ -410,6 +410,13 @@ PRODUCTION_STRATEGY = StrategyParams(
     # real supply instead of a few points past it. Same proven mechanic as
     # the T2 snap (48-session A/B: zero degraded outcomes).
     t1_snap_to_level_tol_pts=4.0,
+    # Mancini-faithful acceptance (audit 2026-07-23): acceptance hold bars
+    # only count while price closes ABOVE the 5pt danger zone over the
+    # swept level — his verbatim rule ("hold above that 5 point danger
+    # zone... for an extended period"). Two-instrument A/B: +557.9 over
+    # 412 corpus sessions (694.8 -> 1252.7), +262.5 over the 46 live
+    # tapes, on ~20% fewer entries. Fast NON_ACCEPTANCE path untouched.
+    acceptance_hold_above_pts=5.0,
     # Contract-roll guard: reject a plan whose levels sit >45pt (median)
     # from the market during quarterly roll week (Jun 16-18 2026 lesson;
     # next window: Sep 14-18 2026).

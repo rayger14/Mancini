@@ -208,6 +208,13 @@ class StrategyParams:
     acceptance_max_dip_pts: float = 4.0  # max dip below level during acceptance (relaxed from 3.0)
     acceptance_min_hold_seconds: int = 60  # hold above level
     acceptance_min_hold_bars: int = 7  # strong confirmation (7 min above level)
+    # Mancini-faithful acceptance (audit 2026-07-23): his criterion is
+    # holding ABOVE the 5pt danger zone ("hold above that 5 point danger
+    # zone above the low for an extended period"), not hovering at the
+    # level. 80% of our acceptance entries were inside the zone = the 45%-WR
+    # coin flip; entries above it ran 57-62%. When > 0, acceptance hold
+    # bars only count when close >= level + this. 0 = legacy behavior.
+    acceptance_hold_above_pts: float = 0.0
 
     # Non-acceptance (fast market) confirmation
     non_acceptance_min_recovery_pts: float = 5.0
@@ -303,6 +310,14 @@ class StrategyParams:
     # +345pts, weak ones lost -111; his traded levels' median resume = 53pt.
     # 0.0 = off.
     fb_auto_level_min_rally_pts: float = 0.0
+    # Wick-sweep FB arming: a bar that pierces a significant level by >=
+    # this depth and CLOSES back above it = flush+recovery in one bar
+    # (Mancini: "we flushed that low by 1 point and recovered"). 0 = off.
+    # NOTE: rejected standalone on the deep corpus (-203.5) WITH the loose
+    # legacy acceptance, and rejected again stacked on faithful acceptance
+    # (412-session A/B 2026-07-23: +267.6 combined vs +557.9 acceptance
+    # alone). Keep 0.0.
+    fb_wick_sweep_min_depth_pts: float = 0.0
     # News-reaction entry blackout (2026-07-14, default OFF): calendar-free.
     # When a scheduled-release minute (8:30/10:00/14:00 ET) prints a bar with
     # range >= news_bar_range_pts, block NEW entries for news_blackout_minutes.
